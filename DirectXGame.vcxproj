@@ -83,9 +83,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DirectXCore.cpp" />
-    <ClCompile Include="Engine\Core\DirectXDevice\DirectXDevice.cpp" />
-    <ClCompile Include="Engine\Math\Array2D.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCommand\DirectXCommand.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCore.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
     <ClCompile Include="Engine\Math\Camera3D.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Definition.cpp" />
@@ -107,8 +110,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Core\DirectXCore.h" />
-    <ClInclude Include="Engine\Core\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCore.h" />
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h" />
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h" />
+    <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
     <ClInclude Include="Engine\Math\Array2D.h" />
     <ClInclude Include="Engine\Math\Camera3D.h" />
     <ClInclude Include="Engine\Math\Color.h" />

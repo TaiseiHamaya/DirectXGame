@@ -40,11 +40,17 @@
     <Filter Include="Engine\Core\Device">
       <UniqueIdentifier>{62885612-1c2d-4634-bf30-cdd6099fbef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectXDebug">
-      <UniqueIdentifier>{35377549-c7bd-4c1e-ba1b-de6593513b62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\DescriptorHeap">
       <UniqueIdentifier>{ce87a3a8-e1dd-4ed8-888b-87fa8a952f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Command">
+      <UniqueIdentifier>{517b8da3-9195-492d-a66a-a5b28b4d4140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\SwapChain">
+      <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Game">
+      <UniqueIdentifier>{4efc020a-5287-4a42-8a8f-43d70a133215}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -53,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="Engine\WinApp.cpp">
       <Filter>WinApp</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Array2D.cpp">
-      <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Camera3D.cpp">
       <Filter>Engine\Math</Filter>
@@ -108,11 +111,23 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>external\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXCore.cpp">
+    <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
+      <Filter>Engine\Core\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXCore.cpp">
       <Filter>Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\DirectXDevice\DirectXDevice.cpp">
-      <Filter>Engine\Core\Device</Filter>
+    <ClCompile Include="Engine\DirectX\DirectXCommand\DirectXCommand.cpp">
+      <Filter>Engine\Core\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp">
+      <Filter>Engine\Core\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp">
+      <Filter>Engine\Core\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
+      <Filter>Engine\Core\DescriptorHeap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,11 +191,23 @@
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>external\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\DirectXCore.h">
+    <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
+      <Filter>Engine\Core\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXCore.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\DirectXDevice\DirectXDevice.h">
-      <Filter>Engine\Core\Device</Filter>
+    <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h">
+      <Filter>Engine\Core\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h">
+      <Filter>Engine\Core\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h">
+      <Filter>Engine\Core\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
+      <Filter>Engine\Core\DescriptorHeap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

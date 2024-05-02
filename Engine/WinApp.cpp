@@ -80,10 +80,10 @@ void WinApp::Finalize() {
 	instance->term_app();
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
-	//DirectXを終了
-	DirectXCore::Finalize();
 	// imguiの終了
 	CoUninitialize();
+	//DirectXを終了
+	DirectXCore::Finalize();
 	// 終了通知
 	Log("End Program\n");
 	delete instance;
@@ -122,11 +122,11 @@ void WinApp::init_app(const std::string& programName) {
 }
 
 void WinApp::begin_frame() {
-	//D3D12Kernel::BeginFrame();
+	DirectXCore::BeginFrame();
 }
 
 void WinApp::end_frame() {
-	//D3D12Kernel::EndFrame();
+	DirectXCore::EndFrame();
 }
 
 void WinApp::term_app() {
