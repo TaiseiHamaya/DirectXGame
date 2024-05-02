@@ -136,7 +136,7 @@
       <Filter>Engine\Core\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ImGuiManager\ImGuiManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Engine\Core\ImGUIManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,7 +219,7 @@
       <Filter>Engine\Core\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ImGuiManager\ImGuiManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Engine\Core\ImGUIManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
