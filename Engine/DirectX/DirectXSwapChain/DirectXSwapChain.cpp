@@ -23,7 +23,7 @@ void DirectXSwapChain::ChangeBackBufferState() {
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() {
 	static std::unique_ptr<DirectXSwapChain> instance{ new DirectXSwapChain };
-	return *instance.get();
+	return *instance;
 }
 
 void DirectXSwapChain::create_swapchain(const HWND& hWnd) {

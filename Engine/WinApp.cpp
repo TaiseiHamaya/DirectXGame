@@ -2,7 +2,8 @@
 
 #include <cassert>
 #include "Util.h"
-#include <Engine/Core/DirectXCore.h>
+
+#include "Engine/DirectX/DirectXCore.h"
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
