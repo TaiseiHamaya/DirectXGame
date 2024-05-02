@@ -89,6 +89,7 @@
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
+    <ClCompile Include="Engine\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Math\Camera3D.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Definition.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
+    <ClInclude Include="Engine\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Engine\Math\Array2D.h" />
     <ClInclude Include="Engine\Math\Camera3D.h" />
     <ClInclude Include="Engine\Math\Color.h" />
@@ -139,6 +141,22 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\HLSL\Object3d.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
