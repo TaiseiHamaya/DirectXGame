@@ -25,7 +25,6 @@
 static HRESULT hr;
 
 void DirectXCore::Initialize(const HWND& hWnd) {
-	Debug::Initialize();
 	GetInstance();
 	GetInstance().initialize(hWnd);
 }
@@ -47,26 +46,28 @@ DirectXCore& DirectXCore::GetInstance() {
 }
 
 void DirectXCore::initialize(const HWND& hWnd) {
-
+	// debugの初期化(必ず一番初めに行う)
+	Debug::Initialize();
+	// deviceの初期化
 	DirectXDevice::Initialize();
-
+	// informationQueueの有効化
 	Debug::InfoQueue();
-
+	// command関連の初期化
 	DirectXCommand::Initialize();
-
+	// rtv初期化
 	RTVDescriptorHeap::Initialize();
-
+	// swapchain初期化
 	DirectXSwapChain::Initialize(hWnd);
 
 
-
+	// ViewPort設定
 	viewPort.Width = static_cast<FLOAT>(WinApp::GetClientWidth());
 	viewPort.Height = static_cast<FLOAT>(WinApp::GetClientHight());
 	viewPort.TopLeftX = 0;
 	viewPort.TopLeftY = 0;
 	viewPort.MinDepth = 0.0f;
 	viewPort.MaxDepth = 1.0f;
-
+	// シーザー矩形設定
 	scissorRect.left = 0;
 	scissorRect.right = static_cast<LONG>(WinApp::GetClientWidth());
 	scissorRect.top = 0;
@@ -77,7 +78,9 @@ void DirectXCore::initialize(const HWND& hWnd) {
 }
 
 void DirectXCore::begin_frame() {
+	// BackBufferのステータスを反転
 	DirectXSwapChain::ChangeBackBufferState();
+	// RTVを設定
 	RTVDescriptorHeap::SetRenderTarget();
 	// クリアする色
 	float clearColor[] = { 0.1f,0.25f, 0.5f, 1.0f }; // RGBA
@@ -89,14 +92,20 @@ void DirectXCore::begin_frame() {
 }
 
 void DirectXCore::end_frame() {
+	// BackBufferのステータスを反転
 	DirectXSwapChain::ChangeBackBufferState();
+	// クローズしてエクスキュート
 	DirectXCommand::GetInstance().close_and_execute();
-	DirectXSwapChain::GetSwapChain()->Present(1, 0); // スワップチェイン
+	// スワップチェイン実行
+	DirectXSwapChain::GetSwapChain()->Present(1, 0);
+	// コマンド終了まで待つ
 	DirectXCommand::GetInstance().wait_for_command();
+	// コマンドリセット
 	DirectXCommand::GetInstance().reset();
 }
 
 DirectXCore::Debug::~Debug() {
+	// 全てが終了したあと、ReportLiveObjectsの実行
 	Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
 	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(debug.GetAddressOf())))) {
 		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
@@ -106,8 +115,9 @@ DirectXCore::Debug::~Debug() {
 }
 
 void DirectXCore::Debug::Initialize() {
+	// ここでイニシャライズすることで、一番最後にデストラクタが呼び出される
 	GetInstance();
-
+	// DebugControllerを有効化
 	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(debugController.GetAddressOf())))) {
 		debugController->EnableDebugLayer();
@@ -123,6 +133,8 @@ void DirectXCore::Debug::InfoQueue() {
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
 		D3D12_MESSAGE_ID denyIds[] = {
+			// Windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤーの相互作用バグによるエラーメッセージ
+			// https://stackoverflow.com/questions/69805245/directx-12-application-is-crashing-in-windows-11
 			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
 		};
 		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
@@ -131,6 +143,7 @@ void DirectXCore::Debug::InfoQueue() {
 		filter.DenyList.pIDList = denyIds;
 		filter.DenyList.NumSeverities = _countof(severities);
 		filter.DenyList.pSeverityList = severities;
+		// 適用
 		infoQueue->PushStorageFilter(&filter);
 	}
 }

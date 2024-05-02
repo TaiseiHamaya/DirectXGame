@@ -7,6 +7,7 @@
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 
+// ダブルバッファなのでHeapも2
 constexpr uint32_t HEAPSIZE = 2;
 
 void RTVDescriptorHeap::Initialize() {
@@ -40,6 +41,7 @@ void RTVDescriptorHeap::create_descriptor_heap() {
 void RTVDescriptorHeap::initialize() {
 	descriptors.resize(HEAPSIZE);
 	heapStartCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	// RTVはGPUHandle参照不可
 	//heapStartGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	incrementSize = DirectXDevice::GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	releasedHeap.clear();

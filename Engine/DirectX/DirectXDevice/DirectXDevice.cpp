@@ -12,14 +12,16 @@ DirectXDevice& DirectXDevice::GetInstance() {
 
 void DirectXDevice::Initialize() {
 	GetInstance();
+	// DxgiFactory生成
 	GetInstance().create_dxgiFactory();
+	// Adapter探しの旅
 	GetInstance().create_adapter();
+	// Device生成
 	GetInstance().create_device();
 }
 
 void DirectXDevice::create_dxgiFactory() {
 	// ----------DXGIファクトリーの生成----------
-// 成功したか判定
 	HRESULT hr = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
 	assert(SUCCEEDED(hr));
 }
@@ -29,7 +31,6 @@ void DirectXDevice::create_adapter() {
 // 良い順にアダプタを頼む
 	for (UINT i = 0; dxgiFactory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter)) != DXGI_ERROR_NOT_FOUND; ++i) {
 		DXGI_ADAPTER_DESC3 adapterDesc{};
-		// 成功したか確認
 		HRESULT hr = useAdapter->GetDesc3(&adapterDesc);
 		assert(SUCCEEDED(hr));
 		// ソフトウェアアダプターでなければ採用する

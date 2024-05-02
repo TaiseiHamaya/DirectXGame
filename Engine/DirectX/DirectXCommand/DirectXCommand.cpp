@@ -27,7 +27,7 @@ void DirectXCommand::SetBarrier(ID3D12Resource* const resource, D3D12_RESOURCE_S
 	barrier.Transition.pResource = resource;
 	barrier.Transition.StateBefore = before;
 	barrier.Transition.StateAfter = after;
-	DirectXCommand::GetCommandList()->ResourceBarrier(1, &barrier); // バリアを消す
+	DirectXCommand::GetCommandList()->ResourceBarrier(1, &barrier); // バリアの適用
 }
 
 DirectXCommand& DirectXCommand::GetInstance() {
@@ -60,17 +60,18 @@ void DirectXCommand::create_fence() {
 	uint64_t fenceValue = 0;
 	hr = DirectXDevice::GetDevice()->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 	assert(SUCCEEDED(hr)); // 失敗したら停止させる
-
 	HANDLE fenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	assert(fenceEvent != nullptr);
 }
 
 void DirectXCommand::close_and_execute() {
 	HRESULT hr;
+	// コマンドリストのクローズ
 	hr = commandList->Close();
 	assert(SUCCEEDED(hr)); // 失敗したら停止させる
-
+	// まとめる
 	ID3D12CommandList* commandLists[] = { commandList.Get() };
+	// エクスキュート
 	commandQueue->ExecuteCommandLists(1, commandLists);
 }
 
@@ -81,6 +82,7 @@ void DirectXCommand::wait_for_command() {
 	// ----------シグナルまで到達してるか----------
 	if (fence->GetCompletedValue() < fenceIndex) {
 		fence->SetEventOnCompletion(fenceIndex, fenceEvent);
+		// 終わるまで待つ
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 }

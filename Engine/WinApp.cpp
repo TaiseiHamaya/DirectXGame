@@ -52,7 +52,7 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 }
 
 bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
-	if (instance->msg.message == WM_QUIT) {
+	if (instance->msg.message == WM_QUIT) { // ×ボタンが押されたら終わる
 		return true;
 	}
 

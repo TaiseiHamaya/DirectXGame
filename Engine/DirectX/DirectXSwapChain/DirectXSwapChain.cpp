@@ -9,6 +9,7 @@
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
 
 DirectXSwapChain::DirectXSwapChain() {
+	// 最初は描画していない状態
 	is_rendering = false;
 }
 
@@ -41,7 +42,7 @@ void DirectXSwapChain::create_swapchain(const HWND& hWnd) {
 	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), hWnd, &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
-
+	// RTVにリソースを生成
 	RTVDescriptorHeap::SetSwapChain(swapChain.Get());
 }
 
@@ -54,5 +55,6 @@ void DirectXSwapChain::change_back_buffer_state() {
 		is_rendering ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
 		is_rendering ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
 	);
+	// 描画の状態を反転
 	is_rendering = is_rendering ^ 0b1;
 }
