@@ -81,11 +81,10 @@ void DirectXCore::begin_frame() {
 	// BackBufferのステータスを反転
 	DirectXSwapChain::ChangeBackBufferState();
 	// RTVを設定
-	RTVDescriptorHeap::SetRenderTarget();
-	// クリアする色
-	float clearColor[] = { 0.1f,0.25f, 0.5f, 1.0f }; // RGBA
+	DirectXSwapChain::SetRenderTarget();
 	// ----------画面をクリア----------
-	DirectXCommand::GetCommandList()->ClearRenderTargetView(RTVDescriptorHeap::GetDescriptor(DirectXSwapChain::GetSwapChain()->GetCurrentBackBufferIndex()).heapHandleCPU, clearColor, 0, nullptr);
+	DirectXSwapChain::ClearRenderTargetView();
+
 
 	//DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
 	//DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
@@ -95,9 +94,9 @@ void DirectXCore::end_frame() {
 	// BackBufferのステータスを反転
 	DirectXSwapChain::ChangeBackBufferState();
 	// クローズしてエクスキュート
-	DirectXCommand::GetInstance().close_and_execute();
+	DirectXCommand::GetInstance().close_and_kick();
 	// スワップチェイン実行
-	DirectXSwapChain::GetSwapChain()->Present(1, 0);
+	DirectXSwapChain::SwapScreen();
 	// コマンド終了まで待つ
 	DirectXCommand::GetInstance().wait_for_command();
 	// コマンドリセット

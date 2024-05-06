@@ -60,6 +60,11 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -81,8 +86,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\DirectX\Descriptor\Descriptor.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCore.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp" />
@@ -111,6 +123,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\DirectX\Descriptor\Descriptor.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="Engine\DirectX\DirectXCore.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h" />

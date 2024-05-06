@@ -6,19 +6,6 @@
 
 HRESULT hr;
 
-Descriptor::Descriptor(Descriptor&& rhs) noexcept {
-	resource = *rhs.resource.ReleaseAndGetAddressOf();
-	heapHandleCPU = std::move(rhs.heapHandleCPU);
-	heapHandleGPU = std::move(rhs.heapHandleGPU);
-}
-
-Descriptor& Descriptor::operator=(Descriptor&& rhs) noexcept {
-	resource = *rhs.resource.ReleaseAndGetAddressOf();
-	heapHandleCPU = std::move(rhs.heapHandleCPU);
-	heapHandleGPU = std::move(rhs.heapHandleGPU);
-	return *this;
-}
-
 D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_cpu_handle(uint32_t index) const {
 	D3D12_CPU_DESCRIPTOR_HANDLE result = heapStartCPU; // スタートから
 	result.ptr += incrementSize * index; // increment * index分ポインタを進める
@@ -31,8 +18,15 @@ D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_gpu_handle(uint32_t index
 	return result;
 }
 
-const Descriptor& DirectXDescriptorHeap::get_descriptor(uint32_t index) const {
-	return descriptors[index]; // こういうの便利
+std::uint32_t DirectXDescriptorHeap::get_next_heap_index() {
+	if (releasedHeap.empty()) {
+		return nowHeapIndex++;
+	}
+	else {
+		std::uint32_t next = *releasedHeap.begin();
+		releasedHeap.erase(releasedHeap.begin());
+		return next;
+	}
 }
 
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT heapSize, bool shaderVisible) {

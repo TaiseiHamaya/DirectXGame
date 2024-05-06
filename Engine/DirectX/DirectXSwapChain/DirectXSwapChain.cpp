@@ -10,7 +10,7 @@
 
 DirectXSwapChain::DirectXSwapChain() {
 	// 最初は描画していない状態
-	is_rendering = false;
+	isRendering = false;
 }
 
 void DirectXSwapChain::Initialize(const HWND& hWnd) {
@@ -18,8 +18,30 @@ void DirectXSwapChain::Initialize(const HWND& hWnd) {
 	GetInstance().create_swapchain(hWnd);
 }
 
+void DirectXSwapChain::SetRenderTarget() {	// ----------描画先のRTVを設定----------
+	DirectXCommand::GetCommandList()->OMSetRenderTargets(
+		1,
+		&GetInstance().renderTargetView[DirectXSwapChain::GetBackBufferIndex()].get_cpu_handle(),
+		false,
+		nullptr
+	);
+}
+
+void DirectXSwapChain::SwapScreen() {
+	GetInstance().swap_screen();
+}
+
 void DirectXSwapChain::ChangeBackBufferState() {
 	GetInstance().change_back_buffer_state();
+}
+
+void DirectXSwapChain::ClearRenderTargetView() {
+	// クリアする色
+	float clearColor[] = { 0.1f,0.25f, 0.5f, 1.0f }; // RGBA
+	DirectXCommand::GetCommandList()->ClearRenderTargetView(
+		GetInstance().renderTargetView[GetInstance().backBufferIndex].get_cpu_handle(),
+		clearColor, 0, nullptr
+	);
 }
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() {
@@ -43,18 +65,26 @@ void DirectXSwapChain::create_swapchain(const HWND& hWnd) {
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
 	// RTVにリソースを生成
-	RTVDescriptorHeap::SetSwapChain(swapChain.Get());
+	// ダブルバッファなのでリソースを2つ作る
+	for (uint32_t renderIndex = 0; renderIndex < HEAPSIZE; ++renderIndex) {
+		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTargetView[renderIndex].resource.GetAddressOf()));
+		assert(SUCCEEDED(hr));
+		renderTargetView[renderIndex].initialize();
+	}
 }
 
 void DirectXSwapChain::change_back_buffer_state() {
-	// 書き込むバックバッファのインデックスを取得
-	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 	// ----------リソースバリアの設定----------
 	DirectXCommand::SetBarrier(
-		RTVDescriptorHeap::GetDescriptor(backBufferIndex).resource.Get(),
-		is_rendering ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
-		is_rendering ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
+		renderTargetView[backBufferIndex].get_resource().Get(),
+		isRendering ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
+		isRendering ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
 	);
 	// 描画の状態を反転
-	is_rendering = is_rendering ^ 0b1;
+	isRendering = isRendering ^ 0b1;
+}
+
+void DirectXSwapChain::swap_screen() {
+	swapChain->Present(1, 0);
+	backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 }

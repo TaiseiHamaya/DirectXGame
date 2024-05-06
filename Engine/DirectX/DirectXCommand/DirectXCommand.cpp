@@ -64,14 +64,14 @@ void DirectXCommand::create_fence() {
 	assert(fenceEvent != nullptr);
 }
 
-void DirectXCommand::close_and_execute() {
+void DirectXCommand::close_and_kick() {
 	HRESULT hr;
 	// コマンドリストのクローズ
 	hr = commandList->Close();
 	assert(SUCCEEDED(hr)); // 失敗したら停止させる
 	// まとめる
 	ID3D12CommandList* commandLists[] = { commandList.Get() };
-	// エクスキュート
+	// キック
 	commandQueue->ExecuteCommandLists(1, commandLists);
 }
 

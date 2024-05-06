@@ -32,7 +32,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 WinApp::WinApp(int32_t width, int32_t hight) : 
-	kClientWidht(width),
+	kClientWidth(width),
 	kClientHight(hight),
 	hWnd(nullptr), 
 	hInstance(nullptr) {
@@ -102,7 +102,7 @@ void WinApp::init_app(const std::string& programName) {
 	RegisterClass(&wc);
 
 	// ウィンドウサイズ指定用に構造体にする
-	RECT wrc = { 0,0,kClientWidht, kClientHight };
+	RECT wrc = { 0,0,kClientWidth, kClientHight };
 	// 実際にwrcを変更
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 

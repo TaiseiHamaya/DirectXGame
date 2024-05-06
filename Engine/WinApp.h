@@ -22,7 +22,7 @@ public:
 	static void Finalize();
 
 public:
-	static int32_t GetClientWidth() { return instance->kClientWidht; };
+	static int32_t GetClientWidth() { return instance->kClientWidth; };
 	static int32_t GetClientHight() { return instance->kClientHight; };
 
 private:
@@ -39,7 +39,7 @@ private:
 	static WinApp* instance;
 
 private:
-	int32_t kClientWidht;
+	int32_t kClientWidth;
 	int32_t kClientHight;
 
 	HWND hWnd;

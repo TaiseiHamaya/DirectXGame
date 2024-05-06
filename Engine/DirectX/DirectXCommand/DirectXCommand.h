@@ -28,7 +28,7 @@ private:
 	void create_fence();
 
 public:
-	void close_and_execute();
+	void close_and_kick();
 	void wait_for_command();
 	void reset();
 

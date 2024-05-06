@@ -58,6 +58,12 @@
     <Filter Include="Engine\Core\ImGUIManager">
       <UniqueIdentifier>{24684771-dea8-49c9-b66b-9ed3762474b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\DirectX\DescriptorHeap\Descriptor">
+      <UniqueIdentifier>{841895c3-2230-4856-88e2-7f027c8e7d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\DescriptorHeap\Descriptor\RenderTargetView">
+      <UniqueIdentifier>{1feac620-d43a-4968-a876-52288c72736f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -137,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="Engine\ImGuiManager\ImGuiManager.cpp">
       <Filter>Engine\Core\ImGUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Descriptor\Descriptor.cpp">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.cpp">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor\RenderTargetView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="Engine\ImGuiManager\ImGuiManager.h">
       <Filter>Engine\Core\ImGUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Descriptor\Descriptor.h">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.h">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor\RenderTargetView</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
