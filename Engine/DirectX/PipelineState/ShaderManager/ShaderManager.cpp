@@ -1,7 +1,7 @@
 #include "ShaderManager.h"
 
 #include <cassert>
-#include "Engine/Utility/ShaderCompiler.h"
+#include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 
 void ShaderManager::initialize() {
 	create_vertex_shader();
