@@ -29,26 +29,6 @@ inline void MemClear(type*& mem) {
 	mem = nullptr;
 }
 
-/// <summary>
-/// 長方形
-/// </summary>
-class Rect {
-public:
-	Rect() = default;
-	Rect(const Vector2& size);
-	Rect(const Vector2& topLeft_, const Vector2& topRight_, const Vector2& bottomLeft_, const Vector2& bottomRight_);
-	inline const Vector2& operator[](std::size_t index) const {
-		assert(index <= 3);
-		return *((&topLeft) + index);
-	}
-
-public:
-	Vector2 topLeft;
-	Vector2 topRight;
-	Vector2 bottomLeft;
-	Vector2 bottomRight;
-};
-
 class Animation {
 public:
 	Animation();

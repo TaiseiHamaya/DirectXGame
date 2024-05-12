@@ -27,7 +27,6 @@ public:
 		translate = opr.translate;
 		sintheta = opr.sintheta;
 		costheta = opr.costheta;
-		matrix = opr.matrix;
 		return *this;
 	}
 
@@ -46,7 +45,6 @@ public:
 		translate = std::move(opr.translate);
 		sintheta = std::move(opr.sintheta);
 		costheta = std::move(opr.costheta);
-		matrix = std::move(opr.matrix);
 		return *this;
 	}
 
@@ -59,7 +57,7 @@ public:
 	void set_translatey(float y);
 	void begin();
 	void update();
-	const Matrix3x3& get_matrix() const;
+	const Matrix3x3 get_matrix() const;
 	Matrix4x4 get_matrix4x4() const;
 	const Vector2& get_translate() const;
 	void plus_translate(const Vector2& plus);
@@ -77,16 +75,6 @@ private:
 	Vector2 translate;
 	float sintheta;
 	float costheta;
-	//union Rotate {
-	//	struct Radian {
-	//		float sintheta;
-	//		float costheta;
-	//	};
-	//	Vector2 direction;
-	//	Radian radian;
-	//};
-	//Rotate rotate1;
-	Matrix3x3 matrix;
 
 	bool isNeedUpdate;
 
@@ -176,20 +164,4 @@ public:// static関数
 	/// <param name="matrix">変換行列</param>
 	/// <returns></returns>
 	static Vector2 HomogeneousVector(const Vector2& vector, const Matrix3x3& matrix);
-
-	/// <summary>
-	/// 長方形構造体を同次座標系乗算
-	/// </summary>
-	/// <param name="rect">変換する長方形</param>
-	/// <param name="matrix">変換行列</param>
-	/// <returns></returns>
-	static Rect Homogeneous(const Rect& rect, const Matrix3x3& matrix);
-
-	/// <summary>
-	/// 長方形構造体を同次座標系乗算(Translateなし)
-	/// </summary>
-	/// <param name="rect">変換する長方形</param>
-	/// <param name="matrix">変換行列</param>
-	/// <returns></returns>
-	static Rect HomogeneousVector(const Rect& rect, const Matrix3x3& matrix);
 };

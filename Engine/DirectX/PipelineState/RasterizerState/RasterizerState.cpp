@@ -7,7 +7,7 @@ void RasterizerState::initialize() {
 void RasterizerState::create_rasterizer_state() {
 	// RasterizerStateの設定
 	// 背面カリング
-	rasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
+	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
 	// 塗りつぶし
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 }

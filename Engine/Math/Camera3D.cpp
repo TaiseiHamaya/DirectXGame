@@ -16,8 +16,8 @@ std::unique_ptr<Camera3D> Camera3D::instance;
 void Camera3D::Initialize() {
 	instance.reset(new Camera3D{});
 	instance->camera.set_scale(Vec3::kBasis);
-	instance->camera.set_rotate(Quaternion{ 0, 0, 0 });
-	instance->camera.set_translate({ 0, 0, -5 });
+	instance->camera.set_rotate(Quaternion{ 0.7f, 0, 0 });
+	instance->camera.set_translate({ 0, 10, -10 });
 	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()), 0, 0, 1000);
 	instance->SetPerspectiveFovInfomation(0.45f, static_cast<float>(WinApp::GetClientWidth()) / static_cast<float>(WinApp::GetClientHight()), 0.1f, 1000);
 	instance->SetViewportInformation({ 0, 0 }, { static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()) }, 0, 1);

@@ -11,20 +11,6 @@ const Vector2 operator*(const Vector2& vec, const Matrix<2, 2>& mat) {
 	return result;
 }
 
-Rect::Rect(const Vector2& size) {
-	topLeft = { size.x / 2, -size.y / 2 };
-	topRight = { -size.x / 2, -size.y / 2 };
-	bottomLeft = { size.x / 2, size.y / 2 };
-	bottomRight = { -size.x / 2, size.y / 2 };
-}
-
-Rect::Rect(const Vector2& topLeft_, const Vector2& topRight_, const Vector2& bottomLeft_, const Vector2& bottomRight_) {
-	topLeft = topLeft_;
-	topRight = topRight_;
-	bottomLeft = bottomLeft_;
-	bottomRight = bottomRight_;
-}
-
 Animation::Animation() {
 	distance = 1;
 	total_seq = 1;

@@ -22,9 +22,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("CG2", kClientWidth, kClientHight);
 	Camera3D::Initialize();
 
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Triangle.obj");
+	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "axis.obj");
 
-	GameObject triangle = PolygonMeshManager::GetPolygonMesh("Triangle.obj");
+	GameObject triangle = PolygonMeshManager::GetPolygonMesh("axis.obj");
 	ConstantBuffer<DirectionalLightData> light{ {Color{1.0f,1.0f,1.0f,1.0f}, -Vec3::kBasisY, 1.0f} };
 
 	while (!WinApp::IsEndApp()) {
