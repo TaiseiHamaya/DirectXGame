@@ -79,7 +79,7 @@ const Transform3D& Camera3D::GetCameraTransform() {
 
 #ifdef _DEBUG
 void Camera3D::DebugGUI() {
-	instance->_DebugGUI();
+	instance->_debug_gui();
 }
 #endif // _DEBUG
 
@@ -94,8 +94,8 @@ void Camera3D::InstanceCameraUpdate() {
 }
 
 #ifdef _DEBUG
-void Camera3D::_DebugGUI() {
-	ImGui::SetNextWindowSize(ImVec2{ 330,140 }, ImGuiCond_Once);
+void Camera3D::_debug_gui() {
+	ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
 	ImGui::SetNextWindowPos(ImVec2{ 50, 50 }, ImGuiCond_Once);
 	ImGui::Begin("Camera", nullptr, ImGuiWindowFlags_NoSavedSettings);
 	camera.debug_gui();

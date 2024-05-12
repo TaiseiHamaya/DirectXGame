@@ -13,15 +13,15 @@ DirectXSwapChain::DirectXSwapChain() {
 	isRendering = false;
 }
 
-void DirectXSwapChain::Initialize(const HWND& hWnd) {
+void DirectXSwapChain::Initialize() {
 	GetInstance();
-	GetInstance().create_swapchain(hWnd);
+	GetInstance().create_swapchain();
 }
 
 void DirectXSwapChain::SetRenderTarget() {	// ----------描画先のRTVを設定----------
 	DirectXCommand::GetCommandList()->OMSetRenderTargets(
 		1,
-		&GetInstance().renderTarget[DirectXSwapChain::GetBackBufferIndex()].get_cpu_handle(),
+		&GetInstance().renderTarget[GetBackBufferIndex()].get_cpu_handle(),
 		false,
 		nullptr
 	);
@@ -49,7 +49,7 @@ DirectXSwapChain& DirectXSwapChain::GetInstance() {
 	return *instance;
 }
 
-void DirectXSwapChain::create_swapchain(const HWND& hWnd) {
+void DirectXSwapChain::create_swapchain() {
 	HRESULT hr;
 	// ----------スワップチェインを生成----------
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
@@ -61,12 +61,12 @@ void DirectXSwapChain::create_swapchain(const HWND& hWnd) {
 	swapChainDesc.BufferCount = 2; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成
-	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), hWnd, &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
+	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
-	for (uint32_t renderIndex = 0; renderIndex < HEAPSIZE; ++renderIndex) {
+	for (uint32_t renderIndex = 0; renderIndex < SWAPCHAIN_HEAP; ++renderIndex) {
 		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTarget[renderIndex].get_resource().GetAddressOf()));
 		assert(SUCCEEDED(hr));
 		renderTarget[renderIndex].initialize();

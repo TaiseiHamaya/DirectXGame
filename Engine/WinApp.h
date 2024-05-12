@@ -24,6 +24,7 @@ public:
 public:
 	static int32_t GetClientWidth() { return instance->kClientWidth; };
 	static int32_t GetClientHight() { return instance->kClientHight; };
+	static HWND& GetWndHandle() { return instance->hWnd; };
 
 private:
 	/// <summary>

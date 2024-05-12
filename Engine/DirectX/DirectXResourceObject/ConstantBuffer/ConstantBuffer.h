@@ -10,6 +10,9 @@ public:
 
 	virtual ~ConstantBuffer();
 
+public:
+	T* const get_data();
+
 protected:
 	T* data;
 	UINT memorySize;
@@ -30,4 +33,9 @@ inline ConstantBuffer<T>::ConstantBuffer(const T& data_) : ConstantBuffer<T>() {
 template<typename T>
 inline ConstantBuffer<T>::~ConstantBuffer() {
 	resource->Unmap(0, nullptr);
+}
+
+template<typename T>
+inline T* const ConstantBuffer<T>::get_data() {
+	return data;
 }

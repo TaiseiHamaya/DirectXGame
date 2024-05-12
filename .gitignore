@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Don't ignore .obj in Resource Folder
 !Engine/Resources/*.obj
+
+# Ignore imgui settings
+/imgui.ini

@@ -19,7 +19,7 @@ private:
 	DirectXCore& operator=(const DirectXCore&) = delete;
 
 public:
-	static void Initialize(const HWND& hWnd);
+	static void Initialize();
 	static void BeginFrame();
 	static void EndFrame();
 	static void Finalize();
@@ -28,7 +28,7 @@ private:
 	static DirectXCore& GetInstance();
 
 private:
-	void initialize(const HWND& hWnd);
+	void initialize();
 
 	void begin_frame();
 	void end_frame();

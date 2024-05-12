@@ -105,20 +105,34 @@ void Transform3D::debug_gui() {
 #ifdef _DEBUG
 	ImGui::SetNextItemOpen(true);
 	if (ImGui::TreeNode(std::format("Transform3D({:})", (void*)this).c_str())) {
+		if (ImGui::Button("ResetScale")) {
+			scale = Vec3::kBasis;
+			isNeedUpdate = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("ResetRotate")) {
+			rotate = Quaternion{};
+			isNeedUpdate = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("ResetTranslate")) {
+			translate = Vec3::kZero;
+			isNeedUpdate = true;
+		}
 		if (ImGui::DragFloat3("Scale", &scale.x, 0.01f)) {
 			isNeedUpdate = true;
 		}
+		Vector3 quaternion = Vec3::kZero;
+		if (ImGui::DragFloat3("RotateLocal", &quaternion.x, 0.01f, -PI, PI)) {
+			rotate = Quaternion{ quaternion } *rotate;
+			isNeedUpdate = true;
+		}
 		Vector3 cood = Vec3::kZero;
-		if (ImGui::DragFloat3("RotateLocal", &cood.x, 0.02f)) {
+		if (ImGui::DragFloat3("RotateWorld", &cood.x, 0.02f)) {
 			rotate *= Quaternion{ cood, cood.length() };
 			isNeedUpdate = true;
 		}
-		Vector3 quaternion = Vec3::kZero;
-		if (ImGui::DragFloat3("RotateWorld", &quaternion.x, 0.01f, -PI, PI)) {
-			rotate = Quaternion{ quaternion.x,quaternion.y, quaternion.z } *rotate;
-			isNeedUpdate = true;
-		}
-		if (ImGui::DragFloat3("Translate", &translate.x, 0.01f)) {
+		if (ImGui::DragFloat3("Translate", &translate.x, 0.1f)) {
 			isNeedUpdate = true;
 		}
 		ImGui::TreePop();

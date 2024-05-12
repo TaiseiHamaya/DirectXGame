@@ -19,9 +19,9 @@ protected:
 
 protected:
 	virtual void create_descriptor_heap() = 0;
-	D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(uint32_t index) const;
-	D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(uint32_t index) const;
-	std::uint32_t get_next_heap_index();
+	const D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(uint32_t index) const;
+	const D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(uint32_t index) const;
+	const std::uint32_t get_next_heap_index();
 
 protected:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;

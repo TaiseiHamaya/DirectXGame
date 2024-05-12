@@ -27,6 +27,10 @@ public:
 	void begin_rendering();
 	void draw() const;
 
+#ifdef _DEBUG
+	void debug_gui();
+#endif // _DEBUG
+
 private:
 	std::weak_ptr<PolygonMesh> mesh;
 	std::unique_ptr<Material> material;

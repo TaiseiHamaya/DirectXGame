@@ -46,7 +46,7 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 	instance->init_app(programName);
 	//DirectXの初期化
-	DirectXCore::Initialize(instance->hWnd);
+	DirectXCore::Initialize();
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Log("Complete Create Window\n");

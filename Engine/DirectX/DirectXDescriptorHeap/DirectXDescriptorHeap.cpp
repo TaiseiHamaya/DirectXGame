@@ -6,19 +6,19 @@
 
 HRESULT hr;
 
-D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_cpu_handle(uint32_t index) const {
+const D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_cpu_handle(uint32_t index) const {
 	D3D12_CPU_DESCRIPTOR_HANDLE result = heapStartCPU; // スタートから
 	result.ptr += incrementSize * index; // increment * index分ポインタを進める
 	return result;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_gpu_handle(uint32_t index) const {
+const D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_gpu_handle(uint32_t index) const {
 	D3D12_GPU_DESCRIPTOR_HANDLE result = heapStartGPU; // 上に同じ
 	result.ptr += incrementSize * index;
 	return result;
 }
 
-std::uint32_t DirectXDescriptorHeap::get_next_heap_index() {
+const std::uint32_t DirectXDescriptorHeap::get_next_heap_index() {
 	if (releasedHeap.empty()) {
 		return nowHeapIndex++;
 	}

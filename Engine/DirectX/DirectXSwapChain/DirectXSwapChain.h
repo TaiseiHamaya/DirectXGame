@@ -7,7 +7,7 @@
 #include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 
 // ダブルバッファなのでHeapも2
-constexpr uint32_t HEAPSIZE = 2;
+constexpr uint32_t SWAPCHAIN_HEAP = 2;
 
 class DirectXSwapChain {
 private:
@@ -21,7 +21,7 @@ private:
 	DirectXSwapChain& operator=(const DirectXSwapChain&) = delete;
 
 public:
-	static void Initialize(const HWND& hWnd);
+	static void Initialize();
 	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() { return GetInstance().swapChain; }
 	static UINT GetBackBufferIndex() { return GetInstance().backBufferIndex; }
 
@@ -34,7 +34,7 @@ private:
 	static DirectXSwapChain& GetInstance();
 
 private:
-	void create_swapchain(const HWND& hWnd);
+	void create_swapchain();
 	void change_back_buffer_state();
 	void swap_screen();
 
@@ -42,6 +42,6 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	bool isRendering;
 	UINT backBufferIndex;
-	std::array<RenderTarget, HEAPSIZE> renderTarget;
+	std::array<RenderTarget, SWAPCHAIN_HEAP> renderTarget;
 };
 

@@ -63,7 +63,7 @@ private:
 	void MakePersectiveFovMatrix();
 	void MakeViewportMatrix();
 #ifdef _DEBUG
-	void _DebugGUI();
+	void _debug_gui();
 #endif // _DEBUG
 private:// 一つに絞る
 	static std::unique_ptr<Camera3D> instance;

@@ -51,3 +51,13 @@ void GameObject::draw() const {
 	//commandList->SetGraphicsRootDescriptorTable(2, mesh_locked->get_texture().get_handle_cpu()); // Texture
 	commandList->DrawIndexedInstanced(mesh_locked->get_index_size(), 1, 0, 0, 0); // 描画コマンド
 }
+
+#ifdef _DEBUG
+
+void GameObject::debug_gui() {
+	transform->debug_gui();
+	uvTransform->debug_gui();
+	color->debug_gui();
+}
+
+#endif // _DEBUG

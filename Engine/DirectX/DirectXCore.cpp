@@ -11,8 +11,7 @@
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
-#include "externals/imgui/imgui_impl_dx12.h"
-#include "externals/imgui/imgui_impl_win32.h"
+#include "Engine/Utility/ImGuiManager/ImGuiManager.h"
 #endif // _DEBUG
 
 #include "Engine/WinApp.h"
@@ -20,6 +19,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
+#include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
@@ -33,9 +33,9 @@ DirectXCore::DirectXCore()
 
 DirectXCore::~DirectXCore() = default;
 
-void DirectXCore::Initialize(const HWND& hWnd) {
+void DirectXCore::Initialize() {
 	GetInstance();
-	GetInstance().initialize(hWnd);
+	GetInstance().initialize();
 }
 
 void DirectXCore::BeginFrame() {
@@ -50,6 +50,9 @@ void DirectXCore::Finalize() {
 	// ----------後で直す!!!----------
 	GetInstance().pipelineState.reset();
 	// ----------後で直す!!!----------
+#ifdef _DEBUG
+	ImGuiManager::Finalize();
+#endif // _DEBUG
 }
 
 DirectXCore& DirectXCore::GetInstance() {
@@ -57,25 +60,30 @@ DirectXCore& DirectXCore::GetInstance() {
 	return *instance;
 }
 
-void DirectXCore::initialize(const HWND& hWnd) {
-	// debugの初期化(必ず一番初めに行う)
+void DirectXCore::initialize() {
+	// Debugの初期化(必ず一番初めに行う)
 	Debug::Initialize();
-	// deviceの初期化
+	// Deviceの初期化
 	DirectXDevice::Initialize();
-	// informationQueueの有効化
+	// InformationQueueの有効化
 	Debug::InfoQueue();
-	// command関連の初期化
+	// Command関連の初期化
 	DirectXCommand::Initialize();
-	// rtv初期化
+	// RTVHeapの初期化
 	RTVDescriptorHeap::Initialize();
-	// swapchain初期化
-	DirectXSwapChain::Initialize(hWnd);
+	// SRVHeapの初期化
+	SRVDescriptorHeap::Initialize();
+	// Swapchain初期化
+	DirectXSwapChain::Initialize();
 	// シェーダーコンパイラ初期化
 	ShaderCompiler::Initialize();
-
 	// PSO生成
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize();
+
+#ifdef _DEBUG
+	ImGuiManager::Initialize();
+#endif // _DEBUG
 
 	// ViewPort設定
 	viewPort.Width = static_cast<FLOAT>(WinApp::GetClientWidth());
@@ -107,11 +115,21 @@ void DirectXCore::begin_frame() {
 	// PSOの設定
 	pipelineState->set_graphics_pipeline_state();
 
+	SRVDescriptorHeap::SetDescriptorHeaps();
+
 	DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
 	DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
+
+#ifdef _DEBUG
+	ImGuiManager::BeginFrame();
+#endif // _DEBUG
 }
 
 void DirectXCore::end_frame() {
+#ifdef _DEBUG
+	// 一番先にImGUIの処理
+	ImGuiManager::EndFrame();
+#endif // _DEBUG
 	// BackBufferのステータスを反転
 	DirectXSwapChain::ChangeBackBufferState();
 	// クローズしてエクスキュート
