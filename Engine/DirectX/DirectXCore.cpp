@@ -16,13 +16,22 @@
 #endif // _DEBUG
 
 #include "Engine/WinApp.h"
-#include "Engine/Util.h"
+#include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
+#include "Engine/DirectX/PipelineState/PipelineState.h"
 
 static HRESULT hr;
+
+DirectXCore::DirectXCore() 
+	: viewPort(), 
+	scissorRect() {
+};
+
+DirectXCore::~DirectXCore() = default;
 
 void DirectXCore::Initialize(const HWND& hWnd) {
 	GetInstance();
@@ -38,6 +47,9 @@ void DirectXCore::EndFrame() {
 }
 
 void DirectXCore::Finalize() {
+	// ----------後で直す!!!----------
+	GetInstance().pipelineState.reset();
+	// ----------後で直す!!!----------
 }
 
 DirectXCore& DirectXCore::GetInstance() {
@@ -58,7 +70,12 @@ void DirectXCore::initialize(const HWND& hWnd) {
 	RTVDescriptorHeap::Initialize();
 	// swapchain初期化
 	DirectXSwapChain::Initialize(hWnd);
+	// シェーダーコンパイラ初期化
+	ShaderCompiler::Initialize();
 
+	// PSO生成
+	pipelineState = std::make_unique<PipelineState>();
+	pipelineState->initialize();
 
 	// ViewPort設定
 	viewPort.Width = static_cast<FLOAT>(WinApp::GetClientWidth());
@@ -83,11 +100,15 @@ void DirectXCore::begin_frame() {
 	// RTVを設定
 	DirectXSwapChain::SetRenderTarget();
 	// ----------画面をクリア----------
-	DirectXSwapChain::ClearRenderTargetView();
+	DirectXSwapChain::ClearScreen();
 
+	// RootSignatureの設定
+	pipelineState->set_root_signature();
+	// PSOの設定
+	pipelineState->set_graphics_pipeline_state();
 
-	//DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
-	//DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
+	DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
 }
 
 void DirectXCore::end_frame() {
@@ -147,7 +168,7 @@ void DirectXCore::Debug::InfoQueue() {
 	}
 }
 
-DirectXCore::Debug* const DirectXCore::Debug::GetInstance() {
+DirectXCore::Debug& DirectXCore::Debug::GetInstance() {
 	static std::unique_ptr<DirectXCore::Debug> instance{ new Debug };
-	return instance.get();
+	return *instance;
 }

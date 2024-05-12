@@ -15,7 +15,9 @@ std::unique_ptr<Camera3D> Camera3D::instance;
 
 void Camera3D::Initialize() {
 	instance.reset(new Camera3D{});
-	instance->camera = Transform3D{ Vec3::kBasis, Quaternion{ Vec3::kBasisX, 0 }, { 0, 0, -5 } };
+	instance->camera.set_scale(Vec3::kBasis);
+	instance->camera.set_rotate(Quaternion{ 0, 0, 0 });
+	instance->camera.set_translate({ 0, 0, -5 });
 	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()), 0, 0, 1000);
 	instance->SetPerspectiveFovInfomation(0.45f, static_cast<float>(WinApp::GetClientWidth()) / static_cast<float>(WinApp::GetClientHight()), 0.1f, 1000);
 	instance->SetViewportInformation({ 0, 0 }, { static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()) }, 0, 1);
@@ -27,7 +29,9 @@ void Camera3D::SetCameraPos(const Vector3& pos) {
 }
 
 void Camera3D::SetCameraTransform(const Transform3D& transform) {
-	instance->camera = transform;
+	instance->camera.set_scale(transform.get_scale());
+	instance->camera.set_rotate(transform.get_quaternion());
+	instance->camera.set_translate(transform.get_translate());
 }
 
 void Camera3D::SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) {
@@ -80,7 +84,6 @@ void Camera3D::DebugGUI() {
 #endif // _DEBUG
 
 void Camera3D::InstanceCameraUpdate() {
-	camera.update();
 	MakeViewMatrix();
 	MakePersectiveFovMatrix();
 	MakeOrthoMatrix();

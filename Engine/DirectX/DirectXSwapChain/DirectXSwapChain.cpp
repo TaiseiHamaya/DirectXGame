@@ -21,7 +21,7 @@ void DirectXSwapChain::Initialize(const HWND& hWnd) {
 void DirectXSwapChain::SetRenderTarget() {	// ----------描画先のRTVを設定----------
 	DirectXCommand::GetCommandList()->OMSetRenderTargets(
 		1,
-		&GetInstance().renderTargetView[DirectXSwapChain::GetBackBufferIndex()].get_cpu_handle(),
+		&GetInstance().renderTarget[DirectXSwapChain::GetBackBufferIndex()].get_cpu_handle(),
 		false,
 		nullptr
 	);
@@ -35,11 +35,11 @@ void DirectXSwapChain::ChangeBackBufferState() {
 	GetInstance().change_back_buffer_state();
 }
 
-void DirectXSwapChain::ClearRenderTargetView() {
+void DirectXSwapChain::ClearScreen() {
 	// クリアする色
 	float clearColor[] = { 0.1f,0.25f, 0.5f, 1.0f }; // RGBA
 	DirectXCommand::GetCommandList()->ClearRenderTargetView(
-		GetInstance().renderTargetView[GetInstance().backBufferIndex].get_cpu_handle(),
+		GetInstance().renderTarget[GetInstance().backBufferIndex].get_cpu_handle(),
 		clearColor, 0, nullptr
 	);
 }
@@ -67,16 +67,16 @@ void DirectXSwapChain::create_swapchain(const HWND& hWnd) {
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
 	for (uint32_t renderIndex = 0; renderIndex < HEAPSIZE; ++renderIndex) {
-		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTargetView[renderIndex].resource.GetAddressOf()));
+		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTarget[renderIndex].get_resource().GetAddressOf()));
 		assert(SUCCEEDED(hr));
-		renderTargetView[renderIndex].initialize();
+		renderTarget[renderIndex].initialize();
 	}
 }
 
 void DirectXSwapChain::change_back_buffer_state() {
 	// ----------リソースバリアの設定----------
 	DirectXCommand::SetBarrier(
-		renderTargetView[backBufferIndex].get_resource().Get(),
+		renderTarget[backBufferIndex].get_resource().Get(),
 		isRendering ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
 		isRendering ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
 	);

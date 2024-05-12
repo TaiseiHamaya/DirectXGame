@@ -3,13 +3,16 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
+#include <memory>
+
+class PipelineState;
 
 class DirectXCore {
 private:
-	DirectXCore() = default;
+	DirectXCore();
 	
 public:
-	~DirectXCore() = default;
+	~DirectXCore();
 
 private:
 	DirectXCore(const DirectXCore&) = delete;
@@ -34,6 +37,8 @@ private:
 	D3D12_VIEWPORT viewPort;
 	D3D12_RECT scissorRect;
 
+	std::unique_ptr<PipelineState> pipelineState;
+
 private:
 	class Debug {
 	private:
@@ -51,7 +56,7 @@ private:
 		static void InfoQueue();
 
 	private:
-		static DirectXCore::Debug* const GetInstance();
+		static DirectXCore::Debug& GetInstance();
 
 	private:
 	};

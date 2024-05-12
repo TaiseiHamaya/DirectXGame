@@ -4,7 +4,7 @@
 #include <wrl.h>
 #include <array>
 
-#include "Engine/DirectX/Descriptor/RenderTargetView/RenderTargetView.h"
+#include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 
 // ダブルバッファなのでHeapも2
 constexpr uint32_t HEAPSIZE = 2;
@@ -28,7 +28,7 @@ public:
 	static void SetRenderTarget();
 	static void SwapScreen();
 	static void ChangeBackBufferState();
-	static void ClearRenderTargetView();
+	static void ClearScreen();
 
 private:
 	static DirectXSwapChain& GetInstance();
@@ -42,6 +42,6 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	bool isRendering;
 	UINT backBufferIndex;
-	std::array<RenderTargetView, HEAPSIZE> renderTargetView;
+	std::array<RenderTarget, HEAPSIZE> renderTarget;
 };
 

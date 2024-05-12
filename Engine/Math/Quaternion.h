@@ -1,16 +1,7 @@
-﻿#pragma once
+#pragma once
 
-#include "Vector3D.h"
+#include "Vector3.h"
 #include "Matrix.h"
-
-enum EulerOrder {
-	kXYZ,
-	kXZY,
-	kYXZ,
-	kYZX,
-	kZXY,
-	kZYX
-};
 
 class Quaternion final {
 public:
@@ -37,14 +28,18 @@ public:
 	Quaternion(float x, float y, float z, float w);
 
 	/// <summary>
-	/// オイラー角からクォータニオンを生成
+	/// オイラー角からクォータニオンを生成(ラジアン)
 	/// </summary>
 	/// <param name="pitch">X軸回転</param>
 	/// <param name="yaw">Y軸回転</param>
 	/// <param name="roll">Z軸回転</param>
-	Quaternion(float pitch, float yaw, float roll);
+	Quaternion(float pitch, float yaw, float roll) noexcept;
 
-	//Quaternion(float theta_x, float theta_y, float theta_z, EulerOrder order = kXYZ);
+	/// <summary>
+	/// オイラー角からクォータニオンを生成(ラジアン)
+	/// </summary>
+	/// <param name="rotate">XYZ軸回転</param>
+	Quaternion(const Vector3& rotate) noexcept;
 
 public:
 	Quaternion& operator=(const Quaternion& rhs) noexcept;
@@ -53,6 +48,8 @@ public:
 	bool operator!=(const Quaternion& rhs) const noexcept;
 	Quaternion operator*(const Quaternion& rhs) const;
 	Quaternion& operator*=(const Quaternion& rhs);
+	Quaternion operator*(float times) const;
+	Quaternion& operator*=(float times);
 
 public:
 	/// <summary>
@@ -61,9 +58,13 @@ public:
 	/// <returns></returns>
 	const Matrix4x4 to_matrix() const;
 
-	//const Vector3 to_euler() const;
+	const float length() const;
 
-	//void normalize();
+	const Quaternion inverse() const;
+
+	static const Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, float t);
+
+	static const Quaternion& Identity();
 
 private:
 	Vector3 xyz;

@@ -50,7 +50,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)externals\DirectXTex</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -74,7 +74,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)externals\DirectXTex</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -93,25 +93,39 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\DirectX\Descriptor\Descriptor.cpp" />
-    <ClCompile Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCore.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
-    <ClCompile Include="Engine\ImGuiManager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\BlendState\BlendState.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="Engine\GameObject\GameObject.cpp" />
+    <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMesh.cpp" />
+    <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp" />
+    <ClCompile Include="Engine\GameObject\Transform2D\Transform2D.cpp" />
+    <ClCompile Include="Engine\GameObject\Transform3D\Transform3D.cpp" />
     <ClCompile Include="Engine\Math\Camera3D.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Definition.cpp" />
     <ClCompile Include="Engine\Math\Matrix.cpp" />
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
-    <ClCompile Include="Engine\Math\Transform2D.cpp" />
-    <ClCompile Include="Engine\Math\Transform3D.cpp" />
-    <ClCompile Include="Engine\Math\Vector2d.cpp" />
-    <ClCompile Include="Engine\Math\Vector3D.cpp" />
-    <ClCompile Include="Engine\Util.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Utility\ImGuiManager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Utility\ShaderCompiler\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\Utility\Utility.cpp" />
     <ClCompile Include="Engine\WinApp.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp" />
     <ClCompile Include="externals\imgui\imgui_demo.cpp" />
@@ -123,26 +137,42 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\DirectX\Descriptor\Descriptor.h" />
-    <ClInclude Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="Engine\DirectX\DirectXCore.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\BufferObjects.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\ConstantBuffer.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
-    <ClInclude Include="Engine\ImGuiManager\ImGuiManager.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\BlendState\BlendState.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.h" />
+    <ClInclude Include="Engine\GameObject\GameObject.h" />
+    <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMesh.h" />
+    <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h" />
+    <ClInclude Include="Engine\GameObject\Transform2D\Transform2D.h" />
+    <ClInclude Include="Engine\GameObject\Transform3D\Transform3D.h" />
     <ClInclude Include="Engine\Math\Array2D.h" />
     <ClInclude Include="Engine\Math\Camera3D.h" />
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Definition.h" />
     <ClInclude Include="Engine\Math\Matrix.h" />
     <ClInclude Include="Engine\Math\Quaternion.h" />
-    <ClInclude Include="Engine\Math\Transform2D.h" />
-    <ClInclude Include="Engine\Math\Transform3D.h" />
-    <ClInclude Include="Engine\Math\Vector2d.h" />
-    <ClInclude Include="Engine\Math\Vector3D.h" />
-    <ClInclude Include="Engine\Util.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h" />
+    <ClInclude Include="Engine\Utility\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Utility\Utility.h" />
     <ClInclude Include="Engine\WinApp.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
@@ -171,6 +201,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

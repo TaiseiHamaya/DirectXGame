@@ -14,17 +14,17 @@ Color::Color() {
 }
 
 Color::Color(unsigned int hex) {
-	red = ((hex >> 24) & 0x000000ff) / 256.0f;
-	green = ((hex >> 16) & 0x000000ff) / 256.0f;
-	blue = ((hex >> 8) & 0x000000ff) / 256.0f;
-	alpha = ((hex >> 0) & 0x000000ff) / 256.0f;
+	red = ((hex >> 24) & 0x000000ff) / 255.0f;
+	green = ((hex >> 16) & 0x000000ff) / 255.0f;
+	blue = ((hex >> 8) & 0x000000ff) / 255.0f;
+	alpha = ((hex >> 0) & 0x000000ff) / 255.0f;
 }
 
 Color::Color(unsigned int _red, unsigned int _green, unsigned int _blue, float _alpha) {
-	red = _red / 256.0f;
-	green = _green / 256.0f;
-	blue = _blue / 256.0f;
-	alpha = _alpha / 256.0f;
+	red = _red / 255.0f;
+	green = _green / 255.0f;
+	blue = _blue / 255.0f;
+	alpha = _alpha / 255.0f;
 }
 
 Color::Color(float _red, float _green, float _blue, float _alpha) {

@@ -28,12 +28,6 @@
     <Filter Include="Engine\HLSL">
       <UniqueIdentifier>{66af74f2-9d7d-461f-8ffa-16b97a7ec79e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="external">
-      <UniqueIdentifier>{54cfe5d8-dfc7-4d49-9e78-0dfbbca8c0a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="external\imgui">
-      <UniqueIdentifier>{9c6c0a71-0eaa-4421-9f43-db8440d2d9ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="WinApp">
       <UniqueIdentifier>{c72d7eb7-46a6-4bb4-938d-65a11e823d75}</UniqueIdentifier>
     </Filter>
@@ -55,14 +49,83 @@
     <Filter Include="Engine\Core\DirectX\SwapChain">
       <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\ImGUIManager">
+    <Filter Include="Engine\Utility\ShaderCompiler">
+      <UniqueIdentifier>{20e834c2-3ec2-48d0-abd8-23a0fcdd1d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState">
+      <UniqueIdentifier>{039fc40c-ddce-413c-98d4-ebcf41174f55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\RootSignature">
+      <UniqueIdentifier>{1486c2f2-418c-4877-b31a-b88e403ce300}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\InputLayout">
+      <UniqueIdentifier>{1b8232a6-b465-48f8-a621-3cdf68251246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\BlendState">
+      <UniqueIdentifier>{c3f9603d-6f51-4115-a406-9cda79471b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\RasterizerState">
+      <UniqueIdentifier>{84ab0599-8d63-4c26-b628-53480e1f9984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\ShaderManager">
+      <UniqueIdentifier>{bb327bf5-ebe4-4ac2-9f79-6c0f21e1af36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Game\GameObject">
+      <UniqueIdentifier>{df797618-2ace-4e51-ba59-3ada04b5c8ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility\ImGUIManager">
       <UniqueIdentifier>{24684771-dea8-49c9-b66b-9ed3762474b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\DescriptorHeap\Descriptor">
-      <UniqueIdentifier>{841895c3-2230-4856-88e2-7f027c8e7d3f}</UniqueIdentifier>
+    <Filter Include="Engine\Game\GameObject\PolygonMesh">
+      <UniqueIdentifier>{6f82b1b7-d7b3-4911-9050-047cd89e3361}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\DescriptorHeap\Descriptor\RenderTargetView">
-      <UniqueIdentifier>{1feac620-d43a-4968-a876-52288c72736f}</UniqueIdentifier>
+    <Filter Include="Engine\Game\GameObject\Transform3D">
+      <UniqueIdentifier>{9435c2c3-225b-4fd7-8408-900901b06cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Game\GameObject\Transform2D">
+      <UniqueIdentifier>{5f13dd86-92c1-4318-a3f1-b87856552514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="externals">
+      <UniqueIdentifier>{54cfe5d8-dfc7-4d49-9e78-0dfbbca8c0a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="externals\imgui">
+      <UniqueIdentifier>{9c6c0a71-0eaa-4421-9f43-db8440d2d9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject">
+      <UniqueIdentifier>{186e89be-05e6-4149-b1f0-577ed1ded71b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\RenderTarget">
+      <UniqueIdentifier>{f8f1a63e-273e-463a-8f87-ce68ddfc0e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\VertexBuffer">
+      <UniqueIdentifier>{26196e4c-c186-4968-827e-db3e4d4dfd34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\IndexBuffer">
+      <UniqueIdentifier>{4acc4ffe-ee0e-4e85-8a18-28dcb047dd83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\ConstantBuffer">
+      <UniqueIdentifier>{437a7a8a-6081-4c43-819b-4b74720b81b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\Texture">
+      <UniqueIdentifier>{6f54ea19-4a0b-435e-a5a7-e9e5a94d8845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\ConstantBuffer\Material">
+      <UniqueIdentifier>{5e9e9f52-22d1-495b-a45f-5ef387d33288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\ConstantBuffer\TransformMatrix">
+      <UniqueIdentifier>{cc5b3202-9c87-44bf-8a64-2b017f139563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap">
+      <UniqueIdentifier>{07d8f712-7bbf-4b10-914b-64b967b588a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Game\GameObject\PolygonMesh\PolygonMeshManager">
+      <UniqueIdentifier>{6fe95eae-9a7c-41ee-8bae-aae23ce74218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\DescriptorHeap\DSVDescriptorHeap">
+      <UniqueIdentifier>{cd17ec5a-14ba-4d4a-8d32-d6136e53e4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap">
+      <UniqueIdentifier>{40595801-0513-49a7-a287-7297d2f2295d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,41 +150,32 @@
     <ClCompile Include="Engine\Math\Quaternion.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Transform2D.cpp">
+    <ClCompile Include="Engine\Math\Vector2.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Transform3D.cpp">
+    <ClCompile Include="Engine\Math\Vector3.cpp">
       <Filter>Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Vector2d.cpp">
-      <Filter>Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Vector3D.cpp">
-      <Filter>Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Util.cpp">
-      <Filter>Engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_demo.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_draw.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_impl_dx12.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_tables.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
       <Filter>Engine\Core\DirectX\Device</Filter>
@@ -135,20 +189,71 @@
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp">
       <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
-      <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXCore.cpp">
       <Filter>Engine\Core\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ImGuiManager\ImGuiManager.cpp">
-      <Filter>Engine\Core\ImGUIManager</Filter>
+    <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Descriptor\Descriptor.cpp">
-      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor</Filter>
+    <ClCompile Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\RootSignature</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.cpp">
-      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor\RenderTargetView</Filter>
+    <ClCompile Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\InputLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\PipelineState\BlendState\BlendState.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\BlendState</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\RasterizerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\GameObject.cpp">
+      <Filter>Engine\Game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMesh.cpp">
+      <Filter>Engine\Game\GameObject\PolygonMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\Transform3D\Transform3D.cpp">
+      <Filter>Engine\Game\GameObject\Transform3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\Transform2D\Transform2D.cpp">
+      <Filter>Engine\Game\GameObject\Transform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\VertexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\TransformMatrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utility\Utility.cpp">
+      <Filter>Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utility\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Engine\Utility\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp">
+      <Filter>Engine\Game\GameObject\PolygonMesh\PolygonMeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utility\ImGuiManager\ImGuiManager.cpp">
+      <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,44 +278,35 @@
     <ClInclude Include="Engine\Math\Quaternion.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Transform2D.h">
+    <ClInclude Include="Engine\Math\Vector2.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Transform3D.h">
+    <ClInclude Include="Engine\Math\Vector3.h">
       <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Vector2d.h">
-      <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Vector3D.h">
-      <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Util.h">
-      <Filter>Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imconfig.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imgui.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imgui_impl_win32.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imgui_internal.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_rectpack.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_textedit.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="externals\imgui\imstb_truetype.h">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
       <Filter>Engine\Core\DirectX\Device</Filter>
@@ -224,25 +320,82 @@
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h">
       <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
-      <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXCore.h">
       <Filter>Engine\Core\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ImGuiManager\ImGuiManager.h">
-      <Filter>Engine\Core\ImGUIManager</Filter>
+    <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h">
+      <Filter>Engine\Core\DirectX\PiplineState</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Descriptor\Descriptor.h">
-      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor</Filter>
+    <ClInclude Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.h">
+      <Filter>Engine\Core\DirectX\PiplineState\RootSignature</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Descriptor\RenderTargetView\RenderTargetView.h">
-      <Filter>Engine\Core\DirectX\DescriptorHeap\Descriptor\RenderTargetView</Filter>
+    <ClInclude Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.h">
+      <Filter>Engine\Core\DirectX\PiplineState\InputLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\PipelineState\BlendState\BlendState.h">
+      <Filter>Engine\Core\DirectX\PiplineState\BlendState</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.h">
+      <Filter>Engine\Core\DirectX\PiplineState\RasterizerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.h">
+      <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\GameObject.h">
+      <Filter>Engine\Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMesh.h">
+      <Filter>Engine\Game\GameObject\PolygonMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Transform3D\Transform3D.h">
+      <Filter>Engine\Game\GameObject\Transform3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Transform2D\Transform2D.h">
+      <Filter>Engine\Game\GameObject\Transform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\VertexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\BufferObjects.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\ConstantBuffer.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\TransformMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Utility.h">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Engine\Utility\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h">
+      <Filter>Engine\Game\GameObject\PolygonMesh\PolygonMeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h">
+      <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
-      <Filter>external\imgui</Filter>
+      <Filter>externals\imgui</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

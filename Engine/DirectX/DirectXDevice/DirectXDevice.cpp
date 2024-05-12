@@ -3,7 +3,7 @@
 #include <cassert>
 #include <format>
 
-#include "Engine/Util.h"
+#include "Engine/Utility/Utility.h"
 
 DirectXDevice& DirectXDevice::GetInstance() {
 	static std::unique_ptr<DirectXDevice> instance{ new DirectXDevice{} };

@@ -1,7 +1,7 @@
 #include "WinApp.h"
 
 #include <cassert>
-#include "Util.h"
+#include "Engine/Utility/Utility.h"
 
 #include "Engine/DirectX/DirectXCore.h"
 
@@ -10,7 +10,7 @@
 #include "externals/imgui/imgui_impl_dx12.h"
 #include "externals/imgui/imgui_impl_win32.h"
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-#include "ImGuiManager/ImGuiManager.h"
+#include "Engine/Utility/ImGuiManager/ImGuiManager.h"
 #endif // _DEBUG
 
 WinApp* WinApp::instance = nullptr;
@@ -42,13 +42,14 @@ WinApp::WinApp(int32_t width, int32_t hight) :
 void WinApp::Initialize(const std::string& programName, int32_t width, int32_t hight) {
 	assert(!instance);
 	instance = new WinApp{ width, hight };
+	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 	instance->init_app(programName);
 	//DirectXの初期化
 	DirectXCore::Initialize(instance->hWnd);
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
-	Log("Complite Create Window\n");
+	Log("Complete Create Window\n");
 }
 
 bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
@@ -78,16 +79,18 @@ void WinApp::EndFrame() {
 }
 
 void WinApp::Finalize() {
+	// 終了通知
+	Log("End Program\n");
 	instance->term_app();
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
-	// imguiの終了
-	CoUninitialize();
 	//DirectXを終了
 	DirectXCore::Finalize();
-	// 終了通知
-	Log("End Program\n");
+	// COMの終了
+	CoUninitialize();
 	delete instance;
+	// App
+	Log("Closed Window\n");
 }
 
 void WinApp::init_app(const std::string& programName) {
