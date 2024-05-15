@@ -38,8 +38,8 @@ const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv() const {
 	return meshData.indexes->get_p_ibv();
 }
 
-UINT PolygonMesh::get_index_size() {
-	return static_cast<UINT>(meshData.indexes->get_index_size());
+const UINT PolygonMesh::get_index_size() const {
+	return static_cast<const UINT>(meshData.indexes->get_index_size());
 }
 
 //const std::weak_ptr<Texture>& PolygonMesh::get_texture() const {

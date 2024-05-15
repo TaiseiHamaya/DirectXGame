@@ -1,9 +1,11 @@
 #pragma once
 
+#define NOMINMAX
+
 #include <cstdint>
 #include <string>
 #include <format>
-#include <Windows.h>
+#include <windows.h>
 
 class WinApp {
 private:

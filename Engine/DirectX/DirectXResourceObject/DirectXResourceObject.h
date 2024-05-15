@@ -25,5 +25,5 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 
 protected:
-	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(std::uint32_t sizeInByte);
+	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(std::uint64_t sizeInByte);
 };

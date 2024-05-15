@@ -104,6 +104,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\BlendState\BlendState.cpp" />
@@ -151,6 +153,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\BlendState\BlendState.h" />

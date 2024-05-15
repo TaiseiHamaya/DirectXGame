@@ -6,7 +6,7 @@ Material::Material() : ConstantBuffer<MaterialData>() {
 Material::Material(const MaterialData& material) : ConstantBuffer<MaterialData>(material) {
 }
 
-Color* const Material::get_color() const {
+Color* const Material::get_color_addr() const {
 	return &data->color;
 }
 

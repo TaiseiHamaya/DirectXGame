@@ -33,7 +33,7 @@ public:
 	MeshLoadResult load(const std::string& directoryPath, const std::string& fileName);
 	const D3D12_VERTEX_BUFFER_VIEW* const get_p_vbv() const;
 	const D3D12_INDEX_BUFFER_VIEW* const get_p_ibv() const;
-	UINT get_index_size();
+	const UINT get_index_size() const;
 	//const std::weak_ptr<Texture>& get_texture() const;
 
 private:

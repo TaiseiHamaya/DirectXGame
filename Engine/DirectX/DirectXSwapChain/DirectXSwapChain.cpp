@@ -11,6 +11,7 @@
 DirectXSwapChain::DirectXSwapChain() {
 	// 最初は描画していない状態
 	isRendering = false;
+	backBufferIndex = 0;
 }
 
 void DirectXSwapChain::Initialize() {

@@ -255,6 +255,15 @@
     <ClCompile Include="Engine\Utility\ImGuiManager\ImGuiManager.cpp">
       <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -391,6 +400,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h">
       <Filter>Engine\Utility\ImGUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

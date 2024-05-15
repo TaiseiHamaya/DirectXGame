@@ -14,7 +14,7 @@ class Color;
 class GameObject {
 public:
 	GameObject();
-	GameObject(const std::weak_ptr<PolygonMesh>& mesh_);
+	explicit GameObject(const std::weak_ptr<PolygonMesh>& mesh_);
 	~GameObject();
 
 private:

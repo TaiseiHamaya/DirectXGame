@@ -5,6 +5,7 @@
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include <d3dx12.h>
 
 void DirectXCommand::Initialize() {
 	GetInstance();
@@ -30,6 +31,56 @@ void DirectXCommand::SetBarrier(ID3D12Resource* const resource, D3D12_RESOURCE_S
 	DirectXCommand::GetCommandList()->ResourceBarrier(1, &barrier); // バリアの適用
 }
 
+// ----------------------後で直す----------------------
+void DirectXCommand::SetTextureCommand(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource, const Microsoft::WRL::ComPtr<ID3D12Resource>& intermediateResource, const std::vector<D3D12_SUBRESOURCE_DATA>& subResources) {
+	UpdateSubresources(GetInstance().commandListTexture.Get(), resource.Get(), intermediateResource.Get(), 0, 0, UINT(subResources.size()), subResources.data()); // コマンドに積む
+	
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = resource.Get();
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+	GetInstance().commandListTexture->ResourceBarrier(1, &barrier);
+}
+
+void DirectXCommand::ExecuteTextureCommand() {
+	HRESULT hr;
+	ID3D12GraphicsCommandList* commandList = GetInstance().commandListTexture.Get();
+	// コマンドリストのクローズ
+	hr = commandList->Close();
+	assert(SUCCEEDED(hr)); // 失敗したら停止させる
+	// まとめる
+	ID3D12CommandList* commandLists[] = { commandList };
+	// キック
+	GetInstance().commandQueueTexture->ExecuteCommandLists(_countof(commandLists), commandLists);
+}
+
+void DirectXCommand::WaitTextureCommand() {
+	// ----------シグナルの発行----------
+	const std::uint64_t& fenceIndex = ++GetInstance().textureFenceIndex;
+	Microsoft::WRL::ComPtr<ID3D12Fence>& fence = GetInstance().textureFence;
+	HANDLE& fenceEvent = GetInstance().textureFenceEvent;
+	GetInstance().commandQueueTexture->Signal(fence.Get(), fenceIndex);
+	// ----------シグナルまで到達してるか----------
+	if (fence->GetCompletedValue() < fenceIndex) {
+		fence->SetEventOnCompletion(fenceIndex, fenceEvent);
+		// 終わるまで待つ
+		WaitForSingleObject(fenceEvent, INFINITE);
+	}
+}
+
+void DirectXCommand::ResetTextureCommand() {
+	HRESULT hr;
+	// ----------リセット----------
+	hr = GetInstance().commandAllocatorTexture->Reset();
+	assert(SUCCEEDED(hr)); // 失敗したら停止させる
+	hr = GetInstance().commandListTexture->Reset(GetInstance().commandAllocatorTexture.Get(), nullptr);
+	assert(SUCCEEDED(hr)); // 失敗したら停止させる
+}
+// ----------------------後で直す----------------------
+
 DirectXCommand& DirectXCommand::GetInstance() {
 	static std::unique_ptr<DirectXCommand> instance{ new DirectXCommand };
 	return *instance;
@@ -37,19 +88,35 @@ DirectXCommand& DirectXCommand::GetInstance() {
 
 void DirectXCommand::create_command() {
 	const Microsoft::WRL::ComPtr<ID3D12Device>& device = DirectXDevice::GetDevice();
+	HRESULT hr;
 	// ----------コマンドキューの生成----------
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
-	HRESULT hr = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue));
+	hr = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueue.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
 
 	// ----------コマンドアロケータの生成----------
-	hr = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator));
+	hr = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(commandAllocator.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
 
 	// ----------コマンドリストを生成する----------
-	hr = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator.Get(), nullptr, IID_PPV_ARGS(&commandList));
+	hr = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator.Get(), nullptr, IID_PPV_ARGS(commandList.GetAddressOf()));
+	// 失敗したら停止させる
+	assert(SUCCEEDED(hr));
+
+	// ----------コマンドキューの生成----------
+	hr = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueueTexture.GetAddressOf()));
+	// 失敗したら停止させる
+	assert(SUCCEEDED(hr));
+
+	// ----------テクスチャ用コマンドアロケータの生成----------
+	hr = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocatorTexture));
+	// 失敗したら停止させる
+	assert(SUCCEEDED(hr));
+
+	// ----------テクスチャ用コマンドリストを生成する----------
+	hr = device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocatorTexture.Get(), nullptr, IID_PPV_ARGS(commandListTexture.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
 }
@@ -60,8 +127,14 @@ void DirectXCommand::create_fence() {
 	uint64_t fenceValue = 0;
 	hr = DirectXDevice::GetDevice()->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 	assert(SUCCEEDED(hr)); // 失敗したら停止させる
+	hr = DirectXDevice::GetDevice()->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&textureFence));
+	assert(SUCCEEDED(hr)); // 失敗したら停止させる
 	HANDLE fenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	assert(fenceEvent != nullptr);
+	HANDLE textureFenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	assert(textureFenceEvent != nullptr);
+	fenceIndex = 0;
+	textureFenceIndex = 0;
 }
 
 void DirectXCommand::close_and_kick() {
@@ -72,10 +145,10 @@ void DirectXCommand::close_and_kick() {
 	// まとめる
 	ID3D12CommandList* commandLists[] = { commandList.Get() };
 	// キック
-	commandQueue->ExecuteCommandLists(1, commandLists);
+	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
 }
 
-void DirectXCommand::wait_for_command() {
+void DirectXCommand::wait_command() {
 	// ----------シグナルの発行----------
 	++fenceIndex;
 	commandQueue->Signal(fence.Get(), fenceIndex);

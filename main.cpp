@@ -9,6 +9,9 @@
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Math/Color.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+
 struct DirectionalLightData {
 	Color color; // 色
 	Vector3 direction; // 向き
@@ -23,15 +26,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("CG2", kClientWidth, kClientHight);
 	Camera3D::Initialize();
 
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "axis.obj");
+	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Triangle.obj");
+	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
+	TextureManager::LoadImperative();
+	Sleep(5);
+	TextureManager::WaitEndExecute();
 
-	GameObject triangle = PolygonMeshManager::GetPolygonMesh("axis.obj");
+	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("Triangle.obj") };
 	ConstantBuffer<DirectionalLightData> light{ {Color{1.0f,1.0f,1.0f,1.0f}, -Vec3::kBasisY, 1.0f} };
+	std::weak_ptr<Texture> texture = TextureManager::GetTexture("uvChecker.png");
 
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
 
-		DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(2, light.get_resource()->GetGPUVirtualAddress());
+		DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, light.get_resource()->GetGPUVirtualAddress());
 
 #ifdef _DEBUG
 		Camera3D::DebugGUI();
@@ -58,6 +66,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Camera3D::CameraUpdate();
 
+		texture.lock()->set_command();
 		triangle.begin_rendering();
 		triangle.draw();
 

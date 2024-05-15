@@ -23,6 +23,7 @@
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 
 static HRESULT hr;
 
@@ -81,6 +82,8 @@ void DirectXCore::initialize() {
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize();
 
+	TextureManager::Initialize();
+
 #ifdef _DEBUG
 	ImGuiManager::Initialize();
 #endif // _DEBUG
@@ -137,7 +140,7 @@ void DirectXCore::end_frame() {
 	// スワップチェイン実行
 	DirectXSwapChain::SwapScreen();
 	// コマンド終了まで待つ
-	DirectXCommand::GetInstance().wait_for_command();
+	DirectXCommand::GetInstance().wait_command();
 	// コマンドリセット
 	DirectXCommand::GetInstance().reset();
 }

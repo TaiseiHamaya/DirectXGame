@@ -13,7 +13,7 @@
 
 GameObject::GameObject() :
 	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, true, {0,0,0}, Matrix4x4::identity })),
-	color(material->get_color()),
+	color(material->get_color_addr()),
 	transformMatrix(std::make_unique<TransformMatrix>()),
 	transform(std::make_unique<Transform3D>()),
 	uvTransform(std::make_unique<Transform2D>()) {
