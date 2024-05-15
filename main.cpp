@@ -29,7 +29,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Triangle.obj");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
 	TextureManager::LoadImperative();
-	Sleep(5);
 	TextureManager::WaitEndExecute();
 
 	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("Triangle.obj") };

@@ -11,11 +11,13 @@
 TextureManager::TextureManager() = default;
 std::mutex executeMutex;
 std::mutex referenceMutex;
-std::condition_variable conditionVariable;
+std::condition_variable waitConditionVariable;
+std::condition_variable loadConditionVariable;
 
 TextureManager::~TextureManager() {
 	isEndProgram = true;
 	if (loadFunc.joinable()) {
+		loadConditionVariable.notify_all();
 		loadFunc.join();
 	}
 };
@@ -35,17 +37,19 @@ void TextureManager::RegisterLoadQue(const std::string& filePath, const std::str
 	}
 	std::lock_guard<std::mutex> lock(referenceMutex);
 	GetInstance().loadEvents.push_back({ LoadEvent::EmplaceData, std::make_unique<LoadingQue>(filePath, textureName, LoadStatus::InQueue, std::make_shared<Texture>()) });
+	loadConditionVariable.notify_all();
 }
 
 void TextureManager::LoadImperative() {
 	GetInstance().isExecuting = true;
 	std::lock_guard<std::mutex> lock(referenceMutex);
 	GetInstance().loadEvents.push_back({ LoadEvent::Execute, nullptr });
+	loadConditionVariable.notify_all();
 }
 
 void TextureManager::WaitEndExecute() {
 	std::unique_lock<std::mutex> uniqueLock(executeMutex);
-	conditionVariable.wait(uniqueLock, [] {return !GetInstance().isExecuting; });
+	waitConditionVariable.wait(uniqueLock, [] {return !GetInstance().isExecuting; });
 }
 
 void TextureManager::LoadImperativeAndWait() {
@@ -67,12 +71,13 @@ void TextureManager::initialize() {
 
 void TextureManager::load_manager() {
 	while (!isEndProgram) {
-		if (loadEvents.empty()) {
-			continue;
+		std::unique_lock<std::mutex> lock{ referenceMutex };
+		loadConditionVariable.wait(lock, [] {return !GetInstance().loadEvents.empty() || GetInstance().isEndProgram; });
+		if (GetInstance().isEndProgram) {
+			break;
 		}
-		referenceMutex.lock();
 		auto&& nowEvent = loadEvents.begin();
-		referenceMutex.unlock();
+		lock.unlock();
 		switch (nowEvent->eventId) {
 		case LoadEvent::Execute:
 			DirectXCommand::ExecuteTextureCommand();
@@ -80,7 +85,7 @@ void TextureManager::load_manager() {
 			DirectXCommand::ResetTextureCommand();
 			create_view();
 			isExecuting = false;
-			conditionVariable.notify_all();
+			waitConditionVariable.notify_all();
 			break;
 		case LoadEvent::EmplaceData:
 			nowEvent->que->intermediateResource = nowEvent->que->texture->load_texture(nowEvent->que->filePath + "/" + nowEvent->que->fileName);
@@ -88,8 +93,10 @@ void TextureManager::load_manager() {
 			waitLoadingQue.push_back(std::move(loadEvents.front()));
 			break;
 		default:
+			assert("EventID is wrong");
 			break;
 		}
+		lock.lock();
 		loadEvents.pop_front();
 	}
 }
