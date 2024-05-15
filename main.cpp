@@ -26,14 +26,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("CG2", kClientWidth, kClientHight);
 	Camera3D::Initialize();
 
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Triangle.obj");
+	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Grid.obj");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
+	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
+	TextureManager::RegisterLoadQue("./Engine/Resources/", "Grid.png");
 	TextureManager::LoadImperative();
 	TextureManager::WaitEndExecute();
 
-	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("Triangle.obj") };
+	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("Grid.obj") };
 	ConstantBuffer<DirectionalLightData> light{ {Color{1.0f,1.0f,1.0f,1.0f}, -Vec3::kBasisY, 1.0f} };
-	std::weak_ptr<Texture> texture = TextureManager::GetTexture("uvChecker.png");
+	std::weak_ptr<Texture> texture = TextureManager::GetTexture("Grid.png");
 
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
@@ -45,7 +47,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		ImGui::SetNextWindowSize(ImVec2{ 330,275 }, ImGuiCond_Once);
 		ImGui::SetNextWindowPos(ImVec2{ 900, 50 }, ImGuiCond_Once);
-		ImGui::Begin("Triangle", nullptr, ImGuiWindowFlags_NoSavedSettings);
+		ImGui::Begin("Grid", nullptr, ImGuiWindowFlags_NoSavedSettings);
 		triangle.debug_gui();
 		ImGui::End();
 

@@ -1,5 +1,7 @@
 #include "PolygonMeshManager.h"
 
+#include <cassert>
+
 #include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
 
 PolygonMeshManager::PolygonMeshManager() = default;
@@ -25,5 +27,6 @@ void PolygonMeshManager::LoadPolygonMesh(const std::string& directoryPath, const
 }
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
+	assert(GetInstance().meshRegisteredList.find(meshName) != GetInstance().meshRegisteredList.end());
 	return GetInstance().meshInstanceList.at(meshName);
 }
