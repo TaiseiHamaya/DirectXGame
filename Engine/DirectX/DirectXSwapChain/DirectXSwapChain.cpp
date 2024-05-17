@@ -12,6 +12,8 @@ DirectXSwapChain::DirectXSwapChain() {
 	// 最初は描画していない状態
 	isRendering = false;
 	backBufferIndex = 0;
+	depthStencil = std::make_unique<DepthStencil>();
+	depthStencil->initialize();
 }
 
 void DirectXSwapChain::Initialize() {
@@ -24,7 +26,7 @@ void DirectXSwapChain::SetRenderTarget() {	// ----------描画先のRTVを設定
 		1,
 		&GetInstance().renderTarget[GetBackBufferIndex()].get_cpu_handle(),
 		false,
-		nullptr
+		&GetInstance().depthStencil->get_cpu_handle()
 	);
 }
 
@@ -42,6 +44,12 @@ void DirectXSwapChain::ClearScreen() {
 	DirectXCommand::GetCommandList()->ClearRenderTargetView(
 		GetInstance().renderTarget[GetInstance().backBufferIndex].get_cpu_handle(),
 		clearColor, 0, nullptr
+	);
+}
+
+void DirectXSwapChain::ClearDepthStencil() {
+	DirectXCommand::GetCommandList()->ClearDepthStencilView(
+		GetInstance().depthStencil->get_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
 	);
 }
 

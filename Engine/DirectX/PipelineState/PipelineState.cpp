@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/PipelineState/RootSignature/RootSignature.h"
 #include "Engine/DirectX/PipelineState/InputLayout/InputLayout.h"
@@ -45,8 +46,8 @@ void PipelineState::create_pipeline_state() {
 	graphicsPipelineStateDesc.PS = shaderManger->get_ps_bytecode();
 	graphicsPipelineStateDesc.BlendState = blendState->get_desc();
 	graphicsPipelineStateDesc.RasterizerState = rasterizerState->get_desc();
-	//graphicsPipelineStateDesc.DepthStencilState = depthStencil;
-	//graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	graphicsPipelineStateDesc.DepthStencilState = DirectXSwapChain::GetDepthStencil().get_depth_stencil_desc();
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	graphicsPipelineStateDesc.NumRenderTargets = 1;
 	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE; // 使用するトポロジーのタイプ

@@ -96,11 +96,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCore.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp" />
@@ -143,6 +145,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="Engine\DirectX\DirectXCore.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h" />
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
@@ -150,6 +153,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\ConstantBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h" />

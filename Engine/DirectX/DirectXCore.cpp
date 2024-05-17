@@ -20,6 +20,7 @@
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
+#include "Engine/DirectX/DirectXDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
@@ -74,6 +75,8 @@ void DirectXCore::initialize() {
 	RTVDescriptorHeap::Initialize();
 	// SRVHeapの初期化
 	SRVDescriptorHeap::Initialize();
+	// DSVHeapの初期化
+	DSVDescriptorHeap::Initialize();
 	// Swapchain初期化
 	DirectXSwapChain::Initialize();
 	// シェーダーコンパイラ初期化
@@ -122,6 +125,8 @@ void DirectXCore::begin_frame() {
 
 	DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
 	DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
+
+	DirectXSwapChain::ClearDepthStencil();
 
 #ifdef _DEBUG
 	ImGuiManager::BeginFrame();

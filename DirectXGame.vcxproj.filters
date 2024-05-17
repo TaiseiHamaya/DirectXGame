@@ -127,6 +127,12 @@
     <Filter Include="Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap">
       <UniqueIdentifier>{40595801-0513-49a7-a287-7297d2f2295d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\DepthStencil">
+      <UniqueIdentifier>{e38972b3-49b5-44c5-adda-02ae47a12411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\DepthStencilDesc">
+      <UniqueIdentifier>{a9a8ea9b-3db4-422c-a546-8db50a67dc2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -263,6 +269,12 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
       <Filter>Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +421,12 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
       <Filter>Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.h">
+      <Filter>Engine\Core\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

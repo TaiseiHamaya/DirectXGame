@@ -26,16 +26,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("CG2", kClientWidth, kClientHight);
 	Camera3D::Initialize();
 
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Grid.obj");
+	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "axis.obj");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
-	TextureManager::RegisterLoadQue("./Engine/Resources/", "Grid.png");
+	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
 	TextureManager::LoadImperative();
 	TextureManager::WaitEndExecute();
 
-	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("Grid.obj") };
+	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("axis.obj") };
 	ConstantBuffer<DirectionalLightData> light{ {Color{1.0f,1.0f,1.0f,1.0f}, -Vec3::kBasisY, 1.0f} };
-	std::weak_ptr<Texture> texture = TextureManager::GetTexture("Grid.png");
+	std::weak_ptr<Texture> texture = TextureManager::GetTexture("uvChecker.png");
 
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
