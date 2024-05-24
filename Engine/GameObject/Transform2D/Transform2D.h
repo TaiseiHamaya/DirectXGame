@@ -15,36 +15,30 @@ public:
 	inline Transform2D& operator=(const Transform2D& opr) noexcept {
 		if (scale != opr.scale ||
 			translate != opr.translate ||
-			sintheta != opr.sintheta ||
-			costheta != opr.costheta
+			sinTheta != opr.sinTheta ||
+			cosTheta != opr.cosTheta
 			) {
 			isNeedUpdate = true;
 		}
-		else {
-			isNeedUpdate = false;
-		}
 		scale = opr.scale;
 		translate = opr.translate;
-		sintheta = opr.sintheta;
-		costheta = opr.costheta;
+		sinTheta = opr.sinTheta;
+		cosTheta = opr.cosTheta;
 		return *this;
 	}
 
 	inline Transform2D& operator=(Transform2D&& opr) noexcept {
 		if (scale != opr.scale ||
 			translate != opr.translate ||
-			sintheta != opr.sintheta ||
-			costheta != opr.costheta
+			sinTheta != opr.sinTheta ||
+			cosTheta != opr.cosTheta
 			) {
 			isNeedUpdate = true;
 		}
-		else {
-			isNeedUpdate = false;
-		}
 		scale = std::move(opr.scale);
 		translate = std::move(opr.translate);
-		sintheta = std::move(opr.sintheta);
-		costheta = std::move(opr.costheta);
+		sinTheta = std::move(opr.sinTheta);
+		cosTheta = std::move(opr.cosTheta);
 		return *this;
 	}
 
@@ -53,12 +47,12 @@ public:
 	void set_rotate(float rotate_);
 	void set_rotate(float sintheta_, float costheta_);
 	void set_translate(const Vector2& translate_);
-	void set_translatex(float x);
-	void set_translatey(float y);
+	void set_translate_x(float x);
+	void set_translate_y(float y);
 	void begin();
-	void update();
-	const Matrix3x3 get_matrix() const;
-	Matrix4x4 get_matrix4x4() const;
+	Matrix3x3 get_matrix() const;
+	Matrix4x4 get_matrix4x4_transform() const;
+	Matrix4x4 get_matrix4x4_padding() const;
 	const Vector2& get_translate() const;
 	void plus_translate(const Vector2& plus);
 
@@ -66,15 +60,15 @@ public:
 
 #ifdef _DEBUG
 public:
-	void debug_gui();
+	void debug_gui(float translateMove = 1.0f);
 #endif // _DEBUG
 
 private:
 	Vector2 scale;
 	float rotate;
 	Vector2 translate;
-	float sintheta;
-	float costheta;
+	float sinTheta;
+	float cosTheta;
 
 	bool isNeedUpdate;
 
@@ -95,8 +89,8 @@ public:// static関数
 	/// <summary>
 	/// 回転行列を作成
 	/// </summary>
-	/// <param name="sintheta">回転</param>
-	/// <param name="costheta">回転</param>
+	/// <param name="sinTheta">回転</param>
+	/// <param name="cosTheta">回転</param>
 	/// <returns></returns>
 	static Matrix3x3 MakeRotateMatrix(const float sine, const float cosine);
 
@@ -143,11 +137,11 @@ public:// static関数
 	/// アフィン変換行列を作成
 	/// </summary>
 	/// <param name="scale">拡縮</param>
-	/// <param name="sintheta">回転</param>
-	/// <param name="costheta">回転</param>
+	/// <param name="sinTheta">回転</param>
+	/// <param name="cosTheta">回転</param>
 	/// <param name="translate">移動</param>
 	/// <returns></returns>
-	static Matrix3x3 MakeAffineMatrix(const Vector2& scale, const float sintheta, const float costheta, const Vector2& translate);
+	static Matrix3x3 MakeAffineMatrix(const Vector2& scale, const float sinTheta, const float cosTheta, const Vector2& translate);
 
 	/// <summary>
 	/// 2次元ベクトルの同次座標系乗算

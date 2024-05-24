@@ -125,6 +125,7 @@ void DirectXCore::begin_frame() {
 
 	DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
 	DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	DirectXCommand::GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	DirectXSwapChain::ClearDepthStencil();
 

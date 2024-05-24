@@ -59,10 +59,10 @@ Matrix3x3 Transform2D::MakeAffineMatrix(const Vector2& scale, const float theta,
 		} };
 }
 
-Matrix3x3 Transform2D::MakeAffineMatrix(const Vector2& scale, const float sintheta, const float costheta, const Vector2& translate) {
+Matrix3x3 Transform2D::MakeAffineMatrix(const Vector2& scale, const float sinTheta, const float cosTheta, const Vector2& translate) {
 	return { {
-		{ scale.x * costheta, scale.x * sintheta, 0 },
-		{ -scale.y * sintheta, scale.y * costheta, 0 },
+		{ scale.x * cosTheta, scale.x * sinTheta, 0 },
+		{ -scale.y * sinTheta, scale.y * cosTheta, 0 },
 		{ translate.x, translate.y, 1 }
 		} };
 }
@@ -83,10 +83,9 @@ Transform2D::Transform2D() noexcept {
 	scale = { 1, 1 };
 	rotate = 0;
 	translate = { 0, 0 };
-	sintheta = 0;
-	costheta = 1;
+	sinTheta = 0;
+	cosTheta = 1;
 	isNeedUpdate = true;
-	update();
 }
 
 Transform2D::Transform2D(const Vector2& scale_, float rotate_, const Vector2& translate_) noexcept {
@@ -94,7 +93,6 @@ Transform2D::Transform2D(const Vector2& scale_, float rotate_, const Vector2& tr
 	set_rotate(rotate_);
 	translate = translate_;
 	isNeedUpdate = true;
-	update();
 }
 
 Transform2D::Transform2D(Vector2&& scale_, float rotate_, Vector2&& translate_) noexcept {
@@ -102,7 +100,6 @@ Transform2D::Transform2D(Vector2&& scale_, float rotate_, Vector2&& translate_) 
 	set_rotate(rotate_);
 	translate = std::move(translate_);
 	isNeedUpdate = true;
-	update();
 }
 
 void Transform2D::set_scale(const Vector2& scale_) {
@@ -117,11 +114,11 @@ void Transform2D::set_rotate(float rotate_) {
 }
 
 void Transform2D::set_rotate(float sintheta_, float costheta_) {
-	sintheta = sintheta_;
-	costheta = costheta_;
+	sinTheta = sintheta_;
+	cosTheta = costheta_;
 #ifdef _DEBUG
-	//assert(std::round(std::asin(sintheta) * 10) / 10 == std::round(std::acos(costheta) * 10) / 10);
-	rotate = std::asin(sintheta);
+	//assert(std::round(std::asin(sinTheta) * 10) / 10 == std::round(std::acos(cosTheta) * 10) / 10);
+	rotate = std::asin(sinTheta);
 #endif // _DEBUG
 	isNeedUpdate = true;
 }
@@ -133,14 +130,14 @@ void Transform2D::set_translate(const Vector2& translate_) {
 	translate = translate_;
 }
 
-void Transform2D::set_translatex(float x) {
+void Transform2D::set_translate_x(float x) {
 	if (translate.x != x) {
 		isNeedUpdate = true;
 	}
 	translate.x = x;
 }
 
-void Transform2D::set_translatey(float y) {
+void Transform2D::set_translate_y(float y) {
 	if (translate.y != y) {
 		isNeedUpdate = true;
 	}
@@ -151,17 +148,16 @@ void Transform2D::begin() {
 	isNeedUpdate = false;
 }
 
-void Transform2D::update() {
-	if (isNeedUpdate) {
-	}
+Matrix3x3 Transform2D::get_matrix() const {
+	return Transform2D::MakeAffineMatrix(scale, sinTheta, cosTheta, translate);
 }
 
-const Matrix3x3 Transform2D::get_matrix() const {
-	return Transform2D::MakeAffineMatrix(scale, sintheta, costheta, translate);
+Matrix4x4 Transform2D::get_matrix4x4_transform() const {
+	return Transform3D::MakeAffineMatrix(scale.convert_3d(1.0f), Quaternion{ 0,0,rotate }, translate.convert_3d(0.0f));
 }
 
-Matrix4x4 Transform2D::get_matrix4x4() const {
-	return Transform3D::MakeAffineMatrix(scale.convert_3d(0.0f), Quaternion{ 0,0,rotate }, translate.convert_3d(0.0f));
+Matrix4x4 Transform2D::get_matrix4x4_padding() const {
+	return Matrix4x4::Convert3x3(get_matrix());
 }
 
 const Vector2& Transform2D::get_translate() const {
@@ -180,16 +176,30 @@ bool Transform2D::need_update_matrix() const {
 }
 
 #ifdef _DEBUG
-void Transform2D::debug_gui() {
+void Transform2D::debug_gui(float translateMove) {
 	ImGui::SetNextItemOpen(true);
 	if (ImGui::TreeNode(std::format("Transform2D({:})", (void*)this).c_str())) {
+		if (ImGui::Button("ResetScale")) {
+			scale = Vec2::kBasis;
+			isNeedUpdate = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("ResetRotate")) {
+			rotate = 0;
+			isNeedUpdate = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("ResetTranslate")) {
+			translate = Vec2::kZero;
+			isNeedUpdate = true;
+		}
 		if (ImGui::DragFloat2("Scale", &scale.x, 0.01f)) {
 			isNeedUpdate = true;
 		}
-		if (ImGui::DragFloat("RotateLocal", &rotate, 0.02f)) {
+		if (ImGui::DragFloat("Rotate", &rotate, 0.02f)) {
 			isNeedUpdate = true;
 		}
-		if (ImGui::DragFloat2("Translate", &translate.x, 0.01f)) {
+		if (ImGui::DragFloat2("Translate", &translate.x, translateMove)) {
 			isNeedUpdate = true;
 		}
 		ImGui::TreePop();

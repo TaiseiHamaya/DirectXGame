@@ -31,17 +31,17 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp::WinApp(int32_t width, int32_t hight) : 
+WinApp::WinApp(int32_t width, int32_t height) : 
 	kClientWidth(width),
-	kClientHight(hight),
+	kClientHight(height),
 	hWnd(nullptr), 
 	hInstance(nullptr) {
 	msg = {};
 }
 
-void WinApp::Initialize(const std::string& programName, int32_t width, int32_t hight) {
+void WinApp::Initialize(const std::string& programName, int32_t width, int32_t height) {
 	assert(!instance);
-	instance = new WinApp{ width, hight };
+	instance = new WinApp{ width, height };
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 	instance->init_app(programName);

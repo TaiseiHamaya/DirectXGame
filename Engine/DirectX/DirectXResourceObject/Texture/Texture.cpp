@@ -19,10 +19,20 @@ void Texture::set_command() const {
 	DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(2, gpuHandle); // Texture
 }
 
+const std::uint32_t& Texture::get_texture_width() {
+	return width;
+}
+
+const std::uint32_t& Texture::get_texture_height() {
+	return height;
+}
+
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& filePath) {
 	DirectX::ScratchImage mipImages;
 	mipImages = LoadTextureData(filePath); // ロード
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
+	width = static_cast<std::uint32_t>(metadata.width);
+	height = static_cast<std::uint32_t>(metadata.height);
 	create_texture_resource(metadata); // リソース生成
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource = upload_texture_data(mipImages); // Texに転送
 

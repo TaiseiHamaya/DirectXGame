@@ -35,7 +35,7 @@ void GameObject::begin_rendering() {
 		transform->get_matrix(),
 		transform->get_matrix() * Camera3D::GetVPMatrix()
 	);
-	material->set_uv_transform(uvTransform->get_matrix4x4());
+	material->set_uv_transform(uvTransform->get_matrix4x4_transform());
 }
 
 void GameObject::draw() const {
@@ -44,7 +44,6 @@ void GameObject::draw() const {
 	auto&& mesh_locked = mesh.lock();
 	commandList->IASetVertexBuffers(0, 1, mesh_locked->get_p_vbv()); // VBV
 	commandList->IASetIndexBuffer(mesh_locked->get_p_ibv());
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 	commandList->SetGraphicsRootConstantBufferView(1, material->get_resource()->GetGPUVirtualAddress()); // Color
 	//commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU); // Texture

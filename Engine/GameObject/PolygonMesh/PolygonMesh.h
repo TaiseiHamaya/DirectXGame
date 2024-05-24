@@ -1,7 +1,5 @@
 #pragma once
 
-//#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
-
 #include <memory>
 #include <vector>
 #include <string>

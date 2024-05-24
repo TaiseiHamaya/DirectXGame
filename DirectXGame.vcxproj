@@ -119,8 +119,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMesh.cpp" />
     <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp" />
+    <ClCompile Include="Engine\GameObject\SpriteObject.cpp" />
     <ClCompile Include="Engine\GameObject\Transform2D\Transform2D.cpp" />
     <ClCompile Include="Engine\GameObject\Transform3D\Transform3D.cpp" />
+    <ClCompile Include="Engine\Math\Camera2D.cpp" />
     <ClCompile Include="Engine\Math\Camera3D.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Definition.cpp" />
@@ -170,9 +172,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GameObject\GameObject.h" />
     <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMesh.h" />
     <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h" />
+    <ClInclude Include="Engine\GameObject\SpriteObject.h" />
     <ClInclude Include="Engine\GameObject\Transform2D\Transform2D.h" />
     <ClInclude Include="Engine\GameObject\Transform3D\Transform3D.h" />
     <ClInclude Include="Engine\Math\Array2D.h" />
+    <ClInclude Include="Engine\Math\Camera2D.h" />
     <ClInclude Include="Engine\Math\Camera3D.h" />
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Definition.h" />

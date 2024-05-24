@@ -86,6 +86,16 @@ Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix) {
 	return matrix.transpose();
 }
 
+Matrix4x4 Matrix4x4::Convert3x3(const Matrix3x3& matrix) {
+	Matrix4x4 result{};
+	for (uint32_t r = 0; r < 3; ++r) {
+		for (uint32_t c = 0; c < 3; ++c) {
+			result[r][c] = matrix[r][c];
+		}
+	}
+	return result;
+}
+
 const Matrix4x4 Matrix4x4::inverse() const {
 	float pivot;
 	static constexpr size_t rowSize = 4;

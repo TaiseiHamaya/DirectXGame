@@ -169,6 +169,8 @@ public: // static関数
 
 	static Matrix4x4 Transpose(const Matrix4x4& matrix);
 
+	static Matrix4x4 Convert3x3(const Matrix3x3& matrix);
+
 public: // メンバ関数
 	const Matrix4x4 inverse() const;
 	const Matrix4x4 transpose() const;

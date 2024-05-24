@@ -29,11 +29,7 @@ public:
 
 	static void SetCameraTransform(const Transform3D& transform);
 
-	static void SetNDCInfomation(float left, float right, float bottom, float top, float near, float far);
-
 	static void SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip);
-
-	static void SetViewportInformation(const Vector2& origin, const Vector2& size, float minDepth, float maxDepth);
 
 	static void Begin();
 
@@ -45,9 +41,7 @@ public:
 
 	static bool IsUpdatedPVMatrix();
 
-	static const Matrix4x4& GetVPOVMatrix();
 	static const Matrix4x4& GetVPMatrix();
-	static const Matrix4x4& GetOrthroMatrix();
 
 #ifdef _DEBUG
 	static void DebugGUI();
@@ -59,9 +53,7 @@ public:
 private:
 	void InstanceCameraUpdate();
 	void MakeViewMatrix();
-	void MakeOrthoMatrix();
-	void MakePersectiveFovMatrix();
-	void MakeViewportMatrix();
+	void MakePerspectiveFovMatrix();
 #ifdef _DEBUG
 	void _debug_gui();
 #endif // _DEBUG
@@ -70,13 +62,9 @@ private:// 一つに絞る
 
 private:
 	Matrix4x4 viewMatrix;
-	Matrix4x4 orthoMatrix;
 	Matrix4x4 persectiveFovMatrix;
-	Matrix4x4 viewportMatrix;
 
-	Matrix4x4 vpovMatrix;
 	Matrix4x4 vpMatrix;
-	Matrix4x4 voMatrix;
 
 	Transform3D camera;
 
@@ -84,12 +72,4 @@ private:
 	float aspectRatio;
 	float nearClip;
 	float farClip;
-
-	Vector3 ndcLeftBottomNear;
-	Vector3 ndcRightTopFar;
-
-	Vector2 viewportOrigin;
-	Vector2 viewportSize;
-	float minDepth;
-	float maxDepth;
 };

@@ -9,7 +9,7 @@
 
 class WinApp {
 private:
-	WinApp(int32_t width, int32_t hight);
+	WinApp(int32_t width, int32_t height);
 	~WinApp() = default;
 
 public:
@@ -17,7 +17,7 @@ public:
 	WinApp& operator=(const WinApp&) = delete;
 
 public:
-	static void Initialize(const std::string& programName, int32_t width, int32_t hight);
+	static void Initialize(const std::string& programName, int32_t width, int32_t height);
 	static bool IsEndApp();
 	static void BeginFrame();
 	static void EndFrame();

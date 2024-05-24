@@ -145,7 +145,7 @@ public:
 	/// <param name="vector">変換するベクトル</param>
 	/// <param name="radian">回転量(ラジアン)</param>
 	/// </summary>
-	//static Vector3 Rotate(const Vector3& vector, const float sintheta, const float costheta);
+	//static Vector3 Rotate(const Vector3& vector, const float sinTheta, const float cosTheta);
 
 	/// <summary>
 	/// 2次ベジエ曲線

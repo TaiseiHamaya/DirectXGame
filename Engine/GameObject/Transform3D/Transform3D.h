@@ -127,11 +127,11 @@ public:// static関数
 	/// アフィン変換行列を作成
 	/// </summary>
 	/// <param name="scale">拡縮</param>
-	/// <param name="sintheta">回転</param>
-	/// <param name="costheta">回転</param>
+	/// <param name="sinTheta">回転</param>
+	/// <param name="cosTheta">回転</param>
 	/// <param name="translate">移動</param>
 	/// <returns></returns>
-	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const float sintheta, const float costheta, const Vector3& translate);
+	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const float sinTheta, const float cosTheta, const Vector3& translate);
 
 	/// <summary>
 	/// 2次元ベクトルの同次座標系乗算

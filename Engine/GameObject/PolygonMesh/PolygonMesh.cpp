@@ -99,7 +99,30 @@ MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, c
 					// データを取り出す
 					for (int elementIndex = 0; elementIndex < elementIndexes.size(); ++elementIndex) {
 						std::getline(elementSstream, index, '/');
-						elementIndexes[elementIndex] = static_cast<uint32_t>(std::stoi(index) - 1);
+						if (index.empty()) {
+							elementIndexes[elementIndex] = 0;
+						}
+						else {
+							elementIndexes[elementIndex] = static_cast<uint32_t>(std::stoi(index) - 1);
+						}
+					}
+					if (vertex.size() <= elementIndexes[0]) {
+						elementIndexes[0] = 0;
+						if (vertex.empty()) {
+							vertex.push_back(VertexData::Vector4{ Vec3::kZero,0 });
+						}
+					}
+					if (texcoord.size() <= elementIndexes[1]) {
+						elementIndexes[1] = 0;
+						if (texcoord.empty()) {
+							texcoord.push_back(Vec2::kZero);
+						}
+					}
+					if (normal.size() <= elementIndexes[2]) {
+						elementIndexes[2] = 0;
+						if (normal.empty()) {
+							normal.push_back(Vec3::kBasisX);
+						}
 					}
 					// 頂点データを代入
 					vertices.emplace_back(vertex[elementIndexes[0]], texcoord[elementIndexes[1]], normal[elementIndexes[2]]);

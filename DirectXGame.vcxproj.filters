@@ -46,9 +46,6 @@
     <Filter Include="Engine\Core\DirectX\Device">
       <UniqueIdentifier>{62885612-1c2d-4634-bf30-cdd6099fbef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\SwapChain">
-      <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\ShaderCompiler">
       <UniqueIdentifier>{20e834c2-3ec2-48d0-abd8-23a0fcdd1d85}</UniqueIdentifier>
     </Filter>
@@ -133,6 +130,9 @@
     <Filter Include="Engine\Core\DirectX\PiplineState\DepthStencilDesc">
       <UniqueIdentifier>{a9a8ea9b-3db4-422c-a546-8db50a67dc2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\SwapChain">
+      <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -190,7 +190,7 @@
       <Filter>Engine\Core\DirectX\Command</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp">
-      <Filter>Engine\Core\DirectX\SwapChain</Filter>
+      <Filter>Engine\Core\DirectX\ResourcesObject\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp">
       <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
@@ -276,6 +276,12 @@
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp">
       <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\GameObject\SpriteObject.cpp">
+      <Filter>Engine\Game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Camera2D.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -336,7 +342,7 @@
       <Filter>Engine\Core\DirectX\Command</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h">
-      <Filter>Engine\Core\DirectX\SwapChain</Filter>
+      <Filter>Engine\Core\DirectX\ResourcesObject\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h">
       <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
@@ -427,6 +433,12 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h">
       <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\SpriteObject.h">
+      <Filter>Engine\Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Camera2D.h">
+      <Filter>Engine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

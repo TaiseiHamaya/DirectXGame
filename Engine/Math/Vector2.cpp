@@ -73,10 +73,10 @@ Vector2 Vector2::Rotate(const Vector2& vector, const float& radian) {
 		vector.x * sinf(radian) + vector.y * cosf(radian) };
 }
 
-Vector2 Vector2::Rotate(const Vector2& vector, const float sintheta, const float costheta) {
+Vector2 Vector2::Rotate(const Vector2& vector, const float sinTheta, const float cosTheta) {
 	return Vector2{
-		vector.x * costheta - vector.y * sintheta,
-		vector.x * sintheta + vector.y * costheta };
+		vector.x * cosTheta - vector.y * sinTheta,
+		vector.x * sinTheta + vector.y * cosTheta };
 }
 
 Vector2 Vector2::Bezier(const Vector2& initial, const Vector2& control, const Vector2& terminal, const float t) {

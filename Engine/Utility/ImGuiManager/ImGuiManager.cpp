@@ -10,11 +10,9 @@
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 
-#ifdef _DEBUG
 #include "externals/imgui/imgui.h"
 #include "externals/imgui/imgui_impl_dx12.h"
 #include "externals/imgui/imgui_impl_win32.h"
-#endif // _DEBUG
 
 ImGuiManager& ImGuiManager::GetInstance() {
 	static std::unique_ptr<ImGuiManager> instance{ new ImGuiManager };
