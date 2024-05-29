@@ -1,13 +1,13 @@
 #pragma once
 
-#include <unordered_map>
-#include <string>
-#include <unordered_set>
 #include <memory>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
 
 class PolygonMesh;
 
-class PolygonMeshManager {
+class PolygonMeshManager final {
 private:
 	PolygonMeshManager();
 

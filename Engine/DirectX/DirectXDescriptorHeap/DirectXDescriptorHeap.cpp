@@ -1,6 +1,6 @@
 #include "DirectXDescriptorHeap.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 

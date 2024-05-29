@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <array>
 
 template<typename T, size_t ROW, size_t COLUMN>

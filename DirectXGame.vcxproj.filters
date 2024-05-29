@@ -127,11 +127,11 @@
     <Filter Include="Engine\Core\DirectX\ResourcesObject\DepthStencil">
       <UniqueIdentifier>{e38972b3-49b5-44c5-adda-02ae47a12411}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\PiplineState\DepthStencilDesc">
-      <UniqueIdentifier>{a9a8ea9b-3db4-422c-a546-8db50a67dc2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\DirectX\ResourcesObject\SwapChain">
       <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility\BackgroundLoader">
+      <UniqueIdentifier>{a8da4bfb-afb5-4d86-8aba-fab735f15aa9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

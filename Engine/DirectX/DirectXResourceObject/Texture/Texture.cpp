@@ -1,14 +1,12 @@
 #include "Texture.h"
-#include "Texture.h"
 
-#include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
-#include "Engine/Utility/Utility.h"
 #include <d3dx12.h>
 
-//static ;
+#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
+#include "Engine/Utility/Utility.h"
 
 Texture::Texture() = default;
 

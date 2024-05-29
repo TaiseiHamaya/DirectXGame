@@ -1,10 +1,8 @@
 #pragma once
 
 #include <d3d12.h>
-#include <wrl.h>
-#include <stdint.h>
 #include <set>
-#include <vector>
+#include <wrl/client.h>
 
 class DirectXDescriptorHeap {
 protected:

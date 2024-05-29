@@ -1,9 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-#include <string>
 #include <d3d12.h>
+#include <memory>
+#include <string>
 
 class VertexBuffer;
 class IndexBuffer;

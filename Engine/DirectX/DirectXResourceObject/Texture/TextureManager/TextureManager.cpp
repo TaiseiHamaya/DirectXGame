@@ -1,9 +1,8 @@
 #include "TextureManager.h"
 
+#include <cassert>
 #include <functional>
 #include <mutex>
-#include <condition_variable>
-#include <cassert>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
@@ -63,6 +62,10 @@ void TextureManager::LoadImperativeAndWait() {
 	// どっちも同時にやる
 	LoadImperative();
 	WaitEndExecute();
+}
+
+bool TextureManager::IsLoading() {
+	return GetInstance().isExecuting;
 }
 
 std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) {

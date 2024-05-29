@@ -1,11 +1,8 @@
 #include "RTVDescriptorHeap.h"
 
 #include <memory>
-#include <cassert>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 
 // ダブルバッファのみで使用するため2
 constexpr uint32_t RTV_HEAP_SIZE = 2;

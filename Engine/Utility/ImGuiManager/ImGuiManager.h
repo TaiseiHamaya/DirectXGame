@@ -2,8 +2,6 @@
 
 #ifdef _DEBUG
 
-#include <d3d12.h>
-
 class ImGuiManager {
 private:
 	ImGuiManager() = default;

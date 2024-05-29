@@ -1,12 +1,12 @@
 #pragma once
 
+#include <d3d12.h>
+#include <memory>
 #include <string>
 #include <thread>
-#include <memory>
 #include <unordered_map>
 #include <unordered_set>
-#include <d3d12.h>
-#include <wrl.h>
+#include <wrl/client.h>
 
 class Texture;
 enum class LoadStatus {
@@ -21,7 +21,7 @@ enum class LoadEvent {
 	EmplaceData,
 };
 
-class TextureManager {
+class TextureManager final {
 private:
 	TextureManager();
 
@@ -41,6 +41,7 @@ public:
 	static void LoadImperative();
 	static void WaitEndExecute();
 	static void LoadImperativeAndWait();
+	static bool IsLoading();
 
 	static std::weak_ptr<Texture> GetTexture(const std::string& textureName);
 

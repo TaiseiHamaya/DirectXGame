@@ -1,15 +1,13 @@
 #include "GameObject.h"
 
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 
-#include "Engine/Math/Camera3D.h"
-#include "Engine/GameObject/Transform2D/Transform2D.h"
-#include "Engine/GameObject/Transform3D/Transform3D.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
-#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
+#include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
+#include "Engine/GameObject/Transform2D/Transform2D.h"
+#include "Engine/GameObject/Transform3D/Transform3D.h"
+#include "Engine/Math/Camera3D.h"
 
 GameObject::GameObject() :
 	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, true, {0,0,0}, Matrix4x4::identity })),

@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Engine/Math/Vector3.h"
 #include "Engine/Math/Matrix.h"
-#include "Engine/Math/Definition.h"
+#include "Engine/Math/Vector2.h"
 
 class Transform2D final {
 public:
@@ -60,7 +59,7 @@ public:
 
 #ifdef _DEBUG
 public:
-	void debug_gui(float translateMove = 1.0f);
+	void debug_gui(float translateMove = 0.01f);
 #endif // _DEBUG
 
 private:

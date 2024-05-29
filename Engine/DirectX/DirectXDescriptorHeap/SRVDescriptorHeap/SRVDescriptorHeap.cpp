@@ -1,7 +1,6 @@
 #include "SRVDescriptorHeap.h"
 
 #include <memory>
-#include <cassert>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"

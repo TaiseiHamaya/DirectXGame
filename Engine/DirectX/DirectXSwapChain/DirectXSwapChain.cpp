@@ -1,12 +1,11 @@
 #include "DirectXSwapChain.h"
 
-#include <memory>
 #include <cassert>
+#include <memory>
 
-#include "Engine/WinApp.h"
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/WinApp.h"
 
 DirectXSwapChain::DirectXSwapChain() {
 	// 最初は描画していない状態

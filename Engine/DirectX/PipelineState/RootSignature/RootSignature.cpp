@@ -1,8 +1,9 @@
 #include "RootSignature.h"
 
 #include <cassert>
-#include "Engine/Utility/Utility.h"
+
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/Utility/Utility.h"
 
 void RootSignature::initialize() {
 	create_root_signature();

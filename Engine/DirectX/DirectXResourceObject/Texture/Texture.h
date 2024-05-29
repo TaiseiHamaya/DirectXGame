@@ -1,10 +1,11 @@
 #pragma once
+#include <cstdint>
+#include <optional>
+#include <string>
 
 #include <d3d12.h>
 #include <DirectXTex.h>
-#include <cstdint>
-#include <string>
-#include <optional>
+
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 
 class Texture : public DirectXResourceObject {

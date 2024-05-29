@@ -1,15 +1,10 @@
 #pragma once
 
-#include <cassert>
 #include <numbers>
-
-#include "Matrix.h"
-#include "Vector2.h"
+#include <utility>
 
 constexpr float PI = float(std::numbers::pi);
 constexpr float PI2 = float(std::numbers::pi * 2.0);
-
-const Vector2 operator*(const Vector2& vec, const Matrix<2, 2>& mat);
 
 /// <summary>
 /// メモリのdeleteとnullptr化

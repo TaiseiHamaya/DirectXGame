@@ -1,7 +1,5 @@
 #pragma once
 
-#include <dxgi1_6.h>
-#include <array>
 #include "Engine/DirectX/DirectXDescriptorHeap/DirectXDescriptorHeap.h"
 
 class RTVDescriptorHeap final : public DirectXDescriptorHeap {

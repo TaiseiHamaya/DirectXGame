@@ -2,13 +2,13 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 
-#include "Engine/Math/Camera2D.h"
-#include "Engine/GameObject/Transform2D/Transform2D.h"
-#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
-#include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
+#include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
+#include "Engine/GameObject/Transform2D/Transform2D.h"
+#include "Engine/Math/Camera2D.h"
 
 SpriteObject::SpriteObject() :
 	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, false, {0,0,0}, Matrix4x4::identity })),
@@ -79,8 +79,8 @@ void SpriteObject::draw() const {
 
 #ifdef _DEBUG
 void SpriteObject::debug_gui() {
-	transform->debug_gui();
-	uvTransform->debug_gui(0.01f);
+	transform->debug_gui(1.0f);
+	uvTransform->debug_gui();
 	color->debug_gui();
 }
 #endif // _DEBUG

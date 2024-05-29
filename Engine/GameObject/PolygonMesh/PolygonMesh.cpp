@@ -1,13 +1,12 @@
 #include "PolygonMesh.h"
 
-#include <sstream>
-#include <fstream>
-#include <unordered_map>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <unordered_map>
 
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
+#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 
 
 PolygonMesh::PolygonMesh() = default;

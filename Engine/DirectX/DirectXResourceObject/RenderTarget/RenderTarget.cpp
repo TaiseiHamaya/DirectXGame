@@ -1,7 +1,7 @@
 #include "RenderTarget.h"
 
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 void RenderTarget::initialize() {
 	// ----------rtvの設定----------

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector2.h"
 #include "Engine/Math/Color.h"
 #include "Engine/Math/Matrix.h"
+#include "Engine/Math/Vector2.h"
+#include "Engine/Math/Vector3.h"
 
 struct VertexData {
 	struct Vector4 {

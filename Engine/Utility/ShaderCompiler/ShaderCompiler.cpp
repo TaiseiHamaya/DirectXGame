@@ -1,9 +1,9 @@
 #include "ShaderCompiler.h"
 
-#include <memory>
-#include <format>
-#include <cassert>
 #include "Engine/Utility/Utility.h"
+#include <cassert>
+#include <format>
+#include <memory>
 #pragma comment(lib, "dxcompiler.lib")
 
 void ShaderCompiler::Initialize() {

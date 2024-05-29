@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Math/Vector3.h"
 #include "Engine/Math/Matrix.h"
 #include "Engine/Math/Quaternion.h"
+#include "Engine/Math/Vector3.h"
 
 class Transform3D final {
 public:
@@ -33,7 +33,7 @@ public:
 	bool need_update_matrix() const;
 
 	void debug_gui();
-	void debug_axis(const Matrix4x4& debug_matrix) const;
+	//void debug_axis(const Matrix4x4& debug_matrix) const;
 
 private:
 	//friend const Vector3& Quaternion::get_axis();

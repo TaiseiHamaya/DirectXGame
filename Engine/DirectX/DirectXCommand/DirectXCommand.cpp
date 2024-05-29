@@ -1,10 +1,10 @@
 #include "DirectXCommand.h"
 
-#include <memory>
 #include <cassert>
+#include <memory>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+
 #include <d3dx12.h>
 
 void DirectXCommand::Initialize() {

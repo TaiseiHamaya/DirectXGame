@@ -1,12 +1,12 @@
 #pragma once
 
-#include <dxgi1_6.h>
-#include <wrl.h>
 #include <array>
+#include <dxgi1_5.h>
 #include <memory>
+#include <wrl/client.h>
 
-#include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
+#include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 
 // ダブルバッファなのでHeapも2
 constexpr uint32_t SWAPCHAIN_HEAP = 2;

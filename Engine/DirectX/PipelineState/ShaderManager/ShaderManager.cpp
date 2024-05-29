@@ -1,6 +1,7 @@
 #include "ShaderManager.h"
 
 #include <cassert>
+
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 
 void ShaderManager::initialize() {

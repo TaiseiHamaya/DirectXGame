@@ -2,9 +2,9 @@
 
 #include <cassert>
 
-#include "Engine/WinApp.h"
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/WinApp.h"
 
 void DepthStencil::initialize() {
 	resource = create_depth_stencil_texture_resource();

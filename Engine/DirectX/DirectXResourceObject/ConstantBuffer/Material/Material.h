@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/BufferObjects.h"
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class Material final : public ConstantBuffer<MaterialData> {
 public:

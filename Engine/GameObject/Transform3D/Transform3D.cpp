@@ -5,7 +5,6 @@
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
 #include <format>
-//#include <Renderer.h>
 #include "Engine/Math/Definition.h"
 #endif // _DEBUG
 
@@ -140,21 +139,21 @@ void Transform3D::debug_gui() {
 #endif // _DEBUG
 }
 
-void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
-#ifdef _DEBUG
-	//static constexpr float __axisLength = 50;
-	//Vector3 initial = Transform3D::Homogeneous(Vec3::kZero, debug_matrix);
-	//Vector3 terminalX = Transform3D::Homogeneous(Vec3::kBasisX * __axisLength, debug_matrix);
-	//Vector3 terminalY = Transform3D::Homogeneous(Vec3::kBasisY * __axisLength, debug_matrix);
-	//Vector3 terminalZ = Transform3D::Homogeneous(Vec3::kBasisZ * __axisLength, debug_matrix);
-
-	//Renderer::DrawLine(initial, terminalX, BLUE);
-	//Renderer::DrawLine(initial, terminalY, GREEN);
-	//Renderer::DrawLine(initial, terminalZ, RED);
-#else
-	debug_matrix;
-#endif // _DEBUG
-}
+//void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
+//#ifdef _DEBUG
+//	static constexpr float __axisLength = 50;
+//	Vector3 initial = Transform3D::Homogeneous(Vec3::kZero, debug_matrix);
+//	Vector3 terminalX = Transform3D::Homogeneous(Vec3::kBasisX * __axisLength, debug_matrix);
+//	Vector3 terminalY = Transform3D::Homogeneous(Vec3::kBasisY * __axisLength, debug_matrix);
+//	Vector3 terminalZ = Transform3D::Homogeneous(Vec3::kBasisZ * __axisLength, debug_matrix);
+//
+//	Renderer::DrawLine(initial, terminalX, BLUE);
+//	Renderer::DrawLine(initial, terminalY, GREEN);
+//	Renderer::DrawLine(initial, terminalZ, RED);
+//#else
+//	debug_matrix;
+//#endif // _DEBUG
+//}
 
 Matrix4x4 Transform3D::MakeIdentityMatrix() {
 	return Matrix4x4::identity;

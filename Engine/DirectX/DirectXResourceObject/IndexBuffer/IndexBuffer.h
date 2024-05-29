@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-
 #include <cstdint>
 #include <vector>
+
+#include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 
 class IndexBuffer final : public DirectXResourceObject {
 public:

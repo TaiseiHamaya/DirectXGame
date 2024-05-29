@@ -1,8 +1,6 @@
 #include "Engine/DirectX/DirectXCore.h"
 
-#include <assert.h>
 #include <memory>
-#include <format>
 
 #include <dxgidebug.h>
 #pragma comment(lib, "d3d12.lib")
@@ -10,7 +8,6 @@
 #pragma comment(lib, "dxguid.lib")
 
 #ifdef _DEBUG
-#include "externals/imgui/imgui.h"
 #include "Engine/Utility/ImGuiManager/ImGuiManager.h"
 #endif // _DEBUG
 
@@ -28,8 +25,8 @@
 
 static HRESULT hr;
 
-DirectXCore::DirectXCore() 
-	: viewPort(), 
+DirectXCore::DirectXCore()
+	: viewPort(),
 	scissorRect() {
 };
 

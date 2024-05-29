@@ -1,7 +1,5 @@
 #pragma once
 
-#include <wrl.h>
-#include <d3d12.h>
 #include <memory>
 
 class Transform2D;

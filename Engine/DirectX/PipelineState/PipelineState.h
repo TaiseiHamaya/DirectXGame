@@ -1,8 +1,9 @@
 #pragma once
 
-#include <wrl.h>
-#include <d3d12.h>
 #include <memory>
+
+#include <d3d12.h>
+#include <wrl/client.h>
 
 class RootSignature;
 class InputLayout;
