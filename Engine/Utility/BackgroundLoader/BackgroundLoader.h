@@ -49,9 +49,12 @@ private:
 
 private:
 	// ロード用
+	// ロード待機中のデータ
 	struct LoadingQue {
 		std::string filePath;
 		std::string fileName;
+
+		// variant用定義
 		struct LoadTextureData {
 			std::shared_ptr<Texture> textureData;
 			Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource;
@@ -59,16 +62,23 @@ private:
 		struct LoadPolygonMeshData {
 			std::shared_ptr<PolygonMesh> meshData;
 		};
+
+		// ロードデータ
 		std::variant<LoadTextureData, LoadPolygonMeshData, void*> loadData;
 	};
+
+	// イベント1つ分
 	struct EventList {
 		LoadEvent eventId;
-		std::unique_ptr<LoadingQue> que;
+		std::unique_ptr<LoadingQue> data;
 	};
+	// ロード用スレッド
 	std::thread loadFunc;
-
+	// イベント一覧
 	std::list<EventList> loadEvents;
+	// ロードが終わって転送待ち
 	std::list<EventList> waitLoadingQue;
+	// マルチスレッド終了判定用
 	bool isEndProgram;
 	bool isExecuting;
 };

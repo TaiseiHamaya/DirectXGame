@@ -41,12 +41,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Camera2D::Initialize();
 
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Grid.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "Grid.obj");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "Grid.png");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "bunny.obj");
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "teapot.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "bunny.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "teapot.obj");
 	BackgroundLoader::LoadImperative();
 	BackgroundLoader::WaitEndExecute();
 

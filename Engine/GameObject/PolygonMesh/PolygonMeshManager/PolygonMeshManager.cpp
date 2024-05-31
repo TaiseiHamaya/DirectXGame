@@ -17,23 +17,28 @@ PolygonMeshManager& PolygonMeshManager::GetInstance() {
 	return *instance;
 }
 
-void PolygonMeshManager::LoadPolygonMesh(const std::string& directoryPath, const std::string& fileName) {
+void PolygonMeshManager::RegisterLoadQue(const std::string& directoryPath, const std::string& fileName) {
+	std::lock_guard<std::mutex> lock{ meshMutex };
 	// ロード済みの場合は何もしない
-	if (GetInstance().meshRegisteredList.find(fileName) != GetInstance().meshRegisteredList.end()) {
+	if (IsRegistered(fileName)) {
 		return;
 	}
-
 	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, directoryPath, fileName);
 }
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
-	assert(GetInstance().meshRegisteredList.find(meshName) != GetInstance().meshRegisteredList.end());
+	std::lock_guard<std::mutex> lock{ meshMutex };
+	assert(IsRegistered(meshName));
 	return GetInstance().meshInstanceList.at(meshName);
 }
 
-void PolygonMeshManager::Transfer(const std::string& fileName, std::shared_ptr<PolygonMesh> meshData) {
+bool PolygonMeshManager::IsRegistered(const std::string& meshName) {
+	return GetInstance().meshRegisteredList.find(meshName) != GetInstance().meshRegisteredList.end();
+}
+
+void PolygonMeshManager::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
 
-	GetInstance().meshInstanceList.emplace(fileName, meshData);
-	GetInstance().meshRegisteredList.emplace(fileName);
+	GetInstance().meshInstanceList.emplace(name, data);
+	GetInstance().meshRegisteredList.emplace(name);
 }

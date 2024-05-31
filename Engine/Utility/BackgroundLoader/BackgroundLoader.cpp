@@ -125,18 +125,18 @@ void BackgroundLoader::load_manager() {
 			break;
 		case LoadEvent::LoadTexture:
 		{
-			LoadingQue::LoadTextureData& tex = std::get<0>(nowEvent->que->loadData);
+			LoadingQue::LoadTextureData& tex = std::get<0>(nowEvent->data->loadData);
 			// データ追加イベント
 			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
-			tex.intermediateResource = tex.textureData->load_texture(nowEvent->que->filePath + "/" + nowEvent->que->fileName);
+			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath + "/" + nowEvent->data->fileName);
 			// 先頭要素をResourceView作成キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitLoadingQue.push_back(std::move(loadEvents.front()));
 			break;
 		}
 		case LoadEvent::LoadPolygonMesh:
 		{
-			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(nowEvent->que->loadData);
-			mesh.meshData->load(nowEvent->que->filePath, nowEvent->que->fileName);
+			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(nowEvent->data->loadData);
+			mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
 			waitLoadingQue.emplace_back(std::move(loadEvents.front()));
 		}
 			break;
@@ -155,7 +155,7 @@ void BackgroundLoader::load_manager() {
 void BackgroundLoader::create_texture_view() {
 	for (auto waitLoadingQueItr = waitLoadingQue.begin(); waitLoadingQueItr != waitLoadingQue.end(); ++waitLoadingQueItr) {
 		if (waitLoadingQueItr->eventId == LoadEvent::LoadTexture) {
-			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->que->loadData);
+			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);
 			tex.textureData->create_resource_view();
 		}
 	}
@@ -168,14 +168,14 @@ void BackgroundLoader::transfer_data() {
 			break;
 		case LoadEvent::LoadTexture:
 		{
-			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->que->loadData);
-			TextureManager::Transfer(waitLoadingQueItr->que->fileName, tex.textureData);
+			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);
+			TextureManager::Transfer(waitLoadingQueItr->data->fileName, tex.textureData);
 			break;
 		}
 		case LoadEvent::LoadPolygonMesh:
 		{
-			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(waitLoadingQueItr->que->loadData);
-			PolygonMeshManager::Transfer(waitLoadingQueItr->que->fileName, mesh.meshData);
+			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(waitLoadingQueItr->data->loadData);
+			PolygonMeshManager::Transfer(waitLoadingQueItr->data->fileName, mesh.meshData);
 			break;
 		}
 		default:

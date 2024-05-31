@@ -1,12 +1,9 @@
 #pragma once
 
-#include <d3d12.h>
 #include <memory>
 #include <string>
-#include <thread>
 #include <unordered_map>
 #include <unordered_set>
-#include <wrl/client.h>
 
 class Texture;
 
@@ -29,6 +26,7 @@ public:
 	static void RegisterLoadQue(const std::string& filePath, const std::string& textureName);
 
 	static std::weak_ptr<Texture> GetTexture(const std::string& textureName);
+	static bool IsRegistered(const std::string& textureName);
 
 	static void Transfer(const std::string& name, std::shared_ptr<Texture>& data);
 

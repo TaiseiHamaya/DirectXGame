@@ -20,9 +20,10 @@ private:
 
 public:
 	static PolygonMeshManager& GetInstance();
-	static void LoadPolygonMesh(const std::string& directoryPath, const std::string& fileName);
+	static void RegisterLoadQue(const std::string& directoryPath, const std::string& fileName);
 	static std::weak_ptr<PolygonMesh> GetPolygonMesh(const std::string& meshName);
-	static void Transfer(const std::string& fileName, std::shared_ptr<PolygonMesh> meshData);
+	static bool IsRegistered(const std::string& meshName);
+	static void Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data);
 
 private:
 
