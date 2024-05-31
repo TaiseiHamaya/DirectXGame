@@ -31,10 +31,11 @@ void TextureManager::RegisterLoadQue(const std::string& filePath, const std::str
 
 std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock(textureMutex);
-	// 存在しないならエラー
-	assert(IsRegistered(textureName));
 	// 見つかったらそのデータのweak_ptrを返す
-	return GetInstance().textureInstanceList.at(textureName);
+	if (IsRegistered(textureName))
+		return GetInstance().textureInstanceList.at(textureName);
+	else
+		return GetInstance().textureInstanceList.at("Error.png");
 }
 
 bool TextureManager::IsRegistered(const std::string& textureName) {

@@ -32,6 +32,12 @@ std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string&
 	return GetInstance().meshInstanceList.at(meshName);
 }
 
+void PolygonMeshManager::ResetTextureData() {
+	for (auto dataItr = GetInstance().meshInstanceList.begin(); dataItr != GetInstance().meshInstanceList.end(); ++dataItr) {
+		dataItr->second->reset_data();
+	}
+}
+
 bool PolygonMeshManager::IsRegistered(const std::string& meshName) {
 	return GetInstance().meshRegisteredList.find(meshName) != GetInstance().meshRegisteredList.end();
 }

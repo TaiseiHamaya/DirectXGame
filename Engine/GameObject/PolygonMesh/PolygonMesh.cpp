@@ -7,6 +7,8 @@
 
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 
 
 PolygonMesh::PolygonMesh() = default;
@@ -15,18 +17,27 @@ PolygonMesh::~PolygonMesh() = default;
 
 MeshLoadResult PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
 	MeshLoadResult result;
-	std::string mtlFileName;
+	directory = directoryPath;
+	objectName = fileName;
 
 	result = load_object_file(directoryPath, fileName);
 	if (result != kMeshLoadResultSucecced) {
 		return result;
 	}
-	result = load_mtl_file(directoryPath, mtlFileName);
+	result = load_mtl_file();
 	if (result != kMeshLoadResultSucecced) {
 		return result;
 	}
 
 	return kMeshLoadResultSucecced;
+}
+
+void PolygonMesh::reset_data() {
+	texture = TextureManager::GetTexture(materialData.textureFileName);
+}
+
+void PolygonMesh::set_texture(std::weak_ptr<Texture>& texture_) {
+	texture = texture_;
 }
 
 const D3D12_VERTEX_BUFFER_VIEW* const PolygonMesh::get_p_vbv() const {
@@ -41,9 +52,9 @@ const UINT PolygonMesh::get_index_size() const {
 	return static_cast<const UINT>(meshData.indexes->get_index_size());
 }
 
-//const std::weak_ptr<Texture>& PolygonMesh::get_texture() const {
-//	return texture;
-//}
+const std::weak_ptr<Texture>& PolygonMesh::get_texture() const {
+	return texture;
+}
 
 MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, const std::string& objFileName) {
 	std::vector<VertexData::Vector4> vertex;
@@ -145,9 +156,10 @@ MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, c
 	return kMeshLoadResultSucecced;
 }
 
-MeshLoadResult PolygonMesh::load_mtl_file(const std::string& directory, const std::string& mtlFileName) {
+MeshLoadResult PolygonMesh::load_mtl_file() {
 	std::string line;
-	std::ifstream file(directory + "/" + mtlFileName);
+	std::ifstream file;
+	file.open(directory + "/" + materialData.textureFileName);
 	if (!file.is_open()) {
 		return kMeshLoadResultFailedMtlFileOpen;
 	}
@@ -160,7 +172,8 @@ MeshLoadResult PolygonMesh::load_mtl_file(const std::string& directory, const st
 		if (identifier == "map_Kd") {
 			std::string textureFileName;
 			sstream >> textureFileName;
-			materialData.textureFileName = directory + "/" + textureFileName;
+			materialData.textureFileName = textureFileName;
+			TextureManager::RegisterLoadQue(directory, textureFileName);
 		}
 	}
 	return kMeshLoadResultSucecced;

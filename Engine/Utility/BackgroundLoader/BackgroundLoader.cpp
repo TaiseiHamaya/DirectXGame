@@ -39,17 +39,15 @@ void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& fil
 	std::lock_guard<std::mutex> lock(referenceMutex);
 	// ロードイベント
 	switch (eventID) {
-	case LoadEvent::Execute:
-		break;
 	case LoadEvent::LoadTexture:
 		GetInstance().loadEvents.emplace_back(
-			eventID, 
+			eventID,
 			std::make_unique<LoadingQue>(filePath, textureName, LoadingQue::LoadTextureData{ std::make_shared<Texture>(), nullptr })
 		);
 		break;
 	case LoadEvent::LoadPolygonMesh:
 		GetInstance().loadEvents.emplace_back(
-			eventID, 
+			eventID,
 			std::make_unique<LoadingQue>(filePath, textureName, LoadingQue::LoadPolygonMeshData{ std::make_shared<PolygonMesh>() }));
 		break;
 	default:
@@ -59,26 +57,10 @@ void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& fil
 	loadConditionVariable.notify_all();
 }
 
-void BackgroundLoader::LoadImperative() {
-	GetInstance().isExecuting = true;
-	// mutexのlock
-	std::lock_guard<std::mutex> lock(referenceMutex);
-	// executeのイベント
-	GetInstance().loadEvents.push_back({ LoadEvent::Execute, nullptr });
-	// 条件変数通知
-	loadConditionVariable.notify_all();
-}
-
 void BackgroundLoader::WaitEndExecute() {
 	std::unique_lock<std::mutex> uniqueLock(executeMutex);
 	// 実行が終わるまで待機
-	waitConditionVariable.wait(uniqueLock, [] { return !IsLoading(); });
-}
-
-void BackgroundLoader::LoadImperativeAndWait() {
-	// どっちも同時にやる
-	LoadImperative();
-	WaitEndExecute();
+	waitConditionVariable.wait(uniqueLock, [] { return !IsLoading() && GetInstance().loadEvents.empty(); });
 }
 
 bool BackgroundLoader::IsLoading() {
@@ -107,22 +89,6 @@ void BackgroundLoader::load_manager() {
 		// ここからはunlock
 		lock.unlock();
 		switch (nowEvent->eventId) {
-		case LoadEvent::Execute:
-			// 実行イベント
-			// コマンド実行
-			DirectXCommand::ExecuteTextureCommand();
-			// 終了まで待機
-			DirectXCommand::WaitTextureCommand();
-			// リセット
-			DirectXCommand::ResetTextureCommand();
-			// resourceViewの作成
-			create_texture_view();
-			transfer_data();
-			// 実行状態をfalseに
-			isExecuting = false;
-			// waitしているかもしれないので通知
-			waitConditionVariable.notify_all();
-			break;
 		case LoadEvent::LoadTexture:
 		{
 			LoadingQue::LoadTextureData& tex = std::get<0>(nowEvent->data->loadData);
@@ -139,7 +105,7 @@ void BackgroundLoader::load_manager() {
 			mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
 			waitLoadingQue.emplace_back(std::move(loadEvents.front()));
 		}
-			break;
+		break;
 		default:
 			// デフォルトに通る場合はEventIDがおかしいので止める
 			assert("EventID is wrong");
@@ -149,6 +115,24 @@ void BackgroundLoader::load_manager() {
 		lock.lock();
 		// listの先頭要素をpop
 		loadEvents.pop_front();
+		// 空だったら自動execute
+		if (GetInstance().loadEvents.empty()) {
+			isExecuting = true;
+			// 実行イベント
+			// コマンド実行
+			DirectXCommand::ExecuteTextureCommand();
+			// 終了まで待機
+			DirectXCommand::WaitTextureCommand();
+			// リセット
+			DirectXCommand::ResetTextureCommand();
+			// resourceViewの作成
+			create_texture_view();
+			transfer_data();
+			// 実行状態をfalseに
+			isExecuting = false;
+			// waitしているかもしれないので通知
+			waitConditionVariable.notify_all();
+		}
 	}
 }
 
@@ -164,8 +148,6 @@ void BackgroundLoader::create_texture_view() {
 void BackgroundLoader::transfer_data() {
 	for (auto waitLoadingQueItr = waitLoadingQue.begin(); waitLoadingQueItr != waitLoadingQue.end(); ++waitLoadingQueItr) {
 		switch (waitLoadingQueItr->eventId) {
-		case LoadEvent::Execute:
-			break;
 		case LoadEvent::LoadTexture:
 		{
 			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);

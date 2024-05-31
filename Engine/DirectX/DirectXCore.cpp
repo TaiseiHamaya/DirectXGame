@@ -22,6 +22,7 @@
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 
 static HRESULT hr;
@@ -103,6 +104,11 @@ void DirectXCore::initialize() {
 	scissorRect.right = static_cast<LONG>(WinApp::GetClientWidth());
 	scissorRect.top = 0;
 	scissorRect.bottom = static_cast<LONG>(WinApp::GetClientHight());
+
+	// システム使用のオブジェクトとスプライトを作成
+	TextureManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "Error.png");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
+	BackgroundLoader::WaitEndExecute();
 
 	// オールコンプリート
 	Log("Complete create D3D12Device\n");

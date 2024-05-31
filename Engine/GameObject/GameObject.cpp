@@ -5,6 +5,7 @@
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/GameObject/Transform2D/Transform2D.h"
 #include "Engine/GameObject/Transform3D/Transform3D.h"
 #include "Engine/Math/Camera3D.h"
@@ -45,16 +46,20 @@ void GameObject::draw() const {
 	commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 	commandList->SetGraphicsRootConstantBufferView(1, material->get_resource()->GetGPUVirtualAddress()); // Color
 	//commandList->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU); // Texture
-	//commandList->SetGraphicsRootDescriptorTable(2, mesh_locked->get_texture().get_handle_cpu()); // Texture
+	mesh_locked->get_texture().lock()->set_command(); // Texture
 	commandList->DrawIndexedInstanced(mesh_locked->get_index_size(), 1, 0, 0, 0); // 描画コマンド
 }
 
 #ifdef _DEBUG
-
 void GameObject::debug_gui() {
 	transform->debug_gui();
 	uvTransform->debug_gui();
 	color->debug_gui();
 }
-
 #endif // _DEBUG
+
+void GameObject::reset_data() {
+	auto&& mesh_locked = mesh.lock();
+	mesh_locked->reset_data();
+	texture = mesh_locked->get_texture();
+}

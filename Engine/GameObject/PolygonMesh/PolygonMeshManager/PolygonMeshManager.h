@@ -22,6 +22,7 @@ public:
 	static PolygonMeshManager& GetInstance();
 	static void RegisterLoadQue(const std::string& directoryPath, const std::string& fileName);
 	static std::weak_ptr<PolygonMesh> GetPolygonMesh(const std::string& meshName);
+	static void ResetTextureData();
 	static bool IsRegistered(const std::string& meshName);
 	static void Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data);
 

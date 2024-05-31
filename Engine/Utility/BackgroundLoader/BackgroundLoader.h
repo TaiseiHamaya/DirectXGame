@@ -14,7 +14,6 @@ class Texture;
 class PolygonMesh;
 
 enum class LoadEvent {
-	Execute,
 	LoadTexture,
 	LoadPolygonMesh,
 };
@@ -36,9 +35,7 @@ public:
 public:
 	static void Initialize();
 	static void RegisterLoadQue(LoadEvent eventID, const std::string& filePath, const std::string& textureName);
-	static void LoadImperative();
 	static void WaitEndExecute();
-	static void LoadImperativeAndWait();
 	static bool IsLoading();
 
 private:

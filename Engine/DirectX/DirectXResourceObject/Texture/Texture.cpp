@@ -7,14 +7,22 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 #include "Engine/Utility/Utility.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 
 Texture::Texture() = default;
 
 Texture::~Texture() = default;
 
 void Texture::set_command() const {
-	assert(heapIndex.has_value());
-	DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(2, gpuHandle); // Texture
+	if (heapIndex.has_value()) {
+		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(2, gpuHandle); // Texture
+	}
+	else {
+		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(
+			2,
+			TextureManager::GetTexture("Error.png").lock()->gpuHandle
+			); // Texture
+	}
 }
 
 const std::uint32_t& Texture::get_texture_width() {

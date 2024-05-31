@@ -5,6 +5,7 @@
 class Transform2D;
 class Transform3D;
 class PolygonMesh;
+class Texture;
 class Material;
 class TransformMatrix;
 class Color;
@@ -29,8 +30,12 @@ public:
 	void debug_gui();
 #endif // _DEBUG
 
+	void reset_data();
+
 private:
 	std::weak_ptr<PolygonMesh> mesh;
+	std::weak_ptr<Texture> texture;
+
 	std::unique_ptr<Material> material;
 	std::unique_ptr<TransformMatrix> transformMatrix;
 

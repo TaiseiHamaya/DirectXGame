@@ -42,13 +42,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "Grid.obj");
-	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
-	TextureManager::RegisterLoadQue("./Engine/Resources/", "Grid.png");
-	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "bunny.obj");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "teapot.obj");
-	BackgroundLoader::LoadImperative();
 	BackgroundLoader::WaitEndExecute();
+
+	PolygonMeshManager::ResetTextureData();
 
 	GameObject grid{ PolygonMeshManager::GetPolygonMesh("Grid.obj") };
 	GameObject bunny{ PolygonMeshManager::GetPolygonMesh("bunny.obj") };
