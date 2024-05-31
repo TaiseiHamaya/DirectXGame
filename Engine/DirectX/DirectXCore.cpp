@@ -22,6 +22,7 @@
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 
 static HRESULT hr;
 
@@ -83,6 +84,8 @@ void DirectXCore::initialize() {
 	pipelineState->initialize();
 
 	TextureManager::Initialize();
+
+	BackgroundLoader::Initialize();
 
 #ifdef _DEBUG
 	ImGuiManager::Initialize();

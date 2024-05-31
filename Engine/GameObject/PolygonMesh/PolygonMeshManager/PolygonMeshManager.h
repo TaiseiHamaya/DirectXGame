@@ -22,6 +22,7 @@ public:
 	static PolygonMeshManager& GetInstance();
 	static void LoadPolygonMesh(const std::string& directoryPath, const std::string& fileName);
 	static std::weak_ptr<PolygonMesh> GetPolygonMesh(const std::string& meshName);
+	static void Transfer(const std::string& fileName, std::shared_ptr<PolygonMesh> meshData);
 
 private:
 

@@ -282,6 +282,9 @@
     <ClCompile Include="Engine\Math\Camera2D.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utility\BackgroundLoader\BackgroundLoader.cpp">
+      <Filter>Engine\Utility\BackgroundLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -439,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Camera2D.h">
       <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\BackgroundLoader\BackgroundLoader.h">
+      <Filter>Engine\Utility\BackgroundLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

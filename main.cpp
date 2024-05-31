@@ -7,6 +7,7 @@
 
 #include "Engine/GameObject/GameObject.h"
 #include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/GameObject/SpriteObject.h"
 
 #include "externals/imgui/imgui.h"
@@ -40,14 +41,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Camera2D::Initialize();
 
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
+	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Grid.obj");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "Grid.png");
 	TextureManager::RegisterLoadQue("./Engine/Resources/", "monsterBall.png");
-	TextureManager::LoadImperative();
-	//PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "bunny.obj");
+	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "bunny.obj");
 	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "teapot.obj");
-	PolygonMeshManager::LoadPolygonMesh("./Engine/Resources/", "Grid.obj");
-	TextureManager::WaitEndExecute();
+	BackgroundLoader::LoadImperative();
+	BackgroundLoader::WaitEndExecute();
 
 	GameObject grid{ PolygonMeshManager::GetPolygonMesh("Grid.obj") };
 	GameObject bunny{ PolygonMeshManager::GetPolygonMesh("bunny.obj") };

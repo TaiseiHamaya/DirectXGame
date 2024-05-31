@@ -130,6 +130,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Utility\BackgroundLoader\BackgroundLoader.cpp" />
     <ClCompile Include="Engine\Utility\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Utility\ShaderCompiler\ShaderCompiler.cpp" />
     <ClCompile Include="Engine\Utility\Utility.cpp" />
@@ -184,6 +185,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\Quaternion.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Utility\BackgroundLoader\BackgroundLoader.h" />
     <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Engine\Utility\ShaderCompiler\ShaderCompiler.h" />
     <ClInclude Include="Engine\Utility\Utility.h" />

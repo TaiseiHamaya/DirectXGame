@@ -1,8 +1,12 @@
 #include "PolygonMeshManager.h"
 
 #include <cassert>
+#include <mutex>
 
 #include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
+#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
+
+std::mutex meshMutex;
 
 PolygonMeshManager::PolygonMeshManager() = default;
 
@@ -19,14 +23,17 @@ void PolygonMeshManager::LoadPolygonMesh(const std::string& directoryPath, const
 		return;
 	}
 
-	std::shared_ptr<PolygonMesh> mesh{new PolygonMesh};
-	mesh->load(directoryPath, fileName);
-
-	GetInstance().meshInstanceList.emplace(fileName, mesh);
-	GetInstance().meshRegisteredList.emplace(fileName);
+	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, directoryPath, fileName);
 }
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
 	assert(GetInstance().meshRegisteredList.find(meshName) != GetInstance().meshRegisteredList.end());
 	return GetInstance().meshInstanceList.at(meshName);
+}
+
+void PolygonMeshManager::Transfer(const std::string& fileName, std::shared_ptr<PolygonMesh> meshData) {
+	std::lock_guard<std::mutex> lock{ meshMutex };
+
+	GetInstance().meshInstanceList.emplace(fileName, meshData);
+	GetInstance().meshRegisteredList.emplace(fileName);
 }
