@@ -30,7 +30,7 @@ public:
 	void debug_gui();
 #endif // _DEBUG
 
-	void reset_data();
+	void reset_default();
 
 private:
 	std::weak_ptr<PolygonMesh> mesh;

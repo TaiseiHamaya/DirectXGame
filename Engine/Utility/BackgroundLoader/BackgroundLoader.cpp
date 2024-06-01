@@ -35,6 +35,7 @@ void BackgroundLoader::Initialize() {
 }
 
 void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& filePath, const std::string& textureName) {
+	GetInstance().isLoading = true;
 	// mutexのlock
 	std::lock_guard<std::mutex> lock(referenceMutex);
 	// ロードイベント
@@ -60,15 +61,15 @@ void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& fil
 void BackgroundLoader::WaitEndExecute() {
 	std::unique_lock<std::mutex> uniqueLock(executeMutex);
 	// 実行が終わるまで待機
-	waitConditionVariable.wait(uniqueLock, [] { return !IsLoading() && GetInstance().loadEvents.empty(); });
+	waitConditionVariable.wait(uniqueLock, [] { return !IsLoading(); });
 }
 
 bool BackgroundLoader::IsLoading() {
-	return GetInstance().isExecuting;
+	return GetInstance().isLoading;
 }
 
 void BackgroundLoader::initialize() {
-	isExecuting = false;
+	isLoading = false;
 	isEndProgram = false;
 	// ロード用スレッド作成
 	loadFunc = std::thread{ std::bind(&BackgroundLoader::load_manager, this) };
@@ -91,18 +92,20 @@ void BackgroundLoader::load_manager() {
 		switch (nowEvent->eventId) {
 		case LoadEvent::LoadTexture:
 		{
+			// テクスチャロードイベント
 			LoadingQue::LoadTextureData& tex = std::get<0>(nowEvent->data->loadData);
-			// データ追加イベント
 			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
 			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath + "/" + nowEvent->data->fileName);
-			// 先頭要素をResourceView作成キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
+			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitLoadingQue.push_back(std::move(loadEvents.front()));
 			break;
 		}
 		case LoadEvent::LoadPolygonMesh:
 		{
+			// メッシュロードイベント
 			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(nowEvent->data->loadData);
 			mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
+			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitLoadingQue.emplace_back(std::move(loadEvents.front()));
 		}
 		break;
@@ -117,7 +120,6 @@ void BackgroundLoader::load_manager() {
 		loadEvents.pop_front();
 		// 空だったら自動execute
 		if (GetInstance().loadEvents.empty()) {
-			isExecuting = true;
 			// 実行イベント
 			// コマンド実行
 			DirectXCommand::ExecuteTextureCommand();
@@ -129,10 +131,11 @@ void BackgroundLoader::load_manager() {
 			create_texture_view();
 			transfer_data();
 			// 実行状態をfalseに
-			isExecuting = false;
+			isLoading = false;
 			// waitしているかもしれないので通知
 			waitConditionVariable.notify_all();
 		}
+		// 自動ロック解除
 	}
 }
 
@@ -140,12 +143,14 @@ void BackgroundLoader::create_texture_view() {
 	for (auto waitLoadingQueItr = waitLoadingQue.begin(); waitLoadingQueItr != waitLoadingQue.end(); ++waitLoadingQueItr) {
 		if (waitLoadingQueItr->eventId == LoadEvent::LoadTexture) {
 			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);
+			// ビューの作成
 			tex.textureData->create_resource_view();
 		}
 	}
 }
 
 void BackgroundLoader::transfer_data() {
+	// 新規データを転送
 	for (auto waitLoadingQueItr = waitLoadingQue.begin(); waitLoadingQueItr != waitLoadingQue.end(); ++waitLoadingQueItr) {
 		switch (waitLoadingQueItr->eventId) {
 		case LoadEvent::LoadTexture:
@@ -166,4 +171,6 @@ void BackgroundLoader::transfer_data() {
 	}
 	// 全て移したのでクリア
 	waitLoadingQue.clear();
+	// メッシュデータにテクスチャ情報を取得するよう伝える
+	PolygonMeshManager::ResetTextureData();
 }

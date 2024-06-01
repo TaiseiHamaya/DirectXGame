@@ -1,10 +1,11 @@
 #include "PolygonMeshManager.h"
 
-#include <cassert>
+#include <format>
 #include <mutex>
 
 #include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Utility/Utility.h"
 
 std::mutex meshMutex;
 
@@ -28,8 +29,14 @@ void PolygonMeshManager::RegisterLoadQue(const std::string& directoryPath, const
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	assert(IsRegistered(meshName));
-	return GetInstance().meshInstanceList.at(meshName);
+	if (IsRegistered(meshName)) {
+		return GetInstance().meshInstanceList.at(meshName);
+	}
+	else {
+		// 存在しないメッシュを呼び出したらエラー用メッシュを使用する
+		Log(std::format("Unloading polygon mesh. Name-\'{:}\'\n", meshName));
+		return GetInstance().meshInstanceList.at("ErrorObject.obj");
+	}
 }
 
 void PolygonMeshManager::ResetTextureData() {

@@ -56,6 +56,10 @@ const std::weak_ptr<Texture>& PolygonMesh::get_texture() const {
 	return texture;
 }
 
+const Transform2D& PolygonMesh::get_default_uv() const {
+	return materialData.defaultUV;
+}
+
 MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, const std::string& objFileName) {
 	std::vector<VertexData::Vector4> vertex;
 	std::vector<Vector2> texcoord;
@@ -167,13 +171,30 @@ MeshLoadResult PolygonMesh::load_mtl_file() {
 	while (std::getline(file, line, '\n')) {
 		std::string identifier;
 		std::stringstream sstream(line);
-		sstream >> identifier;
+		std::getline(sstream, identifier, ' ');
 
 		if (identifier == "map_Kd") {
-			std::string textureFileName;
-			sstream >> textureFileName;
-			materialData.textureFileName = textureFileName;
-			TextureManager::RegisterLoadQue(directory, textureFileName);
+			std::string option;
+			while (std::getline(sstream, option, ' ')) {
+				if (option[0] != '-') {
+					materialData.textureFileName = option;
+					TextureManager::RegisterLoadQue(directory, materialData.textureFileName);
+				}
+				else if (option[1] == 's') {
+					Vector2 scale;
+					std::string temp;
+					sstream >> scale.x >> scale.y >> temp;
+					materialData.defaultUV.set_scale(scale);
+					std::getline(sstream, temp, ' ');
+				}
+				else if (option[1] == 'o') {
+					Vector2 position;
+					std::string temp;
+					sstream >> position.x >> position.y >> temp;
+					materialData.defaultUV.set_translate(position);
+					std::getline(sstream, temp, ' ');
+				}
+			}
 		}
 	}
 	return kMeshLoadResultSucecced;

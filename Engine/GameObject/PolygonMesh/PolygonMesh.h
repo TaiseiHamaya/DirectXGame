@@ -1,8 +1,11 @@
 #pragma once
 
 #include <d3d12.h>
+
 #include <memory>
 #include <string>
+
+#include "Engine/GameObject/Transform2D/Transform2D.h"
 
 class VertexBuffer;
 class IndexBuffer;
@@ -35,6 +38,7 @@ public:
 	const D3D12_INDEX_BUFFER_VIEW* const get_p_ibv() const;
 	const UINT get_index_size() const;
 	const std::weak_ptr<Texture>& get_texture() const;
+	const Transform2D& get_default_uv() const;
 
 private:
 	MeshLoadResult load_object_file(const std::string& directoryPath, const std::string& objFileName);
@@ -49,6 +53,7 @@ private:
 	} meshData;
 	struct MaterialData {
 		std::string textureFileName;
+		Transform2D defaultUV;
 	} materialData;
 	std::weak_ptr<Texture> texture;
 };

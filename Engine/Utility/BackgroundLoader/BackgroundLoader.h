@@ -4,10 +4,10 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
+#include <list>
 #include <memory>
 #include <string>
 #include <thread>
-#include <list>
 #include <variant>
 
 class Texture;
@@ -77,6 +77,6 @@ private:
 	std::list<EventList> waitLoadingQue;
 	// マルチスレッド終了判定用
 	bool isEndProgram;
-	bool isExecuting;
+	bool isLoading;
 };
 

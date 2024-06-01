@@ -7,8 +7,8 @@
 
 #include "Engine/GameObject/GameObject.h"
 #include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
-#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/GameObject/SpriteObject.h"
+#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 
 #include "externals/imgui/imgui.h"
 
@@ -40,17 +40,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Camera3D::Initialize();
 	Camera2D::Initialize();
 
-	TextureManager::RegisterLoadQue("./Engine/Resources/", "uvChecker.png");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "Grid.obj");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "bunny.obj");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "teapot.obj");
+	TextureManager::RegisterLoadQue("./Engine/Resources", "uvChecker.png");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "bunny.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Triangle.obj");
 	BackgroundLoader::WaitEndExecute();
 
 	PolygonMeshManager::ResetTextureData();
 
 	GameObject grid{ PolygonMeshManager::GetPolygonMesh("Grid.obj") };
 	GameObject bunny{ PolygonMeshManager::GetPolygonMesh("bunny.obj") };
-	GameObject teapot{ PolygonMeshManager::GetPolygonMesh("teapot.obj") };
+	GameObject triangle{ PolygonMeshManager::GetPolygonMesh("Triangle.obj") };
 	ConstantBuffer<DirectionalLightData> light{ {Color{1.0f,1.0f,1.0f,1.0f}, -Vec3::kBasisY, 1.0f} };
 	std::weak_ptr<Texture> texture = TextureManager::GetTexture("Grid.png");
 	SpriteObject sprite{ TextureManager::GetTexture("uvChecker.png") };
@@ -106,8 +106,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::SetNextWindowDockID(objectDock, 0);
 		ImGui::SetNextWindowSize(ImVec2{ 330,300 }, ImGuiCond_Once);
 		ImGui::SetNextWindowPos(ImVec2{ 900, 50 }, ImGuiCond_Once);
-		ImGui::Begin("teapot", nullptr, ImGuiWindowFlags_NoSavedSettings);
-		teapot.debug_gui();
+		ImGui::Begin("triangle", nullptr, ImGuiWindowFlags_NoSavedSettings);
+		triangle.debug_gui();
 		ImGui::End();
 
 		// Sprite
@@ -125,13 +125,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		sprite.begin_rendering();
 		grid.begin_rendering();
 		bunny.begin_rendering();
-		teapot.begin_rendering();
+		triangle.begin_rendering();
 
 		texture.lock()->set_command();
 		grid.draw();
 		bunny.draw();
 		sprite.draw();
-		teapot.draw();
+		triangle.draw();
 
 		WinApp::EndFrame();
 	}
