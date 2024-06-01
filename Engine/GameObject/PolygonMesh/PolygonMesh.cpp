@@ -60,6 +60,10 @@ const Transform2D& PolygonMesh::get_default_uv() const {
 	return materialData.defaultUV;
 }
 
+const std::string& PolygonMesh::get_texture_name() const {
+	return materialData.textureFileName;
+}
+
 MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, const std::string& objFileName) {
 	std::vector<VertexData::Vector4> vertex;
 	std::vector<Vector2> texcoord;
@@ -149,7 +153,7 @@ MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, c
 			std::iter_swap(indexes.rbegin(), indexes.rbegin() + 2); // indexをswapして左手座標系にする
 		}
 		else if (identifier == "mtllib") {
-			sstream >> materialData.textureFileName;
+			sstream >> materialData.mtlFileName;
 		}
 	}
 
@@ -163,7 +167,7 @@ MeshLoadResult PolygonMesh::load_object_file(const std::string& directoryPath, c
 MeshLoadResult PolygonMesh::load_mtl_file() {
 	std::string line;
 	std::ifstream file;
-	file.open(directory + "/" + materialData.textureFileName);
+	file.open(directory + "/" + materialData.mtlFileName);
 	if (!file.is_open()) {
 		return kMeshLoadResultFailedMtlFileOpen;
 	}

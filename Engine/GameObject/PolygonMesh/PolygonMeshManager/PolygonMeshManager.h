@@ -26,6 +26,10 @@ public:
 	static bool IsRegistered(const std::string& meshName);
 	static void Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data);
 
+#ifdef _DEBUG
+	static bool MeshListGui(std::string& current);
+#endif // _DEBUG
+
 private:
 
 private:

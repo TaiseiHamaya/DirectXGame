@@ -39,6 +39,7 @@ public:
 	const UINT get_index_size() const;
 	const std::weak_ptr<Texture>& get_texture() const;
 	const Transform2D& get_default_uv() const;
+	const std::string& get_texture_name() const;
 
 private:
 	MeshLoadResult load_object_file(const std::string& directoryPath, const std::string& objFileName);
@@ -52,6 +53,7 @@ private:
 		std::unique_ptr<IndexBuffer> indexes;
 	} meshData;
 	struct MaterialData {
+		std::string mtlFileName;
 		std::string textureFileName;
 		Transform2D defaultUV;
 	} materialData;

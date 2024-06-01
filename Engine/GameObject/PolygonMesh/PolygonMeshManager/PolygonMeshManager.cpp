@@ -7,6 +7,10 @@
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Utility/Utility.h"
 
+#ifdef _DEBUG
+#include "externals/imgui/imgui.h"
+#endif // _DEBUG
+
 std::mutex meshMutex;
 
 PolygonMeshManager::PolygonMeshManager() = default;
@@ -55,3 +59,27 @@ void PolygonMeshManager::Transfer(const std::string& name, std::shared_ptr<Polyg
 	GetInstance().meshInstanceList.emplace(name, data);
 	GetInstance().meshRegisteredList.emplace(name);
 }
+
+#ifdef _DEBUG
+bool PolygonMeshManager::MeshListGui(std::string& current) {
+	bool changed = false;
+
+	std::lock_guard<std::mutex> lock{ meshMutex };
+	if(ImGui::BeginCombo("MeshList", current.c_str())) {
+		auto&& list = GetInstance().meshRegisteredList;
+		for (auto itr = list.begin(); itr != list.end(); ++itr) {
+			bool is_selected = (current == *itr);
+			if (ImGui::Selectable(itr->c_str(), is_selected)) {
+				current = *itr;
+				changed = true;
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+
+	}
+	return changed;
+}
+#endif // _DEBUG

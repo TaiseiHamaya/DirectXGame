@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 class Transform2D;
 class Transform3D;
@@ -13,12 +14,14 @@ class Color;
 class GameObject {
 public:
 	GameObject();
-	explicit GameObject(const std::weak_ptr<PolygonMesh>& mesh_);
+	explicit GameObject(const std::string& meshName_);
 	~GameObject();
 
+	GameObject(GameObject&&) noexcept;
+	GameObject& operator=(GameObject&&) noexcept;
 private:
 	GameObject(const GameObject&) = delete;
-	GameObject operator=(const GameObject&) = delete;
+	GameObject& operator=(const GameObject&) = delete;
 
 public:
 	const Transform3D& get_transform();
@@ -39,8 +42,11 @@ private:
 	std::unique_ptr<Material> material;
 	std::unique_ptr<TransformMatrix> transformMatrix;
 
-	Color* const color;
+	Color* color;
 
 	std::unique_ptr<Transform3D> transform;
 	std::unique_ptr<Transform2D> uvTransform;
+
+	std::string meshName;
+	std::string textureName;
 };

@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-
+#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
@@ -10,6 +10,10 @@
 #include "Engine/GameObject/Transform2D/Transform2D.h"
 #include "Engine/GameObject/Transform3D/Transform3D.h"
 #include "Engine/Math/Camera3D.h"
+
+#ifdef _DEBUG
+#include "externals/imgui/imgui.h"
+#endif // _DEBUG
 
 GameObject::GameObject() :
 	// 各メモリの取得
@@ -20,14 +24,19 @@ GameObject::GameObject() :
 	uvTransform(std::make_unique<Transform2D>()) {
 }
 
-GameObject::GameObject(const std::weak_ptr<PolygonMesh>& mesh_) :
+GameObject::GameObject(const std::string& meshName_) :
 	GameObject() {
-	mesh = mesh_;
+	meshName = meshName_;
+	mesh = PolygonMeshManager::GetPolygonMesh(meshName);
 	// デフォルト状態にする
 	reset_default();
 }
 
 GameObject::~GameObject() = default;
+
+GameObject::GameObject(GameObject&&) noexcept = default;
+
+GameObject& GameObject::operator=(GameObject&&) noexcept = default;
 
 const Transform3D& GameObject::get_transform() {
 	return *transform;
@@ -62,10 +71,19 @@ void GameObject::draw() const {
 
 #ifdef _DEBUG
 void GameObject::debug_gui() {
-	
 	transform->debug_gui();
 	uvTransform->debug_gui();
 	color->debug_gui();
+	if (ImGui::Button("ResetMaterialData")) {
+		reset_default();
+	}
+	if (PolygonMeshManager::MeshListGui(meshName)) {
+		mesh = PolygonMeshManager::GetPolygonMesh(meshName);
+		reset_default();
+	}
+	if (TextureManager::TextureListGui(textureName)) {
+		texture = TextureManager::GetTexture(textureName);
+	}
 }
 #endif // _DEBUG
 
@@ -77,4 +95,6 @@ void GameObject::reset_default() {
 	*uvTransform = mesh_locked->get_default_uv();
 	// 色情報のリセット
 	*color = Color{ 1.0f,1.0f,1.0f,1.0f };
+
+	textureName = mesh_locked->get_texture_name();
 }

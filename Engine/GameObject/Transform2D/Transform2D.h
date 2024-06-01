@@ -23,6 +23,7 @@ public:
 		translate = opr.translate;
 		sinTheta = opr.sinTheta;
 		cosTheta = opr.cosTheta;
+		rotate = opr.rotate;
 		return *this;
 	}
 
@@ -38,6 +39,7 @@ public:
 		translate = std::move(opr.translate);
 		sinTheta = std::move(opr.sinTheta);
 		cosTheta = std::move(opr.cosTheta);
+		rotate = std::move(opr.rotate);
 		return *this;
 	}
 

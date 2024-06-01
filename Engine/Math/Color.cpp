@@ -40,7 +40,7 @@ const unsigned int Color::hex() const {
 
 #ifdef _DEBUG
 void Color::debug_gui() {
-	ImGui::ColorEdit4("Color", &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
+	ImGui::ColorEdit3("Color", &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
 }
 #endif // _DEBUG
 

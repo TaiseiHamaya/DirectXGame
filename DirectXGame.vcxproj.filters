@@ -133,6 +133,9 @@
     <Filter Include="Engine\Utility\BackgroundLoader">
       <UniqueIdentifier>{a8da4bfb-afb5-4d86-8aba-fab735f15aa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Utility\ImGUILoadManager">
+      <UniqueIdentifier>{b1afb1bc-1684-4056-83bd-cf5f08b3ae2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Utility\BackgroundLoader\BackgroundLoader.cpp">
       <Filter>Engine\Utility\BackgroundLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.cpp">
+      <Filter>Engine\Utility\ImGUILoadManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Utility\BackgroundLoader\BackgroundLoader.h">
       <Filter>Engine\Utility\BackgroundLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.h">
+      <Filter>Engine\Utility\ImGUILoadManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

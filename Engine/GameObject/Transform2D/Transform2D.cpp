@@ -177,7 +177,7 @@ bool Transform2D::need_update_matrix() const {
 
 #ifdef _DEBUG
 void Transform2D::debug_gui(float translateMove) {
-	ImGui::SetNextItemOpen(true);
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("Transform2D({:})", (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = Vec2::kBasis;

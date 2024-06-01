@@ -30,6 +30,11 @@ public:
 
 	static void Transfer(const std::string& name, std::shared_ptr<Texture>& data);
 
+#ifdef _DEBUG
+	static bool TextureListGui(std::string& current);
+#endif // _DEBUG
+
+
 private: // メンバ変数
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textureInstanceList;
 	std::unordered_set<std::string> textureRegisteredList;

@@ -1,11 +1,12 @@
 #pragma once
 
-#include <wrl.h>
 #include <d3d12.h>
-#include <dxgi1_6.h>
 #include <memory>
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class PipelineState;
+class GameObject;
+struct DirectionalLightData;
 
 class DirectXCore {
 private:
@@ -24,6 +25,11 @@ public:
 	static void EndFrame();
 	static void Finalize();
 
+#ifdef _DEBUG
+	static void ShowDebugTools();
+#endif // _DEBUG
+	static void ShowGrid();
+
 private:
 	static DirectXCore& GetInstance();
 
@@ -33,11 +39,18 @@ private:
 	void begin_frame();
 	void end_frame();
 
+#ifdef _DEBUG
+	void show_debug_tools();
+#endif // _DEBUG
+
 private:
 	D3D12_VIEWPORT viewPort;
 	D3D12_RECT scissorRect;
 
 	std::unique_ptr<PipelineState> pipelineState;
+
+	std::unique_ptr<GameObject> gridMesh;
+	std::unique_ptr<ConstantBuffer<DirectionalLightData>> light;
 
 private:
 	class Debug {

@@ -6,6 +6,10 @@
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 
+#ifdef _DEBUG
+#include "externals/imgui/imgui.h"
+#endif // _DEBUG
+
 std::mutex textureMutex;
 
 TextureManager::TextureManager() = default;
@@ -47,3 +51,27 @@ void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>&
 	GetInstance().textureInstanceList.emplace(name, data);
 	GetInstance().textureRegisteredList.emplace(name);
 }
+
+#ifdef _DEBUG
+bool TextureManager::TextureListGui(std::string& current) {
+	bool changed = false;
+
+	std::lock_guard<std::mutex> lock(textureMutex);
+	if (ImGui::BeginCombo("TextureList", current.c_str())) {
+		auto&& list = GetInstance().textureRegisteredList;
+		for (auto itr = list.begin(); itr != list.end(); ++itr) {
+			bool is_selected = (current == *itr);
+			if (ImGui::Selectable(itr->c_str(), is_selected)) {
+				current = *itr;
+				changed = true;
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+
+	}
+	return changed;
+}
+#endif // _DEBUG

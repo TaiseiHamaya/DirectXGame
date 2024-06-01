@@ -102,7 +102,7 @@ bool Transform3D::need_update_matrix() const {
 
 void Transform3D::debug_gui() {
 #ifdef _DEBUG
-	ImGui::SetNextItemOpen(true);
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("Transform3D({:})", (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = Vec3::kBasis;

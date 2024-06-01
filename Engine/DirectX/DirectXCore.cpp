@@ -1,6 +1,7 @@
 #include "Engine/DirectX/DirectXCore.h"
 
 #include <memory>
+#include <format>
 
 #include <dxgidebug.h>
 #pragma comment(lib, "d3d12.lib")
@@ -24,6 +25,21 @@
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 #include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/GameObject/GameObject.h"
+
+#include "Engine/Math/Camera2D.h"
+#include "Engine/Math/Camera3D.h"
+
+#include "Engine/Math/Vector3.h"
+#include "Engine/Math/Color.h"
+#include "Engine/Math/Quaternion.h"
+#include "Engine/GameObject/Transform3D/Transform3D.h"
+#include "externals/imgui/imgui.h"
+struct DirectionalLightData {
+	Color color; // 色
+	Vector3 direction; // 向き
+	float intensity; // 輝度
+};
 
 static HRESULT hr;
 
@@ -50,10 +66,23 @@ void DirectXCore::EndFrame() {
 void DirectXCore::Finalize() {
 	// ----------後で直す!!!----------
 	GetInstance().pipelineState.reset();
+	GetInstance().gridMesh.reset();
+	GetInstance().light.reset();
 	// ----------後で直す!!!----------
 #ifdef _DEBUG
 	ImGuiManager::Finalize();
 #endif // _DEBUG
+}
+
+#ifdef _DEBUG
+void DirectXCore::ShowDebugTools() {
+	GetInstance().show_debug_tools();
+}
+#endif // _DEBUG
+
+void DirectXCore::ShowGrid() {
+	GetInstance().gridMesh->begin_rendering();
+	GetInstance().gridMesh->draw();
 }
 
 DirectXCore& DirectXCore::GetInstance() {
@@ -108,7 +137,11 @@ void DirectXCore::initialize() {
 	// システム使用のオブジェクトとスプライトを作成
 	TextureManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "Error.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
 	BackgroundLoader::WaitEndExecute();
+
+	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -Vec3::kBasisY, 1.0f });
+	gridMesh = std::make_unique<GameObject>("Grid.obj");
 
 	// オールコンプリート
 	Log("Complete create D3D12Device\n");
@@ -138,6 +171,7 @@ void DirectXCore::begin_frame() {
 #ifdef _DEBUG
 	ImGuiManager::BeginFrame();
 #endif // _DEBUG
+	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, light->get_resource()->GetGPUVirtualAddress());
 }
 
 void DirectXCore::end_frame() {
@@ -156,6 +190,55 @@ void DirectXCore::end_frame() {
 	// コマンドリセット
 	DirectXCommand::GetInstance().reset();
 }
+
+#ifdef _DEBUG
+void DirectXCore::show_debug_tools() {
+	ImGuiID debugDock = ImGui::GetID("DebugDock");
+
+	ImGui::SetNextWindowDockID(debugDock, 0);
+	Camera3D::DebugGUI();
+
+	ImGui::SetNextWindowDockID(debugDock, 0);
+	Camera2D::DebugGUI();
+
+	ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2{ 50, 235 }, ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(debugDock, 0);
+	ImGui::Begin("Light", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	light->get_data()->color.debug_gui();
+	Vector3 rotate = Vec3::kZero;
+	ImGui::Text(std::format("X : {:.3}, Y : {:.3}, Z : {:.3}", light->get_data()->direction.x, light->get_data()->direction.y, light->get_data()->direction.z).c_str());
+	if (ImGui::DragFloat3("DirectionRotate", &rotate.x, 0.02f)) {
+		light->get_data()->direction = Transform3D::Homogeneous(light->get_data()->direction, Quaternion { rotate, rotate.length() }.to_matrix());
+	}
+	ImGui::Text("ResetDirection");
+	if (ImGui::Button("X")) {
+		light->get_data()->direction = Vec3::kBasisX;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Y")) {
+		light->get_data()->direction = Vec3::kBasisY;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Z")) {
+		light->get_data()->direction = Vec3::kBasisZ;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("-X")) {
+		light->get_data()->direction = -Vec3::kBasisX;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("-Y")) {
+		light->get_data()->direction = -Vec3::kBasisY;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("-Z")) {
+		light->get_data()->direction = -Vec3::kBasisZ;
+	}
+	ImGui::DragFloat("Intensity", &light->get_data()->intensity, 0.01f, 0.0f, (std::numeric_limits<float>::max)());
+	ImGui::End();
+}
+#endif // _DEBUG
 
 DirectXCore::Debug::~Debug() {
 	// 全てが終了したあと、ReportLiveObjectsの実行
