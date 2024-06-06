@@ -1,10 +1,11 @@
 #include "TextureManager.h"
 
-#include <cassert>
 #include <mutex>
+#include <format>
 
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/Utility/Utility.h"
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
@@ -26,7 +27,6 @@ void TextureManager::Initialize() {
 }
 
 void TextureManager::RegisterLoadQue(const std::string& filePath, const std::string& textureName) {
-	std::lock_guard<std::mutex> lock(textureMutex);
 	if (IsRegistered(textureName)) {
 		return;
 	}
@@ -34,20 +34,25 @@ void TextureManager::RegisterLoadQue(const std::string& filePath, const std::str
 }
 
 std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) {
-	std::lock_guard<std::mutex> lock(textureMutex);
 	// 見つかったらそのデータのweak_ptrを返す
-	if (IsRegistered(textureName))
+	if (IsRegistered(textureName)) {
+		std::lock_guard<std::mutex> lock{ textureMutex };
 		return GetInstance().textureInstanceList.at(textureName);
-	else
+	}
+	else {
+		Log(std::format("Unloading Texutre. Name-\'{:}\'\n", textureName));
+		std::lock_guard<std::mutex> lock{ textureMutex };
 		return GetInstance().textureInstanceList.at("Error.png");
+	}
 }
 
 bool TextureManager::IsRegistered(const std::string& textureName) {
+	std::lock_guard<std::mutex> lock{ textureMutex };
 	return GetInstance().textureRegisteredList.find(textureName) != GetInstance().textureRegisteredList.end();
 }
 
 void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>& data) {
-	std::lock_guard<std::mutex> lock(textureMutex);
+	std::lock_guard<std::mutex> lock{ textureMutex };
 	GetInstance().textureInstanceList.emplace(name, data);
 	GetInstance().textureRegisteredList.emplace(name);
 }
@@ -56,7 +61,7 @@ void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>&
 bool TextureManager::TextureListGui(std::string& current) {
 	bool changed = false;
 
-	std::lock_guard<std::mutex> lock(textureMutex);
+	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (ImGui::BeginCombo("TextureList", current.c_str())) {
 		auto&& list = GetInstance().textureRegisteredList;
 		for (auto itr = list.begin(); itr != list.end(); ++itr) {

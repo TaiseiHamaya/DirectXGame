@@ -2,7 +2,7 @@
 
 #include <d3d12.h>
 
-class InputLayout {
+class InputLayout final {
 public:
 	InputLayout() = default;
 	~InputLayout() = default;

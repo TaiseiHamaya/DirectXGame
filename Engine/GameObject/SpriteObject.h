@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include "Engine/Math/Vector2.h"
 
 class Texture;
 class Transform2D;
@@ -13,8 +15,11 @@ class IndexBuffer;
 class SpriteObject {
 public:
 	SpriteObject();
-	explicit SpriteObject(const std::weak_ptr<Texture>& texture_);
+	explicit SpriteObject(const std::string& textureName, const Vector2& pivot);
 	~SpriteObject();
+
+	SpriteObject(SpriteObject&&) noexcept;
+	SpriteObject& operator=(SpriteObject&&) noexcept;
 
 private:
 	SpriteObject(const SpriteObject&) = delete;
@@ -31,13 +36,17 @@ public:
 #endif // _DEBUG
 
 private:
+	void create_local_vertices(const Vector2& pivot);
+
+private:
 	std::unique_ptr<VertexBuffer> vertices;
 	std::unique_ptr<IndexBuffer> indexes;
 	std::weak_ptr<Texture> texture;
 	std::unique_ptr<Material> material;
 	std::unique_ptr<TransformMatrix> transformMatrix;
 
-	Color* const color;
+protected:
+	Color& color;
 
 	std::unique_ptr<Transform2D> transform;
 	std::unique_ptr<Transform2D> uvTransform;

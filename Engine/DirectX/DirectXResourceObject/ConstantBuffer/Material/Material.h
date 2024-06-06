@@ -11,6 +11,6 @@ public:
 	Material(const MaterialData& material);
 
 public:
-	Color* const get_color_addr() const;
+	Color& get_color_reference() const;
 	void set_uv_transform(Matrix4x4&& uvTransform);
 };

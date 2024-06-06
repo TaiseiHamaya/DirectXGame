@@ -21,7 +21,7 @@ enum MeshLoadResult {
 	kMeshLoadResultFailedCreatingIndexBuffer,
 };
 
-class PolygonMesh {
+class PolygonMesh final {
 public:
 	PolygonMesh();
 	~PolygonMesh();

@@ -7,11 +7,12 @@
 
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
+#include "Engine/Math/Color.h"
 
 // ダブルバッファなのでHeapも2
 constexpr uint32_t SWAPCHAIN_HEAP = 2;
 
-class DirectXSwapChain {
+class DirectXSwapChain final {
 private:
 	DirectXSwapChain();
 
@@ -24,16 +25,19 @@ private:
 
 public:
 	static void Initialize();
-	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() { return GetInstance().swapChain; }
-	static UINT GetBackBufferIndex() { return GetInstance().backBufferIndex; }
 
+public:
 	static void SetRenderTarget();
 	static void SwapScreen();
 	static void ChangeBackBufferState();
 	static void ClearScreen();
 	static void ClearDepthStencil();
 
+public:
+	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() { return GetInstance().swapChain; }
+	static UINT GetBackBufferIndex() { return GetInstance().backBufferIndex; }
 	static const DepthStencil& GetDepthStencil() { return *GetInstance().depthStencil; };
+	static void SetClearColor(const Color& color_);
 
 private:
 	static DirectXSwapChain& GetInstance();
@@ -49,5 +53,6 @@ private:
 	UINT backBufferIndex;
 	std::array<RenderTarget, SWAPCHAIN_HEAP> renderTarget;
 	std::unique_ptr<DepthStencil> depthStencil;
+	Color clearColor;
 };
 

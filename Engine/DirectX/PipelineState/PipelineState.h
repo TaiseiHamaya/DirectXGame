@@ -11,7 +11,7 @@ class BlendState;
 class RasterizerState;
 class ShaderManager;
 
-class PipelineState {
+class PipelineState final {
 public:
 	PipelineState();
 	~PipelineState();

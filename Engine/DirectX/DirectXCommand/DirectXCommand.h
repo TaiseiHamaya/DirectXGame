@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 
-class DirectXCommand {
+class DirectXCommand final {
 private:
 	DirectXCommand() = default;
 

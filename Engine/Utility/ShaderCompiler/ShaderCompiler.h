@@ -5,7 +5,7 @@
 #include <string>
 #include <wrl.h>
 
-class ShaderCompiler {
+class ShaderCompiler final {
 private:
 	ShaderCompiler() = default;
 

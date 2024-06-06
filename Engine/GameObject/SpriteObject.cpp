@@ -8,49 +8,31 @@
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/GameObject/Transform2D/Transform2D.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 #include "Engine/Math/Camera2D.h"
 
 SpriteObject::SpriteObject() :
 	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, false, {0,0,0}, Matrix4x4::identity })),
-	color(material->get_color_addr()),
+	color(material->get_color_reference()),
 	transformMatrix(std::make_unique<TransformMatrix>()),
 	transform(std::make_unique<Transform2D>()),
 	uvTransform(std::make_unique<Transform2D>()) {
 }
 
-SpriteObject::SpriteObject(const std::weak_ptr<Texture>& texture_) :
+SpriteObject::SpriteObject(const std::string& textureName, const Vector2& pivot) :
 	SpriteObject() {
 
-	texture = texture_;
-	auto&& tex = texture.lock();
-	std::vector<VertexData> vertexData(4);
-	vertexData[0] = {
-		VertexData::Vector4{ {0,static_cast<float>(tex->get_texture_height()),0}, 1 },
-		{0,1}, 
-		Vec3::kBasisZ
-	};
-	vertexData[1] = {
-		VertexData::Vector4{ {0,0,0}, 1 },
-		Vector2{0,0}, 
-		Vec3::kBasisZ 
-	};
-	vertexData[2] = {
-		VertexData::Vector4{ {static_cast<float>(tex->get_texture_width()),static_cast<float>(tex->get_texture_height()),0}, 1},
-		Vector2{1,1}, 
-		Vec3::kBasisZ 
-	};
-	vertexData[3] = {
-		VertexData::Vector4{ {static_cast<float>(tex->get_texture_width()),0,0}, 1 },
-		Vector2{1,0},
-		Vec3::kBasisZ 
-	};
-
-	vertices = std::make_unique<VertexBuffer>(vertexData);
-	std::vector<std::uint32_t> indexData{0,1,2,1,3,2};
+	texture = TextureManager::GetTexture(textureName);
+	create_local_vertices(pivot);
+	std::vector<std::uint32_t> indexData{ 0,1,2,1,3,2 };
 	indexes = std::make_unique<IndexBuffer>(indexData);
 }
 
 SpriteObject::~SpriteObject() = default;
+
+SpriteObject::SpriteObject(SpriteObject&&) noexcept = default;
+
+SpriteObject& SpriteObject::operator=(SpriteObject&&) noexcept = default;
 
 const Transform2D& SpriteObject::get_transform() {
 	return *transform;
@@ -81,6 +63,34 @@ void SpriteObject::draw() const {
 void SpriteObject::debug_gui() {
 	transform->debug_gui(1.0f);
 	uvTransform->debug_gui();
-	color->debug_gui();
+	color.debug_gui();
 }
 #endif // _DEBUG
+
+void SpriteObject::create_local_vertices(const Vector2& pivot) {
+	auto&& tex = texture.lock();
+	Vector2 base = { static_cast<float>(tex->get_texture_width()), static_cast<float>(tex->get_texture_height()) };
+	std::vector<VertexData> vertexData(4);
+	vertexData[0] = {
+		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}).convert_3d(0), 1},
+		{0,1},
+		Vec3::kBasisZ
+	};
+	vertexData[1] = {
+		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, -pivot.y}).convert_3d(0), 1},
+		Vector2{0,0},
+		Vec3::kBasisZ
+	};
+	vertexData[2] = {
+		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}).convert_3d(0), 1},
+		Vector2{1,1},
+		Vec3::kBasisZ
+	};
+	vertexData[3] = {
+		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, -pivot.y}).convert_3d(0), 1},
+		Vector2{1,0},
+		Vec3::kBasisZ
+	};
+
+	vertices = std::make_unique<VertexBuffer>(vertexData);
+}

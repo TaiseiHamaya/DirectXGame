@@ -4,7 +4,7 @@
 #include <dxgi1_6.h>
 #include <wrl/client.h>
 
-class DirectXDevice {
+class DirectXDevice final {
 private:
 	DirectXDevice() = default;
 	DirectXDevice(const DirectXDevice&) = delete;

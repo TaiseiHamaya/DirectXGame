@@ -2,7 +2,7 @@
 
 #ifdef _DEBUG
 
-class ImGuiManager {
+class ImGuiManager final {
 private:
 	ImGuiManager() = default;
 

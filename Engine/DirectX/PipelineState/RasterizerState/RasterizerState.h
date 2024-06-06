@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d12.h>
 
-class RasterizerState {
+class RasterizerState final {
 public:
 	RasterizerState() = default;
 	~RasterizerState() = default;

@@ -18,7 +18,7 @@ enum class LoadEvent {
 	LoadPolygonMesh,
 };
 
-class BackgroundLoader {
+class BackgroundLoader final {
 private:
 	BackgroundLoader();
 

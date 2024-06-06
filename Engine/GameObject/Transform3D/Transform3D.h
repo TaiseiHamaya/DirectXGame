@@ -14,6 +14,8 @@ public:
 public:
 	Transform3D(const Transform3D&) = delete;
 	Transform3D& operator=(const Transform3D&) = delete;
+	Transform3D(Transform3D&&) = default;
+	Transform3D& operator=(Transform3D&&) = default;
 
 public:
 	void set_scale(const Vector3& scale_);

@@ -5,7 +5,9 @@
 #include <cstdint>
 
 #include "Engine/GameObject/GameObject.h"
+#include "Engine/GameObject/SpriteObject.h"
 #include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 
 #include "externals/imgui/imgui.h"
@@ -22,10 +24,11 @@ const std::int32_t kClientWidth = 1280;
 const std::int32_t kClientHight = 720;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	WinApp::Initialize("CG2", kClientWidth, kClientHight);
+	WinApp::Initialize("DirectXGame", kClientWidth, kClientHight);
 	Camera3D::Initialize();
 	Camera2D::Initialize();
 
+	TextureManager::RegisterLoadQue("./Engine/Resources", "uvChecker.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Sphere.obj");
 	BackgroundLoader::WaitEndExecute();
 
@@ -35,6 +38,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectNames.emplace_back("Sphere");
 	std::unordered_multiset<std::string> objectList;
 	objectList.emplace("Sphere");
+	SpriteObject sprite{ "uvChecker.png", {0.75f,0.25f} };
 
 	std::string selectMesh;
 	char name[1024]{};
@@ -93,6 +97,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		for (int i = 0; i < objects.size(); ++i) {
 			objects[i].draw();
 		}
+		sprite.begin_rendering();
+		sprite.draw();
 
 		WinApp::EndFrame();
 	}

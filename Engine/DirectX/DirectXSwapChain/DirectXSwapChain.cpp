@@ -13,6 +13,7 @@ DirectXSwapChain::DirectXSwapChain() {
 	backBufferIndex = 0;
 	depthStencil = std::make_unique<DepthStencil>();
 	depthStencil->initialize();
+	clearColor = { 0.1f,0.25f, 0.5f, 1.0f };
 }
 
 void DirectXSwapChain::Initialize() {
@@ -39,10 +40,9 @@ void DirectXSwapChain::ChangeBackBufferState() {
 
 void DirectXSwapChain::ClearScreen() {
 	// クリアする色
-	float clearColor[] = { 0.1f,0.25f, 0.5f, 1.0f }; // RGBA
 	DirectXCommand::GetCommandList()->ClearRenderTargetView(
 		GetInstance().renderTarget[GetInstance().backBufferIndex].get_cpu_handle(),
-		clearColor, 0, nullptr
+		&GetInstance().clearColor.red, 0, nullptr
 	);
 }
 
@@ -50,6 +50,10 @@ void DirectXSwapChain::ClearDepthStencil() {
 	DirectXCommand::GetCommandList()->ClearDepthStencilView(
 		GetInstance().depthStencil->get_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
 	);
+}
+
+void DirectXSwapChain::SetClearColor(const Color& color_) {
+	GetInstance().clearColor = color_;
 }
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() {

@@ -6,7 +6,7 @@
 #include <string>
 #include <windows.h>
 
-class WinApp {
+class WinApp final {
 private:
 	WinApp(int32_t width, int32_t height);
 	~WinApp() = default;

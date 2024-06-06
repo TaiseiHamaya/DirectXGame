@@ -2,7 +2,7 @@
 
 #include <d3d12.h>
 
-class BlendState {
+class BlendState final {
 public:
 	BlendState() = default;
 	~BlendState() = default;

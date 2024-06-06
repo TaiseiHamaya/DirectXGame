@@ -3,7 +3,7 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
-class RootSignature {
+class RootSignature final {
 public:
 	RootSignature() = default;
 	~RootSignature() = default;

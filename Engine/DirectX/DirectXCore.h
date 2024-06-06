@@ -8,7 +8,7 @@ class PipelineState;
 class GameObject;
 struct DirectionalLightData;
 
-class DirectXCore {
+class DirectXCore final {
 private:
 	DirectXCore();
 	
@@ -53,7 +53,7 @@ private:
 	std::unique_ptr<ConstantBuffer<DirectionalLightData>> light;
 
 private:
-	class Debug {
+	class Debug final {
 	private:
 		Debug() = default;
 

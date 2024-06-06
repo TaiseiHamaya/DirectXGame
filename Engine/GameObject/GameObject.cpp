@@ -18,7 +18,7 @@
 GameObject::GameObject() :
 	// 各メモリの取得
 	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, true, {0,0,0}, Matrix4x4::identity })),
-	color(material->get_color_addr()), // カラーはマテリアルから直接取得
+	color(material->get_color_reference()), // カラーはマテリアルから直接取得
 	transformMatrix(std::make_unique<TransformMatrix>()),
 	transform(std::make_unique<Transform3D>()),
 	uvTransform(std::make_unique<Transform2D>()) {
@@ -73,7 +73,7 @@ void GameObject::draw() const {
 void GameObject::debug_gui() {
 	transform->debug_gui();
 	uvTransform->debug_gui();
-	color->debug_gui();
+	color.debug_gui();
 	if (ImGui::Button("ResetMaterialData")) {
 		reset_default();
 	}
@@ -94,7 +94,7 @@ void GameObject::reset_default() {
 	// uv情報のリセット
 	*uvTransform = mesh_locked->get_default_uv();
 	// 色情報のリセット
-	*color = Color{ 1.0f,1.0f,1.0f,1.0f };
+	color = Color{ 1.0f,1.0f,1.0f,1.0f };
 
 	textureName = mesh_locked->get_texture_name();
 }

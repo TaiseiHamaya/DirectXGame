@@ -2,7 +2,7 @@
 
 #include "Engine/DirectX/DirectXDescriptorHeap/DirectXDescriptorHeap.h"
 
-class SRVDescriptorHeap : public DirectXDescriptorHeap {
+class SRVDescriptorHeap final : public DirectXDescriptorHeap {
 private:
 	SRVDescriptorHeap() = default;
 

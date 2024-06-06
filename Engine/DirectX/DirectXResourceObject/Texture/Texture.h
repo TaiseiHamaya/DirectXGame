@@ -8,7 +8,7 @@
 
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 
-class Texture : public DirectXResourceObject {
+class Texture final : public DirectXResourceObject {
 public: // constructor
 	Texture();
 	~Texture();

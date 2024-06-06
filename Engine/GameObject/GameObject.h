@@ -19,6 +19,7 @@ public:
 
 	GameObject(GameObject&&) noexcept;
 	GameObject& operator=(GameObject&&) noexcept;
+
 private:
 	GameObject(const GameObject&) = delete;
 	GameObject& operator=(const GameObject&) = delete;
@@ -39,14 +40,15 @@ private:
 	std::weak_ptr<PolygonMesh> mesh;
 	std::weak_ptr<Texture> texture;
 
+	std::string meshName;
+	std::string textureName;
+
 	std::unique_ptr<Material> material;
 	std::unique_ptr<TransformMatrix> transformMatrix;
 
-	Color* color;
+protected:
+	Color& color;
 
 	std::unique_ptr<Transform3D> transform;
 	std::unique_ptr<Transform2D> uvTransform;
-
-	std::string meshName;
-	std::string textureName;
 };
