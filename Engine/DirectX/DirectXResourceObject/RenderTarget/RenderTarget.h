@@ -4,11 +4,11 @@
 
 class RenderTarget final : public DirectXResourceObject {
 public:
-	RenderTarget() = default;
-	~RenderTarget() = default;
+	RenderTarget() noexcept = default;
+	~RenderTarget() noexcept = default;
 
 	void initialize();
-	const D3D12_CPU_DESCRIPTOR_HANDLE& get_cpu_handle();
+	const D3D12_CPU_DESCRIPTOR_HANDLE& get_cpu_handle() noexcept;
 
 private:
 	D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandleCPU;

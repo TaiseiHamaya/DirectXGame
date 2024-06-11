@@ -1,15 +1,12 @@
 #pragma once
 
 #include "Vector3.h"
-#include "Matrix.h"
+#include "Matrix4x4.h"
 
 class Quaternion final {
 public:
 	Quaternion() noexcept;
-	~Quaternion() = default;
-
-	Quaternion(const Quaternion& rhs) noexcept;
-	Quaternion(Quaternion&& rhs) noexcept;
+	~Quaternion() noexcept = default;
 
 	/// <summary>
 	/// 回転軸と回転量を指定してQuaternionを作成
@@ -25,7 +22,7 @@ public:
 	/// <param name="y"></param>
 	/// <param name="z"></param>
 	/// <param name="w"></param>
-	Quaternion(float x, float y, float z, float w);
+	Quaternion(float x, float y, float z, float w) noexcept;
 
 	/// <summary>
 	/// オイラー角からクォータニオンを生成(ラジアン)
@@ -41,32 +38,55 @@ public:
 	/// <param name="rotate">XYZ軸回転</param>
 	Quaternion(const Vector3& rotate) noexcept;
 
-public:
+	Quaternion(const Quaternion& rhs) noexcept;
 	Quaternion& operator=(const Quaternion& rhs) noexcept;
+
+	Quaternion(Quaternion&& rhs) noexcept;
 	Quaternion& operator=(Quaternion&& rhs) noexcept;
+
+public:
 	bool operator==(const Quaternion& rhs) const noexcept;
 	bool operator!=(const Quaternion& rhs) const noexcept;
-	Quaternion operator*(const Quaternion& rhs) const;
-	Quaternion& operator*=(const Quaternion& rhs);
-	Quaternion operator*(float times) const;
-	Quaternion& operator*=(float times);
+	Quaternion operator*(const Quaternion& rhs) const noexcept;
+	Quaternion& operator*=(const Quaternion& rhs) noexcept;
+	Quaternion operator*(float times) const noexcept;
+	Quaternion& operator*=(float times) noexcept;
 
 public:
 	/// <summary>
 	/// 回転行列に変換
 	/// </summary>
-	/// <returns></returns>
-	const Matrix4x4 to_matrix() const;
+	/// <returns>回転行列Matrix4x4</returns>
+	const Matrix4x4 to_matrix() const noexcept;
 
-	const float length() const;
+	/// <summary>
+	/// Quaternionベクトルの長さ[1]
+	/// </summary>
+	/// <returns>基本は1</returns>
+	const float length() const noexcept;
 
-	const Quaternion inverse() const;
+	/// <summary>
+	/// 逆クォータニオンの取得
+	/// </summary>
+	/// <returns>逆Quaternion</returns>
+	const Quaternion inverse() const noexcept;
 
-	static const Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, float t);
+	/// <summary>
+	/// 球面線形補間
+	/// </summary>
+	/// <param name="internal">開始Quaternion</param>
+	/// <param name="terminal">終了Quaternion</param>
+	/// <param name="t">媒介変数</param>
+	/// <returns>変換後Quaternion</returns>
+	static const Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept;
 
-	static const Quaternion& Identity();
+	/// <summary>
+	/// [0,0,0,1]のQuaternion
+	/// </summary>
+	/// <returns>Quaternion</returns>
+	static const Quaternion& Identity() noexcept;
 
 private:
-	Vector3 xyz;
-	float w;
+	Vector3 xyz; // 虚部ベクトル
+	float w; // 実部
 };

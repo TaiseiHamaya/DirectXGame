@@ -10,8 +10,12 @@ IndexBuffer::IndexBuffer(const std::vector<std::uint32_t>& indexes_)
 	std::memcpy(indexes.data, indexes_.data(), indexes.memorySize);
 }
 
-IndexBuffer::IndexBuffer(std::uint32_t size) {
-	indexes = { nullptr, size, size * INDEX_DATA_SIZE };
+IndexBuffer::IndexBuffer(std::uint32_t size) noexcept(false) {
+	indexes = { 
+		nullptr, 
+		size, 
+		size * INDEX_DATA_SIZE
+	};
 	resource = CreateBufferResource(indexes.memorySize);
 	indexBufferView.BufferLocation = resource->GetGPUVirtualAddress();
 	indexBufferView.SizeInBytes = indexes.memorySize;
@@ -20,14 +24,14 @@ IndexBuffer::IndexBuffer(std::uint32_t size) {
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&indexes.data));
 }
 
-IndexBuffer::~IndexBuffer() {
+IndexBuffer::~IndexBuffer() noexcept {
 	resource->Unmap(0, nullptr);
 }
 
-const D3D12_INDEX_BUFFER_VIEW* const IndexBuffer::get_p_ibv() const {
+const D3D12_INDEX_BUFFER_VIEW* const IndexBuffer::get_p_ibv() const noexcept {
 	return &indexBufferView;
 }
 
-const std::uint32_t IndexBuffer::get_index_size() const {
+const std::uint32_t IndexBuffer::index_size() const noexcept {
 	return indexes.size;
 }

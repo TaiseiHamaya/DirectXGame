@@ -14,10 +14,10 @@ constexpr uint32_t SWAPCHAIN_HEAP = 2;
 
 class DirectXSwapChain final {
 private:
-	DirectXSwapChain();
+	DirectXSwapChain() noexcept;
 
 public:
-	~DirectXSwapChain() = default;
+	~DirectXSwapChain() noexcept = default;
 
 private:
 	DirectXSwapChain(const DirectXSwapChain&) = delete;
@@ -34,13 +34,13 @@ public:
 	static void ClearDepthStencil();
 
 public:
-	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() { return GetInstance().swapChain; }
-	static UINT GetBackBufferIndex() { return GetInstance().backBufferIndex; }
-	static const DepthStencil& GetDepthStencil() { return *GetInstance().depthStencil; };
-	static void SetClearColor(const Color& color_);
+	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
+	static UINT GetBackBufferIndex() noexcept { return GetInstance().backBufferIndex; }
+	static const DepthStencil& GetDepthStencil() noexcept { return *GetInstance().depthStencil; };
+	static void SetClearColor(const Color& color_) noexcept;
 
 private:
-	static DirectXSwapChain& GetInstance();
+	static DirectXSwapChain& GetInstance() noexcept;
 
 private:
 	void create_swapchain();
@@ -49,7 +49,7 @@ private:
 
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
-	bool isRendering;
+	std::array<bool, SWAPCHAIN_HEAP> isRendering;
 	UINT backBufferIndex;
 	std::array<RenderTarget, SWAPCHAIN_HEAP> renderTarget;
 	std::unique_ptr<DepthStencil> depthStencil;

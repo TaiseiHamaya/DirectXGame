@@ -35,11 +35,14 @@
 #include "Engine/Math/Quaternion.h"
 #include "Engine/GameObject/Transform3D/Transform3D.h"
 #include "externals/imgui/imgui.h"
+
+// ----------要修正----------
 struct DirectionalLightData {
 	Color color; // 色
 	Vector3 direction; // 向き
 	float intensity; // 輝度
 };
+// ----------要修正----------
 
 static HRESULT hr;
 
@@ -69,6 +72,7 @@ void DirectXCore::Finalize() {
 	GetInstance().gridMesh.reset();
 	GetInstance().light.reset();
 	// ----------後で直す!!!----------
+	TextureManager::Finalize();
 #ifdef _DEBUG
 	ImGuiManager::Finalize();
 #endif // _DEBUG
@@ -138,13 +142,14 @@ void DirectXCore::initialize() {
 	TextureManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "Error.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
+	// 待機
 	BackgroundLoader::WaitEndExecute();
 
-	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -Vec3::kBasisY, 1.0f });
+	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -CVector3::BASIS_Y, 1.0f });
 	gridMesh = std::make_unique<GameObject>("Grid.obj");
 
 	// オールコンプリート
-	Log("Complete create D3D12Device\n");
+	Log("[Engine] Complete create D3D12Device\n");
 }
 
 void DirectXCore::begin_frame() {
@@ -159,18 +164,21 @@ void DirectXCore::begin_frame() {
 	pipelineState->set_root_signature();
 	// PSOの設定
 	pipelineState->set_graphics_pipeline_state();
-
+	// srvの設定
 	SRVDescriptorHeap::SetDescriptorHeaps();
-
+	// ViewPortの設定
 	DirectXCommand::GetCommandList()->RSSetViewports(1, &viewPort);
+	// シザー矩形の設定
 	DirectXCommand::GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	// 三角ポリゴン描画設定
 	DirectXCommand::GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	// DSのClear
 	DirectXSwapChain::ClearDepthStencil();
 
 #ifdef _DEBUG
 	ImGuiManager::BeginFrame();
 #endif // _DEBUG
+	// ライトを設定しておく
 	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, light->get_resource()->GetGPUVirtualAddress());
 }
 
@@ -195,45 +203,48 @@ void DirectXCore::end_frame() {
 void DirectXCore::show_debug_tools() {
 	ImGuiID debugDock = ImGui::GetID("DebugDock");
 
+	// 3DカメラのImGui
 	ImGui::SetNextWindowDockID(debugDock, 0);
 	Camera3D::DebugGUI();
 
+	// 2DカメラのImGui
 	ImGui::SetNextWindowDockID(debugDock, 0);
 	Camera2D::DebugGUI();
 
+	// ライトのImGui
 	ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
 	ImGui::SetNextWindowPos(ImVec2{ 50, 235 }, ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(debugDock, 0);
 	ImGui::Begin("Light", nullptr, ImGuiWindowFlags_NoSavedSettings);
 	light->get_data()->color.debug_gui();
-	Vector3 rotate = Vec3::kZero;
+	Vector3 rotate = CVector3::ZERO;
 	ImGui::Text(std::format("X : {:.3}, Y : {:.3}, Z : {:.3}", light->get_data()->direction.x, light->get_data()->direction.y, light->get_data()->direction.z).c_str());
 	if (ImGui::DragFloat3("DirectionRotate", &rotate.x, 0.02f)) {
 		light->get_data()->direction = Transform3D::Homogeneous(light->get_data()->direction, Quaternion { rotate, rotate.length() }.to_matrix());
 	}
 	ImGui::Text("ResetDirection");
 	if (ImGui::Button("X")) {
-		light->get_data()->direction = Vec3::kBasisX;
+		light->get_data()->direction = CVector3::BASIS_X;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Y")) {
-		light->get_data()->direction = Vec3::kBasisY;
+		light->get_data()->direction = CVector3::BASIS_Y;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Z")) {
-		light->get_data()->direction = Vec3::kBasisZ;
+		light->get_data()->direction = CVector3::BASIS_Z;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("-X")) {
-		light->get_data()->direction = -Vec3::kBasisX;
+		light->get_data()->direction = -CVector3::BASIS_X;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("-Y")) {
-		light->get_data()->direction = -Vec3::kBasisY;
+		light->get_data()->direction = -CVector3::BASIS_Y;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("-Z")) {
-		light->get_data()->direction = -Vec3::kBasisZ;
+		light->get_data()->direction = -CVector3::BASIS_Z;
 	}
 	ImGui::DragFloat("Intensity", &light->get_data()->intensity, 0.01f, 0.0f, (std::numeric_limits<float>::max)());
 	ImGui::End();

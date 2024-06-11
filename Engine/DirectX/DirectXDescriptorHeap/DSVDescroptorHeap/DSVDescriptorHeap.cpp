@@ -8,7 +8,7 @@
 // ダブルバッファのみで使用するため2
 constexpr uint32_t DSV_HEAP_SIZE = 1;
 
-DSVDescriptorHeap& DSVDescriptorHeap::GetInstance() {
+DSVDescriptorHeap& DSVDescriptorHeap::GetInstance() noexcept {
 	static std::unique_ptr<DSVDescriptorHeap> instance{ new DSVDescriptorHeap };
 	return *instance;
 }
@@ -18,7 +18,7 @@ void DSVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetNextCPUHandle() {
+D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetNextCPUHandle() noexcept {
 	return GetInstance().get_cpu_handle(GetInstance().get_next_heap_index());
 }
 
@@ -30,7 +30,7 @@ void DSVDescriptorHeap::initialize() {
 	heapStartCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	// RTVはGPUHandle参照不可
 	//heapStartGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
-	incrementSize = DirectXDevice::GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	incrementSize = DirectXDevice::GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	releasedHeap.clear();
 	nowHeapIndex = 0;
 }

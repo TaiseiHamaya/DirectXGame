@@ -28,7 +28,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp::WinApp(int32_t width, int32_t height) : 
+WinApp::WinApp(int32_t width, int32_t height) noexcept :
 	kClientWidth(width),
 	kClientHight(height),
 	hWnd(nullptr), 

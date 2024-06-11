@@ -3,7 +3,7 @@
 #include <cmath>
 
 Quaternion::Quaternion() noexcept :
-	Quaternion(Vec3::kZero, 0) {
+	Quaternion(CVector3::ZERO, 0) {
 }
 
 Quaternion::Quaternion(const Quaternion& rhs) noexcept :
@@ -17,11 +17,11 @@ Quaternion::Quaternion(Quaternion&& rhs) noexcept :
 }
 
 Quaternion::Quaternion(const Vector3& axis, float angleAxis) :
-	xyz((axis != Vec3::kZero ? axis.normalize() : Vec3::kZero)* std::sin(angleAxis / 2)),
+	xyz((axis != CVector3::ZERO ? axis.normalize() : CVector3::ZERO)* std::sin(angleAxis / 2)),
 	w(std::cos(angleAxis / 2)) {
 }
 
-Quaternion::Quaternion(float x, float y, float z, float w) :
+Quaternion::Quaternion(float x, float y, float z, float w) noexcept :
 	xyz(Vector3{ x,y,z }),
 	w(w) {
 }
@@ -64,28 +64,28 @@ bool Quaternion::operator!=(const Quaternion& rhs) const noexcept {
 	return !(*this == rhs);
 }
 
-Quaternion Quaternion::operator*(const Quaternion& rhs) const {
+Quaternion Quaternion::operator*(const Quaternion& rhs) const noexcept {
 	Vector3 resultV = rhs.xyz * w + xyz * rhs.w + Vector3::CrossProduct(rhs.xyz, xyz);
 	return Quaternion{
 		resultV.x,resultV.y,resultV.z,
 		w * rhs.w - Vector3::DotProduct(xyz, rhs.xyz) };
 }
 
-Quaternion& Quaternion::operator*=(const Quaternion& rhs) {
+Quaternion& Quaternion::operator*=(const Quaternion& rhs) noexcept {
 	*this = *this * rhs;
 	return *this;
 }
 
-Quaternion Quaternion::operator*(float times) const {
+Quaternion Quaternion::operator*(float times) const noexcept {
 	return { xyz.x * times, xyz.y * times, xyz.z * times, w * times };
 }
 
-Quaternion& Quaternion::operator*=(float times) {
+Quaternion& Quaternion::operator*=(float times) noexcept {
 	*this = *this * times;
 	return *this;
 }
 
-const Matrix4x4 Quaternion::to_matrix() const {
+const Matrix4x4 Quaternion::to_matrix() const noexcept {
 	float xx = xyz.x * xyz.x;
 	float xy = xyz.x * xyz.y;
 	float xz = xyz.x * xyz.z;
@@ -105,16 +105,16 @@ const Matrix4x4 Quaternion::to_matrix() const {
 	};
 }
 
-const float Quaternion::length() const {
+const float Quaternion::length() const noexcept {
 	Vector3 v2 = Vector3::Multiply(xyz, xyz);
 	return std::sqrt(v2.x + v2.y + v2.z + w * w);
 }
 
-const Quaternion Quaternion::inverse() const {
+const Quaternion Quaternion::inverse() const noexcept {
 	return { -xyz.x, -xyz.y, -xyz.z, w };
 }
 
-const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion& terminal, float t) {
+const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
 	float dot = Vector3::DotProduct(internal.xyz, terminal.xyz) + internal.w * terminal.w;
 	Quaternion internal_;
 	if (dot < 0) {
@@ -141,7 +141,7 @@ const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion&
 	return { rResult.xyz.x + lResult.xyz.x, rResult.xyz.y + lResult.xyz.y, rResult.xyz.z + lResult.xyz.z, rResult.w + lResult.w };
 }
 
-const Quaternion& Quaternion::Identity() {
+const Quaternion& Quaternion::Identity() noexcept {
 	static Quaternion identity{ 0,0,0,1 };
 	return identity;
 }

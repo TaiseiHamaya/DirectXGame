@@ -10,7 +10,7 @@
 
 
 Transform3D::Transform3D() noexcept :
-	Transform3D(Vec3::kBasis, {}, Vec3::kZero) {
+	Transform3D(CVector3::BASIS, {}, CVector3::ZERO) {
 }
 
 Transform3D::Transform3D(const Vector3& scale_, const Quaternion& quaternion, const Vector3& translate_) noexcept :
@@ -27,76 +27,76 @@ Transform3D::Transform3D(Vector3&& scale_, Quaternion&& quaternion, Vector3&& tr
 	isNeedUpdate = true;
 }
 
-void Transform3D::set_scale(const Vector3& scale_) {
+void Transform3D::set_scale(const Vector3& scale_) noexcept {
 	if (scale != scale_) {
 		scale = scale_;
 		isNeedUpdate = true;
 	}
 }
 
-void Transform3D::set_rotate(const Quaternion& rotate_) {
+void Transform3D::set_rotate(const Quaternion& rotate_) noexcept {
 	if (rotate != rotate_) {
 		rotate = rotate_;
 		isNeedUpdate = true;
 	}
 }
 
-void Transform3D::set_translate(const Vector3& translate_) {
+void Transform3D::set_translate(const Vector3& translate_) noexcept {
 	if (translate != translate_) {
 		translate = translate_;
 		isNeedUpdate = true;
 	}
 }
 
-void Transform3D::set_translate_x(float x) {
+void Transform3D::set_translate_x(float x) noexcept {
 	if (translate.x != x) {
 		translate.x = x;
 		isNeedUpdate = true;
 	}
 }
 
-void Transform3D::set_translate_y(float y) {
+void Transform3D::set_translate_y(float y) noexcept {
 	if (translate.y != y) {
 		translate.y = y;
 		isNeedUpdate = true;
 	}
 }
 
-void Transform3D::set_translate_z(float z) {
+void Transform3D::set_translate_z(float z) noexcept {
 	if (translate.z != z) {
 		translate.z = z;
 		isNeedUpdate = true;
 	}
 }
 
-void Transform3D::begin() {
+void Transform3D::begin() noexcept {
 	isNeedUpdate = false;
 }
 
-Matrix4x4 Transform3D::get_matrix() const {
+Matrix4x4 Transform3D::get_matrix() const noexcept {
 	return Transform3D::MakeAffineMatrix(scale, rotate, translate);;
 }
 
-const Vector3& Transform3D::get_scale() const {
+const Vector3& Transform3D::get_scale() const noexcept {
 	return scale;
 }
 
-const Vector3& Transform3D::get_translate() const {
+const Vector3& Transform3D::get_translate() const noexcept {
 	return translate;
 }
 
-const Quaternion& Transform3D::get_quaternion() const {
+const Quaternion& Transform3D::get_quaternion() const noexcept {
 	return rotate;
 }
 
-void Transform3D::plus_translate(const Vector3& plus) {
+void Transform3D::plus_translate(const Vector3& plus) noexcept {
 	if (plus.length() != 0) {
 		isNeedUpdate = true;
 	}
 	translate += plus;
 }
 
-bool Transform3D::need_update_matrix() const {
+bool Transform3D::need_update_matrix() const noexcept {
 	return isNeedUpdate;
 }
 
@@ -105,7 +105,7 @@ void Transform3D::debug_gui() {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("Transform3D({:})", (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
-			scale = Vec3::kBasis;
+			scale = CVector3::BASIS;
 			isNeedUpdate = true;
 		}
 		ImGui::SameLine();
@@ -115,18 +115,18 @@ void Transform3D::debug_gui() {
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("ResetTranslate")) {
-			translate = Vec3::kZero;
+			translate = CVector3::ZERO;
 			isNeedUpdate = true;
 		}
 		if (ImGui::DragFloat3("Scale", &scale.x, 0.01f)) {
 			isNeedUpdate = true;
 		}
-		Vector3 quaternion = Vec3::kZero;
+		Vector3 quaternion = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateLocal", &quaternion.x, 0.01f, -PI, PI)) {
 			rotate = Quaternion{ quaternion } *rotate;
 			isNeedUpdate = true;
 		}
-		Vector3 cood = Vec3::kZero;
+		Vector3 cood = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateWorld", &cood.x, 0.02f)) {
 			rotate *= Quaternion{ cood, cood.length() };
 			isNeedUpdate = true;
@@ -142,10 +142,10 @@ void Transform3D::debug_gui() {
 //void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
 //#ifdef _DEBUG
 //	static constexpr float __axisLength = 50;
-//	Vector3 initial = Transform3D::Homogeneous(Vec3::kZero, debug_matrix);
-//	Vector3 terminalX = Transform3D::Homogeneous(Vec3::kBasisX * __axisLength, debug_matrix);
-//	Vector3 terminalY = Transform3D::Homogeneous(Vec3::kBasisY * __axisLength, debug_matrix);
-//	Vector3 terminalZ = Transform3D::Homogeneous(Vec3::kBasisZ * __axisLength, debug_matrix);
+//	Vector3 initial = Transform3D::Homogeneous(CVector3::kZero, debug_matrix);
+//	Vector3 terminalX = Transform3D::Homogeneous(CVector3::kBasisX * __axisLength, debug_matrix);
+//	Vector3 terminalY = Transform3D::Homogeneous(CVector3::kBasisY * __axisLength, debug_matrix);
+//	Vector3 terminalZ = Transform3D::Homogeneous(CVector3::kBasisZ * __axisLength, debug_matrix);
 //
 //	Renderer::DrawLine(initial, terminalX, BLUE);
 //	Renderer::DrawLine(initial, terminalY, GREEN);
@@ -155,11 +155,11 @@ void Transform3D::debug_gui() {
 //#endif // _DEBUG
 //}
 
-Matrix4x4 Transform3D::MakeIdentityMatrix() {
-	return Matrix4x4::identity;
+constexpr Matrix4x4 Transform3D::MakeIdentityMatrix() noexcept {
+	return CMatrix4x4::IDENTITY;
 }
 
-Matrix4x4 Transform3D::MakeRotateXMatrix(const float theta) {
+Matrix4x4 Transform3D::MakeRotateXMatrix(const float theta) noexcept {
 	return { {
 		{ 1, 0, 0, 0 },
 		{ 0, std::cos(theta), std::sin(theta), 0},
@@ -168,7 +168,7 @@ Matrix4x4 Transform3D::MakeRotateXMatrix(const float theta) {
 		} };
 }
 
-Matrix4x4 Transform3D::MakeRotateYMatrix(const float theta) {
+Matrix4x4 Transform3D::MakeRotateYMatrix(const float theta) noexcept {
 	return { {
 		{ std::cos(theta), 0, -std::sin(theta), 0 },
 		{ 0, 1, 0, 0},
@@ -177,7 +177,7 @@ Matrix4x4 Transform3D::MakeRotateYMatrix(const float theta) {
 		} };
 }
 
-Matrix4x4 Transform3D::MakeRotateZMatrix(const float theta) {
+Matrix4x4 Transform3D::MakeRotateZMatrix(const float theta) noexcept {
 	return { {
 		{ std::cos(theta), std::sin(theta), 0, 0},
 		{ -std::sin(theta), std::cos(theta), 0, 0 },
@@ -186,37 +186,11 @@ Matrix4x4 Transform3D::MakeRotateZMatrix(const float theta) {
 		} };
 }
 
-Matrix4x4 Transform3D::MakeRotateMatrix(const float x, const float y, const float z) {
+Matrix4x4 Transform3D::MakeRotateMatrix(const float x, const float y, const float z) noexcept {
 	return MakeRotateXMatrix(x) * MakeRotateYMatrix(y) * MakeRotateZMatrix(z);
 }
 
-Matrix4x4 Transform3D::MakeScaleMatrix(const float x, const float y, const float z) {
-	return { {
-		{ x, 0, 0, 0 },
-		{ 0, y, 0, 0 },
-		{ 0, 0, z, 0 },
-		{ 0, 0, 0, 1 }
-		} };
-}
-
-Matrix4x4 Transform3D::MakeScaleMatrix(const Vector3& scale) {
-	return MakeScaleMatrix(scale.x, scale.y, scale.z);
-}
-
-Matrix4x4 Transform3D::MakeTranslateMatrix(const float x, const float y, const float z) {
-	return { {
-		{ 1, 0, 0, 0 },
-		{ 0, 1, 0, 0 },
-		{ 0, 0, 1, 0 },
-		{ x, y, z, 1 }
-		} };
-}
-
-Matrix4x4 Transform3D::MakeTranslateMatrix(const Vector3& translate) {
-	return MakeTranslateMatrix(translate.x, translate.y, translate.z);
-}
-
-Matrix4x4 Transform3D::MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) {
+Matrix4x4 Transform3D::MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) noexcept {
 	Matrix4x4 result2 = rotate.to_matrix();
 	for (size_t column = 0; column < 3; ++column) {
 		result2[0][column] *= scale.x;

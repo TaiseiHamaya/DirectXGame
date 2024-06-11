@@ -8,7 +8,7 @@
 // SRVのHeapは65536
 constexpr uint32_t SRV_HEAP_SIZE = 65536;
 
-SRVDescriptorHeap& SRVDescriptorHeap::GetInstance() {
+SRVDescriptorHeap& SRVDescriptorHeap::GetInstance() noexcept {
 	static std::unique_ptr<SRVDescriptorHeap> instance{ new SRVDescriptorHeap };
 	return *instance;
 }
@@ -18,25 +18,29 @@ void SRVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-const std::uint32_t SRVDescriptorHeap::GetNextHandleIndex() {
+const std::uint32_t SRVDescriptorHeap::GetNextHandleIndex() noexcept {
 	return GetInstance().get_next_heap_index();
 }
 
-const D3D12_CPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetCPUHandle(std::uint32_t index) {
+const D3D12_CPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {
 	return GetInstance().get_cpu_handle(index);
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetGPUHandle(std::uint32_t index) {
+const D3D12_GPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetGPUHandle(std::uint32_t index) noexcept {
 	return GetInstance().get_gpu_handle(index);
 }
 
-Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& SRVDescriptorHeap::GetDescriptorHeap() {
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& SRVDescriptorHeap::GetDescriptorHeap() noexcept {
 	return GetInstance().descriptorHeap;
 }
 
 void SRVDescriptorHeap::SetDescriptorHeaps() {
 	ID3D12DescriptorHeap* descriptorHeaps[] = { GetInstance().descriptorHeap.Get() };
 	DirectXCommand::GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps); // SRVDescriptorHeap
+}
+
+void SRVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
+	GetInstance().release_heap(index);
 }
 
 void SRVDescriptorHeap::create_descriptor_heap() {

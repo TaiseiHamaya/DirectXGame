@@ -1,10 +1,10 @@
 #include "InputLayout.h"
 
-void InputLayout::initialize() {
+void InputLayout::initialize() noexcept {
 	create_input_layout();
 }
 
-void InputLayout::create_input_layout() {
+void InputLayout::create_input_layout() noexcept {
 	// 入力する変数は2つ
 	inputElementDescs[0].SemanticName = "POSITION";
 	inputElementDescs[0].SemanticIndex = 0;

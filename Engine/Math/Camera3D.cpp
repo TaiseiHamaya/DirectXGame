@@ -15,43 +15,43 @@ std::unique_ptr<Camera3D> Camera3D::instance;
 
 void Camera3D::Initialize() {
 	instance.reset(new Camera3D{});
-	instance->camera.set_scale(Vec3::kBasis);
+	instance->camera.set_scale(CVector3::BASIS);
 	instance->camera.set_rotate(Quaternion{ 0.7f, 0, 0 });
 	instance->camera.set_translate({ 0, 10, -10 });
 	instance->SetPerspectiveFovInfomation(0.45f, static_cast<float>(WinApp::GetClientWidth()) / static_cast<float>(WinApp::GetClientHight()), 0.1f, 1000);
-	instance->InstanceCameraUpdate();
+	instance->camera_update();
 }
 
-void Camera3D::SetCameraPos(const Vector3& pos) {
+void Camera3D::SetCameraPos(const Vector3& pos) noexcept {
 	instance->camera.set_translate(pos);
 }
 
-void Camera3D::SetCameraTransform(const Transform3D& transform) {
+void Camera3D::SetCameraTransform(const Transform3D& transform) noexcept {
 	instance->camera.set_scale(transform.get_scale());
 	instance->camera.set_rotate(transform.get_quaternion());
 	instance->camera.set_translate(transform.get_translate());
 }
 
-void Camera3D::SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip) {
+void Camera3D::SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip) noexcept {
 	instance->fovY = fovY;
 	instance->aspectRatio = aspectRatio;
 	instance->nearClip = nearClip;
 	instance->farClip = farClip;
 }
 
-void Camera3D::Begin() {
+void Camera3D::Begin() noexcept {
 	instance->camera.begin();
 }
 
 void Camera3D::CameraUpdate() {
-	instance->InstanceCameraUpdate();
+	instance->camera_update();
 }
 
-const Matrix4x4& Camera3D::GetVPMatrix() {
+const Matrix4x4& Camera3D::GetVPMatrix() noexcept {
 	return instance->vpMatrix;
 }
 
-const Transform3D& Camera3D::GetCameraTransform() {
+const Transform3D& Camera3D::GetCameraTransform() noexcept {
 	return instance->camera;
 }
 
@@ -61,9 +61,9 @@ void Camera3D::DebugGUI() {
 }
 #endif // _DEBUG
 
-void Camera3D::InstanceCameraUpdate() {
-	MakeViewMatrix();
-	MakePerspectiveFovMatrix();
+void Camera3D::camera_update() {
+	make_view_matrix();
+	make_perspectivefov_matrix();
 	vpMatrix = viewMatrix * persectiveFovMatrix;
 }
 
@@ -77,11 +77,11 @@ void Camera3D::_debug_gui() {
 }
 #endif // _DEBUG
 
-void Camera3D::MakeViewMatrix() {
+void Camera3D::make_view_matrix() {
 	viewMatrix = camera.get_matrix().inverse();
 }
 
-void Camera3D::MakePerspectiveFovMatrix() {
+void Camera3D::make_perspectivefov_matrix() {
 	float cot = 1 / std::tan(fovY / 2);
 	persectiveFovMatrix = {
 		{{ cot / aspectRatio, 0, 0, 0 },

@@ -7,11 +7,9 @@
 #include <vector>
 
 class DirectXCommand final {
-private:
-	DirectXCommand() = default;
-
 public:
-	~DirectXCommand() = default;
+	DirectXCommand() noexcept = default;
+	~DirectXCommand() noexcept = default;
 
 private:
 	DirectXCommand(const DirectXCommand&) = delete;
@@ -20,11 +18,12 @@ private:
 public:
 	static void Initialize();
 
-	static DirectXCommand& GetInstance();
-	static const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& GetCommandList();
-	static const Microsoft::WRL::ComPtr<ID3D12CommandQueue>& GetCommandQueue();
-	static void SetBarrier(ID3D12Resource* const resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);
+	static DirectXCommand& GetInstance() noexcept;
+	static const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& GetCommandList() noexcept;
+	static const Microsoft::WRL::ComPtr<ID3D12CommandQueue>& GetCommandQueue() noexcept;
+	static void SetBarrier(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);
 
+	// ----------要修正----------
 	static void SetTextureCommand(
 		const Microsoft::WRL::ComPtr<ID3D12Resource>& resource,
 		const Microsoft::WRL::ComPtr<ID3D12Resource>& intermediateResource,
@@ -33,6 +32,7 @@ public:
 	static void ExecuteTextureCommand();
 	static void WaitTextureCommand();
 	static void ResetTextureCommand();
+	// ----------要修正----------
 
 private:
 	void create_command();

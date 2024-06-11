@@ -6,10 +6,10 @@
 
 class DirectXDescriptorHeap {
 protected:
-	DirectXDescriptorHeap() = default;
+	DirectXDescriptorHeap() noexcept = default;
 
 public:
-	virtual ~DirectXDescriptorHeap() = default;
+	virtual ~DirectXDescriptorHeap() noexcept = default;
 
 protected:
 	DirectXDescriptorHeap(const DirectXDescriptorHeap&) = delete;
@@ -17,9 +17,10 @@ protected:
 
 protected:
 	virtual void create_descriptor_heap() = 0;
-	const D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(uint32_t index) const;
-	const D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(uint32_t index) const;
-	const std::uint32_t get_next_heap_index();
+	const D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(std::uint32_t index) const noexcept;
+	const D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(std::uint32_t index) const noexcept;
+	const std::uint32_t get_next_heap_index() noexcept;
+	void release_heap(std::uint32_t index);
 
 protected:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/Math/Color.h"
-#include "Engine/Math/Matrix.h"
+#include "Engine/Math/Matrix4x4.h"
 #include "Engine/Math/Vector2.h"
 #include "Engine/Math/Vector3.h"
 
@@ -17,7 +17,7 @@ struct VertexData {
 struct MaterialData {
 	Color color;
 	int enableLighting;
-	int32_t padding[3];
+	std::int32_t padding[3];
 	Matrix4x4 uvTransform;
 };
 

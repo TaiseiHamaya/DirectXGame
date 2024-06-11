@@ -7,11 +7,12 @@
 #include "Engine/WinApp.h"
 
 void DepthStencil::initialize() {
-	resource = create_depth_stencil_texture_resource();
+	create_depth_stencil_texture_resource();
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
-	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D; // 画面全体なので2D
 	descriptorHandleCPU = DSVDescriptorHeap::GetNextCPUHandle();
+	// viewの作成
 	DirectXDevice::GetDevice()->CreateDepthStencilView(
 		resource.Get(), 
 		&dsvDesc, 
@@ -20,20 +21,20 @@ void DepthStencil::initialize() {
 	// DepthStencilの設定
 	depthStencilDesc.DepthEnable = true;
 	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	// Z値が{ source <= new data }の場合描画
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
-const D3D12_CPU_DESCRIPTOR_HANDLE& DepthStencil::get_cpu_handle() const {
+const D3D12_CPU_DESCRIPTOR_HANDLE& DepthStencil::get_cpu_handle() const noexcept {
 	return descriptorHandleCPU;
 }
 
-const D3D12_DEPTH_STENCIL_DESC& DepthStencil::get_depth_stencil_desc() const {
+const D3D12_DEPTH_STENCIL_DESC& DepthStencil::get_desc() const noexcept {
 	return depthStencilDesc;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource> DepthStencil::create_depth_stencil_texture_resource() {
+void DepthStencil::create_depth_stencil_texture_resource() {
 	HRESULT hr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> resource; // 戻り値に使う
 	D3D12_RESOURCE_DESC resourceDesc{};
 	resourceDesc.Width = WinApp::GetClientWidth();
 	resourceDesc.Height = WinApp::GetClientHight();
@@ -41,7 +42,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DepthStencil::create_depth_stencil_textur
 	resourceDesc.DepthOrArraySize = 1;
 	resourceDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	resourceDesc.SampleDesc.Count = 1;
-	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; // 画面全体なので2D
 	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 
 	D3D12_HEAP_PROPERTIES heapProperties{};
@@ -49,7 +50,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DepthStencil::create_depth_stencil_textur
 
 	D3D12_CLEAR_VALUE depthClearValue{};
 	depthClearValue.DepthStencil.Depth = 1.0f; // 1.0fで初期化
-	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
 
 	hr = DirectXDevice::GetDevice()->CreateCommittedResource(
 		&heapProperties, 
@@ -57,8 +58,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DepthStencil::create_depth_stencil_textur
 		&resourceDesc, 
 		D3D12_RESOURCE_STATE_DEPTH_WRITE, 
 		&depthClearValue, 
-		IID_PPV_ARGS(&resource)
+		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 	assert(SUCCEEDED(hr));
-	return resource;
 }

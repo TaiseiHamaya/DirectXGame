@@ -5,14 +5,14 @@
 
 class TransformMatrix final : public ConstantBuffer<TransformationMatrixData> {
 public:
-	TransformMatrix();
-	~TransformMatrix() = default;
+	TransformMatrix() noexcept(false);
+	~TransformMatrix() noexcept = default;
 
-	TransformMatrix(const TransformationMatrixData& transformMatrixData);
+	TransformMatrix(const TransformationMatrixData& transformMatrixData) noexcept(false);
 
 public:
 	void set_transformation_matrix_data(
 		Matrix4x4&& world, 
 		Matrix4x4&& wvp
-	);
+	) noexcept;
 };

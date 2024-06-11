@@ -13,7 +13,7 @@ ImGuiLoadManager::ImGuiLoadManager() {
 	get_file_list(meshFileList, meshCurrentPath, ".obj");
 	get_file_list(textureFileList, textureCurrentPath, ".png");
 };
-ImGuiLoadManager::~ImGuiLoadManager() = default;
+ImGuiLoadManager::~ImGuiLoadManager() noexcept = default;
 
 ImGuiLoadManager& ImGuiLoadManager::GetInstance() {
 	static std::unique_ptr<ImGuiLoadManager> instance{ new ImGuiLoadManager };

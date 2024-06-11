@@ -9,11 +9,11 @@ void RootSignature::initialize() {
 	create_root_signature();
 }
 
-Microsoft::WRL::ComPtr<ID3D12RootSignature>& RootSignature::get_root_signature() {
+Microsoft::WRL::ComPtr<ID3D12RootSignature>& RootSignature::get_root_signature() noexcept {
 	return rootSignature;
 }
 
-const Microsoft::WRL::ComPtr<ID3D12RootSignature>& RootSignature::get_root_signature() const {
+const Microsoft::WRL::ComPtr<ID3D12RootSignature>& RootSignature::get_root_signature() const noexcept {
 	return rootSignature;
 }
 

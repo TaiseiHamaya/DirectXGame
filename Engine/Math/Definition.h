@@ -4,6 +4,7 @@
 #include <utility>
 
 constexpr float PI = float(std::numbers::pi);
+constexpr float PI_H = float(std::numbers::pi * 0.5);
 constexpr float PI2 = float(std::numbers::pi * 2.0);
 
 /// <summary>
@@ -11,7 +12,7 @@ constexpr float PI2 = float(std::numbers::pi * 2.0);
 /// <param name="mem">開放するメモリの変数</param>
 /// </summary>
 template<class type>
-void MemClear(type*& mem);
+constexpr void MemClear(type*& mem);
 
 
 ///-------------------///
@@ -19,7 +20,7 @@ void MemClear(type*& mem);
 ///-------------------///
 
 template<class type>
-inline void MemClear(type*& mem) {
+inline constexpr void MemClear(type*& mem) {
 	delete mem;
 	mem = nullptr;
 }

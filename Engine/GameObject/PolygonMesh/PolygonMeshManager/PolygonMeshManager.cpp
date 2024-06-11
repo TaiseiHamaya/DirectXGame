@@ -13,11 +13,11 @@
 
 std::mutex meshMutex;
 
-PolygonMeshManager::PolygonMeshManager() = default;
+PolygonMeshManager::PolygonMeshManager() noexcept = default;
 
-PolygonMeshManager::~PolygonMeshManager() = default;
+PolygonMeshManager::~PolygonMeshManager() noexcept = default;
 
-PolygonMeshManager& PolygonMeshManager::GetInstance() {
+PolygonMeshManager& PolygonMeshManager::GetInstance() noexcept {
 	static std::unique_ptr<PolygonMeshManager> instance{ new PolygonMeshManager };
 	return *instance;
 }
@@ -27,18 +27,18 @@ void PolygonMeshManager::RegisterLoadQue(const std::string& directoryPath, const
 	if (IsRegistered(fileName)) {
 		return;
 	}
+	// BackgroundLoaderにLoadPolygonMeshイベントとして転送
 	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, directoryPath, fileName);
 }
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
-	if (IsRegistered(meshName)) {
-		std::lock_guard<std::mutex> lock{ meshMutex };
+	std::lock_guard<std::mutex> lock{ meshMutex }; 
+	if (IsRegisteredUnlocking(meshName)) {
 		return GetInstance().meshInstanceList.at(meshName);
 	}
 	else {
 		// 存在しないメッシュを呼び出したらエラー用メッシュを使用する
-		Log(std::format("Unloading polygon mesh. Name-\'{:}\'\n", meshName));
-		std::lock_guard<std::mutex> lock{ meshMutex };
+		Log(std::format("[PolygonMeshManager] Unloading polygon mesh. Name-\'{:}\'\n", meshName));
 		return GetInstance().meshInstanceList.at("ErrorObject.obj");
 	}
 }
@@ -52,14 +52,13 @@ void PolygonMeshManager::ResetTextureData() {
 
 bool PolygonMeshManager::IsRegistered(const std::string& meshName) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	return GetInstance().meshRegisteredList.find(meshName) != GetInstance().meshRegisteredList.end();
+	return IsRegisteredUnlocking(meshName);
 }
 
 void PolygonMeshManager::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-
+	Log(std::format("[PolygonMeshManager] Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
 	GetInstance().meshInstanceList.emplace(name, data);
-	GetInstance().meshRegisteredList.emplace(name);
 }
 
 #ifdef _DEBUG
@@ -68,11 +67,11 @@ bool PolygonMeshManager::MeshListGui(std::string& current) {
 
 	std::lock_guard<std::mutex> lock{ meshMutex };
 	if(ImGui::BeginCombo("MeshList", current.c_str())) {
-		auto&& list = GetInstance().meshRegisteredList;
+		auto&& list = GetInstance().meshInstanceList;
 		for (auto itr = list.begin(); itr != list.end(); ++itr) {
-			bool is_selected = (current == *itr);
-			if (ImGui::Selectable(itr->c_str(), is_selected)) {
-				current = *itr;
+			bool is_selected = (current == itr->first);
+			if (ImGui::Selectable(itr->first.c_str(), is_selected)) {
+				current = itr->first;
 				changed = true;
 			}
 			if (is_selected) {
@@ -85,3 +84,7 @@ bool PolygonMeshManager::MeshListGui(std::string& current) {
 	return changed;
 }
 #endif // _DEBUG
+
+bool PolygonMeshManager::IsRegisteredUnlocking(const std::string& meshName) {
+	return GetInstance().meshInstanceList.contains(meshName);
+}

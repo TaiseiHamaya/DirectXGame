@@ -4,19 +4,19 @@
 
 class InputLayout final {
 public:
-	InputLayout() = default;
-	~InputLayout() = default;
+	InputLayout() noexcept = default;
+	~InputLayout() noexcept = default;
 
 private:
 	InputLayout(const InputLayout&) = delete;
 	InputLayout operator=(const InputLayout&) = delete;
 
 public:
-	void initialize();
-	const D3D12_INPUT_LAYOUT_DESC& get_desc() const { return inputLayoutDesc; }
+	void initialize() noexcept;
+	const D3D12_INPUT_LAYOUT_DESC& get_desc() const noexcept { return inputLayoutDesc; }
 
 private:
-	void create_input_layout();
+	void create_input_layout() noexcept;
 
 private:
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};

@@ -4,21 +4,19 @@
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
-HRESULT hr;
-
-const D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_cpu_handle(uint32_t index) const {
+const D3D12_CPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_cpu_handle(uint32_t index) const noexcept {
 	D3D12_CPU_DESCRIPTOR_HANDLE result = heapStartCPU; // スタートから
-	result.ptr += incrementSize * index; // increment * index分ポインタを進める
+	result.ptr += static_cast<SIZE_T>(incrementSize * index); // increment * index分ポインタを進める
 	return result;
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_gpu_handle(uint32_t index) const {
+const D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_gpu_handle(std::uint32_t index) const noexcept {
 	D3D12_GPU_DESCRIPTOR_HANDLE result = heapStartGPU; // 上に同じ
-	result.ptr += incrementSize * index;
+	result.ptr += incrementSize * static_cast<UINT64>(index);
 	return result;
 }
 
-const std::uint32_t DirectXDescriptorHeap::get_next_heap_index() {
+const std::uint32_t DirectXDescriptorHeap::get_next_heap_index() noexcept {
 	if (releasedHeap.empty()) {
 		return nowHeapIndex++;
 	}
@@ -29,6 +27,10 @@ const std::uint32_t DirectXDescriptorHeap::get_next_heap_index() {
 	}
 }
 
+void DirectXDescriptorHeap::release_heap(std::uint32_t index) {
+	releasedHeap.emplace(index);
+}
+
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT heapSize, bool shaderVisible) {
 	// カウンターを正常に保つためにComPtrを使用
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;
@@ -37,6 +39,7 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DirectXDescriptorHeap::CreateDescri
 	descriptorHeapDesc.Type = heapType;
 	descriptorHeapDesc.NumDescriptors = heapSize;
 	descriptorHeapDesc.Flags = shaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	HRESULT hr;
 	// ここで生成
 	hr = DirectXDevice::GetDevice()->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(descriptorHeap.GetAddressOf()));
 	assert(SUCCEEDED(hr));

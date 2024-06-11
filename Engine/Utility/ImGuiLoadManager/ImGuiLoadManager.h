@@ -7,10 +7,10 @@
 
 class ImGuiLoadManager final {
 private:
-	ImGuiLoadManager();
+	ImGuiLoadManager() noexcept(false);
 
 public:
-	~ImGuiLoadManager();
+	~ImGuiLoadManager() noexcept;
 
 private:
 	ImGuiLoadManager(const ImGuiLoadManager&) = delete;

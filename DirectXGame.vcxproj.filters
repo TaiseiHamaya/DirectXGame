@@ -31,9 +31,6 @@
     <Filter Include="WinApp">
       <UniqueIdentifier>{c72d7eb7-46a6-4bb4-938d-65a11e823d75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Game">
-      <UniqueIdentifier>{4efc020a-5287-4a42-8a8f-43d70a133215}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\DirectX">
       <UniqueIdentifier>{b771ee1b-1ce3-43c6-a51b-5916e66b1047}</UniqueIdentifier>
     </Filter>
@@ -67,20 +64,8 @@
     <Filter Include="Engine\Core\DirectX\PiplineState\ShaderManager">
       <UniqueIdentifier>{bb327bf5-ebe4-4ac2-9f79-6c0f21e1af36}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Game\GameObject">
-      <UniqueIdentifier>{df797618-2ace-4e51-ba59-3ada04b5c8ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\ImGUIManager">
       <UniqueIdentifier>{24684771-dea8-49c9-b66b-9ed3762474b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Game\GameObject\PolygonMesh">
-      <UniqueIdentifier>{6f82b1b7-d7b3-4911-9050-047cd89e3361}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Game\GameObject\Transform3D">
-      <UniqueIdentifier>{9435c2c3-225b-4fd7-8408-900901b06cc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Game\GameObject\Transform2D">
-      <UniqueIdentifier>{5f13dd86-92c1-4318-a3f1-b87856552514}</UniqueIdentifier>
     </Filter>
     <Filter Include="externals">
       <UniqueIdentifier>{54cfe5d8-dfc7-4d49-9e78-0dfbbca8c0a9}</UniqueIdentifier>
@@ -115,9 +100,6 @@
     <Filter Include="Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap">
       <UniqueIdentifier>{07d8f712-7bbf-4b10-914b-64b967b588a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Game\GameObject\PolygonMesh\PolygonMeshManager">
-      <UniqueIdentifier>{6fe95eae-9a7c-41ee-8bae-aae23ce74218}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\DirectX\DescriptorHeap\DSVDescriptorHeap">
       <UniqueIdentifier>{cd17ec5a-14ba-4d4a-8d32-d6136e53e4d4}</UniqueIdentifier>
     </Filter>
@@ -127,14 +109,53 @@
     <Filter Include="Engine\Core\DirectX\ResourcesObject\DepthStencil">
       <UniqueIdentifier>{e38972b3-49b5-44c5-adda-02ae47a12411}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\SwapChain">
-      <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\BackgroundLoader">
       <UniqueIdentifier>{a8da4bfb-afb5-4d86-8aba-fab735f15aa9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\ImGUILoadManager">
       <UniqueIdentifier>{b1afb1bc-1684-4056-83bd-cf5f08b3ae2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\SceneManager">
+      <UniqueIdentifier>{bf78891f-8859-4bce-bfbf-ce5074744cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\SoundManager">
+      <UniqueIdentifier>{ca9c8e09-c039-41ed-ba32-991aa0eac70f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\InputManager">
+      <UniqueIdentifier>{60af8cdc-8c7d-4148-a99c-2c425f771ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game">
+      <UniqueIdentifier>{4efc020a-5287-4a42-8a8f-43d70a133215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\PolygonMesh">
+      <UniqueIdentifier>{6f82b1b7-d7b3-4911-9050-047cd89e3361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\PolygonMesh\PolygonMeshManager">
+      <UniqueIdentifier>{6fe95eae-9a7c-41ee-8bae-aae23ce74218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Transform2D">
+      <UniqueIdentifier>{5f13dd86-92c1-4318-a3f1-b87856552514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Transform3D">
+      <UniqueIdentifier>{9435c2c3-225b-4fd7-8408-900901b06cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Objects">
+      <UniqueIdentifier>{8119391f-a6af-4cc5-8e8e-292abf1697e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Objects\SpriteObject">
+      <UniqueIdentifier>{20bb3871-23b3-4796-a03f-f14f1fe4e010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Objects\GameObject">
+      <UniqueIdentifier>{df797618-2ace-4e51-ba59-3ada04b5c8ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\SwapChain">
+      <UniqueIdentifier>{551ee37f-a8e2-4c65-9efa-9c0dc966ac33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\Texture">
+      <UniqueIdentifier>{d4a1b506-8859-414b-bd57-93c4b17bceb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\3DObject">
+      <UniqueIdentifier>{6df12820-dab8-4963-8c14-41f5ee7b23d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +172,6 @@
       <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Definition.cpp">
-      <Filter>Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Matrix.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Quaternion.cpp">
@@ -193,7 +211,7 @@
       <Filter>Engine\Core\DirectX\Command</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\SwapChain</Filter>
+      <Filter>Engine\Core\DirectX\SwapChain</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp">
       <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
@@ -220,16 +238,16 @@
       <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\GameObject.cpp">
-      <Filter>Engine\Game\GameObject</Filter>
+      <Filter>Engine\Core\Game\Objects\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMesh.cpp">
-      <Filter>Engine\Game\GameObject\PolygonMesh</Filter>
+      <Filter>Engine\Core\Game\PolygonMesh</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Transform3D\Transform3D.cpp">
-      <Filter>Engine\Game\GameObject\Transform3D</Filter>
+      <Filter>Engine\Core\Game\Transform3D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Transform2D\Transform2D.cpp">
-      <Filter>Engine\Game\GameObject\Transform2D</Filter>
+      <Filter>Engine\Core\Game\Transform2D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp">
       <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
@@ -259,7 +277,7 @@
       <Filter>Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp">
-      <Filter>Engine\Game\GameObject\PolygonMesh\PolygonMeshManager</Filter>
+      <Filter>Engine\Core\Game\PolygonMesh\PolygonMeshManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utility\ImGuiManager\ImGuiManager.cpp">
       <Filter>Engine\Utility\ImGUIManager</Filter>
@@ -279,9 +297,6 @@
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp">
       <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\SpriteObject.cpp">
-      <Filter>Engine\Game\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\Camera2D.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
@@ -290,6 +305,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.cpp">
       <Filter>Engine\Utility\ImGUILoadManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\SpriteObject.cpp">
+      <Filter>Engine\Core\Game\Objects\SpriteObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Matrix3x3.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Matrix4x4.cpp">
+      <Filter>Engine\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +375,7 @@
       <Filter>Engine\Core\DirectX\Command</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\SwapChain</Filter>
+      <Filter>Engine\Core\DirectX\SwapChain</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h">
       <Filter>Engine\Core\DirectX\DescriptorHeap</Filter>
@@ -378,16 +402,16 @@
       <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\GameObject.h">
-      <Filter>Engine\Game\GameObject</Filter>
+      <Filter>Engine\Core\Game\Objects\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMesh.h">
-      <Filter>Engine\Game\GameObject\PolygonMesh</Filter>
+      <Filter>Engine\Core\Game\PolygonMesh</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\Transform3D\Transform3D.h">
-      <Filter>Engine\Game\GameObject\Transform3D</Filter>
+      <Filter>Engine\Core\Game\Transform3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\Transform2D\Transform2D.h">
-      <Filter>Engine\Game\GameObject\Transform2D</Filter>
+      <Filter>Engine\Core\Game\Transform2D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h">
       <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
@@ -423,7 +447,7 @@
       <Filter>Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h">
-      <Filter>Engine\Game\GameObject\PolygonMesh\PolygonMeshManager</Filter>
+      <Filter>Engine\Core\Game\PolygonMesh\PolygonMeshManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h">
       <Filter>Engine\Utility\ImGUIManager</Filter>
@@ -443,9 +467,6 @@
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h">
       <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\SpriteObject.h">
-      <Filter>Engine\Game\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\Camera2D.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
@@ -455,6 +476,15 @@
     <ClInclude Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.h">
       <Filter>Engine\Utility\ImGUILoadManager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\GameObject\SpriteObject.h">
+      <Filter>Engine\Core\Game\Objects\SpriteObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix3x3.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix4x4.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -462,16 +492,16 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\HLSL\Object3d.hlsli">
-      <Filter>Engine\HLSL</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
-      <Filter>Engine\HLSL</Filter>
+      <Filter>Engine\HLSL\3DObject</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
-      <Filter>Engine\HLSL</Filter>
+      <Filter>Engine\HLSL\3DObject</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\HLSL\Object3d.hlsli">
+      <Filter>Engine\HLSL\3DObject</Filter>
+    </None>
   </ItemGroup>
 </Project>

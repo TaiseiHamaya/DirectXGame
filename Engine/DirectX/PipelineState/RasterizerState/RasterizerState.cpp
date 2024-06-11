@@ -1,10 +1,10 @@
 #include "RasterizerState.h"
 
-void RasterizerState::initialize() {
+void RasterizerState::initialize() noexcept {
 	create_rasterizer_state();
 }
 
-void RasterizerState::create_rasterizer_state() {
+void RasterizerState::create_rasterizer_state() noexcept {
 	// RasterizerStateの設定
 	// 背面カリング
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;

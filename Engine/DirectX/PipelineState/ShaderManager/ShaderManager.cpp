@@ -9,11 +9,11 @@ void ShaderManager::initialize() {
 	create_pixel_shader();
 }
 
-D3D12_SHADER_BYTECODE ShaderManager::get_vs_bytecode() {
+D3D12_SHADER_BYTECODE ShaderManager::get_vs_bytecode() noexcept {
 	return { vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize() };
 }
 
-D3D12_SHADER_BYTECODE ShaderManager::get_ps_bytecode() {
+D3D12_SHADER_BYTECODE ShaderManager::get_ps_bytecode() noexcept {
 	return { pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize() };
 }
 

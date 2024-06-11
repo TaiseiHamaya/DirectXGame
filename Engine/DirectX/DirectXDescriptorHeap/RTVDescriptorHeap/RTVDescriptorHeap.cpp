@@ -7,7 +7,7 @@
 // ダブルバッファのみで使用するため2
 constexpr uint32_t RTV_HEAP_SIZE = 2;
 
-RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() {
+RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {
 	static std::unique_ptr<RTVDescriptorHeap> instance{ new RTVDescriptorHeap };
 	return *instance;
 }
@@ -17,7 +17,7 @@ void RTVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetNextCPUHandle() {
+D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetNextCPUHandle() noexcept {
 	return GetInstance().get_cpu_handle(GetInstance().get_next_heap_index());
 }
 

@@ -25,35 +25,29 @@ public:
 	/// カメラ位置の設定
 	/// </summary>
 	/// <param name="cameraMatrix_"></param>
-	static void SetCameraPos(const Vector3& pos);
+	static void SetCameraPos(const Vector3& pos) noexcept;
 
-	static void SetCameraTransform(const Transform3D& transform);
+	static void SetCameraTransform(const Transform3D& transform) noexcept;
 
-	static void SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip);
+	static void SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip) noexcept;
 
-	static void Begin();
+	static void Begin() noexcept;
 
 	static void CameraUpdate();
 
-	static bool IsUpdatedVPMatrix();
-
-	static bool IsUpdatedVPVMatrix();
-
-	static bool IsUpdatedPVMatrix();
-
-	static const Matrix4x4& GetVPMatrix();
+	static const Matrix4x4& GetVPMatrix() noexcept;
 
 #ifdef _DEBUG
 	static void DebugGUI();
 #endif // _DEBUG
 
 public:
-	static const Transform3D& GetCameraTransform();
+	static const Transform3D& GetCameraTransform() noexcept;
 
 private:
-	void InstanceCameraUpdate();
-	void MakeViewMatrix();
-	void MakePerspectiveFovMatrix();
+	void camera_update();
+	void make_view_matrix();
+	void make_perspectivefov_matrix();
 #ifdef _DEBUG
 	void _debug_gui();
 #endif // _DEBUG

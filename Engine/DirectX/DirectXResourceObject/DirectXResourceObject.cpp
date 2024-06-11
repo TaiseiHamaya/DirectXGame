@@ -14,11 +14,11 @@ DirectXResourceObject& DirectXResourceObject::operator=(DirectXResourceObject&& 
 	return *this;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource>& DirectXResourceObject::get_resource() {
+Microsoft::WRL::ComPtr<ID3D12Resource>& DirectXResourceObject::get_resource() noexcept {
 	return resource;
 }
 
-const Microsoft::WRL::ComPtr<ID3D12Resource>& DirectXResourceObject::get_resource() const {
+const Microsoft::WRL::ComPtr<ID3D12Resource>& DirectXResourceObject::get_resource() const noexcept {
 	return resource;
 }
 

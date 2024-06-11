@@ -46,6 +46,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
 
+		Camera2D::Begin();
+
 #ifdef _DEBUG
 		DirectXCore::ShowDebugTools();
 		DirectXCore::ShowGrid();
@@ -86,7 +88,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #endif // _DEBUG
 
-		Camera2D::Begin();
 		Camera2D::CameraUpdate();
 		Camera3D::CameraUpdate();
 

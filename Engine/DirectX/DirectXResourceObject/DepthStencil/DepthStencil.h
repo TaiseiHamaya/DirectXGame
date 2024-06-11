@@ -9,11 +9,11 @@ public:
 
 public:
 	void initialize();
-	const D3D12_CPU_DESCRIPTOR_HANDLE& get_cpu_handle() const;
-	const D3D12_DEPTH_STENCIL_DESC& get_depth_stencil_desc() const;
+	const D3D12_CPU_DESCRIPTOR_HANDLE& get_cpu_handle() const noexcept;
+	const D3D12_DEPTH_STENCIL_DESC& get_desc() const noexcept;
 
 private:
-	Microsoft::WRL::ComPtr<ID3D12Resource> create_depth_stencil_texture_resource();
+	void create_depth_stencil_texture_resource();
 
 private:
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};

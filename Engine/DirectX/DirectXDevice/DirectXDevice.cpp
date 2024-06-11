@@ -5,7 +5,7 @@
 
 #include "Engine/Utility/Utility.h"
 
-DirectXDevice& DirectXDevice::GetInstance() {
+DirectXDevice& DirectXDevice::GetInstance() noexcept {
 	static std::unique_ptr<DirectXDevice> instance{ new DirectXDevice{} };
 	return *instance;
 }
@@ -36,7 +36,7 @@ void DirectXDevice::create_adapter() {
 		// ソフトウェアアダプターでなければ採用する
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			// ログ出力
-			Log(std::format(L"Use Adapter : {}\n", adapterDesc.Description));
+			Log(std::format(L"[Engine] Use Adapter : {}\n", adapterDesc.Description));
 			break;
 		}
 		// ソフトウェアアダプタの場合は無視
@@ -59,7 +59,7 @@ void DirectXDevice::create_device() {
 		HRESULT hr = D3D12CreateDevice(useAdapter.Get(), featureLevel[i], IID_PPV_ARGS(&device));
 		if (SUCCEEDED(hr)) {
 			// device生成完了通知
-			Log(std::format("FeatureLevel : {}\n", featureLevelString[i]));
+			Log(std::format("[Engine] FeatureLevel : {}\n", featureLevelString[i]));
 			break;
 		}
 	}

@@ -4,25 +4,25 @@
 
 class DSVDescriptorHeap final : public DirectXDescriptorHeap {
 private:
-	DSVDescriptorHeap() = default;
+	DSVDescriptorHeap() noexcept = default;
 
 public:
-	~DSVDescriptorHeap() = default;
+	~DSVDescriptorHeap() noexcept = default;
 
 private:
 	DSVDescriptorHeap(const DSVDescriptorHeap&) = delete;
 	DSVDescriptorHeap& operator=(const DSVDescriptorHeap&) = delete;
 
 private:
-	static DSVDescriptorHeap& GetInstance();
+	static DSVDescriptorHeap& GetInstance() noexcept;
 
 public:
 	static void Initialize();
-	static D3D12_CPU_DESCRIPTOR_HANDLE GetNextCPUHandle();
+	static D3D12_CPU_DESCRIPTOR_HANDLE GetNextCPUHandle() noexcept;
 
 private:
 	void create_descriptor_heap() override;
 	void initialize();
 
-	D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(uint32_t index) const = delete;
+	D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(std::uint32_t index) const noexcept = delete;
 };

@@ -6,18 +6,18 @@
 
 class ShaderManager {
 public:
-	ShaderManager() = default;
-	~ShaderManager() = default;
+	ShaderManager() noexcept = default;
+	~ShaderManager() noexcept = default;
 
 private:
 	ShaderManager(const ShaderManager&) = delete;
 	ShaderManager operator=(const ShaderManager&) = delete;
 
 public:
-	void initialize();
+	void initialize() noexcept(false);
 
-	D3D12_SHADER_BYTECODE get_vs_bytecode();
-	D3D12_SHADER_BYTECODE get_ps_bytecode();
+	D3D12_SHADER_BYTECODE get_vs_bytecode() noexcept;
+	D3D12_SHADER_BYTECODE get_ps_bytecode() noexcept;
 
 private:
 	void create_vertex_shader();

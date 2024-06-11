@@ -7,9 +7,9 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/WinApp.h"
 
-DirectXSwapChain::DirectXSwapChain() {
+DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
-	isRendering = false;
+	isRendering = {false, false};
 	backBufferIndex = 0;
 	depthStencil = std::make_unique<DepthStencil>();
 	depthStencil->initialize();
@@ -17,7 +17,6 @@ DirectXSwapChain::DirectXSwapChain() {
 }
 
 void DirectXSwapChain::Initialize() {
-	GetInstance();
 	GetInstance().create_swapchain();
 }
 
@@ -52,11 +51,11 @@ void DirectXSwapChain::ClearDepthStencil() {
 	);
 }
 
-void DirectXSwapChain::SetClearColor(const Color& color_) {
+void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {
 	GetInstance().clearColor = color_;
 }
 
-DirectXSwapChain& DirectXSwapChain::GetInstance() {
+DirectXSwapChain& DirectXSwapChain::GetInstance() noexcept {
 	static std::unique_ptr<DirectXSwapChain> instance{ new DirectXSwapChain };
 	return *instance;
 }
@@ -88,12 +87,12 @@ void DirectXSwapChain::create_swapchain() {
 void DirectXSwapChain::change_back_buffer_state() {
 	// ----------リソースバリアの設定----------
 	DirectXCommand::SetBarrier(
-		renderTarget[backBufferIndex].get_resource().Get(),
-		isRendering ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
-		isRendering ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
+		renderTarget[backBufferIndex].get_resource(),
+		isRendering[backBufferIndex] ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
+		isRendering[backBufferIndex] ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
 	);
 	// 描画の状態を反転
-	isRendering = isRendering ^ 0b1;
+	isRendering[backBufferIndex] = isRendering[backBufferIndex] ^ 0b1;
 }
 
 void DirectXSwapChain::swap_screen() {

@@ -7,10 +7,10 @@
 
 class ShaderCompiler final {
 private:
-	ShaderCompiler() = default;
+	ShaderCompiler() noexcept = default;
 
 public:
-	~ShaderCompiler() = default;
+	~ShaderCompiler() noexcept = default;
 
 private:
 	ShaderCompiler(const ShaderCompiler&) = delete;
@@ -18,7 +18,7 @@ private:
 
 public:
 	static void Initialize();
-	static ShaderCompiler& GetInstance();
+	static ShaderCompiler& GetInstance() noexcept;
 
 public:
 	[[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob> compile_shader(const std::wstring& filePath, const wchar_t* profile);

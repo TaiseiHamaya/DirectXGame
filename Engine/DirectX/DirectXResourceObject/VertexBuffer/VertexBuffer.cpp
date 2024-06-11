@@ -10,7 +10,7 @@ VertexBuffer::VertexBuffer(const std::vector<VertexData>& vertices_)
 	std::memcpy(vertices.data, vertices_.data(), vertices.memorySize);
 }
 
-VertexBuffer::VertexBuffer(std::uint32_t size) {
+VertexBuffer::VertexBuffer(std::uint32_t size) noexcept(false) {
 	vertices = { nullptr, size, size * VERTEX_DATA_SIZE };
 	resource = CreateBufferResource(vertices.memorySize);
 	vertexBufferView.BufferLocation = resource->GetGPUVirtualAddress();
@@ -20,10 +20,10 @@ VertexBuffer::VertexBuffer(std::uint32_t size) {
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&vertices.data));
 }
 
-VertexBuffer::~VertexBuffer() {
+VertexBuffer::~VertexBuffer() noexcept {
 	resource->Unmap(0, nullptr);
 }
 
-const D3D12_VERTEX_BUFFER_VIEW* const VertexBuffer::get_p_vbv() const {
+const D3D12_VERTEX_BUFFER_VIEW* const VertexBuffer::get_p_vbv() const noexcept {
 	return &vertexBufferView;
 }

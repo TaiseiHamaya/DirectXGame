@@ -13,25 +13,25 @@ void DirectXCommand::Initialize() {
 	GetInstance().create_fence();
 }
 
-const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& DirectXCommand::GetCommandList() {
+const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& DirectXCommand::GetCommandList() noexcept {
 	return GetInstance().commandList;
 }
 
-const Microsoft::WRL::ComPtr<ID3D12CommandQueue>& DirectXCommand::GetCommandQueue() {
+const Microsoft::WRL::ComPtr<ID3D12CommandQueue>& DirectXCommand::GetCommandQueue() noexcept {
 	return GetInstance().commandQueue;
 }
 
-void DirectXCommand::SetBarrier(ID3D12Resource* const resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after) {
+void DirectXCommand::SetBarrier(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after) {
 	D3D12_RESOURCE_BARRIER barrier{};
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = resource;
+	barrier.Transition.pResource = resource.Get();
 	barrier.Transition.StateBefore = before;
 	barrier.Transition.StateAfter = after;
 	DirectXCommand::GetCommandList()->ResourceBarrier(1, &barrier); // バリアの適用
 }
 
-// ----------------------後で直す----------------------
+// ----------------------ここから後で直す----------------------
 void DirectXCommand::SetTextureCommand(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource, const Microsoft::WRL::ComPtr<ID3D12Resource>& intermediateResource, const std::vector<D3D12_SUBRESOURCE_DATA>& subResources) {
 	UpdateSubresources(GetInstance().commandListTexture.Get(), resource.Get(), intermediateResource.Get(), 0, 0, UINT(subResources.size()), subResources.data()); // コマンドに積む
 	
@@ -79,9 +79,9 @@ void DirectXCommand::ResetTextureCommand() {
 	hr = GetInstance().commandListTexture->Reset(GetInstance().commandAllocatorTexture.Get(), nullptr);
 	assert(SUCCEEDED(hr)); // 失敗したら停止させる
 }
-// ----------------------後で直す----------------------
+// ----------------------ここまで後で直す----------------------
 
-DirectXCommand& DirectXCommand::GetInstance() {
+DirectXCommand& DirectXCommand::GetInstance() noexcept {
 	static std::unique_ptr<DirectXCommand> instance{ new DirectXCommand };
 	return *instance;
 }

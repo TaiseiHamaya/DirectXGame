@@ -11,9 +11,9 @@
 #include "Engine/DirectX/PipelineState/RootSignature/RootSignature.h"
 #include "Engine/DirectX/PipelineState/ShaderManager/ShaderManager.h"
 
-PipelineState::PipelineState() = default;
+PipelineState::PipelineState() noexcept = default;
 
-PipelineState::~PipelineState() = default;
+PipelineState::~PipelineState() noexcept = default;
 
 void PipelineState::initialize() {
 	create_pipeline_state();
@@ -39,14 +39,15 @@ void PipelineState::create_pipeline_state() {
 	shaderManger = std::make_unique<ShaderManager>();
 	shaderManger->initialize();
 
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{}; // これまでの設定をまとめる
+	// これまでの設定をまとめる
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature->get_root_signature().Get();
 	graphicsPipelineStateDesc.InputLayout = inputLayout->get_desc();
 	graphicsPipelineStateDesc.VS = shaderManger->get_vs_bytecode();
 	graphicsPipelineStateDesc.PS = shaderManger->get_ps_bytecode();
 	graphicsPipelineStateDesc.BlendState = blendState->get_desc();
 	graphicsPipelineStateDesc.RasterizerState = rasterizerState->get_desc();
-	graphicsPipelineStateDesc.DepthStencilState = DirectXSwapChain::GetDepthStencil().get_depth_stencil_desc();
+	graphicsPipelineStateDesc.DepthStencilState = DirectXSwapChain::GetDepthStencil().get_desc();
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	graphicsPipelineStateDesc.NumRenderTargets = 1;
 	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;

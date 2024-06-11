@@ -13,59 +13,59 @@ std::unique_ptr<Camera2D> Camera2D::instance;
 
 void Camera2D::Initialize() {
 	instance.reset(new Camera2D{});
-	SetCameraTransform(Transform2D{Vec2::kBasis, 0, Vec2::kZero});
+	SetCameraTransform(Transform2D{CVector2::BASIS, 0, CVector2::ZERO});
 	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()), 0, 0, 1000);
 	instance->isUpdateOrthro = true;
-	instance->InstanceCameraUpdate();
+	instance->camera_update();
 }
 
-void Camera2D::SetCameraPos(const Vector2& pos) {
+void Camera2D::SetCameraPos(const Vector2& pos) noexcept {
 	instance->camera.set_translate(pos);
 }
 
-void Camera2D::SetCameraTransform(const Transform2D& transform) {
+void Camera2D::SetCameraTransform(const Transform2D& transform) noexcept {
 	instance->camera = transform;
 }
 
-void Camera2D::SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) {
+void Camera2D::SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) noexcept {
 	instance->ndcLeftBottomNear = { left,bottom, near };
 	instance->ndcRightTopFar = { right, top, far };
 }
 
-void Camera2D::Begin() {
+void Camera2D::Begin() noexcept {
 	instance->isUpdateOrthro = false;
 	instance->isUpdateVP = false;
 	instance->camera.begin();
 }
 
 void Camera2D::CameraUpdate() {
-	instance->InstanceCameraUpdate();
+	instance->camera_update();
 }
 
-const Matrix4x4& Camera2D::GetVPMatrix() {
+const Matrix4x4& Camera2D::GetVPMatrix() noexcept {
 	return instance->vpMatrix;
 }
 
-bool Camera2D::IsUpdatedVPMatrix() {
+bool Camera2D::IsUpdatedVPMatrix() noexcept {
     return instance->isUpdateVP;
 }
 
-void Camera2D::InstanceCameraUpdate() {
-	MakeViewMatrix();
-	MakeOrthoMatrix();
+void Camera2D::camera_update() {
+	make_view_matrix();
+	make_ortho_matrix();
 	if (camera.need_update_matrix() || isUpdateOrthro) {
 		vpMatrix = viewMatrix * orthoMatrix;
 		isUpdateVP = true;
 	}
 }
 
-void Camera2D::MakeViewMatrix() {
+void Camera2D::make_view_matrix() {
 	if (camera.need_update_matrix()) {
 		viewMatrix = camera.get_matrix4x4_transform().inverse();
 	}
 }
 
-void Camera2D::MakeOrthoMatrix() {
+void Camera2D::make_ortho_matrix() {
 	if (isUpdateOrthro) {
 		orthoMatrix =
 		{ { 2 / (ndcRightTopFar.x - ndcLeftBottomNear.x),0,0,0},
@@ -84,7 +84,7 @@ void Camera2D::debug_gui() {
 	ImGui::SetNextWindowSize(ImVec2{ 330,140 }, ImGuiCond_Once);
 	ImGui::SetNextWindowPos(ImVec2{ 50, 220 }, ImGuiCond_Once);
 	ImGui::Begin("2DCamera", nullptr, ImGuiWindowFlags_NoSavedSettings);
-	camera.debug_gui();
+	camera.debug_gui(1.0f);
 	ImGui::End();
 }
 #endif // _DEBUG

@@ -8,8 +8,8 @@
 
 class WinApp final {
 private:
-	WinApp(int32_t width, int32_t height);
-	~WinApp() = default;
+	WinApp(int32_t width, int32_t height) noexcept;
+	~WinApp() noexcept= default;
 
 public:
 	WinApp(const WinApp&) = delete;
@@ -23,9 +23,9 @@ public:
 	static void Finalize();
 
 public:
-	static int32_t GetClientWidth() { return instance->kClientWidth; };
-	static int32_t GetClientHight() { return instance->kClientHight; };
-	static HWND& GetWndHandle() { return instance->hWnd; };
+	static int32_t GetClientWidth() noexcept { return instance->kClientWidth; };
+	static int32_t GetClientHight() noexcept { return instance->kClientHight; };
+	static HWND& GetWndHandle() noexcept { return instance->hWnd; };
 
 private:
 	/// <summary>

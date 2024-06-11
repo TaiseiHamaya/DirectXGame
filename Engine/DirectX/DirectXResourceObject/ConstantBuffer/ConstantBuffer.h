@@ -5,13 +5,13 @@
 template<typename T>
 class ConstantBuffer : public DirectXResourceObject {
 public:
-	ConstantBuffer();
-	ConstantBuffer(const T& data_);
+	ConstantBuffer() noexcept(false);
+	ConstantBuffer(const T& data_) noexcept(false);
 
-	virtual ~ConstantBuffer();
+	virtual ~ConstantBuffer() noexcept;
 
 public:
-	T* const get_data();
+	T* const get_data() noexcept;
 
 protected:
 	T* data;
@@ -19,23 +19,23 @@ protected:
 };
 
 template<typename T>
-inline ConstantBuffer<T>::ConstantBuffer() {
+inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	memorySize = sizeof(T);
 	resource = CreateBufferResource(memorySize);
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 }
 
 template<typename T>
-inline ConstantBuffer<T>::ConstantBuffer(const T& data_) : ConstantBuffer<T>() {
+inline ConstantBuffer<T>::ConstantBuffer(const T& data_) noexcept(false) : ConstantBuffer<T>() {
 	*data = data_;
 }
 
 template<typename T>
-inline ConstantBuffer<T>::~ConstantBuffer() {
+inline ConstantBuffer<T>::~ConstantBuffer() noexcept {
 	resource->Unmap(0, nullptr);
 }
 
 template<typename T>
-inline T* const ConstantBuffer<T>::get_data() {
+inline T* const ConstantBuffer<T>::get_data() noexcept {
 	return data;
 }

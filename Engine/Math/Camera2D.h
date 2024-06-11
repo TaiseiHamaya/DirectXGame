@@ -7,9 +7,8 @@
 #include <memory>
 
 class Camera2D final {
-	friend class Debug;
 private:// シングルトンなのでprivate
-	Camera2D() = default;
+	Camera2D() noexcept = default;
 
 public:	// コピー禁止
 	Camera2D(const Camera2D&) = delete;
@@ -26,24 +25,24 @@ public:
 	/// カメラ位置の設定
 	/// </summary>
 	/// <param name="cameraMatrix_"></param>
-	static void SetCameraPos(const Vector2& pos);
+	static void SetCameraPos(const Vector2& pos) noexcept;
 
-	static void SetCameraTransform(const Transform2D& transform);
+	static void SetCameraTransform(const Transform2D& transform) noexcept;
 
-	static void SetNDCInfomation(float left, float right, float bottom, float top, float near, float far);
+	static void SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) noexcept;
 
-	static void Begin();
+	static void Begin() noexcept;
 
 	static void CameraUpdate();
 
-	static const Matrix4x4& GetVPMatrix();
+	static const Matrix4x4& GetVPMatrix() noexcept;
 
-	static bool IsUpdatedVPMatrix();
+	static bool IsUpdatedVPMatrix() noexcept;
 
 private:
-	void InstanceCameraUpdate();
-	void MakeViewMatrix();
-	void MakeOrthoMatrix();
+	void camera_update();
+	void make_view_matrix();
+	void make_ortho_matrix();
 
 #ifdef _DEBUG
 public:

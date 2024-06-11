@@ -18,65 +18,115 @@ enum class LoadEvent {
 	LoadPolygonMesh,
 };
 
+/// <summary>
+/// バックグラウンドロード用クラス
+/// </summary>
 class BackgroundLoader final {
 private:
-	BackgroundLoader();
+	BackgroundLoader() noexcept;
 
 public:
-	~BackgroundLoader();
+	~BackgroundLoader() noexcept;
 
-private:
+private: // コピームーブ禁止
 	BackgroundLoader(const BackgroundLoader&) = delete;
 	BackgroundLoader& operator=(const BackgroundLoader&) = delete;
 
-public:
-	static BackgroundLoader& GetInstance();
+public: // シングルトン
+	static BackgroundLoader& GetInstance() noexcept;
 
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	static void Initialize();
-	static void RegisterLoadQue(LoadEvent eventID, const std::string& filePath, const std::string& textureName);
+
+	/// <summary>
+	/// ロードイベントの登録
+	/// </summary>
+	/// <param name="eventID">LoadEventID</param>
+	/// <param name="filePath">ファイルパス</param>
+	/// <param name="fileName">ファイル名</param>
+	static void RegisterLoadQue(LoadEvent eventID, const std::string& filePath, const std::string& fileName) noexcept(false);
+
+	/// <summary>
+	/// ロードが完了するまで待機
+	/// </summary>
 	static void WaitEndExecute();
-	static bool IsLoading();
+
+	/// <summary>
+	/// ロード中か取得
+	/// </summary>
+	/// <returns></returns>
+	static bool IsLoading() noexcept;
 
 private:
-	void initialize();
+	void initialize() noexcept(false);
+
+	/// <summary>
+	/// ロード管理用関数
+	/// </summary>
 	void load_manager();
+
+	/// <summary>
+	/// 読み込み済みテクスチャのビューを作成
+	/// </summary>
 	void create_texture_view();
+
+	/// <summary>
+	/// ロード済みデータを各Managerに転送
+	/// </summary>
 	void transfer_data();
 
 private:
-	// ロード用
-	// ロード待機中のデータ
+	/// <summary>
+	/// ロード用キュー
+	/// </summary>
 	struct LoadingQue {
-		std::string filePath;
-		std::string fileName;
+		std::string filePath; // パス
+		std::string fileName; // ファイル名
 
 		// variant用定義
 		struct LoadTextureData {
-			std::shared_ptr<Texture> textureData;
-			Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource;
+			std::shared_ptr<Texture> textureData; // 実データ
+			Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource; // 一時リソース
 		};
 		struct LoadPolygonMeshData {
-			std::shared_ptr<PolygonMesh> meshData;
+			std::shared_ptr<PolygonMesh> meshData; // メッシュデータ
 		};
-
-		// ロードデータ
-		std::variant<LoadTextureData, LoadPolygonMeshData, void*> loadData;
+		std::variant<LoadTextureData, LoadPolygonMeshData, void*> loadData; // variantでDataを選択
 	};
 
-	// イベント1つ分
+	/// <summary>
+	/// イベントデータ
+	/// </summary>
 	struct EventList {
-		LoadEvent eventId;
-		std::unique_ptr<LoadingQue> data;
+		LoadEvent eventId; // イベントID
+		std::unique_ptr<LoadingQue> data; // 実データ
 	};
-	// ロード用スレッド
+
+	/// <summary>
+	/// ロードスレッド
+	/// </summary>
 	std::thread loadFunc;
-	// イベント一覧
+	
+	/// <summary>
+	/// イベント一覧
+	/// </summary>
 	std::list<EventList> loadEvents;
-	// ロードが終わって転送待ち
+
+	/// <summary>
+	/// ロードが終わって転送待ち
+	/// </summary>
 	std::list<EventList> waitLoadingQue;
-	// マルチスレッド終了判定用
+	
+	/// <summary>
+	/// マルチスレッド終了判定用
+	/// </summary>
 	bool isEndProgram;
+
+	/// <summary>
+	/// ロード中フラグ
+	/// </summary>
 	bool isLoading;
 };
-

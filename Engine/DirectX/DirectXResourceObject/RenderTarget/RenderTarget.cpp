@@ -14,6 +14,6 @@ void RenderTarget::initialize() {
 	DirectXDevice::GetDevice()->CreateRenderTargetView(resource.Get(), &rtvDesc, descriptorHandleCPU);
 }
 
-const D3D12_CPU_DESCRIPTOR_HANDLE& RenderTarget::get_cpu_handle() {
+const D3D12_CPU_DESCRIPTOR_HANDLE& RenderTarget::get_cpu_handle() noexcept {
 	return descriptorHandleCPU;
 }

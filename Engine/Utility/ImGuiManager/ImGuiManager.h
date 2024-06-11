@@ -4,17 +4,17 @@
 
 class ImGuiManager final {
 private:
-	ImGuiManager() = default;
+	ImGuiManager() noexcept = default;
 
 public:
-	~ImGuiManager() = default;
+	~ImGuiManager() noexcept = default;
 
 private:
 	ImGuiManager(const ImGuiManager&) = delete;
 	ImGuiManager& operator=(const ImGuiManager&) = delete;
 
 private:
-	static ImGuiManager& GetInstance();
+	static ImGuiManager& GetInstance() noexcept;
 
 public:
 	static void Initialize();

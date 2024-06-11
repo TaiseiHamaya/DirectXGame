@@ -15,16 +15,16 @@
 #include "externals/imgui/imgui.h"
 #endif // _DEBUG
 
-GameObject::GameObject() :
+GameObject::GameObject() noexcept(false) :
 	// 各メモリの取得
-	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, true, {0,0,0}, Matrix4x4::identity })),
+	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, true, {0,0,0}, CMatrix4x4::IDENTITY })),
 	color(material->get_color_reference()), // カラーはマテリアルから直接取得
 	transformMatrix(std::make_unique<TransformMatrix>()),
 	transform(std::make_unique<Transform3D>()),
 	uvTransform(std::make_unique<Transform2D>()) {
 }
 
-GameObject::GameObject(const std::string& meshName_) :
+GameObject::GameObject(const std::string& meshName_) noexcept(false) :
 	GameObject() {
 	meshName = meshName_;
 	mesh = PolygonMeshManager::GetPolygonMesh(meshName);
@@ -32,21 +32,24 @@ GameObject::GameObject(const std::string& meshName_) :
 	reset_default();
 }
 
-GameObject::~GameObject() = default;
+GameObject::~GameObject() noexcept = default;
 
 GameObject::GameObject(GameObject&&) noexcept = default;
 
 GameObject& GameObject::operator=(GameObject&&) noexcept = default;
 
-const Transform3D& GameObject::get_transform() {
+const Transform3D& GameObject::get_transform() noexcept {
 	return *transform;
 }
 
-void GameObject::begin_rendering() {
+void GameObject::update() {
+}
+
+void GameObject::begin_rendering() noexcept {
 	// 各情報をGPUに転送
 	transformMatrix->set_transformation_matrix_data(
 		transform->get_matrix(),
-		transform->get_matrix() * Camera3D::GetVPMatrix()
+		static_cast<Matrix4x4>(transform->get_matrix() * Camera3D::GetVPMatrix())
 	);
 	material->set_uv_transform(uvTransform->get_matrix4x4_transform());
 }
@@ -66,7 +69,19 @@ void GameObject::draw() const {
 	else {
 		texture.lock()->set_command();
 	}
-	commandList->DrawIndexedInstanced(mesh_locked->get_index_size(), 1, 0, 0, 0); // 描画コマンド
+	commandList->DrawIndexedInstanced(mesh_locked->index_size(), 1, 0, 0, 0); // 描画コマンド
+}
+
+void GameObject::reset_default() {
+	auto&& mesh_locked = mesh.lock();
+	// テクスチャ情報の取得
+	texture = mesh_locked->get_texture();
+	// uv情報のリセット
+	*uvTransform = mesh_locked->get_default_uv();
+	// 色情報のリセット
+	color = Color{ 1.0f,1.0f,1.0f,1.0f };
+
+	textureName = mesh_locked->get_texture_name();
 }
 
 #ifdef _DEBUG
@@ -86,15 +101,3 @@ void GameObject::debug_gui() {
 	}
 }
 #endif // _DEBUG
-
-void GameObject::reset_default() {
-	auto&& mesh_locked = mesh.lock();
-	// テクスチャ情報の取得
-	texture = mesh_locked->get_texture();
-	// uv情報のリセット
-	*uvTransform = mesh_locked->get_default_uv();
-	// 色情報のリセット
-	color = Color{ 1.0f,1.0f,1.0f,1.0f };
-
-	textureName = mesh_locked->get_texture_name();
-}

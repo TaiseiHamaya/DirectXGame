@@ -26,8 +26,15 @@ public:
 	static void Finalize();
 
 #ifdef _DEBUG
+	/// <summary>
+	/// カメラ及びライトのImGUIを表示
+	/// </summary>
 	static void ShowDebugTools();
 #endif // _DEBUG
+	
+	/// <summary>
+	/// デバッグ用グリッドの表示
+	/// </summary>
 	static void ShowGrid();
 
 private:

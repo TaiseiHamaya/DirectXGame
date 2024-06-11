@@ -5,8 +5,8 @@
 
 class RootSignature final {
 public:
-	RootSignature() = default;
-	~RootSignature() = default;
+	RootSignature() noexcept = default;
+	~RootSignature() noexcept = default;
 
 private:
 	RootSignature(const RootSignature&) = delete;
@@ -14,8 +14,8 @@ private:
 
 public:
 	void initialize();
-	Microsoft::WRL::ComPtr<ID3D12RootSignature>& get_root_signature();
-	const Microsoft::WRL::ComPtr<ID3D12RootSignature>& get_root_signature() const;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature>& get_root_signature() noexcept;
+	const Microsoft::WRL::ComPtr<ID3D12RootSignature>& get_root_signature() const noexcept;
 
 private:
 	void create_root_signature();

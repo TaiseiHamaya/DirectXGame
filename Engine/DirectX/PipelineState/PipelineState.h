@@ -13,8 +13,8 @@ class ShaderManager;
 
 class PipelineState final {
 public:
-	PipelineState();
-	~PipelineState();
+	PipelineState() noexcept;
+	~PipelineState() noexcept;
 
 private:
 	PipelineState(const PipelineState&) = delete;

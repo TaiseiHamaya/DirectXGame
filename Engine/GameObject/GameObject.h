@@ -13,9 +13,9 @@ class Color;
 
 class GameObject {
 public:
-	GameObject();
-	explicit GameObject(const std::string& meshName_);
-	~GameObject();
+	GameObject() noexcept(false);
+	explicit GameObject(const std::string& meshName_) noexcept(false);
+	~GameObject() noexcept;
 
 	GameObject(GameObject&&) noexcept;
 	GameObject& operator=(GameObject&&) noexcept;
@@ -25,16 +25,19 @@ private:
 	GameObject& operator=(const GameObject&) = delete;
 
 public:
-	const Transform3D& get_transform();
-	//void update();
-	void begin_rendering();
+	const Transform3D& get_transform() noexcept;
+	void update();
+	void begin_rendering() noexcept;
 	void draw() const;
+
+	/// <summary>
+	/// Texutre、Materialパラメータ、UVデータのリセットそ行う
+	/// </summary>
+	void reset_default();
 
 #ifdef _DEBUG
 	void debug_gui();
 #endif // _DEBUG
-
-	void reset_default();
 
 private:
 	std::weak_ptr<PolygonMesh> mesh;
