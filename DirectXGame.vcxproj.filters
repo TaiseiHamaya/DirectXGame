@@ -157,6 +157,12 @@
     <Filter Include="Engine\HLSL\3DObject">
       <UniqueIdentifier>{6df12820-dab8-4963-8c14-41f5ee7b23d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\HLSL\Wireframe">
+      <UniqueIdentifier>{92011f93-1b1e-4be8-851b-098699da4cfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\Zbuffer">
+      <UniqueIdentifier>{7bd9766d-fc32-4462-973b-9fe93d6c8499}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

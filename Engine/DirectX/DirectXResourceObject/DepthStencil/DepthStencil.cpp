@@ -21,7 +21,7 @@ void DepthStencil::initialize() {
 	// DepthStencilの設定
 	depthStencilDesc.DepthEnable = true;
 	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-	// Z値が{ source <= new data }の場合描画
+	// Z値が{ 描画済みのピクセルの深度値 >= 描画予定のピクセルの深度値 }の場合描画
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
