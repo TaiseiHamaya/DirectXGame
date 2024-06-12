@@ -69,10 +69,17 @@ void DirectXSwapChain::create_swapchain() {
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 色の形式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
-	swapChainDesc.BufferCount = 2; // ダブルバッファ
+	swapChainDesc.BufferCount = SWAPCHAIN_HEAP; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
+	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc{};
+	fullscreenDesc.RefreshRate.Denominator = 1;
+	fullscreenDesc.RefreshRate.Numerator = 15;
+	fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	fullscreenDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	fullscreenDesc.Windowed = true;
+	
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成
-	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
+	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, &fullscreenDesc, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
 	// RTVにリソースを生成
@@ -96,6 +103,6 @@ void DirectXSwapChain::change_back_buffer_state() {
 }
 
 void DirectXSwapChain::swap_screen() {
-	swapChain->Present(1, 0);
+	swapChain->Present(0, 0);
 	backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 }

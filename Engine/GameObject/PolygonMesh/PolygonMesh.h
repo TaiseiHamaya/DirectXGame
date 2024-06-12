@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "Engine/GameObject/Transform2D/Transform2D.h"
 
@@ -69,7 +70,7 @@ public:
 	const UINT index_size() const noexcept;
 
 	/// <summary>
-	/// 現在使用中のテクスチャのweak_ptr
+	/// デフォルトのテクスチャのweak_ptr
 	/// </summary>
 	/// <returns></returns>
 	const std::weak_ptr<Texture>& get_texture() const noexcept;

@@ -54,7 +54,6 @@ DirectXCore::DirectXCore()
 DirectXCore::~DirectXCore() = default;
 
 void DirectXCore::Initialize() {
-	GetInstance();
 	GetInstance().initialize();
 }
 

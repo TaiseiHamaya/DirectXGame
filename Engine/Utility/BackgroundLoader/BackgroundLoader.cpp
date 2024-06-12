@@ -36,9 +36,9 @@ void BackgroundLoader::Initialize() {
 }
 
 void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& filePath, const std::string& fileName) noexcept(false) {
-	GetInstance().isLoading = true;
 	// mutexのlock
 	std::lock_guard<std::mutex> lock{ referenceMutex };
+	GetInstance().isLoading = true;
 	// ロードイベント
 	switch (eventID) {
 	case LoadEvent::LoadTexture:
