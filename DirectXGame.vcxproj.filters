@@ -160,7 +160,10 @@
     <Filter Include="Engine\HLSL\Wireframe">
       <UniqueIdentifier>{92011f93-1b1e-4be8-851b-098699da4cfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\HLSL\Zbuffer">
+    <Filter Include="Engine\HLSL\NormalColor">
+      <UniqueIdentifier>{e2029ee5-c81a-42a8-984a-0b811b891152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\ZBuffer">
       <UniqueIdentifier>{7bd9766d-fc32-4462-973b-9fe93d6c8499}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -498,16 +501,40 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
+    <FxCompile Include="Engine\HLSL\Wireframe\Wireframe3d.PS.hlsl">
+      <Filter>Engine\HLSL\Wireframe</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Wireframe\Wireframe3d.VS.hlsl">
+      <Filter>Engine\HLSL\Wireframe</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\3DObject\Object3d.PS.hlsl">
       <Filter>Engine\HLSL\3DObject</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+    <FxCompile Include="Engine\HLSL\3DObject\Object3d.VS.hlsl">
       <Filter>Engine\HLSL\3DObject</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\ZBuffer\ZBuffer3d.VS.hlsl">
+      <Filter>Engine\HLSL\ZBuffer</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\ZBuffer\ZBuffer3d.PS.hlsl">
+      <Filter>Engine\HLSL\ZBuffer</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\NormalColor\NormalColor.VS.hlsl">
+      <Filter>Engine\HLSL\NormalColor</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\HLSL\Object3d.hlsli">
+    <None Include="Engine\HLSL\3DObject\Object3d.hlsli">
       <Filter>Engine\HLSL\3DObject</Filter>
+    </None>
+    <None Include="Engine\HLSL\ZBuffer\ZBuffer3d.hlsli">
+      <Filter>Engine\HLSL\ZBuffer</Filter>
+    </None>
+    <None Include="Engine\HLSL\NormalColor\NormalColor.hlsli">
+      <Filter>Engine\HLSL\NormalColor</Filter>
+    </None>
+    <None Include="Engine\HLSL\NormalColor\NormalColor.PS.hlsl">
+      <Filter>Engine\HLSL\NormalColor</Filter>
     </None>
   </ItemGroup>
 </Project>

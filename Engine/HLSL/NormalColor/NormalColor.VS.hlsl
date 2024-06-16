@@ -1,4 +1,4 @@
-#include "Object3d.hlsli"
+#include "NormalColor.hlsli"
 
 struct TransformMatrix {
 	float4x4 WVP;
@@ -15,7 +15,6 @@ ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
 VertexShaderOutput main(VertexShaderInput input) {
 	VertexShaderOutput output;
 	output.position = mul(input.position, gTransformMatrix.WVP);
-	output.texcoord = input.texcoord;
-	output.normal = normalize(mul(input.normal, (float3x3)gTransformMatrix.world));
+	output.normal = input.normal;
 	return output;
 }
