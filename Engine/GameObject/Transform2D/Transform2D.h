@@ -12,24 +12,24 @@ public:
 	~Transform2D() noexcept = default;
 
 public:
-	Transform2D& operator=(const Transform2D& opr) noexcept;
-	Transform2D& operator=(Transform2D&& opr) noexcept;
+	Transform2D(Transform2D&&) noexcept = default;
+	Transform2D& operator=(Transform2D&&) noexcept = default;
 
 public:
 	void set_scale(const Vector2& scale_) noexcept;
 	void set_rotate(float rotate_) noexcept;
-	void set_rotate(float sintheta_, float costheta_) noexcept;
 	void set_translate(const Vector2& translate_) noexcept;
 	void set_translate_x(float x) noexcept;
 	void set_translate_y(float y) noexcept;
-	void begin() noexcept;
 	Matrix3x3 get_matrix() const noexcept;
 	Matrix4x4 get_matrix4x4_transform() const noexcept;
 	Matrix4x4 get_matrix4x4_padding() const;
+	const Vector2& get_scale() const noexcept;
+	const float& get_rotate() const noexcept;
 	const Vector2& get_translate() const noexcept;
 	void plus_translate(const Vector2& plus)noexcept;
 
-	bool need_update_matrix() const noexcept;
+	void copy(const Transform2D& copy) noexcept;
 
 #ifdef _DEBUG
 public:
@@ -40,10 +40,6 @@ private:
 	Vector2 scale;
 	float rotate;
 	Vector2 translate;
-	float sinTheta;
-	float cosTheta;
-
-	bool isNeedUpdate;
 
 public:// static関数
 	/// <summary>

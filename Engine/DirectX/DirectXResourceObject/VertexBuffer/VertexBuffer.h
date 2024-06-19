@@ -10,19 +10,20 @@
 
 class VertexBuffer final : public DirectXResourceObject {
 public:
-	VertexBuffer() noexcept(false);
+	VertexBuffer() noexcept = default;
 	VertexBuffer(const std::vector<VertexData>& vertices_) noexcept(false);
 	VertexBuffer(std::uint32_t size) noexcept(false);
 	~VertexBuffer() noexcept;
+
+	VertexBuffer(VertexBuffer&&) = default;
+	VertexBuffer& operator=(VertexBuffer&&) = default;
 
 public:
 	const D3D12_VERTEX_BUFFER_VIEW* const get_p_vbv() const noexcept;
 
 private:
-	struct Vertices {
-		VertexData* data;
-		std::uint32_t size;
-		UINT memorySize;
-	} vertices;
+	VertexData* data;
+	std::uint32_t size;
+	UINT memorySize;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 };

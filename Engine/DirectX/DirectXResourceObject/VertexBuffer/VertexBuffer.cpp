@@ -2,22 +2,20 @@
 
 constexpr UINT VERTEX_DATA_SIZE = sizeof(VertexData);
 
-VertexBuffer::VertexBuffer() : VertexBuffer(0) {
-}
-
 VertexBuffer::VertexBuffer(const std::vector<VertexData>& vertices_)
 	: VertexBuffer(static_cast<std::uint32_t>(vertices_.size())) {
-	std::memcpy(vertices.data, vertices_.data(), vertices.memorySize);
+	std::memcpy(data, vertices_.data(), memorySize);
 }
 
-VertexBuffer::VertexBuffer(std::uint32_t size) noexcept(false) {
-	vertices = { nullptr, size, size * VERTEX_DATA_SIZE };
-	resource = CreateBufferResource(vertices.memorySize);
+VertexBuffer::VertexBuffer(std::uint32_t size_) noexcept(false) {
+	size = size_;
+	memorySize = size * VERTEX_DATA_SIZE;
+	resource = CreateBufferResource(memorySize);
 	vertexBufferView.BufferLocation = resource->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = vertices.memorySize;
+	vertexBufferView.SizeInBytes = memorySize;
 	vertexBufferView.StrideInBytes = VERTEX_DATA_SIZE;
 
-	resource->Map(0, nullptr, reinterpret_cast<void**>(&vertices.data));
+	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 }
 
 VertexBuffer::~VertexBuffer() noexcept {

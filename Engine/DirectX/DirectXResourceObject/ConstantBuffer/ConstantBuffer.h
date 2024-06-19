@@ -10,6 +10,9 @@ public:
 
 	virtual ~ConstantBuffer() noexcept;
 
+	ConstantBuffer(ConstantBuffer&&) = default;
+	ConstantBuffer& operator=(ConstantBuffer&&) = default;
+
 public:
 	T* const get_data() noexcept;
 

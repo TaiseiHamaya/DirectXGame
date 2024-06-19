@@ -7,10 +7,13 @@
 
 class IndexBuffer final : public DirectXResourceObject {
 public:
-	IndexBuffer() noexcept(false);
+	IndexBuffer() noexcept = default;
 	IndexBuffer(const std::vector<std::uint32_t>& indexes_) noexcept(false);
 	IndexBuffer(std::uint32_t size) noexcept(false);
 	~IndexBuffer() noexcept;
+
+	IndexBuffer(IndexBuffer&&) = default;
+	IndexBuffer& operator=(IndexBuffer&&) = default;
 
 public:
 	const D3D12_INDEX_BUFFER_VIEW* const get_p_ibv() const noexcept;
@@ -19,10 +22,8 @@ public:
 private:
 
 private:
-	struct Indexes {
-		std::uint32_t* data;
-		std::uint32_t size;
-		UINT memorySize;
-	} indexes;
+	std::uint32_t* data;
+	std::uint32_t size;
+	UINT memorySize;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
 };

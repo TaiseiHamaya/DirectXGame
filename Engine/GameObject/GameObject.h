@@ -2,12 +2,14 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
-class Transform2D;
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
+#include "Engine/GameObject/Transform2D/Transform2D.h"
+
 class Transform3D;
 class PolygonMesh;
 class Texture;
-class Material;
 class TransformMatrix;
 class Color;
 
@@ -30,28 +32,38 @@ public:
 	void begin_rendering() noexcept;
 	void draw() const;
 
+	void reset_object(const std::string& meshName_);
+
 	/// <summary>
 	/// Texutre、Materialパラメータ、UVデータのリセットそ行う
 	/// </summary>
-	void reset_default();
+	void default_material();
 
 #ifdef _DEBUG
 	void debug_gui();
 #endif // _DEBUG
 
 private:
-	std::weak_ptr<PolygonMesh> mesh;
-	std::weak_ptr<Texture> texture;
-
 	std::string meshName;
-	std::string textureName;
-
-	std::unique_ptr<Material> material;
+	std::weak_ptr<PolygonMesh> mesh;
 	std::unique_ptr<TransformMatrix> transformMatrix;
 
+	struct PolygonMeshMaterial {
+		PolygonMeshMaterial();
+		std::weak_ptr<Texture> texture;
+
+		Material material;
+		Color& color;
+
+		Transform2D uvTransform;
+
+#ifdef _DEBUG
+		std::string textureName;
+#endif // _DEBUG
+	};
+	std::vector<PolygonMeshMaterial> meshMaterials;
+
 protected:
-	Color& color;
 
 	std::unique_ptr<Transform3D> transform;
-	std::unique_ptr<Transform2D> uvTransform;
 };

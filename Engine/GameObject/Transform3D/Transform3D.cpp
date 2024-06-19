@@ -17,60 +17,36 @@ Transform3D::Transform3D(const Vector3& scale_, const Quaternion& quaternion, co
 	scale(scale_),
 	rotate(quaternion),
 	translate(translate_) {
-	isNeedUpdate = true;
 }
 
 Transform3D::Transform3D(Vector3&& scale_, Quaternion&& quaternion, Vector3&& translate_) noexcept :
 	scale(std::move(scale_)),
 	rotate(std::move(quaternion)),
 	translate(std::move(translate_)) {
-	isNeedUpdate = true;
 }
 
 void Transform3D::set_scale(const Vector3& scale_) noexcept {
-	if (scale != scale_) {
-		scale = scale_;
-		isNeedUpdate = true;
-	}
+	scale = scale_;
 }
 
 void Transform3D::set_rotate(const Quaternion& rotate_) noexcept {
-	if (rotate != rotate_) {
-		rotate = rotate_;
-		isNeedUpdate = true;
-	}
+	rotate = rotate_;
 }
 
 void Transform3D::set_translate(const Vector3& translate_) noexcept {
-	if (translate != translate_) {
-		translate = translate_;
-		isNeedUpdate = true;
-	}
+	translate = translate_;
 }
 
 void Transform3D::set_translate_x(float x) noexcept {
-	if (translate.x != x) {
-		translate.x = x;
-		isNeedUpdate = true;
-	}
+	translate.x = x;
 }
 
 void Transform3D::set_translate_y(float y) noexcept {
-	if (translate.y != y) {
-		translate.y = y;
-		isNeedUpdate = true;
-	}
+	translate.y = y;
 }
 
 void Transform3D::set_translate_z(float z) noexcept {
-	if (translate.z != z) {
-		translate.z = z;
-		isNeedUpdate = true;
-	}
-}
-
-void Transform3D::begin() noexcept {
-	isNeedUpdate = false;
+	translate.z = z;
 }
 
 Matrix4x4 Transform3D::get_matrix() const noexcept {
@@ -90,14 +66,13 @@ const Quaternion& Transform3D::get_quaternion() const noexcept {
 }
 
 void Transform3D::plus_translate(const Vector3& plus) noexcept {
-	if (plus.length() != 0) {
-		isNeedUpdate = true;
-	}
 	translate += plus;
 }
 
-bool Transform3D::need_update_matrix() const noexcept {
-	return isNeedUpdate;
+void Transform3D::copy(const Transform3D& copy) noexcept {
+	scale = copy.scale;
+	rotate = copy.rotate;
+	translate = copy.translate;
 }
 
 void Transform3D::debug_gui() {
@@ -106,34 +81,25 @@ void Transform3D::debug_gui() {
 	if (ImGui::TreeNode(std::format("Transform3D({:})", (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = CVector3::BASIS;
-			isNeedUpdate = true;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("ResetRotate")) {
 			rotate = Quaternion{};
-			isNeedUpdate = true;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("ResetTranslate")) {
 			translate = CVector3::ZERO;
-			isNeedUpdate = true;
 		}
-		if (ImGui::DragFloat3("Scale", &scale.x, 0.01f)) {
-			isNeedUpdate = true;
-		}
+		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
 		Vector3 quaternion = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateLocal", &quaternion.x, 0.01f, -PI, PI)) {
 			rotate = Quaternion{ quaternion } *rotate;
-			isNeedUpdate = true;
 		}
 		Vector3 cood = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateWorld", &cood.x, 0.02f)) {
 			rotate *= Quaternion{ cood, cood.length() };
-			isNeedUpdate = true;
 		}
-		if (ImGui::DragFloat3("Translate", &translate.x, 0.1f)) {
-			isNeedUpdate = true;
-		}
+		ImGui::DragFloat3("Translate", &translate.x, 0.1f);
 		ImGui::TreePop();
 	}
 #endif // _DEBUG

@@ -24,7 +24,6 @@ public:
 	void set_translate_x(float x) noexcept;
 	void set_translate_y(float y) noexcept;
 	void set_translate_z(float z) noexcept;
-	void begin() noexcept;
 
 	Matrix4x4 get_matrix() const noexcept;
 	const Vector3& get_scale() const noexcept;
@@ -32,20 +31,15 @@ public:
 	const Quaternion& get_quaternion() const noexcept;
 	void plus_translate(const Vector3& plus) noexcept;
 
-	bool need_update_matrix() const noexcept;
+	void copy(const Transform3D& copy) noexcept;
 
 	void debug_gui();
 	//void debug_axis(const Matrix4x4& debug_matrix) const;
 
 private:
-	//friend const Vector3& Quaternion::get_axis();
-
-private:
 	Vector3 scale;
 	Quaternion rotate;
 	Vector3 translate;
-
-	bool isNeedUpdate;
 
 public:// static関数
 	/// <summary>

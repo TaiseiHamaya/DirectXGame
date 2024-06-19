@@ -31,8 +31,6 @@ public:
 
 	static void SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip) noexcept;
 
-	static void Begin() noexcept;
-
 	static void CameraUpdate();
 
 	static const Matrix4x4& GetVPMatrix() noexcept;

@@ -10,6 +10,9 @@ public:
 
 	Material(const MaterialData& material) noexcept(false);
 
+	Material(Material&&) = default;
+	Material& operator=(Material&&) = default;
+
 public:
 	Color& get_color_reference() const noexcept;
 	void set_uv_transform(Matrix4x4&& uvTransform) noexcept;

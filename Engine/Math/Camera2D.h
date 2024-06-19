@@ -31,13 +31,9 @@ public:
 
 	static void SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) noexcept;
 
-	static void Begin() noexcept;
-
 	static void CameraUpdate();
 
 	static const Matrix4x4& GetVPMatrix() noexcept;
-
-	static bool IsUpdatedVPMatrix() noexcept;
 
 private:
 	void camera_update();
@@ -63,7 +59,4 @@ private:// メンバ変数
 	Transform2D camera;
 	Vector3 ndcLeftBottomNear;
 	Vector3 ndcRightTopFar;
-
-	bool isUpdateOrthro;
-	bool isUpdateVP;
 };

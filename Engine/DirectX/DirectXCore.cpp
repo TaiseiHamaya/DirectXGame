@@ -138,7 +138,6 @@ void DirectXCore::initialize() {
 	scissorRect.bottom = static_cast<LONG>(WinApp::GetClientHight());
 
 	// システム使用のオブジェクトとスプライトを作成
-	TextureManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "Error.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
 	// 待機

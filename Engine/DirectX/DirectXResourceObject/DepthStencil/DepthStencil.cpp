@@ -14,8 +14,8 @@ void DepthStencil::initialize() {
 	descriptorHandleCPU = DSVDescriptorHeap::GetNextCPUHandle();
 	// viewの作成
 	DirectXDevice::GetDevice()->CreateDepthStencilView(
-		resource.Get(), 
-		&dsvDesc, 
+		resource.Get(),
+		&dsvDesc,
 		descriptorHandleCPU
 	);
 	// DepthStencilの設定
@@ -53,11 +53,11 @@ void DepthStencil::create_depth_stencil_texture_resource() {
 	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
 
 	hr = DirectXDevice::GetDevice()->CreateCommittedResource(
-		&heapProperties, 
-		D3D12_HEAP_FLAG_NONE, 
-		&resourceDesc, 
-		D3D12_RESOURCE_STATE_DEPTH_WRITE, 
-		&depthClearValue, 
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&depthClearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 	assert(SUCCEEDED(hr));

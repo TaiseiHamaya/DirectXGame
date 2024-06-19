@@ -46,8 +46,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
 
-		Camera2D::Begin();
-
 #ifdef _DEBUG
 		DirectXCore::ShowDebugTools();
 		DirectXCore::ShowGrid();
@@ -79,7 +77,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		for (int i = 0; i < objects.size(); ++i) {
 			ImGui::SetNextWindowDockID(objectDock, 0);
-			ImGui::SetNextWindowSize(ImVec2{ 330,365 }, ImGuiCond_Once);
+			ImGui::SetNextWindowSize(ImVec2{ 345,385 }, ImGuiCond_Once);
 			ImGui::SetNextWindowPos(ImVec2{ 900, 50 }, ImGuiCond_Once);
 			ImGui::Begin(objectNames[i].c_str(), nullptr, ImGuiWindowFlags_NoSavedSettings);
 			objects[i].debug_gui();

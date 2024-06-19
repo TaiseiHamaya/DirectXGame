@@ -43,13 +43,6 @@ std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string&
 	}
 }
 
-void PolygonMeshManager::ResetTextureData() {
-	std::lock_guard<std::mutex> lock{ meshMutex };
-	for (auto dataItr = GetInstance().meshInstanceList.begin(); dataItr != GetInstance().meshInstanceList.end(); ++dataItr) {
-		dataItr->second->reset_data();
-	}
-}
-
 bool PolygonMeshManager::IsRegistered(const std::string& meshName) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
 	return IsRegisteredUnlocking(meshName);

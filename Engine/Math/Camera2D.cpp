@@ -13,9 +13,8 @@ std::unique_ptr<Camera2D> Camera2D::instance;
 
 void Camera2D::Initialize() {
 	instance.reset(new Camera2D{});
-	SetCameraTransform(Transform2D{CVector2::BASIS, 0, CVector2::ZERO});
+	SetCameraTransform(Transform2D{ CVector2::BASIS, 0, CVector2::ZERO });
 	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()), 0, 0, 1000);
-	instance->isUpdateOrthro = true;
 	instance->camera_update();
 }
 
@@ -24,18 +23,12 @@ void Camera2D::SetCameraPos(const Vector2& pos) noexcept {
 }
 
 void Camera2D::SetCameraTransform(const Transform2D& transform) noexcept {
-	instance->camera = transform;
+	instance->camera.copy(transform);
 }
 
 void Camera2D::SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) noexcept {
 	instance->ndcLeftBottomNear = { left,bottom, near };
 	instance->ndcRightTopFar = { right, top, far };
-}
-
-void Camera2D::Begin() noexcept {
-	instance->isUpdateOrthro = false;
-	instance->isUpdateVP = false;
-	instance->camera.begin();
 }
 
 void Camera2D::CameraUpdate() {
@@ -46,33 +39,22 @@ const Matrix4x4& Camera2D::GetVPMatrix() noexcept {
 	return instance->vpMatrix;
 }
 
-bool Camera2D::IsUpdatedVPMatrix() noexcept {
-    return instance->isUpdateVP;
-}
-
 void Camera2D::camera_update() {
 	make_view_matrix();
 	make_ortho_matrix();
-	if (camera.need_update_matrix() || isUpdateOrthro) {
 		vpMatrix = viewMatrix * orthoMatrix;
-		isUpdateVP = true;
-	}
 }
 
 void Camera2D::make_view_matrix() {
-	if (camera.need_update_matrix()) {
 		viewMatrix = camera.get_matrix4x4_transform().inverse();
-	}
 }
 
 void Camera2D::make_ortho_matrix() {
-	if (isUpdateOrthro) {
 		orthoMatrix =
 		{ { 2 / (ndcRightTopFar.x - ndcLeftBottomNear.x),0,0,0},
 		{0,2 / (ndcRightTopFar.y - ndcLeftBottomNear.y),0,0},
 		{0,0, 1 / (ndcRightTopFar.z - ndcLeftBottomNear.z),0},
 		{(ndcLeftBottomNear.x + ndcRightTopFar.x) / (ndcLeftBottomNear.x - ndcRightTopFar.x),(ndcLeftBottomNear.y + ndcRightTopFar.y) / (ndcLeftBottomNear.y - ndcRightTopFar.y), ndcLeftBottomNear.z / (ndcLeftBottomNear.z - ndcRightTopFar.z), 1} };
-	}
 }
 
 #ifdef _DEBUG

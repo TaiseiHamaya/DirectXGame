@@ -69,8 +69,13 @@ void TextureManager::UnloadTexture(const std::string& textureName) {
 }
 
 void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>& data) {
-	Log(std::format("[TextureManager] Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
 	std::lock_guard<std::mutex> lock{ textureMutex };
+	if (IsRegisteredUnlocking(name)) {
+		data->release_srv_heap();
+		Log(std::format("[TextureManager] Transfering registerd texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
+		return;
+	}
+	Log(std::format("[TextureManager] Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 

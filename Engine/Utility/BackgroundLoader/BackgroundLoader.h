@@ -61,6 +61,9 @@ public:
 	static bool IsLoading() noexcept;
 
 private:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void initialize() noexcept(false);
 
 	/// <summary>

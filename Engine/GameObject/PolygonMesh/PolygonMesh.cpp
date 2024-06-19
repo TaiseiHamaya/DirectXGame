@@ -6,11 +6,9 @@
 #include <unordered_map>
 
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Utility/Utility.h"
-
 
 PolygonMesh::PolygonMesh() noexcept = default;
 
@@ -18,7 +16,7 @@ PolygonMesh::~PolygonMesh() noexcept = default;
 
 MeshLoadResult PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
 	MeshLoadResult result;
-	Log("[PolygonMesh] Start load .obj file. file-\'"+ directoryPath + "/" + fileName +"\'\n");
+	Log("[PolygonMesh] Start load .obj file. file-\'" + directoryPath + "/" + fileName + "\'\n");
 	directory = directoryPath;
 	objectName = fileName;
 
@@ -35,36 +33,36 @@ MeshLoadResult PolygonMesh::load(const std::string& directoryPath, const std::st
 	return kMeshLoadResultSucecced;
 }
 
-void PolygonMesh::reset_data() noexcept(false) {
-	texture = TextureManager::GetTexture(materialData.textureFileName);
+const D3D12_VERTEX_BUFFER_VIEW* const PolygonMesh::get_p_vbv(std::uint32_t index) const {
+	return meshDatas[index].vertices->get_p_vbv();
 }
 
-void PolygonMesh::set_texture(const std::string& textureNamae) noexcept(false) {
-	texture = TextureManager::GetTexture(textureNamae);
+const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv(std::uint32_t index) const {
+	return meshDatas[index].indexes->get_p_ibv();
 }
 
-const D3D12_VERTEX_BUFFER_VIEW* const PolygonMesh::get_p_vbv() const noexcept {
-	return meshData.vertices->get_p_vbv();
+const size_t PolygonMesh::material_count() const {
+	return meshDatas.size();
 }
 
-const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv() const noexcept {
-	return meshData.indexes->get_p_ibv();
+bool PolygonMesh::has_mtl(std::uint32_t index) const {
+	return materialDatas.contains(meshDatas[index].usemtl);
 }
 
-const UINT PolygonMesh::index_size() const noexcept {
-	return static_cast<const UINT>(meshData.indexes->index_size());
+const UINT PolygonMesh::index_size(std::uint32_t index) const {
+	return static_cast<const UINT>(meshDatas[index].indexes->index_size());
 }
 
-const std::weak_ptr<Texture>& PolygonMesh::get_texture() const noexcept {
-	return texture;
+const std::string& PolygonMesh::texture_name(std::uint32_t index) const {
+	return materialDatas.at(meshDatas[index].usemtl).textureFileName;
 }
 
-const Transform2D& PolygonMesh::get_default_uv() const noexcept {
-	return materialData.defaultUV;
+const Transform2D& PolygonMesh::default_uv(std::uint32_t index) const {
+	return materialDatas.at(meshDatas[index].usemtl).defaultUV;
 }
 
-const std::string& PolygonMesh::get_texture_name() const noexcept {
-	return materialData.textureFileName;
+const std::string& PolygonMesh::model_name(std::uint32_t index) const {
+	return meshDatas[index].objectName;
 }
 
 MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, const std::string& objFileName) {
@@ -78,6 +76,8 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 
 	std::unordered_map<std::string, uint32_t> reverseMeshVertices; // 登録済み頂点情報とそのindex情報
 
+	std::vector<MeshData>::iterator current = meshDatas.begin();
+
 	// ファイルを開く
 	std::ifstream file(directoryPath + "/" + objFileName);
 	if (!file.is_open()) {
@@ -90,7 +90,7 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 		std::string identifier;
 		std::stringstream sstream(line);
 		// 識別子の取得
-		sstream >> identifier;
+		std::getline(sstream, identifier, ' ');
 
 		// vertex
 		if (identifier == "v") {
@@ -117,9 +117,9 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 		// 面情報
 		else if (identifier == "f") {
 			for (uint32_t faceIndex = 0; faceIndex < 3; ++faceIndex) {
-				std::string element; 
+				std::string element;
 
-				sstream >> element; // v/vt/vnの取得
+				std::getline(sstream, element, ' ');
 
 				// すでに登録されているか
 				if (reverseMeshVertices.contains(element)) {
@@ -170,15 +170,36 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 			// indexをswapして左手座標系にする
 			std::iter_swap(indexes.rbegin(), indexes.rbegin() + 2);
 		}
+		else if (identifier == "o") {
+			if (!vertices.empty() && !indexes.empty()) {
+				// リソースの作成とコピー
+				current->vertices = std::make_unique<VertexBuffer>(vertices);
+				current->indexes = std::make_unique<IndexBuffer>(indexes);
+
+			}
+			meshDatas.emplace_back();
+			current = meshDatas.end() - 1;
+			std::getline(sstream, current->objectName, '\n');
+			vertices.clear();
+			indexes.clear();
+			reverseMeshVertices.clear();
+		}
+		else if (identifier == "usemtl") {
+			if (current == meshDatas.end()) {
+				meshDatas.emplace_back();
+				current = meshDatas.end() - 1;
+			}
+			std::getline(sstream, current->usemtl, ' ');
+		}
 		// mtlファイル名の取得
 		else if (identifier == "mtllib") {
-			sstream >> materialData.mtlFileName;
+			std::getline(sstream, mtlFileName, ' ');
 		}
 	}
 
-	// リソースの作成とコピー
-	meshData.vertices = std::make_unique<VertexBuffer>(vertices);
-	meshData.indexes = std::make_unique<IndexBuffer>(indexes);
+	// 最後にもう1度リソースの作成とコピー
+	current->vertices = std::make_unique<VertexBuffer>(vertices);
+	current->indexes = std::make_unique<IndexBuffer>(indexes);
 
 	return kMeshLoadResultSucecced;
 }
@@ -188,11 +209,13 @@ MeshLoadResult PolygonMesh::load_mtl_file() {
 	std::ifstream file;
 
 	// mtlファイルを開く
-	file.open(directory + "/" + materialData.mtlFileName);
+	file.open(directory + "/" + mtlFileName);
 	if (!file.is_open()) {
-		Log("[PolygonMesh] File \'" + directory + "/" + materialData.mtlFileName + "\' is not found.\n");
+		Log("[PolygonMesh] File \'" + directory + "/" + mtlFileName + "\' is not found.\n");
 		return kMeshLoadResultFailedMtlFileOpen;
 	}
+
+	MaterialData* current = nullptr;
 
 	// 1行ずつ取得
 	while (std::getline(file, line, '\n')) {
@@ -208,16 +231,16 @@ MeshLoadResult PolygonMesh::load_mtl_file() {
 				// オプションではない場合
 				if (option[0] != '-') {
 					// optionデータがそのままテクスチャファイル名になるので転送
-					materialData.textureFileName = std::move(option);
+					current->textureFileName = std::move(option);
 					// テクスチャファイルのロード登録
-					TextureManager::RegisterLoadQue(directory, materialData.textureFileName);
+					TextureManager::RegisterLoadQue(directory, current->textureFileName);
 				}
 				// -sオプション(スケール)
 				else if (option[1] == 's') {
 					Vector2 scale;
 					std::string temp;
 					sstream >> scale.x >> scale.y >> temp;
-					materialData.defaultUV.set_scale(scale);
+					current->defaultUV.set_scale(scale);
 					std::getline(sstream, temp, ' ');
 				}
 				// -oオプション(原点)
@@ -225,10 +248,15 @@ MeshLoadResult PolygonMesh::load_mtl_file() {
 					Vector2 position;
 					std::string temp;
 					sstream >> position.x >> position.y >> temp;
-					materialData.defaultUV.set_translate(position);
+					current->defaultUV.set_translate(position);
 					std::getline(sstream, temp, ' ');
 				}
 			}
+		}
+		else if (identifier == "newmtl") {
+			std::string option;
+			std::getline(sstream, option, '\n');
+			current = &materialDatas[option];
 		}
 	}
 	return kMeshLoadResultSucecced;

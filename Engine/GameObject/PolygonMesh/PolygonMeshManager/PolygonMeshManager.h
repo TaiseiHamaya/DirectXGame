@@ -35,11 +35,6 @@ public:
 	static std::weak_ptr<PolygonMesh> GetPolygonMesh(const std::string& meshName);
 
 	/// <summary>
-	/// デフォルトのテクスチャデータのリセット(登録されたらする)
-	/// </summary>
-	static void ResetTextureData();
-
-	/// <summary>
 	/// メッシュが登録されているか取得
 	/// </summary>
 	/// <param name="meshName">確認するメッシュ名</param>

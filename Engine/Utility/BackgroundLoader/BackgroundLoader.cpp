@@ -189,6 +189,4 @@ void BackgroundLoader::transfer_data() {
 	}
 	// 全て移したのでクリア
 	waitLoadingQue.clear();
-	// メッシュデータにテクスチャ情報を取得するよう伝える
-	PolygonMeshManager::ResetTextureData();
 }

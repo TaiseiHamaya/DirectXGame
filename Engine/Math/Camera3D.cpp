@@ -27,9 +27,7 @@ void Camera3D::SetCameraPos(const Vector3& pos) noexcept {
 }
 
 void Camera3D::SetCameraTransform(const Transform3D& transform) noexcept {
-	instance->camera.set_scale(transform.get_scale());
-	instance->camera.set_rotate(transform.get_quaternion());
-	instance->camera.set_translate(transform.get_translate());
+	instance->camera.copy(transform);
 }
 
 void Camera3D::SetPerspectiveFovInfomation(float fovY, float aspectRatio, float nearClip, float farClip) noexcept {
@@ -37,10 +35,6 @@ void Camera3D::SetPerspectiveFovInfomation(float fovY, float aspectRatio, float 
 	instance->aspectRatio = aspectRatio;
 	instance->nearClip = nearClip;
 	instance->farClip = farClip;
-}
-
-void Camera3D::Begin() noexcept {
-	instance->camera.begin();
 }
 
 void Camera3D::CameraUpdate() {
