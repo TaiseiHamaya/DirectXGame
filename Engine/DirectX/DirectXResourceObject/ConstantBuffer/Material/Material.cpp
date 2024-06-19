@@ -15,3 +15,7 @@ Color& Material::get_color_reference() const noexcept {
 void Material::set_uv_transform(Matrix4x4&& uvTransform) noexcept {
 	data->uvTransform = std::move(uvTransform);
 }
+
+void Material::set_lighting(LighingType lighting_) {
+	data->lighting = static_cast<std::uint32_t>(lighting_);
+}

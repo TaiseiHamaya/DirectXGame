@@ -16,7 +16,7 @@ struct VertexData {
 
 struct MaterialData {
 	Color color;
-	int enableLighting;
+	std::uint32_t lighting;
 	std::array<std::int32_t, 3> padding;
 	Matrix4x4 uvTransform;
 };

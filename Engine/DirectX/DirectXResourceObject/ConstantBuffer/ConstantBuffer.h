@@ -35,7 +35,9 @@ inline ConstantBuffer<T>::ConstantBuffer(const T& data_) noexcept(false) : Const
 
 template<typename T>
 inline ConstantBuffer<T>::~ConstantBuffer() noexcept {
-	resource->Unmap(0, nullptr);
+	if (resource) {
+		resource->Unmap(0, nullptr);
+	}
 }
 
 template<typename T>

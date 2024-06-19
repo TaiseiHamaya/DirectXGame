@@ -126,6 +126,18 @@ void GameObject::debug_gui() {
 			if (TextureManager::TextureListGui(meshMaterials[i].textureName)) {
 				meshMaterials[i].texture = TextureManager::GetTexture(meshMaterials[i].textureName);
 			}
+			ImGui::Text("Lighting option");
+			if (ImGui::Button("None")) {
+				meshMaterials[i].material.set_lighting(LighingType::None);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Lambert")) {
+				meshMaterials[i].material.set_lighting(LighingType::Lambert);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Half lambert")) {
+				meshMaterials[i].material.set_lighting(LighingType::HalfLambert);
+			}
 			ImGui::TreePop();
 		}
 	}
@@ -133,6 +145,6 @@ void GameObject::debug_gui() {
 #endif // _DEBUG
 
 GameObject::PolygonMeshMaterial::PolygonMeshMaterial() :
-	material({ Color{1.0f, 1.0f, 1.0f, 1.0f}, true, std::array<std::int32_t, 3>(), CMatrix4x4::IDENTITY }),
+	material({ Color{1.0f, 1.0f, 1.0f, 1.0f}, static_cast<std::uint32_t>(LighingType::HalfLambert), std::array<std::int32_t, 3>(), CMatrix4x4::IDENTITY }),
 	color(material.get_color_reference()) {
 }
