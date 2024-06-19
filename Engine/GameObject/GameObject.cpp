@@ -100,7 +100,9 @@ void GameObject::default_material() {
 		else {
 			meshMaterials[i].texture = TextureManager::GetTexture("Error.png");
 			meshMaterials[i].uvTransform.copy(Transform2D{});
+#ifdef _DEBUG
 			meshMaterials[i].textureName = "Error.png";
+#endif // _DEBUG
 			Log(std::format("[GameObject] Mtl file used Object file \'{}\' is not found", meshName));
 		}
 	}
