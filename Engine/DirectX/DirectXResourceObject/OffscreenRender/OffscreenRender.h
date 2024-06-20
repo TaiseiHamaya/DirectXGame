@@ -15,8 +15,9 @@ public:
 public:
 	void initialize(UINT64 width = WinApp::GetClientWidth() , UINT height = WinApp::GetClientHight());
 	void change_buffer_state() override;
-	void create_textue();
-	void draw();
+	void create_textue_view();
+	void set_texture(std::uint32_t rootParamaterIndex = 0) const;
+	void draw(std::uint32_t rootParamaterIndex = 0) const;
 
 private:
 	void create_resource(UINT64 width, UINT height);

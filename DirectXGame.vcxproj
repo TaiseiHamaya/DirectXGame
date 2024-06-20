@@ -113,12 +113,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
-    <ClCompile Include="Engine\DirectX\PipelineState\BlendState\BlendState.cpp" />
-    <ClCompile Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp" />
-    <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder.cpp" />
-    <ClCompile Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.cpp" />
-    <ClCompile Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMesh.cpp" />
@@ -171,12 +167,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
-    <ClInclude Include="Engine\DirectX\PipelineState\BlendState\BlendState.h" />
-    <ClInclude Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h" />
-    <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder.h" />
-    <ClInclude Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.h" />
-    <ClInclude Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.h" />
     <ClInclude Include="Engine\GameObject\GameObject.h" />
     <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMesh.h" />

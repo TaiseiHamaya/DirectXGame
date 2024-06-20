@@ -10,7 +10,7 @@ void InputLayoutBuillder::add_cbv(const char* semanticName, UINT semanticIndex, 
 	desc.SemanticName = semanticName;
 	desc.SemanticIndex = semanticIndex;
 	desc.Format = format;
-	desc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	desc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT; // 末尾に追加
 	inputElementDescs.emplace_back(std::move(desc));
 }
 

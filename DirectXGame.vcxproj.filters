@@ -49,18 +49,6 @@
     <Filter Include="Engine\Core\DirectX\PiplineState">
       <UniqueIdentifier>{039fc40c-ddce-413c-98d4-ebcf41174f55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\PiplineState\RootSignature">
-      <UniqueIdentifier>{1486c2f2-418c-4877-b31a-b88e403ce300}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\PiplineState\InputLayout">
-      <UniqueIdentifier>{1b8232a6-b465-48f8-a621-3cdf68251246}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\PiplineState\BlendState">
-      <UniqueIdentifier>{c3f9603d-6f51-4115-a406-9cda79471b64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\PiplineState\RasterizerState">
-      <UniqueIdentifier>{84ab0599-8d63-4c26-b628-53480e1f9984}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\DirectX\PiplineState\ShaderManager">
       <UniqueIdentifier>{bb327bf5-ebe4-4ac2-9f79-6c0f21e1af36}</UniqueIdentifier>
     </Filter>
@@ -172,6 +160,9 @@
     <Filter Include="Engine\HLSL\PostEffect">
       <UniqueIdentifier>{387279ae-837e-4369-ae4c-352e2401593f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\PSOBuilder">
+      <UniqueIdentifier>{e4dbf188-0352-49f8-a087-5c92b8d436d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -236,18 +227,6 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp">
       <Filter>Engine\Core\DirectX\PiplineState</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.cpp">
-      <Filter>Engine\Core\DirectX\PiplineState\RootSignature</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.cpp">
-      <Filter>Engine\Core\DirectX\PiplineState\InputLayout</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\PipelineState\BlendState\BlendState.cpp">
-      <Filter>Engine\Core\DirectX\PiplineState\BlendState</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.cpp">
-      <Filter>Engine\Core\DirectX\PiplineState\RasterizerState</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.cpp">
       <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
@@ -333,8 +312,8 @@
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp">
       <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder.cpp">
-      <Filter>Engine\Core\DirectX\PiplineState</Filter>
+    <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,18 +385,6 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h">
       <Filter>Engine\Core\DirectX\PiplineState</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.h">
-      <Filter>Engine\Core\DirectX\PiplineState\RootSignature</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.h">
-      <Filter>Engine\Core\DirectX\PiplineState\InputLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\PipelineState\BlendState\BlendState.h">
-      <Filter>Engine\Core\DirectX\PiplineState\BlendState</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.h">
-      <Filter>Engine\Core\DirectX\PiplineState\RasterizerState</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.h">
       <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
@@ -509,8 +476,8 @@
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h">
       <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder.h">
-      <Filter>Engine\Core\DirectX\PiplineState</Filter>
+    <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
+      <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

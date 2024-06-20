@@ -4,7 +4,7 @@
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
-// ダブルバッファのみで使用するため2
+// ダブルバッファ+PEで3
 constexpr uint32_t RTV_HEAP_SIZE = 3;
 
 RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {

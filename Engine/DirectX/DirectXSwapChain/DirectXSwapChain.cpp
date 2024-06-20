@@ -22,6 +22,7 @@ void DirectXSwapChain::Initialize() {
 }
 
 void DirectXSwapChain::SetOffscreenRenderTarget() {
+	// ----------オフスクリーンを描画先として設定----------
 	DirectXCommand::GetCommandList()->OMSetRenderTargets(
 		1,
 		&GetInstance().offscreen->get_cpu_handle(),
@@ -30,7 +31,8 @@ void DirectXSwapChain::SetOffscreenRenderTarget() {
 	);
 }
 
-void DirectXSwapChain::SetOnscreenRenderTarget() {	// ----------描画先のRTVを設定----------
+void DirectXSwapChain::SetOnscreenRenderTarget() {
+	// ----------描画先のRTVを設定----------
 	DirectXCommand::GetCommandList()->OMSetRenderTargets(
 		1,
 		&GetInstance().renderTarget[GetBackBufferIndex()].get_cpu_handle(),
@@ -40,7 +42,6 @@ void DirectXSwapChain::SetOnscreenRenderTarget() {	// ----------描画先のRTV�
 }
 
 void DirectXSwapChain::RenderingOffscreen() {
-	GetInstance().offscreen->create_textue();
 	GetInstance().offscreen->draw();
 }
 
@@ -110,6 +111,7 @@ void DirectXSwapChain::create_swapchain() {
 	for (uint32_t renderIndex = 0; renderIndex < SWAPCHAIN_HEAP; ++renderIndex) {
 		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTarget[renderIndex].get_resource().GetAddressOf()));
 		assert(SUCCEEDED(hr));
+		// view作成
 		renderTarget[renderIndex].create_view();
 	}
 }
