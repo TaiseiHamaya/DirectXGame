@@ -4,6 +4,7 @@
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Utility/Utility.h"
+#include <d3dx12.h>
 
 void RootSignature::initialize() {
 	create_root_signature();
@@ -24,12 +25,12 @@ void RootSignature::create_root_signature() {
 	descriptionRootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT; // シリアライズしてバイナリにする
 
 	D3D12_ROOT_PARAMETER rootParameters[4] = {}; // Pixel, Vertex, Textureの3つ
-	// Vertex
+	// Transform
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV; // ConstantBufferView
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX; // VertexShader
 	rootParameters[0].Descriptor.ShaderRegister = 0; // レジスタ番号0
 	
-	// Pixel
+	// Material
 	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV; // ConstantBufferView
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShader
 	rootParameters[1].Descriptor.ShaderRegister = 0; // レジスタ番号0

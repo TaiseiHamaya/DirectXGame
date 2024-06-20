@@ -5,11 +5,11 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
 #include "Engine/WinApp.h"
 
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
-	isRendering = {false, false};
 	backBufferIndex = 0;
 	depthStencil = std::make_unique<DepthStencil>();
 	depthStencil->initialize();
@@ -18,15 +18,30 @@ DirectXSwapChain::DirectXSwapChain() noexcept {
 
 void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
+	GetInstance().create_offscreen();
 }
 
-void DirectXSwapChain::SetRenderTarget() {	// ----------描画先のRTVを設定----------
+void DirectXSwapChain::SetOffscreenRenderTarget() {
+	DirectXCommand::GetCommandList()->OMSetRenderTargets(
+		1,
+		&GetInstance().offscreen->get_cpu_handle(),
+		false,
+		&GetInstance().depthStencil->get_cpu_handle()
+	);
+}
+
+void DirectXSwapChain::SetOnscreenRenderTarget() {	// ----------描画先のRTVを設定----------
 	DirectXCommand::GetCommandList()->OMSetRenderTargets(
 		1,
 		&GetInstance().renderTarget[GetBackBufferIndex()].get_cpu_handle(),
 		false,
 		&GetInstance().depthStencil->get_cpu_handle()
 	);
+}
+
+void DirectXSwapChain::RenderingOffscreen() {
+	GetInstance().offscreen->create_textue();
+	GetInstance().offscreen->draw();
 }
 
 void DirectXSwapChain::SwapScreen() {
@@ -37,10 +52,18 @@ void DirectXSwapChain::ChangeBackBufferState() {
 	GetInstance().change_back_buffer_state();
 }
 
+void DirectXSwapChain::ChangeOffscreenState() {
+	GetInstance().change_offscreen_state();
+}
+
 void DirectXSwapChain::ClearScreen() {
 	// クリアする色
 	DirectXCommand::GetCommandList()->ClearRenderTargetView(
 		GetInstance().renderTarget[GetInstance().backBufferIndex].get_cpu_handle(),
+		&GetInstance().clearColor.red, 0, nullptr
+	);
+	DirectXCommand::GetCommandList()->ClearRenderTargetView(
+		GetInstance().offscreen->get_cpu_handle(),
 		&GetInstance().clearColor.red, 0, nullptr
 	);
 }
@@ -77,7 +100,7 @@ void DirectXSwapChain::create_swapchain() {
 	fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	fullscreenDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	fullscreenDesc.Windowed = true;
-	
+
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成
 	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, &fullscreenDesc, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
@@ -87,19 +110,22 @@ void DirectXSwapChain::create_swapchain() {
 	for (uint32_t renderIndex = 0; renderIndex < SWAPCHAIN_HEAP; ++renderIndex) {
 		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTarget[renderIndex].get_resource().GetAddressOf()));
 		assert(SUCCEEDED(hr));
-		renderTarget[renderIndex].initialize();
+		renderTarget[renderIndex].create_view();
 	}
+}
+
+void DirectXSwapChain::create_offscreen() {
+	offscreen = std::make_unique<OffscreenRender>();
+	offscreen->initialize();
 }
 
 void DirectXSwapChain::change_back_buffer_state() {
 	// ----------リソースバリアの設定----------
-	DirectXCommand::SetBarrier(
-		renderTarget[backBufferIndex].get_resource(),
-		isRendering[backBufferIndex] ? D3D12_RESOURCE_STATE_RENDER_TARGET : D3D12_RESOURCE_STATE_PRESENT,
-		isRendering[backBufferIndex] ? D3D12_RESOURCE_STATE_PRESENT : D3D12_RESOURCE_STATE_RENDER_TARGET
-	);
-	// 描画の状態を反転
-	isRendering[backBufferIndex] = isRendering[backBufferIndex] ^ 0b1;
+	renderTarget[backBufferIndex].change_buffer_state();
+}
+
+void DirectXSwapChain::change_offscreen_state() {
+	offscreen->change_buffer_state();
 }
 
 void DirectXSwapChain::swap_screen() {

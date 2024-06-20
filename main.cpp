@@ -46,9 +46,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
 
+		DirectXCore::ShowGrid();
 #ifdef _DEBUG
 		DirectXCore::ShowDebugTools();
-		DirectXCore::ShowGrid();
 
 		ImGuiID objectDock = ImGui::GetID("ObjectDock");
 
@@ -97,7 +97,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			objects[i].draw();
 		}
 		sprite.begin_rendering();
-		sprite.draw();
+		//sprite.draw();
 
 		WinApp::EndFrame();
 	}

@@ -9,6 +9,8 @@
 #include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 #include "Engine/Math/Color.h"
 
+class OffscreenRender;
+
 // ダブルバッファなのでHeapも2
 constexpr uint32_t SWAPCHAIN_HEAP = 2;
 
@@ -27,9 +29,12 @@ public:
 	static void Initialize();
 
 public:
-	static void SetRenderTarget();
+	static void SetOffscreenRenderTarget();
+	static void SetOnscreenRenderTarget();
+	static void RenderingOffscreen();
 	static void SwapScreen();
 	static void ChangeBackBufferState();
+	static void ChangeOffscreenState();
 	static void ClearScreen();
 	static void ClearDepthStencil();
 
@@ -44,14 +49,16 @@ private:
 
 private:
 	void create_swapchain();
+	void create_offscreen();
 	void change_back_buffer_state();
+	void change_offscreen_state();
 	void swap_screen();
 
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
-	std::array<bool, SWAPCHAIN_HEAP> isRendering;
 	UINT backBufferIndex;
 	std::array<RenderTarget, SWAPCHAIN_HEAP> renderTarget;
+	std::unique_ptr<OffscreenRender> offscreen;
 	std::unique_ptr<DepthStencil> depthStencil;
 	Color clearColor;
 };

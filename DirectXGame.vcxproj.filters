@@ -166,6 +166,12 @@
     <Filter Include="Engine\HLSL\ZBuffer">
       <UniqueIdentifier>{7bd9766d-fc32-4462-973b-9fe93d6c8499}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender">
+      <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\PostEffect">
+      <UniqueIdentifier>{387279ae-837e-4369-ae4c-352e2401593f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -323,6 +329,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\Matrix4x4.cpp">
       <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp">
+      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,6 +506,12 @@
     <ClInclude Include="Engine\Math\Matrix4x4.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h">
+      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder.h">
+      <Filter>Engine\Core\DirectX\PiplineState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -522,6 +540,12 @@
     <FxCompile Include="Engine\HLSL\NormalColor\NormalColor.VS.hlsl">
       <Filter>Engine\HLSL\NormalColor</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.VS.hlsl">
+      <Filter>Engine\HLSL\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.PS.hlsl">
+      <Filter>Engine\HLSL\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\3DObject\Object3d.hlsli">
@@ -535,6 +559,9 @@
     </None>
     <None Include="Engine\HLSL\NormalColor\NormalColor.PS.hlsl">
       <Filter>Engine\HLSL\NormalColor</Filter>
+    </None>
+    <None Include="Engine\HLSL\PostEffect\PostEffectTest.hlsli">
+      <Filter>Engine\HLSL\PostEffect</Filter>
     </None>
   </ItemGroup>
 </Project>

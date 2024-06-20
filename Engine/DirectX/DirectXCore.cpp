@@ -26,6 +26,8 @@
 #include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/GameObject/GameObject.h"
+#include "Engine/DirectX/PipelineState/PSOBuilder.h"
+#include "Engine/DirectX/PipelineState/ShaderManager/ShaderManager.h"
 
 #include "Engine/Math/Camera2D.h"
 #include "Engine/Math/Camera3D.h"
@@ -70,6 +72,7 @@ void DirectXCore::Finalize() {
 	GetInstance().pipelineState.reset();
 	GetInstance().gridMesh.reset();
 	GetInstance().light.reset();
+	GetInstance().posteffectPipeline.reset();
 	// ----------後で直す!!!----------
 	TextureManager::Finalize();
 #ifdef _DEBUG
@@ -113,8 +116,8 @@ void DirectXCore::initialize() {
 	// シェーダーコンパイラ初期化
 	ShaderCompiler::Initialize();
 	// PSO生成
-	pipelineState = std::make_unique<PipelineState>();
-	pipelineState->initialize();
+	createDefaultPSO();
+	createPosteffectPSO();
 
 	TextureManager::Initialize();
 
@@ -151,10 +154,11 @@ void DirectXCore::initialize() {
 }
 
 void DirectXCore::begin_frame() {
-	// BackBufferのステータスを反転
+	//// BackBufferのステータスを反転
 	DirectXSwapChain::ChangeBackBufferState();
 	// RTVを設定
-	DirectXSwapChain::SetRenderTarget();
+	DirectXSwapChain::ChangeOffscreenState();
+	DirectXSwapChain::SetOffscreenRenderTarget();
 	// ----------画面をクリア----------
 	DirectXSwapChain::ClearScreen();
 
@@ -181,12 +185,24 @@ void DirectXCore::begin_frame() {
 }
 
 void DirectXCore::end_frame() {
+	// BackBufferのステータスを反転
+	DirectXSwapChain::ChangeOffscreenState();
+	// RootSignatureの設定
+	posteffectPipeline->set_root_signature();
+	// PSOの設定
+	posteffectPipeline->set_graphics_pipeline_state();
+
+	DirectXSwapChain::SetOnscreenRenderTarget();
+
+	DirectXSwapChain::RenderingOffscreen();
+
 #ifdef _DEBUG
 	// 一番先にImGUIの処理
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
-	// BackBufferのステータスを反転
+
 	DirectXSwapChain::ChangeBackBufferState();
+
 	// クローズしてエクスキュート
 	DirectXCommand::GetInstance().close_and_kick();
 	// スワップチェイン実行
@@ -195,6 +211,74 @@ void DirectXCore::end_frame() {
 	DirectXCommand::GetInstance().wait_command();
 	// コマンドリセット
 	DirectXCommand::GetInstance().reset();
+}
+
+void DirectXCore::createDefaultPSO() {
+	RootSignatureBuilder rootSignatureBuilder;
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0);
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
+	rootSignatureBuilder.descriptor_range();
+	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1);
+	rootSignatureBuilder.sampler(
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+		D3D12_COMPARISON_FUNC_NEVER,
+		D3D12_SHADER_VISIBILITY_PIXEL,
+		0
+	);
+
+	InputLayoutBuillder inputLayoutBuillder;
+	inputLayoutBuillder.add_cbv("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	inputLayoutBuillder.add_cbv("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
+	inputLayoutBuillder.add_cbv("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
+
+	ShaderManager shaderManager;
+	shaderManager.initialize();
+
+	PSOBuilder psoBuilder;
+	psoBuilder.blendstate();
+	psoBuilder.depthstencilstate(DirectXSwapChain::GetDepthStencil().get_desc());
+	psoBuilder.inputlayout(inputLayoutBuillder.build());
+	psoBuilder.rasterizerstate();
+	psoBuilder.rootsignature(rootSignatureBuilder.build());
+	psoBuilder.shaders(shaderManager);
+	psoBuilder.primitivetopologytype();
+	pipelineState = std::make_unique<PipelineState>();
+	pipelineState->initialize(psoBuilder.pipline_state(), psoBuilder.build());
+}
+
+void DirectXCore::createPosteffectPSO() {
+	RootSignatureBuilder rootSignatureBuilder;
+	rootSignatureBuilder.descriptor_range();
+	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
+	rootSignatureBuilder.sampler(
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+		D3D12_COMPARISON_FUNC_NEVER,
+		D3D12_SHADER_VISIBILITY_PIXEL,
+		0
+	);
+
+	InputLayoutBuillder inputLayoutBuillder;
+	inputLayoutBuillder.add_cbv("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	inputLayoutBuillder.add_cbv("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
+	inputLayoutBuillder.add_cbv("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
+
+	ShaderManager shaderManager;
+	shaderManager.initialize(
+		"Engine/HLSL/PostEffect/PostEffectTest.VS.hlsl",
+		"Engine/HLSL/PostEffect/PostEffectTest.PS.hlsl"
+	);
+
+	PSOBuilder psoBuilder;
+	psoBuilder.blendstate();
+	psoBuilder.depthstencilstate(DirectXSwapChain::GetDepthStencil().get_desc());
+	psoBuilder.inputlayout(inputLayoutBuillder.build());
+	psoBuilder.rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_NONE);
+	psoBuilder.rootsignature(rootSignatureBuilder.build());
+	psoBuilder.shaders(shaderManager);
+	psoBuilder.primitivetopologytype();
+	posteffectPipeline = std::make_unique<PipelineState>();
+	posteffectPipeline->initialize(psoBuilder.pipline_state(), psoBuilder.build());
 }
 
 #ifdef _DEBUG

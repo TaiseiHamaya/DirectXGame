@@ -107,6 +107,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp" />
@@ -115,6 +116,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\PipelineState\BlendState\BlendState.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp" />
+    <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.cpp" />
@@ -163,6 +165,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h" />
@@ -171,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\PipelineState\BlendState\BlendState.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\InputLayout\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h" />
+    <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\RasterizerState\RasterizerState.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.h" />
@@ -224,6 +228,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\HLSL\Wireframe\Wireframe3d.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -264,6 +280,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Engine\HLSL\NormalColor\NormalColor.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Engine\HLSL\PostEffect\PostEffectTest.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

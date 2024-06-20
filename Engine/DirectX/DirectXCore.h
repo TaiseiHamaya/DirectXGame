@@ -46,6 +46,9 @@ private:
 	void begin_frame();
 	void end_frame();
 
+	void createDefaultPSO();
+	void createPosteffectPSO();
+
 #ifdef _DEBUG
 	void show_debug_tools();
 #endif // _DEBUG
@@ -55,6 +58,7 @@ private:
 	D3D12_RECT scissorRect;
 
 	std::unique_ptr<PipelineState> pipelineState;
+	std::unique_ptr<PipelineState> posteffectPipeline;
 
 	std::unique_ptr<GameObject> gridMesh;
 	std::unique_ptr<ConstantBuffer<DirectionalLightData>> light;

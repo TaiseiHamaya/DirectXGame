@@ -2,14 +2,17 @@
 
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 
-class RenderTarget final : public DirectXResourceObject {
+class RenderTarget : public DirectXResourceObject {
 public:
 	RenderTarget() noexcept = default;
-	~RenderTarget() noexcept = default;
+	virtual ~RenderTarget() noexcept = default;
 
-	void initialize();
+public:
 	const D3D12_CPU_DESCRIPTOR_HANDLE& get_cpu_handle() noexcept;
+	virtual void change_buffer_state();
+	void create_view();
 
-private:
+protected:
+	bool isRendering;
 	D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandleCPU;
 };
