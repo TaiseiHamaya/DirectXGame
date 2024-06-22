@@ -19,6 +19,9 @@
 #include <format>
 #include <unordered_set>
 
+#include "Engine/Render/RenderPathManager/RenderPathManager.h"
+#include "Engine/Render/RenderPath/RenderPath.h"
+
 // クライアント領域サイズ
 const std::int32_t kClientWidth = 1280;
 const std::int32_t kClientHight = 720;
@@ -52,6 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		ImGuiID objectDock = ImGui::GetID("ObjectDock");
 
+		// 作成関連
 		ImGui::SetNextWindowSize(ImVec2{ 330,100 }, ImGuiCond_Once);
 		ImGui::SetNextWindowPos(ImVec2{ 50, 250 }, ImGuiCond_Once);
 		ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoSavedSettings);
@@ -75,12 +79,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		ImGuiLoadManager::ShowGUI();
 
-		for (int i = 0; i < objects.size(); ++i) {
+		for (int i = 0; i < objects.size(); ) {
 			ImGui::SetNextWindowDockID(objectDock, 0);
-			ImGui::SetNextWindowSize(ImVec2{ 345,385 }, ImGuiCond_Once);
+			ImGui::SetNextWindowSize(ImVec2{ 345,445 }, ImGuiCond_Once);
 			ImGui::SetNextWindowPos(ImVec2{ 900, 50 }, ImGuiCond_Once);
 			ImGui::Begin(objectNames[i].c_str(), nullptr, ImGuiWindowFlags_NoSavedSettings);
 			objects[i].debug_gui();
+			if (ImGui::Button("Delete")) {
+				objects.erase(objects.begin() + i);
+				objectNames.erase(objectNames.begin() + i);
+			}
+			else {
+				++i;
+			}
 			ImGui::End();
 		}
 

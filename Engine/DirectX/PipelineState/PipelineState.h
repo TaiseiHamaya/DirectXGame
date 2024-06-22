@@ -5,12 +5,14 @@
 
 class PipelineState final {
 public:
-	PipelineState() noexcept;
-	~PipelineState() noexcept;
+	PipelineState() noexcept = default;
+	~PipelineState() noexcept = default;
 
 private:
 	PipelineState(const PipelineState&) = delete;
-	PipelineState operator=(const PipelineState&) = delete;
+	PipelineState& operator=(const PipelineState&) = delete;
+	PipelineState(PipelineState&&) = default;
+	PipelineState& operator=(PipelineState&&) = default;
 
 public:
 	void initialize(

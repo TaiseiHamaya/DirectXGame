@@ -49,9 +49,6 @@
     <Filter Include="Engine\Core\DirectX\PiplineState">
       <UniqueIdentifier>{039fc40c-ddce-413c-98d4-ebcf41174f55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\PiplineState\ShaderManager">
-      <UniqueIdentifier>{bb327bf5-ebe4-4ac2-9f79-6c0f21e1af36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\ImGUIManager">
       <UniqueIdentifier>{24684771-dea8-49c9-b66b-9ed3762474b1}</UniqueIdentifier>
     </Filter>
@@ -163,6 +160,27 @@
     <Filter Include="Engine\Core\DirectX\PiplineState\PSOBuilder">
       <UniqueIdentifier>{e4dbf188-0352-49f8-a087-5c92b8d436d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame">
+      <UniqueIdentifier>{9c839059-164e-4b43-94f7-24ed6b8e0ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\PiplineState\ShaderBuilder">
+      <UniqueIdentifier>{bb327bf5-ebe4-4ac2-9f79-6c0f21e1af36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render">
+      <UniqueIdentifier>{11b95730-c302-4386-bda2-c895b725172c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode">
+      <UniqueIdentifier>{292d35d0-d7b0-49c6-83e6-ffa1d4d3aae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderPath">
+      <UniqueIdentifier>{225a09e0-a07d-4a08-bf9b-2d06b7d96cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderPathManager">
+      <UniqueIdentifier>{43c685bf-94f4-4fae-a2d2-d84af0859ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\SwapChain\SwapChainRenderNode">
+      <UniqueIdentifier>{6894d364-0349-40fb-a51c-fcc72f2d6b83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -227,9 +245,6 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp">
       <Filter>Engine\Core\DirectX\PiplineState</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.cpp">
-      <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\GameObject.cpp">
       <Filter>Engine\Core\Game\Objects\GameObject</Filter>
@@ -315,6 +330,21 @@
     <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
       <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp">
+      <Filter>Engine\Core\DirectX\PiplineState\ShaderBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderPathManager\RenderPathManager.cpp">
+      <Filter>Engine\Core\Render\RenderPathManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\BaseRenderNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderPath\RenderPath.cpp">
+      <Filter>Engine\Core\Render\RenderPath</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXSwapChain\SwapChainRenderNode\SwapChainRenderNode.cpp">
+      <Filter>Engine\Core\DirectX\SwapChain\SwapChainRenderNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -385,9 +415,6 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h">
       <Filter>Engine\Core\DirectX\PiplineState</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\PipelineState\ShaderManager\ShaderManager.h">
-      <Filter>Engine\Core\DirectX\PiplineState\ShaderManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\GameObject.h">
       <Filter>Engine\Core\Game\Objects\GameObject</Filter>
@@ -479,6 +506,21 @@
     <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
       <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h">
+      <Filter>Engine\Core\DirectX\PiplineState\ShaderBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderPathManager\RenderPathManager.h">
+      <Filter>Engine\Core\Render\RenderPathManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\BaseRenderNode.h">
+      <Filter>Engine\Core\Render\RenderNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderPath\RenderPath.h">
+      <Filter>Engine\Core\Render\RenderPath</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXSwapChain\SwapChainRenderNode\SwapChainRenderNode.h">
+      <Filter>Engine\Core\DirectX\SwapChain\SwapChainRenderNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -507,10 +549,10 @@
     <FxCompile Include="Engine\HLSL\NormalColor\NormalColor.VS.hlsl">
       <Filter>Engine\HLSL\NormalColor</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.VS.hlsl">
+    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.PS.hlsl">
       <Filter>Engine\HLSL\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.PS.hlsl">
+    <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.VS.hlsl">
       <Filter>Engine\HLSL\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>

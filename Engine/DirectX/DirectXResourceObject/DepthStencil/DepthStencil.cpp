@@ -6,12 +6,12 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/WinApp.h"
 
-void DepthStencil::initialize() {
-	create_depth_stencil_texture_resource();
+void DepthStencil::initialize(std::uint32_t width, std::uint32_t height) {
+	create_depth_stencil_texture_resource(width, height);
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D; // 画面全体なので2D
-	descriptorHandleCPU = DSVDescriptorHeap::GetNextCPUHandle();
+	descriptorHandleCPU = DSVDescriptorHeap::UseNextHandle();
 	// viewの作成
 	DirectXDevice::GetDevice()->CreateDepthStencilView(
 		resource.Get(),
@@ -33,7 +33,7 @@ const D3D12_DEPTH_STENCIL_DESC& DepthStencil::get_desc() const noexcept {
 	return depthStencilDesc;
 }
 
-void DepthStencil::create_depth_stencil_texture_resource() {
+void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height) {
 	HRESULT hr;
 	D3D12_RESOURCE_DESC resourceDesc{};
 	resourceDesc.Width = WinApp::GetClientWidth();

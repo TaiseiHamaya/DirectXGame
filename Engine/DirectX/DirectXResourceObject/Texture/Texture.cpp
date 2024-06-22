@@ -61,7 +61,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& 
 void Texture::create_resource_view() {
 	Log("[Texture] Create texutre resource view.\n");
 	// 使用するディスクリプタヒープを取得
-	heapIndex = SRVDescriptorHeap::GetNextHandleIndex();
+	heapIndex = SRVDescriptorHeap::UseHeapIndex();
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());
 	gpuHandle = SRVDescriptorHeap::GetGPUHandle(heapIndex.value());
 	// textureResourceに転送

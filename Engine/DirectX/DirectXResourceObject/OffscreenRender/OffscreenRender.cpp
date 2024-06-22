@@ -17,9 +17,9 @@ void OffscreenRender::initialize(UINT64 width, UINT height) {
 	// view作成
 	RenderTarget::create_view();
 	// テクスチャ用ヒープの取得
-	heapIndex = SRVDescriptorHeap::GetNextHandleIndex();
-	cpuHandle = SRVDescriptorHeap::GetCPUHandle(heapIndex);
-	gpuHandle = SRVDescriptorHeap::GetGPUHandle(heapIndex);
+	srvHeapIndex = SRVDescriptorHeap::UseHeapIndex();
+	srvCPUHandle = SRVDescriptorHeap::GetCPUHandle(srvHeapIndex.value());
+	srvGPUHandle = SRVDescriptorHeap::GetGPUHandle(srvHeapIndex.value());
 	// テクスチャ用Viewの作成
 	create_textue_view();
 	// テクスチャ用頂点情報作成
@@ -63,10 +63,9 @@ void OffscreenRender::create_resource(UINT64 width, UINT height) {
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 	assert(SUCCEEDED(hr));
-	resource->SetName(L"Offscreen");
 }
 
-void OffscreenRender::change_buffer_state() {
+void OffscreenRender::change_resource_state() {
 	// GENERIC_READとRENDER_TARGETを入れ替える
 	DirectXCommand::SetBarrier(
 		resource,
@@ -85,11 +84,11 @@ void OffscreenRender::create_textue_view() {
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, cpuHandle);
+	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, srvCPUHandle);
 }
 
 void OffscreenRender::set_texture(std::uint32_t rootParamaterIndex) const {
-	DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(rootParamaterIndex, gpuHandle);
+	DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(rootParamaterIndex, srvGPUHandle);
 }
 
 void OffscreenRender::draw(std::uint32_t rootParamaterIndex) const {
@@ -98,3 +97,11 @@ void OffscreenRender::draw(std::uint32_t rootParamaterIndex) const {
 	set_texture(rootParamaterIndex);
 	command->DrawInstanced(6, 1, 0, 0);
 }
+
+void OffscreenRender::release_index() const {
+	if (srvHeapIndex.has_value()) {
+		SRVDescriptorHeap::ReleaseHeapIndex(srvHeapIndex.value());
+	}
+	release_index();
+}
+

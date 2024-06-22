@@ -20,7 +20,7 @@ ImGuiManager& ImGuiManager::GetInstance() noexcept {
 }
 
 void ImGuiManager::Initialize() {
-	std::uint32_t index = SRVDescriptorHeap::GetNextHandleIndex();
+	std::uint32_t index = SRVDescriptorHeap::UseHeapIndex();
 	// ----------ImGui初期化----------
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

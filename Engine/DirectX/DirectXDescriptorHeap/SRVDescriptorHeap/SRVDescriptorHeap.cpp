@@ -18,8 +18,8 @@ void SRVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-const std::uint32_t SRVDescriptorHeap::GetNextHandleIndex() noexcept {
-	return GetInstance().get_next_heap_index();
+const std::uint32_t SRVDescriptorHeap::UseHeapIndex() noexcept {
+	return GetInstance().use_heap_index();
 }
 
 const D3D12_CPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {

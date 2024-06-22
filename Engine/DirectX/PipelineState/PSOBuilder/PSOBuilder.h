@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "Engine/DirectX/PipelineState/ShaderManager/ShaderManager.h"
+#include "Engine/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 
 class InputLayoutBuillder {
 public:
@@ -35,20 +35,20 @@ private:
 class PSOBuilder {
 public:
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> build();
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> pipline_state();
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> get_rootsignature();
 
 public:
-	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& pipelineState);
+	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_);
 	void inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout);
-	void shaders(const ShaderManager& shaders);
+	void shaders(const ShaderBuilder& shaders);
 	void blendstate();
 	void blendstate(D3D12_BLEND_DESC blendDesc);
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);
 	void depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilDesc);
-	void primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE); // 使用するトポロジーのタイプ
+	void primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE); // 使用するトポロジーのタイプ
 
 private:
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> pipelineState;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 };
 

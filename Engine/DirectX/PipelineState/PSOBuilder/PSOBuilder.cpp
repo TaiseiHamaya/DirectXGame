@@ -98,20 +98,20 @@ Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 	return graphicsPipelineState;
 }
 
-Microsoft::WRL::ComPtr<ID3D12RootSignature> PSOBuilder::pipline_state() {
-	return pipelineState;
+Microsoft::WRL::ComPtr<ID3D12RootSignature> PSOBuilder::get_rootsignature() {
+	return rootSignature;
 }
 
-void PSOBuilder::rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& pipelineState_) {
-	pipelineState = pipelineState_;
-	graphicsPipelineStateDesc.pRootSignature = pipelineState.Get();
+void PSOBuilder::rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_) {
+	rootSignature = rootSignature_;
+	graphicsPipelineStateDesc.pRootSignature = rootSignature.Get();
 }
 
 void PSOBuilder::inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout) {
 	graphicsPipelineStateDesc.InputLayout = { layout.data(), static_cast<UINT>(layout.size()) };
 }
 
-void PSOBuilder::shaders(const ShaderManager& shaders) {
+void PSOBuilder::shaders(const ShaderBuilder& shaders) {
 	graphicsPipelineStateDesc.VS = shaders.get_vs_bytecode();
 	graphicsPipelineStateDesc.PS = shaders.get_ps_bytecode();
 }
@@ -133,6 +133,6 @@ void PSOBuilder::depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilD
 	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc;
 }
 
-void PSOBuilder::primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType) {
-	graphicsPipelineStateDesc.PrimitiveTopologyType = topologyType; // 使用するトポロジーのタイプ
+void PSOBuilder::primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_) {
+	graphicsPipelineStateDesc.PrimitiveTopologyType = topologyType_; // 使用するトポロジーのタイプ
 }

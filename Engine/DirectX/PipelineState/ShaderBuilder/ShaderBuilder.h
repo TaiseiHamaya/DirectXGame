@@ -5,14 +5,14 @@
 #include <wrl/client.h>
 #include <string>
 
-class ShaderManager {
+class ShaderBuilder {
 public:
-	ShaderManager() noexcept = default;
-	~ShaderManager() noexcept = default;
+	ShaderBuilder() noexcept = default;
+	~ShaderBuilder() noexcept = default;
 
 private:
-	ShaderManager(const ShaderManager&) = delete;
-	ShaderManager operator=(const ShaderManager&) = delete;
+	ShaderBuilder(const ShaderBuilder&) = delete;
+	ShaderBuilder operator=(const ShaderBuilder&) = delete;
 
 public:
 	void initialize(
@@ -26,7 +26,6 @@ public:
 private:
 	void create_vertex_shader(const std::string& filePath);
 	void create_pixel_shader(const std::string& filePath);
-
 
 private:
 	Microsoft::WRL::ComPtr<IDxcBlob> vertexShaderBlob;

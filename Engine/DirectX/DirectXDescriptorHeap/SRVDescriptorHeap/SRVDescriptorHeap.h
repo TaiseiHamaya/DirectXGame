@@ -18,7 +18,7 @@ private:
 
 public:
 	static void Initialize();
-	static const std::uint32_t GetNextHandleIndex() noexcept;
+	static const std::uint32_t UseHeapIndex() noexcept;
 	static const D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(std::uint32_t index) noexcept;
 	static const D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(std::uint32_t index) noexcept;
 	static Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& GetDescriptorHeap() noexcept;

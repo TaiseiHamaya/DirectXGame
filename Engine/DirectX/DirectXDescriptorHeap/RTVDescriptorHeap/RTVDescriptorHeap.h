@@ -18,7 +18,9 @@ private:
 
 public:
 	static void Initialize();
-	static D3D12_CPU_DESCRIPTOR_HANDLE GetNextCPUHandle() noexcept;
+	static std::uint32_t UseHeapIndex() noexcept;
+	static D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(std::uint32_t index) noexcept;
+	static void ReleaseIndex(std::uint32_t index);
 
 private:
 	void create_descriptor_heap() override;

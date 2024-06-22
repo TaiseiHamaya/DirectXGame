@@ -1,6 +1,5 @@
 #include "DSVDescriptorHeap.h"
 
-#include <cassert>
 #include <memory>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
@@ -18,8 +17,8 @@ void DSVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetNextCPUHandle() noexcept {
-	return GetInstance().get_cpu_handle(GetInstance().get_next_heap_index());
+D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::UseNextHandle() noexcept {
+	return GetInstance().get_cpu_handle(GetInstance().use_heap_index());
 }
 
 void DSVDescriptorHeap::create_descriptor_heap() {

@@ -17,8 +17,16 @@ void RTVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetNextCPUHandle() noexcept {
-	return GetInstance().get_cpu_handle(GetInstance().get_next_heap_index());
+std::uint32_t RTVDescriptorHeap::UseHeapIndex() noexcept {
+    return GetInstance().use_heap_index();
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {
+	return GetInstance().get_cpu_handle(index);
+}
+
+void RTVDescriptorHeap::ReleaseIndex(std::uint32_t index) {
+	GetInstance().release_heap(index);
 }
 
 void RTVDescriptorHeap::create_descriptor_heap() {

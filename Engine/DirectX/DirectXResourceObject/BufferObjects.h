@@ -7,11 +7,11 @@
 
 struct VertexData {
 	struct Vector4 {
-		Vector3 position;
-		float w;
+		Vector3 position = CVector3::ZERO;
+		float w = 0.0f;
 	} vertex;
-	Vector2 texcoord;
-	Vector3 normal;
+	Vector2 texcoord = CVector2::ZERO;
+	Vector3 normal = CVector3::ZERO;
 };
 
 struct MaterialData {

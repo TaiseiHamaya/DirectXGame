@@ -2,10 +2,6 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 
-PipelineState::PipelineState() noexcept = default;
-
-PipelineState::~PipelineState() noexcept = default;
-
 void PipelineState::initialize(Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_, Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState_) {
 	rootSignature = rootSignature_;
 	graphicsPipelineState = graphicsPipelineState_;

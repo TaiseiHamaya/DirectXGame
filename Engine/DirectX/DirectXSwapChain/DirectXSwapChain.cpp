@@ -5,44 +5,26 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
+#include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 #include "Engine/WinApp.h"
+#include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/DirectX/PipelineState/PipelineState.h"
+#include "Engine/DirectX/DirectXSwapChain/SwapChainRenderNode/SwapChainRenderNode.h"
 
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
 	backBufferIndex = 0;
-	depthStencil = std::make_unique<DepthStencil>();
-	depthStencil->initialize();
-	clearColor = { 0.1f,0.25f, 0.5f, 1.0f };
 }
 
 void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
-	GetInstance().create_offscreen();
+	GetInstance().create_render_terget_view();
+	GetInstance().create_render_node();
 }
 
-void DirectXSwapChain::SetOffscreenRenderTarget() {
-	// ----------オフスクリーンを描画先として設定----------
-	DirectXCommand::GetCommandList()->OMSetRenderTargets(
-		1,
-		&GetInstance().offscreen->get_cpu_handle(),
-		false,
-		&GetInstance().depthStencil->get_cpu_handle()
-	);
-}
-
-void DirectXSwapChain::SetOnscreenRenderTarget() {
+void DirectXSwapChain::SetRenderTarget() {
 	// ----------描画先のRTVを設定----------
-	DirectXCommand::GetCommandList()->OMSetRenderTargets(
-		1,
-		&GetInstance().renderTarget[GetBackBufferIndex()].get_cpu_handle(),
-		false,
-		&GetInstance().depthStencil->get_cpu_handle()
-	);
-}
-
-void DirectXSwapChain::RenderingOffscreen() {
-	GetInstance().offscreen->draw();
+	GetInstance().renderNode->begin();
 }
 
 void DirectXSwapChain::SwapScreen() {
@@ -50,33 +32,21 @@ void DirectXSwapChain::SwapScreen() {
 }
 
 void DirectXSwapChain::ChangeBackBufferState() {
-	GetInstance().change_back_buffer_state();
+	GetInstance().renderTarget[GetBackBufferIndex()].change_resource_state();
 }
 
-void DirectXSwapChain::ChangeOffscreenState() {
-	GetInstance().change_offscreen_state();
+void DirectXSwapChain::SetPSOFromBuilder(const std::unique_ptr<PSOBuilder>& psoBuilder) {
+	std::unique_ptr<PipelineState> pso = std::make_unique<PipelineState>();
+	pso->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
+	GetInstance().renderNode->set_pso(std::move(pso));
 }
 
-void DirectXSwapChain::ClearScreen() {
-	// クリアする色
-	DirectXCommand::GetCommandList()->ClearRenderTargetView(
-		GetInstance().renderTarget[GetInstance().backBufferIndex].get_cpu_handle(),
-		&GetInstance().clearColor.red, 0, nullptr
-	);
-	DirectXCommand::GetCommandList()->ClearRenderTargetView(
-		GetInstance().offscreen->get_cpu_handle(),
-		&GetInstance().clearColor.red, 0, nullptr
-	);
-}
-
-void DirectXSwapChain::ClearDepthStencil() {
-	DirectXCommand::GetCommandList()->ClearDepthStencilView(
-		GetInstance().depthStencil->get_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
-	);
+const DepthStencil& DirectXSwapChain::GetDepthStencil() noexcept {
+	return GetInstance().renderNode->get_depth_stencil();
 }
 
 void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {
-	GetInstance().clearColor = color_;
+	GetInstance().renderNode->set_clear_color(color_);
 }
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() noexcept {
@@ -106,6 +76,10 @@ void DirectXSwapChain::create_swapchain() {
 	hr = DirectXDevice::GetFactory()->CreateSwapChainForHwnd(DirectXCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, &fullscreenDesc, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
 	assert(SUCCEEDED(hr));
+}
+
+void DirectXSwapChain::create_render_terget_view() {
+	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
 	for (uint32_t renderIndex = 0; renderIndex < SWAPCHAIN_HEAP; ++renderIndex) {
@@ -116,18 +90,10 @@ void DirectXSwapChain::create_swapchain() {
 	}
 }
 
-void DirectXSwapChain::create_offscreen() {
-	offscreen = std::make_unique<OffscreenRender>();
-	offscreen->initialize();
-}
-
-void DirectXSwapChain::change_back_buffer_state() {
-	// ----------リソースバリアの設定----------
-	renderTarget[backBufferIndex].change_buffer_state();
-}
-
-void DirectXSwapChain::change_offscreen_state() {
-	offscreen->change_buffer_state();
+void DirectXSwapChain::create_render_node() {
+	renderNode = std::make_unique<SwapChainRenderNode>();
+	renderNode->initialize();
+	renderNode->set_render_target(renderTarget);
 }
 
 void DirectXSwapChain::swap_screen() {

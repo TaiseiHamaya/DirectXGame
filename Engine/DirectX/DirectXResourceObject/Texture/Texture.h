@@ -34,10 +34,10 @@ private: // private function
 	
 private: // private value
 	std::optional<std::uint32_t> heapIndex;
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	std::uint32_t width;
-	std::uint32_t height;
+	std::uint32_t width = 0;
+	std::uint32_t height = 0;
 	
 private: // static function
 	static DirectX::ScratchImage LoadTextureData(const std::string& filePath);

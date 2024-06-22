@@ -5,11 +5,12 @@
 #include <memory>
 #include <wrl/client.h>
 
-#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
+#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Math/Color.h"
 
-class OffscreenRender;
+class SwapChainRenderNode;
+class PSOBuilder;
 
 // ダブルバッファなのでHeapも2
 constexpr uint32_t SWAPCHAIN_HEAP = 2;
@@ -29,19 +30,15 @@ public:
 	static void Initialize();
 
 public:
-	static void SetOffscreenRenderTarget();
-	static void SetOnscreenRenderTarget();
-	static void RenderingOffscreen();
+	static void SetRenderTarget();
 	static void SwapScreen();
 	static void ChangeBackBufferState();
-	static void ChangeOffscreenState();
-	static void ClearScreen();
-	static void ClearDepthStencil();
+	static void SetPSOFromBuilder(const std::unique_ptr<PSOBuilder>& psoBuilder);
 
 public:
 	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
 	static UINT GetBackBufferIndex() noexcept { return GetInstance().backBufferIndex; }
-	static const DepthStencil& GetDepthStencil() noexcept { return *GetInstance().depthStencil; };
+	static const DepthStencil& GetDepthStencil() noexcept;
 	static void SetClearColor(const Color& color_) noexcept;
 
 private:
@@ -49,17 +46,13 @@ private:
 
 private:
 	void create_swapchain();
-	void create_offscreen();
-	void change_back_buffer_state();
-	void change_offscreen_state();
+	void create_render_terget_view();
+	void create_render_node();
 	void swap_screen();
 
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	UINT backBufferIndex;
 	std::array<RenderTarget, SWAPCHAIN_HEAP> renderTarget;
-	std::unique_ptr<OffscreenRender> offscreen;
-	std::unique_ptr<DepthStencil> depthStencil;
-	Color clearColor;
+	std::unique_ptr<SwapChainRenderNode> renderNode;
 };
-

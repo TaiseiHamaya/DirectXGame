@@ -18,7 +18,7 @@ private:
 
 public:
 	static void Initialize();
-	static D3D12_CPU_DESCRIPTOR_HANDLE GetNextCPUHandle() noexcept;
+	static D3D12_CPU_DESCRIPTOR_HANDLE UseNextHandle() noexcept;
 
 private:
 	void create_descriptor_heap() override;

@@ -16,7 +16,7 @@ const D3D12_GPU_DESCRIPTOR_HANDLE DirectXDescriptorHeap::get_gpu_handle(std::uin
 	return result;
 }
 
-const std::uint32_t DirectXDescriptorHeap::get_next_heap_index() noexcept {
+const std::uint32_t DirectXDescriptorHeap::use_heap_index() noexcept {
 	if (releasedHeap.empty()) {
 		return nowHeapIndex++;
 	}
