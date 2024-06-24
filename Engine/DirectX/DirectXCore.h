@@ -21,9 +21,10 @@ private:
 public:
 	static void Initialize();
 	static void BeginFrame();
-	static void SetScreenRenderTarget();
 	static void EndFrame();
 	static void Finalize();
+
+	static void Set3DLight();
 
 #ifdef _DEBUG
 	/// <summary>
@@ -44,22 +45,13 @@ private:
 	void initialize();
 
 	void begin_frame();
-	void screen_render_target();
 	void end_frame();
-
-	void createDefaultPSO();
-	void createPosteffectPSO();
 
 #ifdef _DEBUG
 	void show_debug_tools();
 #endif // _DEBUG
 
 private:
-	D3D12_VIEWPORT viewPort;
-	D3D12_RECT scissorRect;
-
-	//std::unique_ptr<PipelineState> posteffectPipeline;
-
 	std::unique_ptr<GameObject> gridMesh;
 	std::unique_ptr<ConstantBuffer<DirectionalLightData>> light;
 

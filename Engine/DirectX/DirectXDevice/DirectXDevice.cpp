@@ -18,6 +18,7 @@ void DirectXDevice::Initialize() {
 	GetInstance().create_adapter();
 	// Device生成
 	GetInstance().create_device();
+	Log("[Engine] Complete create D3D12Device\n");
 }
 
 void DirectXDevice::create_dxgiFactory() {

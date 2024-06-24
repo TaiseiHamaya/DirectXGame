@@ -1,16 +1,11 @@
 #pragma once
 
-struct D3D12_CPU_DESCRIPTOR_HANDLE;
 class PipelineState;
 class PSOBuilder;
-class DepthStencil;
-struct D3D12_VIEWPORT;
-struct tagRECT;
+class BaseRenderTargetGroup;
 enum D3D_PRIMITIVE_TOPOLOGY;
-class Color;
 
 #include <memory>
-#include <vector>
 
 class BaseRenderNode {
 public:
@@ -23,19 +18,29 @@ public:
 	BaseRenderNode& operator=(BaseRenderNode&&) = default;
 
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	virtual void initialize() = 0;
+
+	/// <summary>
+	/// 描画開始
+	/// </summary>
 	virtual void begin();
+
+	/// <summary>
+	/// 描画処理の終了
+	/// </summary>
 	virtual void end();
 
-protected:
-	void create_view_port(std::uint32_t width, std::uint32_t height);
+	/// <summary>
+	/// RTGroupの取得
+	/// </summary>
+	/// <returns></returns>
+	const std::shared_ptr<BaseRenderTargetGroup>& get_render_target_group() const;
 
 protected:
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> renderTargetHandles;
+	std::shared_ptr<BaseRenderTargetGroup> renderTarget;
 	std::unique_ptr<PipelineState> pipelineState;
-	std::shared_ptr<DepthStencil> depthStencil;
-	std::unique_ptr<D3D12_VIEWPORT> viewPort;
-	std::unique_ptr<tagRECT> scissorRect;
 	D3D_PRIMITIVE_TOPOLOGY primitiveTopology{};
-	std::unique_ptr<Color> clearColor;
 };

@@ -7,9 +7,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 #include "Engine/WinApp.h"
-#include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-#include "Engine/DirectX/PipelineState/PipelineState.h"
-#include "Engine/DirectX/DirectXSwapChain/SwapChainRenderNode/SwapChainRenderNode.h"
+#include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
@@ -18,35 +16,27 @@ DirectXSwapChain::DirectXSwapChain() noexcept {
 
 void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
-	GetInstance().create_render_terget_view();
-	GetInstance().create_render_node();
-}
-
-void DirectXSwapChain::SetRenderTarget() {
-	// ----------描画先のRTVを設定----------
-	GetInstance().renderNode->begin();
+	GetInstance().create_render_terget();
 }
 
 void DirectXSwapChain::SwapScreen() {
 	GetInstance().swap_screen();
 }
 
-void DirectXSwapChain::ChangeBackBufferState() {
-	GetInstance().renderTarget[GetBackBufferIndex()].change_resource_state();
+const std::shared_ptr<SwapChainRenderTargetGroup>& DirectXSwapChain::GetRenderTarget() {
+	return GetInstance().renderTarget;
 }
 
-void DirectXSwapChain::SetPSOFromBuilder(const std::unique_ptr<PSOBuilder>& psoBuilder) {
-	std::unique_ptr<PipelineState> pso = std::make_unique<PipelineState>();
-	pso->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
-	GetInstance().renderNode->set_pso(std::move(pso));
-}
-
-const DepthStencil& DirectXSwapChain::GetDepthStencil() noexcept {
-	return GetInstance().renderNode->get_depth_stencil();
+const std::shared_ptr<DepthStencil>& DirectXSwapChain::GetDepthStencil() noexcept {
+	return GetInstance().renderTarget->get_depth_stencil();
 }
 
 void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {
-	GetInstance().renderNode->set_clear_color(color_);
+	GetInstance().renderTarget->set_clear_color(color_);
+}
+
+void DirectXSwapChain::ChangeBackBufferState() {
+	GetInstance().renderTarget->end();
 }
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() noexcept {
@@ -78,22 +68,19 @@ void DirectXSwapChain::create_swapchain() {
 	assert(SUCCEEDED(hr));
 }
 
-void DirectXSwapChain::create_render_terget_view() {
+void DirectXSwapChain::create_render_terget() {
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
+	renderTarget = std::make_shared<SwapChainRenderTargetGroup>();
 	for (uint32_t renderIndex = 0; renderIndex < SWAPCHAIN_HEAP; ++renderIndex) {
-		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(renderTarget[renderIndex].get_resource().GetAddressOf()));
+		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(resource.GetAddressOf()));
 		assert(SUCCEEDED(hr));
 		// view作成
-		renderTarget[renderIndex].create_view();
+		renderTarget->set_resource(resource, renderIndex);
 	}
-}
-
-void DirectXSwapChain::create_render_node() {
-	renderNode = std::make_unique<SwapChainRenderNode>();
-	renderNode->initialize();
-	renderNode->set_render_target(renderTarget);
+	renderTarget->initialize();
 }
 
 void DirectXSwapChain::swap_screen() {

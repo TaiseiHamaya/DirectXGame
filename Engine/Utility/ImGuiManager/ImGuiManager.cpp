@@ -36,7 +36,6 @@ void ImGuiManager::Initialize() {
 		SRVDescriptorHeap::GetCPUHandle(index),
 		SRVDescriptorHeap::GetGPUHandle(index)
 	);
-	//ImGui::UpdatePlatformWindows();
 }
 
 void ImGuiManager::Finalize() {
@@ -47,7 +46,6 @@ void ImGuiManager::Finalize() {
 }
 
 void ImGuiManager::BeginFrame() {
-	//ImGui::UpdatePlatformWindows();
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();

@@ -1,4 +1,4 @@
-#include "PostEffectTest.hlsli"
+#include "Grayscale.hlsli"
 
 struct VertexShaderInput {
 	float4 position : POSITION0;

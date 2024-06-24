@@ -1,26 +1,27 @@
-#include "Engine/Math/Camera2D.h"
-#include "Engine/Math/Camera3D.h"
 #include "Engine/WinApp.h"
 
 #include <cstdint>
-
-#include "Engine/GameObject/GameObject.h"
-#include "Engine/GameObject/SpriteObject.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
-#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
+#include <format>
+#include <unordered_set>
 
 #include "externals/imgui/imgui.h"
 
 #include "Engine/DirectX/DirectXCore.h"
-#include <minwindef.h>
-#include <winnt.h>
-#include "Engine/Utility/ImGuiLoadManager/ImGuiLoadManager.h"
-#include <format>
-#include <unordered_set>
-
+#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+#include "Engine/GameObject/GameObject.h"
+#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/GameObject/SpriteObject.h"
+#include "Engine/Math/Camera2D.h"
+#include "Engine/Math/Camera3D.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
+#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Utility/ImGuiLoadManager/ImGuiLoadManager.h"
+
 #include "Engine/Render/RenderPath/RenderPath.h"
+#include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
+#include "Engine/Render/RenderNode/Grayscale/GrayscaleNode.h"
+#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 // クライアント領域サイズ
 const std::int32_t kClientWidth = 1280;
@@ -35,6 +36,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Sphere.obj");
 	BackgroundLoader::WaitEndExecute();
 
+	std::shared_ptr<Object3DNode> object3DNode{ new Object3DNode };
+	object3DNode->initialize();
+	object3DNode->set_render_target();
+	std::shared_ptr<GrayscaleNode> grayscaleNode{ new GrayscaleNode };
+	grayscaleNode->initialize();
+	grayscaleNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
+	RenderPath path;
+	path.initialize({ object3DNode, grayscaleNode });
+
+	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
+	RenderPathManager::SetPath("GrayScale1");
+
 	std::vector<GameObject> objects;
 	std::vector<std::string> objectNames;
 	objects.emplace_back("Sphere.obj");
@@ -48,8 +62,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
-
-		DirectXCore::ShowGrid();
 #ifdef _DEBUG
 		DirectXCore::ShowDebugTools();
 
@@ -100,6 +112,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Camera2D::CameraUpdate();
 		Camera3D::CameraUpdate();
 
+		RenderPathManager::BeginFrame();
+
 		for (int i = 0; i < objects.size(); ++i) {
 			objects[i].begin_rendering();
 		}
@@ -108,7 +122,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			objects[i].draw();
 		}
 		sprite.begin_rendering();
+
+		DirectXCore::ShowGrid();
 		//sprite.draw();
+
+		RenderPathManager::Next();
+
+		grayscaleNode->draw();
+
+		RenderPathManager::Next();
 
 		WinApp::EndFrame();
 	}

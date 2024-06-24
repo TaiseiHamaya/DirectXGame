@@ -151,9 +151,6 @@
     <Filter Include="Engine\HLSL\ZBuffer">
       <UniqueIdentifier>{7bd9766d-fc32-4462-973b-9fe93d6c8499}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender">
-      <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\HLSL\PostEffect">
       <UniqueIdentifier>{387279ae-837e-4369-ae4c-352e2401593f}</UniqueIdentifier>
     </Filter>
@@ -178,8 +175,32 @@
     <Filter Include="Engine\Core\Render\RenderPathManager">
       <UniqueIdentifier>{43c685bf-94f4-4fae-a2d2-d84af0859ce2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\SwapChain\SwapChainRenderNode">
-      <UniqueIdentifier>{6894d364-0349-40fb-a51c-fcc72f2d6b83}</UniqueIdentifier>
+    <Filter Include="TestProgram">
+      <UniqueIdentifier>{7679c345-a15e-4a48-8c87-5ab6bea6a38e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\Object3DNode">
+      <UniqueIdentifier>{60ab0c62-b074-44d0-b5e7-9f0620d49908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\Grayscale">
+      <UniqueIdentifier>{3602e0ab-a4aa-412d-8e2b-67b96ec2e6da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourcesObject\OffscreenRender">
+      <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderTargetGroup">
+      <UniqueIdentifier>{0085d829-dc6e-4727-8983-4e6827bc0cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderTargetGroup\SwapChainRenderTargetGroup">
+      <UniqueIdentifier>{a168ee1d-4afc-42de-aca1-5e83c05c3af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderTargetGroup\SingleRenderTarget">
+      <UniqueIdentifier>{8f7b8fae-ab3d-48c9-b33f-3aa762a793e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderTargetGroup\MultiRenderTarget">
+      <UniqueIdentifier>{76b5190a-d4bd-4d3a-98ab-6c8e69bcdfe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\Base">
+      <UniqueIdentifier>{33c7f89a-ef0c-423b-a264-23401625a589}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -325,7 +346,7 @@
       <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender</Filter>
+      <Filter>Engine\Core\DirectX\ResourcesObject\OffscreenRender</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
       <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
@@ -336,14 +357,35 @@
     <ClCompile Include="Engine\Render\RenderPathManager\RenderPathManager.cpp">
       <Filter>Engine\Core\Render\RenderPathManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Render\RenderNode\BaseRenderNode.cpp">
-      <Filter>Engine\Core\Render\RenderNode</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Core\Render\RenderPath</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\DirectXSwapChain\SwapChainRenderNode\SwapChainRenderNode.cpp">
-      <Filter>Engine\Core\DirectX\SwapChain\SwapChainRenderNode</Filter>
+    <ClCompile Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
+      <Filter>Engine\Core\Render\RenderTargetGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderTargetGroup\MultiRenderTarget.cpp">
+      <Filter>Engine\Core\Render\RenderTargetGroup\MultiRenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp">
+      <Filter>Engine\Core\Render\RenderTargetGroup\SwapChainRenderTargetGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderTargetGroup\SingleRenderTarget.cpp">
+      <Filter>Engine\Core\Render\RenderTargetGroup\SingleRenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Grayscale\GrayscaleNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\BaseRenderNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\MultiRenderTargetNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\SingleRenderTargetNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -501,7 +543,7 @@
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget\OffscreenRender</Filter>
+      <Filter>Engine\Core\DirectX\ResourcesObject\OffscreenRender</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
       <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
@@ -512,14 +554,35 @@
     <ClInclude Include="Engine\Render\RenderPathManager\RenderPathManager.h">
       <Filter>Engine\Core\Render\RenderPathManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Render\RenderNode\BaseRenderNode.h">
-      <Filter>Engine\Core\Render\RenderNode</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Core\Render\RenderPath</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\DirectXSwapChain\SwapChainRenderNode\SwapChainRenderNode.h">
-      <Filter>Engine\Core\DirectX\SwapChain\SwapChainRenderNode</Filter>
+    <ClInclude Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderTargetGroup\BaseRenderTargetGroup.h">
+      <Filter>Engine\Core\Render\RenderTargetGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderTargetGroup\MultiRenderTarget.h">
+      <Filter>Engine\Core\Render\RenderTargetGroup\MultiRenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderTargetGroup\SwapChainRenderTargetGroup.h">
+      <Filter>Engine\Core\Render\RenderTargetGroup\SwapChainRenderTargetGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderTargetGroup\SingleRenderTarget.h">
+      <Filter>Engine\Core\Render\RenderTargetGroup\SingleRenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Grayscale\GrayscaleNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\BaseRenderNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\MultiRenderTargetNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\SingleRenderTargetNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -555,6 +618,12 @@
     <FxCompile Include="Engine\HLSL\PostEffect\PostEffectTest.VS.hlsl">
       <Filter>Engine\HLSL\PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Grayscale\Grayscale.PS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Grayscale\Grayscale.VS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\3DObject\Object3d.hlsli">
@@ -571,6 +640,9 @@
     </None>
     <None Include="Engine\HLSL\PostEffect\PostEffectTest.hlsli">
       <Filter>Engine\HLSL\PostEffect</Filter>
+    </None>
+    <None Include="Engine\Render\RenderNode\Grayscale\Grayscale.hlsli">
+      <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
     </None>
   </ItemGroup>
 </Project>

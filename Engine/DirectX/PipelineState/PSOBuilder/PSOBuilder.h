@@ -3,7 +3,6 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include <vector>
-#include <string>
 
 #include "Engine/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 

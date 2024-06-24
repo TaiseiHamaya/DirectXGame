@@ -24,9 +24,6 @@
 #include "Engine/DirectX/DirectXDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
-//#include "Engine/DirectX/PipelineState/PipelineState.h"
-#include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-#include "Engine/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
 #include "Engine/GameObject/GameObject.h"
 
@@ -49,10 +46,7 @@ struct DirectionalLightData {
 
 static HRESULT hr;
 
-DirectXCore::DirectXCore()
-	: viewPort(),
-	scissorRect() {
-};
+DirectXCore::DirectXCore() = default;
 
 DirectXCore::~DirectXCore() = default;
 
@@ -62,10 +56,6 @@ void DirectXCore::Initialize() {
 
 void DirectXCore::BeginFrame() {
 	GetInstance().begin_frame();
-}
-
-void DirectXCore::SetScreenRenderTarget() {
-	GetInstance().screen_render_target();
 }
 
 void DirectXCore::EndFrame() {
@@ -82,6 +72,11 @@ void DirectXCore::Finalize() {
 #ifdef _DEBUG
 	ImGuiManager::Finalize();
 #endif // _DEBUG
+}
+
+void DirectXCore::Set3DLight() {
+	// ライトを設定しておく
+	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, GetInstance().light->get_resource()->GetGPUVirtualAddress());
 }
 
 #ifdef _DEBUG
@@ -119,57 +114,48 @@ void DirectXCore::initialize() {
 	ShaderCompiler::Initialize();
 	// Swapchain初期化
 	DirectXSwapChain::Initialize();
-	// PSO生成
-	createDefaultPSO();
-
+	// テクスチャマネージャの初期化
 	TextureManager::Initialize();
-
+	// バックグラウンドローダーの初期化
 	BackgroundLoader::Initialize();
-
+	// RenderPathManagerの初期化
 	RenderPathManager::Initialize();
 
 #ifdef _DEBUG
 	ImGuiManager::Initialize();
 #endif // _DEBUG
-	// システム使用のオブジェクトとスプライトを作成
+	// システム使用のオブジェクトをロード
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
 	// 待機
 	BackgroundLoader::WaitEndExecute();
-
+	// システム使用のオブジェクトを生成
 	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -CVector3::BASIS_Y, 1.0f });
 	gridMesh = std::make_unique<GameObject>("Grid.obj");
 
 	// オールコンプリート
-	Log("[Engine] Complete create D3D12Device\n");
+	Log("[Engine] Complete create DirectXObjects\n");
 }
 
 void DirectXCore::begin_frame() {
 	// srvの設定
 	SRVDescriptorHeap::SetDescriptorHeaps();
 
-	RenderPathManager::BeginFrame();
-
 #ifdef _DEBUG
 	ImGuiManager::BeginFrame();
 #endif // _DEBUG
 }
 
-void DirectXCore::screen_render_target() {
-	DirectXSwapChain::ChangeBackBufferState();
-	DirectXSwapChain::SetRenderTarget();
-	// ライトを設定しておく
-	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, light->get_resource()->GetGPUVirtualAddress());
-}
-
 void DirectXCore::end_frame() {
+	// レンダーパスが終わってないならおかしいので止める(デバッグ時のみ)
+	assert(RenderPathManager::IsEnd());
+
+	DirectXSwapChain::ChangeBackBufferState();
 #ifdef _DEBUG
 	// 一番先にImGUIの処理
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
-
 	DirectXSwapChain::ChangeBackBufferState();
-
 	// クローズしてエクスキュート
 	DirectXCommand::GetInstance().close_and_kick();
 	// スワップチェイン実行
@@ -178,72 +164,6 @@ void DirectXCore::end_frame() {
 	DirectXCommand::GetInstance().wait_command();
 	// コマンドリセット
 	DirectXCommand::GetInstance().reset();
-}
-
-void DirectXCore::createDefaultPSO() {
-	RootSignatureBuilder rootSignatureBuilder;
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0);
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
-	rootSignatureBuilder.descriptor_range();
-	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1);
-	rootSignatureBuilder.sampler(
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-		D3D12_COMPARISON_FUNC_NEVER,
-		D3D12_SHADER_VISIBILITY_PIXEL,
-		0
-	);
-
-	InputLayoutBuillder inputLayoutBuillder;
-	inputLayoutBuillder.add_cbv("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	inputLayoutBuillder.add_cbv("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
-	inputLayoutBuillder.add_cbv("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
-
-	ShaderBuilder shaderManager;
-	shaderManager.initialize();
-
-	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate();
-	psoBuilder->depthstencilstate(DirectXSwapChain::GetDepthStencil().get_desc());
-	psoBuilder->inputlayout(inputLayoutBuillder.build());
-	psoBuilder->rasterizerstate();
-	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
-	psoBuilder->primitivetopologytype();
-	DirectXSwapChain::SetPSOFromBuilder(psoBuilder);
-}
-
-void DirectXCore::createPosteffectPSO() {
-	//RootSignatureBuilder rootSignatureBuilder;
-	//rootSignatureBuilder.descriptor_range();
-	//rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
-	//rootSignatureBuilder.sampler(
-	//	D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-	//	D3D12_COMPARISON_FUNC_NEVER,
-	//	D3D12_SHADER_VISIBILITY_PIXEL,
-	//	0
-	//);
-
-	//InputLayoutBuillder inputLayoutBuillder;
-	//inputLayoutBuillder.add_cbv("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	//inputLayoutBuillder.add_cbv("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
-	//inputLayoutBuillder.add_cbv("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
-
-	//ShaderBuilder shaderManager;
-	//shaderManager.initialize(
-	//	"Engine/HLSL/PostEffect/PostEffectTest.VS.hlsl",
-	//	"Engine/HLSL/PostEffect/PostEffectTest.PS.hlsl"
-	//);
-
-	//std::unique_ptr<PSOBuilder> psoBuilder= std::make_unique<PSOBuilder>();
-	//psoBuilder->blendstate();
-	//psoBuilder->depthstencilstate(DirectXSwapChain::GetDepthStencil().get_desc());
-	//psoBuilder->inputlayout(inputLayoutBuillder.build());
-	//psoBuilder->rasterizerstate();
-	//psoBuilder->rootsignature(rootSignatureBuilder.build());
-	//psoBuilder->shaders(shaderManager);
-	//psoBuilder->primitivetopologytype();
-	//DirectXSwapChain::SetPSOBuilder(psoBuilder);
 }
 
 #ifdef _DEBUG

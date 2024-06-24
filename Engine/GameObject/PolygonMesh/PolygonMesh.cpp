@@ -175,7 +175,6 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 				// リソースの作成とコピー
 				current->vertices = std::make_unique<VertexBuffer>(vertices);
 				current->indexes = std::make_unique<IndexBuffer>(indexes);
-
 			}
 			meshDatas.emplace_back();
 			current = meshDatas.end() - 1;

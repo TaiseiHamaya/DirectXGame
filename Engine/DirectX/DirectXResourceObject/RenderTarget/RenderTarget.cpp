@@ -5,7 +5,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 const D3D12_CPU_DESCRIPTOR_HANDLE& RenderTarget::get_cpu_handle() const noexcept {
-	return descriptorHandleCPU;
+	return rtvCPUHandle;
 }
 
 void RenderTarget::change_resource_state() {
@@ -25,9 +25,9 @@ void RenderTarget::create_view() {
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D; // 2Dテクスチャとして書き込む
 	// 空いているアドレスをDescriptorHeapに問い合わせ
 	rtvHeapIndex = RTVDescriptorHeap::UseHeapIndex();
-	descriptorHandleCPU = RTVDescriptorHeap::GetCPUHandle(rtvHeapIndex.value());
+	rtvCPUHandle = RTVDescriptorHeap::GetCPUHandle(rtvHeapIndex.value());
 	// 生成
-	DirectXDevice::GetDevice()->CreateRenderTargetView(resource.Get(), &rtvDesc, descriptorHandleCPU);
+	DirectXDevice::GetDevice()->CreateRenderTargetView(resource.Get(), &rtvDesc, rtvCPUHandle);
 }
 
 void RenderTarget::release_index() const {
