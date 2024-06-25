@@ -2,22 +2,21 @@
 
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+
 class VertexBuffer;
 
-class GrayscaleNode : public SingleRenderTargetNode {
+class ChromaticAberrationNode : public SingleRenderTargetNode {
 public:
-	GrayscaleNode();
-	~GrayscaleNode();
+	ChromaticAberrationNode();
+	virtual ~ChromaticAberrationNode() noexcept;
 
-	GrayscaleNode(const GrayscaleNode&) = delete;
-	GrayscaleNode& operator=(const GrayscaleNode&) = delete;
-	GrayscaleNode(GrayscaleNode&&) = default;
-	GrayscaleNode& operator=(GrayscaleNode&&) = default;
+	ChromaticAberrationNode(const ChromaticAberrationNode&) = delete;
+	ChromaticAberrationNode& operator=(const ChromaticAberrationNode&) = delete;
+	ChromaticAberrationNode(ChromaticAberrationNode&&) = default;
+	ChromaticAberrationNode& operator=(ChromaticAberrationNode&&) = default;
 
 public:
-	/// <summary>
-	/// 初期化
-	/// </summary>
 	void initialize() override;
 
 	/// <summary>
@@ -30,7 +29,7 @@ public:
 	/// </summary>
 	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
 	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
-	
+
 private:
 	/// <summary>
 	/// PSO生成
@@ -45,4 +44,5 @@ private:
 private:
 	std::unique_ptr<VertexBuffer> vertex;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle;
+	ConstantBuffer<float> aberrationLevel;
 };

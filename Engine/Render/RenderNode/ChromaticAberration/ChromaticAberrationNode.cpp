@@ -1,38 +1,43 @@
-#include "GrayscaleNode.h"
+#include "ChromaticAberrationNode.h"
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
 #include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
-GrayscaleNode::GrayscaleNode() = default;
+ChromaticAberrationNode::ChromaticAberrationNode() = default;
 
-GrayscaleNode::~GrayscaleNode() = default;
+ChromaticAberrationNode::~ChromaticAberrationNode() noexcept = default;
 
-void GrayscaleNode::initialize() {
+void ChromaticAberrationNode::initialize() {
 	create_pipline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	create_vertex();
+	*aberrationLevel.get_data() = 5.0f / 1280.0f;
 }
 
-void GrayscaleNode::draw() {
+void ChromaticAberrationNode::draw() {
 	auto&& command = DirectXCommand::GetCommandList();
 	command->IASetVertexBuffers(0, 1, vertex->get_p_vbv());
-	command->SetGraphicsRootDescriptorTable(0, textureGPUHandle);
+	command->SetGraphicsRootConstantBufferView(0, aberrationLevel.get_resource()->GetGPUVirtualAddress());
+	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
 	command->DrawInstanced(6, 1, 0, 0);
 }
 
-void GrayscaleNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
+void ChromaticAberrationNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
 	textureGPUHandle = textureGPUHandle_;
 }
 
-void GrayscaleNode::create_pipline_state() {
+void ChromaticAberrationNode::create_pipline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
 	rootSignatureBuilder.descriptor_range();
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,
-		0
+		0,
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP
 	);
 
 	InputLayoutBuillder inputLayoutBuillder;
@@ -42,8 +47,8 @@ void GrayscaleNode::create_pipline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"Engine/Render/RenderNode/Grayscale/Grayscale.VS.hlsl",
-		"Engine/Render/RenderNode/Grayscale/Grayscale.PS.hlsl"
+		"Engine/Render/RenderNode/ChromaticAberration/ChromaticAberration.VS.hlsl",
+		"Engine/Render/RenderNode/ChromaticAberration/ChromaticAberration.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
@@ -56,9 +61,10 @@ void GrayscaleNode::create_pipline_state() {
 
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
+
 }
 
-void GrayscaleNode::create_vertex() {
+void ChromaticAberrationNode::create_vertex() {
 	std::vector<VertexData> vertexData(6);
 	vertexData[0].vertex = VertexData::Vector4{ {-1, 1, 0}, 1 };
 	vertexData[0].texcoord = CVector2::ZERO;

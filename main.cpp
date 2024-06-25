@@ -21,7 +21,7 @@
 #include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
 #include "Engine/Render/RenderNode/Grayscale/GrayscaleNode.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
+#include "Engine/Render/RenderNode/ChromaticAberration/ChromaticAberrationNode.h"
 
 // クライアント領域サイズ
 const std::int32_t kClientWidth = 1280;
@@ -41,10 +41,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3DNode->set_render_target();
 	std::shared_ptr<GrayscaleNode> grayscaleNode{ new GrayscaleNode };
 	grayscaleNode->initialize();
-	grayscaleNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	grayscaleNode->set_render_target();
 	grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
+	std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
+	chromaticAberrationNode->initialize();
+	chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	chromaticAberrationNode->set_texture_resource(grayscaleNode->result_stv_handle());
 	RenderPath path;
-	path.initialize({ object3DNode, grayscaleNode });
+	path.initialize({ object3DNode, grayscaleNode, chromaticAberrationNode });
 
 	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
 	RenderPathManager::SetPath("GrayScale1");
@@ -129,6 +133,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		RenderPathManager::Next();
 
 		grayscaleNode->draw();
+
+		RenderPathManager::Next();
+
+		chromaticAberrationNode->draw();
 
 		RenderPathManager::Next();
 

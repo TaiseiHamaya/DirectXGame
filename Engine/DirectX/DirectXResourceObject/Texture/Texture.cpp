@@ -19,9 +19,8 @@ void Texture::set_command() const {
 	}
 	else {
 		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(
-			2,
-			TextureManager::GetTexture("Error.png").lock()->gpuHandle
-			); // Texture
+			2, TextureManager::GetTexture("Error.png").lock()->gpuHandle
+		); // Texture
 	}
 }
 

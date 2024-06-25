@@ -5,7 +5,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 // ダブルバッファ+PEで3
-constexpr uint32_t RTV_HEAP_SIZE = 3;
+constexpr uint32_t RTV_HEAP_SIZE = 10;
 
 RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {
 	static std::unique_ptr<RTVDescriptorHeap> instance{ new RTVDescriptorHeap };

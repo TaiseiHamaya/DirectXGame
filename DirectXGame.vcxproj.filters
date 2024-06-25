@@ -202,6 +202,9 @@
     <Filter Include="Engine\Core\Render\RenderNode\Base">
       <UniqueIdentifier>{33c7f89a-ef0c-423b-a264-23401625a589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\ChromaticAberration">
+      <UniqueIdentifier>{54ee2a3a-82ed-4e34-ae88-7d15476f143e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -386,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderNode\SingleRenderTargetNode.cpp">
       <Filter>Engine\Core\Render\RenderNode\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -584,6 +590,9 @@
     <ClInclude Include="Engine\Render\RenderNode\SingleRenderTargetNode.h">
       <Filter>Engine\Core\Render\RenderNode\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.h">
+      <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -624,6 +633,12 @@
     <FxCompile Include="Engine\Render\RenderNode\Grayscale\Grayscale.VS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.PS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.VS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\3DObject\Object3d.hlsli">
@@ -643,6 +658,9 @@
     </None>
     <None Include="Engine\Render\RenderNode\Grayscale\Grayscale.hlsli">
       <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
+    </None>
+    <None Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.hlsli">
+      <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </None>
   </ItemGroup>
 </Project>

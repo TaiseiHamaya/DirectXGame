@@ -23,7 +23,13 @@ public:
 	void add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister);
 	void add_texture(D3D12_SHADER_VISIBILITY visibility);
 	void descriptor_range();
-	void sampler(D3D12_FILTER filter, D3D12_COMPARISON_FUNC func, D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister);
+	void sampler(
+		D3D12_SHADER_VISIBILITY visibility,
+		UINT shaderRagister,
+		D3D12_FILTER filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+		D3D12_TEXTURE_ADDRESS_MODE textureMore = D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+		D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_NEVER
+	);
 
 private:
 	std::vector<D3D12_ROOT_PARAMETER> rootParameters;

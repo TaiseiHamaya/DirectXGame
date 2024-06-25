@@ -68,12 +68,12 @@ void RootSignatureBuilder::descriptor_range() {
 	descriptorRanges.emplace_back(std::move(descriptorRange));
 }
 
-void RootSignatureBuilder::sampler(D3D12_FILTER filter, D3D12_COMPARISON_FUNC func, D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister) {
+void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
 	D3D12_STATIC_SAMPLER_DESC staticSampler{}; // サンプラーの設定
-	staticSampler.Filter = filter; // Bilinearフィルタ
-	staticSampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP; // 0-1範囲外はリピート
-	staticSampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	staticSampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSampler.Filter = filter; // フィルタ
+	staticSampler.AddressU = textureMore; // 0-1範囲外はリピート
+	staticSampler.AddressV = textureMore;
+	staticSampler.AddressW = textureMore;
 	staticSampler.ComparisonFunc = func;
 	staticSampler.MaxLOD = D3D12_FLOAT32_MAX; // すべてのMipmapを使う
 	staticSampler.ShaderRegister = shaderRagister;

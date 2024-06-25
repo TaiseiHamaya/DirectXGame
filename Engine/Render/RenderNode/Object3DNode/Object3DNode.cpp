@@ -46,8 +46,6 @@ void Object3DNode::create_pipline_state() {
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1);
 	rootSignatureBuilder.sampler(
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-		D3D12_COMPARISON_FUNC_NEVER,
 		D3D12_SHADER_VISIBILITY_PIXEL,
 		0
 	);
