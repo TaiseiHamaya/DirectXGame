@@ -1,7 +1,5 @@
 #include "SingleRenderTarget.h"
 
-#include <cassert>
-
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
 #include "Engine/Math/Color.h"

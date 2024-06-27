@@ -136,6 +136,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Render\RenderNode\Grayscale\GrayscaleNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\MultiRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.cpp" />
+    <ClCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\SingleRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Render\RenderPathManager\RenderPathManager.cpp" />
     <ClCompile Include="Engine\Render\RenderPath\RenderPath.cpp" />
@@ -204,6 +205,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Render\RenderNode\Grayscale\GrayscaleNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\MultiRenderTargetNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.h" />
+    <ClInclude Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\SingleRenderTargetNode.h" />
     <ClInclude Include="Engine\Render\RenderPathManager\RenderPathManager.h" />
     <ClInclude Include="Engine\Render\RenderPath\RenderPath.h" />
@@ -292,6 +294,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -324,6 +334,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Engine\Render\RenderNode\Grayscale\Grayscale.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

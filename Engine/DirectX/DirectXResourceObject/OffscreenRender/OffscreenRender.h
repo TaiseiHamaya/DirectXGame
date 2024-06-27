@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	/// <param name="width">幅</param>
 	/// <param name="height">高さ</param>
-	void initialize(UINT64 width = WinApp::GetClientWidth() , UINT height = WinApp::GetClientHight());
+	void initialize(UINT64 width = WinApp::GetClientWidth() , UINT height = WinApp::GetClientHight(), DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
 	/// <summary>
 	/// リソースバリアの状態遷移
@@ -37,7 +37,7 @@ public:
 	/// <summary>
 	/// Viewに使用しているインデックスを返す
 	/// </summary>
-	void release_index() const override;
+	void release_index() override;
 
 	/// <summary>
 	/// 明示delete(外部から使用しない)
@@ -50,7 +50,7 @@ private:
 	/// </summary>
 	/// <param name="width">幅</param>
 	/// <param name="height">高さ</param>
-	void create_resource(UINT64 width, UINT height);
+	void create_resource(UINT64 width, UINT height, DXGI_FORMAT format);
 
 	/// <summary>
 	/// SRVの作成

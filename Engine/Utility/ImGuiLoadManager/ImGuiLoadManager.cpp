@@ -35,10 +35,10 @@ void ImGuiLoadManager::show_gui() {
 	//ImGui::End();
 
 	// メッシュ用
-	ImGui::SetNextWindowSize(ImVec2{ 330,300 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 50, 370 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2{ 330,320 }, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2{ 20, 355 }, ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(dock, 0);
-	ImGui::Begin("PolygonMesh", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("PolygonMeshLoad", nullptr, ImGuiWindowFlags_NoSavedSettings);
 	if (ImGui::Button("<-")) {
 		if (meshCurrentPath != ".") {
 			meshCurrentPath = meshCurrentPath.parent_path();
@@ -66,10 +66,10 @@ void ImGuiLoadManager::show_gui() {
 	ImGui::End();
 
 	// テクスチャ用
-	ImGui::SetNextWindowSize(ImVec2{ 330,300 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 50, 370 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2{ 330,320 }, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2{ 20, 355 }, ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(dock, 0);
-	ImGui::Begin("Texture", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("TextureLoad", nullptr, ImGuiWindowFlags_NoSavedSettings);
 	if (ImGui::Button("<-")) {
 		if (textureCurrentPath != ".") {
 			textureCurrentPath = textureCurrentPath.parent_path();

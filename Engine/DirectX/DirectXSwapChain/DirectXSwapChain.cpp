@@ -57,7 +57,7 @@ void DirectXSwapChain::create_swapchain() {
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
 	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc{};
 	fullscreenDesc.RefreshRate.Denominator = 1;
-	fullscreenDesc.RefreshRate.Numerator = 15;
+	fullscreenDesc.RefreshRate.Numerator = 60;
 	fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	fullscreenDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	fullscreenDesc.Windowed = true;

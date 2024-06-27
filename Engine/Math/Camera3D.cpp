@@ -64,7 +64,7 @@ void Camera3D::camera_update() {
 #ifdef _DEBUG
 void Camera3D::_debug_gui() {
 	ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 50, 50 }, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
 	ImGui::Begin("3DCamera", nullptr, ImGuiWindowFlags_NoSavedSettings);
 	camera.debug_gui();
 	ImGui::End();

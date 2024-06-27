@@ -28,7 +28,6 @@ void GrayscaleNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& text
 
 void GrayscaleNode::create_pipline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
-	rootSignatureBuilder.descriptor_range();
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,
@@ -53,6 +52,7 @@ void GrayscaleNode::create_pipline_state() {
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(shaderManager);
 	psoBuilder->primitivetopologytype();
+	psoBuilder->rendertarget();
 
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());

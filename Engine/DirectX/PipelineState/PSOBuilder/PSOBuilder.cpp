@@ -50,26 +50,25 @@ void RootSignatureBuilder::add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shad
 	rootParameters.emplace_back(std::move(rootParameter));
 }
 
-void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility) {
-	D3D12_ROOT_PARAMETER rootParameter{};
-	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescriptorTableを使う
-	rootParameter.ShaderVisibility = visibility;
-	rootParameter.DescriptorTable.pDescriptorRanges = descriptorRanges.data(); // デスクリプタの中身の設定
-	rootParameter.DescriptorTable.NumDescriptorRanges = static_cast<UINT>(descriptorRanges.size()); // Tableで使用する数
-	rootParameters.emplace_back(std::move(rootParameter));
-}
-
-void RootSignatureBuilder::descriptor_range() {
+void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors) {
 	D3D12_DESCRIPTOR_RANGE descriptorRange{};
-	descriptorRange.BaseShaderRegister = 0; // 0から始まり、
-	descriptorRange.NumDescriptors = 1; // 要素数は1
+	descriptorRange.BaseShaderRegister = baseShaderRegister;
+	descriptorRange.NumDescriptors = numDescriptors;
 	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // 自動計算する
 	descriptorRanges.emplace_back(std::move(descriptorRange));
+
+	D3D12_ROOT_PARAMETER rootParameter{};
+	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescriptorTableを使う
+	rootParameter.ShaderVisibility = visibility;
+	rootParameter.DescriptorTable.pDescriptorRanges = &descriptorRanges.back(); // デスクリプタの中身の設定
+	rootParameter.DescriptorTable.NumDescriptorRanges = descriptorRanges.back().NumDescriptors; // Tableで使用する数
+	rootParameters.emplace_back(std::move(rootParameter));
 }
 
 void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
 	D3D12_STATIC_SAMPLER_DESC staticSampler{}; // サンプラーの設定
+	staticSampler.MaxAnisotropy = 16;
 	staticSampler.Filter = filter; // フィルタ
 	staticSampler.AddressU = textureMore; // 0-1範囲外はリピート
 	staticSampler.AddressV = textureMore;
@@ -85,8 +84,6 @@ Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
 	// これまでの設定をまとめる
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	graphicsPipelineStateDesc.NumRenderTargets = 1;
-	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
@@ -118,6 +115,7 @@ void PSOBuilder::shaders(const ShaderBuilder& shaders) {
 
 void PSOBuilder::blendstate() {
 	graphicsPipelineStateDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	graphicsPipelineStateDesc.BlendState.RenderTarget[1].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 }
 
 void PSOBuilder::blendstate(D3D12_BLEND_DESC blendDesc) {
@@ -135,4 +133,9 @@ void PSOBuilder::depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilD
 
 void PSOBuilder::primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_) {
 	graphicsPipelineStateDesc.PrimitiveTopologyType = topologyType_; // 使用するトポロジーのタイプ
+}
+
+void PSOBuilder::rendertarget(DXGI_FORMAT format) {
+	graphicsPipelineStateDesc.RTVFormats[graphicsPipelineStateDesc.NumRenderTargets] = format;
+	graphicsPipelineStateDesc.NumRenderTargets = ++graphicsPipelineStateDesc.NumRenderTargets;
 }

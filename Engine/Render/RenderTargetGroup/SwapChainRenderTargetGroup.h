@@ -29,7 +29,9 @@ public:
 	/// DepthStencilの取得
 	/// </summary>
 	/// <returns></returns>
-	const std::shared_ptr<DepthStencil>& get_depth_stencil();
+	const std::shared_ptr<DepthStencil>& get_depth_stencil() const;
+
+	const std::array<RenderTarget, SWAPCHAIN_HEAP>& get_render_targets() const;
 
 private:
 	/// <summary>

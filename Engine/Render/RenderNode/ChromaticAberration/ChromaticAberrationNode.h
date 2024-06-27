@@ -3,6 +3,7 @@
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/Math/Vector2.h"
 
 class VertexBuffer;
 
@@ -41,8 +42,13 @@ private:
 	/// </summary>
 	void create_vertex();
 
+#ifdef _DEBUG
+public:
+	void debug_gui();
+#endif // DEBUG
+
 private:
 	std::unique_ptr<VertexBuffer> vertex;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle;
-	ConstantBuffer<float> aberrationLevel;
+	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};
+	ConstantBuffer<Vector2> aberrationLevel{};
 };

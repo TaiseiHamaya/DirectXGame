@@ -180,7 +180,7 @@ void DirectXCore::show_debug_tools() {
 
 	// ライトのImGui
 	ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 50, 235 }, ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(debugDock, 0);
 	ImGui::Begin("Light", nullptr, ImGuiWindowFlags_NoSavedSettings);
 	light->get_data()->color.debug_gui();

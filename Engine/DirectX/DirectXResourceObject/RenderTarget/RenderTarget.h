@@ -27,12 +27,12 @@ public:
 	/// <summary>
 	/// RTVの生成
 	/// </summary>
-	void create_view();
+	void create_view(DXGI_FORMAT format);
 
 	/// <summary>
 	/// 使用しているインデックスをRTVDescriptorHeapに返す
 	/// </summary>
-	virtual void release_index() const;
+	virtual void release_index();
 
 	/// <summary>
 	/// widthの取得
@@ -46,8 +46,11 @@ public:
 	/// <returns></returns>
 	UINT get_height() const;
 
+	const D3D12_RENDER_TARGET_VIEW_DESC& get_rtv_desc() const;
+
 protected:
 	bool isRendering = false;
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvCPUHandle{};
 	std::optional<std::uint32_t> rtvHeapIndex;
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 };

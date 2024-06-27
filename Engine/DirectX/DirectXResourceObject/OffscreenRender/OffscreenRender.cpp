@@ -5,17 +5,17 @@
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 
 OffscreenRender::OffscreenRender() noexcept = default;
 
 OffscreenRender::~OffscreenRender() noexcept = default;
 
-void OffscreenRender::initialize(UINT64 width, UINT height) {
+void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) {
+	resource.Reset();
 	// Resource作成
-	create_resource(width, height);
+	create_resource(width, height, format);
 	// view作成
-	RenderTarget::create_view();
+	RenderTarget::create_view(format);
 	// テクスチャ用ヒープの取得
 	srvHeapIndex = SRVDescriptorHeap::UseHeapIndex();
 	srvCPUHandle = SRVDescriptorHeap::GetCPUHandle(srvHeapIndex.value());
@@ -24,7 +24,7 @@ void OffscreenRender::initialize(UINT64 width, UINT height) {
 	create_textue_view();
 }
 
-void OffscreenRender::create_resource(UINT64 width, UINT height) {
+void OffscreenRender::create_resource(UINT64 width, UINT height, DXGI_FORMAT format) {
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 	D3D12_RESOURCE_DESC desc{};
@@ -34,7 +34,7 @@ void OffscreenRender::create_resource(UINT64 width, UINT height) {
 	desc.Height = height;
 	desc.DepthOrArraySize = 1;
 	desc.MipLevels = 1;
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	desc.Format = format;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
 	desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
@@ -70,7 +70,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE OffscreenRender::texture_gpu_handle() const {
 void OffscreenRender::create_textue_view() {
 	// ここは通常のテクスチャと同じ
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Format = resource->GetDesc().Format == DXGI_FORMAT_R8G8B8A8_UNORM ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : resource->GetDesc().Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1; // 1枚しかないのでmiplevelsも1
@@ -78,10 +78,11 @@ void OffscreenRender::create_textue_view() {
 	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, srvCPUHandle);
 }
 
-void OffscreenRender::release_index() const {
+void OffscreenRender::release_index() {
 	if (srvHeapIndex.has_value()) {
 		// SRVIndexを返す
 		SRVDescriptorHeap::ReleaseHeapIndex(srvHeapIndex.value());
+		srvHeapIndex = std::nullopt;
 	}
 	// RTVも同じようにする
 	RenderTarget::release_index();

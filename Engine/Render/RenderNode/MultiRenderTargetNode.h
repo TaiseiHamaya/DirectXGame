@@ -31,6 +31,6 @@ public:
 	/// <returns></returns>
 	const std::vector<D3D12_GPU_DESCRIPTOR_HANDLE>& result_stv_handle_list() const;
 
-private:
+protected:
 	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> resultSrvHandleList;
 };

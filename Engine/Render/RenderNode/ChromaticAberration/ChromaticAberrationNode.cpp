@@ -5,6 +5,11 @@
 #include "Engine/DirectX/PipelineState/PipelineState.h"
 #include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
+#ifdef _DEBUG
+#include "externals/imgui/imgui.h"
+#include "Engine/WinApp.h"
+#endif // _DEBUG
+
 ChromaticAberrationNode::ChromaticAberrationNode() = default;
 
 ChromaticAberrationNode::~ChromaticAberrationNode() noexcept = default;
@@ -13,7 +18,7 @@ void ChromaticAberrationNode::initialize() {
 	create_pipline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	create_vertex();
-	*aberrationLevel.get_data() = 5.0f / 1280.0f;
+	*aberrationLevel.get_data() = CVector2::ZERO;
 }
 
 void ChromaticAberrationNode::draw() {
@@ -31,13 +36,10 @@ void ChromaticAberrationNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HA
 void ChromaticAberrationNode::create_pipline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
-	rootSignatureBuilder.descriptor_range();
-	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
+	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,
-		0,
-		D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-		D3D12_TEXTURE_ADDRESS_MODE_CLAMP
+		0
 	);
 
 	InputLayoutBuillder inputLayoutBuillder;
@@ -58,6 +60,7 @@ void ChromaticAberrationNode::create_pipline_state() {
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(shaderManager);
 	psoBuilder->primitivetopologytype();
+	psoBuilder->rendertarget();
 
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
@@ -82,4 +85,9 @@ void ChromaticAberrationNode::create_vertex() {
 
 	vertexData[5] = vertexData[1];
 	vertex = std::make_unique<VertexBuffer>(vertexData);
+}
+
+void ChromaticAberrationNode::debug_gui() {
+	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / WinApp::GetClientWidth(), -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / WinApp::GetClientHight(), -0.5f, 0.5f, "%.4f");
 }

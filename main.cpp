@@ -39,16 +39,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::shared_ptr<Object3DNode> object3DNode{ new Object3DNode };
 	object3DNode->initialize();
 	object3DNode->set_render_target();
-	std::shared_ptr<GrayscaleNode> grayscaleNode{ new GrayscaleNode };
-	grayscaleNode->initialize();
-	grayscaleNode->set_render_target();
-	grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
+	//std::shared_ptr<GrayscaleNode> grayscaleNode{ new GrayscaleNode };
+	//grayscaleNode->initialize();
+	//grayscaleNode->set_render_target();
+	//grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
 	std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
 	chromaticAberrationNode->initialize();
 	chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	chromaticAberrationNode->set_texture_resource(grayscaleNode->result_stv_handle());
+	chromaticAberrationNode->set_texture_resource(object3DNode->result_stv_handle());
+	//chromaticAberrationNode->set_depth_texture_resource(object3DNode->result_stv_handle_list()[1]);
 	RenderPath path;
-	path.initialize({ object3DNode, grayscaleNode, chromaticAberrationNode });
+	path.initialize({ object3DNode, chromaticAberrationNode });
 
 	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
 	RenderPathManager::SetPath("GrayScale1");
@@ -61,6 +62,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectList.emplace("Sphere");
 	SpriteObject sprite{ "uvChecker.png", {0.75f,0.25f} };
 
+	bool isShowGrid = true;
+
 	std::string selectMesh;
 	char name[1024]{};
 
@@ -72,8 +75,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGuiID objectDock = ImGui::GetID("ObjectDock");
 
 		// 作成関連
-		ImGui::SetNextWindowSize(ImVec2{ 330,100 }, ImGuiCond_Once);
-		ImGui::SetNextWindowPos(ImVec2{ 50, 250 }, ImGuiCond_Once);
+		ImGui::SetNextWindowSize(ImVec2{ 330,130 }, ImGuiCond_Once);
+		ImGui::SetNextWindowPos(ImVec2{ 20, 205 }, ImGuiCond_Once);
 		ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoSavedSettings);
 		PolygonMeshManager::MeshListGui(selectMesh);
 		ImGui::InputText("Name", const_cast<char*>(name), 1024);
@@ -91,6 +94,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				objectList.insert(name);
 			}
 		}
+		ImGui::Separator();
+		ImGui::Checkbox("IsShowGrid", &isShowGrid);
 		ImGui::End();
 
 		ImGuiLoadManager::ShowGUI();
@@ -98,7 +103,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		for (int i = 0; i < objects.size(); ) {
 			ImGui::SetNextWindowDockID(objectDock, 0);
 			ImGui::SetNextWindowSize(ImVec2{ 345,445 }, ImGuiCond_Once);
-			ImGui::SetNextWindowPos(ImVec2{ 900, 50 }, ImGuiCond_Once);
+			ImGui::SetNextWindowPos(ImVec2{ 900, 20 }, ImGuiCond_Once);
 			ImGui::Begin(objectNames[i].c_str(), nullptr, ImGuiWindowFlags_NoSavedSettings);
 			objects[i].debug_gui();
 			if (ImGui::Button("Delete")) {
@@ -110,6 +115,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			ImGui::End();
 		}
+
+		ImGui::Begin("ChromaticAberrationNode");
+		chromaticAberrationNode->debug_gui();
+		ImGui::End();
 
 #endif // _DEBUG
 
@@ -127,12 +136,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		sprite.begin_rendering();
 
-		DirectXCore::ShowGrid();
+		if (isShowGrid) {
+			DirectXCore::ShowGrid();
+		}
 		//sprite.draw();
 
-		RenderPathManager::Next();
+		//RenderPathManager::Next();
 
-		grayscaleNode->draw();
+		//grayscaleNode->draw();
 
 		RenderPathManager::Next();
 

@@ -3,6 +3,7 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include <vector>
+#include <list>
 
 #include "Engine/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 
@@ -21,8 +22,7 @@ public:
 
 public:
 	void add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister);
-	void add_texture(D3D12_SHADER_VISIBILITY visibility);
-	void descriptor_range();
+	void add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1);
 	void sampler(
 		D3D12_SHADER_VISIBILITY visibility,
 		UINT shaderRagister,
@@ -33,7 +33,7 @@ public:
 
 private:
 	std::vector<D3D12_ROOT_PARAMETER> rootParameters;
-	std::vector<D3D12_DESCRIPTOR_RANGE> descriptorRanges;
+	std::list<D3D12_DESCRIPTOR_RANGE> descriptorRanges;
 	std::vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;
 };
 
@@ -51,9 +51,9 @@ public:
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);
 	void depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilDesc);
 	void primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE); // 使用するトポロジーのタイプ
+	void rendertarget(DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
 private:
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 };
-

@@ -205,6 +205,9 @@
     <Filter Include="Engine\Core\Render\RenderNode\ChromaticAberration">
       <UniqueIdentifier>{54ee2a3a-82ed-4e34-ae88-7d15476f143e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode">
+      <UniqueIdentifier>{f7ea649d-5b8f-40db-a68e-0986ea9f69f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -392,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.cpp">
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -593,6 +599,9 @@
     <ClInclude Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.h">
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -639,6 +648,12 @@
     <FxCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.VS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.PS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.VS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\3DObject\Object3d.hlsli">
@@ -661,6 +676,9 @@
     </None>
     <None Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.hlsli">
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
+    </None>
+    <None Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.hlsli">
+      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
     </None>
   </ItemGroup>
 </Project>
