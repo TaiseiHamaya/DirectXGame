@@ -68,7 +68,7 @@ void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT 
 
 void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
 	D3D12_STATIC_SAMPLER_DESC staticSampler{}; // サンプラーの設定
-	staticSampler.MaxAnisotropy = 16;
+	staticSampler.MaxAnisotropy = 16; // 異方性の場合はx16にする
 	staticSampler.Filter = filter; // フィルタ
 	staticSampler.AddressU = textureMore; // 0-1範囲外はリピート
 	staticSampler.AddressV = textureMore;

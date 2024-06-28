@@ -178,9 +178,6 @@
     <Filter Include="TestProgram">
       <UniqueIdentifier>{7679c345-a15e-4a48-8c87-5ab6bea6a38e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\Render\RenderNode\Object3DNode">
-      <UniqueIdentifier>{60ab0c62-b074-44d0-b5e7-9f0620d49908}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\Render\RenderNode\Grayscale">
       <UniqueIdentifier>{3602e0ab-a4aa-412d-8e2b-67b96ec2e6da}</UniqueIdentifier>
     </Filter>
@@ -205,8 +202,14 @@
     <Filter Include="Engine\Core\Render\RenderNode\ChromaticAberration">
       <UniqueIdentifier>{54ee2a3a-82ed-4e34-ae88-7d15476f143e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode">
+    <Filter Include="Engine\Core\Render\RenderNode\Object3D">
+      <UniqueIdentifier>{60ab0c62-b074-44d0-b5e7-9f0620d49908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D">
       <UniqueIdentifier>{f7ea649d-5b8f-40db-a68e-0986ea9f69f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\RadialBlur">
+      <UniqueIdentifier>{ecb2b128-e24d-43c5-bd3d-2e5eed5be8d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -367,7 +370,7 @@
       <Filter>Engine\Core\Render\RenderPath</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.cpp">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
       <Filter>Engine\Core\Render\RenderTargetGroup</Filter>
@@ -397,7 +400,10 @@
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.cpp">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -570,7 +576,7 @@
       <Filter>Engine\Core\Render\RenderPath</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.h">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\RenderTargetGroup\BaseRenderTargetGroup.h">
       <Filter>Engine\Core\Render\RenderTargetGroup</Filter>
@@ -600,7 +606,10 @@
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.h">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.h">
+      <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -649,10 +658,16 @@
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.PS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.VS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.PS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.VS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -678,7 +693,10 @@
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </None>
     <None Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.hlsli">
-      <Filter>Engine\Core\Render\RenderNode\Object3DNode\ObjectDepth3DNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D</Filter>
+    </None>
+    <None Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.hlsli">
+      <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </None>
   </ItemGroup>
 </Project>

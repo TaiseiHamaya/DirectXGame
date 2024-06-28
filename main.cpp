@@ -22,6 +22,7 @@
 #include "Engine/Render/RenderNode/Grayscale/GrayscaleNode.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderNode/ChromaticAberration/ChromaticAberrationNode.h"
+#include "Engine/Render/RenderNode/RadialBlur/RadialBlurNode.h"
 
 // クライアント領域サイズ
 const std::int32_t kClientWidth = 1280;
@@ -43,13 +44,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//grayscaleNode->initialize();
 	//grayscaleNode->set_render_target();
 	//grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
-	std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
-	chromaticAberrationNode->initialize();
-	chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	chromaticAberrationNode->set_texture_resource(object3DNode->result_stv_handle());
+	//std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
+	//chromaticAberrationNode->initialize();
+	//chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//chromaticAberrationNode->set_texture_resource(object3DNode->result_stv_handle());
+
+	std::shared_ptr<RadialBlurNode> radialBlurNode{ new RadialBlurNode };
+	radialBlurNode->initialize();
+	radialBlurNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	radialBlurNode->set_texture_resource(object3DNode->result_stv_handle());
 	//chromaticAberrationNode->set_depth_texture_resource(object3DNode->result_stv_handle_list()[1]);
 	RenderPath path;
-	path.initialize({ object3DNode, chromaticAberrationNode });
+	path.initialize({ object3DNode, radialBlurNode });
 
 	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
 	RenderPathManager::SetPath("GrayScale1");
@@ -117,7 +123,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		ImGui::Begin("ChromaticAberrationNode");
-		chromaticAberrationNode->debug_gui();
+		radialBlurNode->debug_gui();
 		ImGui::End();
 
 #endif // _DEBUG
@@ -147,7 +153,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		RenderPathManager::Next();
 
-		chromaticAberrationNode->draw();
+		radialBlurNode->draw();
 
 		RenderPathManager::Next();
 
