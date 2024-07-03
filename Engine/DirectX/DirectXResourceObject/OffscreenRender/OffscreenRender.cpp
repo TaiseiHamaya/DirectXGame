@@ -16,10 +16,6 @@ void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) 
 	create_resource(width, height, format);
 	// view作成
 	RenderTarget::create_view(format);
-	// テクスチャ用ヒープの取得
-	srvHeapIndex = SRVDescriptorHeap::UseHeapIndex();
-	srvCPUHandle = SRVDescriptorHeap::GetCPUHandle(srvHeapIndex.value());
-	srvGPUHandle = SRVDescriptorHeap::GetGPUHandle(srvHeapIndex.value());
 	// テクスチャ用Viewの作成
 	create_textue_view();
 }
@@ -68,6 +64,10 @@ D3D12_GPU_DESCRIPTOR_HANDLE OffscreenRender::texture_gpu_handle() const {
 }
 
 void OffscreenRender::create_textue_view() {
+	// テクスチャ用ヒープの取得
+	srvHeapIndex = SRVDescriptorHeap::UseHeapIndex();
+	srvCPUHandle = SRVDescriptorHeap::GetCPUHandle(srvHeapIndex.value());
+	srvGPUHandle = SRVDescriptorHeap::GetGPUHandle(srvHeapIndex.value());
 	// ここは通常のテクスチャと同じ
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = resource->GetDesc().Format == DXGI_FORMAT_R8G8B8A8_UNORM ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : resource->GetDesc().Format;
