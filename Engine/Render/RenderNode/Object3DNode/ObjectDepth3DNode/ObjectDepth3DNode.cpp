@@ -39,7 +39,7 @@ void ObjectDepth3DNode::set_render_target(const std::shared_ptr<MultiRenderTarge
 		renderTarget = temp;
 		auto&& renderList = temp->offscreen_render_list();
 		renderList[1].release_index();
-		renderList[1].initialize(WinApp::GetClientWidth(), WinApp::GetClientHight(), DXGI_FORMAT_R32_FLOAT);
+		renderList[1].initialize(WinApp::GetClientWidth(), WinApp::GetClientHight(), DXGI_FORMAT_D32_FLOAT);
 		renderTarget->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
 		for (auto itr = renderList.begin(); itr != renderList.end(); ++itr) {
 			resultSrvHandleList.emplace_back(itr->texture_gpu_handle());
@@ -81,7 +81,7 @@ void ObjectDepth3DNode::create_pipline_state() {
 	psoBuilder->shaders(shaderManager);
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
-	psoBuilder->rendertarget(DXGI_FORMAT_R32_FLOAT);
+	psoBuilder->rendertarget(DXGI_FORMAT_D32_FLOAT);
 
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());

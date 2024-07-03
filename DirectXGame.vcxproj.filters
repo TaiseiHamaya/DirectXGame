@@ -58,30 +58,6 @@
     <Filter Include="externals\imgui">
       <UniqueIdentifier>{9c6c0a71-0eaa-4421-9f43-db8440d2d9ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject">
-      <UniqueIdentifier>{186e89be-05e6-4149-b1f0-577ed1ded71b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\RenderTarget">
-      <UniqueIdentifier>{f8f1a63e-273e-463a-8f87-ce68ddfc0e5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\VertexBuffer">
-      <UniqueIdentifier>{26196e4c-c186-4968-827e-db3e4d4dfd34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\IndexBuffer">
-      <UniqueIdentifier>{4acc4ffe-ee0e-4e85-8a18-28dcb047dd83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\ConstantBuffer">
-      <UniqueIdentifier>{437a7a8a-6081-4c43-819b-4b74720b81b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\Texture">
-      <UniqueIdentifier>{6f54ea19-4a0b-435e-a5a7-e9e5a94d8845}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\ConstantBuffer\Material">
-      <UniqueIdentifier>{5e9e9f52-22d1-495b-a45f-5ef387d33288}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\ConstantBuffer\TransformMatrix">
-      <UniqueIdentifier>{cc5b3202-9c87-44bf-8a64-2b017f139563}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap">
       <UniqueIdentifier>{07d8f712-7bbf-4b10-914b-64b967b588a5}</UniqueIdentifier>
     </Filter>
@@ -90,9 +66,6 @@
     </Filter>
     <Filter Include="Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap">
       <UniqueIdentifier>{40595801-0513-49a7-a287-7297d2f2295d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\DepthStencil">
-      <UniqueIdentifier>{e38972b3-49b5-44c5-adda-02ae47a12411}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility\BackgroundLoader">
       <UniqueIdentifier>{a8da4bfb-afb5-4d86-8aba-fab735f15aa9}</UniqueIdentifier>
@@ -181,9 +154,6 @@
     <Filter Include="Engine\Core\Render\RenderNode\Grayscale">
       <UniqueIdentifier>{3602e0ab-a4aa-412d-8e2b-67b96ec2e6da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\DirectX\ResourcesObject\OffscreenRender">
-      <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\Render\RenderTargetGroup">
       <UniqueIdentifier>{0085d829-dc6e-4727-8983-4e6827bc0cb9}</UniqueIdentifier>
     </Filter>
@@ -210,6 +180,36 @@
     </Filter>
     <Filter Include="Engine\Core\Render\RenderNode\RadialBlur">
       <UniqueIdentifier>{ecb2b128-e24d-43c5-bd3d-2e5eed5be8d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject">
+      <UniqueIdentifier>{186e89be-05e6-4149-b1f0-577ed1ded71b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\RenderTarget">
+      <UniqueIdentifier>{f8f1a63e-273e-463a-8f87-ce68ddfc0e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\VertexBuffer">
+      <UniqueIdentifier>{26196e4c-c186-4968-827e-db3e4d4dfd34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\IndexBuffer">
+      <UniqueIdentifier>{4acc4ffe-ee0e-4e85-8a18-28dcb047dd83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\ConstantBuffer">
+      <UniqueIdentifier>{437a7a8a-6081-4c43-819b-4b74720b81b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\ConstantBuffer\Material">
+      <UniqueIdentifier>{5e9e9f52-22d1-495b-a45f-5ef387d33288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\ConstantBuffer\TransformMatrix">
+      <UniqueIdentifier>{cc5b3202-9c87-44bf-8a64-2b017f139563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\Texture">
+      <UniqueIdentifier>{6f54ea19-4a0b-435e-a5a7-e9e5a94d8845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\DepthStencil">
+      <UniqueIdentifier>{e38972b3-49b5-44c5-adda-02ae47a12411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\DirectX\ResourceObject\OffscreenRender">
+      <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -289,22 +289,22 @@
       <Filter>Engine\Core\Game\Transform2D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\RenderTarget</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\VertexBuffer</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\VertexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\IndexBuffer</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\Material</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\ConstantBuffer\Material</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\TransformMatrix</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utility\Utility.cpp">
       <Filter>Engine\Utility</Filter>
@@ -322,10 +322,10 @@
       <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
       <Filter>Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
@@ -334,7 +334,7 @@
       <Filter>Engine\Core\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\DepthStencil</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Camera2D.cpp">
       <Filter>Engine\Math</Filter>
@@ -355,7 +355,7 @@
       <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp">
-      <Filter>Engine\Core\DirectX\ResourcesObject\OffscreenRender</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
       <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>
@@ -489,28 +489,28 @@
       <Filter>Engine\Core\Game\Transform2D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\RenderTarget</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\RenderTarget</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\VertexBuffer</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\VertexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\BufferObjects.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\IndexBuffer</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\ConstantBuffer.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\Material</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\ConstantBuffer\Material</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\ConstantBuffer\TransformMatrix</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utility\Utility.h">
       <Filter>Engine\Utility</Filter>
@@ -528,10 +528,10 @@
       <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\Texture</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
       <Filter>Engine\Core\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
@@ -540,7 +540,7 @@
       <Filter>Engine\Core\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\DepthStencil</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\DepthStencil</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Camera2D.h">
       <Filter>Engine\Math</Filter>
@@ -561,7 +561,7 @@
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h">
-      <Filter>Engine\Core\DirectX\ResourcesObject\OffscreenRender</Filter>
+      <Filter>Engine\Core\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
       <Filter>Engine\Core\DirectX\PiplineState\PSOBuilder</Filter>

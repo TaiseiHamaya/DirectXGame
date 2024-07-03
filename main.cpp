@@ -40,22 +40,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::shared_ptr<Object3DNode> object3DNode{ new Object3DNode };
 	object3DNode->initialize();
 	object3DNode->set_render_target();
-	//std::shared_ptr<GrayscaleNode> grayscaleNode{ new GrayscaleNode };
-	//grayscaleNode->initialize();
-	//grayscaleNode->set_render_target();
-	//grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
-	//std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
-	//chromaticAberrationNode->initialize();
-	//chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	//chromaticAberrationNode->set_texture_resource(object3DNode->result_stv_handle());
-
+	std::shared_ptr<GrayscaleNode> grayscaleNode{ new GrayscaleNode };
+	grayscaleNode->initialize();
+	grayscaleNode->set_render_target();
+	grayscaleNode->set_texture_resource(object3DNode->result_stv_handle());
 	std::shared_ptr<RadialBlurNode> radialBlurNode{ new RadialBlurNode };
 	radialBlurNode->initialize();
-	radialBlurNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	radialBlurNode->set_texture_resource(object3DNode->result_stv_handle());
-	//chromaticAberrationNode->set_depth_texture_resource(object3DNode->result_stv_handle_list()[1]);
+	radialBlurNode->set_render_target();
+	radialBlurNode->set_texture_resource(grayscaleNode->result_stv_handle());
+	std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
+	chromaticAberrationNode->initialize();
+	chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	chromaticAberrationNode->set_texture_resource(radialBlurNode->result_stv_handle());
 	RenderPath path;
-	path.initialize({ object3DNode, radialBlurNode });
+	path.initialize({ object3DNode, grayscaleNode, radialBlurNode, chromaticAberrationNode });
 
 	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
 	RenderPathManager::SetPath("GrayScale1");
@@ -122,7 +120,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			ImGui::End();
 		}
 
-		ImGui::Begin("ChromaticAberrationNode");
+		ImGui::Begin("PostEffects");
+		grayscaleNode->debug_gui();
+		ImGui::Separator();
+		chromaticAberrationNode->debug_gui();
+		ImGui::Separator();
 		radialBlurNode->debug_gui();
 		ImGui::End();
 
@@ -147,13 +149,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		//sprite.draw();
 
-		//RenderPathManager::Next();
+		RenderPathManager::Next();
 
-		//grayscaleNode->draw();
+		grayscaleNode->draw();
 
 		RenderPathManager::Next();
 
 		radialBlurNode->draw();
+
+		RenderPathManager::Next();
+
+		chromaticAberrationNode->draw();
 
 		RenderPathManager::Next();
 

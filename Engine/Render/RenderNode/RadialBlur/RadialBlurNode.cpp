@@ -18,8 +18,8 @@ void RadialBlurNode::initialize() {
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	create_vertex();
 	*blurInfo.get_data() = BlurInfo{
-		Vector2{0.5f, 0.5f},//{},
-		0.01f,//{},
+		Vector2{0.5f, 0.5f},
+		0.1f,
 		8
 	};
 }

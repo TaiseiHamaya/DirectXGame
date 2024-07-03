@@ -9,7 +9,7 @@
 void DepthStencil::initialize(std::uint32_t width, std::uint32_t height) {
 	create_depth_stencil_texture_resource(width, height);
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
-	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
+	dsvDesc.Format = resource->GetDesc().Format;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D; // 画面全体なので2D
 	descriptorHandleCPU = DSVDescriptorHeap::UseNextHandle();
 	// viewの作成
@@ -40,17 +40,17 @@ void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, st
 	resourceDesc.Height = WinApp::GetClientHight();
 	resourceDesc.MipLevels = 1;
 	resourceDesc.DepthOrArraySize = 1;
-	resourceDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	resourceDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
 	resourceDesc.SampleDesc.Count = 1;
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; // 画面全体なので2D
-	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL; // DSとして使用
 
 	D3D12_HEAP_PROPERTIES heapProperties{};
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	D3D12_CLEAR_VALUE depthClearValue{};
 	depthClearValue.DepthStencil.Depth = 1.0f; // 1.0fで初期化
-	depthClearValue.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
+	depthClearValue.Format = resourceDesc.Format;
 
 	hr = DirectXDevice::GetDevice()->CreateCommittedResource(
 		&heapProperties,

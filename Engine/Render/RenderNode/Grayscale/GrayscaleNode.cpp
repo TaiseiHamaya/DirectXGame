@@ -5,6 +5,10 @@
 #include "Engine/DirectX/PipelineState/PipelineState.h"
 #include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
+#ifdef _DEBUG
+#include "externals/imgui/imgui.h"
+#endif // _DEBUG
+
 GrayscaleNode::GrayscaleNode() = default;
 
 GrayscaleNode::~GrayscaleNode() = default;
@@ -13,12 +17,14 @@ void GrayscaleNode::initialize() {
 	create_pipline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	create_vertex();
+	*isGray.get_data() = 1;
 }
 
 void GrayscaleNode::draw() {
 	auto&& command = DirectXCommand::GetCommandList();
 	command->IASetVertexBuffers(0, 1, vertex->get_p_vbv());
-	command->SetGraphicsRootDescriptorTable(0, textureGPUHandle);
+	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
+	command->SetGraphicsRootConstantBufferView(0, isGray.get_resource()->GetGPUVirtualAddress());
 	command->DrawInstanced(6, 1, 0, 0);
 }
 
@@ -26,8 +32,13 @@ void GrayscaleNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& text
 	textureGPUHandle = textureGPUHandle_;
 }
 
+void GrayscaleNode::debug_gui() {
+	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
+}
+
 void GrayscaleNode::create_pipline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,

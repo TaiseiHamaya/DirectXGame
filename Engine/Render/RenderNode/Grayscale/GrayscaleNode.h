@@ -2,6 +2,8 @@
 
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+
 class VertexBuffer;
 
 class GrayscaleNode : public SingleRenderTargetNode {
@@ -30,7 +32,11 @@ public:
 	/// </summary>
 	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
 	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
-	
+
+#ifdef _DEBUG
+	void debug_gui();
+#endif // _DEBUG
+		
 private:
 	/// <summary>
 	/// PSO生成
@@ -44,5 +50,6 @@ private:
 
 private:
 	std::unique_ptr<VertexBuffer> vertex;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};
+	ConstantBuffer<std::uint32_t> isGray{};
 };
