@@ -648,13 +648,7 @@
     <FxCompile Include="Engine\Render\RenderNode\Grayscale\Grayscale.PS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Render\RenderNode\Grayscale\Grayscale.VS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\Grayscale</Filter>
-    </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.PS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberration.VS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\ChromaticAberration</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.PS.hlsl">
@@ -664,9 +658,6 @@
       <Filter>Engine\Core\Render\RenderNode\Object3D\ObjectDepth3D</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.PS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.VS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\FullscreenShader.hlsl">
