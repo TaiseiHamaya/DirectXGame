@@ -2,10 +2,8 @@
 
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
-class VertexBuffer;
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Math/Vector2.h"
-#include <array>
 
 class RadialBlurNode : public SingleRenderTargetNode {
 public:
@@ -42,19 +40,13 @@ private:
 	/// </summary>
 	void create_pipline_state();
 
-	/// <summary>
-	/// View生成
-	/// </summary>
-	void create_vertex();
-
 private:
-	std::unique_ptr<VertexBuffer> vertex;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle;
 
 	struct BlurInfo {
 		Vector2 center;
 		float power;
-		uint32_t sampleCount;
+		std::uint32_t sampleCount;
 	};
 	ConstantBuffer<BlurInfo> blurInfo;
 };

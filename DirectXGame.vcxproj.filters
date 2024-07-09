@@ -669,6 +669,9 @@
     <FxCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.VS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\FullscreenShader.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\3DObject\Object3d.hlsli">

@@ -4,8 +4,6 @@
 
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
-class VertexBuffer;
-
 class GrayscaleNode : public SingleRenderTargetNode {
 public:
 	GrayscaleNode();
@@ -43,13 +41,7 @@ private:
 	/// </summary>
 	void create_pipline_state();
 
-	/// <summary>
-	/// View生成
-	/// </summary>
-	void create_vertex();
-
 private:
-	std::unique_ptr<VertexBuffer> vertex;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};
 	ConstantBuffer<std::uint32_t> isGray{};
 };
