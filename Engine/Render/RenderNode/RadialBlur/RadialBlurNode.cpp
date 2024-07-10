@@ -17,6 +17,7 @@ void RadialBlurNode::initialize() {
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	*blurInfo.get_data() = BlurInfo{
 		Vector2{0.5f, 0.5f},
+		0.4f,
 		0.1f,
 		8
 	};
@@ -35,8 +36,9 @@ void RadialBlurNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& tex
 
 void RadialBlurNode::debug_gui() {
 	ImGui::DragFloat2("Center", &blurInfo.get_data()->center.x, 0.01f , 0.0f, 1.0f, "%.4f");
-	ImGui::DragFloat("Power", &blurInfo.get_data()->power, 0.001f , 0.0f, 1.0f, "%.4f");
-	ImGui::DragInt("Count", reinterpret_cast<int*>(&blurInfo.get_data()->sampleCount), 0.02f, 1, 16);
+	ImGui::DragFloat("Weight", &blurInfo.get_data()->weight, 0.001f , 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Length", &blurInfo.get_data()->length, 0.001f , 0.0f, 1.0f, "%.4f");
+	ImGui::DragInt("SampleCount", reinterpret_cast<int*>(&blurInfo.get_data()->sampleCount), 0.02f, 1, 16);
 }
 
 void RadialBlurNode::create_pipline_state() {
