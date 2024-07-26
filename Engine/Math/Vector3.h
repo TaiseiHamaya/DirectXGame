@@ -56,6 +56,14 @@ public:
 	/// <returns></returns>
 	const Vector3 normalize(void) const noexcept(false);
 
+	/// <summary>
+	/// ベクトルの正規化
+	/// </summary>
+	/// <param name="tolerance">lengthの許容値</param>
+	/// <param name="disapproval">範囲外だった場合の戻り値</param>
+	/// <returns></returns>
+	const Vector3 normalize_safe(float tolerance = 0.0001f, const Vector3& disapproval = { 1,0,0 }) const noexcept;
+
 public:
 	// ------------------static関数------------------
 
@@ -136,18 +144,6 @@ public:
 	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, const float& t) noexcept;
 
 	/// <summary>
-	/// <param name="vector">変換するベクトル</param>
-	/// <param name="radian">回転量(ラジアン)</param>
-	/// </summary>
-	//static Vector3 Rotate(const Vector3& vector, const float& radian);
-
-	/// <summary>
-	/// <param name="vector">変換するベクトル</param>
-	/// <param name="radian">回転量(ラジアン)</param>
-	/// </summary>
-	//static Vector3 Rotate(const Vector3& vector, const float sinTheta, const float cosTheta);
-
-	/// <summary>
 	/// 2次ベジエ曲線
 	/// </summary>
 	/// <param name="initial">始点</param>
@@ -163,6 +159,40 @@ public:
 	/// <param name="vector">変化させるベクトル</param>
 	/// <returns></returns>
 	static const Vector3 Abs(const Vector3& vector) noexcept;
+
+	/// <summary>
+	/// ベクトル射影
+	/// </summary>
+	/// <param name="vector">射影するベクトル</param>
+	/// <param name="onto">射影対象の単位ベクトル</param>
+	/// <returns></returns>
+	static Vector3 Projection(const Vector3& vector, const Vector3& onto);
+
+	/// <summary>
+	/// ベクトル反射
+	/// </summary>
+	/// <param name="input">反射するベクトル</param>
+	/// <param name="normal">平面の法線</param>
+	/// <returns></returns>
+	static Vector3 Reflect(const Vector3& input, const Vector3& normal);
+
+	/// <summary>
+	/// XYZ各要素をmin、max範囲内に収める
+	/// </summary>
+	/// <param name="vector">元ベクトル</param>
+	/// <param name="min">最小値</param>
+	/// <param name="max">最大値</param>
+	/// <returns></returns>
+	static Vector3 Clamp(const Vector3& vector, const Vector3& min, const Vector3& max);
+
+	/// <summary>
+	/// 球面線形補間
+	/// </summary>
+	/// <param name="from">t=0のベクトル</param>
+	/// <param name="to">t=1のベクトル</param>
+	/// <param name="t">媒介変数</param>
+	/// <returns></returns>
+	static Vector3 Slerp(const Vector3& from, const Vector3& to, const float& t);
 };
 
 // ------------------インライン関数定義------------------
