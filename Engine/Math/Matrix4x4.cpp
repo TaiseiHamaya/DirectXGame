@@ -19,8 +19,21 @@ const Matrix4x4 Matrix4x4::inverse() const {
 	}
 
 	for (size_t i = 0; i < rowSize; ++i) {
+		if (augmented[i][i] == 0) {
+			bool found = false;
+			for (size_t k = i + 1; k < rowSize; ++k) {
+				if (augmented[k][i] != 0) {
+					std::swap(augmented[i], augmented[k]);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				assert(false);
+			}
+		}
+
 		pivot = augmented[i][i];
-		assert(pivot != 0); // ここで落ちるなら逆行列がない
 		for (size_t j = 0; j < rowSize * 2; ++j) {
 			augmented[i][j] /= pivot;
 		}
