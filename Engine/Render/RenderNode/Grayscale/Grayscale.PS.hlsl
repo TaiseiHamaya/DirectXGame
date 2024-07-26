@@ -8,7 +8,7 @@ float4 main(VertexShaderOutput input) : SV_TARGET0 {
 	float4 outputColor;
 	float4 sampleColor = gTexture.Sample(gSampler, input.texcoord);
 	if (gIsGray) {
-		float y = 0.33f * sampleColor.r + 0.33f * sampleColor.g + 0.34f * sampleColor.b;
+		float y = 0.3f * sampleColor.r + 0.58f* sampleColor.g + 0.12f * sampleColor.b;
 		outputColor = float4(y, y, y, 1.0f);
 	}
 	else {
