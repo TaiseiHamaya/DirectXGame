@@ -84,18 +84,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoSavedSettings);
 		PolygonMeshManager::MeshListGui(selectMesh);
 		ImGui::InputText("Name", const_cast<char*>(name), 1024);
-		if (ImGui::Button("CreateObject") && !selectMesh.empty() && name[0] != '\0') {
-			if (!objectList.contains(name)) {
+		if (ImGui::Button("CreateObject") && !selectMesh.empty() ) {
+			std::string objName;
+			if (name[0] == '\0') {
+				objName = selectMesh;
+			}
+			else {
+				objName = name;
+			}
+			if (!objectList.contains(objName)) {
 				objects.emplace_back(selectMesh);
-				objectNames.emplace_back(name);
-				objectList.emplace(name);
+				objectNames.emplace_back(objName);
+				objectList.emplace(objName);
 			}
 			else {
 				objects.emplace_back(selectMesh);
-				std::string test = std::format("{}-{}", name, objectList.count(name));
-				objectNames.push_back(test);
-				objectList.insert(test);
-				objectList.insert(name);
+				std::string addName = std::format("{}-{}", objName, objectList.count(objName));
+				objectNames.push_back(addName);
+				objectList.insert(addName);
+				objectList.insert(objName);
 			}
 		}
 		ImGui::Separator();
