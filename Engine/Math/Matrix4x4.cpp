@@ -1,27 +1,25 @@
 #include "Matrix4x4.h"
 
-#include <vector>
-
 const Matrix4x4 Matrix4x4::Inverse(const Matrix4x4& matrix) {
 	return matrix.inverse();
 }
 
 // Gaussian elimination { O(N^3) == 64 }
 const Matrix4x4 Matrix4x4::inverse() const {
-	float pivot;
-	static constexpr size_t rowSize = 4;
-	std::vector<std::vector<float>> augmented(rowSize, std::vector<float>(rowSize * 2, 0));
-	for (size_t i = 0; i < rowSize; ++i) {
-		for (size_t j = 0; j < rowSize; ++j) {
-			augmented[i][j] = __matrix[i][j];
+	constexpr size_t AugmentedColumn = COLUMN * 2;
+	Matrix<ROW, AugmentedColumn> augmented;
+	for (size_t i = 0; i < ROW; ++i) {
+		for (size_t j = 0; j < COLUMN; ++j) {
+			augmented[i][j] = _matrix[i][j];
 		}
-		augmented[i][i + rowSize] = 1;
+		augmented[i][i + COLUMN] = 1;
 	}
 
-	for (size_t i = 0; i < rowSize; ++i) {
+	for (size_t i = 0; i < ROW; ++i) {
+		// [i][i] = 1だと左側が単位行列にならないので、別の行と交換して解決
 		if (augmented[i][i] == 0) {
 			bool found = false;
-			for (size_t k = i + 1; k < rowSize; ++k) {
+			for (size_t k = i + 1; k < ROW; ++k) {
 				if (augmented[k][i] != 0) {
 					std::swap(augmented[i], augmented[k]);
 					found = true;
@@ -29,19 +27,24 @@ const Matrix4x4 Matrix4x4::inverse() const {
 				}
 			}
 			if (!found) {
+				// 交換できない場合は何かがおかしいので止める
 				assert(false);
 			}
 		}
 
-		pivot = augmented[i][i];
-		for (size_t j = 0; j < rowSize * 2; ++j) {
+		// 単位行列にするため[i][i]を取得
+		float pivot = augmented[i][i];
+		for (size_t j = 0; j < AugmentedColumn; ++j) {
 			augmented[i][j] /= pivot;
 		}
-		for (size_t k = 0; k < rowSize; ++k) {
+		// すべての列について、i != kの場合は0にするため別の行から持ってきてどうにかする
+		for (size_t k = 0; k < ROW; ++k) {
 			if (k != i) {
+				// その他の行のi要素を0にする
 				float factor = augmented[k][i];
 				if (factor != 0) {
-					for (size_t j = 0; j < rowSize * 2; ++j) {
+					// 定義より、k行のすべての列をi行目の定数倍する
+					for (size_t j = 0; j < AugmentedColumn; ++j) {
 						augmented[k][j] -= factor * augmented[i][j];
 					}
 				}
@@ -49,6 +52,7 @@ const Matrix4x4 Matrix4x4::inverse() const {
 		}
 	}
 
+	// 逆行列を抽出
 	Matrix4x4 inversed{};
 	for (size_t i = 0; i < 4; ++i) {
 		for (size_t j = 0; j < 4; ++j) {
@@ -56,17 +60,17 @@ const Matrix4x4 Matrix4x4::inverse() const {
 		}
 	}
 
-	// 正しくinverseできたかチェック
+	// 正しくinverseできたかチェック(デバッグのみ)
 #ifdef _DEBUG
-	bool isInversed = false;
+	bool isInversed = true;
 	for (size_t i = 0; i < 4; ++i) {
 		for (size_t j = 0; j < 4; ++j) {
 			if (!(i == j ? augmented[i][j] == 1 : augmented[i][j] == 0)) {
-				isInversed = true;
+				isInversed = false;
 			}
 		}
 	}
-	assert(!isInversed);
+	assert(isInversed);
 #endif // _DEBUG
 
 	return inversed;

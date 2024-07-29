@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Matrix.h"
+
 #include <cassert>
+#include <initializer_list>
 
 class Matrix3x3;
 
@@ -78,54 +80,54 @@ public: // メンバ関数
 	constexpr const Matrix4x4 transpose() const;
 
 private:// has継承
-	Matrix<4, 4> __matrix;
+	Matrix<4, 4> _matrix;
 };
 
 constexpr Matrix4x4::Matrix4x4(const Matrix<4, 4>& rhs) {
-	__matrix = rhs;
+	_matrix = rhs;
 }
 
 constexpr Matrix4x4::Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init) {
 	assert(init.size() == ROW && init.begin()->size() == COLUMN);
 	for (int i = 0; i < ROW; ++i) {
 		for (int j = 0; j < COLUMN; ++j) {
-			__matrix[i][j] = *((init.begin() + i)->begin() + j);
+			_matrix[i][j] = *((init.begin() + i)->begin() + j);
 		}
 	}
 }
 
 constexpr const std::array<float, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) const {
-	return __matrix[index];
+	return _matrix[index];
 }
 
 constexpr std::array<float, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) {
-	return __matrix[index];
+	return _matrix[index];
 }
 
 constexpr const Matrix4x4 Matrix4x4::operator+(const Matrix4x4& opr) const {
-	return (__matrix + opr.__matrix);
+	return (_matrix + opr._matrix);
 }
 
 constexpr const Matrix4x4 Matrix4x4::operator-(const Matrix4x4& opr) const {
-	return (__matrix - opr.__matrix);
+	return (_matrix - opr._matrix);
 }
 
 constexpr const Matrix4x4 Matrix4x4::operator*(const Matrix4x4& opr) const {
-	return (__matrix * opr.__matrix);
+	return (_matrix * opr._matrix);
 }
 
 constexpr Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& opr) {
-	*this = (__matrix + opr.__matrix);
+	*this = (_matrix + opr._matrix);
 	return *this;
 }
 
 constexpr Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& opr) {
-	*this = (__matrix * opr.__matrix);
+	*this = (_matrix * opr._matrix);
 	return *this;
 }
 
 constexpr bool Matrix4x4::operator==(const Matrix4x4& rhs) const noexcept {
-	return __matrix == rhs.__matrix;
+	return _matrix == rhs._matrix;
 }
 
 constexpr bool Matrix4x4::operator!=(const Matrix4x4& rhs) const noexcept {
@@ -133,7 +135,7 @@ constexpr bool Matrix4x4::operator!=(const Matrix4x4& rhs) const noexcept {
 }
 
 constexpr Matrix4x4 Matrix4x4::Multiply(const Matrix4x4& matrix, const float& times) {
-	return Matrix<4, 4>::Multiply(matrix.__matrix, times);
+	return Matrix<4, 4>::Multiply(matrix._matrix, times);
 }
 
 constexpr Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix) {
@@ -152,7 +154,7 @@ constexpr Matrix4x4 Matrix4x4::Convert3x3(const Matrix3x3& matrix) {
 }
 
 constexpr const Matrix4x4 Matrix4x4::transpose() const {
-	return __matrix.transpose();
+	return _matrix.transpose();
 }
 
 namespace CMatrix4x4 {

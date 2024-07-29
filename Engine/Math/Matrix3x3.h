@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Engine/Math/Matrix.h"
-#include <initializer_list>
+#include "Matrix.h"
+
 #include <cassert>
+#include <initializer_list>
 
 // ------------------3x3の特殊行列を継承定義------------------
 class Matrix3x3 final {

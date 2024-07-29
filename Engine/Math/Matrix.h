@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/Math/Array2D.h>
-class Matrix3x3;
 
 template<size_t ROW, size_t COLUMN>
 class Matrix {
