@@ -7,11 +7,14 @@ class Matrix3x3;
 
 // ------------------3x3の特殊行列を継承定義------------------
 class Matrix4x4 final {
+public:
+	static constexpr size_t ROW = 4, COLUMN = 4;
+
 public: // コンストラクタ
 	constexpr Matrix4x4() noexcept = default;
 	constexpr Matrix4x4(const Matrix4x4& rhs) noexcept = default;
 	constexpr Matrix4x4(Matrix4x4&& rhs) noexcept = default;
-	constexpr Matrix4x4(const Matrix<4, 4>& rhs);
+	constexpr Matrix4x4(const Matrix<ROW, COLUMN>& rhs);
 	constexpr Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init);
 
 public:
@@ -19,8 +22,8 @@ public:
 	constexpr Matrix4x4& operator=(const Matrix4x4&) noexcept = default;
 	constexpr Matrix4x4& operator=(Matrix4x4&&) noexcept = default;
 
-	constexpr const std::array<float, 4>& operator[](std::size_t index) const;
-	constexpr std::array<float, 4>& operator[](std::size_t index);
+	constexpr const std::array<float, COLUMN>& operator[](std::size_t index) const;
+	constexpr std::array<float, COLUMN>& operator[](std::size_t index);
 
 	constexpr const Matrix4x4 operator+(const Matrix4x4& opr) const;
 	constexpr const Matrix4x4 operator-(const Matrix4x4& opr) const;
@@ -83,19 +86,19 @@ constexpr Matrix4x4::Matrix4x4(const Matrix<4, 4>& rhs) {
 }
 
 constexpr Matrix4x4::Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init) {
-	assert(init.size() == 4 && init.begin()->size() == 4);
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
+	assert(init.size() == ROW && init.begin()->size() == COLUMN);
+	for (int i = 0; i < ROW; ++i) {
+		for (int j = 0; j < COLUMN; ++j) {
 			__matrix[i][j] = *((init.begin() + i)->begin() + j);
 		}
 	}
 }
 
-constexpr const std::array<float, 4>& Matrix4x4::operator[](std::size_t index) const {
+constexpr const std::array<float, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) const {
 	return __matrix[index];
 }
 
-constexpr std::array<float, 4>& Matrix4x4::operator[](std::size_t index) {
+constexpr std::array<float, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) {
 	return __matrix[index];
 }
 

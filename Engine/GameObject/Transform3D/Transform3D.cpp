@@ -84,7 +84,7 @@ void Transform3D::debug_gui() {
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("ResetRotate")) {
-			rotate = Quaternion{};
+			rotate = CQuaternion::IDENTITY;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("ResetTranslate")) {
@@ -93,7 +93,7 @@ void Transform3D::debug_gui() {
 		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
 		Vector3 rotationL = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f)) {
-			rotate = Quaternion::EulerDegree(rotationL) *rotate;
+			rotate = Quaternion::EulerDegree(rotationL) * rotate;
 		}
 		Vector3 rotationW = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f)) {
@@ -171,7 +171,6 @@ Matrix4x4 Transform3D::MakeAffineMatrix(const Vector3& scale, const Quaternion& 
 
 Vector3 Transform3D::Homogeneous(const Vector3& vector, const Matrix4x4& matrix) {
 	float w = vector.x * matrix[0][3] + vector.y * matrix[1][3] + vector.z * matrix[2][3] + 1.0f * matrix[3][3];
-	//assert(w != 0);
 	return {
 		(vector.x * matrix[0][0] + vector.y * matrix[1][0] + vector.z * matrix[2][0] + 1.0f * matrix[3][0]) / w,
 		(vector.x * matrix[0][1] + vector.y * matrix[1][1] + vector.z * matrix[2][1] + 1.0f * matrix[3][1]) / w,
@@ -181,7 +180,6 @@ Vector3 Transform3D::Homogeneous(const Vector3& vector, const Matrix4x4& matrix)
 
 Vector3 Transform3D::HomogeneousVector(const Vector3& vector, const Matrix4x4& matrix) {
 	float w = vector.x * matrix[0][3] + vector.y * matrix[1][3] + vector.z * matrix[2][3] + 1.0f * matrix[3][3];
-	assert(w != 0);
 	return {
 		(vector.x * matrix[0][0] + vector.y * matrix[1][0] + vector.z * matrix[2][0] + 1.0f * 0) / w,
 		(vector.x * matrix[0][1] + vector.y * matrix[1][1] + vector.z * matrix[2][1] + 1.0f * 0) / w,
