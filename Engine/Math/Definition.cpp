@@ -2,17 +2,6 @@
 
 #include <cassert>
 
-//const Vector2 operator*(const Vector2& vec, const Matrix<2, 2>& mat) {
-//	assert(mat.column() == 2);
-//	Matrix<1, 2> temp;
-//	temp[0][0] = vec.x;
-//	temp[0][1] = vec.y;
-//	Vector2 result;
-//	temp *= mat;
-//	result = { temp[0][0], temp[0][1] };
-//	return result;
-//}
-
 Animation::Animation() {
 	distance = 1;
 	total_seq = 1;
