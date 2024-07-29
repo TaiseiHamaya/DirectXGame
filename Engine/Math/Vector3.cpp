@@ -47,8 +47,8 @@ const Vector3 Vector3::Abs(const Vector3& vector) noexcept {
 }
 
 Vector3 Vector3::Projection(const Vector3& vector, const Vector3& onto) {
-	Vector3 norm = onto.normalize();
-	return norm * Vector3::DotProduct(norm, vector);
+	assert(onto.length() == 1);
+	return onto * Vector3::DotProduct(onto, vector);
 }
 
 Vector3 Vector3::Reflect(const Vector3& input, const Vector3& normal) {
