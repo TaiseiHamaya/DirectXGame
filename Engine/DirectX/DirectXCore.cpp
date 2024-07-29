@@ -186,8 +186,8 @@ void DirectXCore::show_debug_tools() {
 	light->get_data()->color.debug_gui();
 	Vector3 rotate = CVector3::ZERO;
 	ImGui::Text(std::format("X : {:.3}, Y : {:.3}, Z : {:.3}", light->get_data()->direction.x, light->get_data()->direction.y, light->get_data()->direction.z).c_str());
-	if (ImGui::DragFloat3("DirectionRotate", &rotate.x, 0.02f)) {
-		light->get_data()->direction = Transform3D::Homogeneous(light->get_data()->direction, Quaternion { rotate, rotate.length() }.to_matrix());
+	if (ImGui::DragFloat3("DirectionRotate", &rotate.x, 1.0f, -180.0f, 180.0f)) {
+		light->get_data()->direction = light->get_data()->direction * Quaternion::EulerDegree(rotate);
 	}
 	ImGui::Text("ResetDirection");
 	if (ImGui::Button("X")) {

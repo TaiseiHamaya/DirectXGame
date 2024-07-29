@@ -91,13 +91,13 @@ void Transform3D::debug_gui() {
 			translate = CVector3::ZERO;
 		}
 		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
-		Vector3 quaternion = CVector3::ZERO;
-		if (ImGui::DragFloat3("RotateLocal", &quaternion.x, 0.01f, -PI, PI)) {
-			rotate = Quaternion{ quaternion } *rotate;
+		Vector3 rotationL = CVector3::ZERO;
+		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f)) {
+			rotate = Quaternion::EulerDegree(rotationL) *rotate;
 		}
-		Vector3 cood = CVector3::ZERO;
-		if (ImGui::DragFloat3("RotateWorld", &cood.x, 0.02f)) {
-			rotate *= Quaternion{ cood, cood.length() };
+		Vector3 rotationW = CVector3::ZERO;
+		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f)) {
+			rotate *= Quaternion::EulerDegree(rotationW);
 		}
 		ImGui::DragFloat3("Translate", &translate.x, 0.1f);
 		ImGui::TreePop();

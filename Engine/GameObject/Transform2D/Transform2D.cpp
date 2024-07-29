@@ -52,7 +52,7 @@ Matrix3x3 Transform2D::get_matrix() const noexcept {
 }
 
 Matrix4x4 Transform2D::get_matrix4x4_transform() const noexcept {
-	return Transform3D::MakeAffineMatrix(scale.convert(1.0f), Quaternion{ 0,0,rotate }, translate.convert(0.0f));
+	return Transform3D::MakeAffineMatrix(scale.convert(1.0f), Quaternion::EulerRadian(0, 0, rotate), translate.convert(0.0f));
 }
 
 Matrix4x4 Transform2D::get_matrix4x4_padding() const {
