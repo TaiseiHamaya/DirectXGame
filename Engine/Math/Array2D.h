@@ -22,8 +22,8 @@ public:
 	constexpr Array2D& operator=(Array2D&&) noexcept(std::is_nothrow_move_assignable<T>::value) = default;
 
 public:
-	constexpr size_t row() const noexcept { return data_.size(); }
-	constexpr size_t column() const noexcept { return data_.front().size(); }
+	constexpr size_t row() const noexcept { return ROW; }
+	constexpr size_t column() const noexcept { return COLUMN; }
 	constexpr std::array<T, COLUMN>& operator[](size_t index) noexcept(false) { return data_[index]; }
 	constexpr const std::array<T, COLUMN>& operator[](size_t index) const noexcept(false) { return data_[index]; }
 	constexpr bool operator==(const Array2D<T, ROW, COLUMN>& rhs) const noexcept { return data_ == rhs.data_; }
