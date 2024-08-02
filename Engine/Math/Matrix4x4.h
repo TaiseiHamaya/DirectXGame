@@ -12,18 +12,27 @@ class Matrix4x4 final {
 public:
 	static constexpr size_t ROW = 4, COLUMN = 4;
 
-public: // コンストラクタ
+public: // コピー、ムーブはデフォルト定義
 	constexpr Matrix4x4() noexcept = default;
 	constexpr Matrix4x4(const Matrix4x4& rhs) noexcept = default;
 	constexpr Matrix4x4(Matrix4x4&& rhs) noexcept = default;
+	constexpr Matrix4x4& operator=(const Matrix4x4&) noexcept = default;
+	constexpr Matrix4x4& operator=(Matrix4x4&&) noexcept = default;
+
+public: // その他コンストラクタ
+	/// <summary>
+	/// Matrix<4, 4>から生成
+	/// </summary>
+	/// <param name="rhs"></param>
 	constexpr Matrix4x4(const Matrix<ROW, COLUMN>& rhs);
+	/// <summary>
+	/// initializer_listから生成
+	/// </summary>
+	/// <param name="init"></param>
 	constexpr Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init);
 
 public:
 	// ------------------演算子オーバーロード------------------
-	constexpr Matrix4x4& operator=(const Matrix4x4&) noexcept = default;
-	constexpr Matrix4x4& operator=(Matrix4x4&&) noexcept = default;
-
 	constexpr const std::array<float, COLUMN>& operator[](std::size_t index) const;
 	constexpr std::array<float, COLUMN>& operator[](std::size_t index);
 
@@ -80,7 +89,7 @@ public: // メンバ関数
 	constexpr const Matrix4x4 transpose() const;
 
 private:// has継承
-	Matrix<4, 4> _matrix;
+	Matrix<ROW, COLUMN> _matrix;
 };
 
 constexpr Matrix4x4::Matrix4x4(const Matrix<4, 4>& rhs) {
