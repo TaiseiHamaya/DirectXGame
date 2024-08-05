@@ -33,7 +33,7 @@ private:
 	/// <summary>
 	/// PSO生成
 	/// </summary>
-	void create_pipline_state();
+	void create_pipeline_state();
 
 #ifdef _DEBUG
 public:

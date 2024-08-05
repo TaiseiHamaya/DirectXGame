@@ -5,7 +5,7 @@
 #include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
-void InputLayoutBuillder::add_cbv(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
+void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
 	D3D12_INPUT_ELEMENT_DESC desc{};
 	desc.SemanticName = semanticName;
 	desc.SemanticIndex = semanticIndex;
@@ -14,7 +14,7 @@ void InputLayoutBuillder::add_cbv(const char* semanticName, UINT semanticIndex, 
 	inputElementDescs.emplace_back(std::move(desc));
 }
 
-const std::vector<D3D12_INPUT_ELEMENT_DESC>& InputLayoutBuillder::build() {
+const std::vector<D3D12_INPUT_ELEMENT_DESC>& InputLayoutBuilder::build() {
 	return inputElementDescs;
 }
 

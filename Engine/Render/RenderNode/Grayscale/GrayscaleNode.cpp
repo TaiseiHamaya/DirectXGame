@@ -13,7 +13,7 @@ GrayscaleNode::GrayscaleNode() = default;
 GrayscaleNode::~GrayscaleNode() = default;
 
 void GrayscaleNode::initialize() {
-	create_pipline_state();
+	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	*isGray.get_data() = 1;
 }
@@ -33,7 +33,7 @@ void GrayscaleNode::debug_gui() {
 	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
 }
 
-void GrayscaleNode::create_pipline_state() {
+void GrayscaleNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);

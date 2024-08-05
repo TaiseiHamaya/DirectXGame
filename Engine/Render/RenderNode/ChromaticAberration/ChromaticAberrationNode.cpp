@@ -14,7 +14,7 @@ ChromaticAberrationNode::ChromaticAberrationNode() = default;
 ChromaticAberrationNode::~ChromaticAberrationNode() noexcept = default;
 
 void ChromaticAberrationNode::initialize() {
-	create_pipline_state();
+	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	*aberrationLevel.get_data() = CVector2::ZERO;
 }
@@ -30,7 +30,7 @@ void ChromaticAberrationNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HA
 	textureGPUHandle = textureGPUHandle_;
 }
 
-void ChromaticAberrationNode::create_pipline_state() {
+void ChromaticAberrationNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1);

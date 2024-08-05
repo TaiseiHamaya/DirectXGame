@@ -16,7 +16,7 @@ ObjectDepth3DNode::ObjectDepth3DNode() = default;
 ObjectDepth3DNode::~ObjectDepth3DNode() noexcept = default;
 
 void ObjectDepth3DNode::initialize() {
-	create_pipline_state();
+	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
@@ -49,7 +49,7 @@ void ObjectDepth3DNode::set_render_target(const std::shared_ptr<MultiRenderTarge
 	assert(renderTarget->has_depth());
 }
 
-void ObjectDepth3DNode::create_pipline_state() {
+void ObjectDepth3DNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0);
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
@@ -61,10 +61,10 @@ void ObjectDepth3DNode::create_pipline_state() {
 		D3D12_FILTER_ANISOTROPIC
 	);
 
-	InputLayoutBuillder inputLayoutBuillder;
-	inputLayoutBuillder.add_cbv("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	inputLayoutBuillder.add_cbv("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
-	inputLayoutBuillder.add_cbv("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
+	InputLayoutBuilder inputLayoutBuillder;
+	inputLayoutBuillder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	inputLayoutBuillder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
+	inputLayoutBuillder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(

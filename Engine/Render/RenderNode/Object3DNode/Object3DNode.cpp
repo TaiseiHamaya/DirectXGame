@@ -13,7 +13,7 @@ Object3DNode::Object3DNode() = default;
 Object3DNode::~Object3DNode() noexcept = default;
 
 void Object3DNode::initialize() {
-	create_pipline_state();
+	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
@@ -37,7 +37,7 @@ void Object3DNode::begin() {
 	DirectXCore::Set3DLight();
 }
 
-void Object3DNode::create_pipline_state() {
+void Object3DNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0);
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
@@ -49,10 +49,10 @@ void Object3DNode::create_pipline_state() {
 		D3D12_FILTER_ANISOTROPIC
 	);
 
-	InputLayoutBuillder inputLayoutBuillder;
-	inputLayoutBuillder.add_cbv("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	inputLayoutBuillder.add_cbv("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
-	inputLayoutBuillder.add_cbv("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
+	InputLayoutBuilder inputLayoutBuilder;
+	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
+	inputLayoutBuilder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize();
@@ -60,7 +60,7 @@ void Object3DNode::create_pipline_state() {
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->depthstencilstate(DirectXSwapChain::GetDepthStencil()->get_desc());
-	psoBuilder->inputlayout(inputLayoutBuillder.build());
+	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(shaderManager);

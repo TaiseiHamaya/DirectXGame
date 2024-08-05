@@ -171,18 +171,18 @@ void DirectXCore::show_debug_tools() {
 	ImGuiID debugDock = ImGui::GetID("DebugDock");
 
 	// 3DカメラのImGui
-	ImGui::SetNextWindowDockID(debugDock, 0);
+	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);
 	Camera3D::DebugGUI();
 
 	// 2DカメラのImGui
-	ImGui::SetNextWindowDockID(debugDock, 0);
+	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);
 	Camera2D::DebugGUI();
 
 	// ライトのImGui
-	ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
-	ImGui::SetNextWindowDockID(debugDock, 0);
-	ImGui::Begin("Light", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	//ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);
+	ImGui::Begin("Light", nullptr);
 	light->get_data()->color.debug_gui();
 	Vector3 rotate = CVector3::ZERO;
 	ImGui::Text(std::format("X : {:.3}, Y : {:.3}, Z : {:.3}", light->get_data()->direction.x, light->get_data()->direction.y, light->get_data()->direction.z).c_str());

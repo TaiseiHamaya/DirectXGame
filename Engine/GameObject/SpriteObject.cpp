@@ -2,8 +2,6 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
@@ -12,9 +10,9 @@
 #include "Engine/Math/Camera2D.h"
 
 SpriteObject::SpriteObject() :
-	material(std::make_unique<Material>(MaterialData{ Color{ 1.0f,1.0f,1.0f,1.0f }, false, {0,0,0}, CMatrix4x4::IDENTITY })),
-	color(material->get_color_reference()),
-	transformMatrix(std::make_unique<TransformMatrix>()),
+	material(std::make_unique<ConstantBuffer<SpriteMaterial>>(SpriteMaterial{ Color{ 1.0f,1.0f,1.0f,1.0f }, CMatrix4x4::IDENTITY })),
+	color(material->get_data()->color),
+	transformMatrix(std::make_unique<ConstantBuffer<Matrix4x4>>()),
 	transform(std::make_unique<Transform2D>()),
 	uvTransform(std::make_unique<Transform2D>()) {
 }
@@ -39,24 +37,20 @@ const Transform2D& SpriteObject::get_transform() noexcept {
 }
 
 void SpriteObject::begin_rendering() noexcept {
-	transformMatrix->set_transformation_matrix_data(
-		transform->get_matrix4x4_transform(),
-		static_cast<Matrix4x4>(transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix())
-	);
-	material->set_uv_transform(uvTransform->get_matrix4x4_transform());
+	*transformMatrix->get_data() = transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix();
+	material->get_data()->uvTransform = uvTransform->get_matrix4x4_transform();
 }
 
 void SpriteObject::draw() const {
 	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
 	// 設定したデータをコマンドに積む
-	auto&& texture_lockd = texture.lock();
+	auto&& texture_locked = texture.lock();
 	commandList->IASetVertexBuffers(0, 1, vertices->get_p_vbv()); // VBV
 	commandList->IASetIndexBuffer(indexes->get_p_ibv());
 	commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
-	commandList->SetGraphicsRootConstantBufferView(1, material->get_resource()->GetGPUVirtualAddress()); // Color
-	texture_lockd->set_command();
+	commandList->SetGraphicsRootConstantBufferView(1, material->get_resource()->GetGPUVirtualAddress()); // Color,UV
+	texture_locked->set_command();
 	commandList->DrawIndexedInstanced(indexes->index_size(), 1, 0, 0, 0); // 描画コマンド
-
 }
 
 #ifdef _DEBUG
@@ -73,23 +67,19 @@ void SpriteObject::create_local_vertices(const Vector2& pivot) {
 	std::vector<VertexData> vertexData(4);
 	vertexData[0] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}).convert(0), 1},
-		CVector2::BASIS_Y,
-		CVector3::BASIS_Z
+		CVector2::BASIS_Y
 	};
 	vertexData[1] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, -pivot.y}).convert(0), 1},
-		CVector2::ZERO,
-		CVector3::BASIS_Z
+		CVector2::ZERO
 	};
 	vertexData[2] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}).convert(0), 1},
-		CVector2::BASIS,
-		CVector3::BASIS_Z
+		CVector2::BASIS
 	};
 	vertexData[3] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, -pivot.y}).convert(0), 1},
-		CVector2::BASIS_X,
-		CVector3::BASIS_Z
+		CVector2::BASIS_X
 	};
 
 	vertices = std::make_unique<VertexBuffer>(vertexData);

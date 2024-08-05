@@ -2,13 +2,14 @@
 
 #include <memory>
 #include <string>
+
 #include "Engine/Math/Vector2.h"
+#include "Engine/Math/Matrix4x4.h"
+#include "Engine/Math/Color.h"
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class Texture;
 class Transform2D;
-class Material;
-class TransformMatrix;
-class Color;
 class VertexBuffer;
 class IndexBuffer;
 
@@ -42,8 +43,14 @@ private:
 	std::unique_ptr<VertexBuffer> vertices;
 	std::unique_ptr<IndexBuffer> indexes;
 	std::weak_ptr<Texture> texture;
-	std::unique_ptr<Material> material;
-	std::unique_ptr<TransformMatrix> transformMatrix;
+
+	struct SpriteMaterial {
+		Color color;
+		Matrix4x4 uvTransform;
+	};
+
+	std::unique_ptr<ConstantBuffer<SpriteMaterial>> material;
+	std::unique_ptr<ConstantBuffer<Matrix4x4>> transformMatrix;
 
 protected:
 	Color& color;

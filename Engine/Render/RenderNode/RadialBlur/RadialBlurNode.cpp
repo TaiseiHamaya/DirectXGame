@@ -13,7 +13,7 @@ RadialBlurNode::RadialBlurNode() = default;
 RadialBlurNode::~RadialBlurNode() noexcept = default;
 
 void RadialBlurNode::initialize() {
-	create_pipline_state();
+	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	*blurInfo.get_data() = BlurInfo{
 		Vector2{0.5f, 0.5f},
@@ -41,7 +41,7 @@ void RadialBlurNode::debug_gui() {
 	ImGui::DragInt("SampleCount", reinterpret_cast<int*>(&blurInfo.get_data()->sampleCount), 0.02f, 1, 16);
 }
 
-void RadialBlurNode::create_pipline_state() {
+void RadialBlurNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);

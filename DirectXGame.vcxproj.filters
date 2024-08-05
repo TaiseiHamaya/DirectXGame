@@ -211,6 +211,9 @@
     <Filter Include="Engine\Core\DirectX\ResourceObject\OffscreenRender">
       <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\SpriteNode">
+      <UniqueIdentifier>{f44e19e2-9319-45cc-af66-384359fb76d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -404,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.cpp">
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -611,6 +617,9 @@
     <ClInclude Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.h">
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h">
+      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -663,6 +672,12 @@
     <FxCompile Include="Engine\HLSL\FullscreenShader.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.PS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.VS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\3DObject\Object3d.hlsli">
@@ -691,6 +706,9 @@
     </None>
     <None Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.hlsli">
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
+    </None>
+    <None Include="Engine\Render\RenderNode\Sprite\Sprite.hlsli">
+      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ struct TransformMatrix {
 	float4x4 WVP;
 	float4x4 world;
 };
+
 struct VertexShaderInput {
 	float4 position : POSITION0;
 	float2 texcoord : TEXCOORD0;

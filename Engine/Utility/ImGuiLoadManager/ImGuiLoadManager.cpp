@@ -26,19 +26,11 @@ void ImGuiLoadManager::ShowGUI() {
 
 void ImGuiLoadManager::show_gui() {
 	ImGuiID dock = ImGui::GetID("LoadManagerDock");
-	// メインウィンドウ
-	//ImGui::SetNextWindowSize(ImVec2{ 330,300 }, ImGuiCond_Once);
-	//ImGui::SetNextWindowPos(ImVec2{ 50, 250 }, ImGuiCond_Once);
-	//ImGui::SetNextWindowDockID(dock, 0);
-	//ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoSavedSettings);
-
-	//ImGui::End();
-
 	// メッシュ用
-	ImGui::SetNextWindowSize(ImVec2{ 330,320 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 20, 355 }, ImGuiCond_Once);
-	ImGui::SetNextWindowDockID(dock, 0);
-	ImGui::Begin("PolygonMeshLoad", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	//ImGui::SetNextWindowSize(ImVec2{ 330,320 }, ImGuiCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2{ 20, 355 }, ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(dock, ImGuiCond_FirstUseEver);
+	ImGui::Begin("PolygonMeshLoad", nullptr);
 	if (ImGui::Button("<-")) {
 		if (meshCurrentPath != ".") {
 			meshCurrentPath = meshCurrentPath.parent_path();
@@ -66,10 +58,10 @@ void ImGuiLoadManager::show_gui() {
 	ImGui::End();
 
 	// テクスチャ用
-	ImGui::SetNextWindowSize(ImVec2{ 330,320 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 20, 355 }, ImGuiCond_Once);
-	ImGui::SetNextWindowDockID(dock, 0);
-	ImGui::Begin("TextureLoad", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	//ImGui::SetNextWindowSize(ImVec2{ 330,320 }, ImGuiCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2{ 20, 355 }, ImGuiCond_Once);
+	ImGui::SetNextWindowDockID(dock, ImGuiCond_FirstUseEver);
+	ImGui::Begin("TextureLoad", nullptr);
 	if (ImGui::Button("<-")) {
 		if (textureCurrentPath != ".") {
 			textureCurrentPath = textureCurrentPath.parent_path();

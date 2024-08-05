@@ -7,9 +7,9 @@
 
 #include "Engine/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 
-class InputLayoutBuillder {
+class InputLayoutBuilder {
 public:
-	void add_cbv(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format);
+	void add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format);
 	const std::vector<D3D12_INPUT_ELEMENT_DESC>& build();
 
 private:

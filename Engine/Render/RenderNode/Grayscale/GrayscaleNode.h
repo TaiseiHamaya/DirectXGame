@@ -39,7 +39,7 @@ private:
 	/// <summary>
 	/// PSO生成
 	/// </summary>
-	void create_pipline_state();
+	void create_pipeline_state();
 
 private:
 	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};

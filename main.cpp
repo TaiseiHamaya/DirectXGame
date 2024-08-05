@@ -19,6 +19,7 @@
 
 #include "Engine/Render/RenderPath/RenderPath.h"
 #include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
+#include "Engine/Render/RenderNode/Sprite/SpriteNode.h"
 #include "Engine/Render/RenderNode/Grayscale/GrayscaleNode.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderNode/ChromaticAberration/ChromaticAberrationNode.h"
@@ -50,10 +51,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	radialBlurNode->set_texture_resource(grayscaleNode->result_stv_handle());
 	std::shared_ptr<ChromaticAberrationNode> chromaticAberrationNode{ new ChromaticAberrationNode };
 	chromaticAberrationNode->initialize();
-	chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//chromaticAberrationNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	chromaticAberrationNode->set_render_target();
 	chromaticAberrationNode->set_texture_resource(radialBlurNode->result_stv_handle());
+	std::shared_ptr<SpriteNode> spriteNode{ new SpriteNode };
+	spriteNode->initialize();
+	spriteNode->set_background_texture(chromaticAberrationNode->result_stv_handle());
+	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	RenderPath path;
-	path.initialize({ object3DNode, grayscaleNode, radialBlurNode, chromaticAberrationNode });
+	path.initialize({ object3DNode, grayscaleNode, radialBlurNode, chromaticAberrationNode, spriteNode });
 
 	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
 	RenderPathManager::SetPath("GrayScale1");
@@ -64,7 +70,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectNames.emplace_back("Sphere");
 	std::unordered_multiset<std::string> objectList;
 	objectList.emplace("Sphere");
-	SpriteObject sprite{ "uvChecker.png", {0.75f,0.25f} };
+	SpriteObject sprite{ "uvChecker.png", {0.5f,0.5f} };
 
 	bool isShowGrid = true;
 
@@ -74,14 +80,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (!WinApp::IsEndApp()) {
 		WinApp::BeginFrame();
 #ifdef _DEBUG
+		// カメラ、ライトのImGui
 		DirectXCore::ShowDebugTools();
 
-		ImGuiID objectDock = ImGui::GetID("ObjectDock");
-
-		// 作成関連
-		ImGui::SetNextWindowSize(ImVec2{ 330,130 }, ImGuiCond_Once);
-		ImGui::SetNextWindowPos(ImVec2{ 20, 205 }, ImGuiCond_Once);
-		ImGui::Begin("Main", nullptr, ImGuiWindowFlags_NoSavedSettings);
+		// メインImGuiウィンドウ
+		//ImGui::SetNextWindowSize(ImVec2{ 330,130 }, ImGuiCond_Once);
+		//ImGui::SetNextWindowPos(ImVec2{ 20, 205 }, ImGuiCond_Once);
+		ImGui::Begin("Main", nullptr);
 		PolygonMeshManager::MeshListGui(selectMesh);
 		ImGui::InputText("Name", const_cast<char*>(name), 1024);
 		if (ImGui::Button("CreateObject") && !selectMesh.empty() ) {
@@ -109,13 +114,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Checkbox("IsShowGrid", &isShowGrid);
 		ImGui::End();
 
+		// ロード関連ImGui
 		ImGuiLoadManager::ShowGUI();
 
+		// オブジェクト用ImGui
+		ImGuiID objectDock = ImGui::GetID("ObjectDock");
+		ImGui::SetNextWindowDockID(objectDock, ImGuiCond_FirstUseEver);
+		//ImGui::SetNextWindowSize(ImVec2{ 345,445 }, ImGuiCond_FirstUseEver);
+		//ImGui::SetNextWindowPos(ImVec2{ 900, 20 }, ImGuiCond_FirstUseEver);
+		ImGui::Begin("Sprite", nullptr);
+		sprite.debug_gui();
+		ImGui::End();
+
 		for (int i = 0; i < objects.size(); ) {
-			ImGui::SetNextWindowDockID(objectDock, 0);
-			ImGui::SetNextWindowSize(ImVec2{ 345,445 }, ImGuiCond_Once);
-			ImGui::SetNextWindowPos(ImVec2{ 900, 20 }, ImGuiCond_Once);
-			ImGui::Begin(objectNames[i].c_str(), nullptr, ImGuiWindowFlags_NoSavedSettings);
+			ImGui::SetNextWindowDockID(objectDock, ImGuiCond_FirstUseEver);
+			//ImGui::SetNextWindowSize(ImVec2{ 345,445 }, ImGuiCond_FirstUseEver);
+			//ImGui::SetNextWindowPos(ImVec2{ 900, 20 }, ImGuiCond_FirstUseEver);
+			ImGui::Begin(objectNames[i].c_str(), nullptr);
 			objects[i].debug_gui();
 			if (ImGui::Button("Delete")) {
 				objects.erase(objects.begin() + i);
@@ -154,7 +169,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (isShowGrid) {
 			DirectXCore::ShowGrid();
 		}
-		//sprite.draw();
 
 		RenderPathManager::Next();
 
@@ -167,6 +181,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		RenderPathManager::Next();
 
 		chromaticAberrationNode->draw();
+
+		RenderPathManager::Next();
+
+		sprite.draw();
 
 		RenderPathManager::Next();
 

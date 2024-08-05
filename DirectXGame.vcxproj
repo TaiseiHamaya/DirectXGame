@@ -139,6 +139,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\SingleRenderTargetNode.cpp" />
+    <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp" />
     <ClCompile Include="Engine\Render\RenderPathManager\RenderPathManager.cpp" />
     <ClCompile Include="Engine\Render\RenderPath\RenderPath.cpp" />
     <ClCompile Include="Engine\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
@@ -209,6 +210,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\SingleRenderTargetNode.h" />
+    <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h" />
     <ClInclude Include="Engine\Render\RenderPathManager\RenderPathManager.h" />
     <ClInclude Include="Engine\Render\RenderPath\RenderPath.h" />
     <ClInclude Include="Engine\Render\RenderTargetGroup\BaseRenderTargetGroup.h" />
@@ -306,6 +308,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -346,6 +356,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Engine\Render\RenderNode\RadialBlur\RadialBlur.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Engine\Render\RenderNode\Sprite\Sprite.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

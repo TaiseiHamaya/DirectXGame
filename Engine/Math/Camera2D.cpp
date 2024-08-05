@@ -63,9 +63,9 @@ void Camera2D::DebugGUI() {
 }
 
 void Camera2D::debug_gui() {
-	ImGui::SetNextWindowSize(ImVec2{ 330,140 }, ImGuiCond_Once);
-	ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
-	ImGui::Begin("2DCamera", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	//ImGui::SetNextWindowSize(ImVec2{ 330,140 }, ImGuiCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
+	ImGui::Begin("2DCamera", nullptr);
 	camera.debug_gui(1.0f);
 	ImGui::End();
 }
