@@ -211,7 +211,7 @@
     <Filter Include="Engine\Core\DirectX\ResourceObject\OffscreenRender">
       <UniqueIdentifier>{8a78a233-5f73-4a1c-8392-5341bcaf8cb7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\Render\RenderNode\SpriteNode">
+    <Filter Include="Engine\Core\Render\RenderNode\Sprite">
       <UniqueIdentifier>{f44e19e2-9319-45cc-af66-384359fb76d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -409,7 +409,7 @@
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp">
-      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -618,7 +618,7 @@
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h">
-      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -673,10 +673,10 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.PS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.VS.hlsl">
-      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -708,7 +708,7 @@
       <Filter>Engine\Core\Render\RenderNode\RadialBlur</Filter>
     </None>
     <None Include="Engine\Render\RenderNode\Sprite\Sprite.hlsli">
-      <Filter>Engine\Core\Render\RenderNode\SpriteNode</Filter>
+      <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </None>
   </ItemGroup>
 </Project>
