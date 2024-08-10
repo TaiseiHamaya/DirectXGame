@@ -58,7 +58,9 @@ void ChromaticAberrationNode::create_pipeline_state() {
 
 }
 
+#ifdef _DEBUG
 void ChromaticAberrationNode::debug_gui() {
 	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / WinApp::GetClientWidth(), -0.5f, 0.5f, "%.4f");
 	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / WinApp::GetClientHight(), -0.5f, 0.5f, "%.4f");
 }
+#endif // _DEBUG

@@ -32,13 +32,16 @@ public:
 	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
 	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
 
-	void debug_gui();
-
 private:
 	/// <summary>
 	/// PSO生成
 	/// </summary>
 	void create_pipeline_state();
+
+#ifdef _DEBUG
+public:
+	void debug_gui();
+#endif // DEBUG
 
 private:
 	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle;

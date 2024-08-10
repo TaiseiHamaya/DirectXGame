@@ -29,10 +29,6 @@ void GrayscaleNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& text
 	textureGPUHandle = textureGPUHandle_;
 }
 
-void GrayscaleNode::debug_gui() {
-	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
-}
-
 void GrayscaleNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
@@ -59,3 +55,9 @@ void GrayscaleNode::create_pipeline_state() {
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 }
+
+#ifdef _DEBUG
+void GrayscaleNode::debug_gui() {
+	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
+}
+#endif // _DEBUG
