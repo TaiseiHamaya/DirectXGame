@@ -43,7 +43,8 @@ void SpriteNode::create_pipeline_state() {
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,
-		0
+		0,
+		D3D12_FILTER_ANISOTROPIC
 	);
 
 	InputLayoutBuilder inputLayoutBuilder;
@@ -59,7 +60,7 @@ void SpriteNode::create_pipeline_state() {
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
-	psoBuilder->rasterizerstate();
+	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_NONE);
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(shaderBuilder);
 	psoBuilder->primitivetopologytype();
