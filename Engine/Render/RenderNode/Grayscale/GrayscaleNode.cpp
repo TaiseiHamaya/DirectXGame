@@ -15,7 +15,7 @@ GrayscaleNode::~GrayscaleNode() = default;
 void GrayscaleNode::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*isGray.get_data() = 1;
+	*isGray.get_data() = false;
 }
 
 void GrayscaleNode::draw() {

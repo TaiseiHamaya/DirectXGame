@@ -19,7 +19,7 @@ void RadialBlurNode::initialize() {
 		Vector2{0.5f, 0.5f},
 		0.4f,
 		0.1f,
-		8
+		1
 	};
 }
 
