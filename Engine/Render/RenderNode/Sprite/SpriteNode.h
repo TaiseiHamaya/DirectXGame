@@ -5,7 +5,6 @@
 #include <optional>
 #include <memory>
 
-#include "Engine/Math/Vector2.h"
 #include "Engine/Math/Matrix4x4.h"
 #include "Engine/Math/Color.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"

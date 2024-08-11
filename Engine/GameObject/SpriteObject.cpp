@@ -57,7 +57,7 @@ void SpriteObject::draw() const {
 void SpriteObject::debug_gui() {
 	transform->debug_gui(1.0f);
 	uvTransform->debug_gui();
-	color.debug_gui();
+	color.debug_gui4();
 }
 #endif // _DEBUG
 

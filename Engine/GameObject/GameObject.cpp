@@ -122,7 +122,7 @@ void GameObject::debug_gui() {
 		std::string treeNodeNmae = meshLocked->model_name(i).empty() ? "UnknownMaterialName" : meshLocked->model_name(i);
 		if (ImGui::TreeNodeEx(treeNodeNmae.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 			meshMaterials[i].uvTransform.debug_gui();
-			meshMaterials[i].color.debug_gui();
+			meshMaterials[i].color.debug_gui3();
 			if (TextureManager::TextureListGui(meshMaterials[i].textureName)) {
 				meshMaterials[i].texture = TextureManager::GetTexture(meshMaterials[i].textureName);
 			}

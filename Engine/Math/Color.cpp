@@ -11,8 +11,11 @@ const unsigned int Color::hex() const {
 }
 
 #ifdef _DEBUG
-void Color::debug_gui() noexcept(false) {
+void Color::debug_gui3() noexcept(false) {
 	ImGui::ColorEdit3("Color", &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
+}
+void Color::debug_gui4() noexcept(false) {
+	ImGui::ColorEdit4("Color", &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
 }
 #endif // _DEBUG
 

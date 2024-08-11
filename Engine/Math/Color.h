@@ -46,7 +46,9 @@ public:
 	/// <returns></returns>
 	[[deprecated]] const unsigned int hex() const;
 #ifdef _DEBUG
-	void debug_gui() noexcept(false);
+	void debug_gui3() noexcept(false);
+	
+	void debug_gui4() noexcept(false);
 #endif // _DEBUG
 
 public:
