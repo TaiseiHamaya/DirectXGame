@@ -5,7 +5,7 @@
 #include <algorithm>
 
 float Vector3::length() const noexcept {
-	return std::sqrt(x * x + y * y + z * z);
+	return std::sqrt(DotProduct(*this, *this));
 }
 
 const Vector3 Vector3::normalize() const noexcept(false) {

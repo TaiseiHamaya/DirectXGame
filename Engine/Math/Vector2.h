@@ -64,6 +64,14 @@ public:
 	const Vector2 normalize(void) const noexcept(false);
 
 	/// <summary>
+	/// ベクトルの正規化
+	/// </summary>
+	/// <param name="tolerance">lengthの許容値</param>
+	/// <param name="disapproval">範囲外だった場合の戻り値</param>
+	/// <returns></returns>
+	const Vector2 normalize_safe(float tolerance = 0.0001f, const Vector2& disapproval = { 1,0 }) const noexcept;
+
+	/// <summary>
 	/// Vector3に変換する
 	/// </summary>
 	/// <param name="z">変換後のzパラメータ値</param>
