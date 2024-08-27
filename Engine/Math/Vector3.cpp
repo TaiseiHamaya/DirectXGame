@@ -15,7 +15,7 @@ const Vector3 Vector3::normalize() const noexcept(false) {
 }
 
 const Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
-	assert(tolerance >= 0 && disapproval.length() == 1);
+	assert(tolerance >= 0);
 	float length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;
@@ -47,7 +47,7 @@ const Vector3 Vector3::Abs(const Vector3& vector) noexcept {
 }
 
 Vector3 Vector3::Projection(const Vector3& vector, const Vector3& onto) {
-	assert(onto.length() == 1);
+	//assert(onto.length() == 1);
 	return onto * Vector3::DotProduct(onto, vector);
 }
 

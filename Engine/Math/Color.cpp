@@ -4,7 +4,9 @@
 
 #include <algorithm>
 
+#ifdef _DEBUG
 #include <externals/imgui/imgui.h>
+#endif // _DEBUG
 
 const unsigned int Color::hex() const {
 	return (std::uint32_t(red * 255) << 24) + (std::uint32_t(green * 255) << 16) + (std::uint32_t(blue * 255) << 8) + std::uint32_t(alpha * 255);
@@ -19,7 +21,7 @@ void Color::debug_gui() noexcept(false) {
 unsigned int Color::ToHex(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha) {
 	return (red << 24) + (green << 16) + (blue << 8) + alpha;
 }
-//
+
 //unsigned int Color::LerpC(unsigned int hex1, unsigned int hex2, float t) {
 //	return Color::ToHex(
 //		std::clamp(Lerp((hex1 >> 24) & 0x000000ff, (hex2 >> 24) & 0x000000ff, t), 0x0u, 0xffffffff),

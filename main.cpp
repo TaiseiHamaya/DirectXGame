@@ -31,7 +31,13 @@ const std::int32_t kClientHight = 720;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("DirectXGame", kClientWidth, kClientHight);
-	Camera3D::Initialize();
+	auto camera3D = std::make_unique<Camera3D>();
+	camera3D->initialize();
+	camera3D->set_transform({
+		CVector3::BASIS,
+		Quaternion::EulerDegree(45, 0, 0),
+		{ 0, 10, -10 }
+		});
 	Camera2D::Initialize();
 
 	TextureManager::RegisterLoadQue("./Engine/Resources", "uvChecker.png");
@@ -89,7 +95,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Begin("Main", nullptr);
 		PolygonMeshManager::MeshListGui(selectMesh);
 		ImGui::InputText("Name", const_cast<char*>(name), 1024);
-		if (ImGui::Button("CreateObject") && !selectMesh.empty() ) {
+		if (ImGui::Button("CreateObject") && !selectMesh.empty()) {
 			std::string objName;
 			if (name[0] == '\0') {
 				objName = selectMesh;
@@ -153,12 +159,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // _DEBUG
 
 		Camera2D::CameraUpdate();
-		Camera3D::CameraUpdate();
+		camera3D->update_matrix();
+		camera3D->update();
 
 		RenderPathManager::BeginFrame();
 
 		for (int i = 0; i < objects.size(); ++i) {
-			objects[i].begin_rendering();
+			objects[i].begin_rendering(*camera3D);
 		}
 
 		for (int i = 0; i < objects.size(); ++i) {
@@ -167,7 +174,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		sprite.begin_rendering();
 
 		if (isShowGrid) {
-			DirectXCore::ShowGrid();
+			DirectXCore::ShowGrid(*camera3D);
 		}
 
 		RenderPathManager::Next();

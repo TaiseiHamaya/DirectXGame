@@ -85,8 +85,8 @@ void DirectXCore::ShowDebugTools() {
 }
 #endif // _DEBUG
 
-void DirectXCore::ShowGrid() {
-	GetInstance().gridMesh->begin_rendering();
+void DirectXCore::ShowGrid(const Camera3D& camera) {
+	GetInstance().gridMesh->begin_rendering(camera);
 	GetInstance().gridMesh->draw();
 }
 
@@ -172,7 +172,7 @@ void DirectXCore::show_debug_tools() {
 
 	// 3DカメラのImGui
 	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);
-	Camera3D::DebugGUI();
+	//Camera3D::DebugGUI();
 
 	// 2DカメラのImGui
 	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);

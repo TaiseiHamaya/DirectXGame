@@ -5,13 +5,14 @@
 #include <vector>
 
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
+#include "Engine/GameObject/Transform3D/Transform3D.h"
 #include "Engine/GameObject/Transform2D/Transform2D.h"
 
-class Transform3D;
 class PolygonMesh;
 class Texture;
 class TransformMatrix;
 class Color;
+class Camera3D;
 
 class GameObject {
 public:
@@ -29,7 +30,7 @@ private:
 public:
 	const Transform3D& get_transform() noexcept;
 	void update();
-	void begin_rendering() noexcept;
+	void begin_rendering(const Camera3D& camera) noexcept;
 	void draw() const;
 
 	void reset_object(const std::string& meshName_);
@@ -64,6 +65,5 @@ private:
 	std::vector<PolygonMeshMaterial> meshMaterials;
 
 protected:
-
 	std::unique_ptr<Transform3D> transform;
 };

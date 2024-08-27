@@ -64,10 +64,9 @@ bool Quaternion::operator!=(const Quaternion& rhs) const noexcept {
 }
 
 Quaternion Quaternion::operator*(const Quaternion& rhs) const noexcept {
-	Vector3 resultV = rhs.xyz * w + xyz * rhs.w + Vector3::CrossProduct(rhs.xyz, xyz);
+	Vector3 resultV = rhs.xyz * w + xyz * rhs.w + Vector3::CrossProduct(xyz, rhs.xyz);
 	return Quaternion{
-		resultV.x,resultV.y,resultV.z,
-		w * rhs.w - Vector3::DotProduct(xyz, rhs.xyz)
+		resultV, w * rhs.w - Vector3::DotProduct(xyz, rhs.xyz)
 	};
 }
 
@@ -77,7 +76,7 @@ Quaternion& Quaternion::operator*=(const Quaternion& rhs) noexcept {
 }
 
 Quaternion Quaternion::operator*(float times) const noexcept {
-	return { xyz.x * times, xyz.y * times, xyz.z * times, w * times };
+	return { xyz * times, w * times };
 }
 
 Quaternion& Quaternion::operator*=(float times) noexcept {
@@ -123,25 +122,39 @@ const Vector3& Quaternion::vector() const noexcept {
 }
 
 const Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
-	Vector3 axis = Vector3::CrossProduct(from, to);
-	if (axis == CVector3::ZERO) {
+	float cos = Vector3::DotProduct(from, to);
+	// from == toの場合
+	if (cos > 1 - 1e-4f) {
 		return CQuaternion::IDENTITY;
 	}
+	// from == -toの場合
+	else if (cos < 1e-4f - 1) {
+		Vector3 orthogonal = CVector3::BASIS_X;
+		if (std::abs(from.x) > 1 - 1e-4f) {
+			orthogonal = CVector3::BASIS_Y;
+		}
+		Vector3 axis = Vector3::CrossProduct(from, orthogonal).normalize();
+		return Quaternion{ axis, 0 };
+	}
 
-	float cos = Vector3::DotProduct(from, to);
+	Vector3 axis = Vector3::CrossProduct(from, to);
 
-	float halfcos = std::sqrt((1 - cos) / 2);
-	float halfsin = std::sqrt((1 + cos) / 2);
+	float angle = std::acos(cos);
 
-	Quaternion result;
-	result.xyz = axis.normalize() * halfsin;
-	result.w = halfcos;
-	return result;
+	//float halfcos = std::sqrt((1 - cos) / 2);
+	//float halfsin = std::sqrt((1 + cos) / 2);
+
+	//Quaternion result;
+	//result.xyz = axis.normalize() * halfsin;
+	//result.w = halfcos;
+	//return result;
+
+	return Quaternion::AngleAxis(axis, angle);
 }
 
 const Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upwards) {
 	Quaternion lookRotation = FromToRotation(CVector3::BASIS_Z, forward);
-	Vector3 xAxisHorizontal = Vector3::CrossProduct(upwards, forward);
+	Vector3 xAxisHorizontal = Vector3::CrossProduct(upwards, forward).normalize_safe();
 	Vector3 yAxisAfterRotate = Vector3::CrossProduct(forward, xAxisHorizontal);
 
 	Vector3 yAxisBeforeModify = CVector3::BASIS_Y * lookRotation;
@@ -154,7 +167,7 @@ const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion&
 	Quaternion internal_;
 	if (dot < 0) {
 		dot *= -1;
-		internal_ = internal.inverse();
+		internal_ = internal * -1;
 	}
 	else {
 		internal_ = internal;
@@ -180,5 +193,6 @@ const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion&
 }
 
 const Vector3 operator*(const Vector3& vector, const Quaternion& quaternion) {
-	return (quaternion * Quaternion{ vector, 0.0f } *quaternion.inverse()).vector();
+	Quaternion vectorQuaternion = Quaternion{ vector, 0.0f };
+	return (quaternion * vectorQuaternion * quaternion.inverse()).xyz;
 }

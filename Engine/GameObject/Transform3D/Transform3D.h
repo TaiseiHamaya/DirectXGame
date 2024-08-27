@@ -77,6 +77,8 @@ public:// static関数
 	/// <param name="z">Z軸回転量</param>
 	/// <returns></returns>
 	static Matrix4x4 MakeRotateMatrix(const float x, const float y, const float z) noexcept;
+	
+	static Matrix4x4 MakeRotateMatrix(const Vector3& rotate) noexcept;
 
 	/// <summary>
 	/// 拡縮行列を作成
@@ -118,6 +120,8 @@ public:// static関数
 	/// <param name="translate">移動</param>
 	/// <returns></returns>
 	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) noexcept;
+	
+	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) noexcept;
 
 	/// <summary>
 	/// 2次元ベクトルの同次座標系乗算
@@ -134,6 +138,8 @@ public:// static関数
 	/// <param name="matrix">変換行列</param>
 	/// <returns></returns>
 	static Vector3 HomogeneousVector(const Vector3& vector, const Matrix4x4& matrix);
+
+	static Vector3 ExtractPosition(const Matrix4x4& matrix);
 };
 
 constexpr Matrix4x4 Transform3D::MakeScaleMatrix(const float x, const float y, const float z) noexcept {

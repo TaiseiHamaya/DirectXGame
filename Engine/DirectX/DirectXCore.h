@@ -6,6 +6,7 @@
 
 class GameObject;
 struct DirectionalLightData;
+class Camera3D;
 
 class DirectXCore final {
 private:
@@ -36,7 +37,7 @@ public:
 	/// <summary>
 	/// デバッグ用グリッドの表示
 	/// </summary>
-	static void ShowGrid();
+	static void ShowGrid(const Camera3D& camera);
 
 private:
 	static DirectXCore& GetInstance();

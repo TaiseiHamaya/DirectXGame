@@ -14,7 +14,7 @@ const Vector2 Vector2::normalize() const noexcept(false) {
 }
 
 const Vector2 Vector2::normalize_safe(float tolerance, const Vector2& disapproval) const noexcept {
-	assert(tolerance >= 0 && disapproval.length() == 1);
+	assert(tolerance >= 0);
 	float length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;

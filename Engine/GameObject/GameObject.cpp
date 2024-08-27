@@ -41,11 +41,11 @@ const Transform3D& GameObject::get_transform() noexcept {
 void GameObject::update() {
 }
 
-void GameObject::begin_rendering() noexcept {
+void GameObject::begin_rendering(const Camera3D& camera) noexcept {
 	// 各情報をGPUに転送
 	transformMatrix->set_transformation_matrix_data(
 		transform->get_matrix(),
-		static_cast<Matrix4x4>(transform->get_matrix() * Camera3D::GetVPMatrix())
+		static_cast<Matrix4x4>(transform->get_matrix() * camera.vp_matrix())
 	);
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material.set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
