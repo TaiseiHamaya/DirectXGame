@@ -10,8 +10,7 @@ float Vector3::length() const noexcept {
 
 const Vector3 Vector3::normalize() const noexcept(false) {
 	assert(length() != 0);
-	float m = 1.0f / length();
-	return *this * m;
+	return *this / length();;
 }
 
 const Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
@@ -21,8 +20,7 @@ const Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapprova
 		return disapproval;
 	}
 	else {
-		float m = 1.0f / length_;
-		return *this * m;
+		return *this / length_;
 	}
 }
 

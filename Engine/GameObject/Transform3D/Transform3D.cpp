@@ -5,7 +5,6 @@
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
 #include <format>
-#include "Engine/Math/Definition.h"
 #endif // _DEBUG
 
 
@@ -73,6 +72,11 @@ void Transform3D::copy(const Transform3D& copy) noexcept {
 	scale = copy.scale;
 	rotate = copy.rotate;
 	translate = copy.translate;
+}
+
+void Transform3D::look_at(const Transform3D& rhs, const Vector3& upwards) noexcept {
+	Vector3 forward = (rhs.get_translate() - translate).normalize_safe();
+	rotate = Quaternion::LookForward(forward, upwards);
 }
 
 void Transform3D::debug_gui() {

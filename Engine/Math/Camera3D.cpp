@@ -2,9 +2,9 @@
 
 #include <cmath>
 
+#define NOMINMAX
+
 #include "Engine/WinApp.h"
-#undef near
-#undef far
 
 #ifdef _DEBUG
 #include <externals/imgui/imgui.h>

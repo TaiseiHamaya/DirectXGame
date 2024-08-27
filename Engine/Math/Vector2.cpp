@@ -9,8 +9,7 @@ float Vector2::length() const noexcept {
 
 const Vector2 Vector2::normalize() const noexcept(false) {
 	assert(this->length() != 0);
-	float m = 1.0f / this->length();
-	return *this * m;
+	return *this / length();
 }
 
 const Vector2 Vector2::normalize_safe(float tolerance, const Vector2& disapproval) const noexcept {
@@ -20,8 +19,7 @@ const Vector2 Vector2::normalize_safe(float tolerance, const Vector2& disapprova
 		return disapproval;
 	}
 	else {
-		float m = 1.0f / length_;
-		return *this * m;
+		return *this / length();
 	}
 }
 

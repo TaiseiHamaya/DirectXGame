@@ -32,6 +32,7 @@ public:
 	void plus_translate(const Vector3& plus) noexcept;
 
 	void copy(const Transform3D& copy) noexcept;
+	void look_at(const Transform3D& rhs, const Vector3& upwards = CVector3::BASIS_Y) noexcept;
 
 	void debug_gui();
 	//void debug_axis(const Matrix4x4& debug_matrix) const;
