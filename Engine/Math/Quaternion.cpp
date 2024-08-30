@@ -71,7 +71,7 @@ Quaternion Quaternion::operator*(const Quaternion& rhs) const noexcept {
 }
 
 Quaternion& Quaternion::operator*=(const Quaternion& rhs) noexcept {
-	*this = *this * rhs;
+	*this = rhs * *this;
 	return *this;
 }
 

@@ -97,7 +97,7 @@ void Transform3D::debug_gui() {
 		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
 		Vector3 rotationL = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f)) {
-			rotate = (Quaternion::EulerDegree(rotationL) * rotate).normalize();
+			rotate = (rotate * Quaternion::EulerDegree(rotationL)).normalize();
 		}
 		Vector3 rotationW = CVector3::ZERO;
 		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f)) {
