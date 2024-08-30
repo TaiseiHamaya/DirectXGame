@@ -138,7 +138,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//ImGui::SetNextWindowPos(ImVec2{ 900, 20 }, ImGuiCond_FirstUseEver);
 			ImGui::Begin(objectNames[i].c_str(), nullptr);
 			objects[i].debug_gui();
-			if (ImGui::Button("Delete")) {
+			if (ImGui::Button("Destroy")) {
 				objects.erase(objects.begin() + i);
 				objectNames.erase(objectNames.begin() + i);
 			}

@@ -116,26 +116,30 @@ void GameObject::debug_gui() {
 	if (ImGui::Button("ResetMaterialData")) {
 		default_material();
 	}
+	ImGui::Separator();
 	transform->debug_gui();
+	ImGui::Separator();
 	auto&& meshLocked = mesh.lock();
 	for (int i = 0; i < meshMaterials.size(); ++i) {
-		std::string treeNodeNmae = meshLocked->model_name(i).empty() ? "UnknownMaterialName" : meshLocked->model_name(i);
-		if (ImGui::TreeNodeEx(treeNodeNmae.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-			meshMaterials[i].uvTransform.debug_gui();
-			meshMaterials[i].color.debug_gui();
+		std::string treeNodeName = meshLocked->model_name(i).empty() ? "UnknownMaterialName" : meshLocked->model_name(i);
+		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 			if (TextureManager::TextureListGui(meshMaterials[i].textureName)) {
 				meshMaterials[i].texture = TextureManager::GetTexture(meshMaterials[i].textureName);
 			}
-			ImGui::Text("Lighting option");
-			if (ImGui::Button("None")) {
+
+			meshMaterials[i].uvTransform.debug_gui();
+
+			meshMaterials[i].color.debug_gui();
+
+			if (ImGui::RadioButton("None", meshMaterials[i].material.get_data()->lighting == static_cast<uint32_t>(LighingType::None))) {
 				meshMaterials[i].material.set_lighting(LighingType::None);
 			}
 			ImGui::SameLine();
-			if (ImGui::Button("Lambert")) {
+			if (ImGui::RadioButton("Lambert", meshMaterials[i].material.get_data()->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
 				meshMaterials[i].material.set_lighting(LighingType::Lambert);
 			}
 			ImGui::SameLine();
-			if (ImGui::Button("Half lambert")) {
+			if (ImGui::RadioButton("Half lambert", meshMaterials[i].material.get_data()->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
 				meshMaterials[i].material.set_lighting(LighingType::HalfLambert);
 			}
 			ImGui::TreePop();

@@ -79,10 +79,10 @@ void Transform3D::look_at(const Transform3D& rhs, const Vector3& upwards) noexce
 	rotate = Quaternion::LookForward(forward, upwards);
 }
 
-void Transform3D::debug_gui() {
 #ifdef _DEBUG
+void Transform3D::debug_gui() {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-	if (ImGui::TreeNode(std::format("Transform3D({:})", (void*)this).c_str())) {
+	if (ImGui::TreeNode(std::format("Transform3D##{:}", (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = CVector3::BASIS;
 		}
@@ -107,8 +107,8 @@ void Transform3D::debug_gui() {
 		ImGui::DragFloat3("Translate", &translate.x, 0.1f);
 		ImGui::TreePop();
 	}
-#endif // _DEBUG
 }
+#endif // _DEBUG
 
 // void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
 // #ifdef _DEBUG

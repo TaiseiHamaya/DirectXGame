@@ -84,7 +84,7 @@ void Transform2D::copy(const Transform2D& copy) noexcept {
 #ifdef _DEBUG
 void Transform2D::debug_gui(float translateMove) {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-	if (ImGui::TreeNode(std::format("Transform2D({:})", (void*)this).c_str())) {
+	if (ImGui::TreeNode(std::format("Transform2D##{:}", (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = CVector2::BASIS;
 		}

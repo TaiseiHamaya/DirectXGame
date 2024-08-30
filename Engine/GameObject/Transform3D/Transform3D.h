@@ -34,8 +34,10 @@ public:
 	void copy(const Transform3D& copy) noexcept;
 	void look_at(const Transform3D& rhs, const Vector3& upwards = CVector3::BASIS_Y) noexcept;
 
+#ifdef _DEBUG
 	void debug_gui();
 	//void debug_axis(const Matrix4x4& debug_matrix) const;
+#endif // _DEBUG
 
 private:
 	Vector3 scale;

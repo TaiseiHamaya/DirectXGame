@@ -9,6 +9,10 @@
 #include "Engine/GameObject/Transform2D/Transform2D.h"
 #include "Engine/Math/Camera2D.h"
 
+#ifdef _DEBUG
+#include <externals/imgui/imgui.h>
+#endif // _DEBUG
+
 SpriteObject::SpriteObject() :
 	material(std::make_unique<ConstantBuffer<SpriteMaterial>>(SpriteMaterial{ Color{ 1.0f,1.0f,1.0f,1.0f }, CMatrix4x4::IDENTITY })),
 	color(material->get_data()->color),
@@ -56,7 +60,9 @@ void SpriteObject::draw() const {
 #ifdef _DEBUG
 void SpriteObject::debug_gui() {
 	transform->debug_gui(1.0f);
+	ImGui::Separator();
 	uvTransform->debug_gui();
+	ImGui::Separator();
 	color.debug_gui();
 }
 #endif // _DEBUG
