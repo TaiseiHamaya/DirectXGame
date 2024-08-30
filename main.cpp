@@ -89,6 +89,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// カメラ、ライトのImGui
 		DirectXCore::ShowDebugTools();
 
+		ImGui::Begin("Camera3D");
+		camera3D->debug_gui();
+		ImGui::End();
+
 		// メインImGuiウィンドウ
 		//ImGui::SetNextWindowSize(ImVec2{ 330,130 }, ImGuiCond_Once);
 		//ImGui::SetNextWindowPos(ImVec2{ 20, 205 }, ImGuiCond_Once);
