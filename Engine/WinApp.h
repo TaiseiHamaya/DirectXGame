@@ -16,7 +16,7 @@ public:
 	WinApp& operator=(const WinApp&) = delete;
 
 public:
-	static void Initialize(const std::string& programName, int32_t width, int32_t height);
+	static void Initialize(const std::string& programName, int32_t width = 1280, int32_t height = 720, DWORD windowConfig = WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME);
 	static bool IsEndApp();
 	static void BeginFrame();
 	static void EndFrame();
@@ -32,7 +32,7 @@ private:
 	/// 初期化処理
 	/// </summary>
 	/// <returns></returns>
-	void init_app(const std::string& programName);
+	void init_app(const std::string& programName, DWORD windowConfig);
 	void begin_frame();
 	void end_frame();
 	void term_app();

@@ -31,12 +31,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 WinApp::WinApp(int32_t width, int32_t height) noexcept :
 	kClientWidth(width),
 	kClientHight(height),
-	hWnd(nullptr), 
+	hWnd(nullptr),
 	hInstance(nullptr) {
 	msg = {};
 }
 
-void WinApp::Initialize(const std::string& programName, int32_t width, int32_t height) {
+void WinApp::Initialize(const std::string& programName, int32_t width, int32_t height, DWORD windowConfig) {
 #ifdef _DEBUG
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
@@ -50,7 +50,7 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	instance = new WinApp{ width, height };
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
-	instance->init_app(programName);
+	instance->init_app(programName, windowConfig);
 	//DirectXの初期化
 	DirectXCore::Initialize();
 	// ウィンドウ表示
@@ -99,12 +99,12 @@ void WinApp::Finalize() {
 	Log("Closed Window\n");
 }
 
-void WinApp::init_app(const std::string& programName) {
+void WinApp::init_app(const std::string& programName, DWORD windowConfig) {
 	WNDCLASS wc{}; // ウィンドウの設定
 	wc.lpfnWndProc = WindowProc;// ウィンドウプロシージャ
 	auto&& name = ConvertString(programName);
 	wc.lpszClassName = name.c_str();
-	wc.hInstance = GetModuleHandle(nullptr);// インスタンスハンドル
+	wc.hInstance = GetModuleHandle(nullptr); // インスタンスハンドル
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
 	// ウィンドウを登録
@@ -113,13 +113,13 @@ void WinApp::init_app(const std::string& programName) {
 	// ウィンドウサイズ指定用に構造体にする
 	RECT wrc = { 0,0,kClientWidth, kClientHight };
 	// 実際にwrcを変更
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
+	AdjustWindowRect(&wrc, windowConfig, false);
 
 	// ウィンドウの生成
-	hWnd = CreateWindow(
+	hWnd = CreateWindowW(
 		wc.lpszClassName,
-		ConvertString(programName).c_str(),
-		WS_OVERLAPPEDWINDOW,
+		name.c_str(),
+		windowConfig,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		wrc.right - wrc.left,
