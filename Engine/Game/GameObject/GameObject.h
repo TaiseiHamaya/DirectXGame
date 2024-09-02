@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
-#include "Engine/GameObject/Transform3D/Transform3D.h"
-#include "Engine/GameObject/Transform2D/Transform2D.h"
+#include "Engine/Game/Transform2D/Transform2D.h"
+#include "Engine/Game/Transform3D/Transform3D.h"
 
 class PolygonMesh;
 class Texture;

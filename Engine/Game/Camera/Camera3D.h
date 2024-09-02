@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Engine/GameObject/GameObject.h"
-
-#include <memory>
+#include "Engine/Game/GameObject/GameObject.h"
 
 class Camera3D : public GameObject {
 public:

@@ -73,23 +73,11 @@
     <Filter Include="Engine\Utility\ImGUILoadManager">
       <UniqueIdentifier>{b1afb1bc-1684-4056-83bd-cf5f08b3ae2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\SceneManager">
-      <UniqueIdentifier>{bf78891f-8859-4bce-bfbf-ce5074744cb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\SoundManager">
-      <UniqueIdentifier>{ca9c8e09-c039-41ed-ba32-991aa0eac70f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\InputManager">
-      <UniqueIdentifier>{60af8cdc-8c7d-4148-a99c-2c425f771ef4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\Game">
       <UniqueIdentifier>{4efc020a-5287-4a42-8a8f-43d70a133215}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Game\PolygonMesh">
       <UniqueIdentifier>{6f82b1b7-d7b3-4911-9050-047cd89e3361}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Core\Game\PolygonMesh\PolygonMeshManager">
-      <UniqueIdentifier>{6fe95eae-9a7c-41ee-8bae-aae23ce74218}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Game\Transform2D">
       <UniqueIdentifier>{5f13dd86-92c1-4318-a3f1-b87856552514}</UniqueIdentifier>
@@ -214,6 +202,30 @@
     <Filter Include="Engine\Core\Render\RenderNode\Sprite">
       <UniqueIdentifier>{f44e19e2-9319-45cc-af66-384359fb76d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Game\Manager">
+      <UniqueIdentifier>{b36a1154-d3bb-4b28-8107-6bbd64f47dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Manager\SoundManager">
+      <UniqueIdentifier>{ca9c8e09-c039-41ed-ba32-991aa0eac70f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Manager\SceneManager">
+      <UniqueIdentifier>{bf78891f-8859-4bce-bfbf-ce5074744cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Manager\PolygonMeshManager">
+      <UniqueIdentifier>{6fe95eae-9a7c-41ee-8bae-aae23ce74218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Manager\TextureManager">
+      <UniqueIdentifier>{1a43e1de-fd6a-4ef6-bc17-6ff5ef39c555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Manager\InputManager">
+      <UniqueIdentifier>{60af8cdc-8c7d-4148-a99c-2c425f771ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Color">
+      <UniqueIdentifier>{18f8f883-dd6f-4d37-ace7-dbecaa12ed0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Camera">
+      <UniqueIdentifier>{ad7c1d23-0d65-41c3-b321-e30f34effad5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,12 +233,6 @@
     </ClCompile>
     <ClCompile Include="Engine\WinApp.cpp">
       <Filter>WinApp</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Camera3D.cpp">
-      <Filter>Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Color.cpp">
-      <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Definition.cpp">
       <Filter>Engine\Math</Filter>
@@ -279,18 +285,6 @@
     <ClCompile Include="Engine\DirectX\PipelineState\PipelineState.cpp">
       <Filter>Engine\Core\DirectX\PiplineState</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\GameObject.cpp">
-      <Filter>Engine\Core\Game\Objects\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMesh.cpp">
-      <Filter>Engine\Core\Game\PolygonMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\Transform3D\Transform3D.cpp">
-      <Filter>Engine\Core\Game\Transform3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\Transform2D\Transform2D.cpp">
-      <Filter>Engine\Core\Game\Transform2D</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.cpp">
       <Filter>Engine\Core\DirectX\ResourceObject</Filter>
     </ClCompile>
@@ -318,16 +312,10 @@
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
       <Filter>Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp">
-      <Filter>Engine\Core\Game\PolygonMesh\PolygonMeshManager</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Utility\ImGuiManager\ImGuiManager.cpp">
       <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.cpp">
-      <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp">
       <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
@@ -339,17 +327,11 @@
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp">
       <Filter>Engine\Core\DirectX\ResourceObject\DepthStencil</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Camera2D.cpp">
-      <Filter>Engine\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Utility\BackgroundLoader\BackgroundLoader.cpp">
       <Filter>Engine\Utility\BackgroundLoader</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.cpp">
       <Filter>Engine\Utility\ImGUILoadManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\SpriteObject.cpp">
-      <Filter>Engine\Core\Game\Objects\SpriteObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Matrix3x3.cpp">
       <Filter>Engine\Math</Filter>
@@ -411,18 +393,42 @@
     <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp">
       <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp">
+      <Filter>Engine\Core\Game\Manager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp">
+      <Filter>Engine\Core\Game\Manager\PolygonMeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\GameObject\GameObject.cpp">
+      <Filter>Engine\Core\Game\Objects\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\GameObject\SpriteObject.cpp">
+      <Filter>Engine\Core\Game\Objects\SpriteObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\PolygonMesh\PolygonMesh.cpp">
+      <Filter>Engine\Core\Game\PolygonMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Transform2D\Transform2D.cpp">
+      <Filter>Engine\Core\Game\Transform2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Transform3D\Transform3D.cpp">
+      <Filter>Engine\Core\Game\Transform3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Color\Color.cpp">
+      <Filter>Engine\Core\Game\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Camera\Camera2D.cpp">
+      <Filter>Engine\Core\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Camera\Camera3D.cpp">
+      <Filter>Engine\Core\Game\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
       <Filter>WinApp</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Array2D.h">
-      <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Camera3D.h">
-      <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Color.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Definition.h">
@@ -482,18 +488,6 @@
     <ClInclude Include="Engine\DirectX\PipelineState\PipelineState.h">
       <Filter>Engine\Core\DirectX\PiplineState</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\GameObject.h">
-      <Filter>Engine\Core\Game\Objects\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMesh.h">
-      <Filter>Engine\Core\Game\PolygonMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\Transform3D\Transform3D.h">
-      <Filter>Engine\Core\Game\Transform3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\Transform2D\Transform2D.h">
-      <Filter>Engine\Core\Game\Transform2D</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DirectXResourceObject.h">
       <Filter>Engine\Core\DirectX\ResourceObject</Filter>
     </ClInclude>
@@ -527,16 +521,10 @@
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
       <Filter>Engine\Core\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h">
-      <Filter>Engine\Core\Game\PolygonMesh\PolygonMeshManager</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h">
       <Filter>Engine\Utility\ImGUIManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h">
-      <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h">
       <Filter>Engine\Core\DirectX\ResourceObject\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
@@ -548,17 +536,11 @@
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h">
       <Filter>Engine\Core\DirectX\ResourceObject\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Camera2D.h">
-      <Filter>Engine\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Utility\BackgroundLoader\BackgroundLoader.h">
       <Filter>Engine\Utility\BackgroundLoader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.h">
       <Filter>Engine\Utility\ImGUILoadManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\SpriteObject.h">
-      <Filter>Engine\Core\Game\Objects\SpriteObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Matrix3x3.h">
       <Filter>Engine\Math</Filter>
@@ -619,6 +601,36 @@
     </ClInclude>
     <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h">
       <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h">
+      <Filter>Engine\Core\Game\Manager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h">
+      <Filter>Engine\Core\Game\Manager\PolygonMeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\GameObject\GameObject.h">
+      <Filter>Engine\Core\Game\Objects\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\GameObject\SpriteObject.h">
+      <Filter>Engine\Core\Game\Objects\SpriteObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\PolygonMesh\PolygonMesh.h">
+      <Filter>Engine\Core\Game\PolygonMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Transform2D\Transform2D.h">
+      <Filter>Engine\Core\Game\Transform2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Transform3D\Transform3D.h">
+      <Filter>Engine\Core\Game\Transform3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Color\Color.h">
+      <Filter>Engine\Core\Game\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Camera\Camera2D.h">
+      <Filter>Engine\Core\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Camera\Camera3D.h">
+      <Filter>Engine\Core\Game\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

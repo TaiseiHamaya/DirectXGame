@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/GameObject/Transform2D/Transform2D.h"
-#include "Matrix.h"
-#include "Vector3.h"
+#include "Engine/Game/Transform2D/Transform2D.h"
+#include "Engine/Math/Matrix.h"
+#include "Engine/Math/Vector3.h"
 
 #include <memory>
 

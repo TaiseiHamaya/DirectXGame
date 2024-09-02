@@ -6,10 +6,10 @@
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
-#include "Engine/GameObject/Transform3D/Transform3D.h"
-#include "Engine/Math/Camera3D.h"
+#include "Engine/Game/PolygonMesh/PolygonMesh.h"
+#include "Engine/Game/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/Transform3D/Transform3D.h"
+#include "Engine/Game/Camera/Camera3D.h"
 #include "Engine/Utility/Utility.h"
 
 #ifdef _DEBUG
