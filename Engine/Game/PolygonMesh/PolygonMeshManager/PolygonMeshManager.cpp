@@ -3,7 +3,7 @@
 #include <format>
 #include <mutex>
 
-#include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
+#include "Engine/Game/PolygonMesh/PolygonMesh.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Utility/Utility.h"
 

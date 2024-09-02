@@ -2,7 +2,7 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Math/Color.h"
+#include "Engine/Game/Color/Color.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 SingleRenderTarget::SingleRenderTarget() = default;

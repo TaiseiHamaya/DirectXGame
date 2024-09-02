@@ -16,7 +16,7 @@
 #include "Engine/Utility/Utility.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
@@ -25,15 +25,15 @@
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/GameObject/GameObject.h"
+#include "Engine/Game/GameObject/GameObject.h"
 
-#include "Engine/Math/Camera2D.h"
-#include "Engine/Math/Camera3D.h"
+#include "Engine/Game/Camera/Camera2D.h"
+#include "Engine/Game/Camera/Camera3D.h"
 
 #include "Engine/Math/Vector3.h"
-#include "Engine/Math/Color.h"
+#include "Engine/Game/Color/Color.h"
 #include "Engine/Math/Quaternion.h"
-#include "Engine/GameObject/Transform3D/Transform3D.h"
+#include "Engine/Game/Transform3D/Transform3D.h"
 #include "externals/imgui/imgui.h"
 
 // ----------要修正----------
