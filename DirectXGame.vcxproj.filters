@@ -229,6 +229,9 @@
     <Filter Include="Engine\Core\Game\Audio">
       <UniqueIdentifier>{55de4d28-01f6-4fe6-9b64-bd66d1225ffc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Game\Scene">
+      <UniqueIdentifier>{a652764d-1091-4844-a8c3-ed92140a958e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -434,6 +437,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\Audio\AudioResource.cpp">
       <Filter>Engine\Core\Game\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Managers\SceneManager\SceneManager.cpp">
+      <Filter>Engine\Core\Game\Manager\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\BaseScene.cpp">
+      <Filter>Engine\Core\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\SceneDemo.cpp">
+      <Filter>TestProgram</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +664,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Audio\AudioResource.h">
       <Filter>Engine\Core\Game\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Managers\SceneManager\SceneManager.h">
+      <Filter>Engine\Core\Game\Manager\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\BaseScene.h">
+      <Filter>Engine\Core\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\SceneDemo.h">
+      <Filter>TestProgram</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

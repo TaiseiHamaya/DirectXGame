@@ -124,8 +124,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Game\GameObject\SpriteObject.cpp" />
     <ClCompile Include="Engine\Game\Managers\AudioManager\AudioManager.cpp" />
     <ClCompile Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.cpp" />
+    <ClCompile Include="Engine\Game\Managers\SceneManager\SceneManager.cpp" />
     <ClCompile Include="Engine\Game\Managers\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Engine\Game\PolygonMesh\PolygonMesh.cpp" />
+    <ClCompile Include="Engine\Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Game\Transform2D\Transform2D.cpp" />
     <ClCompile Include="Engine\Game\Transform3D\Transform3D.cpp" />
     <ClCompile Include="Engine\Math\Definition.cpp" />
@@ -163,6 +165,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h" />
@@ -196,8 +199,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Game\GameObject\SpriteObject.h" />
     <ClInclude Include="Engine\Game\Managers\AudioManager\AudioManager.h" />
     <ClInclude Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.h" />
+    <ClInclude Include="Engine\Game\Managers\SceneManager\SceneManager.h" />
     <ClInclude Include="Engine\Game\Managers\TextureManager\TextureManager.h" />
     <ClInclude Include="Engine\Game\PolygonMesh\PolygonMesh.h" />
+    <ClInclude Include="Engine\Game\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Game\Transform2D\Transform2D.h" />
     <ClInclude Include="Engine\Game\Transform3D\Transform3D.h" />
     <ClInclude Include="Engine\Math\Array2D.h" />
@@ -237,6 +242,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="TestCode\SceneDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />
