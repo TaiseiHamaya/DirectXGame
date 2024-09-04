@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-#include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/Utility/Utility.h"
 
 void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
 	D3D12_INPUT_ELEMENT_DESC desc{};
@@ -113,13 +113,70 @@ void PSOBuilder::shaders(const ShaderBuilder& shaders) {
 	graphicsPipelineStateDesc.PS = shaders.get_ps_bytecode();
 }
 
-void PSOBuilder::blendstate() {
-	graphicsPipelineStateDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	graphicsPipelineStateDesc.BlendState.RenderTarget[1].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+void PSOBuilder::blendstate(BlendMode blendMode, uint32_t renderTarget) {
+	D3D12_RENDER_TARGET_BLEND_DESC desc{};
+	desc.BlendEnable = true;
+	desc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	switch (blendMode) {
+	case BlendMode::None:
+		desc.SrcBlend = D3D12_BLEND_ONE;
+		desc.BlendOp = D3D12_BLEND_OP_ADD;
+		desc.DestBlend = D3D12_BLEND_ZERO;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	case BlendMode::Normal:
+		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		desc.BlendOp = D3D12_BLEND_OP_ADD;
+		desc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	case BlendMode::Add:
+		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		desc.BlendOp = D3D12_BLEND_OP_ADD;
+		desc.DestBlend = D3D12_BLEND_ONE;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	case BlendMode::Subtract:
+		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		desc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+		desc.DestBlend = D3D12_BLEND_ONE;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	case BlendMode::Multily:
+		desc.SrcBlend = D3D12_BLEND_ZERO;
+		desc.BlendOp = D3D12_BLEND_OP_ADD;
+		desc.DestBlend = D3D12_BLEND_SRC_COLOR;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	case BlendMode::Screen:
+		desc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
+		desc.BlendOp = D3D12_BLEND_OP_ADD;
+		desc.DestBlend = D3D12_BLEND_ZERO;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	default:
+		break;
+	}
+	blendstate(desc, renderTarget);
 }
 
-void PSOBuilder::blendstate(D3D12_BLEND_DESC blendDesc) {
-	graphicsPipelineStateDesc.BlendState = blendDesc;
+void PSOBuilder::blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget) {
+	graphicsPipelineStateDesc.BlendState.RenderTarget[renderTarget] = blendDesc;
+	if (renderTarget > 0) {
+		graphicsPipelineStateDesc.BlendState.IndependentBlendEnable = true;
+	}
 }
 
 void PSOBuilder::rasterizerstate(D3D12_FILL_MODE fillMode, D3D12_CULL_MODE cullMode) {

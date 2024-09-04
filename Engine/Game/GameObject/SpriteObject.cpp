@@ -63,7 +63,7 @@ void SpriteObject::debug_gui() {
 	ImGui::Separator();
 	uvTransform->debug_gui();
 	ImGui::Separator();
-	color.debug_gui();
+	color.debug_gui4();
 }
 #endif // _DEBUG
 

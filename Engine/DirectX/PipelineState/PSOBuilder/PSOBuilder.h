@@ -37,6 +37,15 @@ private:
 	std::vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;
 };
 
+enum class BlendMode {
+	None,
+	Normal,
+	Add,
+	Subtract,
+	Multily,
+	Screen,
+};
+
 class PSOBuilder {
 public:
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> build();
@@ -46,8 +55,8 @@ public:
 	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_);
 	void inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout);
 	void shaders(const ShaderBuilder& shaders);
-	void blendstate();
-	void blendstate(D3D12_BLEND_DESC blendDesc);
+	void blendstate(BlendMode blendMode = BlendMode::None, uint32_t renderTarget = 0);
+	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget = 0);
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);
 	void depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilDesc);
 	void primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE); // 使用するトポロジーのタイプ

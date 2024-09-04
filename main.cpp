@@ -71,8 +71,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	RenderPath path;
 	path.initialize({ object3DNode, grayscaleNode, radialBlurNode, chromaticAberrationNode, spriteNode });
 
-	RenderPathManager::RegisterPath("GrayScale1", std::move(path));
-	RenderPathManager::SetPath("GrayScale1");
+	RenderPathManager::RegisterPath("PostEffectTest", std::move(path));
+	RenderPathManager::SetPath("PostEffectTest");
 
 	std::vector<GameObject> objects;
 	std::vector<std::string> objectNames;
@@ -81,6 +81,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unordered_multiset<std::string> objectList;
 	objectList.emplace("Sphere");
 	SpriteObject sprite{ "uvChecker.png", {0.5f,0.5f} };
+	SpriteObject sprite2{ "Error.png", {0.5f,0.5f} };
 
 	float volume = 1.0f;
 	bool isLoop = false;
@@ -145,6 +146,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		sprite.debug_gui();
 		ImGui::End();
 
+		ImGui::SetNextWindowDockID(objectDock, ImGuiCond_FirstUseEver);
+		ImGui::Begin("Sprite2", nullptr);
+		sprite2.debug_gui();
+		ImGui::End();
+
 		for (int i = 0; i < objects.size(); ) {
 			ImGui::SetNextWindowDockID(objectDock, ImGuiCond_FirstUseEver);
 			//ImGui::SetNextWindowSize(ImVec2{ 345,445 }, ImGuiCond_FirstUseEver);
@@ -205,6 +211,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			objects[i].draw();
 		}
 		sprite.begin_rendering();
+		sprite2.begin_rendering();
 
 		if (isShowGrid) {
 			DirectXCore::ShowGrid(*camera3D);
@@ -225,6 +232,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		RenderPathManager::Next();
 
 		sprite.draw();
+		sprite2.draw();
 
 		RenderPathManager::Next();
 

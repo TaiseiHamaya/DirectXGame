@@ -183,7 +183,7 @@ void DirectXCore::show_debug_tools() {
 	//ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
 	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);
 	ImGui::Begin("Light", nullptr);
-	light->get_data()->color.debug_gui();
+	light->get_data()->color.debug_gui3();
 	Vector3 rotate = CVector3::ZERO;
 	ImGui::Text(std::format("X : {:.3}, Y : {:.3}, Z : {:.3}", light->get_data()->direction.x, light->get_data()->direction.y, light->get_data()->direction.z).c_str());
 	if (ImGui::DragFloat3("DirectionRotate", &rotate.x, 1.0f, -180.0f, 180.0f)) {

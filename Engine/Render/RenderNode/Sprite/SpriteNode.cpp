@@ -58,7 +58,7 @@ void SpriteNode::create_pipeline_state() {
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate();
+	psoBuilder->blendstate(BlendMode::Normal);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_NONE);
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
