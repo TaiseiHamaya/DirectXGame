@@ -7,7 +7,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 #include "Engine/Utility/Utility.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
 
 Texture::Texture() noexcept = default;
 
@@ -39,7 +39,7 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& filePath) {
-	Log("[Texture] Start load texutre. file-\'" + filePath + "\'\n");
+	Log("[Texture] Start load texture. file-\'" + filePath + "\'\n");
 	DirectX::ScratchImage mipImages;
 	mipImages = LoadTextureData(filePath); // ロード
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
@@ -58,7 +58,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& 
 }
 
 void Texture::create_resource_view() {
-	Log("[Texture] Create texutre resource view.\n");
+	Log("[Texture] Create texture resource view.\n");
 	// 使用するディスクリプタヒープを取得
 	heapIndex = SRVDescriptorHeap::UseHeapIndex();
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());

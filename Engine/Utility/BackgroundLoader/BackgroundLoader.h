@@ -12,10 +12,12 @@
 
 class Texture;
 class PolygonMesh;
+class AudioResource;
 
 enum class LoadEvent {
 	LoadTexture,
 	LoadPolygonMesh,
+	LoadAudio,
 };
 
 /// <summary>
@@ -97,7 +99,10 @@ private:
 		struct LoadPolygonMeshData {
 			std::shared_ptr<PolygonMesh> meshData; // メッシュデータ
 		};
-		std::variant<LoadTextureData, LoadPolygonMeshData, void*> loadData; // variantでDataを選択
+		struct LoadAudioData {
+			std::shared_ptr<AudioResource> audioData; // メッシュデータ
+		};
+		std::variant<LoadTextureData, LoadPolygonMeshData, LoadAudioData, void*> loadData; // variantでDataを選択
 	};
 
 	/// <summary>

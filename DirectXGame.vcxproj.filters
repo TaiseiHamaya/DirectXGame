@@ -205,9 +205,6 @@
     <Filter Include="Engine\Core\Game\Manager">
       <UniqueIdentifier>{b36a1154-d3bb-4b28-8107-6bbd64f47dac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\Game\Manager\SoundManager">
-      <UniqueIdentifier>{ca9c8e09-c039-41ed-ba32-991aa0eac70f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\Game\Manager\SceneManager">
       <UniqueIdentifier>{bf78891f-8859-4bce-bfbf-ce5074744cb2}</UniqueIdentifier>
     </Filter>
@@ -225,6 +222,12 @@
     </Filter>
     <Filter Include="Engine\Core\Game\Camera">
       <UniqueIdentifier>{ad7c1d23-0d65-41c3-b321-e30f34effad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Manager\AudioManager">
+      <UniqueIdentifier>{ca9c8e09-c039-41ed-ba32-991aa0eac70f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\Audio">
+      <UniqueIdentifier>{55de4d28-01f6-4fe6-9b64-bd66d1225ffc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -393,12 +396,6 @@
     <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp">
       <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.cpp">
-      <Filter>Engine\Core\Game\Manager\TextureManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\PolygonMesh\PolygonMeshManager\PolygonMeshManager.cpp">
-      <Filter>Engine\Core\Game\Manager\PolygonMeshManager</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\GameObject\GameObject.cpp">
       <Filter>Engine\Core\Game\Objects\GameObject</Filter>
     </ClCompile>
@@ -422,6 +419,21 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\Camera\Camera3D.cpp">
       <Filter>Engine\Core\Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Managers\TextureManager\TextureManager.cpp">
+      <Filter>Engine\Core\Game\Manager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.cpp">
+      <Filter>Engine\Core\Game\Manager\PolygonMeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Audio\AudioPlayer.cpp">
+      <Filter>Engine\Core\Game\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Managers\AudioManager\AudioManager.cpp">
+      <Filter>Engine\Core\Game\Manager\AudioManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Audio\AudioResource.cpp">
+      <Filter>Engine\Core\Game\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -602,12 +614,6 @@
     <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h">
       <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\TextureManager\TextureManager.h">
-      <Filter>Engine\Core\Game\Manager\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\PolygonMesh\PolygonMeshManager\PolygonMeshManager.h">
-      <Filter>Engine\Core\Game\Manager\PolygonMeshManager</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\GameObject\GameObject.h">
       <Filter>Engine\Core\Game\Objects\GameObject</Filter>
     </ClInclude>
@@ -631,6 +637,21 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Camera\Camera3D.h">
       <Filter>Engine\Core\Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Managers\TextureManager\TextureManager.h">
+      <Filter>Engine\Core\Game\Manager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.h">
+      <Filter>Engine\Core\Game\Manager\PolygonMeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Audio\AudioPlayer.h">
+      <Filter>Engine\Core\Game\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Managers\AudioManager\AudioManager.h">
+      <Filter>Engine\Core\Game\Manager\AudioManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Audio\AudioResource.h">
+      <Filter>Engine\Core\Game\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

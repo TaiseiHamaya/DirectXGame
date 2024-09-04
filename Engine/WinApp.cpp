@@ -4,6 +4,7 @@
 #include "Engine/Utility/Utility.h"
 
 #include "Engine/DirectX/DirectXCore.h"
+#include "Engine/Game/Managers/AudioManager/AudioManager.h"
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
@@ -53,6 +54,9 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	instance->init_app(programName, windowConfig);
 	//DirectXの初期化
 	DirectXCore::Initialize();
+
+	AudioManager::Initialize();
+
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Log("Complete Create Window\n");
@@ -87,11 +91,14 @@ void WinApp::EndFrame() {
 void WinApp::Finalize() {
 	// 終了通知
 	Log("End Program\n");
-	instance->term_app();
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
 	//DirectXを終了
 	DirectXCore::Finalize();
+
+	AudioManager::Finalize();
+
+	instance->term_app();
 	// COMの終了
 	CoUninitialize();
 	delete instance;

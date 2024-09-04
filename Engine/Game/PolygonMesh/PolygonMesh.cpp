@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Utility/Utility.h"
 

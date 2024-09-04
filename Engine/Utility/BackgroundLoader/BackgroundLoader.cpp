@@ -6,9 +6,11 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMesh.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
+#include "Engine/Game/PolygonMesh/PolygonMesh.h"
+#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/Audio/AudioResource.h"
+#include "Engine/Game/Managers/AudioManager/AudioManager.h"
 #include "Engine/Utility/Utility.h"
 
 std::mutex executeMutex;
@@ -52,6 +54,11 @@ void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& fil
 			eventID,
 			std::make_unique<LoadingQue>(filePath, fileName, LoadingQue::LoadPolygonMeshData{ std::make_shared<PolygonMesh>() }));
 		break;
+	case LoadEvent::LoadAudio:
+		GetInstance().loadEvents.emplace_back(
+			eventID,
+			std::make_unique<LoadingQue>(filePath, fileName, LoadingQue::LoadAudioData{ std::make_shared<AudioResource>() }));
+		break;
 	default:
 		Log("[BackgroundLoader] EventID is wrong.\n");
 		break;
@@ -84,7 +91,7 @@ void BackgroundLoader::load_manager() {
 		std::unique_lock<std::mutex> lock{ referenceMutex };
 		// loadEventが空ではない or プログラム終了通知が来ているまでwait
 		loadConditionVariable.wait(lock, [] {return !GetInstance().loadEvents.empty() || GetInstance().isEndProgram; });
-		
+
 		// プログラム終了ならループを抜ける
 		if (GetInstance().isEndProgram) {
 			break;
@@ -99,7 +106,7 @@ void BackgroundLoader::load_manager() {
 		case LoadEvent::LoadTexture:
 		{
 			// テクスチャロードイベント
-			LoadingQue::LoadTextureData& tex = std::get<0>(nowEvent->data->loadData);
+			auto& tex = std::get<0>(nowEvent->data->loadData);
 			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
 			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath + "/" + nowEvent->data->fileName);
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
@@ -109,18 +116,27 @@ void BackgroundLoader::load_manager() {
 		case LoadEvent::LoadPolygonMesh:
 		{
 			// メッシュロードイベント
-			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(nowEvent->data->loadData);
+			auto& mesh = std::get<1>(nowEvent->data->loadData);
 			mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
+			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
+			waitLoadingQue.emplace_back(std::move(*nowEvent));
+		}
+		break;
+		case LoadEvent::LoadAudio:
+		{
+			// オーディオロードイベント
+			auto& audio = std::get<2>(nowEvent->data->loadData);
+			audio.audioData->load(nowEvent->data->filePath, nowEvent->data->fileName);
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitLoadingQue.emplace_back(std::move(*nowEvent));
 		}
 		break;
 		default:
 			// デフォルトを通る場合はEventIDがおかしいので止める
-			Log(std::format("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}/{}\'\n\tIndex-\'{}\'\n", 
+			Log(std::format("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}/{}\'\n\tIndex-\'{}\'\n",
 				static_cast<int>(nowEvent->eventId),
-				nowEvent->data->filePath, 
-				nowEvent->data->fileName, 
+				nowEvent->data->filePath,
+				nowEvent->data->fileName,
 				nowEvent->data->loadData.index(),
 				nowEvent->data->loadData.valueless_by_exception()
 			));
@@ -181,6 +197,13 @@ void BackgroundLoader::transfer_data() {
 			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(waitLoadingQueItr->data->loadData);
 			// PolygomMeshManagerに転送
 			PolygonMeshManager::Transfer(waitLoadingQueItr->data->fileName, mesh.meshData);
+			break;
+		}
+		case LoadEvent::LoadAudio:
+		{
+			LoadingQue::LoadAudioData& audio = std::get<2>(waitLoadingQueItr->data->loadData);
+			// AudioManagerに転送
+			AudioManager::Transfer(waitLoadingQueItr->data->fileName, audio.audioData);
 			break;
 		}
 		default:

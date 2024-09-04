@@ -7,9 +7,9 @@
 #include "externals/imgui/imgui.h"
 
 #include "Engine/DirectX/DirectXCore.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
 #include "Engine/Game/GameObject/GameObject.h"
-#include "Engine/Game/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
+#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Game/GameObject/SpriteObject.h"
 #include "Engine/Game/Camera/Camera2D.h"
 #include "Engine/Game/Camera/Camera3D.h"
@@ -24,6 +24,9 @@
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderNode/ChromaticAberration/ChromaticAberrationNode.h"
 #include "Engine/Render/RenderNode/RadialBlur/RadialBlurNode.h"
+
+#include "Engine/Game/Managers/AudioManager/AudioManager.h"
+#include "Engine/Game/Audio/AudioPlayer.h"
 
 // クライアント領域サイズ
 const std::int32_t kClientWidth = 1280;
@@ -42,6 +45,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	TextureManager::RegisterLoadQue("./Engine/Resources", "uvChecker.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Sphere.obj");
+	AudioManager::RegisterLoadQue("./Engine/Resources", "Alarm01.wav");
 	BackgroundLoader::WaitEndExecute();
 
 	std::shared_ptr<Object3DNode> object3DNode{ new Object3DNode };
@@ -77,6 +81,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unordered_multiset<std::string> objectList;
 	objectList.emplace("Sphere");
 	SpriteObject sprite{ "uvChecker.png", {0.5f,0.5f} };
+
+	float volume = 1.0f;
+	bool isLoop = false;
+	AudioPlayer testAudio;
+	testAudio.initialize("Alarm01.wav", volume, isLoop);
 
 	bool isShowGrid = true;
 
@@ -160,6 +169,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		radialBlurNode->debug_gui();
 		ImGui::End();
 
+		ImGui::Begin("AudioTest");
+		if (ImGui::Button("Play")) {
+			testAudio.play();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Stop")) {
+			testAudio.stop();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Pause")) {
+			testAudio.pause();
+		}
+		if (ImGui::DragFloat("Volume", &volume)) {
+			testAudio.set_volume(volume);
+		}
+		if (ImGui::Checkbox("Loop", &isLoop)) {
+			testAudio.set_loop(isLoop);
+		}
+		ImGui::End();
+
 #endif // _DEBUG
 
 		Camera2D::CameraUpdate();
@@ -201,6 +230,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		WinApp::EndFrame();
 	}
+
+	//testAudio.finalize();
 
 	WinApp::Finalize();
 }

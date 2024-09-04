@@ -4,7 +4,7 @@
 
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Game/Transform2D/Transform2D.h"
 #include "Engine/Game/Camera/Camera2D.h"

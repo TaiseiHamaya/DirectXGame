@@ -47,7 +47,7 @@ std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
-		Log(std::format("[TextureManager] Texutre Name-\'{:}\' is not loading.\n", textureName));
+		Log(std::format("[TextureManager] Texture Name-\'{:}\' is not loading.\n", textureName));
 		return GetInstance().textureInstanceList.at("Error.png");
 	}
 }
@@ -72,7 +72,7 @@ void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>&
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredUnlocking(name)) {
 		data->release_srv_heap();
-		Log(std::format("[TextureManager] Transfering registerd texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
+		Log(std::format("[TextureManager] Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
 		return;
 	}
 	Log(std::format("[TextureManager] Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));

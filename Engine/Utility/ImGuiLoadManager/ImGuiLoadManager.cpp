@@ -4,8 +4,8 @@
 #include <memory>
 #include <format>
 #include "externals/imgui/imgui.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/TextureManager/TextureManager.h"
-#include "Engine/GameObject/PolygonMesh/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
+#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
 
 ImGuiLoadManager::ImGuiLoadManager() {
 	meshCurrentPath = "./Engine/Resources";
