@@ -75,7 +75,7 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-*.obj
+DirectXGame/x64/**.obj
 *.iobj
 *.pch
 *.pdb
@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Don't ignore .obj in Resource Folder
-!Engine/Resources/*.obj
+!Engine/Resources/*
 
 # Ignore imgui settings
 /imgui.ini

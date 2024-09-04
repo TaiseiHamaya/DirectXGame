@@ -19,7 +19,7 @@ public:
 	void initialize() override;
 
 	/// <summary>
-	/// 描画開始処理(ライトの設定があるのでovrride)
+	/// 描画開始処理(ライトの設定があるのでoverride)
 	/// </summary>
 	void begin() override;
 
