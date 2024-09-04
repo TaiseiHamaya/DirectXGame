@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		});
 	Camera2D::Initialize();
 
-	TextureManager::RegisterLoadQue("./Engine/Resources", "uvChecker.png");
+	TextureManager::RegisterLoadQue("./Engine/Resources", "alphaTester.png");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Sphere.obj");
 	AudioManager::RegisterLoadQue("./Engine/Resources", "Alarm01.wav");
 	BackgroundLoader::WaitEndExecute();
@@ -80,7 +80,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectNames.emplace_back("Sphere");
 	std::unordered_multiset<std::string> objectList;
 	objectList.emplace("Sphere");
-	SpriteObject sprite{ "uvChecker.png", {0.5f,0.5f} };
+
+	SpriteObject sprite{ "alphaTester.png", {0.5f,0.5f} };
 	SpriteObject sprite2{ "Error.png", {0.5f,0.5f} };
 
 	float volume = 1.0f;

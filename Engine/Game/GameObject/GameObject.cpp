@@ -129,7 +129,7 @@ void GameObject::debug_gui() {
 
 			meshMaterials[i].uvTransform.debug_gui();
 
-			meshMaterials[i].color.debug_gui();
+			meshMaterials[i].color.debug_gui3();
 
 			if (ImGui::RadioButton("None", meshMaterials[i].material.get_data()->lighting == static_cast<uint32_t>(LighingType::None))) {
 				meshMaterials[i].material.set_lighting(LighingType::None);
