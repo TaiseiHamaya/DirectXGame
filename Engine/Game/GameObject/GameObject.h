@@ -4,15 +4,16 @@
 #include <string>
 #include <vector>
 
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/Game/Transform2D/Transform2D.h"
 #include "Engine/Game/Transform3D/Transform3D.h"
 
+class Material;
 class PolygonMesh;
 class Texture;
 class TransformMatrix;
 class Color;
 class Camera3D;
+class Hierarchy;
 
 class GameObject {
 public:
@@ -35,15 +36,18 @@ public:
 	void reset_object(const std::string& meshName_);
 
 	/// <summary>
-	/// Texutre、Materialパラメータ、UVデータのリセットそ行う
+	/// Texture、Materialパラメータ、UVデータのリセットを行う
 	/// </summary>
 	void default_material();
 
 public:
 	const Transform3D& get_transform() noexcept;
+	const Matrix4x4& world_matrix() const;
+	const Vector3 world_position() const;
+	const Hierarchy& get_hierarchy() const;
 
-public:
 #ifdef _DEBUG
+public:
 	void debug_gui();
 #endif // _DEBUG
 
@@ -56,7 +60,7 @@ private:
 		PolygonMeshMaterial();
 		std::weak_ptr<Texture> texture;
 
-		Material material;
+		std::unique_ptr<Material> material;
 		Color& color;
 
 		Transform2D uvTransform;
@@ -69,4 +73,5 @@ private:
 
 protected:
 	std::unique_ptr<Transform3D> transform;
+	std::unique_ptr<Hierarchy> hierarchy;
 };

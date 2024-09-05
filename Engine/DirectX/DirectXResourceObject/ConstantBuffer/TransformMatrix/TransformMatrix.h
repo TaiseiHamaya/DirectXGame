@@ -6,13 +6,13 @@
 class TransformMatrix final : public ConstantBuffer<TransformationMatrixData> {
 public:
 	TransformMatrix() noexcept(false);
-	~TransformMatrix() noexcept = default;
+	~TransformMatrix() noexcept;
 
 	TransformMatrix(const TransformationMatrixData& transformMatrixData) noexcept(false);
 
 public:
 	void set_transformation_matrix_data(
 		Matrix4x4&& world, 
-		Matrix4x4&& wvp
+		const Matrix4x4& cameraVP
 	) noexcept;
 };

@@ -14,6 +14,7 @@ public:
 	ConstantBuffer& operator=(ConstantBuffer&&) = default;
 
 public:
+	const T* const get_data() const noexcept;
 	T* const get_data() noexcept;
 
 protected:
@@ -38,6 +39,11 @@ inline ConstantBuffer<T>::~ConstantBuffer() noexcept {
 	if (resource) {
 		resource->Unmap(0, nullptr);
 	}
+}
+
+template<typename T>
+inline const T* const ConstantBuffer<T>::get_data() const noexcept {
+	return data;
 }
 
 template<typename T>

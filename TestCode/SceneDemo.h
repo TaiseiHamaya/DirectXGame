@@ -2,10 +2,14 @@
 
 #include "Engine/Game/Scene/BaseScene.h"
 
+#include <memory>
+
+class GameObject;
+
 class SceneDemo : public BaseScene {
 public:
-	SceneDemo() = default;
-	~SceneDemo() = default;
+	SceneDemo();
+	~SceneDemo();
 
 public:
 	void initialize() override;
@@ -22,4 +26,6 @@ public:
 #endif // _DEBUG
 
 private:
+	std::unique_ptr<GameObject> parent;
+	std::unique_ptr<GameObject> child;
 };
