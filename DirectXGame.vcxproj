@@ -122,6 +122,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Game\Color\Color.cpp" />
     <ClCompile Include="Engine\Game\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\Game\GameObject\SpriteObject.cpp" />
+    <ClCompile Include="Engine\Game\Hierarchy\Hierarchy.cpp" />
     <ClCompile Include="Engine\Game\Managers\AudioManager\AudioManager.cpp" />
     <ClCompile Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.cpp" />
     <ClCompile Include="Engine\Game\Managers\SceneManager\SceneManager.cpp" />
@@ -197,6 +198,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Game\Color\Color.h" />
     <ClInclude Include="Engine\Game\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Game\GameObject\SpriteObject.h" />
+    <ClInclude Include="Engine\Game\Hierarchy\Hierarchy.h" />
     <ClInclude Include="Engine\Game\Managers\AudioManager\AudioManager.h" />
     <ClInclude Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.h" />
     <ClInclude Include="Engine\Game\Managers\SceneManager\SceneManager.h" />

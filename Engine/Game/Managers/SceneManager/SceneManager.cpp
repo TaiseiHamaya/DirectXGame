@@ -124,7 +124,7 @@ void SceneManager::PopScene() {
 	));
 }
 
-bool SceneManager::IsEndProgram() {
+bool SceneManager::IsEndProgram() noexcept {
 	return GetInstance().sceneQue.back() == nullptr;
 }
 
