@@ -13,6 +13,7 @@ private: /// --------------コピー禁止--------------
 	BaseScene& operator=(const BaseScene&) = delete;
 
 public:
+	virtual void load();
 	virtual void initialize();
 	virtual void finalize();
 

@@ -2,6 +2,7 @@
 
 #include "Engine/Game/Scene/BaseScene.h"
 #include "Engine/Utility/Utility.h"
+#include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 
 #include <cassert>
 #include <algorithm>
@@ -16,6 +17,7 @@ void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
 	SceneManager& instance = GetInstance();
 	assert(instance.sceneQue.empty());
 	Log(std::format("[SceneManager] Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get()));
+	// 最初にnullptrをemplace_backする
 	instance.sceneQue.emplace_back(nullptr);
 	instance.sceneQue.emplace_back(std::move(initScene));
 	instance.sceneStatus = SceneStatus::DEFAULT;
@@ -29,12 +31,24 @@ void SceneManager::Finalize() {
 void SceneManager::Begin() {
 	SceneManager& instance = GetInstance();
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {
+		// initialize関数の呼び出し
+		instance.sceneChangeInfo.next->initialize();
+		// finalize関数の呼び出し
+		instance.sceneQue.back()->finalize();
+		// シーンの切り替え
 		if (instance.sceneChangeInfo.isStackInitial) {
+			// スタックする場合emplace_back
 			instance.sceneQue.emplace_back(std::move(instance.sceneChangeInfo.next));
 		}
 		else {
+			// スタックしないのでbackにmove
 			instance.sceneQue.back() = std::move(instance.sceneChangeInfo.next);
 		}
+		// ロードを止める
+		if (instance.sceneChangeInfo.isStopLoad) {
+			BackgroundLoader::WaitEndExecute();
+		}
+		// 遷移状態を解除
 		instance.sceneStatus = SceneStatus::DEFAULT;
 	}
 }
@@ -58,31 +72,42 @@ void SceneManager::Draw() {
 //	sceneQue.back()->DebugDraw();
 //}
 
-void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, bool isStackInitialScene) {
+void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, bool isStackInitialScene, bool isStopLoad) {
 	SceneManager& instance = GetInstance();
-	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\' Terminal scene address-\'{}\'. Is stack : {:s}.\n",
+	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\' Terminal scene address-\'{}\'. Is stack : {:s}. Is stop load : {:s}.\n",
 		(void*)instance.sceneQue.back().get(),
-		(void*)nextScenePtr.get(), 
-		isStackInitialScene
+		(void*)nextScenePtr.get(),
+		isStackInitialScene,
+		isStopLoad
 	));
+	// シーンがDefault状態でないと遷移させない
 	assert(instance.sceneStatus == SceneStatus::DEFAULT);
+	// この時点でロード関数を呼び出し
+	nextScenePtr->load();
+	// 遷移状態にする
 	//instance.sceneStatus = SceneStatus::CHANGE_BEFORE;
 	instance.sceneStatus = SceneStatus::CHANGE_INSTANCE;
+	// 各種記録
 	instance.sceneChangeInfo.isStackInitial = isStackInitialScene;
 	instance.sceneChangeInfo.next = std::move(nextScenePtr);
+	instance.sceneChangeInfo.isStopLoad = isStopLoad;
 }
 
 void SceneManager::PopScene() {
 	SceneManager& instance = GetInstance();
+	// シーンがDefault状態でないと遷移させない
 	assert(instance.sceneStatus == SceneStatus::DEFAULT);
+	// スタックしたシーン数が2未満の場合はおかしいので停止させる
 	assert(instance.sceneQue.size() >= 2);
+	// 遷移状態にする
 	//instance.sceneStatus = SceneStatus::CHANGE_BEFORE;
 	instance.sceneStatus = SceneStatus::CHANGE_INSTANCE;
+	// Popするときはスタックさせない
 	instance.sceneChangeInfo.isStackInitial = false;
-
+	// Pop後のシーンを取り出し
 	std::iter_swap(instance.sceneQue.rbegin(), instance.sceneQue.rbegin() + 1);
-
 	instance.sceneChangeInfo.next = std::move(instance.sceneQue.back());
+	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
 	Log(std::format("[SceneManager] Pop scene. Pop scene address-\'{}\' Next scene address-\'{}\'.\n",
