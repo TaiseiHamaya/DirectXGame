@@ -14,6 +14,11 @@ SceneManager& SceneManager::GetInstance() {
 }
 
 void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
+	assert(initScene);
+	initScene->load();
+	BackgroundLoader::WaitEndExecute();
+	initScene->initialize();
+
 	SceneManager& instance = GetInstance();
 	assert(instance.sceneQue.empty());
 	Log(std::format("[SceneManager] Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get()));
@@ -32,7 +37,9 @@ void SceneManager::Begin() {
 	SceneManager& instance = GetInstance();
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {
 		// initialize関数の呼び出し
-		instance.sceneChangeInfo.next->initialize();
+		if (instance.sceneChangeInfo.next) {
+			instance.sceneChangeInfo.next->initialize();
+		}
 		// finalize関数の呼び出し
 		instance.sceneQue.back()->finalize();
 		// シーンの切り替え
@@ -73,6 +80,7 @@ void SceneManager::Draw() {
 //}
 
 void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, bool isStackInitialScene, bool isStopLoad) {
+	assert(nextScenePtr);
 	SceneManager& instance = GetInstance();
 	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\' Terminal scene address-\'{}\'. Is stack : {:s}. Is stop load : {:s}.\n",
 		(void*)instance.sceneQue.back().get(),
