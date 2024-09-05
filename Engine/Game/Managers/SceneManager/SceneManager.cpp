@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <format>
 
-SceneManager& SceneManager::GetInstance() {
+SceneManager& SceneManager::GetInstance() noexcept {
 	static SceneManager instance{};
 	return instance;
 }
@@ -28,7 +28,7 @@ void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
 	instance.sceneStatus = SceneStatus::DEFAULT;
 }
 
-void SceneManager::Finalize() {
+void SceneManager::Finalize() noexcept {
 	SceneManager& instance = GetInstance();
 	instance.sceneQue.clear();
 }
@@ -37,13 +37,13 @@ void SceneManager::Begin() {
 	SceneManager& instance = GetInstance();
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {
 		// initialize関数の呼び出し
-		if (instance.sceneChangeInfo.next) {
+		if (instance.sceneChangeInfo.next && instance.sceneChangeInfo.changeType != SceneChangeType::POP) {
 			instance.sceneChangeInfo.next->initialize();
 		}
 		// finalize関数の呼び出し
 		instance.sceneQue.back()->finalize();
 		// シーンの切り替え
-		if (instance.sceneChangeInfo.isStackInitial) {
+		if (instance.sceneChangeInfo.changeType == SceneChangeType::STACK) {
 			// スタックする場合emplace_back
 			instance.sceneQue.emplace_back(std::move(instance.sceneChangeInfo.next));
 		}
@@ -96,7 +96,7 @@ void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, boo
 	//instance.sceneStatus = SceneStatus::CHANGE_BEFORE;
 	instance.sceneStatus = SceneStatus::CHANGE_INSTANCE;
 	// 各種記録
-	instance.sceneChangeInfo.isStackInitial = isStackInitialScene;
+	instance.sceneChangeInfo.changeType = isStackInitialScene ? SceneChangeType::STACK : SceneChangeType::CHANGE;
 	instance.sceneChangeInfo.next = std::move(nextScenePtr);
 	instance.sceneChangeInfo.isStopLoad = isStopLoad;
 }
@@ -111,7 +111,8 @@ void SceneManager::PopScene() {
 	//instance.sceneStatus = SceneStatus::CHANGE_BEFORE;
 	instance.sceneStatus = SceneStatus::CHANGE_INSTANCE;
 	// Popするときはスタックさせない
-	instance.sceneChangeInfo.isStackInitial = false;
+	instance.sceneChangeInfo.changeType = SceneChangeType::POP;
+	instance.sceneChangeInfo.isStopLoad = false;
 	// Pop後のシーンを取り出し
 	std::iter_swap(instance.sceneQue.rbegin(), instance.sceneQue.rbegin() + 1);
 	instance.sceneChangeInfo.next = std::move(instance.sceneQue.back());

@@ -59,8 +59,14 @@ private:
 		CHANGE_INSTANCE, // for debug
 	} sceneStatus;
 
+	enum class SceneChangeType {
+		CHANGE,
+		STACK,
+		POP,
+	};
+
 	struct SceneChangeInfo {
-		bool isStackInitial;
+		SceneChangeType changeType;
 		std::unique_ptr<BaseScene> next;
 		bool isStopLoad;
 	} sceneChangeInfo;
