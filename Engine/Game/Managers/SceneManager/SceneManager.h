@@ -30,7 +30,8 @@ public:
 	//static void Debug();
 	static void SetSceneChange(
 		std::unique_ptr<BaseScene>&& nextScenePtr,
-		bool isStackInitialScene_ = false
+		bool isStackInitialScene_ = false,
+		bool isStopLoad = true
 	);
 	static void PopScene();
 	static bool IsEndProgram();
@@ -61,5 +62,6 @@ private:
 	struct SceneChangeInfo {
 		bool isStackInitial;
 		std::unique_ptr<BaseScene> next;
+		bool isStopLoad;
 	} sceneChangeInfo;
 };

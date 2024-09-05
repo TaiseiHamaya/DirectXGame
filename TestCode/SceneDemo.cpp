@@ -3,7 +3,13 @@
 #include "Engine/Game/Managers/SceneManager/SceneManager.h"
 #include "Engine/Utility/Utility.h"
 
+void SceneDemo::load() {
+}
+
 void SceneDemo::initialize() {
+}
+
+void SceneDemo::finalize() {
 }
 
 void SceneDemo::begin() {

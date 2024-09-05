@@ -11,13 +11,7 @@
 ///
 /// Update関数内で更新処理、Draw関数内で描画処理を行うこと！！！
 
-void BaseScene::begin_rendering() {
-}
-
-void BaseScene::late_update() {
-}
-
-void BaseScene::debug_update() {
+void BaseScene::load() {
 }
 
 void BaseScene::initialize() {
@@ -27,4 +21,13 @@ void BaseScene::finalize() {
 }
 
 void BaseScene::begin() {
+}
+
+void BaseScene::begin_rendering() {
+}
+
+void BaseScene::late_update() {
+}
+
+void BaseScene::debug_update() {
 }
