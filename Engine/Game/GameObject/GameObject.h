@@ -18,7 +18,7 @@ class GameObject {
 public:
 	GameObject() noexcept(false);
 	explicit GameObject(const std::string& meshName_) noexcept(false);
-	~GameObject() noexcept;
+	virtual ~GameObject() noexcept;
 
 	GameObject(GameObject&&) noexcept;
 	GameObject& operator=(GameObject&&) noexcept;
@@ -28,10 +28,9 @@ private:
 	GameObject& operator=(const GameObject&) = delete;
 
 public:
-	const Transform3D& get_transform() noexcept;
-	void update();
-	void begin_rendering(const Camera3D& camera) noexcept;
-	void draw() const;
+	virtual void update();
+	virtual void begin_rendering(const Camera3D& camera) noexcept;
+	virtual void draw() const;
 
 	void reset_object(const std::string& meshName_);
 
@@ -40,6 +39,10 @@ public:
 	/// </summary>
 	void default_material();
 
+public:
+	const Transform3D& get_transform() noexcept;
+
+public:
 #ifdef _DEBUG
 	void debug_gui();
 #endif // _DEBUG
