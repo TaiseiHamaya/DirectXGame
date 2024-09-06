@@ -11,7 +11,7 @@ public:
 	Camera3D& operator=(const Camera3D&) = delete;
 
 public:
-	void initialize();
+	virtual void initialize();
 
 	void update_matrix();
 

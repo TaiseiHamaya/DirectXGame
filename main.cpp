@@ -2,10 +2,9 @@
 
 #include <cstdint>
 
-#include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "TestCode/SceneDemo.h"
 #include "Engine/Game/Managers/SceneManager/SceneManager.h"
 #include "Engine/Utility/Utility.h"
+#include "TestCode/SceneDemo.h"
 
 // クライアント領域サイズ
 const std::int32_t kClientWidth = 1280;

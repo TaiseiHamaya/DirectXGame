@@ -20,6 +20,9 @@ bool Hierarchy::has_parent() const noexcept {
 	return parent;
 }
 
-const Matrix4x4& Hierarchy::parent_matrix() const {
-	return *parent->currentMatrix;
+const Matrix4x4& Hierarchy::parent_matrix() const noexcept {
+	if (parent) {
+		return *parent->currentMatrix;
+	}
+	return CMatrix4x4::IDENTITY;
 }

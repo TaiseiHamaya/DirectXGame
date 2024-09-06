@@ -1,12 +1,12 @@
 #include "SceneDemo.h"
 
-#include "Engine/Game/Managers/SceneManager/SceneManager.h"
-#include "Engine/Utility/Utility.h"
-#include "Engine/Game/GameObject/GameObject.h"
-#include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Game/Camera/Camera3D.h"
+#include "Engine/Game/GameObject/GameObject.h"
 #include "Engine/Game/Hierarchy/Hierarchy.h"
+#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Game/Managers/SceneManager/SceneManager.h"
+#include "Engine/Render/RenderPathManager/RenderPathManager.h"
+#include "Engine/Utility/Utility.h"
 
 SceneDemo::SceneDemo() = default;
 

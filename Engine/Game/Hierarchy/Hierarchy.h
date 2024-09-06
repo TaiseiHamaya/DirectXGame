@@ -22,7 +22,7 @@ public:
 	void set_parent(const GameObject& gameObject) noexcept;
 	const Hierarchy& get_parent() const noexcept;
 	bool has_parent() const noexcept;
-	const Matrix4x4& parent_matrix() const;
+	const Matrix4x4& parent_matrix() const noexcept;
 
 private:
 	const Hierarchy* parent;
