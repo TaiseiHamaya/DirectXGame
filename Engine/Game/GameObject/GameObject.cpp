@@ -88,6 +88,7 @@ void GameObject::reset_object(const std::string& meshName_) {
 	size_t meshSize = mesh.lock()->material_count();
 
 	meshMaterials.resize(meshSize);
+	materialData.resize(meshSize);
 
 	default_material();
 }
@@ -115,6 +116,8 @@ void GameObject::default_material() {
 #endif // _DEBUG
 			Log(std::format("[GameObject] Mtl file used Object file \'{}\' is not found", meshName));
 		}
+		materialData[i].color = &meshMaterials[i].color;
+		materialData[i].uvTransform = &meshMaterials[i].uvTransform;
 	}
 }
 

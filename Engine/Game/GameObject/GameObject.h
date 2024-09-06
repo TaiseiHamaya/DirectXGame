@@ -75,4 +75,11 @@ private:
 protected:
 	std::unique_ptr<Transform3D> transform;
 	std::unique_ptr<Hierarchy> hierarchy;
+
+	struct MaterialDataRef {
+		Color* color;
+		Transform2D* uvTransform;
+	};
+
+	std::vector<MaterialDataRef> materialData;
 };
