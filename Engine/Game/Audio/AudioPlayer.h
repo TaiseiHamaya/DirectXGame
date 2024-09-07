@@ -1,6 +1,5 @@
 #pragma once
 
-#include <wrl/client.h>
 #include <string>
 #include <xaudio2.h>
 

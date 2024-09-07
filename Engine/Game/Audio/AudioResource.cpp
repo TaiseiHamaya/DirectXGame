@@ -1,6 +1,5 @@
 #include "AudioResource.h"
 
-#include <xaudio2.h>
 #include <fstream>
 #include <cassert>
 
@@ -98,10 +97,10 @@ std::uint32_t AudioResource::size() const noexcept {
 	return bufferSize_;
 }
 
-const std::basic_string<BYTE>& AudioResource::buffer_data() const {
+const std::basic_string<BYTE>& AudioResource::buffer_data() const noexcept {
 	return buffer_;
 }
 
-const WAVEFORMATEX& AudioResource::format() const {
+const WAVEFORMATEX& AudioResource::format() const noexcept {
 	return format_;
 }
