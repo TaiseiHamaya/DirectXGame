@@ -1,15 +1,13 @@
 #include "Hierarchy.h"
 
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
-#include "Engine/Game/GameObject/GameObject.h"
 #include "Engine/Math/Matrix4x4.h"
 
-void Hierarchy::initialize(const TransformMatrix& transformMatrix) noexcept {
-	currentMatrix = &transformMatrix.get_data()->world;
+void Hierarchy::initialize(const Matrix4x4& worldMatrix) noexcept {
+	currentMatrix = &worldMatrix;
 }
 
-void Hierarchy::set_parent(const GameObject& gameObject) noexcept {
-	parent = &gameObject.get_hierarchy();
+void Hierarchy::set_parent(const Hierarchy& hierarchy) noexcept {
+	parent = &hierarchy;
 }
 
 const Hierarchy& Hierarchy::get_parent() const noexcept {

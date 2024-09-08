@@ -40,12 +40,17 @@ public:
 	/// </summary>
 	void default_material();
 
+protected:
+	struct MaterialDataRef;
+
 public:
-	const Transform3D& get_transform() noexcept;
+	Transform3D& get_transform() noexcept;
+	const Transform3D& get_transform() const noexcept;
 	const Matrix4x4& world_matrix() const;
 	const Vector3 world_position() const;
 	const Hierarchy& get_hierarchy() const;
-	void set_parent(const GameObject& object);
+	void set_parent(const Hierarchy& hierarchy);
+	std::vector<MaterialDataRef>& get_materials();
 
 #ifdef _DEBUG
 public:
@@ -77,8 +82,9 @@ protected:
 	std::unique_ptr<Hierarchy> hierarchy;
 
 	struct MaterialDataRef {
-		Color* color;
-		Transform2D* uvTransform;
+		MaterialDataRef(Color& color_, Transform2D& uvTransform_);
+		Color& color;
+		Transform2D& uvTransform;
 	};
 
 	std::vector<MaterialDataRef> materialData;

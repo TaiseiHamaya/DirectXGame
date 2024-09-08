@@ -3,15 +3,15 @@
 #include <format>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/Game/Camera/Camera3D.h"
+#include "Engine/Game/Hierarchy/Hierarchy.h"
+#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Game/Managers/TextureManager/TextureManager.h"
 #include "Engine/Game/PolygonMesh/PolygonMesh.h"
-#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
 #include "Engine/Game/Transform3D/Transform3D.h"
-#include "Engine/Game/Hierarchy/Hierarchy.h"
-#include "Engine/Game/Camera/Camera3D.h"
 #include "Engine/Utility/Utility.h"
 
 #ifdef _DEBUG
@@ -22,9 +22,9 @@ GameObject::GameObject() noexcept(false) :
 	// 各メモリの取得
 	transformMatrix(std::make_unique<TransformMatrix>()),
 	transform(std::make_unique<Transform3D>()),
-	hierarchy(CreateUnique<Hierarchy>()){
+	hierarchy(CreateUnique<Hierarchy>()) {
 	meshMaterials.clear();
-	hierarchy->initialize(*transformMatrix);
+	hierarchy->initialize(transformMatrix->get_data()->world);
 }
 
 GameObject::GameObject(const std::string& meshName_) noexcept(false) :
@@ -38,7 +38,11 @@ GameObject::GameObject(GameObject&&) noexcept = default;
 
 GameObject& GameObject::operator=(GameObject&&) noexcept = default;
 
-const Transform3D& GameObject::get_transform() noexcept {
+Transform3D& GameObject::get_transform() noexcept {
+	return *transform;
+}
+
+const Transform3D& GameObject::get_transform() const noexcept {
 	return *transform;
 }
 
@@ -46,17 +50,19 @@ void GameObject::update() {
 }
 
 void GameObject::begin_rendering(const Camera3D& camera) noexcept {
-
+	// 行列計算
 	Matrix4x4 worldMatrix = transform->get_matrix();
 	if (hierarchy->has_parent()) {
 		worldMatrix *= hierarchy->parent_matrix();
 	}
 
 	// 各情報をGPUに転送
+	// Transformに転送
 	transformMatrix->set_transformation_matrix_data(
 		std::move(worldMatrix),
 		camera.vp_matrix()
 	);
+	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
 	}
@@ -88,7 +94,7 @@ void GameObject::reset_object(const std::string& meshName_) {
 	size_t meshSize = mesh.lock()->material_count();
 
 	meshMaterials.resize(meshSize);
-	materialData.resize(meshSize);
+	materialData.clear();
 
 	default_material();
 }
@@ -114,10 +120,9 @@ void GameObject::default_material() {
 #ifdef _DEBUG
 			meshMaterials[i].textureName = "Error.png";
 #endif // _DEBUG
-			Log(std::format("[GameObject] Mtl file used Object file \'{}\' is not found", meshName));
+			Log(std::format("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName));
 		}
-		materialData[i].color = &meshMaterials[i].color;
-		materialData[i].uvTransform = &meshMaterials[i].uvTransform;
+		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
 	}
 }
 
@@ -133,8 +138,12 @@ const Hierarchy& GameObject::get_hierarchy() const {
 	return *hierarchy;
 }
 
-void GameObject::set_parent(const GameObject& object) {
-	hierarchy->set_parent(object);
+void GameObject::set_parent(const Hierarchy& hierarchy_) {
+	hierarchy->set_parent(hierarchy_);
+}
+
+std::vector<GameObject::MaterialDataRef>& GameObject::get_materials() {
+	return materialData;
 }
 
 #ifdef _DEBUG
@@ -184,4 +193,9 @@ GameObject::PolygonMeshMaterial::PolygonMeshMaterial() :
 	material->get_data()->lighting = static_cast<std::uint32_t>(LighingType::HalfLambert);
 	material->get_data()->padding = std::array<std::int32_t, 3>();
 	material->get_data()->uvTransform = CMatrix4x4::IDENTITY;
+}
+
+GameObject::MaterialDataRef::MaterialDataRef(Color& color_, Transform2D& uvTransform_) :
+	color(color_),
+	uvTransform(uvTransform_) {
 }
