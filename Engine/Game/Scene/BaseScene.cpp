@@ -29,5 +29,7 @@ void BaseScene::begin_rendering() {
 void BaseScene::late_update() {
 }
 
+#ifdef _DEBUG
 void BaseScene::debug_update() {
 }
+#endif // _DEBUG

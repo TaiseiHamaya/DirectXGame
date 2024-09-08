@@ -33,7 +33,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Game/Color/Color.h"
 #include "Engine/Math/Quaternion.h"
-#include "Engine/Game/Transform3D/Transform3D.h"
+#include "Engine/Game/Collision/CollisionManager/CollisionManager.h"
 #include "externals/imgui/imgui.h"
 
 // ----------要修正----------
@@ -127,6 +127,10 @@ void DirectXCore::initialize() {
 	// システム使用のオブジェクトをロード
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
+#ifdef _DEBUG
+	CollisionManager::LoadDebugDrawMesh();
+#endif // _DEBUG
+
 	// 待機
 	BackgroundLoader::WaitEndExecute();
 	// システム使用のオブジェクトを生成

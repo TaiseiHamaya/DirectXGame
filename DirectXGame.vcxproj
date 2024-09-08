@@ -119,6 +119,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Game\Audio\AudioResource.cpp" />
     <ClCompile Include="Engine\Game\Camera\Camera2D.cpp" />
     <ClCompile Include="Engine\Game\Camera\Camera3D.cpp" />
+    <ClCompile Include="Engine\Game\Collision\Collider\BaseCollider.cpp" />
+    <ClCompile Include="Engine\Game\Collision\Collider\SphereCollider.cpp" />
+    <ClCompile Include="Engine\Game\Collision\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="Engine\Game\Color\Color.cpp" />
     <ClCompile Include="Engine\Game\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\Game\GameObject\SpriteObject.cpp" />
@@ -195,6 +198,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Game\Audio\AudioResource.h" />
     <ClInclude Include="Engine\Game\Camera\Camera2D.h" />
     <ClInclude Include="Engine\Game\Camera\Camera3D.h" />
+    <ClInclude Include="Engine\Game\Collision\Collider\BaseCollider.h" />
+    <ClInclude Include="Engine\Game\Collision\Collider\SphereCollider.h" />
+    <ClInclude Include="Engine\Game\Collision\CollisionManager\CollisionFunctions.h" />
+    <ClInclude Include="Engine\Game\Collision\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Engine\Game\Color\Color.h" />
     <ClInclude Include="Engine\Game\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Game\GameObject\SpriteObject.h" />

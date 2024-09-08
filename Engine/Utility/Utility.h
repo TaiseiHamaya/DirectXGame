@@ -22,5 +22,5 @@ std::unique_ptr<BaseType> CreateUnique(Args ...args) {
 template<class BaseType, class ...Args>
 	requires ConstructibleFrom<BaseType, Args...>
 std::shared_ptr<BaseType> CreateShared(Args ...args) {
-	return std::shared_ptr<BaseType>(args...);
+	return std::make_shared<BaseType>(args...);
 }
