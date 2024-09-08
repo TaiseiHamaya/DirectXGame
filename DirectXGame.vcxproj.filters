@@ -247,6 +247,12 @@
     <Filter Include="Engine\Utility\BitFlag">
       <UniqueIdentifier>{849632df-0bd5-476b-b996-5329bb91d6cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Utility\TimedCall">
+      <UniqueIdentifier>{acddb53d-a76f-40e3-845e-7717d3817d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Game\GameTimer">
+      <UniqueIdentifier>{aa787078-d9a9-4d2f-974b-8632c343151e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -473,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\Collision\CollisionManager\CollisionManager.cpp">
       <Filter>Engine\Core\Game\Collision\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\GameTimer\GameTimer.cpp">
+      <Filter>Engine\Core\Game\GameTimer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,6 +724,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Collision\CollisionManager\CollisionFunctions.h">
       <Filter>Engine\Core\Game\Collision\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\TimedCall\TimedCall.h">
+      <Filter>Engine\Utility\TimedCall</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\GameTimer\GameTimer.h">
+      <Filter>Engine\Core\Game\GameTimer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

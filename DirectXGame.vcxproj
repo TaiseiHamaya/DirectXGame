@@ -125,6 +125,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Game\Color\Color.cpp" />
     <ClCompile Include="Engine\Game\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\Game\GameObject\SpriteObject.cpp" />
+    <ClCompile Include="Engine\Game\GameTimer\GameTimer.cpp" />
     <ClCompile Include="Engine\Game\Hierarchy\Hierarchy.cpp" />
     <ClCompile Include="Engine\Game\Managers\AudioManager\AudioManager.cpp" />
     <ClCompile Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.cpp" />
@@ -205,6 +206,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Game\Color\Color.h" />
     <ClInclude Include="Engine\Game\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Game\GameObject\SpriteObject.h" />
+    <ClInclude Include="Engine\Game\GameTimer\GameTimer.h" />
     <ClInclude Include="Engine\Game\Hierarchy\Hierarchy.h" />
     <ClInclude Include="Engine\Game\Managers\AudioManager\AudioManager.h" />
     <ClInclude Include="Engine\Game\Managers\PolygonMeshManager\PolygonMeshManager.h" />
@@ -241,6 +243,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\ImGuiLoadManager\ImGuiLoadManager.h" />
     <ClInclude Include="Engine\Utility\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Engine\Utility\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Utility\TimedCall\TimedCall.h" />
     <ClInclude Include="Engine\Utility\Utility.h" />
     <ClInclude Include="Engine\WinApp.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />

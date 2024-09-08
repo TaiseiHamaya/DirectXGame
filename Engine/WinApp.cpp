@@ -5,6 +5,7 @@
 
 #include "Engine/DirectX/DirectXCore.h"
 #include "Engine/Game/Managers/AudioManager/AudioManager.h"
+#include "Engine/Game/GameTimer/GameTimer.h"
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
@@ -56,10 +57,19 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	DirectXCore::Initialize();
 
 	AudioManager::Initialize();
+	
+	GameTimer::Initialize();
+#ifdef _DEBUG
+	GameTimer::IsFixDeltaTime(true);
+#else
+	GameTimer::IsFixDeltaTime(false);
+#endif // _DEBUG
+
 
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Log("Complete Create Window\n");
+
 }
 
 bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
@@ -82,6 +92,7 @@ bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
 
 void WinApp::BeginFrame() {
 	instance->begin_frame();
+	GameTimer::Update();
 }
 
 void WinApp::EndFrame() {
