@@ -80,6 +80,10 @@ Hierarchy& BaseCollider::get_hierarchy() const {
 	return *hierarchy;
 }
 
+Transform3D& BaseCollider::get_transform() const {
+	return *transform;
+}
+
 Vector3 BaseCollider::world_position() const {
 	return Transform3D::ExtractPosition(worldMatrix);
 }

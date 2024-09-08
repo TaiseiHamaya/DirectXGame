@@ -26,6 +26,7 @@ public:
 
 public:
 	Hierarchy& get_hierarchy() const;
+	Transform3D& get_transform() const;
 	Vector3 world_position() const;
 	virtual constexpr std::string type() const = 0;
 
