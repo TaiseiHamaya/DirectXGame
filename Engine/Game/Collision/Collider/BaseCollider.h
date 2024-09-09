@@ -29,14 +29,18 @@ public:
 	Transform3D& get_transform() const;
 	Vector3 world_position() const;
 	virtual constexpr std::string type() const = 0;
+	const std::string& group() const noexcept;
 
 public:
 	void set_on_collision(std::function<void(const BaseCollider* const)> function);
 	void set_on_collision_enter(std::function<void(const BaseCollider* const)> function);
 	void set_on_collision_exit(std::function<void(const BaseCollider* const)> function);
 
+	void set_group_name(const std::string& name);
+
 private:
 	std::unique_ptr<Transform3D> transform;
+	const std::string* groupName;
 
 protected:
 	std::unique_ptr<Hierarchy> hierarchy;

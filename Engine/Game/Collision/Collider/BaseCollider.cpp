@@ -88,6 +88,16 @@ Vector3 BaseCollider::world_position() const {
 	return Transform3D::ExtractPosition(worldMatrix);
 }
 
+const std::string& BaseCollider::group() const noexcept {
+	if (groupName) {
+		return *groupName;
+	}
+	else {
+		static std::string ColliderZeroString{};
+		return ColliderZeroString;
+	}
+}
+
 void BaseCollider::set_on_collision(std::function<void(const BaseCollider* const)> function) {
 	onCollisionFunc = function;
 }
@@ -98,6 +108,10 @@ void BaseCollider::set_on_collision_enter(std::function<void(const BaseCollider*
 
 void BaseCollider::set_on_collision_exit(std::function<void(const BaseCollider* const)> function) {
 	onCollisionExitFunc = function;
+}
+
+void BaseCollider::set_group_name(const std::string& name) {
+	groupName = &name;
 }
 
 #ifdef _DEBUG

@@ -43,7 +43,8 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 }
 
 void CollisionManager::register_collider(const std::string& groupName, const std::weak_ptr<BaseCollider>& collider) {
-	colliderList.emplace(groupName, collider);
+	auto newCollider = colliderList.emplace(groupName, collider);
+	collider.lock()->set_group_name(newCollider->first);
 }
 
 void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
