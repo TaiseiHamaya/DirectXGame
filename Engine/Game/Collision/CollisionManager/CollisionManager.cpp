@@ -31,10 +31,8 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 		auto& group2 = group2Range.first;
 		// 同じグループのときは重複させないようにgroup2のiteratorを進める
 		if (groupName1 == groupName2) {
-			while (group1 != group2) {
-				++group2;
-			}
-			++group2;
+			__int64 distance = std::distance(group2, group1);
+			std::advance(group2, distance + 1);
 		}
 		for (; group2 != group2Range.second; ++group2) {
 			test_collision(group1->second.lock(), group2->second.lock());

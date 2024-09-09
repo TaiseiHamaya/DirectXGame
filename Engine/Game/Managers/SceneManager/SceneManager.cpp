@@ -36,6 +36,10 @@ void SceneManager::Finalize() noexcept {
 void SceneManager::Begin() {
 	SceneManager& instance = GetInstance();
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {
+		// ロードを止める
+		if (instance.sceneChangeInfo.isStopLoad) {
+			BackgroundLoader::WaitEndExecute();
+		}
 		// initialize関数の呼び出し
 		if (instance.sceneChangeInfo.next && instance.sceneChangeInfo.changeType != SceneChangeType::POP) {
 			instance.sceneChangeInfo.next->initialize();
@@ -50,10 +54,6 @@ void SceneManager::Begin() {
 		else {
 			// スタックしないのでbackにmove
 			instance.sceneQue.back() = std::move(instance.sceneChangeInfo.next);
-		}
-		// ロードを止める
-		if (instance.sceneChangeInfo.isStopLoad) {
-			BackgroundLoader::WaitEndExecute();
 		}
 		// 遷移状態を解除
 		instance.sceneStatus = SceneStatus::DEFAULT;
