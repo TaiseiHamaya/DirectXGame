@@ -88,10 +88,25 @@ void SceneDemo::initialize() {
 	);
 #endif // _DEBUG
 
+	single3Collider = CreateShared<SphereCollider>();
+	single3Collider->initialize();
+#ifdef _DEBUG
+	single3Collider->set_on_collision(
+		std::bind(&SceneDemo::on_collision, this, std::placeholders::_1, &single3Collider->get_collider_drawer().get_materials()[0].color)
+	);
+	single3Collider->set_on_collision_enter(
+		std::bind(&SceneDemo::on_collision_enter, this, std::placeholders::_1, &single3Collider->get_collider_drawer().get_materials()[0].color)
+	);
+	single3Collider->set_on_collision_exit(
+		std::bind(&SceneDemo::on_collision_exit, this, std::placeholders::_1, &single3Collider->get_collider_drawer().get_materials()[0].color)
+	);
+#endif // _DEBUG
+
 	collisionManager = CreateUnique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
 	collisionManager->register_collider("Single", single2Collider);
+	collisionManager->register_collider("Single", single3Collider);
 	collisionManager->register_collider("Child", childCollider);
 }
 

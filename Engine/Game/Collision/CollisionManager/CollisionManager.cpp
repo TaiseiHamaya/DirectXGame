@@ -31,9 +31,10 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 		auto& group2 = group2Range.first;
 		// 同じグループのときは重複させないようにgroup2のiteratorを進める
 		if (groupName1 == groupName2) {
-			do {
+			while (group1 != group2) {
 				++group2;
-			} while (group1 == group2);
+			}
+			++group2;
 		}
 		for (; group2 != group2Range.second; ++group2) {
 			test_collision(group1->second.lock(), group2->second.lock());

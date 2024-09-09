@@ -44,6 +44,7 @@ private:
 	std::shared_ptr<SphereCollider> childCollider;
 	std::shared_ptr<SphereCollider> singleCollider;
 	std::shared_ptr<SphereCollider> single2Collider;
+	std::shared_ptr<SphereCollider> single3Collider;
 
 	std::unique_ptr<CollisionManager> collisionManager;
 	std::unique_ptr<Camera3D> camera3D;
