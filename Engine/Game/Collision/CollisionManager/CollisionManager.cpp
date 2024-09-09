@@ -26,9 +26,16 @@ void CollisionManager::update() {
 
 void CollisionManager::collision(const std::string& groupName1, const std::string& groupName2) {
 	auto&& group1Range = colliderList.equal_range(groupName1);
-	for (auto&& group1 = group1Range.first; group1 != group1Range.second; ++group1) {
+	for (auto& group1 = group1Range.first; group1 != group1Range.second; ++group1) {
 		auto&& group2Range = colliderList.equal_range(groupName2);
-		for (auto&& group2 = group2Range.first; group2 != group2Range.second; ++group2) {
+		auto& group2 = group2Range.first;
+		// 同じグループのときは重複させないようにgroup2のiteratorを進める
+		if (groupName1 == groupName2) {
+			do {
+				++group2;
+			} while (group1 == group2);
+		}
+		for (; group2 != group2Range.second; ++group2) {
 			test_collision(group1->second.lock(), group2->second.lock());
 		}
 	}
@@ -39,6 +46,10 @@ void CollisionManager::register_collider(const std::string& groupName, const std
 }
 
 void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
+	// 衝突対象が同じ場合は判定しない
+	if (test1 == test2) {
+		return;
+	}
 	std::string type1 = test1->type();
 	std::string type2 = test2->type();
 

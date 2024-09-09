@@ -74,9 +74,24 @@ void SceneDemo::initialize() {
 	);
 #endif // _DEBUG
 
+	single2Collider = CreateShared<SphereCollider>();
+	single2Collider->initialize();
+#ifdef _DEBUG
+	single2Collider->set_on_collision(
+		std::bind(&SceneDemo::on_collision, this, std::placeholders::_1, &single2Collider->get_collider_drawer().get_materials()[0].color)
+	);
+	single2Collider->set_on_collision_enter(
+		std::bind(&SceneDemo::on_collision_enter, this, std::placeholders::_1, &single2Collider->get_collider_drawer().get_materials()[0].color)
+	);
+	single2Collider->set_on_collision_exit(
+		std::bind(&SceneDemo::on_collision_exit, this, std::placeholders::_1, &single2Collider->get_collider_drawer().get_materials()[0].color)
+	);
+#endif // _DEBUG
+
 	collisionManager = CreateUnique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
+	collisionManager->register_collider("Single", single2Collider);
 	collisionManager->register_collider("Child", childCollider);
 }
 
@@ -100,6 +115,7 @@ void SceneDemo::late_update() {
 	collisionManager->update();
 	collisionManager->collision("Parent", "Single");
 	collisionManager->collision("Single", "Child");
+	collisionManager->collision("Single", "Single");
 }
 
 void SceneDemo::draw() const {
@@ -112,11 +128,11 @@ void SceneDemo::draw() const {
 	RenderPathManager::Next();
 }
 
-void SceneDemo::on_collision(const BaseCollider* const, Color* object) {
+void SceneDemo::on_collision([[maybe_unused]]const BaseCollider* const other, Color* object) {
 	*object = { 1.0f,0,0,1.0f };
 }
 
-void SceneDemo::on_collision_enter(const BaseCollider* const, Color* object) {
+void SceneDemo::on_collision_enter(const BaseCollider* const other, Color* object) {
 	*object = { 0,1.0f,0,1.0f };
 }
 
@@ -150,6 +166,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("Child");
 	child->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("Single");
+	singleCollider->get_transform().debug_gui();
 	ImGui::End();
 
 }
