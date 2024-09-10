@@ -102,7 +102,7 @@ private:
 		struct LoadAudioData {
 			std::unique_ptr<AudioResource> audioData; // メッシュデータ
 		};
-		std::variant<LoadTextureData, LoadPolygonMeshData, LoadAudioData, std::monostate, void*> loadData; // variantでDataを選択
+		std::variant<LoadTextureData, LoadPolygonMeshData, LoadAudioData, std::monostate> loadData; // variantでDataを選択
 	};
 
 	/// <summary>
