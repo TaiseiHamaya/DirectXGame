@@ -13,6 +13,10 @@ void SingleRenderTarget::initialize() {
 	initialize(WinApp::GetClientWidth(), WinApp::GetClientHight());
 }
 
+void SingleRenderTarget::finalize() {
+	renderTarget->release_index();
+}
+
 void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {
 	renderTarget = std::make_unique<OffscreenRender>();
 	renderTarget->initialize(width, hight);

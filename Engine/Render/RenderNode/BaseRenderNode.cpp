@@ -10,6 +10,10 @@ BaseRenderNode::BaseRenderNode() = default;
 
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
+void BaseRenderNode::finalize() {
+	renderTarget->finalize();
+}
+
 void BaseRenderNode::begin() {
 	auto&& commandList = DirectXCommand::GetCommandList();
 

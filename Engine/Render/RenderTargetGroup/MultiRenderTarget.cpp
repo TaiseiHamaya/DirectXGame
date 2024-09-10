@@ -16,6 +16,12 @@ void MultiRenderTarget::initialize() {
 	initialize(WinApp::GetClientWidth(), WinApp::GetClientHight(), 1);
 }
 
+void MultiRenderTarget::finalize() {
+	for (auto& renderTarget : renderTargets) {
+		renderTarget.release_index();
+	}
+}
+
 void MultiRenderTarget::initialize(std::uint32_t width, std::uint32_t hight, std::uint32_t size) {
 	renderTargets.resize(size);
 	for (auto itr = renderTargets.begin(); itr < renderTargets.end(); ++itr) {

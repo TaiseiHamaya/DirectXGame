@@ -22,6 +22,11 @@ public:
 	/// 初期化
 	/// </summary>
 	virtual void initialize() = 0;
+	
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	virtual void finalize();
 
 	/// <summary>
 	/// 描画開始

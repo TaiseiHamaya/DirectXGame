@@ -31,6 +31,12 @@ public:
 	static void RegisterPath(std::string&& name, RenderPath&& path);
 
 	/// <summary>
+	/// パスの登録解除
+	/// </summary>
+	/// <param name="name">解除するパス名</param>
+	static void UnregisterPath(std::string&& name);
+
+	/// <summary>
 	/// 使用するパスの設定
 	/// </summary>
 	/// <param name="name">パス名</param>

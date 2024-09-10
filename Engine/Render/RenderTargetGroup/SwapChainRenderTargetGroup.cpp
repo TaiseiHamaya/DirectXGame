@@ -13,6 +13,9 @@ void SwapChainRenderTargetGroup::initialize() {
 	}
 }
 
+void SwapChainRenderTargetGroup::finalize() {
+}
+
 void SwapChainRenderTargetGroup::set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, std::uint32_t index) {
 	renderTargets[index].get_resource() = resource_;
 }

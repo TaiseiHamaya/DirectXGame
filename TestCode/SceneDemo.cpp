@@ -133,6 +133,7 @@ void SceneDemo::update() {
 }
 
 void SceneDemo::begin_rendering() {
+	camera3D->begin_rendering(*camera3D);
 	camera3D->update_matrix();
 	parent->begin_rendering(*camera3D);
 	child->begin_rendering(*camera3D);

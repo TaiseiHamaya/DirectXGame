@@ -24,6 +24,11 @@ public:
 	virtual void initialize() = 0;
 
 	/// <summary>
+	/// 終了処理
+	/// </summary>
+	virtual void finalize() = 0;
+
+	/// <summary>
 	/// 描画処理の開始
 	/// </summary>
 	virtual void begin();

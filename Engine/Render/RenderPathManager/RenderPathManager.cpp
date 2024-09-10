@@ -34,6 +34,29 @@ void RenderPathManager::RegisterPath(std::string&& name, RenderPath&& path) {
 	}
 }
 
+void RenderPathManager::UnregisterPath(std::string&& name) {
+	// DefaultPathを削除すると色々まずいのでさせない
+	if (name == "Default") {
+		Log("[RenderPathManager] Don't Unregister path \'Default\'.");
+		return;
+	}
+	auto&& instance = GetInstance();
+	RenderPath* deletePath = nullptr;
+	// 登録されているか
+	if (instance.renderingPath.contains(name)) {
+		// 正常に削除されるのでログを出す
+		deletePath = &instance.renderingPath.at(name);
+		Log(std::format("[RenderPathManager] Unregisterd path. Name-\'{}\' Address-\'{}\'\n", name, (void*)deletePath));
+	}
+	// 削除
+	instance.renderingPath.erase(name);
+	// 削除したpathが今のPathと同じだった場合、delete済みポインタ参照が発生する場合があるので、強制的にDefaultにさせる
+	if (deletePath == instance.nowPath) {
+		SetPath("Default");
+		Log(std::format("[RenderPathManager] The path used has been unregistered. Current path is set to \'Default\'\n"));
+	}
+}
+
 void RenderPathManager::SetPath(const std::string& name) {
 	GetInstance().nowPath = &GetInstance().renderingPath.at(name);
 }

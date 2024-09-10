@@ -19,6 +19,11 @@ public:
 	void initialize() override;
 
 	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void finalize() override;
+
+	/// <summary>
 	/// resourceの設定
 	/// </summary>
 	/// <param name="resource_">設定するResource</param>
