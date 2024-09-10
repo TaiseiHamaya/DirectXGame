@@ -43,7 +43,7 @@ void TextureManager::RegisterLoadQue(const std::string& filePath, const std::str
 std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	// 見つかったらそのデータのweak_ptrを返す
-	if (IsRegisteredUnlocking(textureName)) {
+	if (IsRegisteredNolocking(textureName)) {
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
@@ -54,12 +54,12 @@ std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName
 
 bool TextureManager::IsRegistered(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	return IsRegisteredUnlocking(textureName);
+	return IsRegisteredNolocking(textureName);
 }
 
 void TextureManager::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	if (IsRegisteredUnlocking(textureName)) {
+	if (IsRegisteredNolocking(textureName)) {
 		Log(std::format("[TextureManager] Unload texture Name-\'{:}\'.\n", textureName));
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		texture->release_srv_heap();
@@ -70,7 +70,7 @@ void TextureManager::UnloadTexture(const std::string& textureName) {
 
 void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>& data) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	if (IsRegisteredUnlocking(name)) {
+	if (IsRegisteredNolocking(name)) {
 		data->release_srv_heap();
 		Log(std::format("[TextureManager] Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
 		return;
@@ -103,6 +103,6 @@ bool TextureManager::TextureListGui(std::string& current) {
 }
 #endif // _DEBUG
 
-bool TextureManager::IsRegisteredUnlocking(const std::string& textureName) noexcept(false) {
+bool TextureManager::IsRegisteredNolocking(const std::string& textureName) noexcept(false) {
 	return GetInstance().textureInstanceList.contains(textureName);
 }

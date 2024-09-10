@@ -44,16 +44,17 @@ void SceneManager::Begin() {
 		if (instance.sceneChangeInfo.next && instance.sceneChangeInfo.changeType != SceneChangeType::POP) {
 			instance.sceneChangeInfo.next->initialize();
 		}
-		// finalize関数の呼び出し
-		instance.sceneQue.back()->finalize();
 		// シーンの切り替え
 		if (instance.sceneChangeInfo.changeType == SceneChangeType::STACK) {
 			// スタックする場合emplace_back
 			instance.sceneQue.emplace_back(std::move(instance.sceneChangeInfo.next));
 		}
 		else {
+			auto& currentScene = instance.sceneQue.back();
+			// finalize関数の呼び出し
+			currentScene->finalize();
 			// スタックしないのでbackにmove
-			instance.sceneQue.back() = std::move(instance.sceneChangeInfo.next);
+			currentScene = std::move(instance.sceneChangeInfo.next);
 		}
 		// 遷移状態を解除
 		instance.sceneStatus = SceneStatus::DEFAULT;

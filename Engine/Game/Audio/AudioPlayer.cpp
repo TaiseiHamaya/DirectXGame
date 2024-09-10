@@ -11,17 +11,15 @@ AudioPlayer::~AudioPlayer() {
 
 void AudioPlayer::initialize(const std::string& name, float volume, bool isLoop) {
 	auto&& audio = AudioManager::GetAudio(name);
-	if (audio.expired()) {
+	if (!audio) {
 		return;
 	}
-	auto&& locked = audio.lock();
-	
 	HRESULT result;
-	result = AudioManager::GetXAudio2()->CreateSourceVoice(&sourceVoice, &locked->format());
+	result = AudioManager::GetXAudio2()->CreateSourceVoice(&sourceVoice, &audio->format());
 	assert(SUCCEEDED(result));
 
-	buffer.pAudioData = locked->buffer_data().data();
-	buffer.AudioBytes = locked->size();
+	buffer.pAudioData = audio->buffer_data().data();
+	buffer.AudioBytes = audio->size();
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = isLoop ? XAUDIO2_LOOP_INFINITE : 0;
 	sourceVoice->SetVolume(volume);
@@ -54,6 +52,11 @@ void AudioPlayer::pause() {
 	HRESULT result;
 	result = sourceVoice->Stop();
 	assert(SUCCEEDED(result));
+}
+
+void AudioPlayer::restart() {
+	stop();
+	play();
 }
 
 void AudioPlayer::set_volume(float volume) {

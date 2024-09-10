@@ -80,7 +80,7 @@ private:
 	/// </summary>
 	/// <param name="textureName">テクスチャ名</param>
 	/// <returns>bool値</returns>
-	static bool IsRegisteredUnlocking(const std::string& textureName) noexcept(false);
+	static bool IsRegisteredNolocking(const std::string& textureName) noexcept(false);
 
 private: // メンバ変数
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textureInstanceList; // テクスチャリスト

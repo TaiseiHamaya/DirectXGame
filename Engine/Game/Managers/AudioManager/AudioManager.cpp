@@ -26,6 +26,8 @@ void AudioManager::Initialize() {
 	HRESULT result;
 	result = XAudio2Create(instance.xAudio2.GetAddressOf(), 0, XAUDIO2_DEFAULT_PROCESSOR);
 	result = instance.xAudio2->CreateMasteringVoice(&instance.masteringVoice);
+	// nullインスタンスの追加
+	Transfer("NULL", nullptr);
 
 }
 
@@ -43,42 +45,41 @@ void AudioManager::RegisterLoadQue(const std::string& filePath, const std::strin
 
 }
 
-std::weak_ptr<AudioResource> AudioManager::GetAudio(const std::string& audioName) {
+const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& audioName) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
 	// 見つかったらそのデータのweak_ptrを返す
-	if (IsRegisteredUnlocking(audioName)) {
+	if (IsRegisteredNolocking(audioName)) {
 		return GetInstance().audioResources.at(audioName);
 	}
 	else {
 		Log(std::format("[AudioManager] Audio Name-\'{:}\' is not loading.\n", audioName));
-		//return GetInstance().audioResources.at("Error.png");
-		return std::shared_ptr<AudioResource>(nullptr);
+		return GetInstance().audioResources.at("NULL");
 	}
 }
 
 bool AudioManager::IsRegistered(const std::string& audioName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
-	return IsRegisteredUnlocking(audioName);
+	return IsRegisteredNolocking(audioName);
 }
 
 void AudioManager::UnloadAudio(const std::string& audioName) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
-	if (IsRegisteredUnlocking(audioName)) {
+	if (IsRegisteredNolocking(audioName)) {
 		GetInstance().audioResources.erase(audioName);
 	}
 }
 
-void AudioManager::Transfer(const std::string& name, std::shared_ptr<AudioResource>& data) {
+void AudioManager::Transfer(const std::string& name, std::unique_ptr<AudioResource>&& data) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
-	if (IsRegisteredUnlocking(name)) {
+	if (IsRegisteredNolocking(name)) {
 		Log(std::format("[AudioManager] Transferring registered Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
 		return;
 	}
 	Log(std::format("[AudioManager] Transfer new Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
-	GetInstance().audioResources.emplace(name, data);
+	GetInstance().audioResources.emplace(name, std::move(data));
 
 }
 
-bool AudioManager::IsRegisteredUnlocking(const std::string& audioName) noexcept(false) {
+bool AudioManager::IsRegisteredNolocking(const std::string& audioName) noexcept(false) {
 	return GetInstance().audioResources.contains(audioName);
 }

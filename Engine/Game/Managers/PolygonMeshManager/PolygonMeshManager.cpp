@@ -33,7 +33,7 @@ void PolygonMeshManager::RegisterLoadQue(const std::string& directoryPath, const
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
 	std::lock_guard<std::mutex> lock{ meshMutex }; 
-	if (IsRegisteredUnlocking(meshName)) {
+	if (IsRegisteredNolocking(meshName)) {
 		return GetInstance().meshInstanceList.at(meshName);
 	}
 	else {
@@ -45,7 +45,7 @@ std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string&
 
 bool PolygonMeshManager::IsRegistered(const std::string& meshName) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	return IsRegisteredUnlocking(meshName);
+	return IsRegisteredNolocking(meshName);
 }
 
 void PolygonMeshManager::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
@@ -78,6 +78,6 @@ bool PolygonMeshManager::MeshListGui(std::string& current) {
 }
 #endif // _DEBUG
 
-bool PolygonMeshManager::IsRegisteredUnlocking(const std::string& meshName) {
+bool PolygonMeshManager::IsRegisteredNolocking(const std::string& meshName) {
 	return GetInstance().meshInstanceList.contains(meshName);
 }

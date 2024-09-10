@@ -100,9 +100,9 @@ private:
 			std::shared_ptr<PolygonMesh> meshData; // メッシュデータ
 		};
 		struct LoadAudioData {
-			std::shared_ptr<AudioResource> audioData; // メッシュデータ
+			std::unique_ptr<AudioResource> audioData; // メッシュデータ
 		};
-		std::variant<LoadTextureData, LoadPolygonMeshData, LoadAudioData, void*> loadData; // variantでDataを選択
+		std::variant<LoadTextureData, LoadPolygonMeshData, LoadAudioData, std::monostate> loadData; // variantでDataを選択
 	};
 
 	/// <summary>

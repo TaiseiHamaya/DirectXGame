@@ -3,8 +3,6 @@
 #include <string>
 #include <xaudio2.h>
 
-class AudioResource;
-
 class AudioPlayer {
 public:
 	AudioPlayer() = default;
@@ -22,6 +20,7 @@ public:
 	void play();
 	void stop();
 	void pause();
+	void restart();
 	//bool is_play();
 
 	void set_volume(float volume);

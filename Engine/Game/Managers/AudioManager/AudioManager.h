@@ -48,7 +48,7 @@ public:
 	/// </summary>
 	/// <param name="audioName">拡張子付きファイル名</param>
 	/// <returns>AudioResourceクラスのweak_ptr</returns>
-	static std::weak_ptr<AudioResource> GetAudio(const std::string& audioName);
+	static const std::unique_ptr<AudioResource>& GetAudio(const std::string& audioName);
 
 	/// <summary>
 	/// オーディオが登録済みか取得
@@ -68,7 +68,7 @@ public:
 	/// </summary>
 	/// <param name="name">転送時の名前</param>
 	/// <param name="data">転送データ</param>
-	static void Transfer(const std::string& name, std::shared_ptr<AudioResource>& data);
+	static void Transfer(const std::string& name, std::unique_ptr<AudioResource>&& data);
 
 private:
 	/// <summary>
@@ -76,11 +76,11 @@ private:
 	/// </summary>
 	/// <param name="textureName">オーディオ名</param>
 	/// <returns>bool値</returns>
-	static bool IsRegisteredUnlocking(const std::string& textureName) noexcept(false);
+	static bool IsRegisteredNolocking(const std::string& textureName) noexcept(false);
 
 private:
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masteringVoice;
 
-	std::unordered_map<std::string, std::shared_ptr<AudioResource>> audioResources;
+	std::unordered_map<std::string, std::unique_ptr<AudioResource>> audioResources;
 };

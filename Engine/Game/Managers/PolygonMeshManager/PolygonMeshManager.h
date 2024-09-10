@@ -63,7 +63,7 @@ private:
 	/// </summary>
 	/// <param name="meshName">確認するメッシュ名</param>
 	/// <returns>登録されていればtrue[bool]</returns>
-	static bool IsRegisteredUnlocking(const std::string& meshName);
+	static bool IsRegisteredNolocking(const std::string& meshName);
 
 private:
 	std::unordered_map<std::string, std::shared_ptr<PolygonMesh>> meshInstanceList;

@@ -71,7 +71,11 @@ bool AudioResource::load(const std::string& directoryPath,const std::string& fil
 		if (std::strncmp(data.id, "JUNK", 4) == 0) {
 			file.seekg(data.size, std::ios_base::cur);
 		}
+		else if (std::strncmp(data.id, "LIST", 4) == 0) {
+			file.seekg(data.size, std::ios_base::cur);
+		}
 		else {
+			file.seekg(data.size, std::ios_base::cur);
 			Log(std::format("[AudioResource] Unknown chunk found: {}.\n", std::string(data.id, 4)));
 			return false;
 		}

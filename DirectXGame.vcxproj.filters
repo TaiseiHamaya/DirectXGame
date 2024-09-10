@@ -244,9 +244,6 @@
     <Filter Include="Engine\Core\Game\Collision\Collider">
       <UniqueIdentifier>{b5f12602-712a-4894-9e5f-cff174516b47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Utility\BitFlag">
-      <UniqueIdentifier>{849632df-0bd5-476b-b996-5329bb91d6cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\TimedCall">
       <UniqueIdentifier>{acddb53d-a76f-40e3-845e-7717d3817d01}</UniqueIdentifier>
     </Filter>

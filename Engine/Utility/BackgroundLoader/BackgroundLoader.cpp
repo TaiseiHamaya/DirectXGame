@@ -57,7 +57,7 @@ void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& fil
 	case LoadEvent::LoadAudio:
 		GetInstance().loadEvents.emplace_back(
 			eventID,
-			std::make_unique<LoadingQue>(filePath, fileName, LoadingQue::LoadAudioData{ std::make_shared<AudioResource>() }));
+			std::make_unique<LoadingQue>(filePath, fileName, LoadingQue::LoadAudioData{ std::make_unique<AudioResource>() }));
 		break;
 	default:
 		Log("[BackgroundLoader] EventID is wrong.\n");
@@ -106,7 +106,7 @@ void BackgroundLoader::load_manager() {
 		case LoadEvent::LoadTexture:
 		{
 			// テクスチャロードイベント
-			auto& tex = std::get<0>(nowEvent->data->loadData);
+			auto& tex = std::get<LoadingQue::LoadTextureData>(nowEvent->data->loadData);
 			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
 			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath + "/" + nowEvent->data->fileName);
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
@@ -116,7 +116,7 @@ void BackgroundLoader::load_manager() {
 		case LoadEvent::LoadPolygonMesh:
 		{
 			// メッシュロードイベント
-			auto& mesh = std::get<1>(nowEvent->data->loadData);
+			auto& mesh = std::get<LoadingQue::LoadPolygonMeshData>(nowEvent->data->loadData);
 			mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitLoadingQue.emplace_back(std::move(*nowEvent));
@@ -125,7 +125,7 @@ void BackgroundLoader::load_manager() {
 		case LoadEvent::LoadAudio:
 		{
 			// オーディオロードイベント
-			auto& audio = std::get<2>(nowEvent->data->loadData);
+			auto& audio = std::get<LoadingQue::LoadAudioData>(nowEvent->data->loadData);
 			audio.audioData->load(nowEvent->data->filePath, nowEvent->data->fileName);
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitLoadingQue.emplace_back(std::move(*nowEvent));
@@ -187,23 +187,23 @@ void BackgroundLoader::transfer_data() {
 		switch (waitLoadingQueItr->eventId) {
 		case LoadEvent::LoadTexture:
 		{
-			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);
+			LoadingQue::LoadTextureData& tex = std::get<LoadingQue::LoadTextureData>(waitLoadingQueItr->data->loadData);
 			// TextureManagerに転送
 			TextureManager::Transfer(waitLoadingQueItr->data->fileName, tex.textureData);
 			break;
 		}
 		case LoadEvent::LoadPolygonMesh:
 		{
-			LoadingQue::LoadPolygonMeshData& mesh = std::get<1>(waitLoadingQueItr->data->loadData);
+			LoadingQue::LoadPolygonMeshData& mesh = std::get<LoadingQue::LoadPolygonMeshData>(waitLoadingQueItr->data->loadData);
 			// PolygomMeshManagerに転送
 			PolygonMeshManager::Transfer(waitLoadingQueItr->data->fileName, mesh.meshData);
 			break;
 		}
 		case LoadEvent::LoadAudio:
 		{
-			LoadingQue::LoadAudioData& audio = std::get<2>(waitLoadingQueItr->data->loadData);
+			LoadingQue::LoadAudioData& audio = std::get<LoadingQue::LoadAudioData>(waitLoadingQueItr->data->loadData);
 			// AudioManagerに転送
-			AudioManager::Transfer(waitLoadingQueItr->data->fileName, audio.audioData);
+			AudioManager::Transfer(waitLoadingQueItr->data->fileName, std::move(audio.audioData));
 			break;
 		}
 		default:
