@@ -49,7 +49,7 @@ void MultiRenderTarget::set_render_target() {
 	commandList->OMSetRenderTargets(
 		static_cast<UINT>(renderTargetsHandles.size()), renderTargetsHandles.data(),
 		depthStencil ? 1 : 0,
-		depthStencil ? &depthStencil->get_cpu_handle() : nullptr
+		depthStencil ? &depthStencil->get_dsv_cpu_handle() : nullptr
 	);
 	for (auto itr = renderTargets.begin(); itr < renderTargets.end(); ++itr) {
 		commandList->ClearRenderTargetView(

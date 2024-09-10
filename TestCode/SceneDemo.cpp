@@ -14,6 +14,8 @@
 
 #include "Engine/Game/Managers/AudioManager/AudioManager.h"
 #include "Engine/Game/Managers/TextureManager/TextureManager.h"
+#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Render/RenderPath/RenderPath.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -103,10 +105,28 @@ void SceneDemo::initialize() {
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("");
 	audioPlayer->initialize("SE_meteoEachOther.wav");
+
+	object3dNode = std::make_unique<Object3DNode>();
+	object3dNode->initialize();
+	object3dNode->set_render_target();
+
+	spriteNode = std::make_unique<SpriteNode>();
+	spriteNode->initialize();
+	spriteNode->set_background_texture(object3dNode->result_stv_handle());
+	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+
+	RenderPath path{};
+	path.initialize({ object3dNode, spriteNode });
+
+	RenderPathManager::RegisterPath("SceneDemo", std::move(path));
+	RenderPathManager::SetPath("SceneDemo");
+
+	DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
 }
 
 void SceneDemo::finalize() {
 	audioPlayer->finalize();
+	RenderPathManager::UnregisterPath("SceneDemo");
 }
 
 void SceneDemo::begin() {
@@ -138,9 +158,10 @@ void SceneDemo::draw() const {
 	collisionManager->debug_draw3d(*camera3D);
 #endif // _DEBUG
 	RenderPathManager::Next();
+	RenderPathManager::Next();
 }
 
-void SceneDemo::on_collision([[maybe_unused]]const BaseCollider* const other, Color* object) {
+void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color* object) {
 	*object = { 1.0f,0,0,1.0f };
 }
 

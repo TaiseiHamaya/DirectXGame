@@ -33,7 +33,7 @@ void SwapChainRenderTargetGroup::set_render_target() {
 	auto backBufferIndex = DirectXSwapChain::GetBackBufferIndex();
 	commandList->OMSetRenderTargets(
 		1, &renderTargetHandles[backBufferIndex],
-		1, &depthStencil->get_cpu_handle()
+		1, &depthStencil->get_dsv_cpu_handle()
 	);
 	commandList->ClearRenderTargetView(
 		renderTargetHandles[backBufferIndex],

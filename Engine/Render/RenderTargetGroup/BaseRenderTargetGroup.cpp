@@ -16,8 +16,9 @@ void BaseRenderTargetGroup::begin() {
 	change_render_target_state();
 	// DepthStencilを持っているならクリアする
 	if (depthStencil) {
+		depthStencil->change_resource_state();
 		commandList->ClearDepthStencilView(
-			depthStencil->get_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
+			depthStencil->get_dsv_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
 		);
 	}
 	// ViewPortの設定
@@ -31,6 +32,9 @@ void BaseRenderTargetGroup::begin() {
 void BaseRenderTargetGroup::end() {
 	// RTのリソースバリアを変更
 	change_render_target_state();
+	if (depthStencil) {
+		depthStencil->change_resource_state();
+	}
 }
 
 void BaseRenderTargetGroup::set_clear_color(const Color& color_) {

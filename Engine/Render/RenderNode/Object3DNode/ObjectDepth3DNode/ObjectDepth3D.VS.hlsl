@@ -12,8 +12,8 @@ struct VertexShaderInput {
 
 ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
 
-float LinearDepth(float d, float nearZ, float farZ) {
-	return (d - nearZ) / (farZ - nearZ);
+float LinearDepth(float z, float w, float nearZ, float farZ) {
+	return (z * nearZ) / (farZ * w - z * (nearZ + farZ));
 }
 
 VertexShaderOutput main(VertexShaderInput input) {
@@ -23,6 +23,6 @@ VertexShaderOutput main(VertexShaderInput input) {
 	float3 worldPosition = mul(input.normal, (float3x3) gTransformMatrix.world);
 	output.normal = normalize(worldPosition);
 	//output.depth = output.position.z / 1000.0f;
-	output.depth = LinearDepth(output.position.z, 0.1f, 1000.0f);
+	output.depth = LinearDepth(output.position.z, output.position.w, 0.1f, 1000.0f);
 	return output;
 }

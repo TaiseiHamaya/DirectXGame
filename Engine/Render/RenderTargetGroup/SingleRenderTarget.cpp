@@ -33,7 +33,7 @@ void SingleRenderTarget::set_render_target() {
 	commandList->OMSetRenderTargets(
 		1, &renderTarget->get_cpu_handle(),
 		depthStencil ? 1 : 0,
-		depthStencil ? &depthStencil->get_cpu_handle() : nullptr
+		depthStencil ? &depthStencil->get_dsv_cpu_handle() : nullptr
 	);
 	commandList->ClearRenderTargetView(
 		renderTarget->get_cpu_handle(),
