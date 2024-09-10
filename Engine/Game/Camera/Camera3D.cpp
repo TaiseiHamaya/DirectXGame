@@ -2,8 +2,6 @@
 
 #include <cmath>
 
-#define NOMINMAX
-
 #include "Engine/WinApp.h"
 
 #ifdef _DEBUG
@@ -47,7 +45,7 @@ void Camera3D::debug_gui() {
 #endif // _DEBUG
 
 void Camera3D::make_view_matrix() {
-	viewMatrix = transform->get_matrix().inverse();
+	viewMatrix = world_matrix().inverse();
 }
 
 void Camera3D::make_perspectivefov_matrix() {
