@@ -10,6 +10,10 @@ void Hierarchy::set_parent(const Hierarchy& hierarchy) noexcept {
 	parent = &hierarchy;
 }
 
+void Hierarchy::reset_parent() noexcept {
+	parent = nullptr;
+}
+
 const Hierarchy& Hierarchy::get_parent() const noexcept {
 	return *parent;
 }

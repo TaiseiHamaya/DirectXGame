@@ -18,6 +18,7 @@ public:
 
 public:
 	void set_parent(const Hierarchy& hierarchy) noexcept;
+	void reset_parent() noexcept;
 	const Hierarchy& get_parent() const noexcept;
 	bool has_parent() const noexcept;
 	const Matrix4x4& parent_matrix() const noexcept;
