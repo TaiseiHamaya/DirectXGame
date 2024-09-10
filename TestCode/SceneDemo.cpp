@@ -13,6 +13,7 @@
 #include "Engine/Game/Color/Color.h"
 
 #include "Engine/Game/Managers/AudioManager/AudioManager.h"
+#include "Engine/Game/Managers/TextureManager/TextureManager.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -20,7 +21,10 @@ SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "Sphere.obj");
+	// 存在しないファイルをロードしようとするとエラー出力が出る
 	AudioManager::RegisterLoadQue("./Engine/Resources/", "SE_meteoEachOther.wav");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "SE_meteoEachOther.wav");
+	TextureManager::RegisterLoadQue("./Engine/Resources/", "SE_meteoEachOther.wav");
 }
 
 void SceneDemo::initialize() {

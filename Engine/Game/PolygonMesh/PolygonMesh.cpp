@@ -14,23 +14,23 @@ PolygonMesh::PolygonMesh() noexcept = default;
 
 PolygonMesh::~PolygonMesh() noexcept = default;
 
-MeshLoadResult PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
-	MeshLoadResult result;
+bool PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
+	bool result;
 	Log("[PolygonMesh] Start load .obj file. file-\'" + directoryPath + "/" + fileName + "\'\n");
 	directory = directoryPath;
 	objectName = fileName;
 
 	result = load_obj_file(directoryPath, fileName);
-	if (result != kMeshLoadResultSucecced) {
+	if (!result) {
 		return result;
 	}
 	result = load_mtl_file();
-	if (result != kMeshLoadResultSucecced) {
+	if (!result) {
 		return result;
 	}
 
 	Log("[PolygonMesh] Success\n");
-	return kMeshLoadResultSucecced;
+	return true;
 }
 
 const D3D12_VERTEX_BUFFER_VIEW* const PolygonMesh::get_p_vbv(std::uint32_t index) const {
@@ -65,7 +65,7 @@ const std::string& PolygonMesh::model_name(std::uint32_t index) const {
 	return meshDatas[index].objectName;
 }
 
-MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, const std::string& objFileName) {
+bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::string& objFileName) {
 	std::vector<VertexData::Vector4> vertex; // objファイルの頂点情報
 	std::vector<Vector2> texcoord; // objファイルのtexcoord情報
 	std::vector<Vector3> normal; // objファイルのnormal情報
@@ -82,7 +82,7 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 	std::ifstream file(directoryPath + "/" + objFileName);
 	if (!file.is_open()) {
 		Log("[PolygonMesh] File \'" + directoryPath + "/" + objFileName + "\' is not found.\n");
-		return kMeshLoadResultFailedObjectFileOpen;
+		return false;
 	}
 
 	// 行取得
@@ -200,10 +200,10 @@ MeshLoadResult PolygonMesh::load_obj_file(const std::string& directoryPath, cons
 	current->vertices = std::make_unique<VertexBuffer>(vertices);
 	current->indexes = std::make_unique<IndexBuffer>(indexes);
 
-	return kMeshLoadResultSucecced;
+	return true;
 }
 
-MeshLoadResult PolygonMesh::load_mtl_file() {
+bool PolygonMesh::load_mtl_file() {
 	std::string line;
 	std::ifstream file;
 
@@ -211,7 +211,7 @@ MeshLoadResult PolygonMesh::load_mtl_file() {
 	file.open(directory + "/" + mtlFileName);
 	if (!file.is_open()) {
 		Log("[PolygonMesh] File \'" + directory + "/" + mtlFileName + "\' is not found.\n");
-		return kMeshLoadResultFailedMtlFileOpen;
+		return false;
 	}
 
 	MaterialData* current = nullptr;
@@ -258,5 +258,5 @@ MeshLoadResult PolygonMesh::load_mtl_file() {
 			current = &materialDatas[option];
 		}
 	}
-	return kMeshLoadResultSucecced;
+	return true;
 }

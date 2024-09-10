@@ -12,16 +12,6 @@ class VertexBuffer;
 class IndexBuffer;
 class Texture;
 
-enum MeshLoadResult {
-	kMeshLoadResultSucecced,
-	kMeshLoadResultFailedObjectFileOpen,
-	kMeshLoadResultFailedMtlFileOpen,
-	kMeshLoadResultObjectFileLogicError,
-	kMeshLoadResultMtlFileLogicError,
-	kMeshLoadResultFailedCreatingVertexBuffer,
-	kMeshLoadResultFailedCreatingIndexBuffer,
-};
-
 class PolygonMesh final {
 public:
 	PolygonMesh() noexcept;
@@ -38,7 +28,7 @@ public:
 	/// <param name="directoryPath">ファイルディレクトリ</param>
 	/// <param name="objectName">ファイル名</param>
 	/// <returns>成功値</returns>
-	MeshLoadResult load(const std::string& directoryPath, const std::string& objectName);
+	bool load(const std::string& directoryPath, const std::string& objectName);
 
 	/// <summary>
 	/// VertexBufferViewを取得
@@ -94,8 +84,8 @@ public:
 	const std::string& model_name(std::uint32_t index) const;
 
 private:
-	MeshLoadResult load_obj_file(const std::string& directoryPath, const std::string& objFileName);
-	MeshLoadResult load_mtl_file();
+	bool load_obj_file(const std::string& directoryPath, const std::string& objFileName);
+	bool load_mtl_file();
 
 private:
 	std::string directory;

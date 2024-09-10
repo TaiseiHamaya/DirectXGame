@@ -40,7 +40,7 @@ private: // private value
 	std::uint32_t height = 0;
 	
 private: // static function
-	static DirectX::ScratchImage LoadTextureData(const std::string& filePath);
+	static std::optional<DirectX::ScratchImage> LoadTextureData(const std::string& filePath);
 	
 public: // getter
 };

@@ -101,7 +101,8 @@ void BackgroundLoader::load_manager() {
 		auto&& nowEvent = loadEvents.begin();
 		// ここからはunlock
 		lock.unlock();
-
+		bool result = false;
+		uint64_t address = 0;
 		switch (nowEvent->eventId) {
 		case LoadEvent::LoadTexture:
 		{
@@ -109,26 +110,26 @@ void BackgroundLoader::load_manager() {
 			auto& tex = std::get<LoadingQue::LoadTextureData>(nowEvent->data->loadData);
 			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
 			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath + "/" + nowEvent->data->fileName);
-			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
-			waitLoadingQue.push_back(std::move(*nowEvent));
+			if (tex.intermediateResource) {
+				result = true;
+			}
+			address = reinterpret_cast<uint64_t>(tex.textureData.get());
 			break;
 		}
 		case LoadEvent::LoadPolygonMesh:
 		{
 			// メッシュロードイベント
 			auto& mesh = std::get<LoadingQue::LoadPolygonMeshData>(nowEvent->data->loadData);
-			mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
-			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
-			waitLoadingQue.emplace_back(std::move(*nowEvent));
+			result = mesh.meshData->load(nowEvent->data->filePath, nowEvent->data->fileName);
+			address = reinterpret_cast<uint64_t>(mesh.meshData.get());
 		}
 		break;
 		case LoadEvent::LoadAudio:
 		{
 			// オーディオロードイベント
 			auto& audio = std::get<LoadingQue::LoadAudioData>(nowEvent->data->loadData);
-			audio.audioData->load(nowEvent->data->filePath, nowEvent->data->fileName);
-			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
-			waitLoadingQue.emplace_back(std::move(*nowEvent));
+			result = audio.audioData->load(nowEvent->data->filePath, nowEvent->data->fileName);
+			address = reinterpret_cast<uint64_t>(audio.audioData.get());
 		}
 		break;
 		default:
@@ -142,6 +143,16 @@ void BackgroundLoader::load_manager() {
 			));
 			std::range_error("[BackgroundLoader] EventID is wrong.");
 			break;
+		}
+		if (result) {
+			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
+			waitLoadingQue.emplace_back(std::move(*nowEvent));
+		}
+		else {
+			Log(std::format("[BackgroundLoader] Faild loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
+				nowEvent->data->filePath, nowEvent->data->fileName,
+				address)
+			);
 		}
 
 		// mutexの再ロック

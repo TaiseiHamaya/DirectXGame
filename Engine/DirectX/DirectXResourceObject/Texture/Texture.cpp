@@ -41,7 +41,12 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& filePath) {
 	Log("[Texture] Start load texture. file-\'" + filePath + "\'\n");
 	DirectX::ScratchImage mipImages;
-	mipImages = LoadTextureData(filePath); // ロード
+	auto loadData = LoadTextureData(filePath); // ロード
+	if (!loadData.has_value()) {
+		Log("[Texture] Faild loading texture.\n");
+		return 0;
+	}
+	mipImages = std::move(loadData.value());
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
 	width = static_cast<std::uint32_t>(metadata.width);
 	height = static_cast<std::uint32_t>(metadata.height);
@@ -94,17 +99,21 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::upload_texture_data(const Direct
 	return intermediateResource;
 }
 
-DirectX::ScratchImage Texture::LoadTextureData(const std::string& filePath) {
+std::optional<DirectX::ScratchImage> Texture::LoadTextureData(const std::string& filePath) {
 	HRESULT hr;
 	DirectX::ScratchImage image{};
 	auto&& filePathW = ConvertString(filePath); // Wcharに変換
 	hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image); // ロード
-	assert(SUCCEEDED(hr));
+	if (FAILED(hr)) {
+		return std::nullopt;
+	}
 
 	DirectX::ScratchImage mipImage{};
 	// Mipmapに変換
 	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImage);
-	assert(SUCCEEDED(hr));
+	if (FAILED(hr)) {
+		return std::nullopt;
+	}
 
 	return mipImage;
 }
