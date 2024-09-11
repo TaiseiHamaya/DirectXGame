@@ -162,6 +162,7 @@ void BackgroundLoader::load_manager() {
 
 		// 空だったら自動execute
 		if (GetInstance().loadEvents.empty()) {
+			Log("[BackgroundLoader] Load events is empty. Start execute texture uploading.\n");
 			// 実行イベント
 			// コマンド実行
 			DirectXCommand::ExecuteTextureCommand();
@@ -169,6 +170,7 @@ void BackgroundLoader::load_manager() {
 			DirectXCommand::WaitTextureCommand();
 			// リセット
 			DirectXCommand::ResetTextureCommand();
+			Log("[BackgroundLoader] Successed.\n");
 			// resourceViewの作成
 			create_texture_view();
 			transfer_data();
