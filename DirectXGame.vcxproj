@@ -147,6 +147,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Render\RenderNode\MultiRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.cpp" />
+    <ClCompile Include="Engine\Render\RenderNode\Outline\OutlineNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\SingleRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp" />
@@ -230,6 +231,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Render\RenderNode\MultiRenderTargetNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3DNode.h" />
+    <ClInclude Include="Engine\Render\RenderNode\Outline\OutlineNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\SingleRenderTargetNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h" />
@@ -325,6 +327,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Object3DNode\ObjectDepth3DNode\ObjectDepth3D.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Outline\Outline.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

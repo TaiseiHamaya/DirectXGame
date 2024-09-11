@@ -109,19 +109,28 @@ void SceneDemo::initialize() {
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
 	object3dNode->set_render_target();
+	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	object3dNode->set_depth_stencil();
 
-	spriteNode = std::make_unique<SpriteNode>();
-	spriteNode->initialize();
-	spriteNode->set_background_texture(object3dNode->result_stv_handle());
-	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	outlineNode = std::make_unique<OutlineNode>();
+	outlineNode->initialize();
+	//outlineNode->set_render_target();
+	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
+	outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
+
+	//spriteNode = std::make_unique<SpriteNode>();
+	//spriteNode->initialize();
+	//spriteNode->set_background_texture(outlineNode->result_stv_handle());
+	//spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode, spriteNode });
+	path.initialize({ object3dNode, outlineNode });
 
 	RenderPathManager::RegisterPath("SceneDemo", std::move(path));
 	RenderPathManager::SetPath("SceneDemo");
 
-	DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
+	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
 }
 
 void SceneDemo::finalize() {
@@ -158,6 +167,7 @@ void SceneDemo::draw() const {
 	collisionManager->debug_draw3d(*camera3D);
 #endif // _DEBUG
 	RenderPathManager::Next();
+	outlineNode->draw();
 	RenderPathManager::Next();
 }
 

@@ -1,7 +1,9 @@
 #include "DSVDescriptorHeap.h"
 
 #include <memory>
+#include <format>
 
+#include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 // ダブルバッファのみで使用するため2
@@ -18,6 +20,7 @@ void DSVDescriptorHeap::Initialize() {
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::UseNextHandle() noexcept {
+	Log(std::format("[SRVDescriptorHeap] Use DSV index. Index-\'{}\'\n", GetInstance().nowHeapIndex));
 	return GetInstance().get_cpu_handle(GetInstance().use_heap_index());
 }
 

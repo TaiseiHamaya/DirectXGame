@@ -2,6 +2,8 @@
 
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
+class DepthStencil;
+
 class Object3DNode final : public SingleRenderTargetNode {
 public:
 	Object3DNode();
@@ -28,6 +30,8 @@ public:
 	/// </summary>
 	/// <param name="renderTarget_"></param>
 	void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr) override;
+
+	void set_depth_stencil();
 
 private:
 	void create_pipeline_state();

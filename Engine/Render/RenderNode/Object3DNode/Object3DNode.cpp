@@ -26,10 +26,12 @@ void Object3DNode::set_render_target(const std::shared_ptr<SingleRenderTarget>& 
 		auto temp = std::make_shared<SingleRenderTarget>();
 		renderTarget = temp;
 		renderTarget->initialize();
-		renderTarget->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
 		resultSvtHandle = temp->main_offscreen_render().texture_gpu_handle();
 	}
-	assert(renderTarget->has_depth());
+}
+
+void Object3DNode::set_depth_stencil() {
+	renderTarget->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
 }
 
 void Object3DNode::begin() {

@@ -10,6 +10,7 @@
 
 void DepthStencil::initialize(std::uint32_t width, std::uint32_t height) {
 	create_depth_stencil_texture_resource(width, height);
+	resource->SetName(L"DepthStencil");
 	create_dsv();
 	create_srv();
 	// DepthStencilの設定

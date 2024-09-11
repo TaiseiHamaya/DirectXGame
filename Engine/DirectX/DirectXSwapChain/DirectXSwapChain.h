@@ -35,6 +35,11 @@ public:
 	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
 	static UINT GetBackBufferIndex() noexcept { return GetInstance().backBufferIndex; }
 	static const std::shared_ptr<SwapChainRenderTargetGroup>& GetRenderTarget();
+
+	/// <summary>
+	/// !!!!!!!!!!!!!!!!!別の場所に置く!!!!!!!!!!!!!!!!!
+	/// </summary>
+	/// <returns></returns>
 	static const std::shared_ptr<DepthStencil>& GetDepthStencil() noexcept;
 	static void SetClearColor(const Color& color_) noexcept;
 	static void ChangeBackBufferState();
@@ -51,4 +56,10 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	UINT backBufferIndex;
 	std::shared_ptr<SwapChainRenderTargetGroup> renderTarget;
+
+	/// <summary>
+	/// 修正予定
+	/// !!!!!!!!!!!!!!!!!別の場所に置く!!!!!!!!!!!!!!!!!
+	/// </summary>
+	std::shared_ptr<DepthStencil> depthStencil;
 };

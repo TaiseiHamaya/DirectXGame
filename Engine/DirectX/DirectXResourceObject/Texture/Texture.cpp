@@ -1,6 +1,7 @@
 #include "Texture.h"
 
 #include <d3dx12.h>
+#include <format>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -71,6 +72,7 @@ void Texture::create_resource_view() {
 	// textureResourceに転送
 	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, textureSrvHandleCPU);
 	Log("[Texture] Success.\n");
+	resource->SetName(std::format(L"Texture-{}", heapIndex.value()).c_str());
 }
 
 void Texture::create_texture_resource(const DirectX::TexMetadata& metadata) {

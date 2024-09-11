@@ -30,12 +30,6 @@ public:
 	/// <param name="index">SwapChainIndex</param>
 	void set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, std::uint32_t index);
 
-	/// <summary>
-	/// DepthStencilの取得
-	/// </summary>
-	/// <returns></returns>
-	const std::shared_ptr<DepthStencil>& get_depth_stencil() const;
-
 	const std::array<RenderTarget, SWAPCHAIN_HEAP>& get_render_targets() const;
 
 private:

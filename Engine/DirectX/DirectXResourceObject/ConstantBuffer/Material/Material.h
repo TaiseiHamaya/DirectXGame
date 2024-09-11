@@ -3,7 +3,7 @@
 #include "Engine/DirectX/DirectXResourceObject/BufferObjects.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
-enum class LighingType{
+enum class LighingType {
 	None,
 	Lambert,
 	HalfLambert,

@@ -250,6 +250,9 @@
     <Filter Include="Engine\Core\Game\GameTimer">
       <UniqueIdentifier>{aa787078-d9a9-4d2f-974b-8632c343151e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Render\RenderNode\Outline">
+      <UniqueIdentifier>{3cdd837f-3fa3-4826-b396-e9133edec5b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\GameTimer\GameTimer.cpp">
       <Filter>Engine\Core\Game\GameTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Outline\OutlineNode.cpp">
+      <Filter>Engine\Core\Render\RenderNode\Outline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -728,6 +734,9 @@
     <ClInclude Include="Engine\Game\GameTimer\GameTimer.h">
       <Filter>Engine\Core\Game\GameTimer</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Outline\OutlineNode.h">
+      <Filter>Engine\Core\Render\RenderNode\Outline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt">
@@ -785,6 +794,9 @@
     </FxCompile>
     <FxCompile Include="Engine\Render\RenderNode\Sprite\Sprite.VS.hlsl">
       <Filter>Engine\Core\Render\RenderNode\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Render\RenderNode\Outline\Outline.PS.hlsl">
+      <Filter>Engine\Core\Render\RenderNode\Outline</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

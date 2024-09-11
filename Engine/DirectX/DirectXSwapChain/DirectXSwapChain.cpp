@@ -9,6 +9,8 @@
 #include "Engine/WinApp.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
+#include <format>
+
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
 	backBufferIndex = 0;
@@ -17,6 +19,8 @@ DirectXSwapChain::DirectXSwapChain() noexcept {
 void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
 	GetInstance().create_render_terget();
+	GetInstance().depthStencil = std::make_unique<DepthStencil>();
+	GetInstance().depthStencil->initialize();
 }
 
 void DirectXSwapChain::SwapScreen() {
@@ -28,7 +32,7 @@ const std::shared_ptr<SwapChainRenderTargetGroup>& DirectXSwapChain::GetRenderTa
 }
 
 const std::shared_ptr<DepthStencil>& DirectXSwapChain::GetDepthStencil() noexcept {
-	return GetInstance().renderTarget->get_depth_stencil();
+	return GetInstance().depthStencil;
 }
 
 void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {
@@ -79,6 +83,7 @@ void DirectXSwapChain::create_render_terget() {
 		assert(SUCCEEDED(hr));
 		// view作成
 		renderTarget->set_resource(resource, renderIndex);
+		resource->SetName(std::format(L"SwapChain{}", renderIndex).c_str());
 	}
 	renderTarget->initialize();
 }

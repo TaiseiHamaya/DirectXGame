@@ -1,7 +1,6 @@
 #pragma once
 
 class PipelineState;
-class PSOBuilder;
 class BaseRenderTargetGroup;
 enum D3D_PRIMITIVE_TOPOLOGY;
 

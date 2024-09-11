@@ -1,7 +1,9 @@
 #include "RTVDescriptorHeap.h"
 
 #include <memory>
+#include <format>
 
+#include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 // ダブルバッファ+PEで3
@@ -18,6 +20,7 @@ void RTVDescriptorHeap::Initialize() {
 }
 
 std::uint32_t RTVDescriptorHeap::UseHeapIndex() noexcept {
+	Log(std::format("[RTVDescriptorHeap] Use RTV index. Index-\'{}\'\n", GetInstance().nowHeapIndex));
     return GetInstance().use_heap_index();
 }
 
@@ -26,6 +29,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(std::uint32_t index)
 }
 
 void RTVDescriptorHeap::ReleaseIndex(std::uint32_t index) {
+	Log(std::format("[RTVDescriptorHeap] Release RTV index. Index-\'{}\'\n", index));
 	GetInstance().release_heap(index);
 }
 

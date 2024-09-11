@@ -1,6 +1,7 @@
 #include "OffscreenRender.h"
 
 #include <cassert>
+#include <format>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -18,6 +19,8 @@ void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) 
 	RenderTarget::create_view(format);
 	// テクスチャ用Viewの作成
 	create_textue_view();
+
+	resource->SetName(std::format(L"Offscreen-{}", rtvHeapIndex.value()).c_str());
 }
 
 void OffscreenRender::create_resource(UINT64 width, UINT height, DXGI_FORMAT format) {
