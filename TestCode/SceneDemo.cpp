@@ -46,55 +46,22 @@ void SceneDemo::initialize() {
 
 	parentCollider = CreateShared<SphereCollider>();
 	parentCollider->initialize();
-	parentCollider->set_on_collision(
-		std::bind(&SceneDemo::on_collision, this, std::placeholders::_1, &parent->get_materials()[0].color)
-	);
-	parentCollider->set_on_collision_enter(
-		std::bind(&SceneDemo::on_collision_enter, this, std::placeholders::_1, &parent->get_materials()[0].color)
-	);
-	parentCollider->set_on_collision_exit(
-		std::bind(&SceneDemo::on_collision_exit, this, std::placeholders::_1, &parent->get_materials()[0].color)
-	);
 	parentCollider->get_hierarchy().set_parent(parent->get_hierarchy());
 
 	childCollider = CreateShared<SphereCollider>();
 	childCollider->initialize();
-	childCollider->set_on_collision(
-		std::bind(&SceneDemo::on_collision, this, std::placeholders::_1, &child->get_materials()[0].color)
-	);
-	childCollider->set_on_collision_exit(
-		std::bind(&SceneDemo::on_collision_exit, this, std::placeholders::_1, &child->get_materials()[0].color)
-	);
 	childCollider->get_hierarchy().set_parent(child->get_hierarchy());
 
 	singleCollider = CreateShared<SphereCollider>();
 	singleCollider->initialize();
-#ifdef _DEBUG
-	singleCollider->set_on_collision_enter(
-		std::bind(&SceneDemo::on_collision_enter, this, std::placeholders::_1, &singleCollider->get_collider_drawer().get_materials()[0].color)
-	);
-	singleCollider->set_on_collision_exit(
-		std::bind(&SceneDemo::on_collision_exit, this, std::placeholders::_1, &singleCollider->get_collider_drawer().get_materials()[0].color)
-	);
-#endif // _DEBUG
 
 	single2Collider = CreateShared<SphereCollider>();
 	single2Collider->initialize();
 	single2Collider->get_transform().set_translate_x(-3.0f);
-#ifdef _DEBUG
-	single2Collider->set_on_collision(
-		std::bind(&SceneDemo::on_collision, this, std::placeholders::_1, &single2Collider->get_collider_drawer().get_materials()[0].color)
-	);
-#endif // _DEBUG
 
 	single3Collider = CreateShared<SphereCollider>();
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
-#ifdef _DEBUG
-	single3Collider->set_on_collision_enter(
-		std::bind(&SceneDemo::on_collision_enter, this, std::placeholders::_1, &single3Collider->get_collider_drawer().get_materials()[0].color)
-	);
-#endif // _DEBUG
 
 	collisionManager = CreateUnique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);

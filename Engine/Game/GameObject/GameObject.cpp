@@ -146,6 +146,10 @@ std::vector<GameObject::MaterialDataRef>& GameObject::get_materials() {
 	return materialData;
 }
 
+void GameObject::set_texture(const std::string& name, int index) {
+	meshMaterials[index].texture = TextureManager::GetTexture(name);
+}
+
 #ifdef _DEBUG
 void GameObject::debug_gui() {
 	if (PolygonMeshManager::MeshListGui(meshName)) {

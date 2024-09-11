@@ -52,6 +52,9 @@ public:
 	void set_parent(const Hierarchy& hierarchy);
 	std::vector<MaterialDataRef>& get_materials();
 
+protected:
+	void set_texture(const std::string& name, int index = 0);
+
 #ifdef _DEBUG
 public:
 	void debug_gui();
