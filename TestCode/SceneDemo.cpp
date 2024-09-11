@@ -112,7 +112,6 @@ void SceneDemo::initialize() {
 	object3dNode->set_render_target();
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	object3dNode->set_depth_stencil();
-	DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 
 	outlineNode = std::make_unique<OutlineNode>();
 	outlineNode->initialize();
@@ -129,15 +128,23 @@ void SceneDemo::initialize() {
 	RenderPath path{};
 	path.initialize({ object3dNode, outlineNode });
 
-	RenderPathManager::RegisterPath("SceneDemo", std::move(path));
-	RenderPathManager::SetPath("SceneDemo");
+	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
+	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 
+	DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
+}
+
+void SceneDemo::poped() {
+	DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
+	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 }
 
 void SceneDemo::finalize() {
 	audioPlayer->finalize();
-	RenderPathManager::UnregisterPath("SceneDemo");
+	RenderPathManager::UnregisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
+	object3dNode->finalize();
+	outlineNode->finalize();
 }
 
 void SceneDemo::begin() {
@@ -191,13 +198,13 @@ void SceneDemo::on_collision_exit(const BaseCollider* const, Color* object) {
 void SceneDemo::debug_update() {
 	ImGui::Begin("DemoScene");
 	if (ImGui::Button("StackScene")) {
-		SceneManager::SetSceneChange(CreateUnique<SceneDemo>(), true);
+		SceneManager::SetSceneChange(CreateUnique<SceneDemo>(), 1, true);
 	}
 	if (ImGui::Button("ChangeScene")) {
-		SceneManager::SetSceneChange(CreateUnique<SceneDemo>(), false);
+		SceneManager::SetSceneChange(CreateUnique<SceneDemo>(), 1, false);
 	}
 	if (ImGui::Button("PopScene")) {
-		SceneManager::PopScene();
+		SceneManager::PopScene(1);
 	}
 	ImGui::End();
 

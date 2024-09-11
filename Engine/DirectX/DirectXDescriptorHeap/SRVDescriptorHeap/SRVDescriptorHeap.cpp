@@ -21,8 +21,9 @@ void SRVDescriptorHeap::Initialize() {
 }
 
 const std::uint32_t SRVDescriptorHeap::UseHeapIndex() noexcept {
-	Log(std::format("[SRVDescriptorHeap] Use SRV index. Index-\'{}\'\n", GetInstance().nowHeapIndex));
-	return GetInstance().use_heap_index();
+	auto useIndex = GetInstance().use_heap_index();
+	Log(std::format("[SRVDescriptorHeap] Use SRV index. Index-\'{}\'\n", useIndex));
+	return useIndex;
 }
 
 const D3D12_CPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {

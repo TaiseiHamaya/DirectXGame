@@ -27,10 +27,11 @@ void RenderPathManager::Initialize() {
 
 void RenderPathManager::RegisterPath(std::string&& name, RenderPath&& path) {
 	if (!GetInstance().renderingPath.contains(name)) {
+		Log(std::format("[RenderPathManager] Register path. Name-\'{}\' Address-\'{}\'\n", name, (void*)&path));
 		GetInstance().renderingPath.emplace(std::move(name), std::move(path));
 	}
 	else {
-		Log(std::format("[RenderPathManager] Registering aleady used name. Name-\'{}\'", name));
+		Log(std::format("[RenderPathManager] Registering aleady used name. Name-\'{}\'\n", name));
 	}
 }
 
@@ -58,6 +59,7 @@ void RenderPathManager::UnregisterPath(std::string&& name) {
 }
 
 void RenderPathManager::SetPath(const std::string& name) {
+	Log(std::format("[RenderPathManager] Set current render path. Name-\'{}\'\n", name));
 	GetInstance().nowPath = &GetInstance().renderingPath.at(name);
 	if (name == "Default") {
 		DirectXSwapChain::GetRenderTarget()->set_depth_stencil(DirectXSwapChain::GetDepthStencil());

@@ -20,6 +20,9 @@ void BaseScene::initialize() {
 void BaseScene::finalize() {
 }
 
+void BaseScene::poped() {
+}
+
 void BaseScene::begin() {
 }
 

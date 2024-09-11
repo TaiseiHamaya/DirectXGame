@@ -16,6 +16,7 @@ public:
 	virtual void load();
 	virtual void initialize();
 	virtual void finalize();
+	virtual void poped();
 
 	virtual void begin();
 	virtual void update() = 0;

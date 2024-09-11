@@ -5,6 +5,8 @@ class BaseScene;
 #include <memory>
 #include <deque>
 
+#include "Engine/Utility/TimedCall/TimedCall.h"
+
 /// <summary>
 /// シーン管理用クラス
 /// </summary>
@@ -30,20 +32,22 @@ public:
 	//static void Debug();
 	static void SetSceneChange(
 		std::unique_ptr<BaseScene>&& nextScenePtr,
+		float interval,
 		bool isStackInitialScene_ = false,
 		bool isStopLoad = true
 	);
-	static void PopScene();
+	static void PopScene(float interval);
 	static bool IsEndProgram() noexcept;
 
 	static const std::deque<std::unique_ptr<BaseScene>>& GetSceneQue();
 
-#ifdef _DEBUG
-	static void DebugGui();
-#endif // _DEBUG
-
 private:
 	static void NextScene();
+
+#ifdef _DEBUG
+public:
+	static void DebugGui();
+#endif // _DEBUG
 
 private:
 	/// <summary>
@@ -54,9 +58,7 @@ private:
 	enum class SceneStatus {
 		NANE,
 		DEFAULT,
-		CHANGE_BEFORE,
-		CHANGE_AFTER,
-		CHANGE_INSTANCE, // for debug
+		CHANGE
 	} sceneStatus;
 
 	enum class SceneChangeType {
@@ -66,8 +68,9 @@ private:
 	};
 
 	struct SceneChangeInfo {
-		SceneChangeType changeType;
+		SceneChangeType type;
 		std::unique_ptr<BaseScene> next;
 		bool isStopLoad;
+		TimedCall<void(void)> endCall;
 	} sceneChangeInfo;
 };

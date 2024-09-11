@@ -20,8 +20,9 @@ void DSVDescriptorHeap::Initialize() {
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::UseNextHandle() noexcept {
-	Log(std::format("[SRVDescriptorHeap] Use DSV index. Index-\'{}\'\n", GetInstance().nowHeapIndex));
-	return GetInstance().get_cpu_handle(GetInstance().use_heap_index());
+	auto useIndex = GetInstance().use_heap_index();
+	Log(std::format("[SRVDescriptorHeap] Use DSV index. Index-\'{}\'\n", useIndex));
+	return GetInstance().get_cpu_handle(useIndex);
 }
 
 void DSVDescriptorHeap::create_descriptor_heap() {

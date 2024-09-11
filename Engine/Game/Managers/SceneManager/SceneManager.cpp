@@ -26,6 +26,9 @@ void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
 	instance.sceneQue.emplace_back(nullptr);
 	instance.sceneQue.emplace_back(std::move(initScene));
 	instance.sceneStatus = SceneStatus::DEFAULT;
+	instance.sceneChangeInfo.endCall = {
+		&SceneManager::NextScene ,0
+	};
 }
 
 void SceneManager::Finalize() noexcept {
@@ -36,29 +39,7 @@ void SceneManager::Finalize() noexcept {
 void SceneManager::Begin() {
 	SceneManager& instance = GetInstance();
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {
-		// シーンの切り替え
-		if (instance.sceneChangeInfo.changeType == SceneChangeType::STACK) {
-			// スタックする場合emplace_back
-			instance.sceneQue.emplace_back(std::move(instance.sceneChangeInfo.next));
-		}
-		else {
-			auto& currentScene = instance.sceneQue.back();
-			// finalize関数の呼び出し
-			currentScene->finalize();
-			// スタックしないのでbackにmove
-			currentScene = std::move(instance.sceneChangeInfo.next);
-		}
-		// ロードを止める
-		if (instance.sceneChangeInfo.isStopLoad) {
-			BackgroundLoader::WaitEndExecute();
-		}
-		// initialize関数の呼び出し
-		auto& newScene = instance.sceneQue.back();
-		if (newScene && instance.sceneChangeInfo.changeType != SceneChangeType::POP) {
-			newScene->initialize();
-		}
-		// 遷移状態を解除
-		instance.sceneStatus = SceneStatus::DEFAULT;
+		instance.sceneChangeInfo.endCall.update();
 	}
 }
 
@@ -81,49 +62,55 @@ void SceneManager::Draw() {
 //	sceneQue.back()->DebugDraw();
 //}
 
-void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, bool isStackInitialScene, bool isStopLoad) {
+void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, float interval, bool isStackInitialScene, bool isStopLoad) {
 	assert(nextScenePtr);
 	SceneManager& instance = GetInstance();
-	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\' Terminal scene address-\'{}\'. Is stack : {:s}. Is stop load : {:s}.\n",
+	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\' Terminal scene address-\'{}\'. Interval-{} Stack-{:s} Stop load-{:s}\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
+		interval,
 		isStackInitialScene,
 		isStopLoad
 	));
 	// シーンがDefault状態でないと遷移させない
-	assert(instance.sceneStatus == SceneStatus::DEFAULT);
+	if (instance.sceneStatus != SceneStatus::DEFAULT){
+		return;
+	}
 	// この時点でロード関数を呼び出し
 	nextScenePtr->load();
 	// 遷移状態にする
-	//instance.sceneStatus = SceneStatus::CHANGE_BEFORE;
-	instance.sceneStatus = SceneStatus::CHANGE_INSTANCE;
+	instance.sceneStatus = SceneStatus::CHANGE;
 	// 各種記録
-	instance.sceneChangeInfo.changeType = isStackInitialScene ? SceneChangeType::STACK : SceneChangeType::CHANGE;
+	instance.sceneChangeInfo.type = isStackInitialScene ? SceneChangeType::STACK : SceneChangeType::CHANGE;
 	instance.sceneChangeInfo.next = std::move(nextScenePtr);
 	instance.sceneChangeInfo.isStopLoad = isStopLoad;
+	instance.sceneChangeInfo.endCall.restart(interval);
 }
 
-void SceneManager::PopScene() {
+void SceneManager::PopScene(float interval) {
 	SceneManager& instance = GetInstance();
 	// シーンがDefault状態でないと遷移させない
-	assert(instance.sceneStatus == SceneStatus::DEFAULT);
+	if (instance.sceneStatus != SceneStatus::DEFAULT) {
+		return;
+	}
 	// スタックしたシーン数が2未満の場合はおかしいので停止させる
 	assert(instance.sceneQue.size() >= 2);
 	// 遷移状態にする
-	//instance.sceneStatus = SceneStatus::CHANGE_BEFORE;
-	instance.sceneStatus = SceneStatus::CHANGE_INSTANCE;
+	instance.sceneStatus = SceneStatus::CHANGE;
 	// Popするときはスタックさせない
-	instance.sceneChangeInfo.changeType = SceneChangeType::POP;
+	instance.sceneChangeInfo.type = SceneChangeType::POP;
 	instance.sceneChangeInfo.isStopLoad = false;
+	instance.sceneChangeInfo.endCall.restart(interval);
 	// Pop後のシーンを取り出し
 	std::iter_swap(instance.sceneQue.rbegin(), instance.sceneQue.rbegin() + 1);
 	instance.sceneChangeInfo.next = std::move(instance.sceneQue.back());
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Log(std::format("[SceneManager] Pop scene. Pop scene address-\'{}\' Next scene address-\'{}\'.\n",
+	Log(std::format("[SceneManager] Pop scene. Pop scene address-\'{}\' Next scene address-\'{}\'. Interval-{}\n",
 		(void*)instance.sceneQue.back().get(),
-		(void*)instance.sceneChangeInfo.next.get()
+		(void*)instance.sceneChangeInfo.next.get(),
+		interval
 	));
 }
 
@@ -133,6 +120,38 @@ bool SceneManager::IsEndProgram() noexcept {
 
 const std::deque<std::unique_ptr<BaseScene>>& SceneManager::GetSceneQue() {
 	return GetInstance().sceneQue;
+}
+
+void SceneManager::NextScene() {
+	SceneManager& instance = GetInstance();
+	// シーンの切り替え
+	if (instance.sceneChangeInfo.type == SceneChangeType::STACK) {
+		// スタックする場合emplace_back
+		instance.sceneQue.emplace_back(std::move(instance.sceneChangeInfo.next));
+	}
+	else {
+		auto& currentScene = instance.sceneQue.back();
+		// finalize関数の呼び出し
+		currentScene->finalize();
+		// スタックしないのでbackにmove
+		currentScene = std::move(instance.sceneChangeInfo.next);
+	}
+	// ロードを止める
+	if (instance.sceneChangeInfo.isStopLoad) {
+		BackgroundLoader::WaitEndExecute();
+	}
+	// initialize関数の呼び出し
+	auto& newScene = instance.sceneQue.back();
+	if (newScene) {
+		if (instance.sceneChangeInfo.type != SceneChangeType::POP) {
+			newScene->initialize();
+		}
+		else {
+			newScene->poped();
+		}
+	}
+	// 遷移状態を解除
+	instance.sceneStatus = SceneStatus::DEFAULT;
 }
 
 #ifdef _DEBUG
@@ -149,10 +168,3 @@ void SceneManager::DebugGui() {
 	ImGui::End();
 }
 #endif // _DEBUG
-
-void SceneManager::NextScene() {
-	SceneManager& instance = GetInstance();
-	//instance.sceneStatus = SceneStatus::CHANGE_AFTER;
-
-	instance.sceneQue.back() = std::move(instance.sceneChangeInfo.next);
-}
