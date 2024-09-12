@@ -29,6 +29,7 @@ void AudioPlayer::initialize(const std::string& name, float volume, bool isLoop)
 
 void AudioPlayer::finalize() {
 	if (sourceVoice) {
+		pause();
 		sourceVoice->DestroyVoice();
 	}
 	sourceVoice = nullptr;
