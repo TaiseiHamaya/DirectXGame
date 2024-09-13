@@ -50,5 +50,9 @@ private:
 	HINSTANCE hInstance;
 
 	MSG msg;
+
+	WNDCLASS wc{};
+
+	std::string windowName;
 };
 

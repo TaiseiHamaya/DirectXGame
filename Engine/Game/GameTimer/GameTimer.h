@@ -31,7 +31,7 @@ private:
 
 	std::list<float> deltaTimeList;
 	float timeSummation;
-	float averageFPS;
+	float fps;
 
 	bool isFixDeltaTime;
 };

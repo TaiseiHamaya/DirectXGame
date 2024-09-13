@@ -12,7 +12,7 @@ GameTimer& GameTimer::GetInstance() {
 void GameTimer::Initialize() {
 	auto& instance = GetInstance();
 	instance.startFrameTimePoint = chrono::system_clock::now();
-	instance.averageFPS = 0;
+	instance.fps = 60;
 	instance.deltaTimeList = {};
 	instance.timeSummation = 0;
 }
@@ -40,7 +40,7 @@ void GameTimer::Update() {
 		instance.deltaTimeList.pop_front();
 	}
 	// 平均算出
-	instance.averageFPS = instance.deltaTimeList.size() / instance.timeSummation;
+	instance.fps = static_cast<float>(instance.deltaTimeList.size());
 	// Startを更新
 	instance.startFrameTimePoint = now;
 }
@@ -50,7 +50,7 @@ float GameTimer::DeltaTime() {
 }
 
 float GameTimer::AverageFPS() {
-	return GetInstance().averageFPS;
+	return GetInstance().fps;
 }
 
 const std::chrono::system_clock::time_point& GameTimer::BeginTime() {
