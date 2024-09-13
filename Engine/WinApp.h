@@ -9,7 +9,7 @@
 class WinApp final {
 private:
 	WinApp(int32_t width, int32_t height) noexcept;
-	~WinApp() noexcept= default;
+	~WinApp() noexcept = default;
 
 public:
 	WinApp(const WinApp&) = delete;
@@ -36,6 +36,8 @@ private:
 	void begin_frame();
 	void end_frame();
 	void term_app();
+
+	void wait_frame();
 
 private:
 	static WinApp* instance;

@@ -165,6 +165,9 @@ void SceneManager::DebugGui() {
 	ImGui::Text(std::format("SceneAddress- \'{}\'", (void*)instance.sceneQue.back().get()).c_str());
 	ImGui::Text(std::format("SceneCount :  {}", instance.sceneQue.size() - 1).c_str());
 	ImGui::Text(std::format("IsSceneChange : {:s}", instance.sceneChangeInfo.next != nullptr).c_str());
+	ImGui::Separator();
+	ImGui::Text(std::format("DeltaTime : {:3.5}ms", GameTimer::DeltaTime() * 1000.0f).c_str());
+	ImGui::Text("AvarageFPS : %.1fFPS", GameTimer::AverageFPS());
 	ImGui::End();
 }
 #endif // _DEBUG

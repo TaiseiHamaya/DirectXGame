@@ -1,8 +1,9 @@
 #include "WinApp.h"
 
 #include <cassert>
-#include "Engine/Utility/Utility.h"
+#include <thread>
 
+#include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXCore.h"
 #include "Engine/Game/Managers/AudioManager/AudioManager.h"
 #include "Engine/Game/GameTimer/GameTimer.h"
@@ -57,7 +58,7 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	DirectXCore::Initialize();
 
 	AudioManager::Initialize();
-	
+
 	GameTimer::Initialize();
 #ifdef _DEBUG
 	GameTimer::IsFixDeltaTime(true);
@@ -116,9 +117,9 @@ void WinApp::Finalize() {
 	// App
 	Log("Closed Window\n");
 }
-
 void WinApp::init_app(const std::string& programName, DWORD windowConfig) {
-	WNDCLASS wc{}; // ウィンドウの設定
+	windowName = programName;
+	// ウィンドウの設定
 	wc.lpfnWndProc = WindowProc;// ウィンドウプロシージャ
 	auto&& name = ConvertString(programName);
 	wc.lpszClassName = name.c_str();
@@ -155,8 +156,23 @@ void WinApp::begin_frame() {
 
 void WinApp::end_frame() {
 	DirectXCore::EndFrame();
+	wait_frame();
 }
 
 void WinApp::term_app() {
 	assert(instance);
+}
+
+void WinApp::wait_frame() {
+	while (true) {
+		using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
+		auto now = std::chrono::system_clock::now();
+		float duration = std::chrono::duration_cast<second_f>(now - GameTimer::BeginTime()).count();
+		if (duration >= 0.0167f) {
+			break;
+		}
+		else {
+			std::this_thread::sleep_for(std::chrono::nanoseconds(10));
+		}
+	}
 }
