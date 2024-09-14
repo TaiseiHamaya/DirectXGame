@@ -84,7 +84,6 @@ void GameTimer::IsFixDeltaTime(bool boolean) {
 void GameTimer::DebugGui() {
 	auto&& instance = GetInstance();
 	ImGui::Text(std::format("DeltaTime : {:3.5}ms", instance.deltaTime * 1000.0f).c_str());
-	ImGui::Text(std::format("AvarageDeltaTime : {:3.5}ms", 1 / instance.averageFPS).c_str());
 	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
 
 }

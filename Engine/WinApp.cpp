@@ -58,12 +58,6 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 
 	AudioManager::Initialize();
 
-#ifdef _DEBUG
-	GameTimer::IsFixDeltaTime(true);
-#else
-	GameTimer::IsFixDeltaTime(false);
-#endif // _DEBUG
-
 	GameTimer::Initialize();
 	Log("Complite initialize application.\n");
 }
@@ -180,7 +174,7 @@ void WinApp::wait_frame() {
 	while (true) {
 		auto now = std::chrono::system_clock::now();
 		float duration = std::chrono::duration_cast<second_f>(now - begin).count();
-		if (duration >= 0.0167f) {
+		if (duration >= 0) {
 			return;
 		}
 		else {

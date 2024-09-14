@@ -196,5 +196,9 @@ void SceneDemo::debug_update() {
 		audioPlayer->restart();
 	}
 	ImGui::End();
+
+	ImGui::Begin("GameTimer");
+	GameTimer::DebugGui();
+	ImGui::End();
 }
 #endif // _DEBUG
