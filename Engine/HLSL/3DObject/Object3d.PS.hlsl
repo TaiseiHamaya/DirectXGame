@@ -46,7 +46,8 @@ PixelShaderOutput main(VertexShaderOutput input) {
 		output.color = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 	// 透明の場合は出力せず終了
-	if (output.color.a == 0.0f) {
+	// サンプリングによっては0にならない場合があるためバッファを取る
+	if (output.color.a <= 0.05f) {
 		discard;
 	}
 	return output;

@@ -7,13 +7,12 @@
 #include "Engine/DirectX/DirectXCore.h"
 #include "Engine/Game/Managers/AudioManager/AudioManager.h"
 #include "Engine/Game/GameTimer/GameTimer.h"
+#include "Engine/Game/Managers/SceneManager/SceneManager.h"
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif // _DEBUG
-
-WinApp* WinApp::instance = nullptr;
 
 // ウィンドウプロシージャ
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -50,7 +49,7 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _DEBUG
 	assert(!instance);
-	instance = new WinApp{ width, height };
+	instance.reset(new WinApp{ width, height });
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 	instance->init_app(programName, windowConfig);
@@ -59,36 +58,30 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 
 	AudioManager::Initialize();
 
-	GameTimer::Initialize();
 #ifdef _DEBUG
 	GameTimer::IsFixDeltaTime(true);
 #else
 	GameTimer::IsFixDeltaTime(false);
 #endif // _DEBUG
 
+	GameTimer::Initialize();
+	Log("Complite initialize application.\n");
+}
 
+void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
-	Log("Complete Create Window\n");
-
+	Log("Show application window.\n");
 }
 
 bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
 	if (instance->msg.message == WM_QUIT) { // ×ボタンが押されたら終わる
 		return true;
 	}
-
-	// windowの×ボタンが押されるまでループ
-	while (true) {
-		// windowにメッセージが来たら最優先で処理
-		if (PeekMessage(&instance->msg, NULL, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&instance->msg);
-			DispatchMessage(&instance->msg);
-		}
-		else {
-			return false;
-		}
+	if (SceneManager::IsEndProgram()) {
+		return true;
 	}
+	return false;
 }
 
 void WinApp::BeginFrame() {
@@ -102,21 +95,39 @@ void WinApp::EndFrame() {
 
 void WinApp::Finalize() {
 	// 終了通知
-	Log("End Program\n");
+	Log("End Program.\n");
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
-	//DirectXを終了
-	DirectXCore::Finalize();
+	Log("Closed Window.\n");
+
+	SceneManager::Finalize();
 
 	AudioManager::Finalize();
+	//DirectXを終了
+	DirectXCore::Finalize();
 
 	instance->term_app();
 	// COMの終了
 	CoUninitialize();
-	delete instance;
+	instance.reset();
 	// App
-	Log("Closed Window\n");
+	Log("Complite finalize application.\n");
 }
+
+void WinApp::ProcessMessage() {
+	// windowの×ボタンが押されるまでループ
+	while (true) {
+		// windowにメッセージが来たら最優先で処理
+		if (PeekMessage(&instance->msg, NULL, 0, 0, PM_REMOVE)) {
+			TranslateMessage(&instance->msg);
+			DispatchMessage(&instance->msg);
+		}
+		else {
+			return;
+		}
+	}
+}
+
 void WinApp::init_app(const std::string& programName, DWORD windowConfig) {
 	windowName = programName;
 	// ウィンドウの設定
@@ -164,12 +175,13 @@ void WinApp::term_app() {
 }
 
 void WinApp::wait_frame() {
+	auto& begin = GameTimer::BeginTime();
+	using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
 	while (true) {
-		using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
 		auto now = std::chrono::system_clock::now();
-		float duration = std::chrono::duration_cast<second_f>(now - GameTimer::BeginTime()).count();
+		float duration = std::chrono::duration_cast<second_f>(now - begin).count();
 		if (duration >= 0.0167f) {
-			break;
+			return;
 		}
 		else {
 			std::this_thread::sleep_for(std::chrono::nanoseconds(10));

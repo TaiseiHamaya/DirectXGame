@@ -1,23 +1,22 @@
 #include "AudioResource.h"
 
 #include <fstream>
-#include <cassert>
 
 #include <Engine/Utility/Utility.h>
 
-bool AudioResource::load(const std::string& directoryPath,const std::string& fileName) {
+bool AudioResource::load(const std::string& directoryPath, const std::string& fileName) {
 	// ローカル変数定義
 	struct ChunkHeader {
-		char id[4];
+		std::string id{ 4 };
 		std::int32_t size;
 	};
 	struct RiffHeader {
-		ChunkHeader chunk;
-		char type[4];
+		ChunkHeader header;
+		std::string type{ 4 };
 	};
 	struct FormatChunk {
-		ChunkHeader chunk;
-		WAVEFORMATEX format;
+		ChunkHeader header;
+		WAVEFORMATEXTENSIBLE format;
 	};
 
 	Log("[AudioResource] Start load .wave file. file-\'" + directoryPath + "/" + fileName + "\'\n");
@@ -37,13 +36,13 @@ bool AudioResource::load(const std::string& directoryPath,const std::string& fil
 	file.read((char*)&riff, sizeof(riff));
 
 	// RIFFじゃなかったらエラー処理
-	if (std::strncmp(riff.chunk.id, "RIFF", 4) != 0) {
+	if (riff.header.id != "RIFF") {
 		Log(std::format("[AudioResource] File \'{}\' is not RIFF chunk.\n", fileName));
 		return false;
 	}
 
 	// WAVEフォーマットじゃなかったらエラー処理
-	if (std::strncmp(riff.type, "WAVE", 4) != 0) {
+	if (riff.type != "WAVE") {
 		Log(std::format("[AudioResource] File \'{}\' is not .WAVE format_.\n", fileName));
 		return false;
 	}
@@ -51,39 +50,48 @@ bool AudioResource::load(const std::string& directoryPath,const std::string& fil
 	// chunk読み込み
 	FormatChunk formatChunk{};
 	file.read((char*)&formatChunk, sizeof(ChunkHeader));
-	// なにかおかしい
-	if (std::strncmp(formatChunk.chunk.id, "fmt ", 4)) {
-		assert(false);
-		return false;
+	while (file.read((char*)&formatChunk.header, sizeof(ChunkHeader))) {
+		if (formatChunk.header.id == "fmt ") {
+			break;
+		}
+		else if (formatChunk.header.id == "JUNK") {
+			file.seekg(formatChunk.header.size, std::ios_base::cur);
+		}
+		else if (formatChunk.header.id == "LIST") {
+			file.seekg(formatChunk.header.size, std::ios_base::cur);
+		}
+		else {
+			file.seekg(formatChunk.header.size, std::ios_base::cur);
+		}
 	}
 	// chunk.sizeよりformatが小さくないとread時にエラーになる
-	assert(formatChunk.chunk.size <= sizeof(formatChunk.format));
-	// 読み込み
-	file.read((char*)&formatChunk.format, formatChunk.chunk.size);
+	if (formatChunk.header.size > sizeof(formatChunk.format)) {
+		return false;
+	}
 
+	// 読み込み
+	file.read((char*)&formatChunk.format, formatChunk.header.size);
 	// データ読み込み
 	ChunkHeader data;
 	while (file.read((char*)&data, sizeof(data))) {
-		if (std::strncmp(data.id, "data", 4) == 0) {
+		if (data.id == "data") {
 			break;
 		}
-
-		if (std::strncmp(data.id, "JUNK", 4) == 0) {
+		else if (data.id == "JUNK") {
 			file.seekg(data.size, std::ios_base::cur);
 		}
-		else if (std::strncmp(data.id, "LIST", 4) == 0) {
+		else if (data.id == "LIST") {
 			file.seekg(data.size, std::ios_base::cur);
 		}
 		else {
 			file.seekg(data.size, std::ios_base::cur);
-			Log(std::format("[AudioResource] Unknown chunk found: {}.\n", std::string(data.id, 4)));
-			return false;
 		}
 	}
 
 	// dataチャンクがなかったらエラー
-	if (std::strncmp(data.id, "data", 4) != 0) {
-		assert(false);
+	if (data.id != "data") {
+		Log(std::format("[AudioResource] data chunk is not found. File-\'{}/{}\'\n", directoryPath, fileName));
+		return false;
 	}
 
 	// 読み込んだデータをコピーして保持
@@ -106,5 +114,5 @@ const std::basic_string<BYTE>& AudioResource::buffer_data() const noexcept {
 }
 
 const WAVEFORMATEX& AudioResource::format() const noexcept {
-	return format_;
+	return format_.Format;
 }

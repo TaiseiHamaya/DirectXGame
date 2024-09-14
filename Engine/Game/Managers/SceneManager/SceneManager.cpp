@@ -65,7 +65,7 @@ void SceneManager::Draw() {
 void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, float interval, bool isStackInitialScene, bool isStopLoad) {
 	assert(nextScenePtr);
 	SceneManager& instance = GetInstance();
-	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\' Terminal scene address-\'{}\'. Interval-{} Stack-{:s} Stop load-{:s}\n",
+	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
 		interval,
@@ -107,7 +107,7 @@ void SceneManager::PopScene(float interval) {
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Log(std::format("[SceneManager] Pop scene. Pop scene address-\'{}\' Next scene address-\'{}\'. Interval-{}\n",
+	Log(std::format("[SceneManager] Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)instance.sceneChangeInfo.next.get(),
 		interval
@@ -165,9 +165,6 @@ void SceneManager::DebugGui() {
 	ImGui::Text(std::format("SceneAddress- \'{}\'", (void*)instance.sceneQue.back().get()).c_str());
 	ImGui::Text(std::format("SceneCount :  {}", instance.sceneQue.size() - 1).c_str());
 	ImGui::Text(std::format("IsSceneChange : {:s}", instance.sceneChangeInfo.next != nullptr).c_str());
-	ImGui::Separator();
-	ImGui::Text(std::format("DeltaTime : {:3.5}ms", GameTimer::DeltaTime() * 1000.0f).c_str());
-	ImGui::Text("AvarageFPS : %.1fFPS", GameTimer::AverageFPS());
 	ImGui::End();
 }
 #endif // _DEBUG

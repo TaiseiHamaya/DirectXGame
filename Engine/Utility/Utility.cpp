@@ -1,5 +1,7 @@
 #include "Utility.h"
 
+#define NOMINMAX
+
 #include <Windows.h>
 
 std::wstring ConvertString(const std::string& str) {

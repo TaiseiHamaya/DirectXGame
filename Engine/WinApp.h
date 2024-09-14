@@ -4,11 +4,15 @@
 
 #include <cstdint>
 #include <string>
+#include <memory>
+
 #include <windows.h>
 
 class WinApp final {
 private:
 	WinApp(int32_t width, int32_t height) noexcept;
+
+public:
 	~WinApp() noexcept = default;
 
 public:
@@ -17,10 +21,13 @@ public:
 
 public:
 	static void Initialize(const std::string& programName, int32_t width = 1280, int32_t height = 720, DWORD windowConfig = WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME);
+	static void ShowAppWindow();
 	static bool IsEndApp();
 	static void BeginFrame();
 	static void EndFrame();
 	static void Finalize();
+
+	static void ProcessMessage();
 
 public:
 	static int32_t GetClientWidth() noexcept { return instance->kClientWidth; };
@@ -40,7 +47,7 @@ private:
 	void wait_frame();
 
 private:
-	static WinApp* instance;
+	static inline std::unique_ptr<WinApp> instance = nullptr;
 
 private:
 	int32_t kClientWidth;

@@ -15,12 +15,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	SceneManager::Initialize(CreateUnique<SceneDemo>());
 
-	while (!WinApp::IsEndApp()) {
+	WinApp::ShowAppWindow();
+
+	while (true) {
 		WinApp::BeginFrame();
 
 		SceneManager::Begin();
 
-		if (SceneManager::IsEndProgram()) {
+		WinApp::ProcessMessage();
+
+		if (WinApp::IsEndApp()) {
 			break;
 		}
 

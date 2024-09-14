@@ -25,13 +25,18 @@ public:
 	static const std::chrono::system_clock::time_point& BeginTime();
 	static void IsFixDeltaTime(bool boolean);
 
+#ifdef _DEBUG
+	static void DebugGui();
+#endif // _DEBUG
+
 private:
 	float deltaTime;
 	std::chrono::system_clock::time_point startFrameTimePoint;
 
-	std::list<float> deltaTimeList;
+	std::list<std::pair<float, size_t>> frameTimeInfomation;
 	float timeSummation;
-	float fps;
+	float fpsSummation;
+	float averageFPS;
 
 	bool isFixDeltaTime;
 };

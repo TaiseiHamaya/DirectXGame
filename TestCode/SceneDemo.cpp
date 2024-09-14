@@ -23,11 +23,11 @@ SceneDemo::SceneDemo() = default;
 SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "Sphere.obj");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Sphere.obj");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
-	AudioManager::RegisterLoadQue("./Engine/Resources/", "SE_meteoEachOther.wav");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/", "SE_meteoEachOther.wav");
-	TextureManager::RegisterLoadQue("./Engine/Resources/", "SE_meteoEachOther.wav");
+	AudioManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
+	TextureManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
 }
 
 void SceneDemo::initialize() {

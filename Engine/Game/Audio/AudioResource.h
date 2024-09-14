@@ -19,10 +19,10 @@ public:
 	bool load(const std::string& filePath, const std::string& fileName);
 	std::uint32_t size() const noexcept;
 	const std::basic_string<BYTE>& buffer_data() const noexcept;
-	const  WAVEFORMATEX& format() const noexcept;
+	const WAVEFORMATEX& format() const noexcept;
 
 private:
-	WAVEFORMATEX format_;
+	WAVEFORMATEXTENSIBLE format_;
 	std::basic_string<BYTE> buffer_;
 	std::uint32_t bufferSize_;
 };
