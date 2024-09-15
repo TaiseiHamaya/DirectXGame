@@ -45,8 +45,8 @@ void OutlineNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"Engine/HLSL/FullscreenShader.hlsl",
-		"Engine/Render/RenderNode/Outline/Outline.PS.hlsl"
+		"EngineResources/HLSL/FullscreenShader.hlsl",
+		"EngineResources/HLSL/Outline/Outline.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

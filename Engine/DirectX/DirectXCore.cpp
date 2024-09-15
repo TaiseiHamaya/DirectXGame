@@ -9,31 +9,31 @@
 #pragma comment(lib, "dxguid.lib")
 
 #ifdef _DEBUG
-#include "Engine/Utility/ImGuiManager/ImGuiManager.h"
+#include "Engine/Debug/ImGuiManager/ImGuiManager.h"
 #endif // _DEBUG
 
 #include "Engine/WinApp.h"
 #include "Engine/Utility/Utility.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Game/Managers/TextureManager/TextureManager.h"
-#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
+#include "Engine/Module/TextureManager/TextureManager.h"
+#include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
+#include "Engine/DirectX/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/Game/GameObject/GameObject.h"
+#include "Engine/Module/GameObject/GameObject.h"
 
-#include "Engine/Game/Camera/Camera2D.h"
-#include "Engine/Game/Camera/Camera3D.h"
+#include "Engine/Module/Camera/Camera2D.h"
+#include "Engine/Module/Camera/Camera3D.h"
 
 #include "Engine/Math/Vector3.h"
-#include "Engine/Game/Color/Color.h"
+#include "Engine/Module/Color/Color.h"
 #include "Engine/Math/Quaternion.h"
-#include "Engine/Game/Collision/CollisionManager/CollisionManager.h"
+#include "Engine/Module/Collision/CollisionManager.h"
 #include "externals/imgui/imgui.h"
 
 // ----------要修正----------
@@ -125,8 +125,8 @@ void DirectXCore::initialize() {
 	ImGuiManager::Initialize();
 #endif // _DEBUG
 	// システム使用のオブジェクトをロード
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/ErrorObject", "ErrorObject.obj");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Grid.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/ErrorObject", "ErrorObject.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Grid.obj");
 #ifdef _DEBUG
 	CollisionManager::LoadDebugDrawMesh();
 #endif // _DEBUG

@@ -5,9 +5,9 @@
 
 #include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXCore.h"
-#include "Engine/Game/Managers/AudioManager/AudioManager.h"
-#include "Engine/Game/GameTimer/GameTimer.h"
-#include "Engine/Game/Managers/SceneManager/SceneManager.h"
+#include "Engine/Application/Audio/AudioManager.h"
+#include "Engine/Application/GameTimer/GameTimer.h"
+#include "Engine/Application/Scene/SceneManager.h"
 
 #ifdef _DEBUG
 #include "externals/imgui/imgui.h"

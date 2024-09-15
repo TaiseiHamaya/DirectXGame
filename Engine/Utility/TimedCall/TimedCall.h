@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "Engine/Game/GameTimer/GameTimer.h"
+#include "Engine/Application/GameTimer/GameTimer.h"
 
 template<class Type>
 class TimedCall {

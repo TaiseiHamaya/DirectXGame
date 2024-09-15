@@ -41,8 +41,8 @@ void ChromaticAberrationNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"Engine/HLSL/FullscreenShader.hlsl",
-		"Engine/Render/RenderNode/ChromaticAberration/ChromaticAberration.PS.hlsl"
+		"EngineResources/HLSL/FullscreenShader.hlsl",
+		"EngineResources/HLSL/ChromaticAberration/ChromaticAberration.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Game/Scene/BaseScene.h"
+#include "Engine/Application/Scene/BaseScene.h"
 
 #include <memory>
 
-#include "Engine/Game/Audio/AudioPlayer.h"
+#include "Engine/Application/Audio/AudioPlayer.h"
 
 class GameObject;
 class Camera3D;

@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "Engine/Math/Matrix4x4.h"
-#include "Engine/Game/Color/Color.h"
+#include "Engine/Module/Color/Color.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class Texture;

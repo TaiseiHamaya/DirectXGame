@@ -8,7 +8,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
 #include "Engine/Utility/Utility.h"
-#include "Engine/Game/Managers/TextureManager/TextureManager.h"
+#include "Engine/Module/TextureManager/TextureManager.h"
 
 Texture::Texture() noexcept = default;
 

@@ -53,8 +53,8 @@ void SpriteNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"Engine/Render/RenderNode/Sprite/Sprite.VS.hlsl",
-		"Engine/Render/RenderNode/Sprite/Sprite.PS.hlsl"
+		"EngineResources/HLSL/Sprite/Sprite.VS.hlsl",
+		"EngineResources/HLSL/Sprite/Sprite.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

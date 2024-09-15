@@ -47,8 +47,8 @@ void RadialBlurNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"Engine/HLSL/FullscreenShader.hlsl",
-		"Engine/Render/RenderNode/RadialBlur/RadialBlur.PS.hlsl"
+		"EngineResources/HLSL/FullscreenShader.hlsl",
+		"EngineResources/HLSL/RadialBlur/RadialBlur.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

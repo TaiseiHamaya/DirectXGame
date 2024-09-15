@@ -4,7 +4,7 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Game/Color/Color.h"
+#include "Engine/Module/Color/Color.h"
 
 BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
 

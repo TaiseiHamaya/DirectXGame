@@ -16,8 +16,8 @@ private:
 
 public:
 	void initialize(
-		const std::string& vertexShaderFilePath = "Engine/HLSL/3DObject/Object3d.VS.hlsl",
-		const std::string& pixelShaderFilePath = "Engine/HLSL/3DObject/Object3d.PS.hlsl"
+		const std::string& vertexShaderFilePath = "EngineResources/HLSL/3DObject/Object3d.VS.hlsl",
+		const std::string& pixelShaderFilePath = "EngineResources/HLSL/3DObject/Object3d.PS.hlsl"
 	) noexcept(false);
 
 	D3D12_SHADER_BYTECODE get_vs_bytecode() const noexcept;

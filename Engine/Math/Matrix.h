@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Math/Array2D.h>
+#include <Engine/Utility/Array2D/Array2D.h>
 
 template<size_t ROW, size_t COLUMN>
 class Matrix {

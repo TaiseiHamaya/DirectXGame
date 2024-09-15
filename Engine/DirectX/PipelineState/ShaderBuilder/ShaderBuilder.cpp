@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "Engine/Utility/ShaderCompiler/ShaderCompiler.h"
+#include "Engine/DirectX/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/Utility/Utility.h"
 
 void ShaderBuilder::initialize(const std::string& vertexShaderFilePath, const std::string& pixelShaderFilePath) {

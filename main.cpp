@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "Engine/Game/Managers/SceneManager/SceneManager.h"
+#include "Engine/Application/Scene/SceneManager.h"
 #include "Engine/Utility/Utility.h"
 #include "TestCode/SceneDemo.h"
 
@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("DirectXGame", kClientWidth, kClientHight);
 	GameTimer::IsFixDeltaTime(false);
 
-	SceneManager::Initialize(CreateUnique<SceneDemo>());
+	SceneManager::Initialize(std::make_unique<SceneDemo>());
 
 	WinApp::ShowAppWindow();
 

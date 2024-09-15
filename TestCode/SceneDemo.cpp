@@ -1,19 +1,19 @@
 #include "SceneDemo.h"
 
-#include "Engine/Game/Camera/Camera3D.h"
-#include "Engine/Game/GameObject/GameObject.h"
-#include "Engine/Game/Hierarchy/Hierarchy.h"
-#include "Engine/Game/Managers/PolygonMeshManager/PolygonMeshManager.h"
-#include "Engine/Game/Managers/SceneManager/SceneManager.h"
+#include "Engine/Module/Camera/Camera3D.h"
+#include "Engine/Module/GameObject/GameObject.h"
+#include "Engine/Module/Hierarchy/Hierarchy.h"
+#include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Application/Scene/SceneManager.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
 #include "Engine/Utility/Utility.h"
-#include "Engine/Game/Collision/Collider/SphereCollider.h"
-#include "Engine/Game/Collision/CollisionManager/CollisionManager.h"
+#include "Engine/Module/Collision/Collider/SphereCollider.h"
+#include "Engine/Module/Collision/CollisionManager.h"
 
-#include "Engine/Game/Color/Color.h"
+#include "Engine/Module/Color/Color.h"
 
-#include "Engine/Game/Managers/AudioManager/AudioManager.h"
-#include "Engine/Game/Managers/TextureManager/TextureManager.h"
+#include "Engine/Application/Audio/AudioManager.h"
+#include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Render/RenderPath/RenderPath.h"
@@ -23,7 +23,7 @@ SceneDemo::SceneDemo() = default;
 SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "Sphere.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
 	AudioManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
@@ -31,39 +31,39 @@ void SceneDemo::load() {
 }
 
 void SceneDemo::initialize() {
-	camera3D = CreateUnique<Camera3D>();
+	camera3D = std::make_unique<Camera3D>();
 	camera3D->initialize();
 	camera3D->set_transform({
 		CVector3::BASIS,
 		Quaternion::EulerDegree(45,0,0),
 		{0,10,-10}
 		});
-	parent = CreateUnique<GameObject>();
+	parent = std::make_unique<GameObject>();
 	parent->reset_object("Sphere.obj");
-	child = CreateUnique<GameObject>();
+	child = std::make_unique<GameObject>();
 	child->reset_object("Sphere.obj");
 	child->set_parent(parent->get_hierarchy());
 
-	parentCollider = CreateShared<SphereCollider>();
+	parentCollider = std::make_unique<SphereCollider>();
 	parentCollider->initialize();
 	parentCollider->get_hierarchy().set_parent(parent->get_hierarchy());
 
-	childCollider = CreateShared<SphereCollider>();
+	childCollider = std::make_unique<SphereCollider>();
 	childCollider->initialize();
 	childCollider->get_hierarchy().set_parent(child->get_hierarchy());
 
-	singleCollider = CreateShared<SphereCollider>();
+	singleCollider = std::make_unique<SphereCollider>();
 	singleCollider->initialize();
 
-	single2Collider = CreateShared<SphereCollider>();
+	single2Collider = std::make_unique<SphereCollider>();
 	single2Collider->initialize();
 	single2Collider->get_transform().set_translate_x(-3.0f);
 
-	single3Collider = CreateShared<SphereCollider>();
+	single3Collider = std::make_unique<SphereCollider>();
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	collisionManager = CreateUnique<CollisionManager>();
+	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
 	collisionManager->register_collider("Single", single2Collider);
@@ -165,10 +165,10 @@ void SceneDemo::on_collision_exit(const BaseCollider* const, Color* object) {
 void SceneDemo::debug_update() {
 	ImGui::Begin("DemoScene");
 	if (ImGui::Button("StackScene")) {
-		SceneManager::SetSceneChange(CreateUnique<SceneDemo>(), 1, true);
+		SceneManager::SetSceneChange(std::make_unique<SceneDemo>(), 1, true);
 	}
 	if (ImGui::Button("ChangeScene")) {
-		SceneManager::SetSceneChange(CreateUnique<SceneDemo>(), 1, false);
+		SceneManager::SetSceneChange(std::make_unique<SceneDemo>(), 1, false);
 	}
 	if (ImGui::Button("PopScene")) {
 		SceneManager::PopScene(1);
