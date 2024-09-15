@@ -5,8 +5,8 @@ struct PixelShaderInput {
 
 Texture2D<float4> gTexture : register(t0);
 Texture2D<float> gDepth : register(t1);
-SamplerState gSampler : register(s0);
-SamplerState gLinearSampler : register(s1);
+SamplerState gLinearSampler : register(s0);
+SamplerState gPointSampler : register(s1);
 
 static const float2 Index3x3[3][3] = {
 	{ { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f } },
@@ -34,12 +34,11 @@ float ZBufferToLinear(float ndcZ, float near, float far) {
 
 float4 main(PixelShaderInput input) : SV_TARGET0 {
 	float2 difference = float2(0.0f, 0.0f);
-	
+		
 	for (int x = 0; x < 3; ++x) {
 		for (int y = 0; y < 3; ++y) {
 			float2 texcoord = input.texcoord + Index3x3[x][y] * UVStepSize;
-			float3 fetchColor = gTexture.Sample(gSampler, texcoord).rgb;
-			float viewZ = ZBufferToLinear(gDepth.Sample(gLinearSampler, texcoord), 0.1f, 1000.0f);
+			float viewZ = ZBufferToLinear(gDepth.Sample(gPointSampler, texcoord), 0.1f, 1000.0f);
 			difference.x += viewZ * HorizontalKerner[x][y];
 			difference.y += viewZ * VerticalKerner[x][y];
 		}
@@ -51,6 +50,6 @@ float4 main(PixelShaderInput input) : SV_TARGET0 {
 		return float4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	else {
-		return gTexture.Sample(gSampler, input.texcoord);
+		return gTexture.Sample(gLinearSampler, input.texcoord);
 	}
 }
