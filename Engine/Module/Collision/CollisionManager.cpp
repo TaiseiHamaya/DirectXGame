@@ -25,15 +25,19 @@ void CollisionManager::update() {
 }
 
 void CollisionManager::collision(const std::string& groupName1, const std::string& groupName2) {
-	auto&& group1Range = colliderList.equal_range(groupName1);
-	for (auto& group1 = group1Range.first; group1 != group1Range.second; ++group1) {
-		auto&& group2Range = colliderList.equal_range(groupName2);
-		auto& group2 = group2Range.first;
-		// 同じグループのときは重複させないようにgroup2のiteratorを進める
+	using ColliderIterator = std::unordered_multimap<std::string, std::weak_ptr<BaseCollider>>::const_iterator;
+	auto group1Range = colliderList.equal_range(groupName1);
+	auto group2Range = colliderList.equal_range(groupName2);
+	ColliderIterator group2;
+	for (ColliderIterator& group1 = group1Range.first; group1 != group1Range.second; ++group1) {
+		// 同じグループのときは重複させないようにgroup1の次を参照させる
 		if (groupName1 == groupName2) {
-			__int64 distance = std::distance(group2, group1);
-			std::advance(group2, distance + 1);
+			group2 = std::next(group1);
 		}
+		else {
+			group2 = group2Range.first;
+		}
+
 		for (; group2 != group2Range.second; ++group2) {
 			test_collision(group1->second.lock(), group2->second.lock());
 		}
