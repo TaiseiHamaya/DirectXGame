@@ -72,6 +72,9 @@ void GameObject::draw() const {
 	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
 	// 設定したデータをコマンドに積む
 	auto&& meshLocked = mesh.lock();
+	if (!meshLocked) {
+		return;
+	}
 	for (int i = 0; i < meshLocked->material_count(); ++i) {
 		commandList->IASetVertexBuffers(0, 1, meshLocked->get_p_vbv(i)); // VBV
 		commandList->IASetIndexBuffer(meshLocked->get_p_ibv(i)); // IBV

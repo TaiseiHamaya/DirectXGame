@@ -11,7 +11,9 @@ BaseRenderNode::BaseRenderNode() = default;
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
 void BaseRenderNode::finalize() {
-	renderTarget->finalize();
+	if (renderTarget) {
+		renderTarget->finalize();
+	}
 }
 
 void BaseRenderNode::begin() {
