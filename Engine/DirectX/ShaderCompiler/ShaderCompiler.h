@@ -1,8 +1,9 @@
 #pragma once
 
+#include <string>
+
 #include <d3d12.h>
 #include <dxcapi.h>
-#include <string>
 #include <wrl.h>
 
 class ShaderCompiler final {

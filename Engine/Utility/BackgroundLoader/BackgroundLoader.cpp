@@ -1,8 +1,8 @@
 #include "BackgroundLoader.h"
 
-#include <cassert>
 #include <functional>
 #include <mutex>
+#include <format>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
