@@ -23,8 +23,10 @@ public:
 	const Matrix4x4& vp_matrix() const;
 
 #ifdef _DEBUG
+public:
 	virtual void debug_gui();
-	//void debug_camera();
+	void debug_camera();
+	void debug_draw() const;
 #endif // _DEBUG
 
 private:
@@ -41,4 +43,12 @@ private:
 	float aspectRatio;
 	float nearClip;
 	float farClip;
+
+#ifdef _DEBUG
+	bool isVaildDebugCamera;
+	std::unique_ptr<GameObject> debugCameraCenter;
+	std::unique_ptr<GameObject> debugCamera;
+	Vector3 offset;
+	Vector2 preMousePos;
+#endif // _DEBUG
 };

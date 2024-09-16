@@ -76,16 +76,16 @@ void SceneDemo::initialize() {
 
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
-	object3dNode->set_render_target();
-	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//object3dNode->set_render_target();
+	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	object3dNode->set_depth_stencil();
 
-	outlineNode = std::make_unique<OutlineNode>();
-	outlineNode->initialize();
-	//outlineNode->set_render_target();
-	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
-	outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
+	//outlineNode = std::make_unique<OutlineNode>();
+	//outlineNode->initialize();
+	////outlineNode->set_render_target();
+	//outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//outlineNode->set_texture_resource(object3dNode->result_stv_handle());
+	//outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
 
 	//spriteNode = std::make_unique<SpriteNode>();
 	//spriteNode->initialize();
@@ -93,12 +93,12 @@ void SceneDemo::initialize() {
 	//spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode, outlineNode });
+	path.initialize({ object3dNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 
-	DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
+	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
 }
 
@@ -122,7 +122,6 @@ void SceneDemo::update() {
 }
 
 void SceneDemo::begin_rendering() {
-	camera3D->begin_rendering(*camera3D);
 	camera3D->update_matrix();
 	parent->begin_rendering(*camera3D);
 	child->begin_rendering(*camera3D);
@@ -141,10 +140,11 @@ void SceneDemo::draw() const {
 	child->draw();
 #ifdef _DEBUG
 	collisionManager->debug_draw3d(*camera3D);
+	camera3D->debug_draw();
 #endif // _DEBUG
 	RenderPathManager::Next();
-	outlineNode->draw();
-	RenderPathManager::Next();
+	//outlineNode->draw();
+	//RenderPathManager::Next();
 }
 
 void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color* object) {

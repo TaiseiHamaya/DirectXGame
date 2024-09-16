@@ -126,6 +126,7 @@ void DirectXCore::initialize() {
 #endif // _DEBUG
 	// システム使用のオブジェクトをロード
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/ErrorObject", "ErrorObject.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Frustum", "Frustum.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Grid.obj");
 #ifdef _DEBUG
 	CollisionManager::LoadDebugDrawMesh();
