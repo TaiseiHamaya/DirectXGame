@@ -44,7 +44,7 @@ private:
 	void end_frame();
 	void term_app();
 
-	void wait_frame();
+	//void wait_frame();
 
 private:
 	static inline std::unique_ptr<WinApp> instance = nullptr;

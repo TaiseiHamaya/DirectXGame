@@ -161,24 +161,24 @@ void WinApp::begin_frame() {
 
 void WinApp::end_frame() {
 	DirectXCore::EndFrame();
-	wait_frame();
+	//wait_frame();
 }
 
 void WinApp::term_app() {
 	assert(instance);
 }
 
-void WinApp::wait_frame() {
-	auto& begin = GameTimer::BeginTime();
-	using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
-	while (true) {
-		auto now = std::chrono::system_clock::now();
-		float duration = std::chrono::duration_cast<second_f>(now - begin).count();
-		if (duration >= 0) {
-			return;
-		}
-		else {
-			std::this_thread::sleep_for(std::chrono::nanoseconds(10));
-		}
-	}
-}
+//void WinApp::wait_frame() {
+//	auto& begin = GameTimer::BeginTime();
+//	using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
+//	while (true) {
+//		auto now = std::chrono::high_resolution_clock::now();
+//		float duration = std::chrono::duration_cast<second_f>(now - begin).count();
+//		if (duration >= 0) {
+//			return;
+//		}
+//		else {
+//			std::this_thread::sleep_for(std::chrono::nanoseconds(10));
+//		}
+//	}
+//}
