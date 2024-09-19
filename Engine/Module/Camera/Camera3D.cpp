@@ -20,7 +20,7 @@ void Camera3D::initialize() {
 #ifdef _DEBUG
 	isVaildDebugCamera = false;
 	debugCamera = std::make_unique<GameObject>();
-	debugCameraCenter = std::make_unique<GameObject>();
+	debugCameraCenter = std::make_unique<GameObject>("CameraAxis.obj");
 	debugCameraCenter->begin_rendering(*this);
 	debugCamera->set_parent(debugCameraCenter->get_hierarchy());
 #endif // _DEBUG
@@ -41,6 +41,7 @@ void Camera3D::update_matrix() {
 	vpMatrix = viewMatrix * perspectiveFovMatrix;
 
 #ifdef _DEBUG
+	debugVpMatrix = debugViewMatrix * perspectiveFovMatrix;
 	if (isVaildDebugCamera) {
 		debugCameraCenter->begin_rendering(*this);
 	}
@@ -62,6 +63,24 @@ const Matrix4x4& Camera3D::vp_matrix() const {
 	return vpMatrix;
 }
 
+void Camera3D::make_view_matrix() {
+	viewMatrix = world_matrix().inverse();
+#ifdef _DEBUG
+	if (isVaildDebugCamera)
+		debugViewMatrix = debugCamera->world_matrix().inverse();
+#endif // _DEBUG
+}
+
+void Camera3D::make_perspectivefov_matrix() {
+	float cot = 1 / std::tan(fovY / 2);
+	perspectiveFovMatrix = {
+		{{ cot / aspectRatio, 0, 0, 0 },
+		{ 0, cot, 0, 0 },
+		{ 0, 0, farClip / (farClip - nearClip), 1 },
+		{ 0, 0, -nearClip * farClip / (farClip - nearClip), 0 } }
+	};
+}
+
 #ifdef _DEBUG
 void Camera3D::debug_gui() {
 	transform->debug_gui();
@@ -69,7 +88,8 @@ void Camera3D::debug_gui() {
 	ImGui::Checkbox("DebugCamera", &isVaildDebugCamera);
 	if (isVaildDebugCamera) {
 		ImGui::DragFloat("Offset", &offset.z, 0.1f, -10000.0f, 0.0f);
-		debugCameraCenter->debug_gui();
+		debugCameraCenter->get_transform().debug_gui();
+		debugCamera->get_transform().debug_gui();
 	}
 	debug_camera();
 }
@@ -109,10 +129,9 @@ void Camera3D::debug_camera() {
 			// デバッグカメラの方向を向かせる
 			debugCameraCenter->get_transform().plus_translate(move * debugCamera->get_transform().get_quaternion());
 		}
-
-		// 位置更新
-		debugCamera->get_transform().set_translate(offset * debugCamera->get_transform().get_quaternion());
 	}
+	// 位置更新
+	debugCamera->get_transform().set_translate(offset * debugCamera->get_transform().get_quaternion());
 }
 
 void Camera3D::debug_draw() const {
@@ -122,23 +141,8 @@ void Camera3D::debug_draw() const {
 	}
 }
 
-#endif // _DEBUG
-
-void Camera3D::make_view_matrix() {
-#ifdef _DEBUG
-	viewMatrix = isVaildDebugCamera ? debugCamera->world_matrix().inverse() : world_matrix().inverse();
-#else
-	viewMatrix = world_matrix().inverse();
-#endif // _DEBUG
+const Matrix4x4& Camera3D::vp_matrix_draw() const {
+	return isVaildDebugCamera ? debugVpMatrix : vpMatrix;
 }
 
-void Camera3D::make_perspectivefov_matrix() {
-	float cot = 1 / std::tan(fovY / 2);
-	perspectiveFovMatrix = {
-		{{ cot / aspectRatio, 0, 0, 0 },
-		{ 0, cot, 0, 0 },
-		{ 0, 0, farClip / (farClip - nearClip), 1 },
-		{ 0, 0, -nearClip * farClip / (farClip - nearClip), 0 } }
-	};
-}
-
+#endif // _DEBUG

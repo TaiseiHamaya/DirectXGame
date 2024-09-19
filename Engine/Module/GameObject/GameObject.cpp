@@ -60,7 +60,11 @@ void GameObject::begin_rendering(const Camera3D& camera) noexcept {
 	// Transformに転送
 	transformMatrix->set_transformation_matrix_data(
 		std::move(worldMatrix),
+#ifdef _DEBUG
+		camera.vp_matrix_draw()
+#else
 		camera.vp_matrix()
+#endif // _DEBUG
 	);
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {

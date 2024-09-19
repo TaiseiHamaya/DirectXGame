@@ -70,6 +70,15 @@ public:
 	/// <param name="data">転送データ</param>
 	static void Transfer(const std::string& name, std::unique_ptr<AudioResource>&& data);
 
+public:
+	static float GetMasterVolume();
+	static void SetMasterVolume(float volume);
+
+#ifdef _DEBUG
+public:
+	static void DebugGui();
+#endif // _DEBUG
+
 private:
 	/// <summary>
 	/// オーディオが登録済みか取得(mutexなし)
@@ -81,6 +90,7 @@ private:
 private:
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masteringVoice;
+	float masterVolume;
 
 	std::unordered_map<std::string, std::unique_ptr<AudioResource>> audioResources;
 };

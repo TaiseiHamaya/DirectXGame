@@ -26,9 +26,9 @@ void AudioManager::Initialize() {
 	HRESULT result;
 	result = XAudio2Create(instance.xAudio2.GetAddressOf(), 0, XAUDIO2_DEFAULT_PROCESSOR);
 	result = instance.xAudio2->CreateMasteringVoice(&instance.masteringVoice);
+	instance.masteringVoice->GetVolume(&instance.masterVolume);
 	// nullインスタンスの追加
 	Transfer("NULL", nullptr);
-
 }
 
 void AudioManager::Finalize() {
@@ -79,6 +79,28 @@ void AudioManager::Transfer(const std::string& name, std::unique_ptr<AudioResour
 	GetInstance().audioResources.emplace(name, std::move(data));
 
 }
+
+float AudioManager::GetMasterVolume() {
+	return GetInstance().masterVolume;
+}
+
+void AudioManager::SetMasterVolume(float volume) {
+	auto&& instance = GetInstance();
+	instance.masterVolume = volume;
+	instance.masteringVoice->SetVolume(instance.masterVolume);
+}
+
+#ifdef _DEBUG
+
+#include <externals/imgui/imgui.h>
+void AudioManager::DebugGui() {
+	ImGui::Begin("AudioManager");
+	if (ImGui::DragFloat("Volume", &GetInstance().masterVolume, 0.01f, 0.0f, 100.0f, "%.2f")) {
+		SetMasterVolume(GetInstance().masterVolume);
+	}
+	ImGui::End();
+}
+#endif // _DEBUG
 
 bool AudioManager::IsRegisteredNolocking(const std::string& audioName) noexcept(false) {
 	return GetInstance().audioResources.contains(audioName);

@@ -24,6 +24,7 @@ SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
+	AudioManager::RegisterLoadQue("./EngineResources", "Alarm01.wav");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
 	AudioManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
@@ -71,8 +72,7 @@ void SceneDemo::initialize() {
 	collisionManager->register_collider("Child", childCollider);
 
 	audioPlayer = std::make_unique<AudioPlayer>();
-	audioPlayer->initialize("");
-	audioPlayer->initialize("SE_meteoEachOther.wav");
+	audioPlayer->initialize("Alarm01.wav");
 
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
@@ -192,10 +192,21 @@ void SceneDemo::debug_update() {
 	ImGui::End();
 
 	ImGui::Begin("Audio");
+	audioPlayer->debug_gui();
 	if (ImGui::Button("Play")) {
-		audioPlayer->restart();
+		audioPlayer->play();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop")) {
+		audioPlayer->stop();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Pause")) {
+		audioPlayer->pause();
 	}
 	ImGui::End();
+
+	AudioManager::DebugGui();
 
 	ImGui::Begin("GameTimer");
 	GameTimer::DebugGui();

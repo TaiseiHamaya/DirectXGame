@@ -128,6 +128,7 @@ void DirectXCore::initialize() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/ErrorObject", "ErrorObject.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Frustum", "Frustum.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Grid.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Camera", "CameraAxis.obj");
 #ifdef _DEBUG
 	CollisionManager::LoadDebugDrawMesh();
 #endif // _DEBUG

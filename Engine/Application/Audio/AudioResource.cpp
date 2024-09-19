@@ -2,18 +2,23 @@
 
 #include <fstream>
 #include <format>
+#include <array>
 
 #include <Engine/Utility/Utility.h>
+
+bool IsEqualArrayChunkId(const std::array<char, 4>& read, std::string&& id) {
+	return std::strncmp(read.data(), id.c_str(), 4) == 0;
+}
 
 bool AudioResource::load(const std::string& directoryPath, const std::string& fileName) {
 	// ローカル変数定義
 	struct ChunkHeader {
-		std::string id{ 4 };
+		std::array<char, 4> id;
 		std::int32_t size;
 	};
 	struct RiffHeader {
 		ChunkHeader header;
-		std::string type{ 4 };
+		std::array<char, 4> type;
 	};
 	struct FormatChunk {
 		ChunkHeader header;
@@ -37,28 +42,27 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 	file.read((char*)&riff, sizeof(riff));
 
 	// RIFFじゃなかったらエラー処理
-	if (riff.header.id != "RIFF") {
+	if (!IsEqualArrayChunkId(riff.header.id, "RIFF")) {
 		Log(std::format("[AudioResource] File \'{}\' is not RIFF chunk.\n", fileName));
 		return false;
 	}
 
 	// WAVEフォーマットじゃなかったらエラー処理
-	if (riff.type != "WAVE") {
+	if (!IsEqualArrayChunkId(riff.type, "WAVE")) {
 		Log(std::format("[AudioResource] File \'{}\' is not .WAVE format_.\n", fileName));
 		return false;
 	}
 
 	// chunk読み込み
 	FormatChunk formatChunk{};
-	file.read((char*)&formatChunk, sizeof(ChunkHeader));
 	while (file.read((char*)&formatChunk.header, sizeof(ChunkHeader))) {
-		if (formatChunk.header.id == "fmt ") {
+		if (IsEqualArrayChunkId(formatChunk.header.id, "fmt ")) {
 			break;
 		}
-		else if (formatChunk.header.id == "JUNK") {
+		else if (IsEqualArrayChunkId(formatChunk.header.id, "JUNK")) {
 			file.seekg(formatChunk.header.size, std::ios_base::cur);
 		}
-		else if (formatChunk.header.id == "LIST") {
+		else if (IsEqualArrayChunkId(formatChunk.header.id, "LIST")) {
 			file.seekg(formatChunk.header.size, std::ios_base::cur);
 		}
 		else {
@@ -75,13 +79,13 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 	// データ読み込み
 	ChunkHeader data;
 	while (file.read((char*)&data, sizeof(data))) {
-		if (data.id == "data") {
+		if (IsEqualArrayChunkId(data.id, "data")) {
 			break;
 		}
-		else if (data.id == "JUNK") {
+		else if (IsEqualArrayChunkId(data.id, "JUNK")) {
 			file.seekg(data.size, std::ios_base::cur);
 		}
-		else if (data.id == "LIST") {
+		else if (IsEqualArrayChunkId(data.id, "LIST")) {
 			file.seekg(data.size, std::ios_base::cur);
 		}
 		else {
@@ -90,8 +94,8 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 	}
 
 	// dataチャンクがなかったらエラー
-	if (data.id != "data") {
-		Log(std::format("[AudioResource] data chunk is not found. File-\'{}/{}\'\n", directoryPath, fileName));
+	if (!IsEqualArrayChunkId(data.id, "data")) {
+		Log(std::format("[AudioResource] \'data\' chunk is not found. File-\'{}/{}\'\n", directoryPath, fileName));
 		return false;
 	}
 

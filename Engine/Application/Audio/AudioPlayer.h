@@ -26,6 +26,11 @@ public:
 	void set_volume(float volume);
 	void set_loop(bool isLoop);
 
+#ifdef _DEBUG
+public:
+	void debug_gui();
+#endif // _DEBUG
+
 private:
 	XAUDIO2_BUFFER buffer{};
 	IXAudio2SourceVoice* sourceVoice;

@@ -66,6 +66,21 @@ void AudioPlayer::set_volume(float volume) {
 
 void AudioPlayer::set_loop(bool isLoop) {
 	buffer.LoopCount = isLoop ? XAUDIO2_LOOP_INFINITE : 0;
-	//HRESULT result;
-	//result = sourceVoice->SubmitSourceBuffer(&buffer);
+	HRESULT result;
+	result = sourceVoice->SubmitSourceBuffer(&buffer);
 }
+
+#ifdef _DEBUG
+#include <externals/imgui/imgui.h>
+void AudioPlayer::debug_gui() {
+	bool isLoop = buffer.LoopCount == XAUDIO2_LOOP_INFINITE;
+	if(ImGui::Checkbox("Loop", &isLoop) ){
+		set_loop(isLoop);
+	}
+	float volume;
+	sourceVoice->GetVolume(&volume);
+	if (ImGui::DragFloat("Volume", &volume, 0.01f, 0.0f, 100.0f)) {
+		set_volume(volume);
+	}
+}
+#endif // _DEBUG

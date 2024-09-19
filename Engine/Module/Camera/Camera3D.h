@@ -22,16 +22,17 @@ public:
 
 	const Matrix4x4& vp_matrix() const;
 
+private:
+	void make_view_matrix();
+	void make_perspectivefov_matrix();
+
 #ifdef _DEBUG
 public:
 	virtual void debug_gui();
 	void debug_camera();
 	void debug_draw() const;
+	const Matrix4x4& vp_matrix_draw() const;
 #endif // _DEBUG
-
-private:
-	void make_view_matrix();
-	void make_perspectivefov_matrix();
 
 private:
 	Matrix4x4 viewMatrix;
@@ -45,6 +46,8 @@ private:
 	float farClip;
 
 #ifdef _DEBUG
+	Matrix4x4 debugViewMatrix;
+	Matrix4x4 debugVpMatrix;
 	bool isVaildDebugCamera;
 	std::unique_ptr<GameObject> debugCameraCenter;
 	std::unique_ptr<GameObject> debugCamera;
