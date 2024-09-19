@@ -44,8 +44,8 @@ void DirectXSwapChain::ChangeBackBufferState() {
 }
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() noexcept {
-	static std::unique_ptr<DirectXSwapChain> instance{ new DirectXSwapChain };
-	return *instance;
+	static DirectXSwapChain instance{};
+	return instance;
 }
 
 void DirectXSwapChain::create_swapchain() {

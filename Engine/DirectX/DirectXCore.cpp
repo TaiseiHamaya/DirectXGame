@@ -91,8 +91,8 @@ void DirectXCore::ShowGrid(const Camera3D& camera) {
 }
 
 DirectXCore& DirectXCore::GetInstance() {
-	static std::unique_ptr<DirectXCore> instance{ new DirectXCore };
-	return *instance;
+	static DirectXCore instance{};
+	return instance;
 }
 
 void DirectXCore::initialize() {
@@ -269,6 +269,6 @@ void DirectXCore::Debug::InfoQueue() {
 }
 
 DirectXCore::Debug& DirectXCore::Debug::GetInstance() {
-	static std::unique_ptr<DirectXCore::Debug> instance{ new Debug };
-	return *instance;
+	static DirectXCore::Debug instance{};
+	return instance;
 }

@@ -18,8 +18,8 @@ PolygonMeshManager::PolygonMeshManager() noexcept = default;
 PolygonMeshManager::~PolygonMeshManager() noexcept = default;
 
 PolygonMeshManager& PolygonMeshManager::GetInstance() noexcept {
-	static std::unique_ptr<PolygonMeshManager> instance{ new PolygonMeshManager };
-	return *instance;
+	static PolygonMeshManager instance{};
+	return instance;
 }
 
 void PolygonMeshManager::RegisterLoadQue(const std::string& directoryPath, const std::string& fileName) {

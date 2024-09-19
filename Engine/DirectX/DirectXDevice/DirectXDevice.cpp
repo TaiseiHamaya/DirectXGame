@@ -6,8 +6,8 @@
 #include "Engine/Utility/Utility.h"
 
 DirectXDevice& DirectXDevice::GetInstance() noexcept {
-	static std::unique_ptr<DirectXDevice> instance{ new DirectXDevice{} };
-	return *instance;
+	static DirectXDevice instance{ };
+	return instance;
 }
 
 void DirectXDevice::Initialize() {

@@ -11,8 +11,8 @@
 constexpr uint32_t SRV_HEAP_SIZE = 65536;
 
 SRVDescriptorHeap& SRVDescriptorHeap::GetInstance() noexcept {
-	static std::unique_ptr<SRVDescriptorHeap> instance{ new SRVDescriptorHeap };
-	return *instance;
+	static SRVDescriptorHeap instance{};
+	return instance;
 }
 
 void SRVDescriptorHeap::Initialize() {

@@ -10,8 +10,8 @@
 constexpr uint32_t DSV_HEAP_SIZE = 1;
 
 DSVDescriptorHeap& DSVDescriptorHeap::GetInstance() noexcept {
-	static std::unique_ptr<DSVDescriptorHeap> instance{ new DSVDescriptorHeap };
-	return *instance;
+	static DSVDescriptorHeap instance{};
+	return instance;
 }
 
 void DSVDescriptorHeap::Initialize() {

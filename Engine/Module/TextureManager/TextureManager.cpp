@@ -18,8 +18,8 @@ TextureManager::TextureManager() = default;
 TextureManager::~TextureManager() noexcept = default;
 
 TextureManager& TextureManager::GetInstance() noexcept {
-	static std::unique_ptr<TextureManager> instance{ new TextureManager };
-	return *instance;
+	static TextureManager instance{};
+	return instance;
 }
 
 void TextureManager::Initialize() noexcept {

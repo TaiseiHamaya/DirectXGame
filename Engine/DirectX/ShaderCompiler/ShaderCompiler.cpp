@@ -13,8 +13,8 @@ void ShaderCompiler::Initialize() {
 }
 
 ShaderCompiler& ShaderCompiler::GetInstance() noexcept {
-	static std::unique_ptr<ShaderCompiler> instance{ new ShaderCompiler };
-	return *instance;
+	static ShaderCompiler instance{};
+	return instance;
 }
 
 void ShaderCompiler::initialize() {

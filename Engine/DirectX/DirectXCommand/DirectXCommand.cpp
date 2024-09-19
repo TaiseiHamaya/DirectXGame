@@ -82,8 +82,8 @@ void DirectXCommand::ResetTextureCommand() {
 // ----------------------ここまで後で直す----------------------
 
 DirectXCommand& DirectXCommand::GetInstance() noexcept {
-	static std::unique_ptr<DirectXCommand> instance{ new DirectXCommand };
-	return *instance;
+	static DirectXCommand instance{};
+	return instance;
 }
 
 void DirectXCommand::create_command() {

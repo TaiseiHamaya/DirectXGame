@@ -10,8 +10,8 @@
 constexpr uint32_t RTV_HEAP_SIZE = 10;
 
 RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {
-	static std::unique_ptr<RTVDescriptorHeap> instance{ new RTVDescriptorHeap };
-	return *instance;
+	static RTVDescriptorHeap instance{};
+	return instance;
 }
 
 void RTVDescriptorHeap::Initialize() {

@@ -29,8 +29,8 @@ BackgroundLoader::~BackgroundLoader() noexcept {
 }
 
 BackgroundLoader& BackgroundLoader::GetInstance() noexcept {
-	static std::unique_ptr<BackgroundLoader> instance{ new BackgroundLoader };
-	return *instance;
+	static BackgroundLoader instance{};
+	return instance;
 }
 
 void BackgroundLoader::Initialize() {
