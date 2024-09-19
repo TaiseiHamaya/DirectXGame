@@ -1,7 +1,6 @@
 #include "DirectXCommand.h"
 
 #include <cassert>
-#include <memory>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 

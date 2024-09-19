@@ -1,12 +1,8 @@
 #include "RenderPath.h"
 
 #include <cassert>
-#include <format>
 
-#include "Engine/DirectX/PipelineState/PipelineState.h"
 #include "Engine/Render/RenderNode/BaseRenderNode.h"
-#include "Engine/DirectX/DirectXCore.h"
-#include "Engine/Utility/Utility.h"
 
 void RenderPath::initialize(std::vector<std::weak_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める

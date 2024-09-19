@@ -8,7 +8,6 @@
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 RenderPathManager::RenderPathManager() = default;
 

@@ -1,12 +1,11 @@
 #include "MultiRenderTarget.h"
 
-#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Module/Color/Color.h"
-#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include <d3d12.h>
 
-#include <format>
+#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
+#include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
+#include "Engine/Module/Color/Color.h"
 
 MultiRenderTarget::MultiRenderTarget() = default;
 

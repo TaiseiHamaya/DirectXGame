@@ -1,6 +1,5 @@
 #include "DSVDescriptorHeap.h"
 
-#include <memory>
 #include <format>
 
 #include "Engine/Utility/Utility.h"

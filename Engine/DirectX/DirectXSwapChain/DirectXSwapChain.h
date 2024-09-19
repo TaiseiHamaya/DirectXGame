@@ -4,7 +4,6 @@
 #include <memory>
 #include <wrl/client.h>
 
-#include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Module/Color/Color.h"
 

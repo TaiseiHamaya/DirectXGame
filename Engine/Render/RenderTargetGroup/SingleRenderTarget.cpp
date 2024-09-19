@@ -1,9 +1,9 @@
 #include "SingleRenderTarget.h"
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
 #include "Engine/Module/Color/Color.h"
-#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 SingleRenderTarget::SingleRenderTarget() = default;
 

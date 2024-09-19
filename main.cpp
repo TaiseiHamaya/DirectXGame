@@ -3,7 +3,6 @@
 #include <cstdint>
 
 #include "Engine/Application/Scene/SceneManager.h"
-#include "Engine/Utility/Utility.h"
 #include "TestCode/SceneDemo.h"
 
 // クライアント領域サイズ

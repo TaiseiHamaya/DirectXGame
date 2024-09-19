@@ -2,7 +2,6 @@
 
 #pragma comment(lib, "xaudio2.lib")
 
-#include <fstream>
 #include <mutex>
 #include <format>
 

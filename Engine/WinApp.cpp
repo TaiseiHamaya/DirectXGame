@@ -1,7 +1,7 @@
 #include "WinApp.h"
 
 #include <cassert>
-#include <thread>
+//#include <thread>
 
 #include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXCore.h"

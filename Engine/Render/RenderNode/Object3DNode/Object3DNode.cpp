@@ -1,7 +1,5 @@
 #include "Object3DNode.h"
 
-#include <cassert>
-
 #include "Engine/DirectX/DirectXCore.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/DirectX/PipelineState/PipelineState.h"
