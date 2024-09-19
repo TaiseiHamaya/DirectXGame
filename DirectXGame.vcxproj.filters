@@ -450,12 +450,6 @@
     <ClCompile Include="Engine\Application\Scene\SceneManager.cpp">
       <Filter>Engine\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\ImGuiManager\ImGuiManager.cpp">
-      <Filter>Engine\Debug\ImGUIManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp">
-      <Filter>Engine\Debug\ImGUILoadManager</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\ShaderCompiler\ShaderCompiler.cpp">
       <Filter>Engine\DirectX\ShaderCompiler</Filter>
     </ClCompile>
@@ -477,13 +471,16 @@
     <ClCompile Include="Engine\Application\Audio\AudioResource.cpp">
       <Filter>Engine\Application\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Debug\ImGuiManager\ImGuiManager.cpp">
+      <Filter>Engine\Debug\ImGUIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp">
+      <Filter>Engine\Debug\ImGUILoadManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
       <Filter>Engine\WinApp</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Array2D.h">
-      <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Definition.h">
       <Filter>Engine\Math</Filter>
@@ -698,12 +695,6 @@
     <ClInclude Include="Engine\Application\Scene\BaseScene.h">
       <Filter>Engine\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\ImGuiManager\ImGuiManager.h">
-      <Filter>Engine\Debug\ImGUIManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h">
-      <Filter>Engine\Debug\ImGUILoadManager</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\ShaderCompiler\ShaderCompiler.h">
       <Filter>Engine\DirectX\ShaderCompiler</Filter>
     </ClInclude>
@@ -724,6 +715,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Application\Audio\AudioResource.h">
       <Filter>Engine\Application\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGuiManager\ImGuiManager.h">
+      <Filter>Engine\Debug\ImGUIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h">
+      <Filter>Engine\Debug\ImGUILoadManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

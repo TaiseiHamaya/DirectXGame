@@ -363,7 +363,8 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Don't ignore .obj in Resource Folder
-!Engine/Resources/*
+!EngineResources/*
+!Engine/Debug
 
 # Ignore imgui settings
 /imgui.ini

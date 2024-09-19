@@ -204,7 +204,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
     <ClInclude Include="Engine\DirectX\ShaderCompiler\ShaderCompiler.h" />
-    <ClInclude Include="Engine\Math\Array2D.h" />
     <ClInclude Include="Engine\Math\Definition.h" />
     <ClInclude Include="Engine\Math\Matrix.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
