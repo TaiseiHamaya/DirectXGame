@@ -46,10 +46,10 @@ void SceneManager::Begin() {
 void SceneManager::Update() {
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
 	nowScene->begin();
-	nowScene->update();
 #ifdef _DEBUG
 	nowScene->debug_update();
 #endif // _DEBUG
+	nowScene->update();
 	nowScene->begin_rendering();
 	nowScene->late_update();
 }
