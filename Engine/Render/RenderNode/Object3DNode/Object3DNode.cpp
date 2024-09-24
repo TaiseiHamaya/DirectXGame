@@ -59,7 +59,7 @@ void Object3DNode::create_pipeline_state() {
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
-	psoBuilder->depthstencilstate(DirectXSwapChain::GetDepthStencil()->get_desc());
+	psoBuilder->depthstencilstate(*DirectXSwapChain::GetDepthStencil());
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

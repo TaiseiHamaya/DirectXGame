@@ -17,6 +17,7 @@
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Render/RenderPath/RenderPath.h"
+#include "Engine/DirectX/DirectXCore.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -141,6 +142,7 @@ void SceneDemo::draw() const {
 #ifdef _DEBUG
 	collisionManager->debug_draw3d(*camera3D);
 	camera3D->debug_draw();
+	DirectXCore::ShowGrid(*camera3D);
 #endif // _DEBUG
 	RenderPathManager::Next();
 	//outlineNode->draw();
@@ -211,5 +213,7 @@ void SceneDemo::debug_update() {
 	ImGui::Begin("GameTimer");
 	GameTimer::DebugGui();
 	ImGui::End();
+
+	DirectXCore::ShowDebugTools();
 }
 #endif // _DEBUG

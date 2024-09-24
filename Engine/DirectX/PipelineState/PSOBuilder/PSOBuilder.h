@@ -7,6 +7,8 @@
 
 #include "Engine/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 
+class DepthStencil;
+
 class InputLayoutBuilder {
 public:
 	void add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format);
@@ -58,7 +60,7 @@ public:
 	void blendstate(BlendMode blendMode = BlendMode::None, uint32_t renderTarget = 0);
 	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget = 0);
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);
-	void depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilDesc);
+	void depthstencilstate(const DepthStencil& depthStencil);
 	void primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE); // 使用するトポロジーのタイプ
 	void rendertarget(DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 

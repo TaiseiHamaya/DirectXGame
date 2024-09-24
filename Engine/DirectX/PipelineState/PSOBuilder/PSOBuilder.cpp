@@ -4,6 +4,7 @@
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Utility/Utility.h"
+#include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
 	D3D12_INPUT_ELEMENT_DESC desc{};
@@ -83,7 +84,6 @@ void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shad
 Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
 	// これまでの設定をまとめる
-	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
@@ -184,8 +184,9 @@ void PSOBuilder::rasterizerstate(D3D12_FILL_MODE fillMode, D3D12_CULL_MODE cullM
 	graphicsPipelineStateDesc.RasterizerState.CullMode = cullMode;
 }
 
-void PSOBuilder::depthstencilstate(const D3D12_DEPTH_STENCIL_DESC& depthStencilDesc) {
-	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc;
+void PSOBuilder::depthstencilstate(const DepthStencil& depthStencil) {
+	graphicsPipelineStateDesc.DepthStencilState = depthStencil.get_desc();
+	graphicsPipelineStateDesc.DSVFormat = depthStencil.get_resource()->GetDesc().Format;
 }
 
 void PSOBuilder::primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_) {

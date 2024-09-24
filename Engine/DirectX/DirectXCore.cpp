@@ -182,7 +182,7 @@ void DirectXCore::show_debug_tools() {
 
 	// 2DカメラのImGui
 	ImGui::SetNextWindowDockID(debugDock, ImGuiCond_FirstUseEver);
-	Camera2D::DebugGUI();
+	//Camera2D::DebugGUI();
 
 	// ライトのImGui
 	//ImGui::SetNextWindowSize(ImVec2{ 330,165 }, ImGuiCond_Once);

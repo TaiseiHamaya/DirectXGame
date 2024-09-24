@@ -2,14 +2,13 @@
 
 #include <cassert>
 
+#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
-#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/WinApp.h"
 
-void DepthStencil::initialize(std::uint32_t width, std::uint32_t height) {
-	create_depth_stencil_texture_resource(width, height);
+void DepthStencil::initialize(DXGI_FORMAT format, std::uint32_t width, std::uint32_t height) {
+	create_depth_stencil_texture_resource(width, height, format);
 	resource->SetName(L"DepthStencil");
 	create_dsv();
 	create_srv();
@@ -44,14 +43,14 @@ void DepthStencil::change_resource_state() {
 	isWriting = isWriting ^ 0b1;
 }
 
-void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height) {
+void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height, DXGI_FORMAT format) {
 	HRESULT hr;
 	D3D12_RESOURCE_DESC resourceDesc{};
-	resourceDesc.Width = WinApp::GetClientWidth();
-	resourceDesc.Height = WinApp::GetClientHight();
+	resourceDesc.Width = width;
+	resourceDesc.Height = height;
 	resourceDesc.MipLevels = 1;
 	resourceDesc.DepthOrArraySize = 1;
-	resourceDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 深度に24ビット、ステンシルに8ビット
+	resourceDesc.Format = format;
 	resourceDesc.SampleDesc.Count = 1;
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; // 画面全体なので2D
 	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL; // DSとして使用
@@ -93,12 +92,12 @@ void DepthStencil::create_srv() {
 	srvGPUHandle = SRVDescriptorHeap::GetGPUHandle(srvHeapIndex.value());
 	// ここは通常のテクスチャと同じ
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS; // DSの場合はこれで固定
+	// DXGI_FORMATのD~の次の項目がTexture用として使用できるフォーマットになっている
+	// こうすることで無理やりFormatを合わせることができる
+	srvDesc.Format = static_cast<DXGI_FORMAT>(resource->GetDesc().Format + 1);
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1; // 1枚しかないのでmiplevelsも1
 	// ここも変わらない
 	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, srvCPUHandle);
-
-
 }

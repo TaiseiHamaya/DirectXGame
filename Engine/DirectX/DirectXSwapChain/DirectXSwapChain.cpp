@@ -20,7 +20,7 @@ void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
 	GetInstance().create_render_terget();
 	GetInstance().depthStencil = std::make_unique<DepthStencil>();
-	GetInstance().depthStencil->initialize();
+	GetInstance().depthStencil->initialize(DXGI_FORMAT_D24_UNORM_S8_UINT);
 }
 
 void DirectXSwapChain::SwapScreen() {
