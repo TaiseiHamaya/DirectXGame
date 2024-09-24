@@ -168,17 +168,16 @@ void WinApp::term_app() {
 	assert(instance);
 }
 
-//void WinApp::wait_frame() {
-//	auto& begin = GameTimer::BeginTime();
-//	using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
-//	while (true) {
-//		auto now = std::chrono::high_resolution_clock::now();
-//		float duration = std::chrono::duration_cast<second_f>(now - begin).count();
-//		if (duration >= 0) {
-//			return;
-//		}
-//		else {
-//			std::this_thread::sleep_for(std::chrono::nanoseconds(10));
-//		}
-//	}
-//}
+void WinApp::wait_frame() {
+	using namespace std::literals::chrono_literals;
+	using millisecond_f = std::chrono::duration<float, std::milli>;
+
+	auto& begin = GameTimer::BeginTime();
+	while (true) {
+		auto now = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<millisecond_f>(now - begin);
+		if (duration >= 16.66666ms) {
+			return;
+		}
+	}
+}

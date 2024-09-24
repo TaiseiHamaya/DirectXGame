@@ -33,16 +33,20 @@ void Camera3D::update_matrix() {
 		debugCamera->begin_rendering(*this);
 	}
 #endif // _DEBUG
+	
+	// カメラそのもののMatrix更新
 	this->begin_rendering(*this);
-
-	// リリース時は通常更新
+	// それを下にViewMatrixを更新
 	make_view_matrix();
 	make_perspectivefov_matrix();
 	vpMatrix = viewMatrix * perspectiveFovMatrix;
 
+
 #ifdef _DEBUG
 	debugVpMatrix = debugViewMatrix * perspectiveFovMatrix;
 	if (isVaildDebugCamera) {
+		// デバッグ表示に使用するモデルのWVPMatrixを更新するために、2回描画前準備を行う
+		this->begin_rendering(*this);
 		debugCameraCenter->begin_rendering(*this);
 	}
 #endif // _DEBUG
