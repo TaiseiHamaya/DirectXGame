@@ -214,6 +214,10 @@ void SceneDemo::debug_update() {
 	GameTimer::DebugGui();
 	ImGui::End();
 
+	ImGui::Begin("CollisionManager");
+	collisionManager->debug_gui();
+	ImGui::End();
+
 	DirectXCore::ShowDebugTools();
 }
 #endif // _DEBUG

@@ -8,6 +8,11 @@ void CollisionManager::update() {
 	// 解放済み要素の削除
 	for (auto itr = colliderList.begin(); itr != colliderList.end();) {
 		if (itr->second.expired()) {
+#ifdef _DEBUG
+			if (colliderList.count(itr->first) == 1) {
+				keyList.erase(itr->first);
+			}
+#endif // _DEBUG
 			itr = colliderList.erase(itr);
 		}
 		else {
@@ -47,6 +52,9 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 void CollisionManager::register_collider(const std::string& groupName, const std::weak_ptr<BaseCollider>& collider) {
 	auto newCollider = colliderList.emplace(groupName, collider);
 	collider.lock()->set_group_name(newCollider->first);
+#ifdef _DEBUG
+	keyList.insert(groupName);
+#endif // _DEBUG
 }
 
 void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
@@ -74,7 +82,28 @@ void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1
 }
 
 #ifdef _DEBUG
+
+#include <format>
+#include <externals/imgui/imgui.h>
+
+void CollisionManager::debug_gui() {
+	ImGui::Checkbox("ShowDebugDraw", &isShowDebugDraw);
+	if (ImGui::TreeNode(std::format("ColliderList##{:}", (void*)this).c_str())) {
+		for (auto& name : keyList) {
+			if (colliderList.contains(name)) {
+				ImGui::Text(
+					std::format("{} : {}", name, colliderList.count(name)).c_str()
+				);
+			}
+		}
+		ImGui::TreePop();
+	}
+}
+
 void CollisionManager::debug_draw3d(const Camera3D& camera) {
+	if (!isShowDebugDraw) {
+		return;
+	}
 	for (const auto& list : colliderList | std::views::values) {
 		auto listLocked = list.lock();
 		if (listLocked) {

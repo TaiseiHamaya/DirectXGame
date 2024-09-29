@@ -6,6 +6,10 @@
 
 #include "Engine/Module/Collision/Collider/BaseCollider.h"
 
+#ifdef _DEBUG
+#include <unordered_set>
+#endif // _DEBUG
+
 class CollisionManager {
 public:
 	CollisionManager() = default;
@@ -24,10 +28,16 @@ private:
 
 #ifdef _DEBUG
 public:
+	void debug_gui();
 	void debug_draw3d(const Camera3D& camera);
 	static void LoadDebugDrawMesh();
 #endif // _DEBUG
 
 private:
 	std::unordered_multimap<std::string, std::weak_ptr<BaseCollider>> colliderList;
+
+#ifdef _DEBUG
+	bool isShowDebugDraw = true;
+	std::unordered_set<std::string> keyList;
+#endif // _DEBUG
 };
