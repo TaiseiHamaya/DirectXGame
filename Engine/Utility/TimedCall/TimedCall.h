@@ -56,7 +56,7 @@ inline void TimedCall<Type>::restart(float time_) {
 
 #ifdef _DEBUG
 
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 #include <format>
 
 template<class Type>

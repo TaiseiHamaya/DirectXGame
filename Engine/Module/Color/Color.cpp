@@ -5,7 +5,7 @@
 //#include <algorithm>
 
 #ifdef _DEBUG
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 #endif // _DEBUG
 
 const unsigned int Color::hex() const {

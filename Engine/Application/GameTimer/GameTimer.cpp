@@ -88,7 +88,7 @@ void GameTimer::IsFixDeltaTime(bool boolean) {
 	GetInstance().isFixDeltaTime = boolean;
 }
 
-#include  <externals/imgui/imgui.h>
+#include <imgui.h>
 void GameTimer::DebugGui() {
 	auto&& instance = GetInstance();
 	ImGui::Text(std::format("DeltaTime : {:3.5}ms", instance.deltaTime * 1000.0f).c_str());

@@ -10,7 +10,7 @@
 #include "Engine/Module/Camera/Camera2D.h"
 
 #ifdef _DEBUG
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 #endif // _DEBUG
 
 SpriteObject::SpriteObject() :

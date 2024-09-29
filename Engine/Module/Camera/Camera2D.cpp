@@ -6,7 +6,7 @@
 #undef far
 
 #ifdef _DEBUG
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 #endif // _DEBUG
 
 std::unique_ptr<Camera2D> Camera2D::instance;

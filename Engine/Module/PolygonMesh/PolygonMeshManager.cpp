@@ -8,7 +8,7 @@
 #include "Engine/Utility/Utility.h"
 
 #ifdef _DEBUG
-#include "externals/imgui/imgui.h"
+#include <imgui.h>
 #endif // _DEBUG
 
 std::mutex meshMutex;

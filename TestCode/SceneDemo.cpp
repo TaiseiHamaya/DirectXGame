@@ -163,7 +163,7 @@ void SceneDemo::on_collision_exit(const BaseCollider* const, Color* object) {
 
 #ifdef _DEBUG
 
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 void SceneDemo::debug_update() {
 	ImGui::Begin("DemoScene");
 	if (ImGui::Button("StackScene")) {

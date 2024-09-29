@@ -5,7 +5,7 @@
 #include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 #ifdef _DEBUG
-#include "externals/imgui/imgui.h"
+#include <imgui.h>
 #include "Engine/WinApp.h"
 #endif // _DEBUG
 

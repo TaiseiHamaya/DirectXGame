@@ -34,7 +34,10 @@
 #include "Engine/Module/Color/Color.h"
 #include "Engine/Math/Quaternion.h"
 #include "Engine/Module/Collision/CollisionManager.h"
-#include "externals/imgui/imgui.h"
+
+#ifdef _DEBUG
+#include "imgui.h"
+#endif // _DEBUG
 
 // ----------要修正----------
 struct DirectionalLightData {

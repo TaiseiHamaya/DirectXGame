@@ -25,12 +25,6 @@
     <Filter Include="Engine\HLSL">
       <UniqueIdentifier>{66af74f2-9d7d-461f-8ffa-16b97a7ec79e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="externals">
-      <UniqueIdentifier>{54cfe5d8-dfc7-4d49-9e78-0dfbbca8c0a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="externals\imgui">
-      <UniqueIdentifier>{9c6c0a71-0eaa-4421-9f43-db8440d2d9ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\BackgroundLoader">
       <UniqueIdentifier>{a8da4bfb-afb5-4d86-8aba-fab735f15aa9}</UniqueIdentifier>
     </Filter>
@@ -267,27 +261,6 @@
     <ClCompile Include="Engine\Math\Vector3.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="externals\imgui\imgui.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_demo.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_draw.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_impl_dx12.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_impl_win32.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_tables.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\imgui\imgui_widgets.cpp">
-      <Filter>externals\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
       <Filter>Engine\DirectX\Device</Filter>
     </ClCompile>
@@ -497,30 +470,6 @@
     <ClInclude Include="Engine\Math\Vector3.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="externals\imgui\imconfig.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imgui.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imgui_impl_dx12.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imgui_impl_win32.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imgui_internal.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imstb_rectpack.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imstb_textedit.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="externals\imgui\imstb_truetype.h">
-      <Filter>externals\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
       <Filter>Engine\DirectX\Device</Filter>
     </ClInclude>
@@ -722,11 +671,6 @@
     <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h">
       <Filter>Engine\Debug\ImGUILoadManager</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="externals\imgui\LICENSE.txt">
-      <Filter>externals\imgui</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">

@@ -91,7 +91,7 @@ void AudioManager::SetMasterVolume(float volume) {
 
 #ifdef _DEBUG
 
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 void AudioManager::DebugGui() {
 	ImGui::Begin("AudioManager");
 	if (ImGui::DragFloat("Volume", &GetInstance().masterVolume, 0.01f, 0.0f, 100.0f, "%.2f")) {

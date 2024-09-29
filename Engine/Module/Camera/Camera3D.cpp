@@ -5,7 +5,7 @@
 #include "Engine/WinApp.h"
 
 #ifdef _DEBUG
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 #endif // _DEBUG
 
 void Camera3D::initialize() {

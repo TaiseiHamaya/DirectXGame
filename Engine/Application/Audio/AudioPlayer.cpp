@@ -71,7 +71,7 @@ void AudioPlayer::set_loop(bool isLoop) {
 }
 
 #ifdef _DEBUG
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 void AudioPlayer::debug_gui() {
 	bool isLoop = buffer.LoopCount == XAUDIO2_LOOP_INFINITE;
 	if(ImGui::Checkbox("Loop", &isLoop) ){

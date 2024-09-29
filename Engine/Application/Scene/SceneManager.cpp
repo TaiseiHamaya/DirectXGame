@@ -156,7 +156,7 @@ void SceneManager::NextScene() {
 
 #ifdef _DEBUG
 
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 
 void SceneManager::DebugGui() {
 	auto& instance = GetInstance();

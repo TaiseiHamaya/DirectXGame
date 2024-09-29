@@ -84,7 +84,7 @@ void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1
 #ifdef _DEBUG
 
 #include <format>
-#include <externals/imgui/imgui.h>
+#include <imgui.h>
 
 void CollisionManager::debug_gui() {
 	ImGui::Checkbox("ShowDebugDraw", &isShowDebugDraw);

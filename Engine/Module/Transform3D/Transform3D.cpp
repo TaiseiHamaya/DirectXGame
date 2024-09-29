@@ -3,7 +3,7 @@
 #include <cmath>
 
 #ifdef _DEBUG
-#include "externals/imgui/imgui.h"
+#include <imgui.h>
 #include <format>
 #endif // _DEBUG
 

@@ -5,7 +5,7 @@
 #include "Engine/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 #ifdef _DEBUG
-#include "externals/imgui/imgui.h"
+#include <imgui.h>
 #endif // _DEBUG
 
 RadialBlurNode::RadialBlurNode() = default;
