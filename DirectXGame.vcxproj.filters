@@ -450,6 +450,9 @@
     <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp">
       <Filter>Engine\Debug\ImGUILoadManager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Application\Input\Input.cpp">
+      <Filter>Engine\Application\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -670,6 +673,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h">
       <Filter>Engine\Debug\ImGUILoadManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Input\Input.h">
+      <Filter>Engine\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Input\InputEnum.h">
+      <Filter>Engine\Application\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

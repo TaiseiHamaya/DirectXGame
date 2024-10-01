@@ -6,6 +6,7 @@
 
 #ifdef _DEBUG
 #include <imgui.h>
+#include <Engine/Application/Input/Input.h>
 #endif // _DEBUG
 
 void Camera3D::initialize() {
@@ -99,21 +100,18 @@ void Camera3D::debug_gui() {
 }
 
 void Camera3D::debug_camera() {
-	// ioを取得
-	auto& io = ImGui::GetIO();
 	// デバッグカメラ時のみ実行
 	// ImGUIとマウスが重なっているときは実行しない
-	if (isVaildDebugCamera && !io.WantCaptureMouse) {
+	if (isVaildDebugCamera && !ImGui::GetIO().WantCaptureMouse) {
 		// マウスの移動量を取得
-		ImVec2 ioMouseDelta = io.MouseDelta;
-		Vector2 mouseDelta = { ioMouseDelta.x,ioMouseDelta.y };
+		Vector2 mouseDelta = Input::MouseDelta();
 
 		// 注視距離設定
-		float wheel = io.MouseWheel;
+		float wheel = static_cast<float>(Input::WheelDelta());
 		offset.z = std::min(offset.z + wheel, 0.0f);
 
-		// 中クリック(回転)
-		if (ImGui::IsMouseDown(0)) {
+		// 左クリック(回転)
+		if (Input::IsPressMouse(MouseID::Left)) {
 			// 倍率をかけて調整
 			Vector2 rotateAngle = mouseDelta / 200;
 			Quaternion rotation = debugCamera->get_transform().get_quaternion();
@@ -124,8 +122,8 @@ void Camera3D::debug_camera() {
 			debugCamera->get_transform().set_rotate(holizontal * rotation * vertical);
 		}
 
-		// 右クリック(Translate)
-		else if (ImGui::IsMouseDown(2)) {
+		// 中クリック(Translate)
+		else if (Input::IsPressMouse(MouseID::Middle)) {
 			// Vector3にし、倍率をかける
 			Vector3 move = mouseDelta.convert(0) / 100;
 			// X軸は反転させる

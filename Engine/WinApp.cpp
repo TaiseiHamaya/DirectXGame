@@ -8,6 +8,7 @@
 #include "Engine/Application/Audio/AudioManager.h"
 #include "Engine/Application/GameTimer/GameTimer.h"
 #include "Engine/Application/Scene/SceneManager.h"
+#include "Engine/Application/Input/Input.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -58,6 +59,8 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 
 	AudioManager::Initialize();
 
+	Input::Initialize();
+
 	GameTimer::Initialize();
 	Log("Complite initialize application.\n");
 }
@@ -80,6 +83,7 @@ bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
 
 void WinApp::BeginFrame() {
 	instance->begin_frame();
+	Input::Update();
 	GameTimer::Update();
 }
 

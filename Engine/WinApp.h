@@ -33,6 +33,7 @@ public:
 	static int32_t GetClientWidth() noexcept { return instance->kClientWidth; };
 	static int32_t GetClientHight() noexcept { return instance->kClientHight; };
 	static HWND& GetWndHandle() noexcept { return instance->hWnd; };
+	static WNDCLASS& GetWindowClass() noexcept { return instance->wc; };
 
 private:
 	/// <summary>
