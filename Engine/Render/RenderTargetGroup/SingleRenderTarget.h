@@ -41,6 +41,11 @@ private:
 	void set_render_target() override;
 
 	/// <summary>
+	/// レンダーターゲットのクリア
+	/// </summary>
+	void clear_render_target() override;
+
+	/// <summary>
 	/// リソースバリアの状態を変更
 	/// </summary>
 	void change_render_target_state() override;

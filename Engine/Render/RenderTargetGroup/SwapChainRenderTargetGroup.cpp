@@ -4,7 +4,6 @@
 
 void SwapChainRenderTargetGroup::initialize() {
 	create_view_port(WinApp::GetClientWidth(), WinApp::GetClientHight());
-	clearColor = std::make_unique<Color>(0.1f, 0.25f, 0.5f, 1.0f);
 	for (int i = 0; i < renderTargets.size(); ++i) {
 		renderTargets[i].create_view(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		renderTargetHandles[i] = renderTargets[i].get_cpu_handle();
@@ -22,6 +21,10 @@ const std::array<RenderTarget, SWAPCHAIN_HEAP>& SwapChainRenderTargetGroup::get_
 	return renderTargets;
 }
 
+std::array<RenderTarget, SWAPCHAIN_HEAP>& SwapChainRenderTargetGroup::get_render_targets() {
+	return renderTargets;
+}
+
 void SwapChainRenderTargetGroup::set_render_target() {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	auto backBufferIndex = DirectXSwapChain::GetBackBufferIndex();
@@ -30,10 +33,11 @@ void SwapChainRenderTargetGroup::set_render_target() {
 		depthStencil ? 1 : 0,
 		depthStencil ? &depthStencil->get_dsv_cpu_handle() : nullptr
 	);
-	commandList->ClearRenderTargetView(
-		renderTargetHandles[backBufferIndex],
-		&clearColor->red, 0, nullptr
-	);
+}
+
+void SwapChainRenderTargetGroup::clear_render_target() {
+	auto backBufferIndex = DirectXSwapChain::GetBackBufferIndex();
+	renderTargets[backBufferIndex].clear_resource();
 }
 
 void SwapChainRenderTargetGroup::change_render_target_state() {

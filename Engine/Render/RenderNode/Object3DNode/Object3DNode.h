@@ -20,21 +20,11 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	/// <summary>
-	/// 描画開始処理(ライトの設定があるのでovrride)
-	/// </summary>
 	void begin() override;
 
-	/// <summary>
-	/// 描画先の指定(depthの指定などがあるのでoverride)
-	/// </summary>
-	/// <param name="renderTarget_"></param>
-	void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr) override;
+	void use() override;
 
-	void set_depth_stencil();
 
 private:
 	void create_pipeline_state();
-
-private:
 };

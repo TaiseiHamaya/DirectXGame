@@ -29,6 +29,8 @@ public:
 	/// <param name="list"></param>
 	void initialize(std::initializer_list<std::weak_ptr<BaseRenderNode>>&& list);
 
+	void use();
+
 	/// <summary>
 	/// 開始処理
 	/// </summary>

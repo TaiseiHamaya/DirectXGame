@@ -69,7 +69,6 @@ void DirectXCore::Finalize() {
 	// ----------後で直す!!!----------
 	GetInstance().gridMesh.reset();
 	GetInstance().light.reset();
-	//GetInstance().posteffectPipeline.reset();
 	// ----------後で直す!!!----------
 	TextureManager::Finalize();
 #ifdef _DEBUG
@@ -159,12 +158,11 @@ void DirectXCore::end_frame() {
 	// レンダーパスが終わってないならおかしいので止める(デバッグ時のみ)
 	assert(RenderPathManager::IsEnd());
 
-	DirectXSwapChain::ChangeBackBufferState();
 #ifdef _DEBUG
 	// 一番先にImGUIの処理
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
-	DirectXSwapChain::ChangeBackBufferState();
+	DirectXSwapChain::EndRenderTarget();
 	// クローズしてエクスキュート
 	DirectXCommand::GetInstance().close_and_kick();
 	// スワップチェイン実行

@@ -28,7 +28,6 @@ void MultiRenderTarget::initialize(std::uint32_t width, std::uint32_t hight, std
 		renderTargetsHandles.emplace_back(itr->get_cpu_handle());
 	}
 	create_view_port(width, hight);
-	clearColor = std::make_unique<Color>(0.1f, 0.25f, 0.5f, 1.0f);
 }
 
 void MultiRenderTarget::initialize(std::uint32_t size) {
@@ -50,16 +49,17 @@ void MultiRenderTarget::set_render_target() {
 		depthStencil ? 1 : 0,
 		depthStencil ? &depthStencil->get_dsv_cpu_handle() : nullptr
 	);
-	for (auto itr = renderTargets.begin(); itr < renderTargets.end(); ++itr) {
-		commandList->ClearRenderTargetView(
-			itr->get_cpu_handle(),
-			&clearColor->red, 0, nullptr
-		);
+}
+
+void MultiRenderTarget::clear_render_target() {
+	auto&& commandList = DirectXCommand::GetCommandList();
+	for (OffscreenRender& renderTarget : renderTargets) {
+		renderTarget.clear_resource();
 	}
 }
 
 void MultiRenderTarget::change_render_target_state() {
-	for (auto itr = renderTargets.begin(); itr < renderTargets.end(); ++itr) {
-		itr->change_resource_state();
+	for (OffscreenRender& renderTarget : renderTargets) {
+		renderTarget.change_resource_state();
 	}
 }

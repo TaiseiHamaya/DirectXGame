@@ -3,11 +3,6 @@
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
 #include <optional>
-#include <memory>
-
-#include "Engine/Math/Matrix4x4.h"
-#include "Engine/Module/Color/Color.h"
-#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class Texture;
 class Transform2D;
@@ -30,9 +25,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void begin() override;
-
-	void set_background_texture(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
+	void use() override;
 
 private:
 	/// <summary>
@@ -40,19 +33,6 @@ private:
 	/// </summary>
 	void create_pipeline_state();
 
-	void create_background_draw_data();
-
 private:
 	std::optional<D3D12_GPU_DESCRIPTOR_HANDLE> backgroundTextureGPUHandle;
-
-	std::unique_ptr<VertexBuffer> vertices;
-	std::unique_ptr<IndexBuffer> indexes;
-
-	struct SpriteMaterial {
-		Color color;
-		Matrix4x4 uvTransform;
-	};
-
-	std::unique_ptr<ConstantBuffer<SpriteMaterial>> material;
-	std::unique_ptr<ConstantBuffer<Matrix4x4>> transformMatrix;
 };

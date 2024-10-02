@@ -20,6 +20,12 @@ void RenderPath::initialize(std::initializer_list<std::weak_ptr<BaseRenderNode>>
 	}
 }
 
+void RenderPath::use() {
+	for (auto& renderNode : renderNodeList) {
+		renderNode.lock()->use();
+	}
+}
+
 bool RenderPath::begin() {
 	// nowNodeのリセット
 	nowNode = renderNodeList.begin();

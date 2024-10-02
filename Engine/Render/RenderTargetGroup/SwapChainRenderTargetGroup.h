@@ -31,12 +31,18 @@ public:
 	void set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, std::uint32_t index);
 
 	const std::array<RenderTarget, SWAPCHAIN_HEAP>& get_render_targets() const;
+	std::array<RenderTarget, SWAPCHAIN_HEAP>& get_render_targets();
 
 private:
 	/// <summary>
 	/// レンダーターゲットの設定
 	/// </summary>
 	void set_render_target() override;
+
+	/// <summary>
+	/// レンダーターゲットのクリア
+	/// </summary>
+	void clear_render_target() override;
 
 	/// <summary>
 	/// リソースバリアの状態を変更

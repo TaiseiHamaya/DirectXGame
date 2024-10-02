@@ -241,6 +241,18 @@
     <Filter Include="Engine\DirectX\ShaderCompiler">
       <UniqueIdentifier>{20e834c2-3ec2-48d0-abd8-23a0fcdd1d85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Module\Particle">
+      <UniqueIdentifier>{f00c8adb-6356-47fc-831f-c9a1dbe358c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\RenderNode\Particle">
+      <UniqueIdentifier>{55a21a48-26d9-4ccd-88ec-714286f9785b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\RenderTargetGroup\OverwriteRenderTarget">
+      <UniqueIdentifier>{7a203f18-096b-44c2-8b9a-dfa86d779c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility\Bitflag">
+      <UniqueIdentifier>{cdec1912-a0be-4583-a333-c3b8f0648587}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -452,6 +464,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Application\Input\Input.cpp">
       <Filter>Engine\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleNode.cpp">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -679,6 +694,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Application\Input\InputEnum.h">
       <Filter>Engine\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Bitflag\bitflag.h">
+      <Filter>Engine\Utility\Bitflag</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleNode.h">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

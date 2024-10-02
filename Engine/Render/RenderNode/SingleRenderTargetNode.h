@@ -20,15 +20,10 @@ public:
 
 public:
 	/// <summary>
-	/// 初期化
-	/// </summary>
-	virtual void initialize() override = 0;
-
-	/// <summary>
 	/// 描画先の指定
 	/// </summary>
 	/// <param name="renderTarget_">描画先レンダーターゲットグループ</param>
-	virtual void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr);
+	void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr);
 
 	/// <summary>
 	/// 描画先の指定
