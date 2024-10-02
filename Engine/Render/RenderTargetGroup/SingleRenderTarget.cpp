@@ -21,7 +21,6 @@ void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {
 	renderTarget = std::make_unique<OffscreenRender>();
 	renderTarget->initialize(width, hight);
 	create_view_port(width, hight);
-	clearColor = std::make_unique<Color>(0.1f, 0.25f, 0.5f, 1.0f);
 }
 
 const OffscreenRender& SingleRenderTarget::main_offscreen_render() {
@@ -35,10 +34,10 @@ void SingleRenderTarget::set_render_target() {
 		depthStencil ? 1 : 0,
 		depthStencil ? &depthStencil->get_dsv_cpu_handle() : nullptr
 	);
-	commandList->ClearRenderTargetView(
-		renderTarget->get_cpu_handle(),
-		&clearColor->red, 0, nullptr
-	);
+}
+
+void SingleRenderTarget::clear_render_target() {
+	renderTarget->clear_resource();
 }
 
 void SingleRenderTarget::change_render_target_state() {

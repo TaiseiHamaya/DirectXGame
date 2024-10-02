@@ -18,6 +18,14 @@ void RenderTarget::change_resource_state() {
 	isRendering = isRendering ^ 0b1;
 }
 
+void RenderTarget::clear_resource() {
+	auto&& commandList = DirectXCommand::GetCommandList();
+	commandList->ClearRenderTargetView(
+		rtvCPUHandle,
+		&clearColor.red, 0, nullptr
+	);
+}
+
 void RenderTarget::create_view(DXGI_FORMAT format) {
 	// ----------rtvの設定----------
 	//resource->GetDesc().Format == DXGI_FORMAT_R8G8B8A8_UNORM ? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB : resource->GetDesc().Format;
@@ -47,4 +55,8 @@ UINT RenderTarget::get_height() const {
 
 const D3D12_RENDER_TARGET_VIEW_DESC& RenderTarget::get_rtv_desc() const {
 	return rtvDesc;
+}
+
+void RenderTarget::set_claer_color(Color color_) {
+	clearColor = color_;
 }

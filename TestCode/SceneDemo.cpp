@@ -19,6 +19,7 @@
 #include "Engine/Render/RenderPath/RenderPath.h"
 #include "Engine/DirectX/DirectXCore.h"
 
+
 SceneDemo::SceneDemo() = default;
 
 SceneDemo::~SceneDemo() = default;
@@ -79,7 +80,6 @@ void SceneDemo::initialize() {
 	object3dNode->initialize();
 	//object3dNode->set_render_target();
 	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	object3dNode->set_depth_stencil();
 
 	//outlineNode = std::make_unique<OutlineNode>();
 	//outlineNode->initialize();
@@ -88,13 +88,15 @@ void SceneDemo::initialize() {
 	//outlineNode->set_texture_resource(object3dNode->result_stv_handle());
 	//outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
 
-	//spriteNode = std::make_unique<SpriteNode>();
-	//spriteNode->initialize();
-	//spriteNode->set_background_texture(outlineNode->result_stv_handle());
-	//spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	using RTGConfig = BaseRenderTargetGroup::RTGConfing;
+
+	spriteNode = std::make_unique<SpriteNode>();
+	spriteNode->initialize();
+	spriteNode->set_rt_config(eps::to_bitflag(RTGConfig::ContinueDrawAfter) | RTGConfig::ContinueDrawBefore);
+	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode });
+	path.initialize({ object3dNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
@@ -104,7 +106,6 @@ void SceneDemo::initialize() {
 }
 
 void SceneDemo::poped() {
-	DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 }
 
@@ -112,7 +113,7 @@ void SceneDemo::finalize() {
 	audioPlayer->finalize();
 	RenderPathManager::UnregisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 	object3dNode->finalize();
-	outlineNode->finalize();
+	//outlineNode->finalize();
 }
 
 void SceneDemo::begin() {
@@ -144,6 +145,7 @@ void SceneDemo::draw() const {
 	camera3D->debug_draw();
 	DirectXCore::ShowGrid(*camera3D);
 #endif // _DEBUG
+	RenderPathManager::Next();
 	RenderPathManager::Next();
 	//outlineNode->draw();
 	//RenderPathManager::Next();

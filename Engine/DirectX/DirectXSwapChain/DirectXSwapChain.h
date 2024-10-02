@@ -41,7 +41,7 @@ public:
 	/// <returns></returns>
 	static const std::shared_ptr<DepthStencil>& GetDepthStencil() noexcept;
 	static void SetClearColor(const Color& color_) noexcept;
-	static void ChangeBackBufferState();
+	static void EndRenderTarget();
 
 private:
 	static DirectXSwapChain& GetInstance() noexcept;

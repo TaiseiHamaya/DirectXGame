@@ -11,7 +11,7 @@ BaseRenderNode::BaseRenderNode() = default;
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
 void BaseRenderNode::finalize() {
-	if (renderTarget) {
+	if (renderTarget.use_count() == 1) {
 		renderTarget->finalize();
 	}
 }
@@ -19,7 +19,7 @@ void BaseRenderNode::finalize() {
 void BaseRenderNode::begin() {
 	auto&& commandList = DirectXCommand::GetCommandList();
 
-	renderTarget->begin();
+	renderTarget->begin(config);
 	pipelineState->set_graphics_pipeline_state();
 	pipelineState->set_root_signature();
 	// 三角ポリゴン描画設定
@@ -27,9 +27,13 @@ void BaseRenderNode::begin() {
 }
 
 void BaseRenderNode::end() {
-	renderTarget->end();
+	renderTarget->end(config);
 }
 
 const std::shared_ptr<BaseRenderTargetGroup>& BaseRenderNode::get_render_target_group() const {
 	return renderTarget;
+}
+
+void BaseRenderNode::set_rt_config(const eps::bitflag<BaseRenderTargetGroup::RTGConfing>& config_) {
+	config = config_;
 }

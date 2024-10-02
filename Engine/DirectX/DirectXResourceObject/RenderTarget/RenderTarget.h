@@ -3,6 +3,7 @@
 #include <optional>
 
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
+#include "Engine/Module/Color/Color.h"
 
 class RenderTarget : public DirectXResourceObject {
 public:
@@ -24,6 +25,8 @@ public:
 	/// </summary>
 	virtual void change_resource_state();
 
+	void clear_resource();
+
 	/// <summary>
 	/// RTVの生成
 	/// </summary>
@@ -34,6 +37,7 @@ public:
 	/// </summary>
 	virtual void release_index();
 
+public:
 	/// <summary>
 	/// widthの取得
 	/// </summary>
@@ -48,9 +52,12 @@ public:
 
 	const D3D12_RENDER_TARGET_VIEW_DESC& get_rtv_desc() const;
 
+	void set_claer_color(Color color_);
+
 protected:
 	bool isRendering = false;
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvCPUHandle{};
 	std::optional<std::uint32_t> rtvHeapIndex;
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+	Color clearColor;
 };

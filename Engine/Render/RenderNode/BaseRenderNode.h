@@ -1,10 +1,11 @@
 #pragma once
 
 class PipelineState;
-class BaseRenderTargetGroup;
 enum D3D_PRIMITIVE_TOPOLOGY;
 
 #include <memory>
+
+#include <Engine/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
 
 class BaseRenderNode {
 public:
@@ -28,6 +29,11 @@ public:
 	virtual void finalize();
 
 	/// <summary>
+	/// 使用決定時処理
+	/// </summary>
+	virtual void use() = 0;
+
+	/// <summary>
 	/// 描画開始
 	/// </summary>
 	virtual void begin();
@@ -43,8 +49,12 @@ public:
 	/// <returns></returns>
 	const std::shared_ptr<BaseRenderTargetGroup>& get_render_target_group() const;
 
+	void set_rt_config(const eps::bitflag<BaseRenderTargetGroup::RTGConfing>& config_);
+
 protected:
 	std::shared_ptr<BaseRenderTargetGroup> renderTarget;
 	std::unique_ptr<PipelineState> pipelineState;
 	D3D_PRIMITIVE_TOPOLOGY primitiveTopology{};
+
+	eps::bitflag<BaseRenderTargetGroup::RTGConfing> config;
 };

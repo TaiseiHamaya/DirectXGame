@@ -59,7 +59,9 @@ void RenderPathManager::UnregisterPath(std::string&& name) {
 
 void RenderPathManager::SetPath(const std::string& name) {
 	Log(std::format("[RenderPathManager] Set current render path. Name-\'{}\'\n", name));
-	GetInstance().nowPath = &GetInstance().renderingPath.at(name);
+	auto& instance = GetInstance();
+	instance.nowPath = &instance.renderingPath.at(name);
+	instance.nowPath->use();
 	if (name == "Default") {
 		DirectXSwapChain::GetRenderTarget()->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
 	}

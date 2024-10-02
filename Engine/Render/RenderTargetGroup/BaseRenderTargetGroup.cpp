@@ -4,18 +4,19 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Module/Color/Color.h"
 
 BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
 
 BaseRenderTargetGroup::~BaseRenderTargetGroup() noexcept = default;
 
-void BaseRenderTargetGroup::begin() {
+void BaseRenderTargetGroup::begin(const eps::bitflag<RTGConfing>& config_) {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	// RTのリソースバリアを変更
-	change_render_target_state();
+	if (!(config_ & RTGConfing::NoChangeStateBegin)) {
+		change_render_target_state();
+	}
 	// DepthStencilを持っているならクリアする
-	if (depthStencil) {
+	if (depthStencil && !(config_ & RTGConfing::NoClearDepth)) {
 		depthStencil->change_resource_state();
 		commandList->ClearDepthStencilView(
 			depthStencil->get_dsv_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
@@ -27,18 +28,19 @@ void BaseRenderTargetGroup::begin() {
 	commandList->RSSetScissorRects(1, scissorRect.get());
 	// レンダーターゲットを指定
 	set_render_target();
-}
-
-void BaseRenderTargetGroup::end() {
-	// RTのリソースバリアを変更
-	change_render_target_state();
-	if (depthStencil) {
-		depthStencil->change_resource_state();
+	if (!(config_ & RTGConfing::NoClearRenderTarget)) {
+		clear_render_target();
 	}
 }
 
-void BaseRenderTargetGroup::set_clear_color(const Color& color_) {
-	*clearColor = color_;
+void BaseRenderTargetGroup::end(const eps::bitflag<RTGConfing>& config_) {
+	// RTのリソースバリアを変更
+	if (!(config_ & RTGConfing::NoChangeStateEnd)) {
+		change_render_target_state();
+		if (depthStencil) {
+			depthStencil->change_resource_state();
+		}
+	}
 }
 
 void BaseRenderTargetGroup::set_depth_stencil(const std::shared_ptr<DepthStencil>& depthStencil_) {

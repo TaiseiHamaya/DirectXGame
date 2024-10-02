@@ -7,7 +7,21 @@ class Color;
 
 #include <memory>
 
+#include <Engine/Utility/Bitflag/bitflag.h>
+
 class BaseRenderTargetGroup {
+public:
+	enum class RTGConfing {
+		Default = 0,
+		NoClearDepth = 1 << 0,
+		NoClearRenderTarget = 1 << 1,
+		NoChangeStateBegin = 1 << 2,
+		NoChangeStateEnd = 1 << 3,
+
+		ContinueDrawBefore = NoChangeStateEnd,
+		ContinueDrawAfter = NoChangeStateBegin | NoClearRenderTarget | NoClearDepth,
+	};
+
 public:
 	BaseRenderTargetGroup();
 	virtual ~BaseRenderTargetGroup() noexcept;
@@ -31,20 +45,14 @@ public:
 	/// <summary>
 	/// 描画処理の開始
 	/// </summary>
-	virtual void begin();
+	virtual void begin(const eps::bitflag<RTGConfing>& config_);
 
 	/// <summary>
 	/// 描画処理の終了
 	/// </summary>
-	virtual void end();
+	virtual void end(const eps::bitflag<RTGConfing>& config_);
 
 public:
-	/// <summary>
-	/// RTのclearColorの設定
-	/// </summary>
-	/// <param name="color_"></param>
-	void set_clear_color(const Color& color_);
-
 	/// <summary>
 	/// DepthStencilの設定
 	/// </summary>
@@ -64,6 +72,11 @@ protected:
 	virtual void set_render_target() = 0;
 
 	/// <summary>
+	/// レンダーターゲットのクリア
+	/// </summary>
+	virtual void clear_render_target() = 0;
+
+	/// <summary>
 	/// リソースバリアの状態を変更
 	/// </summary>
 	virtual void change_render_target_state() = 0;
@@ -79,6 +92,5 @@ protected:
 	std::shared_ptr<DepthStencil> depthStencil;
 	std::unique_ptr<D3D12_VIEWPORT> viewPort;
 	std::unique_ptr<tagRECT> scissorRect;
-	std::unique_ptr<Color> clearColor;
 };
 
