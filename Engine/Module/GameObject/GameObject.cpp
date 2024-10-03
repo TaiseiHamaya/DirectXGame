@@ -46,6 +46,9 @@ const Transform3D& GameObject::get_transform() const noexcept {
 	return *transform;
 }
 
+void GameObject::begin() {
+}
+
 void GameObject::update() {
 }
 
@@ -70,6 +73,9 @@ void GameObject::begin_rendering(const Camera3D& camera) noexcept {
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
 	}
+}
+
+void GameObject::late_update() {
 }
 
 void GameObject::draw() const {

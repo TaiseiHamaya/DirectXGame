@@ -29,8 +29,10 @@ private:
 	GameObject& operator=(const GameObject&) = delete;
 
 public:
+	virtual void begin();
 	virtual void update();
 	virtual void begin_rendering(const Camera3D& camera) noexcept;
+	virtual void late_update();
 	virtual void draw() const;
 
 	void reset_object(const std::string& meshName_);
