@@ -120,13 +120,13 @@ void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
-	child->look_at(*camera3D);
-	camera3D->update();
+	//camera3D->update();
 }
 
 void SceneDemo::begin_rendering() {
 	camera3D->update_matrix();
 	parent->begin_rendering(*camera3D);
+	child->look_at(*camera3D);
 	child->begin_rendering(*camera3D);
 }
 

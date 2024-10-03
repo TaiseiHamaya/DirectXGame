@@ -13,7 +13,7 @@ public:
 	VertexBuffer() noexcept = default;
 	VertexBuffer(const std::vector<VertexData>& vertices_) noexcept(false);
 	VertexBuffer(std::uint32_t size) noexcept(false);
-	~VertexBuffer() noexcept;
+	~VertexBuffer() noexcept = default;
 
 	VertexBuffer(VertexBuffer&&) = default;
 	VertexBuffer& operator=(VertexBuffer&&) = default;

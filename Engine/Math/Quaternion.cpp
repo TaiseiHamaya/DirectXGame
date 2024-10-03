@@ -123,14 +123,15 @@ const Vector3& Quaternion::vector() const noexcept {
 
 const Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
 	float cos = Vector3::DotProduct(from, to);
+	constexpr float PERMISSIBLE = 1e-4f;
 	// from == toの場合
-	if (cos > 1 - 1e-4f) {
+	if (cos >= 1 - PERMISSIBLE) {
 		return CQuaternion::IDENTITY;
 	}
 	// from == -toの場合
-	else if (cos < 1e-4f - 1) {
+	else if (cos < -1 + PERMISSIBLE) {
 		Vector3 orthogonal = CVector3::BASIS_X;
-		if (std::abs(from.x) > 1 - 1e-4f) {
+		if (std::abs(from.x) > 1 - PERMISSIBLE) {
 			orthogonal = CVector3::BASIS_Y;
 		}
 		Vector3 axis = Vector3::CrossProduct(from, orthogonal).normalize();

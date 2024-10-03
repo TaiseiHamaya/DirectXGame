@@ -10,7 +10,7 @@ public:
 	IndexBuffer() noexcept = default;
 	IndexBuffer(const std::vector<std::uint32_t>& indexes_) noexcept(false);
 	IndexBuffer(std::uint32_t size) noexcept(false);
-	~IndexBuffer() noexcept;
+	~IndexBuffer() noexcept = default;
 
 	IndexBuffer(IndexBuffer&&) = default;
 	IndexBuffer& operator=(IndexBuffer&&) = default;
