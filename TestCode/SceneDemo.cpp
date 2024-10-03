@@ -120,6 +120,7 @@ void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
+	child->look_at(*camera3D);
 	camera3D->update();
 }
 

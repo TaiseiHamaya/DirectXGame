@@ -27,6 +27,7 @@ inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	memorySize = sizeof(T);
 	resource = CreateBufferResource(memorySize);
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
+	*data = T{};
 }
 
 template<typename T>

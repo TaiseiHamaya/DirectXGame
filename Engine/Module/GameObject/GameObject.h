@@ -46,10 +46,13 @@ protected:
 	struct MaterialDataRef;
 
 public:
-	Transform3D& get_transform() noexcept;
-	const Transform3D& get_transform() const noexcept;
 	const Matrix4x4& world_matrix() const;
 	const Vector3 world_position() const;
+	void look_at(const GameObject& rhs, const Vector3& upwards = CVector3::BASIS_Y) noexcept;
+	void look_at(const Vector3& point, const Vector3& upwards = CVector3::BASIS_Y) noexcept;
+
+	Transform3D& get_transform() noexcept;
+	const Transform3D& get_transform() const noexcept;
 	const Hierarchy& get_hierarchy() const;
 	void set_parent(const Hierarchy& hierarchy);
 	std::vector<MaterialDataRef>& get_materials();

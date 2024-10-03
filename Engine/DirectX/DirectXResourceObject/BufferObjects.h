@@ -18,10 +18,10 @@ struct MaterialData {
 	Color color;
 	std::uint32_t lighting;
 	std::array<std::int32_t, 3> padding;
-	Matrix4x4 uvTransform;
+	Matrix4x4 uvTransform = CMatrix4x4::IDENTITY;
 };
 
 struct TransformationMatrixData {
 	Matrix4x4 wvp;
-	Matrix4x4 world;
+	Matrix4x4 world = CMatrix4x4::IDENTITY;
 };

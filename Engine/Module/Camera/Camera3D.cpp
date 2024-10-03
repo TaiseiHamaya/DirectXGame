@@ -16,9 +16,10 @@ void Camera3D::initialize() {
 		0.1f, 1000
 	);
 
-	reset_object("Frustum.obj");
+	update_matrix();
 
 #ifdef _DEBUG
+	reset_object("Frustum.obj");
 	isVaildDebugCamera = false;
 	debugCamera = std::make_unique<GameObject>();
 	debugCameraCenter = std::make_unique<GameObject>("CameraAxis.obj");
