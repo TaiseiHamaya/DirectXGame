@@ -6,7 +6,6 @@
 #include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Application/Scene/SceneManager.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/Utility/Utility.h"
 #include "Engine/Module/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/Collision/CollisionManager.h"
 
@@ -18,10 +17,8 @@
 #include "Engine/Application/Audio/AudioManager.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Render/RenderPath/RenderPath.h"
 #include "Engine/DirectX/DirectXCore.h"
-
 
 SceneDemo::SceneDemo() = default;
 

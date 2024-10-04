@@ -2,15 +2,16 @@
 
 #include "Engine/Render/RenderNode/BaseRenderNode.h"
 
-class MultiRenderTarget;
-struct D3D12_GPU_DESCRIPTOR_HANDLE;
+#include <array>
 
-#include <vector>
+#include "Engine/Render/RenderTargetGroup/MultiRenderTarget.h"
 
+template<uint32_t NumRenderTarget>
 class MultiRenderTargetNode : public BaseRenderNode {
+	static_assert(NumRenderTarget >= 2);
 public:
-	MultiRenderTargetNode();
-	virtual ~MultiRenderTargetNode() noexcept;
+	MultiRenderTargetNode() = default;
+	virtual ~MultiRenderTargetNode() noexcept = default;
 
 	MultiRenderTargetNode(const MultiRenderTargetNode&) = delete;
 	MultiRenderTargetNode& operator=(const MultiRenderTargetNode&) = delete;
@@ -18,19 +19,71 @@ public:
 	MultiRenderTargetNode& operator=(MultiRenderTargetNode&&) = default;
 
 public:
-
 	/// <summary>
 	/// 描画先の指定
 	/// </summary>
 	/// <param name="renderTarget_">描画先レンダーターゲットグループ</param>
-	virtual void set_render_target(const std::shared_ptr<MultiRenderTarget>& renderTarget_);
+	virtual void set_render_target(const std::shared_ptr<MultiRenderTarget<NumRenderTarget>>& renderTarget_);
 
 	/// <summary>
-	/// 描画結果のRTVHandleのvector配列
+	/// 描画結果のRTVHandleの配列
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<D3D12_GPU_DESCRIPTOR_HANDLE>& result_stv_handle_list() const;
+	const std::array<D3D12_GPU_DESCRIPTOR_HANDLE, NumRenderTarget>& result_stv_handle_list() const;
 
 protected:
-	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> resultSrvHandleList;
+	std::array<D3D12_GPU_DESCRIPTOR_HANDLE, NumRenderTarget> resultSrvHandleList;
 };
+
+template<uint32_t NumRenderTarget>
+void MultiRenderTargetNode<NumRenderTarget>::set_render_target(const std::shared_ptr<MultiRenderTarget<NumRenderTarget>>& renderTarget_) {
+	renderTarget = renderTarget_;
+	auto&& list = renderTarget_->offscreen_render_list();
+	for (uint32_t i = 0; i < NumRenderTarget; ++i) {
+		resultSrvHandleList[i] = list[i].texture_gpu_handle();
+	}
+}
+
+template<uint32_t NumRenderTarget>
+const std::array<D3D12_GPU_DESCRIPTOR_HANDLE, NumRenderTarget>& MultiRenderTargetNode<NumRenderTarget>::result_stv_handle_list() const {
+	return resultSrvHandleList;
+}
+
+/// ----------------------------------
+/// ---------- 旧バージョン ----------
+/// ----------------------------------
+
+//#include "Engine/Render/RenderNode/BaseRenderNode.h"
+//
+//class MultiRenderTarget;
+//struct D3D12_GPU_DESCRIPTOR_HANDLE;
+//
+//#include <vector>
+//
+//class MultiRenderTargetNode : public BaseRenderNode {
+//public:
+//	MultiRenderTargetNode();
+//	virtual ~MultiRenderTargetNode() noexcept;
+//
+//	MultiRenderTargetNode(const MultiRenderTargetNode&) = delete;
+//	MultiRenderTargetNode& operator=(const MultiRenderTargetNode&) = delete;
+//	MultiRenderTargetNode(MultiRenderTargetNode&&) = default;
+//	MultiRenderTargetNode& operator=(MultiRenderTargetNode&&) = default;
+//
+//public:
+//
+//	/// <summary>
+//	/// 描画先の指定
+//	/// </summary>
+//	/// <param name="renderTarget_">描画先レンダーターゲットグループ</param>
+//	virtual void set_render_target(const std::shared_ptr<MultiRenderTarget>& renderTarget_);
+//
+//	/// <summary>
+//	/// 描画結果のRTVHandleのvector配列
+//	/// </summary>
+//	/// <returns></returns>
+//	const std::vector<D3D12_GPU_DESCRIPTOR_HANDLE>& result_stv_handle_list() const;
+//
+//protected:
+//	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> resultSrvHandleList;
+//};
