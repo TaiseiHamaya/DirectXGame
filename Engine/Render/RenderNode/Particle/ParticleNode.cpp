@@ -16,9 +16,5 @@ void ParticleNode::initialize() {
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void ParticleNode::use() {
-	renderTarget->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
-}
-
 void ParticleNode::create_pipeline_state() {
 }

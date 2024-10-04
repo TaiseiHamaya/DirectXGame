@@ -12,10 +12,6 @@ void SpriteNode::initialize() {
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void SpriteNode::use() {
-	//renderTarget->set_depth_stencil(nullptr);
-}
-
 void SpriteNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0);

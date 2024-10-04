@@ -15,8 +15,6 @@ public:
 public:
 	void initialize() override;
 
-	void use() override;
-
 private:
 	void create_pipeline_state();
 };

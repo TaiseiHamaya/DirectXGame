@@ -1,27 +1,15 @@
 #pragma once
 
-class DepthStencil;
-struct D3D12_VIEWPORT;
-struct tagRECT;
-class Color;
-
 #include <memory>
 
 #include <Engine/Utility/Bitflag/bitflag.h>
 
+struct D3D12_VIEWPORT;
+struct tagRECT;
+class DepthStencil;
+enum class RenderNodeConfig : std::uint8_t;
+
 class BaseRenderTargetGroup {
-public:
-	enum class RTGConfing {
-		Default = 0,
-		NoClearDepth = 1 << 0,
-		NoClearRenderTarget = 1 << 1,
-		NoChangeStateBegin = 1 << 2,
-		NoChangeStateEnd = 1 << 3,
-
-		ContinueDrawBefore = NoChangeStateEnd,
-		ContinueDrawAfter = NoChangeStateBegin | NoClearRenderTarget | NoClearDepth,
-	};
-
 public:
 	BaseRenderTargetGroup();
 	virtual ~BaseRenderTargetGroup() noexcept;
@@ -45,31 +33,18 @@ public:
 	/// <summary>
 	/// 描画処理の開始
 	/// </summary>
-	virtual void begin(const eps::bitflag<RTGConfing>& config_);
+	virtual void begin(const eps::bitflag<RenderNodeConfig>& config_, const std::shared_ptr<DepthStencil>& depthStencil);
 
 	/// <summary>
 	/// 描画処理の終了
 	/// </summary>
-	virtual void end(const eps::bitflag<RTGConfing>& config_);
-
-public:
-	/// <summary>
-	/// DepthStencilの設定
-	/// </summary>
-	/// <param name="depthStencil_"></param>
-	void set_depth_stencil(const std::shared_ptr<DepthStencil>& depthStencil_);
-
-	/// <summary>
-	/// DepthStencilを所持しているか判定
-	/// </summary>
-	/// <returns></returns>
-	bool has_depth();
+	virtual void end(const eps::bitflag<RenderNodeConfig>& config_);
 
 protected:
 	/// <summary>
 	/// レンダーターゲットの設定
 	/// </summary>
-	virtual void set_render_target() = 0;
+	virtual void set_render_target(const std::shared_ptr<DepthStencil>& depth) = 0;
 
 	/// <summary>
 	/// レンダーターゲットのクリア
@@ -89,7 +64,6 @@ protected:
 	void create_view_port(std::uint32_t width, std::uint32_t height);
 
 protected:
-	std::shared_ptr<DepthStencil> depthStencil;
 	std::unique_ptr<D3D12_VIEWPORT> viewPort;
 	std::unique_ptr<tagRECT> scissorRect;
 };

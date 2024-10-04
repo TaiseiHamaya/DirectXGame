@@ -1,15 +1,14 @@
 #include "DirectXSwapChain.h"
 
 #include <cassert>
+#include <format>
 #include <memory>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
-#include "Engine/WinApp.h"
+#include "Engine/Render/RenderNode/BaseRenderNode.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-
-#include <format>
+#include "Engine/WinApp.h"
 
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
@@ -44,7 +43,7 @@ void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {
 
 void DirectXSwapChain::EndRenderTarget() {
 	auto& instance = GetInstance();
-	instance.renderTarget->end(BaseRenderTargetGroup::RTGConfing::Default);
+	instance.renderTarget->end(RenderNodeConfig::Default);
 }
 
 DirectXSwapChain& DirectXSwapChain::GetInstance() noexcept {

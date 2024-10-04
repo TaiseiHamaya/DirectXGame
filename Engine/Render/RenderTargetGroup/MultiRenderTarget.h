@@ -7,7 +7,9 @@
 class OffscreenRender;
 struct D3D12_CPU_DESCRIPTOR_HANDLE;
 
+//template<uint32_t NumRenderTarget = 2>
 class MultiRenderTarget final : public BaseRenderTargetGroup {
+	//static_assert(NumRenderTarget >= 2, "NumRenderTargetは2以上である必要があります");
 public:
 	MultiRenderTarget();
 	~MultiRenderTarget() noexcept;
@@ -44,7 +46,7 @@ private:
 	/// <summary>
 	/// レンダーターゲットの設定
 	/// </summary>
-	void set_render_target() override;
+	void set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) override;
 
 	/// <summary>
 	/// レンダーターゲットのクリア

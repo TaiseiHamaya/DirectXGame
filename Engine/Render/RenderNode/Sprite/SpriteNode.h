@@ -4,11 +4,6 @@
 
 #include <optional>
 
-class Texture;
-class Transform2D;
-class VertexBuffer;
-class IndexBuffer;
-
 class SpriteNode : public SingleRenderTargetNode {
 public:
 	SpriteNode();
@@ -25,7 +20,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void use() override;
+	//void use() override;
 
 private:
 	/// <summary>

@@ -37,7 +37,7 @@ private:
 	/// <summary>
 	/// レンダーターゲットの設定
 	/// </summary>
-	void set_render_target() override;
+	void set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) override;
 
 	/// <summary>
 	/// レンダーターゲットのクリア

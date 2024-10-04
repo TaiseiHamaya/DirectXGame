@@ -3,7 +3,6 @@
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Module/Color/Color.h"
 
 SingleRenderTarget::SingleRenderTarget() = default;
 
@@ -27,7 +26,7 @@ const OffscreenRender& SingleRenderTarget::main_offscreen_render() {
 	return *renderTarget;
 }
 
-void SingleRenderTarget::set_render_target() {
+void SingleRenderTarget::set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	commandList->OMSetRenderTargets(
 		1, &renderTarget->get_cpu_handle(),

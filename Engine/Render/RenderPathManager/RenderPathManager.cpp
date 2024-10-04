@@ -2,12 +2,10 @@
 
 #include <format>
 
-#include "Engine/Render/RenderPath/RenderPath.h"
-#include "Engine/Utility/Utility.h"
-
 #include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
-#include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/Render/RenderPath/RenderPath.h"
+#include "Engine/Utility/Utility.h"
 
 RenderPathManager::RenderPathManager() = default;
 
@@ -24,7 +22,7 @@ void RenderPathManager::Initialize() {
 	SetPath("Default");
 }
 
-void RenderPathManager::RegisterPath(std::string&& name, RenderPath&& path) {
+void RenderPathManager::RegisterPath(const std::string& name, RenderPath&& path) {
 	if (!GetInstance().renderingPath.contains(name)) {
 		Log(std::format("[RenderPathManager] Register path. Name-\'{}\' Address-\'{}\'\n", name, (void*)&path));
 		GetInstance().renderingPath.emplace(std::move(name), std::move(path));
@@ -34,7 +32,7 @@ void RenderPathManager::RegisterPath(std::string&& name, RenderPath&& path) {
 	}
 }
 
-void RenderPathManager::UnregisterPath(std::string&& name) {
+void RenderPathManager::UnregisterPath(const std::string& name) {
 	// DefaultPathを削除すると色々まずいのでさせない
 	if (name == "Default") {
 		Log("[RenderPathManager] Don't Unregister path \'Default\'.");
@@ -62,9 +60,6 @@ void RenderPathManager::SetPath(const std::string& name) {
 	auto& instance = GetInstance();
 	instance.nowPath = &instance.renderingPath.at(name);
 	instance.nowPath->use();
-	if (name == "Default") {
-		DirectXSwapChain::GetRenderTarget()->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
-	}
 }
 
 bool RenderPathManager::BeginFrame() {

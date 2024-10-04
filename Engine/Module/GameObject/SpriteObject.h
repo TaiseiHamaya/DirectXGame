@@ -16,7 +16,7 @@ class IndexBuffer;
 class SpriteObject {
 public:
 	SpriteObject() noexcept(false);
-	explicit SpriteObject(const std::string& textureName, const Vector2& pivot) noexcept(false);
+	explicit SpriteObject(const std::string& textureName, const Vector2& pivot = CVector2::ZERO) noexcept(false);
 	~SpriteObject() noexcept;
 
 	SpriteObject(SpriteObject&&) noexcept;

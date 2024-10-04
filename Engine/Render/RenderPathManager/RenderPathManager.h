@@ -28,13 +28,13 @@ public:
 	/// </summary>
 	/// <param name="name">登録名</param>
 	/// <param name="path">実体</param>
-	static void RegisterPath(std::string&& name, RenderPath&& path);
+	static void RegisterPath(const std::string& name, RenderPath&& path);
 
 	/// <summary>
 	/// パスの登録解除
 	/// </summary>
 	/// <param name="name">解除するパス名</param>
-	static void UnregisterPath(std::string&& name);
+	static void UnregisterPath(const std::string& name);
 
 	/// <summary>
 	/// 使用するパスの設定

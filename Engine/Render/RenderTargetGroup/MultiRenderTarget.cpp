@@ -5,7 +5,6 @@
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Module/Color/Color.h"
 
 MultiRenderTarget::MultiRenderTarget() = default;
 
@@ -42,7 +41,7 @@ const std::vector<OffscreenRender>& MultiRenderTarget::offscreen_render_list() c
 	return renderTargets;
 }
 
-void MultiRenderTarget::set_render_target() {
+void MultiRenderTarget::set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	commandList->OMSetRenderTargets(
 		static_cast<UINT>(renderTargetsHandles.size()), renderTargetsHandles.data(),

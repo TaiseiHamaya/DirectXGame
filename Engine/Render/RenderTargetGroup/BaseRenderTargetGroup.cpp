@@ -4,51 +4,35 @@
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
+#include "Engine/Render/RenderNode/BaseRenderNode.h"
 
 BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
 
 BaseRenderTargetGroup::~BaseRenderTargetGroup() noexcept = default;
 
-void BaseRenderTargetGroup::begin(const eps::bitflag<RTGConfing>& config_) {
+void BaseRenderTargetGroup::begin(const eps::bitflag<RenderNodeConfig>& config_, const std::shared_ptr<DepthStencil>& depthStencil) {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	// RTのリソースバリアを変更
-	if (!(config_ & RTGConfing::NoChangeStateBegin)) {
+	if (!(config_ & RenderNodeConfig::NoChangeStateBegin)) {
 		change_render_target_state();
-	}
-	// DepthStencilを持っているならクリアする
-	if (depthStencil && !(config_ & RTGConfing::NoClearDepth)) {
-		depthStencil->change_resource_state();
-		commandList->ClearDepthStencilView(
-			depthStencil->get_dsv_cpu_handle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr
-		);
 	}
 	// ViewPortの設定
 	commandList->RSSetViewports(1, viewPort.get());
 	// シザー矩形の設定
 	commandList->RSSetScissorRects(1, scissorRect.get());
 	// レンダーターゲットを指定
-	set_render_target();
-	if (!(config_ & RTGConfing::NoClearRenderTarget)) {
+	set_render_target(depthStencil);
+	// レンダーターゲットのクリア
+	if (!(config_ & RenderNodeConfig::NoClearRenderTarget)) {
 		clear_render_target();
 	}
 }
 
-void BaseRenderTargetGroup::end(const eps::bitflag<RTGConfing>& config_) {
+void BaseRenderTargetGroup::end(const eps::bitflag<RenderNodeConfig>& config_) {
 	// RTのリソースバリアを変更
-	if (!(config_ & RTGConfing::NoChangeStateEnd)) {
+	if (!(config_ & RenderNodeConfig::NoChangeStateEnd)) {
 		change_render_target_state();
-		if (depthStencil) {
-			depthStencil->change_resource_state();
-		}
 	}
-}
-
-void BaseRenderTargetGroup::set_depth_stencil(const std::shared_ptr<DepthStencil>& depthStencil_) {
-	depthStencil = depthStencil_;
-}
-
-bool BaseRenderTargetGroup::has_depth() {
-	return depthStencil ? true : false;
 }
 
 void BaseRenderTargetGroup::create_view_port(std::uint32_t width, std::uint32_t height) {

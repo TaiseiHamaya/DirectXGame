@@ -25,7 +25,7 @@ std::array<RenderTarget, SWAPCHAIN_HEAP>& SwapChainRenderTargetGroup::get_render
 	return renderTargets;
 }
 
-void SwapChainRenderTargetGroup::set_render_target() {
+void SwapChainRenderTargetGroup::set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	auto backBufferIndex = DirectXSwapChain::GetBackBufferIndex();
 	commandList->OMSetRenderTargets(

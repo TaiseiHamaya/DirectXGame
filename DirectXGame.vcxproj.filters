@@ -247,9 +247,6 @@
     <Filter Include="Engine\Render\RenderNode\Particle">
       <UniqueIdentifier>{55a21a48-26d9-4ccd-88ec-714286f9785b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Render\RenderTargetGroup\OverwriteRenderTarget">
-      <UniqueIdentifier>{7a203f18-096b-44c2-8b9a-dfa86d779c2d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Utility\Bitflag">
       <UniqueIdentifier>{cdec1912-a0be-4583-a333-c3b8f0648587}</UniqueIdentifier>
     </Filter>

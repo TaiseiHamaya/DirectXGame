@@ -1,11 +1,27 @@
 #pragma once
 
+class DepthStencil;
 class PipelineState;
 enum D3D_PRIMITIVE_TOPOLOGY;
 
 #include <memory>
 
 #include <Engine/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
+
+enum class RenderNodeConfig : std::uint8_t {
+	Default = 0,
+	NoClearRenderTarget = 1 << 0,
+	NoChangeStateBegin = 1 << 1,
+	NoChangeStateEnd = 1 << 2,
+	NoClearDepth = 1 << 3,
+	NoChangeDepthStateBegin = 1 << 4,
+	NoChangeDepthStateEnd = 1 << 5,
+
+	ContinueDrawBefore = NoChangeStateEnd,
+	ContinueDrawAfter = NoClearRenderTarget | NoChangeStateBegin,
+	ContinueUseDpehtBefore = NoChangeDepthStateEnd,
+	ContinueUseDpehtAfter = NoClearDepth | NoChangeDepthStateBegin,
+};
 
 class BaseRenderNode {
 public:
@@ -22,7 +38,7 @@ public:
 	/// 初期化
 	/// </summary>
 	virtual void initialize() = 0;
-	
+
 	/// <summary>
 	/// 終了処理
 	/// </summary>
@@ -31,7 +47,7 @@ public:
 	/// <summary>
 	/// 使用決定時処理
 	/// </summary>
-	virtual void use() = 0;
+	//virtual void use() = 0;
 
 	/// <summary>
 	/// 描画開始
@@ -49,12 +65,13 @@ public:
 	/// <returns></returns>
 	const std::shared_ptr<BaseRenderTargetGroup>& get_render_target_group() const;
 
-	void set_rt_config(const eps::bitflag<BaseRenderTargetGroup::RTGConfing>& config_);
+	void set_config(const eps::bitflag<RenderNodeConfig>& config_);
 
 protected:
 	std::shared_ptr<BaseRenderTargetGroup> renderTarget;
+	std::shared_ptr<DepthStencil> depthStencil;
 	std::unique_ptr<PipelineState> pipelineState;
 	D3D_PRIMITIVE_TOPOLOGY primitiveTopology{};
 
-	eps::bitflag<BaseRenderTargetGroup::RTGConfing> config;
+	eps::bitflag<RenderNodeConfig> config;
 };

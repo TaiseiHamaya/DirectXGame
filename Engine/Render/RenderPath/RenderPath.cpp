@@ -12,17 +12,16 @@ void RenderPath::initialize(std::vector<std::weak_ptr<BaseRenderNode>>&& list) {
 
 void RenderPath::initialize(std::initializer_list<std::weak_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める
-	assert(list.size());
-	renderNodeList.reserve(list.size());
+	assert(list.size() >= 1);
 	// 全て転送
-	for (auto listItr = list.begin(); listItr != list.end(); ++listItr) {
-		renderNodeList.emplace_back(std::move(*listItr));
-	}
+	renderNodeList = std::move(list);
 }
 
 void RenderPath::use() {
+	// nowNodeのリセットしておく
+	nowNode = renderNodeList.end();
 	for (auto& renderNode : renderNodeList) {
-		renderNode.lock()->use();
+		//renderNode.lock()->use();
 	}
 }
 

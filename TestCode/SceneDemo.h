@@ -7,6 +7,7 @@
 #include "Engine/Application/Audio/AudioPlayer.h"
 
 class GameObject;
+class SpriteObject;
 class Camera3D;
 class BaseCollider;
 class SphereCollider;
@@ -47,6 +48,7 @@ public:
 private:
 	std::unique_ptr<GameObject> parent;
 	std::unique_ptr<GameObject> child;
+	std::unique_ptr<SpriteObject> sprite;
 
 	std::shared_ptr<SphereCollider> parentCollider;
 	std::shared_ptr<SphereCollider> childCollider;

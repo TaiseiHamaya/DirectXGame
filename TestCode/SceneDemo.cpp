@@ -10,6 +10,9 @@
 #include "Engine/Module/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/Collision/CollisionManager.h"
 
+#include "Engine/Module/GameObject/SpriteObject.h"
+#include "Engine/Module/Camera/Camera2D.h"
+
 #include "Engine/Module/Color/Color.h"
 
 #include "Engine/Application/Audio/AudioManager.h"
@@ -34,6 +37,7 @@ void SceneDemo::load() {
 }
 
 void SceneDemo::initialize() {
+	Camera2D::Initialize();
 	camera3D = std::make_unique<Camera3D>();
 	camera3D->initialize();
 	camera3D->set_transform({
@@ -66,6 +70,8 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
+	sprite = std::make_unique<SpriteObject>("uvChecker.png");
+
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
@@ -78,25 +84,24 @@ void SceneDemo::initialize() {
 
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
-	//object3dNode->set_render_target();
-	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	object3dNode->set_render_target();
+	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	//outlineNode = std::make_unique<OutlineNode>();
-	//outlineNode->initialize();
-	////outlineNode->set_render_target();
-	//outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	//outlineNode->set_texture_resource(object3dNode->result_stv_handle());
-	//outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
-
-	using RTGConfig = BaseRenderTargetGroup::RTGConfing;
+	outlineNode = std::make_unique<OutlineNode>();
+	outlineNode->initialize();
+	//outlineNode->set_render_target();
+	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
+	outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
+	outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
 
 	spriteNode = std::make_unique<SpriteNode>();
 	spriteNode->initialize();
-	spriteNode->set_rt_config(eps::to_bitflag(RTGConfig::ContinueDrawAfter) | RTGConfig::ContinueDrawBefore);
+	spriteNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode,spriteNode });
+	path.initialize({ object3dNode,outlineNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
@@ -128,6 +133,7 @@ void SceneDemo::begin_rendering() {
 	parent->begin_rendering(*camera3D);
 	child->look_at(*camera3D);
 	child->begin_rendering(*camera3D);
+	sprite->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -147,6 +153,9 @@ void SceneDemo::draw() const {
 	DirectXCore::ShowGrid(*camera3D);
 #endif // _DEBUG
 	RenderPathManager::Next();
+	outlineNode->draw();
+	RenderPathManager::Next();
+	sprite->draw();
 	RenderPathManager::Next();
 	//outlineNode->draw();
 	//RenderPathManager::Next();

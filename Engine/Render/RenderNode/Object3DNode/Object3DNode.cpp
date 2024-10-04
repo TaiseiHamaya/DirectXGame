@@ -11,16 +11,12 @@ Object3DNode::~Object3DNode() noexcept = default;
 void Object3DNode::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	depthStencil = DirectXSwapChain::GetDepthStencil();
 }
 
 void Object3DNode::begin() {
 	BaseRenderNode::begin();
 	DirectXCore::Set3DLight();
-}
-
-void Object3DNode::use() {
-	renderTarget->set_depth_stencil(DirectXSwapChain::GetDepthStencil());
-
 }
 
 void Object3DNode::create_pipeline_state() {

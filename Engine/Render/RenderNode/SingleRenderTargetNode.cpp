@@ -26,7 +26,7 @@ void SingleRenderTargetNode::set_render_target(const std::shared_ptr<SingleRende
 void SingleRenderTargetNode::set_render_target_SC(const std::shared_ptr<SwapChainRenderTargetGroup>& renderTarget_) {
 	if (renderTarget_) {
 		renderTarget = renderTarget_;
-		config |= BaseRenderTargetGroup::RTGConfing::ContinueDrawBefore;
+		config |= RenderNodeConfig::ContinueDrawBefore;
 	}
 }
 
