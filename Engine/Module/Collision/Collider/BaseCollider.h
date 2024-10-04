@@ -25,8 +25,10 @@ public:
 	void collision(const BaseCollider* const collider, bool result);
 
 public:
-	Hierarchy& get_hierarchy() const;
-	Transform3D& get_transform() const;
+	const Hierarchy& get_hierarchy() const;
+	Hierarchy& get_hierarchy();
+	const Transform3D& get_transform() const;
+	Transform3D& get_transform();
 	Vector3 world_position() const;
 	virtual constexpr std::string type() const = 0;
 	const std::string& group() const noexcept;

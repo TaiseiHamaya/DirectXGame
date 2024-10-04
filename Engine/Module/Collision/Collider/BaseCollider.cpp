@@ -76,11 +76,19 @@ void BaseCollider::collision(const BaseCollider* const collider, bool result) {
 	}
 }
 
-Hierarchy& BaseCollider::get_hierarchy() const {
+const Hierarchy& BaseCollider::get_hierarchy() const {
 	return *hierarchy;
 }
 
-Transform3D& BaseCollider::get_transform() const {
+Hierarchy& BaseCollider::get_hierarchy() {
+	return *hierarchy;
+}
+
+const Transform3D& BaseCollider::get_transform() const {
+	return *transform;
+}
+
+Transform3D& BaseCollider::get_transform() {
 	return *transform;
 }
 
