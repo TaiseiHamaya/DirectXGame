@@ -21,7 +21,8 @@ public:
 	void reset_parent() noexcept;
 	const Hierarchy& get_parent() const noexcept;
 	bool has_parent() const noexcept;
-	const Matrix4x4& parent_matrix() const noexcept;
+	const Matrix4x4& parent_matrix() const;
+	const Matrix4x4& parent_matrix_safe() const noexcept;
 
 private:
 	const Hierarchy* parent;

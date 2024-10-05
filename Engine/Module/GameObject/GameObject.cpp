@@ -6,7 +6,6 @@
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Module/Camera/Camera3D.h"
 #include "Engine/Module/Hierarchy/Hierarchy.h"
 #include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
@@ -20,11 +19,9 @@
 
 GameObject::GameObject() noexcept(false) :
 	// 各メモリの取得
-	transformMatrix(std::make_unique<TransformMatrix>()),
-	transform(std::make_unique<Transform3D>()),
-	hierarchy(std::make_unique<Hierarchy>()) {
+	transformMatrix(std::make_unique<TransformMatrix>()) {
 	meshMaterials.clear();
-	hierarchy->initialize(*transformMatrix->get_data());
+	hierarchy.initialize(*transformMatrix->get_data());
 }
 
 GameObject::GameObject(const std::string& meshName_) noexcept(false) :
@@ -38,32 +35,25 @@ GameObject::GameObject(GameObject&&) noexcept = default;
 
 GameObject& GameObject::operator=(GameObject&&) noexcept = default;
 
-void GameObject::begin() {
-}
-
-void GameObject::update() {
-}
-
 void GameObject::begin_rendering() noexcept {
-	// 行列計算
-	Matrix4x4 worldMatrix = transform->get_matrix();
-	if (hierarchy->has_parent()) {
-		worldMatrix *= hierarchy->parent_matrix();
+	if (!isActive) {
+		return;
 	}
-
+	// World行列更新
+	update_matrix();
 	// 各情報をGPUに転送
 	// Transformに転送
-	transformMatrix->set_transformation_matrix_data(std::move(worldMatrix));
+	transformMatrix->set_transformation_matrix_data(worldMatrix);
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
 	}
 }
 
-void GameObject::late_update() {
-}
-
 void GameObject::draw() const {
+	if (!isActive || !isDraw) {
+		return;
+	}
 	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
 	// 設定したデータをコマンドに積む
 	auto&& meshLocked = mesh.lock();
@@ -124,41 +114,25 @@ void GameObject::default_material() {
 	}
 }
 
-void GameObject::look_at(const GameObject& rhs, const Vector3& upwards) noexcept {
-	look_at(rhs.world_position(), upwards);
+void GameObject::look_at(const WorldInstance& rhs, const Vector3& upward) noexcept {
+	look_at(rhs.world_position(), upward);
 }
 
 // 既知の不具合 : 特定環境でlook_atが正しくならない場合がある
-void GameObject::look_at(const Vector3& point, const Vector3& upwards) noexcept {
-	Matrix4x4 parentInversedWorldMatrix = hierarchy->parent_matrix().inverse();
-	Vector3 rhsObjectCoordinatePosition = Transform3D::Homogeneous(point, parentInversedWorldMatrix);
-	Vector3 forward = (rhsObjectCoordinatePosition - transform->get_translate()).normalize_safe();
-	Vector3 localUpwards = Transform3D::HomogeneousVector(upwards, parentInversedWorldMatrix);
-	transform->set_rotate(Quaternion::LookForward(forward, localUpwards));
-}
-
-Transform3D& GameObject::get_transform() noexcept {
-	return *transform;
-}
-
-const Transform3D& GameObject::get_transform() const noexcept {
-	return *transform;
-}
-
-const Matrix4x4& GameObject::world_matrix() const {
-	return *transformMatrix->get_data();
-}
-
-const Vector3 GameObject::world_position() const {
-	return Transform3D::ExtractPosition(world_matrix());
-}
-
-const Hierarchy& GameObject::get_hierarchy() const {
-	return *hierarchy;
-}
-
-void GameObject::set_parent(const Hierarchy& hierarchy_) {
-	hierarchy->set_parent(hierarchy_);
+void GameObject::look_at(const Vector3& point, const Vector3& upward) noexcept {
+	Vector3 localForward;
+	Vector3 localUpwoard;
+	if (hierarchy.has_parent()) {
+		Matrix4x4 parentInversedWorldMatrix = hierarchy.parent_matrix().inverse();
+		Vector3 rhsObjectCoordinatePosition = Transform3D::Homogeneous(point, parentInversedWorldMatrix);
+		localUpwoard = Transform3D::HomogeneousVector(upward, parentInversedWorldMatrix);
+		localForward = (rhsObjectCoordinatePosition - transform.get_translate()).normalize_safe();
+	}
+	else {
+		localUpwoard = upward;
+		localForward = (point - transform.get_translate()).normalize_safe();
+	}
+	transform.set_rotate(Quaternion::LookForward(localForward, localUpwoard));
 }
 
 std::vector<GameObject::MaterialDataRef>& GameObject::get_materials() {
@@ -177,9 +151,11 @@ void GameObject::debug_gui() {
 	if (ImGui::Button("ResetMaterialData")) {
 		default_material();
 	}
+	ImGui::Checkbox("Draw", &isDraw);
 	ImGui::Separator();
-	transform->debug_gui();
+	WorldInstance::debug_gui();
 	ImGui::Separator();
+	ImGui::Text("Materials");
 	auto&& meshLocked = mesh.lock();
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		std::string treeNodeName = meshLocked->model_name(i).empty() ? "UnknownMaterialName" : meshLocked->model_name(i);

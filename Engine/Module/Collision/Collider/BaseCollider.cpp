@@ -3,17 +3,19 @@
 #include "Engine/Module/Hierarchy/Hierarchy.h"
 
 BaseCollider::BaseCollider() {
-	hierarchy = std::make_unique<Hierarchy>();
-	hierarchy->initialize(worldMatrix);
-	transform = std::make_unique<Transform3D>();
+	hierarchy.initialize(worldMatrix);
+	groupName = nullptr;
 
 #ifdef _DEBUG
 	colliderDrawer = std::make_unique<GameObject>();
-	colliderDrawer->set_parent(*hierarchy);
+	colliderDrawer->set_parent(hierarchy);
 #endif // _DEBUG
 }
 
 void BaseCollider::begin() {
+	if (!isActive) {
+		return;
+	}
 	for (auto itr = collisionMap.begin(); itr != collisionMap.end();){
 		if (itr->second.none()) {
 			itr = collisionMap.erase(itr);
@@ -26,13 +28,13 @@ void BaseCollider::begin() {
 }
 
 void BaseCollider::update() {
-	worldMatrix = transform->get_matrix();
-	if (hierarchy->has_parent()) {
-		worldMatrix *= hierarchy->parent_matrix();
-	}
+	update_matrix();
 }
 
 void BaseCollider::collision(const BaseCollider* const collider, bool result) {
+	if (!isActive) {
+		return;
+	}
 	if (!collisionMap.contains(collider)) {
 		collisionMap.emplace(collider, "00");
 	}
@@ -40,7 +42,7 @@ void BaseCollider::collision(const BaseCollider* const collider, bool result) {
 	auto& collisionObject = collisionMap.at(collider);
 
 	collisionObject.set(0, result);
-	unsigned int state = collisionObject.to_ulong();
+	unsigned long state = collisionObject.to_ulong();
 	// このフレーム衝突しているか
 	switch (state) {
 	case 0b00:
@@ -74,26 +76,6 @@ void BaseCollider::collision(const BaseCollider* const collider, bool result) {
 	default:
 		break;
 	}
-}
-
-const Hierarchy& BaseCollider::get_hierarchy() const {
-	return *hierarchy;
-}
-
-Hierarchy& BaseCollider::get_hierarchy() {
-	return *hierarchy;
-}
-
-const Transform3D& BaseCollider::get_transform() const {
-	return *transform;
-}
-
-Transform3D& BaseCollider::get_transform() {
-	return *transform;
-}
-
-Vector3 BaseCollider::world_position() const {
-	return Transform3D::ExtractPosition(worldMatrix);
 }
 
 const std::string& BaseCollider::group() const noexcept {

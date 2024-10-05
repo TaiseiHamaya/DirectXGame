@@ -6,14 +6,13 @@
 #include <functional>
 #include <unordered_map>
 
-#include "Engine/Module/Transform3D/Transform3D.h"
-#include "Engine/Module/Hierarchy/Hierarchy.h"
+#include "Engine/Module/WorldInstance/WorldInstance.h"
 
 #ifdef _DEBUG
 #include <Engine/Module/GameObject/GameObject.h>
 #endif // _DEBUG
 
-class BaseCollider  {
+class BaseCollider : public WorldInstance {
 public:
 	BaseCollider();
 	~BaseCollider() = default;
@@ -25,11 +24,6 @@ public:
 	void collision(const BaseCollider* const collider, bool result);
 
 public:
-	const Hierarchy& get_hierarchy() const;
-	Hierarchy& get_hierarchy();
-	const Transform3D& get_transform() const;
-	Transform3D& get_transform();
-	Vector3 world_position() const;
 	virtual constexpr std::string type() const = 0;
 	const std::string& group() const noexcept;
 
@@ -41,15 +35,9 @@ public:
 	void set_group_name(const std::string& name);
 
 private:
-	std::unique_ptr<Transform3D> transform;
 	const std::string* groupName;
 
-protected:
-	std::unique_ptr<Hierarchy> hierarchy;
-
 private:
-	Matrix4x4 worldMatrix;
-
 	std::function<void(const BaseCollider* const)> onCollisionFunc;
 	std::function<void(const BaseCollider* const)> onCollisionEnterFunc;
 	std::function<void(const BaseCollider* const)> onCollisionExitFunc;

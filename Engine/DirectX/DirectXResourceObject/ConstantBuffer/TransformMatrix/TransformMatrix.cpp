@@ -9,6 +9,6 @@ TransformMatrix::TransformMatrix(const Matrix4x4& transformMatrixData)
 	: ConstantBuffer<Matrix4x4>(transformMatrixData) {
 }
 
-void TransformMatrix::set_transformation_matrix_data(Matrix4x4&& world) noexcept {
-	*data = std::move(world);
+void TransformMatrix::set_transformation_matrix_data(const Matrix4x4& world) noexcept {
+	*data = world;
 }

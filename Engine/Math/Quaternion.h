@@ -125,9 +125,9 @@ public: // グローバルメンバ関数
 	/// forward方向を向くQuaternionを生成
 	/// </summary>
 	/// <param name="forward">前方を表す正規化済みベクトル</param>
-	/// <param name="upwards">上方を表す正規化済みベクトル</param>
+	/// <param name="upward">上方を表す正規化済みベクトル</param>
 	/// <returns></returns>
-	static const Quaternion LookForward(const Vector3& forward, const Vector3& upwards = CVector3::BASIS_Y);
+	static const Quaternion LookForward(const Vector3& forward, const Vector3& upward = CVector3::BASIS_Y);
 
 	/// <summary>
 	/// 球面線形補間

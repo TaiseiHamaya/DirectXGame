@@ -153,9 +153,9 @@ const Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& 
 	return Quaternion::AngleAxis(axis, angle);
 }
 
-const Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upwards) {
+const Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upward) {
 	Quaternion lookRotation = FromToRotation(CVector3::BASIS_Z, forward);
-	Vector3 xAxisHorizontal = Vector3::CrossProduct(upwards, forward).normalize_safe();
+	Vector3 xAxisHorizontal = Vector3::CrossProduct(upward, forward).normalize_safe();
 	Vector3 yAxisAfterRotate = Vector3::CrossProduct(forward, xAxisHorizontal);
 
 	Vector3 yAxisBeforeModify = CVector3::BASIS_Y * lookRotation;

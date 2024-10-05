@@ -162,6 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Engine\Module\Transform2D\Transform2D.cpp" />
     <ClCompile Include="Engine\Module\Transform3D\Transform3D.cpp" />
+    <ClCompile Include="Engine\Module\WorldInstance\WorldInstance.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\BaseRenderNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Grayscale\GrayscaleNode.cpp" />
@@ -240,6 +241,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\TextureManager\TextureManager.h" />
     <ClInclude Include="Engine\Module\Transform2D\Transform2D.h" />
     <ClInclude Include="Engine\Module\Transform3D\Transform3D.h" />
+    <ClInclude Include="Engine\Module\WorldInstance\WorldInstance.h" />
     <ClInclude Include="Engine\Render\RenderNode\BaseRenderNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Grayscale\GrayscaleNode.h" />

@@ -200,7 +200,7 @@ void SceneDemo::debug_update() {
 	ImGui::End();
 
 	ImGui::Begin("Single");
-	singleCollider->get_transform().debug_gui();
+	singleCollider->debug_gui();
 	ImGui::End();
 
 	ImGui::Begin("Audio");

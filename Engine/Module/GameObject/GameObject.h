@@ -5,17 +5,15 @@
 #include <vector>
 
 #include "Engine/Module/Transform2D/Transform2D.h"
-#include "Engine/Module/Transform3D/Transform3D.h"
+#include "Engine/Module/WorldInstance/WorldInstance.h"
 
 class Material;
 class PolygonMesh;
 class Texture;
 class TransformMatrix;
 class Color;
-class Camera3D;
-class Hierarchy;
 
-class GameObject {
+class GameObject : public WorldInstance {
 public:
 	GameObject() noexcept(false);
 	explicit GameObject(const std::string& meshName_) noexcept(false);
@@ -29,10 +27,10 @@ private:
 	GameObject& operator=(const GameObject&) = delete;
 
 public:
-	virtual void begin();
-	virtual void update();
+	virtual void begin() {};
+	virtual void update() {};
 	virtual void begin_rendering() noexcept;
-	virtual void late_update();
+	virtual void late_update() {};
 	virtual void draw() const;
 
 	void reset_object(const std::string& meshName_);
@@ -46,15 +44,9 @@ protected:
 	struct MaterialDataRef;
 
 public:
-	const Matrix4x4& world_matrix() const;
-	const Vector3 world_position() const;
-	void look_at(const GameObject& rhs, const Vector3& upwards = CVector3::BASIS_Y) noexcept;
-	void look_at(const Vector3& point, const Vector3& upwards = CVector3::BASIS_Y) noexcept;
+	void look_at(const WorldInstance& rhs, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at(const Vector3& point, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
-	Transform3D& get_transform() noexcept;
-	const Transform3D& get_transform() const noexcept;
-	const Hierarchy& get_hierarchy() const;
-	void set_parent(const Hierarchy& hierarchy);
 	std::vector<MaterialDataRef>& get_materials();
 
 protected:
@@ -62,10 +54,11 @@ protected:
 
 #ifdef _DEBUG
 public:
-	void debug_gui();
+	void debug_gui() override;
 #endif // _DEBUG
 
 private:
+	bool isDraw = true;
 	std::string meshName;
 	std::weak_ptr<PolygonMesh> mesh;
 	std::unique_ptr<TransformMatrix> transformMatrix;
@@ -86,9 +79,6 @@ private:
 	std::vector<PolygonMeshMaterial> meshMaterials;
 
 protected:
-	std::unique_ptr<Transform3D> transform;
-	std::unique_ptr<Hierarchy> hierarchy;
-
 	struct MaterialDataRef {
 		MaterialDataRef(Color& color_, Transform2D& uvTransform_);
 		Color& color;

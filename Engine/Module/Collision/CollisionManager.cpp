@@ -35,6 +35,10 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 	auto group2Range = colliderList.equal_range(groupName2);
 	ColliderIterator group2;
 	for (ColliderIterator& group1 = group1Range.first; group1 != group1Range.second; ++group1) {
+		std::shared_ptr<BaseCollider> group1Locked = group1->second.lock();
+		if (!group1Locked->is_active()) {
+			continue;
+		}
 		// 同じグループのときは重複させないようにgroup1の次を参照させる
 		if (groupName1 == groupName2) {
 			group2 = std::next(group1);
@@ -44,7 +48,11 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 		}
 
 		for (; group2 != group2Range.second; ++group2) {
-			test_collision(group1->second.lock(), group2->second.lock());
+			std::shared_ptr<BaseCollider> group2Locked = group2->second.lock();
+			if (!group2Locked->is_active()) {
+				continue;
+			}
+			test_collision(group1Locked, group2Locked);
 		}
 	}
 }
@@ -106,7 +114,7 @@ void CollisionManager::debug_draw3d() {
 	}
 	for (const auto& list : colliderList | std::views::values) {
 		auto listLocked = list.lock();
-		if (listLocked) {
+		if (listLocked && listLocked->is_active()) {
 			auto& drawer = listLocked->get_collider_drawer();
 			drawer.begin_rendering();
 			drawer.draw();
