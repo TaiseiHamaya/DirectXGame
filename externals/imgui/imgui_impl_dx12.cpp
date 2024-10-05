@@ -296,6 +296,9 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
             return;
     }
 
+	fr->VertexBuffer->SetName(L"ImGuiBuffer");
+	fr->IndexBuffer->SetName(L"ImGuiBuffer");
+
     // Upload vertex/index data into a single contiguous GPU buffer
     void* vtx_resource, *idx_resource;
     D3D12_RANGE range;
@@ -505,6 +508,7 @@ static void ImGui_ImplDX12_CreateFontsTexture()
         bd->pd3dDevice->CreateShaderResourceView(pTexture, &srvDesc, bd->hFontSrvCpuDescHandle);
         SafeRelease(bd->pFontTextureResource);
         bd->pFontTextureResource = pTexture;
+		pTexture->SetName(L"ImGuiTexutre");
     }
 
     // Store our identifier

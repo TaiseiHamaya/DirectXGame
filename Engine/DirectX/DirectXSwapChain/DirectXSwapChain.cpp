@@ -86,7 +86,7 @@ void DirectXSwapChain::create_render_terget() {
 		assert(SUCCEEDED(hr));
 		// view作成
 		renderTarget->set_resource(resource, renderIndex);
-		resource->SetName(std::format(L"SwapChain{}", renderIndex).c_str());
+		resource->SetName(std::format(L"SwapChain-RTV{}", renderIndex).c_str());
 	}
 	renderTarget->initialize();
 }

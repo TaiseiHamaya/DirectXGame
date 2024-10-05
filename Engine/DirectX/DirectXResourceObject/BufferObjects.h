@@ -20,8 +20,3 @@ struct MaterialData {
 	std::array<std::int32_t, 3> padding;
 	Matrix4x4 uvTransform = CMatrix4x4::IDENTITY;
 };
-
-struct TransformationMatrixData {
-	Matrix4x4 wvp;
-	Matrix4x4 world = CMatrix4x4::IDENTITY;
-};

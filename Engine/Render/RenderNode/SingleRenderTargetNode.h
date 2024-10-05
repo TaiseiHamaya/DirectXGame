@@ -23,7 +23,7 @@ public:
 	/// 描画先の指定
 	/// </summary>
 	/// <param name="renderTarget_">描画先レンダーターゲットグループ</param>
-	void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr);
+	virtual void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr);
 
 	/// <summary>
 	/// 描画先の指定

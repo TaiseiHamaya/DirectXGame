@@ -1,6 +1,10 @@
 #pragma once
 
+#include <typeinfo>
+#include <format>
+
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
+#include "Engine/Utility/Utility.h"
 
 template<typename T>
 class ConstantBuffer : public DirectXResourceObject {
@@ -29,6 +33,9 @@ inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	resource = CreateBufferResource(memorySize);
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 	*data = T{};
+	std::wstring typeName = ConvertString(typeid(T).name());
+	auto begin = std::find(typeName.begin(), typeName.end(), ' ') + 1;
+	resource->SetName(std::format(L"ConstantBuffer-{}", begin._Ptr).c_str());
 }
 
 template<typename T>

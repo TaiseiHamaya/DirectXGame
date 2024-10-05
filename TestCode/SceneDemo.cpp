@@ -127,9 +127,9 @@ void SceneDemo::update() {
 
 void SceneDemo::begin_rendering() {
 	camera3D->update_matrix();
-	parent->begin_rendering(*camera3D);
+	parent->begin_rendering();
 	child->look_at(*camera3D);
-	child->begin_rendering(*camera3D);
+	child->begin_rendering();
 	sprite->begin_rendering();
 }
 
@@ -142,17 +142,18 @@ void SceneDemo::late_update() {
 
 void SceneDemo::draw() const {
 	RenderPathManager::BeginFrame();
+	camera3D->set_command(1);
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
-	collisionManager->debug_draw3d(*camera3D);
+	collisionManager->debug_draw3d();
 	camera3D->debug_draw();
-	DirectXCore::ShowGrid(*camera3D);
+	DirectXCore::ShowGrid();
 #endif // _DEBUG
 	RenderPathManager::Next();
 	outlineNode->draw();
 	RenderPathManager::Next();
-	sprite->draw();
+	//sprite->draw();
 	RenderPathManager::Next();
 	//outlineNode->draw();
 	//RenderPathManager::Next();

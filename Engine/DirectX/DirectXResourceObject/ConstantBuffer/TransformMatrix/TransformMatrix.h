@@ -1,18 +1,17 @@
 #pragma once
 
-#include "Engine/DirectX/DirectXResourceObject/BufferObjects.h"
+#include "Engine/Math/Matrix4x4.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
-class TransformMatrix final : public ConstantBuffer<TransformationMatrixData> {
+class TransformMatrix final : public ConstantBuffer<Matrix4x4> {
 public:
 	TransformMatrix() noexcept(false);
 	~TransformMatrix() noexcept;
 
-	TransformMatrix(const TransformationMatrixData& transformMatrixData) noexcept(false);
+	TransformMatrix(const Matrix4x4& transformMatrixData) noexcept(false);
 
 public:
 	void set_transformation_matrix_data(
-		Matrix4x4&& world, 
-		const Matrix4x4& cameraVP
+		Matrix4x4&& world
 	) noexcept;
 };

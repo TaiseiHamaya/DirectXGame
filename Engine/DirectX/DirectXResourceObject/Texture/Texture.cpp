@@ -16,11 +16,11 @@ Texture::~Texture() noexcept = default;
 
 void Texture::set_command() const {
 	if (heapIndex.has_value()) {
-		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(2, gpuHandle); // Texture
+		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(4, gpuHandle); // Texture
 	}
 	else {
 		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(
-			2, TextureManager::GetTexture("Error.png").lock()->gpuHandle
+			4, TextureManager::GetTexture("Error.png").lock()->gpuHandle
 		); // Texture
 	}
 }
@@ -39,7 +39,8 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 	return height;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& filePath) {
+Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& directoryPath, const std::string& fileName) {
+	std::string filePath = directoryPath + "/" + fileName;
 	Log("[Texture] Start load texture. file-\'" + filePath + "\'\n");
 	DirectX::ScratchImage mipImages;
 	auto loadData = LoadTextureData(filePath); // ロード
@@ -72,7 +73,10 @@ void Texture::create_resource_view() {
 	// textureResourceに転送
 	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, textureSrvHandleCPU);
 	Log("[Texture] Success.\n");
-	resource->SetName(std::format(L"Texture-{}", heapIndex.value()).c_str());
+}
+
+void Texture::set_name(const std::string& fileName) {
+	resource->SetName(ConvertString(std::format("Texture-SRV{}({})", heapIndex.value(), fileName)).c_str());
 }
 
 void Texture::create_texture_resource(const DirectX::TexMetadata& metadata) {

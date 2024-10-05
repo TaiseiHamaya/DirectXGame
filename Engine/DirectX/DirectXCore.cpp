@@ -12,7 +12,6 @@
 #include "Engine/Debug/ImGuiManager/ImGuiManager.h"
 #endif // _DEBUG
 
-#include "Engine/WinApp.h"
 #include "Engine/Utility/Utility.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
@@ -26,9 +25,6 @@
 #include "Engine/DirectX/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/Render/RenderPathManager/RenderPathManager.h"
 #include "Engine/Module/GameObject/GameObject.h"
-
-#include "Engine/Module/Camera/Camera2D.h"
-#include "Engine/Module/Camera/Camera3D.h"
 
 #include "Engine/Math/Vector3.h"
 #include "Engine/Module/Color/Color.h"
@@ -87,8 +83,8 @@ void DirectXCore::ShowDebugTools() {
 }
 #endif // _DEBUG
 
-void DirectXCore::ShowGrid(const Camera3D& camera) {
-	GetInstance().gridMesh->begin_rendering(camera);
+void DirectXCore::ShowGrid() {
+	GetInstance().gridMesh->begin_rendering();
 	GetInstance().gridMesh->draw();
 }
 

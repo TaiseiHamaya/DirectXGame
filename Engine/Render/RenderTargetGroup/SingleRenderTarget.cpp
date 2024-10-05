@@ -22,7 +22,11 @@ void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {
 	create_view_port(width, hight);
 }
 
-const OffscreenRender& SingleRenderTarget::main_offscreen_render() {
+const OffscreenRender& SingleRenderTarget::offscreen_render() const {
+	return *renderTarget;
+}
+
+OffscreenRender& SingleRenderTarget::offscreen_render() {
 	return *renderTarget;
 }
 

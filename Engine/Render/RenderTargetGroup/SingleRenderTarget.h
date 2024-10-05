@@ -32,7 +32,9 @@ public:
 	/// レンダーターゲットの取得
 	/// </summary>
 	/// <returns></returns>
-	const OffscreenRender& main_offscreen_render();
+	const OffscreenRender& offscreen_render() const;
+
+	OffscreenRender& offscreen_render();
 
 private:
 	/// <summary>

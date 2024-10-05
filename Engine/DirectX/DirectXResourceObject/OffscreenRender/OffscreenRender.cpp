@@ -20,7 +20,7 @@ void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) 
 	// テクスチャ用Viewの作成
 	create_textue_view();
 
-	resource->SetName(std::format(L"Offscreen-{}", rtvHeapIndex.value()).c_str());
+	resource->SetName(std::format(L"Offscreen-RTV{}, SRV{}", rtvHeapIndex.value(), srvHeapIndex.value()).c_str());
 }
 
 void OffscreenRender::create_resource(UINT64 width, UINT height, DXGI_FORMAT format) {

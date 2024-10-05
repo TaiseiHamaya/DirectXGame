@@ -1,15 +1,14 @@
 #include "TransformMatrix.h"
 
-TransformMatrix::TransformMatrix() : ConstantBuffer<TransformationMatrixData>() {
+TransformMatrix::TransformMatrix() : ConstantBuffer<Matrix4x4>() {
 }
 
 TransformMatrix::~TransformMatrix() noexcept = default;
 
-TransformMatrix::TransformMatrix(const TransformationMatrixData& transformMatrixData)
-	: ConstantBuffer<TransformationMatrixData>(transformMatrixData) {
+TransformMatrix::TransformMatrix(const Matrix4x4& transformMatrixData)
+	: ConstantBuffer<Matrix4x4>(transformMatrixData) {
 }
 
-void TransformMatrix::set_transformation_matrix_data(Matrix4x4&& world, const Matrix4x4& cameraVP) noexcept {
-	data->world = std::move(world);
-	data->wvp = data->world * cameraVP;
+void TransformMatrix::set_transformation_matrix_data(Matrix4x4&& world) noexcept {
+	*data = std::move(world);
 }

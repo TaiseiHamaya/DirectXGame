@@ -18,10 +18,19 @@ void DSVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::UseNextHandle() noexcept {
+const std::uint32_t DSVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Log(std::format("[SRVDescriptorHeap] Use DSV index. Index-\'{}\'\n", useIndex));
-	return GetInstance().get_cpu_handle(useIndex);
+	Log(std::format("[DSVDescriptorHeap] Use RSV index. Index-\'{}\'\n", useIndex));
+	return useIndex;
+}
+
+const D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {
+	return GetInstance().get_cpu_handle(index);
+}
+
+void DSVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
+	Log(std::format("[DSVDescriptorHeap] Release RSV index. Index-\'{}\'\n", index));
+	GetInstance().release_heap(index);
 }
 
 void DSVDescriptorHeap::create_descriptor_heap() {

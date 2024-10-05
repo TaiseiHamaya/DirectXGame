@@ -13,13 +13,13 @@ SingleRenderTargetNode::~SingleRenderTargetNode() noexcept = default;
 void SingleRenderTargetNode::set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_) {
 	if (renderTarget_) {
 		renderTarget = renderTarget_;
-		resultSvtHandle = renderTarget_->main_offscreen_render().texture_gpu_handle();
+		resultSvtHandle = renderTarget_->offscreen_render().texture_gpu_handle();
 	}
 	else {
 		auto temp = std::make_shared<SingleRenderTarget>();
 		renderTarget = temp;
 		renderTarget->initialize();
-		resultSvtHandle = temp->main_offscreen_render().texture_gpu_handle();
+		resultSvtHandle = temp->offscreen_render().texture_gpu_handle();
 	}
 }
 

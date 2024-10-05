@@ -29,7 +29,7 @@ private:
 #ifdef _DEBUG
 public:
 	void debug_gui();
-	void debug_draw3d(const Camera3D& camera);
+	void debug_draw3d();
 	static void LoadDebugDrawMesh();
 #endif // _DEBUG
 

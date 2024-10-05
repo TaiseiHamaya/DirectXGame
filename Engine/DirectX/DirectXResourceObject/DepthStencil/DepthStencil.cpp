@@ -1,6 +1,7 @@
 #include "DepthStencil.h"
 
 #include <cassert>
+#include <format>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
@@ -9,9 +10,9 @@
 
 void DepthStencil::initialize(DXGI_FORMAT format, std::uint32_t width, std::uint32_t height) {
 	create_depth_stencil_texture_resource(width, height, format);
-	resource->SetName(L"DepthStencil");
 	create_dsv();
 	create_srv();
+	resource->SetName(std::format(L"DepthStencil-DSV{}, SRV{}", dsvHeapIndex.value(), srvHeapIndex.value()).c_str());
 	// DepthStencilの設定
 	depthStencilDesc.DepthEnable = true;
 	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
@@ -19,6 +20,27 @@ void DepthStencil::initialize(DXGI_FORMAT format, std::uint32_t width, std::uint
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
 	// 最初は描画していない状態
 	isWriting = false;
+}
+
+void DepthStencil::change_resource_state() {
+	DirectXCommand::SetBarrier(
+		resource,
+		isWriting ? D3D12_RESOURCE_STATE_DEPTH_WRITE : D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+		isWriting ? D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE : D3D12_RESOURCE_STATE_DEPTH_WRITE
+	);
+	// 描画の状態を反転
+	isWriting = isWriting ^ 0b1;
+}
+
+void DepthStencil::release_index() {
+	if (dsvHeapIndex.has_value()) {
+		DSVDescriptorHeap::ReleaseHeapIndex(dsvHeapIndex.value());
+	}
+	if (srvHeapIndex.has_value()) {
+		SRVDescriptorHeap::ReleaseHeapIndex(srvHeapIndex.value());
+	}
+	dsvHeapIndex = std::nullopt;
+	srvHeapIndex = std::nullopt;
 }
 
 const D3D12_CPU_DESCRIPTOR_HANDLE& DepthStencil::get_dsv_cpu_handle() const noexcept {
@@ -31,16 +53,6 @@ const D3D12_DEPTH_STENCIL_DESC& DepthStencil::get_desc() const noexcept {
 
 D3D12_GPU_DESCRIPTOR_HANDLE DepthStencil::texture_gpu_handle() const {
 	return srvGPUHandle;
-}
-
-void DepthStencil::change_resource_state() {
-	DirectXCommand::SetBarrier(
-		resource,
-		isWriting ? D3D12_RESOURCE_STATE_DEPTH_WRITE : D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		isWriting ? D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE : D3D12_RESOURCE_STATE_DEPTH_WRITE
-	);
-	// 描画の状態を反転
-	isWriting = isWriting ^ 0b1;
 }
 
 void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height, DXGI_FORMAT format) {
@@ -77,7 +89,8 @@ void DepthStencil::create_dsv() {
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.Format = resource->GetDesc().Format;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D; // 画面全体なので2D
-	dsvCPUHandle = DSVDescriptorHeap::UseNextHandle();
+	dsvHeapIndex = DSVDescriptorHeap::UseHeapIndex();
+	dsvCPUHandle = DSVDescriptorHeap::GetCPUHandle(dsvHeapIndex.value());
 	// viewの作成
 	DirectXDevice::GetDevice()->CreateDepthStencilView(
 		resource.Get(),

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <format>
 #include <unordered_map>
 
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
@@ -27,6 +28,12 @@ bool PolygonMesh::load(const std::string& directoryPath, const std::string& file
 	result = load_mtl_file();
 	if (!result) {
 		return result;
+	}
+
+	for (int index = 0; auto & meshData : meshDatas) {
+		meshData.vertices->get_resource()->SetName(ConvertString(std::format("VertexBuffer-{}({})", index, fileName)).c_str());
+		meshData.indexes->get_resource()->SetName(ConvertString(std::format("IndexBuffer-{}({})", index, fileName)).c_str());
+		++index;
 	}
 
 	Log("[PolygonMesh] Success\n");

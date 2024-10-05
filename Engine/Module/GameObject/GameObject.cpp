@@ -24,7 +24,7 @@ GameObject::GameObject() noexcept(false) :
 	transform(std::make_unique<Transform3D>()),
 	hierarchy(std::make_unique<Hierarchy>()) {
 	meshMaterials.clear();
-	hierarchy->initialize(transformMatrix->get_data()->world);
+	hierarchy->initialize(*transformMatrix->get_data());
 }
 
 GameObject::GameObject(const std::string& meshName_) noexcept(false) :
@@ -44,7 +44,7 @@ void GameObject::begin() {
 void GameObject::update() {
 }
 
-void GameObject::begin_rendering(const Camera3D& camera) noexcept {
+void GameObject::begin_rendering() noexcept {
 	// 行列計算
 	Matrix4x4 worldMatrix = transform->get_matrix();
 	if (hierarchy->has_parent()) {
@@ -53,14 +53,7 @@ void GameObject::begin_rendering(const Camera3D& camera) noexcept {
 
 	// 各情報をGPUに転送
 	// Transformに転送
-	transformMatrix->set_transformation_matrix_data(
-		std::move(worldMatrix),
-#ifdef _DEBUG
-		camera.vp_matrix_draw()
-#else
-		camera.vp_matrix()
-#endif // _DEBUG
-	);
+	transformMatrix->set_transformation_matrix_data(std::move(worldMatrix));
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
@@ -81,7 +74,7 @@ void GameObject::draw() const {
 		commandList->IASetVertexBuffers(0, 1, meshLocked->get_p_vbv(i)); // VBV
 		commandList->IASetIndexBuffer(meshLocked->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
-		commandList->SetGraphicsRootConstantBufferView(1, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
+		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
 		if (meshMaterials[i].texture.expired()) {
 			// テクスチャ情報が存在しないならエラーテクスチャを使用
 			TextureManager::GetTexture("Error.png").lock()->set_command();
@@ -153,7 +146,7 @@ const Transform3D& GameObject::get_transform() const noexcept {
 }
 
 const Matrix4x4& GameObject::world_matrix() const {
-	return transformMatrix->get_data()->world;
+	return *transformMatrix->get_data();
 }
 
 const Vector3 GameObject::world_position() const {

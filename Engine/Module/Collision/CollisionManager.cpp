@@ -100,7 +100,7 @@ void CollisionManager::debug_gui() {
 	}
 }
 
-void CollisionManager::debug_draw3d(const Camera3D& camera) {
+void CollisionManager::debug_draw3d() {
 	if (!isShowDebugDraw) {
 		return;
 	}
@@ -108,7 +108,7 @@ void CollisionManager::debug_draw3d(const Camera3D& camera) {
 		auto listLocked = list.lock();
 		if (listLocked) {
 			auto& drawer = listLocked->get_collider_drawer();
-			drawer.begin_rendering(camera);
+			drawer.begin_rendering();
 			drawer.draw();
 		}
 	}

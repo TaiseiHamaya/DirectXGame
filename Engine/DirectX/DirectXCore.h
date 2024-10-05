@@ -1,7 +1,7 @@
 #pragma once
 
-#include <d3d12.h>
 #include <memory>
+
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class GameObject;
@@ -37,7 +37,7 @@ public:
 	/// <summary>
 	/// デバッグ用グリッドの表示
 	/// </summary>
-	static void ShowGrid(const Camera3D& camera);
+	static void ShowGrid();
 
 private:
 	static DirectXCore& GetInstance();

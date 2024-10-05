@@ -109,7 +109,7 @@ void BackgroundLoader::load_manager() {
 			// テクスチャロードイベント
 			auto& tex = std::get<LoadingQue::LoadTextureData>(nowEvent->data->loadData);
 			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
-			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath + "/" + nowEvent->data->fileName);
+			tex.intermediateResource = tex.textureData->load_texture(nowEvent->data->filePath, nowEvent->data->fileName);
 			if (tex.intermediateResource) {
 				result = true;
 			}
@@ -190,6 +190,7 @@ void BackgroundLoader::create_texture_view() {
 			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);
 			// ビューの作成
 			tex.textureData->create_resource_view();
+			tex.textureData->set_name(waitLoadingQueItr->data->fileName);
 		}
 	}
 }

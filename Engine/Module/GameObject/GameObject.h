@@ -31,7 +31,7 @@ private:
 public:
 	virtual void begin();
 	virtual void update();
-	virtual void begin_rendering(const Camera3D& camera) noexcept;
+	virtual void begin_rendering() noexcept;
 	virtual void late_update();
 	virtual void draw() const;
 

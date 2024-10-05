@@ -7,12 +7,11 @@
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
-	D3D12_INPUT_ELEMENT_DESC desc{};
-	desc.SemanticName = semanticName;
-	desc.SemanticIndex = semanticIndex;
-	desc.Format = format;
-	desc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT; // 末尾に追加
-	inputElementDescs.emplace_back(std::move(desc));
+	D3D12_INPUT_ELEMENT_DESC& inputElementDesc = inputElementDescs.emplace_back();
+	inputElementDesc.SemanticName = semanticName;
+	inputElementDesc.SemanticIndex = semanticIndex;
+	inputElementDesc.Format = format;
+	inputElementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT; // 末尾に追加
 }
 
 const std::vector<D3D12_INPUT_ELEMENT_DESC>& InputLayoutBuilder::build() {
@@ -44,31 +43,28 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 }
 
 void RootSignatureBuilder::add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister) {
-	D3D12_ROOT_PARAMETER rootParameter{};
+	D3D12_ROOT_PARAMETER& rootParameter = rootParameters.emplace_back();
 	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV; // ConstantBufferView
 	rootParameter.ShaderVisibility = visibility; // VertexShader
 	rootParameter.Descriptor.ShaderRegister = shaderRagister; // レジスタ番号0
-	rootParameters.emplace_back(std::move(rootParameter));
 }
 
 void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors) {
-	D3D12_DESCRIPTOR_RANGE descriptorRange{};
+	D3D12_DESCRIPTOR_RANGE& descriptorRange = descriptorRanges.emplace_back();
 	descriptorRange.BaseShaderRegister = baseShaderRegister;
 	descriptorRange.NumDescriptors = numDescriptors;
 	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // 自動計算する
-	descriptorRanges.emplace_back(std::move(descriptorRange));
 
-	D3D12_ROOT_PARAMETER rootParameter{};
+	D3D12_ROOT_PARAMETER& rootParameter = rootParameters.emplace_back();
 	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescriptorTableを使う
 	rootParameter.ShaderVisibility = visibility;
 	rootParameter.DescriptorTable.pDescriptorRanges = &descriptorRanges.back(); // デスクリプタの中身の設定
 	rootParameter.DescriptorTable.NumDescriptorRanges = descriptorRanges.back().NumDescriptors; // Tableで使用する数
-	rootParameters.emplace_back(std::move(rootParameter));
 }
 
 void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
-	D3D12_STATIC_SAMPLER_DESC staticSampler{}; // サンプラーの設定
+	D3D12_STATIC_SAMPLER_DESC& staticSampler = staticSamplers.emplace_back();
 	staticSampler.MaxAnisotropy = 16; // 異方性の場合はx16にする
 	staticSampler.Filter = filter; // フィルタ
 	staticSampler.AddressU = textureMore; // 0-1範囲外はリピート
@@ -78,7 +74,6 @@ void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shad
 	staticSampler.MaxLOD = D3D12_FLOAT32_MAX; // すべてのMipmapを使う
 	staticSampler.ShaderRegister = shaderRagister;
 	staticSampler.ShaderVisibility = visibility;
-	staticSamplers.emplace_back(std::move(staticSampler));
 }
 
 Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
