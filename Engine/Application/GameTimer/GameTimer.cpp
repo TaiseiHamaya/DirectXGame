@@ -91,7 +91,7 @@ void GameTimer::IsFixDeltaTime(bool boolean) {
 #include <imgui.h>
 void GameTimer::DebugGui() {
 	auto&& instance = GetInstance();
-	ImGui::Text(std::format("DeltaTime : {:3.5}ms", instance.deltaTime * 1000.0f).c_str());
+	ImGui::Text(std::format("DeltaTime : {:03.5}ms", instance.deltaTime * 1000.0f).c_str());
 	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
 	ImGui::Checkbox("IsFixDeltaTime", &instance.isFixDeltaTime);
 	ImGui::Checkbox("IsUnlimitedFPS", &instance.isUnlimitedRefreshRate);
