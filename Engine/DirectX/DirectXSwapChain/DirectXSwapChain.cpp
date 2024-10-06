@@ -9,6 +9,7 @@
 #include "Engine/Render/RenderNode/BaseRenderNode.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/WinApp.h"
+#include "Engine/Application/GameTimer/GameTimer.h"
 
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
@@ -62,6 +63,9 @@ void DirectXSwapChain::create_swapchain() {
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
 	swapChainDesc.BufferCount = SWAPCHAIN_HEAP; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
+#ifdef _DEBUG
+	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
+#endif // _DEBUG
 	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc{};
 	fullscreenDesc.RefreshRate.Denominator = 1;
 	fullscreenDesc.RefreshRate.Numerator = 60;
@@ -92,6 +96,15 @@ void DirectXSwapChain::create_render_terget() {
 }
 
 void DirectXSwapChain::swap_screen() {
-	swapChain->Present(0, 0);
+#ifdef _DEBUG
+	if (GameTimer::IsUnlimitedFPS()) {
+		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
+	}
+	else {
+		swapChain->Present(0, 0);
+	}
+#else
+	swapChain->Present(1, 0);
+#endif // _DEBUG
 	backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 }

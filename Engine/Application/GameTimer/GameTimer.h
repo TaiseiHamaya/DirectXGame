@@ -28,6 +28,7 @@ public:
 public:
 	static void IsFixDeltaTime(bool boolean);
 	static void DebugGui();
+	static bool IsUnlimitedFPS() { return GetInstance().isUnlimitedRefreshRate; };
 #endif // _DEBUG
 
 private:
@@ -41,6 +42,7 @@ private:
 
 #ifdef _DEBUG
 	bool isFixDeltaTime;
+	bool isUnlimitedRefreshRate;
 #endif // _DEBUG
 };
 

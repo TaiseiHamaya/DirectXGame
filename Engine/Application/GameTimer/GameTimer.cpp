@@ -94,6 +94,7 @@ void GameTimer::DebugGui() {
 	ImGui::Text(std::format("DeltaTime : {:3.5}ms", instance.deltaTime * 1000.0f).c_str());
 	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
 	ImGui::Checkbox("IsFixDeltaTime", &instance.isFixDeltaTime);
+	ImGui::Checkbox("IsUnlimitedFPS", &instance.isUnlimitedRefreshRate);
 
 }
 #endif // _DEBUG
