@@ -6,7 +6,7 @@
 #include "Engine/Debug/Output.h"
 #include "Engine/DirectX/DirectXCore.h"
 #include "Engine/Application/Audio/AudioManager.h"
-#include "Engine/Application/GameTimer/GameTimer.h"
+#include "Engine/Application/WorldClock/WorldClock.h"
 #include "Engine/Application/Scene/SceneManager.h"
 #include "Engine/Application/Input/Input.h"
 
@@ -61,7 +61,8 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 
 	Input::Initialize();
 
-	GameTimer::Initialize();
+	WorldClock::Initialize();
+
 	Console("Complite initialize application.\n");
 }
 
@@ -83,8 +84,8 @@ bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
 
 void WinApp::BeginFrame() {
 	instance->begin_frame();
+	WorldClock::Update();
 	Input::Update();
-	GameTimer::Update();
 }
 
 void WinApp::EndFrame() {
@@ -176,7 +177,7 @@ void WinApp::wait_frame() {
 	using namespace std::literals::chrono_literals;
 	using millisecond_f = std::chrono::duration<float, std::milli>;
 
-	auto& begin = GameTimer::BeginTime();
+	auto& begin = WorldClock::BeginTime();
 	while (true) {
 		auto now = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<millisecond_f>(now - begin);

@@ -9,7 +9,6 @@
 #include "Engine/Render/RenderNode/BaseRenderNode.h"
 #include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/WinApp.h"
-#include "Engine/Application/GameTimer/GameTimer.h"
 
 DirectXSwapChain::DirectXSwapChain() noexcept {
 	// 最初は描画していない状態
@@ -95,9 +94,13 @@ void DirectXSwapChain::create_render_terget() {
 	renderTarget->initialize();
 }
 
+#ifdef _DEBUG
+#include "Engine/Application/WorldClock/WorldClock.h"
+#endif // _DEBUG
+
 void DirectXSwapChain::swap_screen() {
 #ifdef _DEBUG
-	if (GameTimer::IsUnlimitedFPS()) {
+	if (WorldClock::IsUnlimitedFPS()) {
 		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 	}
 	else {

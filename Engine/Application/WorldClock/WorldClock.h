@@ -3,24 +3,24 @@
 #include <chrono>
 #include <list>
 
-class GameTimer {
+class WorldClock {
 private:
-	GameTimer() = default;
+	WorldClock() = default;
 
 public:
-	~GameTimer() = default;
+	~WorldClock() = default;
 
-	GameTimer(const GameTimer&) = delete;
-	GameTimer& operator=(const GameTimer&) = delete;
+	WorldClock(const WorldClock&) = delete;
+	WorldClock& operator=(const WorldClock&) = delete;
 
 public:
-	static GameTimer& GetInstance();
+	static WorldClock& GetInstance();
 
 	static void Initialize();
 	static void Update();
 
 public:
-	static float DeltaTime();
+	static float DeltaSeconds();
 	static float AverageFPS();
 	static const std::chrono::high_resolution_clock::time_point& BeginTime();
 
@@ -32,7 +32,7 @@ public:
 #endif // _DEBUG
 
 private:
-	float deltaTime;
+	float deltaSeconds;
 	std::chrono::high_resolution_clock::time_point startFrameTimePoint;
 
 	std::list<std::pair<float, size_t>> frameTimeInfomation;

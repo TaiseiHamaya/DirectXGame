@@ -112,10 +112,10 @@ void CollisionManager::debug_draw3d() {
 	if (!isShowDebugDraw) {
 		return;
 	}
-	for (const auto& list : colliderList | std::views::values) {
-		auto listLocked = list.lock();
-		if (listLocked && listLocked->is_active()) {
-			auto& drawer = listLocked->get_collider_drawer();
+	for (const auto& collider : colliderList | std::views::values) {
+		auto colliderLocked = collider.lock();
+		if (colliderLocked && colliderLocked->is_active()) {
+			auto& drawer = colliderLocked->get_collider_drawer();
 			drawer.begin_rendering();
 			drawer.draw();
 		}

@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "Engine/Application/GameTimer/GameTimer.h"
+#include "Engine/Application/WorldClock/WorldClock.h"
 
 template<class Type>
 class TimedCall {
@@ -36,7 +36,7 @@ inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, float time_) 
 
 template<class Type>
 inline void TimedCall<Type>::update() {
-	time -= GameTimer::DeltaTime();
+	time -= WorldClock::DeltaSeconds();
 	if (time <= 0) {
 		isFinished = true;
 		function();

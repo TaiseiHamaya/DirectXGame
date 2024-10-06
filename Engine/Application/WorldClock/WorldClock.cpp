@@ -1,29 +1,29 @@
-#include "GameTimer.h"
+#include "WorldClock.h"
 
 #include <ratio>
 #include <thread>
 
 namespace chrono = std::chrono;
 
-GameTimer& GameTimer::GetInstance() {
-	static GameTimer instance{};
+WorldClock& WorldClock::GetInstance() {
+	static WorldClock instance{};
 	return instance;
 }
 
-void GameTimer::Initialize() {
+void WorldClock::Initialize() {
 	auto& instance = GetInstance();
 	instance.startFrameTimePoint = chrono::high_resolution_clock::now();
 	std::this_thread::sleep_for(std::chrono::microseconds(16667));
 	instance.frameTimeInfomation = {};
 	instance.fpsSummation = 0;
-	instance.deltaTime = 1.0f / 60.0f;
+	instance.deltaSeconds = 1.0f / 60.0f;
 	instance.timeSummation = 0;
 #ifdef _DEBUG
 	instance.isFixDeltaTime = false;
 #endif // _DEBUG
 }
 
-void GameTimer::Update() {
+void WorldClock::Update() {
 	// 少数型秒のusing
 	using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
 
@@ -35,17 +35,17 @@ void GameTimer::Update() {
 	auto secDuration = chrono::duration_cast<second_f>(now - instance.startFrameTimePoint);
 	// deltaTimeとして記録
 #ifdef _DEBUG
-	instance.deltaTime = instance.isFixDeltaTime ? std::min((1.0f / 60), secDuration.count()) : secDuration.count();
+	instance.deltaSeconds = instance.isFixDeltaTime ? std::min((1.0f / 60), secDuration.count()) : secDuration.count();
 #else
-	instance.deltaTime = secDuration.count();
+	instance.deltaSeconds = secDuration.count();
 #endif // _DEBUG
 
 
 	// 平均フレーム秒を算出
 	// リストに追加
-	auto& newFrameInfo = instance.frameTimeInfomation.emplace_back(instance.deltaTime, 0);
+	auto& newFrameInfo = instance.frameTimeInfomation.emplace_back(instance.deltaSeconds, 0);
 	// 追加分だけ総和にも追加
-	instance.timeSummation += instance.deltaTime;
+	instance.timeSummation += instance.deltaSeconds;
 	// 1以上の場合
 	while (instance.timeSummation > 1.0f) {
 		auto& deleteValue = instance.frameTimeInfomation.front();
@@ -71,27 +71,30 @@ void GameTimer::Update() {
 	instance.startFrameTimePoint = now;
 }
 
-float GameTimer::DeltaTime() {
-	return GetInstance().deltaTime;
+float WorldClock::DeltaSeconds() {
+	return GetInstance().deltaSeconds;
 }
 
-float GameTimer::AverageFPS() {
+float WorldClock::AverageFPS() {
 	return GetInstance().averageFPS;
 }
 
-const std::chrono::high_resolution_clock::time_point& GameTimer::BeginTime() {
+const std::chrono::high_resolution_clock::time_point& WorldClock::BeginTime() {
 	return GetInstance().startFrameTimePoint;
 }
 
 #ifdef _DEBUG
-void GameTimer::IsFixDeltaTime(bool boolean) {
+void WorldClock::IsFixDeltaTime(bool boolean) {
 	GetInstance().isFixDeltaTime = boolean;
 }
 
 #include <imgui.h>
-void GameTimer::DebugGui() {
+void WorldClock::DebugGui() {
 	auto&& instance = GetInstance();
-	ImGui::Text(std::format("DeltaTime : {:03.5}ms", instance.deltaTime * 1000.0f).c_str());
+	float deltaMS = instance.deltaSeconds * 1000.0f;
+	uint32_t msInteger = static_cast<uint32_t>(deltaMS);
+	uint32_t msDecimal = static_cast<uint32_t>((deltaMS - std::floor(deltaMS)) * 1e4f);
+	ImGui::Text(std::format("Delta : {:>5}.{:0>4}ms", msInteger, msDecimal).c_str());
 	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
 	ImGui::Checkbox("IsFixDeltaTime", &instance.isFixDeltaTime);
 	ImGui::Checkbox("IsUnlimitedFPS", &instance.isUnlimitedRefreshRate);

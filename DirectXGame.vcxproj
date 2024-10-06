@@ -115,10 +115,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Application\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Application\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Application\Audio\AudioResource.cpp" />
-    <ClCompile Include="Engine\Application\GameTimer\GameTimer.cpp" />
     <ClCompile Include="Engine\Application\Input\Input.cpp" />
     <ClCompile Include="Engine\Application\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Application\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp" />
     <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp" />
     <ClCompile Include="Engine\Debug\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Debug\Output.cpp" />
@@ -190,11 +190,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Application\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Application\Audio\AudioResource.h" />
-    <ClInclude Include="Engine\Application\GameTimer\GameTimer.h" />
     <ClInclude Include="Engine\Application\Input\Input.h" />
     <ClInclude Include="Engine\Application\Input\InputEnum.h" />
     <ClInclude Include="Engine\Application\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Application\Scene\SceneManager.h" />
+    <ClInclude Include="Engine\Application\WorldClock\WorldClock.h" />
     <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h" />
     <ClInclude Include="Engine\Debug\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Engine\Debug\Output.h" />

@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize("DirectXGame", kClientWidth, kClientHight);
 
 #ifdef _DEBUG
-	GameTimer::IsFixDeltaTime(false);
+	WorldClock::IsFixDeltaTime(false);
 #endif // _DEBUG
 
 	SceneManager::Initialize(std::make_unique<SceneDemo>());
