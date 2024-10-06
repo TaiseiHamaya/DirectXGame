@@ -121,6 +121,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Application\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp" />
     <ClCompile Include="Engine\Debug\ImGuiManager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Debug\Output.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCore.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp" />

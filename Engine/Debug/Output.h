@@ -1,21 +1,19 @@
 #pragma once
 
-#define NOMINMAX
-
-#include <Windows.h>
-
 #include <format>
 
-#include "Engine/Utility/ConvertString.h"
+void ConsoleA(const std::string& msg);
+
+void ConsoleW(const std::wstring& msg);
 
 template<typename ...Args>
 inline void Console(std::format_string<Args...> msg, Args && ...args) {
 	std::string message = std::format(msg, std::forward<Args>(args)...);
-	OutputDebugStringA(message.c_str());
+	ConsoleA(message.c_str());
 }
 
 template<typename ...Args>
 inline void Console(std::wformat_string<Args...> msg, Args && ...args) {
 	std::wstring message = std::format(msg, std::forward<Args>(args)...);
-	OutputDebugStringA(ConvertString(message).c_str());
+	ConsoleW(message);
 }

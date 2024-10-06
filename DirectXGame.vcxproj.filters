@@ -262,6 +262,9 @@
     <Filter Include="Engine\Utility\SmartPointer">
       <UniqueIdentifier>{378b6594-e092-4845-b0f7-185254b66c03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Utility\ComPtr">
+      <UniqueIdentifier>{20e07162-3bdd-43e4-b978-ca0158d2786a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Utility\ConvertString.cpp">
       <Filter>Engine\Utility\ConvertString</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Output.cpp">
+      <Filter>Engine\Debug\Output</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

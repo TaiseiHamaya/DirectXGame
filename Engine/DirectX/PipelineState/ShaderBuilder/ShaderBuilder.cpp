@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "Engine/DirectX/ShaderCompiler/ShaderCompiler.h"
-#include "Engine/Debug/Output.h"
+#include "Engine/Utility/ConvertString.h"
 
 void ShaderBuilder::initialize(const std::string& vertexShaderFilePath, const std::string& pixelShaderFilePath) {
 	create_vertex_shader(vertexShaderFilePath);
