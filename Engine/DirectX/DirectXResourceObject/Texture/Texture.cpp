@@ -7,7 +7,7 @@
 #include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
 
 Texture::Texture() noexcept = default;
@@ -41,11 +41,11 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& directoryPath, const std::string& fileName) {
 	std::string filePath = directoryPath + "/" + fileName;
-	Log("[Texture] Start load texture. file-\'{}\'\n", filePath);
+	Console("[Texture] Start load texture. file-\'{}\'\n", filePath);
 	DirectX::ScratchImage mipImages;
 	auto loadData = LoadTextureData(filePath); // ロード
 	if (!loadData.has_value()) {
-		Log("[Texture] Faild loading texture.\n");
+		Console("[Texture] Faild loading texture.\n");
 		return 0;
 	}
 	mipImages = std::move(loadData.value());
@@ -60,19 +60,19 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& 
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; // 2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-	Log("[Texture] Success intermediate.\n");
+	Console("[Texture] Success intermediate.\n");
 	return intermediateResource;
 }
 
 void Texture::create_resource_view() {
-	Log("[Texture] Create texture resource view.\n");
+	Console("[Texture] Create texture resource view.\n");
 	// 使用するディスクリプタヒープを取得
 	heapIndex = SRVDescriptorHeap::UseHeapIndex();
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());
 	gpuHandle = SRVDescriptorHeap::GetGPUHandle(heapIndex.value());
 	// textureResourceに転送
 	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, textureSrvHandleCPU);
-	Log("[Texture] Success.\n");
+	Console("[Texture] Success.\n");
 }
 
 void Texture::set_name(const std::string& fileName) {

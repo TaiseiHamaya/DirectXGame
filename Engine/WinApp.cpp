@@ -3,7 +3,7 @@
 #include <cassert>
 //#include <thread>
 
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 #include "Engine/DirectX/DirectXCore.h"
 #include "Engine/Application/Audio/AudioManager.h"
 #include "Engine/Application/GameTimer/GameTimer.h"
@@ -62,13 +62,13 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	Input::Initialize();
 
 	GameTimer::Initialize();
-	Log("Complite initialize application.\n");
+	Console("Complite initialize application.\n");
 }
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
-	Log("Show application window.\n");
+	Console("Show application window.\n");
 }
 
 bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
@@ -93,10 +93,10 @@ void WinApp::EndFrame() {
 
 void WinApp::Finalize() {
 	// 終了通知
-	Log("End Program.\n");
+	Console("End Program.\n");
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
-	Log("Closed Window.\n");
+	Console("Closed Window.\n");
 
 	SceneManager::Finalize();
 
@@ -109,7 +109,7 @@ void WinApp::Finalize() {
 	CoUninitialize();
 	instance.reset();
 	// App
-	Log("Complite finalize application.\n");
+	Console("Complite finalize application.\n");
 }
 
 void WinApp::ProcessMessage() {

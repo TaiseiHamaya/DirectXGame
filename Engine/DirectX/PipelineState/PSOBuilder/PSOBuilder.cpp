@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 #include "Engine/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
@@ -33,7 +33,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 	// バイナリに変換
 	hr = D3D12SerializeRootSignature(&descriptionRootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, signatureBlob.GetAddressOf(), errorBlob.GetAddressOf());
 	if (FAILED(hr)) {
-		Log("{}", reinterpret_cast<char*>(errorBlob->GetBufferPointer())); // 失敗したらログを出す
+		Console("{}", reinterpret_cast<char*>(errorBlob->GetBufferPointer())); // 失敗したらログを出す
 		assert(false);
 	}
 	// 変換したバイナリからRootSignatureを生成

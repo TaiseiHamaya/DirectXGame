@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
 #include "Engine/Application/Scene/BaseScene.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 
 #include <cassert>
@@ -20,7 +20,7 @@ void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
 
 	SceneManager& instance = GetInstance();
 	assert(instance.sceneQue.empty());
-	Log("[SceneManager] Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get());
+	Console("[SceneManager] Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get());
 	// 最初にnullptrをemplace_backする
 	instance.sceneQue.emplace_back(nullptr);
 	instance.sceneQue.emplace_back(std::move(initScene));
@@ -64,7 +64,7 @@ void SceneManager::Draw() {
 void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, float interval, bool isStackInitialScene, bool isStopLoad) {
 	assert(nextScenePtr);
 	SceneManager& instance = GetInstance();
-	Log("[SceneManager] Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
+	Console("[SceneManager] Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
 		interval,
@@ -106,7 +106,7 @@ void SceneManager::PopScene(float interval) {
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Log("[SceneManager] Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},\n",
+	Console("[SceneManager] Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)instance.sceneChangeInfo.next.get(),
 		interval

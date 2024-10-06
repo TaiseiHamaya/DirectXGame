@@ -4,7 +4,7 @@
 #include <format>
 
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 
 template<typename T>
 class ConstantBuffer : public DirectXResourceObject {

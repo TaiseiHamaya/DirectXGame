@@ -9,7 +9,7 @@
 #include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/Module/PolygonMesh/PolygonMesh.h"
 #include "Engine/Module/Transform3D/Transform3D.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -106,7 +106,7 @@ void GameObject::default_material() {
 #ifdef _DEBUG
 			meshMaterials[i].textureName = "Error.png";
 #endif // _DEBUG
-			Log("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName);
+			Console("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName);
 		}
 		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
 	}

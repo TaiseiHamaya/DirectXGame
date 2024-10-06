@@ -8,7 +8,8 @@
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
+#include "Engine/Utility/SmartPointer.h"
 
 PolygonMesh::PolygonMesh() noexcept = default;
 
@@ -16,7 +17,7 @@ PolygonMesh::~PolygonMesh() noexcept = default;
 
 bool PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
 	bool result;
-	Log("[PolygonMesh] Start load .obj file. file-\'{}/{}\'\n", directoryPath, fileName);
+	Console("[PolygonMesh] Start load .obj file. file-\'{}/{}\'\n", directoryPath, fileName);
 	directory = directoryPath;
 	objectName = fileName;
 
@@ -35,7 +36,7 @@ bool PolygonMesh::load(const std::string& directoryPath, const std::string& file
 		++index;
 	}
 
-	Log("[PolygonMesh] Success\n");
+	Console("[PolygonMesh] Success\n");
 	return true;
 }
 
@@ -87,7 +88,7 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 	// ファイルを開く
 	std::ifstream file(directoryPath + "/" + objFileName);
 	if (!file.is_open()) {
-		Log("[PolygonMesh] File \'{}/{}\' is not found.\n", directoryPath, objFileName);
+		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directoryPath, objFileName);
 		return false;
 	}
 
@@ -216,7 +217,7 @@ bool PolygonMesh::load_mtl_file() {
 	// mtlファイルを開く
 	file.open(directory + "/" + mtlFileName);
 	if (!file.is_open()) {
-		Log("[PolygonMesh] File \'{}/{}\' is not found.\n", directory, mtlFileName);
+		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directory, mtlFileName);
 		return false;
 	}
 

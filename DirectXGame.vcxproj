@@ -180,7 +180,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Render\RenderTargetGroup\SingleRenderTarget.cpp" />
     <ClCompile Include="Engine\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp" />
     <ClCompile Include="Engine\Utility\BackgroundLoader\BackgroundLoader.cpp" />
-    <ClCompile Include="Engine\Utility\Utility.cpp" />
+    <ClCompile Include="Engine\Utility\ConvertString.cpp" />
     <ClCompile Include="Engine\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
@@ -196,6 +196,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h" />
     <ClInclude Include="Engine\Debug\ImGuiManager\ImGuiManager.h" />
+    <ClInclude Include="Engine\Debug\Output.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="Engine\DirectX\DirectXCore.h" />
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h" />
@@ -260,8 +261,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Render\RenderTargetGroup\SwapChainRenderTargetGroup.h" />
     <ClInclude Include="Engine\Utility\BackgroundLoader\BackgroundLoader.h" />
     <ClInclude Include="Engine\Utility\Bitflag\bitflag.h" />
+    <ClInclude Include="Engine\Utility\ConvertString.h" />
+    <ClInclude Include="Engine\Utility\SmartPointer.h" />
     <ClInclude Include="Engine\Utility\TimedCall\TimedCall.h" />
-    <ClInclude Include="Engine\Utility\Utility.h" />
     <ClInclude Include="Engine\WinApp.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
   </ItemGroup>

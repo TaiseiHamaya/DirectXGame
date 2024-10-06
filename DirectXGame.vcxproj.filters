@@ -253,6 +253,15 @@
     <Filter Include="Game">
       <UniqueIdentifier>{9c839059-164e-4b43-94f7-24ed6b8e0ded}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Debug\Output">
+      <UniqueIdentifier>{0aef4221-0958-4fdb-be97-cdb11642a887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility\ConvertString">
+      <UniqueIdentifier>{54e423b1-e284-448e-998b-13f187255deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility\SmartPointer">
+      <UniqueIdentifier>{378b6594-e092-4845-b0f7-185254b66c03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -308,9 +317,6 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.cpp">
       <Filter>Engine\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Utility\Utility.cpp">
-      <Filter>Engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
       <Filter>Engine\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
@@ -471,6 +477,9 @@
     <ClCompile Include="Engine\Module\WorldInstance\WorldInstance.cpp">
       <Filter>Engine\Module\WorldInstance</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utility\ConvertString.cpp">
+      <Filter>Engine\Utility\ConvertString</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -532,9 +541,6 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.h">
       <Filter>Engine\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Utility\Utility.h">
-      <Filter>Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
       <Filter>Engine\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
@@ -706,6 +712,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\WorldInstance\WorldInstance.h">
       <Filter>Engine\Module\WorldInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\SmartPointer.h">
+      <Filter>Engine\Utility\SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Output.h">
+      <Filter>Engine\Debug\Output</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\ConvertString.h">
+      <Filter>Engine\Utility\ConvertString</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

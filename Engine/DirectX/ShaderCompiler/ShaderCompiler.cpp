@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 
 #pragma comment(lib, "dxcompiler.lib")
 
@@ -28,7 +28,7 @@ void ShaderCompiler::initialize() {
 
 [[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob>  ShaderCompiler::compile_shader(const std::wstring& filePath, const wchar_t* profile) {
 	HRESULT hr;
-	Log(L"[ShaderCompiler] Start compile shader. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 開始ログ
+	Console(L"[ShaderCompiler] Start compile shader. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 開始ログ
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> shaderSource = nullptr;
 	hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, shaderSource.GetAddressOf()); // ロード
 	assert(SUCCEEDED(hr)); // ファイル読み込みエラー
@@ -59,14 +59,14 @@ void ShaderCompiler::initialize() {
 	Microsoft::WRL::ComPtr<IDxcBlobUtf8> shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(shaderError.GetAddressOf()), nullptr); // エラーを取得
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
-		Log("{}", shaderError->GetStringPointer()); // CEだったら停止
+		Console("{}", shaderError->GetStringPointer()); // CEだったら停止
 		assert(false);
 	}
 
 	Microsoft::WRL::ComPtr<IDxcBlob>  shaderBlob = nullptr;
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(shaderBlob.GetAddressOf()), nullptr); // 成功したので書き込み
 	assert(SUCCEEDED(hr));
-	Log(L"[ShaderCompiler] Compile succeeded. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 成功ログ
+	Console(L"[ShaderCompiler] Compile succeeded. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 成功ログ
 
 	return shaderBlob;
 }

@@ -10,7 +10,7 @@
 #include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/Module/PolygonMesh/PolygonMesh.h"
-#include "Engine/Utility/Utility.h"
+#include "Engine/Debug/Output.h"
 
 std::mutex executeMutex;
 std::mutex referenceMutex;
@@ -59,7 +59,7 @@ void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::string& fil
 			std::make_unique<LoadingQue>(filePath, fileName, LoadingQue::LoadAudioData{ std::make_unique<AudioResource>() }));
 		break;
 	default:
-		Log("[BackgroundLoader] EventID is wrong.\n");
+		Console("[BackgroundLoader] EventID is wrong.\n");
 		break;
 	}
 	// 条件変数通知
@@ -133,7 +133,7 @@ void BackgroundLoader::load_manager() {
 		break;
 		default:
 			// デフォルトを通る場合はEventIDがおかしいので止める
-			Log("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}/{}\'\n\tIndex-\'{}\'\n",
+			Console("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}/{}\'\n\tIndex-\'{}\'\n",
 				static_cast<int>(nowEvent->eventId),
 				nowEvent->data->filePath,
 				nowEvent->data->fileName,
@@ -148,7 +148,7 @@ void BackgroundLoader::load_manager() {
 			waitLoadingQue.emplace_back(std::move(*nowEvent));
 		}
 		else {
-			Log("[BackgroundLoader] Faild loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
+			Console("[BackgroundLoader] Faild loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
 				nowEvent->data->filePath, nowEvent->data->fileName,
 				address
 			);
@@ -161,7 +161,7 @@ void BackgroundLoader::load_manager() {
 
 		// 空だったら自動execute
 		if (GetInstance().loadEvents.empty()) {
-			Log("[BackgroundLoader] Load events is empty. Start execute texture uploading.\n");
+			Console("[BackgroundLoader] Load events is empty. Start execute texture uploading.\n");
 			// 実行イベント
 			// コマンド実行
 			DirectXCommand::ExecuteTextureCommand();
@@ -169,7 +169,7 @@ void BackgroundLoader::load_manager() {
 			DirectXCommand::WaitTextureCommand();
 			// リセット
 			DirectXCommand::ResetTextureCommand();
-			Log("[BackgroundLoader] Successed.\n");
+			Console("[BackgroundLoader] Successed.\n");
 			// resourceViewの作成
 			create_texture_view();
 			transfer_data();
