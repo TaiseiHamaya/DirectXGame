@@ -6,7 +6,6 @@
 
 #include <cassert>
 #include <algorithm>
-#include <format>
 
 SceneManager& SceneManager::GetInstance() noexcept {
 	static SceneManager instance{};
@@ -21,7 +20,7 @@ void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
 
 	SceneManager& instance = GetInstance();
 	assert(instance.sceneQue.empty());
-	Log(std::format("[SceneManager] Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get()));
+	Log("[SceneManager] Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get());
 	// 最初にnullptrをemplace_backする
 	instance.sceneQue.emplace_back(nullptr);
 	instance.sceneQue.emplace_back(std::move(initScene));
@@ -65,13 +64,13 @@ void SceneManager::Draw() {
 void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, float interval, bool isStackInitialScene, bool isStopLoad) {
 	assert(nextScenePtr);
 	SceneManager& instance = GetInstance();
-	Log(std::format("[SceneManager] Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
+	Log("[SceneManager] Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
 		interval,
 		isStackInitialScene,
 		isStopLoad
-	));
+	);
 	// シーンがDefault状態でないと遷移させない
 	if (instance.sceneStatus != SceneStatus::DEFAULT){
 		return;
@@ -107,11 +106,11 @@ void SceneManager::PopScene(float interval) {
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Log(std::format("[SceneManager] Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},\n",
+	Log("[SceneManager] Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)instance.sceneChangeInfo.next.get(),
 		interval
-	));
+	);
 }
 
 bool SceneManager::IsEndProgram() noexcept {
@@ -157,6 +156,7 @@ void SceneManager::NextScene() {
 #ifdef _DEBUG
 
 #include <imgui.h>
+#include <format>
 
 void SceneManager::DebugGui() {
 	auto& instance = GetInstance();

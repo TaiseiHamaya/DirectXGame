@@ -1,6 +1,5 @@
 #include "PolygonMeshManager.h"
 
-#include <format>
 #include <mutex>
 
 #include "Engine/Module/PolygonMesh/PolygonMesh.h"
@@ -38,7 +37,7 @@ std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string&
 	}
 	else {
 		// 存在しないメッシュを呼び出したらエラー用メッシュを使用する
-		Log(std::format("[PolygonMeshManager] Unloading polygon mesh. Name-\'{:}\'\n", meshName));
+		Log("[PolygonMeshManager] Unloading polygon mesh. Name-\'{:}\'\n", meshName);
 		return GetInstance().meshInstanceList.at("ErrorObject.obj");
 	}
 }
@@ -50,7 +49,7 @@ bool PolygonMeshManager::IsRegistered(const std::string& meshName) {
 
 void PolygonMeshManager::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	Log(std::format("[PolygonMeshManager] Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
+	Log("[PolygonMeshManager] Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().meshInstanceList.emplace(name, data);
 }
 

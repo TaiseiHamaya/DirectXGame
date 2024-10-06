@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <mutex>
-#include <format>
 
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
@@ -134,13 +133,13 @@ void BackgroundLoader::load_manager() {
 		break;
 		default:
 			// デフォルトを通る場合はEventIDがおかしいので止める
-			Log(std::format("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}/{}\'\n\tIndex-\'{}\'\n",
+			Log("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}/{}\'\n\tIndex-\'{}\'\n",
 				static_cast<int>(nowEvent->eventId),
 				nowEvent->data->filePath,
 				nowEvent->data->fileName,
 				nowEvent->data->loadData.index(),
 				nowEvent->data->loadData.valueless_by_exception()
-			));
+			);
 			std::range_error("[BackgroundLoader] EventID is wrong.");
 			break;
 		}
@@ -149,9 +148,9 @@ void BackgroundLoader::load_manager() {
 			waitLoadingQue.emplace_back(std::move(*nowEvent));
 		}
 		else {
-			Log(std::format("[BackgroundLoader] Faild loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
+			Log("[BackgroundLoader] Faild loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
 				nowEvent->data->filePath, nowEvent->data->fileName,
-				address)
+				address
 			);
 		}
 

@@ -1,7 +1,6 @@
 #include "TextureManager.h"
 
 #include <mutex>
-#include <format>
 
 #include "Engine/Utility/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
@@ -47,7 +46,7 @@ std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
-		Log(std::format("[TextureManager] Texture Name-\'{:}\' is not loading.\n", textureName));
+		Log("[TextureManager] Texture Name-\'{:}\' is not loading.\n", textureName);
 		return GetInstance().textureInstanceList.at("Error.png");
 	}
 }
@@ -60,7 +59,7 @@ bool TextureManager::IsRegistered(const std::string& textureName) noexcept(false
 void TextureManager::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNolocking(textureName)) {
-		Log(std::format("[TextureManager] Unload texture Name-\'{:}\'.\n", textureName));
+		Log("[TextureManager] Unload texture Name-\'{:}\'.\n", textureName);
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		texture->release_srv_heap();
 		texture.reset();
@@ -72,10 +71,10 @@ void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>&
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNolocking(name)) {
 		data->release_srv_heap();
-		Log(std::format("[TextureManager] Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
+		Log("[TextureManager] Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 		return;
 	}
-	Log(std::format("[TextureManager] Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get()));
+	Log("[TextureManager] Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 

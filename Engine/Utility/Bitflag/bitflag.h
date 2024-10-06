@@ -1,19 +1,17 @@
 #pragma once
 
 #include <type_traits>
-#include <utility>
 
 namespace eps {
 
 template<typename T>
 concept Enum = std::is_enum_v<T>;
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 class bitflag {
-private: // using
-	using base_type = T;
-	using bitflag_type = bitflag<base_type>;
+public: // using
+	using value_type = T;
+	using bitflag_type = bitflag<value_type>;
 	using under_type = std::underlying_type<T>::type;
 
 	using reference_bitflag = bitflag_type&;
@@ -22,7 +20,7 @@ private: // using
 
 public: // constructor/destructor
 	constexpr bitflag();
-	constexpr bitflag(const base_type& base);
+	constexpr bitflag(const value_type& base);
 	constexpr ~bitflag() = default;
 
 	constexpr bitflag(const_reference_bitflag) = default;
@@ -48,7 +46,7 @@ private: // member function
 	/// </summary>
 	/// <param name="value"></param>
 	/// <returns></returns>
-	constexpr under_type to_under(const base_type& value);
+	constexpr under_type to_under(const value_type& value);
 
 private: // member value
 	under_type value;
@@ -64,8 +62,7 @@ private: // member value
 /// <typeparam name="T">Enum</typeparam>
 /// <param name="value"></param>
 /// <returns></returns>
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> to_bitflag(const T& value) {
 	return bitflag<T>(value);
 }
@@ -74,61 +71,52 @@ constexpr bitflag<T> to_bitflag(const T& value) {
 // ---------- constructor ----------
 // ---------------------------------
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bitflag<T>::bitflag() : value(0) {
 }
 
-template<typename T>
-	requires Enum<T>
-inline constexpr bitflag<T>::bitflag(const base_type& base) : value(to_under(base)) {
+template<Enum T>
+inline constexpr bitflag<T>::bitflag(const value_type& base) : value(to_under(base)) {
 }
 
 // -------------------------------------
 // ---------- public operator ----------
 // -------------------------------------
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bitflag<T>::operator bool() const {
 	return value;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bool bitflag<T>::operator==(const_reference_bitflag rhs) const {
 	return value == rhs.value;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bool bitflag<T>::operator!=(const_reference_bitflag rhs) const {
 	return !(*this == rhs);
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bitflag<T> bitflag<T>::operator&=(const_reference_bitflag rhs) {
 	value &= rhs.value;
 	return *this;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bitflag<T> bitflag<T>::operator|=(const_reference_bitflag rhs) {
 	value |= rhs.value;
 	return *this;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bitflag<T> bitflag<T>::operator^=(const_reference_bitflag rhs) {
 	value ^= rhs.value;
 	return *this;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 inline constexpr bitflag<T> bitflag<T>::operator~() const {
 	return ~value;
 }
@@ -137,9 +125,8 @@ inline constexpr bitflag<T> bitflag<T>::operator~() const {
 // ---------- private function ----------
 // --------------------------------------
 
-template<typename T>
-	requires Enum<T>
-inline constexpr bitflag<T>::under_type bitflag<T>::to_under(const base_type& value) {
+template<Enum T>
+inline constexpr bitflag<T>::under_type bitflag<T>::to_under(const value_type& value) {
 	return static_cast<bitflag<T>::under_type>(value);
 }
 
@@ -147,56 +134,47 @@ inline constexpr bitflag<T>::under_type bitflag<T>::to_under(const base_type& va
 // ---------- gloval operator ----------
 // -------------------------------------
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator&(const bitflag<T>& lhs, const bitflag<T>& rhs) {
 	return bitflag<T>(lhs) &= rhs;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator&(const bitflag<T>& lhs, const T& rhs) {
 	return lhs & to_bitflag<T>(rhs);
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator&(const T& lhs, const bitflag<T>& rhs) {
 	return rhs & lhs;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator|(const bitflag<T>& lhs, const bitflag<T>& rhs) {
 	return bitflag<T>(lhs) |= rhs;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator|(const bitflag<T>& lhs, const T& rhs) {
 	return lhs | to_bitflag(rhs);
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator|(const T& lhs, const bitflag<T>& rhs) {
 	return rhs | lhs;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator^(const bitflag<T>& lhs, const bitflag<T>& rhs) {
 	return bitflag<T>(lhs) ^= rhs;
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator^(const bitflag<T>& lhs, const T& rhs) {
 	return lhs ^ to_bitflag(rhs);
 }
 
-template<typename T>
-	requires Enum<T>
+template<Enum T>
 constexpr bitflag<T> operator^(const T& lhs, const bitflag<T>& rhs) {
 	return rhs ^ lhs;
 }

@@ -4,11 +4,6 @@
 
 #include "Engine/Module/Transform3D/Transform3D.h"
 
-#ifdef _DEBUG
-#include <imgui.h>
-#include <format>
-#endif // _DEBUG
-
 Transform2D::Transform2D() noexcept {
 	scale = { 1, 1 };
 	rotate = 0;
@@ -81,7 +76,11 @@ void Transform2D::copy(const Transform2D& copy) noexcept {
 	translate = copy.translate;
 }
 
+
 #ifdef _DEBUG
+#include <imgui.h>
+#include <format>
+
 void Transform2D::debug_gui(float translateMove) {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("Transform2D##{:}", (void*)this).c_str())) {

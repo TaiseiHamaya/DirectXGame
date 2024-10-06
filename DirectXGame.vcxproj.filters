@@ -40,9 +40,6 @@
     <Filter Include="Engine\HLSL\NormalColor">
       <UniqueIdentifier>{e2029ee5-c81a-42a8-984a-0b811b891152}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame">
-      <UniqueIdentifier>{9c839059-164e-4b43-94f7-24ed6b8e0ded}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TestProgram">
       <UniqueIdentifier>{7679c345-a15e-4a48-8c87-5ab6bea6a38e}</UniqueIdentifier>
     </Filter>
@@ -252,6 +249,9 @@
     </Filter>
     <Filter Include="Engine\Module\WorldInstance">
       <UniqueIdentifier>{a00cae3f-2bb1-4881-a714-2b05bfb9d42d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{9c839059-164e-4b43-94f7-24ed6b8e0ded}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -58,7 +58,7 @@ void Camera3D::update_matrix() {
 	}
 	else {
 		*vpMatrixBuffer.get_data() = vpMatrix;
-}
+	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
 	* vpMatrixBuffer.get_data() = viewMatrix * perspectiveFovMatrix;
@@ -111,7 +111,7 @@ void Camera3D::debug_gui() {
 	ImGui::Separator();
 	ImGui::Checkbox("DebugCamera", &isVaildDebugCamera);
 	if (isVaildDebugCamera) {
-		ImGui::DragFloat("Offset", &offset.z, 0.1f, -10000.0f, 0.0f);
+		ImGui::DragFloat("Offset", &offset.z, 0.1f, -std::numeric_limits<float>::infinity(), 0.0f);
 		debugCameraCenter->get_transform().debug_gui();
 		debugCamera->get_transform().debug_gui();
 	}
@@ -157,7 +157,9 @@ void Camera3D::debug_camera() {
 
 void Camera3D::debug_draw() const {
 	if (isVaildDebugCamera) {
-		debugCameraCenter->draw();
+		if (offset.z < -0.001) {
+			debugCameraCenter->draw();
+		}
 		frustum->begin_rendering();
 		frustum->draw();
 	}

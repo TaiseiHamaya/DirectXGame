@@ -1,7 +1,5 @@
 #include "SRVDescriptorHeap.h"
 
-#include <format>
-
 #include "Engine/Utility/Utility.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
@@ -21,7 +19,7 @@ void SRVDescriptorHeap::Initialize() {
 
 const std::uint32_t SRVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Log(std::format("[SRVDescriptorHeap] Use SRV index. Index-\'{}\'\n", useIndex));
+	Log("[SRVDescriptorHeap] Use SRV index. Index-\'{}\'\n", useIndex);
 	return useIndex;
 }
 
@@ -43,7 +41,7 @@ void SRVDescriptorHeap::SetDescriptorHeaps() {
 }
 
 void SRVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
-	Log(std::format("[SRVDescriptorHeap] Release SRV index. Index-\'{}\'\n", index));
+	Log("[SRVDescriptorHeap] Release SRV index. Index-\'{}\'\n", index);
 	GetInstance().release_heap(index);
 }
 

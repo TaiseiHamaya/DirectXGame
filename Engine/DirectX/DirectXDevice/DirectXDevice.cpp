@@ -1,7 +1,6 @@
 #include "DirectXDevice.h"
 
 #include <cassert>
-#include <format>
 
 #include "Engine/Utility/Utility.h"
 
@@ -37,7 +36,7 @@ void DirectXDevice::create_adapter() {
 		// ソフトウェアアダプターでなければ採用する
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			// ログ出力
-			Log(std::format(L"[Engine] Use Adapter : {}\n", adapterDesc.Description));
+			Log(L"[Engine] Use Adapter : {}\n", adapterDesc.Description);
 			break;
 		}
 		// ソフトウェアアダプタの場合は無視
@@ -60,7 +59,7 @@ void DirectXDevice::create_device() {
 		HRESULT hr = D3D12CreateDevice(useAdapter.Get(), featureLevel[i], IID_PPV_ARGS(&device));
 		if (SUCCEEDED(hr)) {
 			// device生成完了通知
-			Log(std::format("[Engine] FeatureLevel : {}\n", featureLevelString[i]));
+			Log("[Engine] FeatureLevel : {}\n", featureLevelString[i]);
 			break;
 		}
 	}

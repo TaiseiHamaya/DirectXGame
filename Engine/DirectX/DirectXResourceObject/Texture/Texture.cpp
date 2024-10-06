@@ -41,7 +41,7 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& directoryPath, const std::string& fileName) {
 	std::string filePath = directoryPath + "/" + fileName;
-	Log("[Texture] Start load texture. file-\'" + filePath + "\'\n");
+	Log("[Texture] Start load texture. file-\'{}\'\n", filePath);
 	DirectX::ScratchImage mipImages;
 	auto loadData = LoadTextureData(filePath); // ロード
 	if (!loadData.has_value()) {

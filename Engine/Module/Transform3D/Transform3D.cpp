@@ -2,12 +2,6 @@
 
 #include <cmath>
 
-#ifdef _DEBUG
-#include <imgui.h>
-#include <format>
-#endif // _DEBUG
-
-
 Transform3D::Transform3D() noexcept :
 	Transform3D(CVector3::BASIS, {}, CVector3::ZERO) {
 }
@@ -75,6 +69,8 @@ void Transform3D::copy(const Transform3D& copy) noexcept {
 }
 
 #ifdef _DEBUG
+#include <imgui.h>
+#include <format>
 void Transform3D::debug_gui() {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("Transform3D##{:}", (void*)this).c_str())) {

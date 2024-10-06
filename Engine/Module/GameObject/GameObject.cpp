@@ -1,7 +1,5 @@
 #include "GameObject.h"
 
-#include <format>
-
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
@@ -108,7 +106,7 @@ void GameObject::default_material() {
 #ifdef _DEBUG
 			meshMaterials[i].textureName = "Error.png";
 #endif // _DEBUG
-			Log(std::format("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName));
+			Log("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName);
 		}
 		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
 	}

@@ -1,6 +1,5 @@
 #include "Engine/DirectX/DirectXCore.h"
 
-#include <format>
 #include <memory>
 
 #include <dxgidebug.h>
@@ -170,6 +169,9 @@ void DirectXCore::end_frame() {
 }
 
 #ifdef _DEBUG
+
+#include <format>
+
 void DirectXCore::show_debug_tools() {
 	ImGuiID debugDock = ImGui::GetID("DebugDock");
 
