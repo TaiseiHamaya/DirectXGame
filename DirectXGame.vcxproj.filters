@@ -265,6 +265,9 @@
     <Filter Include="Engine\Application\WorldClock">
       <UniqueIdentifier>{aa787078-d9a9-4d2f-974b-8632c343151e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Module\Behavior">
+      <UniqueIdentifier>{edd14c29-1f65-49c3-a78a-a0345e98720a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -485,6 +488,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp">
       <Filter>Engine\Application\WorldClock</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Behavior\Behavior.cpp">
+      <Filter>Engine\Module\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -727,6 +733,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Application\WorldClock\WorldClock.h">
       <Filter>Engine\Application\WorldClock</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Behavior\Behavior.h">
+      <Filter>Engine\Module\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
