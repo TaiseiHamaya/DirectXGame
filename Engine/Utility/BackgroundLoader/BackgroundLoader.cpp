@@ -89,10 +89,10 @@ void BackgroundLoader::load_manager() {
 		// 条件変数用mutex
 		std::unique_lock<std::mutex> lock{ referenceMutex };
 		// loadEventが空ではない or プログラム終了通知が来ているまでwait
-		loadConditionVariable.wait(lock, [] {return !GetInstance().loadEvents.empty() || GetInstance().isEndProgram; });
+		loadConditionVariable.wait(lock, [&] {return !loadEvents.empty() || isEndProgram; });
 
 		// プログラム終了ならループを抜ける
-		if (GetInstance().isEndProgram) {
+		if (isEndProgram) {
 			break;
 		}
 
@@ -160,7 +160,7 @@ void BackgroundLoader::load_manager() {
 		loadEvents.pop_front();
 
 		// 空だったら自動execute
-		if (GetInstance().loadEvents.empty()) {
+		if (loadEvents.empty()) {
 			Console("[BackgroundLoader] Load events is empty. Start execute texture uploading.\n");
 			// 実行イベント
 			// コマンド実行

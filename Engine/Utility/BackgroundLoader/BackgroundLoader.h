@@ -26,11 +26,9 @@ enum class LoadEvent {
 class BackgroundLoader final {
 private:
 	BackgroundLoader() noexcept;
-
-public:
 	~BackgroundLoader() noexcept;
 
-private: // コピームーブ禁止
+	// コピームーブ禁止
 	BackgroundLoader(const BackgroundLoader&) = delete;
 	BackgroundLoader& operator=(const BackgroundLoader&) = delete;
 
@@ -117,7 +115,7 @@ private:
 	/// ロードスレッド
 	/// </summary>
 	std::thread loadFunc;
-	
+
 	/// <summary>
 	/// イベント一覧
 	/// </summary>
@@ -127,7 +125,7 @@ private:
 	/// ロードが終わって転送待ち
 	/// </summary>
 	std::list<EventList> waitLoadingQue;
-	
+
 	/// <summary>
 	/// マルチスレッド終了判定用
 	/// </summary>

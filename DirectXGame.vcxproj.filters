@@ -489,9 +489,6 @@
     <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp">
       <Filter>Engine\Application\WorldClock</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Behavior\Behavior.cpp">
-      <Filter>Engine\Module\Behavior</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">

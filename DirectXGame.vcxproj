@@ -149,7 +149,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
-    <ClCompile Include="Engine\Module\Behavior\Behavior.cpp" />
     <ClCompile Include="Engine\Module\Camera\Camera2D.cpp" />
     <ClCompile Include="Engine\Module\Camera\Camera3D.cpp" />
     <ClCompile Include="Engine\Module\Collision\Collider\BaseCollider.cpp" />

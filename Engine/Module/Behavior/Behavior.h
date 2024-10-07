@@ -25,7 +25,7 @@ public:
 
 public:
 	void initalize(const T& value) noexcept;
-	void update() noexcept;
+	void update();
 
 public:
 	std::function<void(const T&)> get_request_function();
@@ -53,7 +53,7 @@ inline void Behavior<T>::initalize(const T& value) noexcept {
 }
 
 template<Object T>
-inline void Behavior<T>::update() noexcept {
+inline void Behavior<T>::update() {
 	if (request.has_value()) {
 		if (behaviorList.contains(request.value())) {
 			behavior = request.value();
