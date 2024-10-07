@@ -25,7 +25,7 @@ void WorldClock::Initialize() {
 
 void WorldClock::Update() {
 	// 少数型秒のusing
-	using second_f = std::chrono::duration<float, std::ratio<1, 1>>;
+	using second_f = std::chrono::duration<float, std::ratio<1>>;
 
 	auto&& instance = GetInstance();
 
@@ -98,6 +98,5 @@ void WorldClock::DebugGui() {
 	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
 	ImGui::Checkbox("IsFixDeltaTime", &instance.isFixDeltaTime);
 	ImGui::Checkbox("IsUnlimitedFPS", &instance.isUnlimitedRefreshRate);
-
 }
 #endif // _DEBUG

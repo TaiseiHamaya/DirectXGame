@@ -10,6 +10,8 @@
 #include "Engine/Application/Scene/SceneManager.h"
 #include "Engine/Application/Input/Input.h"
 
+#pragma comment(lib, "winmm.lib")
+
 #ifdef _DEBUG
 #include <imgui.h>
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -37,6 +39,7 @@ WinApp::WinApp(int32_t width, int32_t height) noexcept :
 	hWnd(nullptr),
 	hInstance(nullptr) {
 	msg = {};
+	timeBeginPeriod(1);
 }
 
 void WinApp::Initialize(const std::string& programName, int32_t width, int32_t height, DWORD windowConfig) {
@@ -173,16 +176,24 @@ void WinApp::term_app() {
 	assert(instance);
 }
 
+#include <thread>
+
 void WinApp::wait_frame() {
-	using namespace std::literals::chrono_literals;
 	using millisecond_f = std::chrono::duration<float, std::milli>;
 
+	//constexpr millisecond_f MinTime{ 1000.00000f / 60.0f };
+	constexpr millisecond_f MinCheckTime{ 1000.00000f / 65.0f }; // 少し短い時間を使用することで60FPSになるようにする
+	// 開始
 	auto& begin = WorldClock::BeginTime();
-	while (true) {
-		auto now = std::chrono::high_resolution_clock::now();
-		auto duration = std::chrono::duration_cast<millisecond_f>(now - begin);
-		if (duration >= 16.66666ms) {
-			return;
-		}
+	// 今
+	auto now = std::chrono::high_resolution_clock::now();
+	// 経過時間
+	auto duration = std::chrono::duration_cast<millisecond_f>(now - begin);
+	// 基準より短い場合
+	if (duration < MinCheckTime) {
+		// 残りの止める時間
+		millisecond_f sleepMilliSec = MinCheckTime - duration;
+		// 止める
+		std::this_thread::sleep_for(std::chrono::duration_cast<std::chrono::microseconds>(sleepMilliSec));
 	}
 }
