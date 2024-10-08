@@ -8,7 +8,7 @@ BaseCollider::BaseCollider() {
 
 #ifdef _DEBUG
 	colliderDrawer = std::make_unique<GameObject>();
-	colliderDrawer->set_parent(hierarchy);
+	colliderDrawer->set_parent(*this);
 #endif // _DEBUG
 }
 

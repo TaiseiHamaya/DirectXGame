@@ -23,13 +23,18 @@ private:
 public:
 	void set_active(bool isActive);
 	bool is_active() const { return isActive; };
+
+	// 削除するかも？
 	const Hierarchy& get_hierarchy() const;
 	Hierarchy& get_hierarchy();
+	
 	const Transform3D& get_transform() const;
 	Transform3D& get_transform();
+	const WorldInstance* get_parent() const;
+
 	const Matrix4x4& world_matrix() const;
 	Vector3 world_position() const;
-	void set_parent(const Hierarchy& hierarchy_);
+	void set_parent(const WorldInstance& hierarchy_);
 
 #ifdef _DEBUG
 public:

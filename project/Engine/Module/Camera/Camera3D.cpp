@@ -23,9 +23,9 @@ void Camera3D::initialize() {
 	debugCamera = std::make_unique<GameObject>();
 	debugCameraCenter = std::make_unique<GameObject>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
-	debugCamera->set_parent(debugCameraCenter->get_hierarchy());
+	debugCamera->set_parent(*debugCameraCenter);
 	frustum = std::make_unique<GameObject>("Frustum.obj");
-	frustum->set_parent(hierarchy);
+	frustum->set_parent(*this);
 #endif // _DEBUG
 
 	update_matrix();

@@ -39,6 +39,10 @@ Transform3D& WorldInstance::get_transform() {
 	return transform;
 }
 
+const WorldInstance* WorldInstance::get_parent() const {
+	return hierarchy.get_parent_address();
+}
+
 const Matrix4x4& WorldInstance::world_matrix() const {
 	return worldMatrix;
 }
@@ -47,7 +51,7 @@ Vector3 WorldInstance::world_position() const {
 	return Transform3D::ExtractPosition(worldMatrix);
 }
 
-void WorldInstance::set_parent(const Hierarchy& hierarchy_) {
+void WorldInstance::set_parent(const WorldInstance& hierarchy_) {
 	hierarchy.set_parent(hierarchy_);
 }
 

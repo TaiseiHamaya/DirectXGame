@@ -4,7 +4,7 @@ void SphereCollider::initialize() {
 #ifdef _DEBUG
 	colliderDrawer = std::make_unique<GameObject>();
 	colliderDrawer->reset_object("SphereCollider.obj");
-	colliderDrawer->set_parent(hierarchy);
+	colliderDrawer->set_parent(*this);
 #endif // _DEBUG
 
 	set_radius(1.0f);

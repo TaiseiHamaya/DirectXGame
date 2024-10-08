@@ -46,15 +46,15 @@ void SceneDemo::initialize() {
 	parent->reset_object("Sphere.obj");
 	child = std::make_unique<GameObject>();
 	child->reset_object("Sphere.obj");
-	child->set_parent(parent->get_hierarchy());
+	child->set_parent(*parent);
 
 	parentCollider = std::make_unique<SphereCollider>();
 	parentCollider->initialize();
-	parentCollider->get_hierarchy().set_parent(parent->get_hierarchy());
+	parentCollider->set_parent(*parent);
 
 	childCollider = std::make_unique<SphereCollider>();
 	childCollider->initialize();
-	childCollider->get_hierarchy().set_parent(child->get_hierarchy());
+	childCollider->set_parent(*child);
 
 	singleCollider = std::make_unique<SphereCollider>();
 	singleCollider->initialize();
