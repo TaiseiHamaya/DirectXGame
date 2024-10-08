@@ -56,7 +56,7 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	instance.reset(new WinApp{ width, height });
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
-	instance->init_app(programName, windowConfig);
+	instance->initialize_application(programName, windowConfig);
 	//DirectXの初期化
 	DirectXCore::Initialize();
 
@@ -86,13 +86,15 @@ bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
 }
 
 void WinApp::BeginFrame() {
-	instance->begin_frame();
 	WorldClock::Update();
 	Input::Update();
+	DirectXCore::BeginFrame();
 }
 
 void WinApp::EndFrame() {
-	instance->end_frame();
+	DirectXCore::EndFrame();
+
+	instance->wait_frame();
 }
 
 void WinApp::Finalize() {
@@ -108,7 +110,6 @@ void WinApp::Finalize() {
 	//DirectXを終了
 	DirectXCore::Finalize();
 
-	instance->term_app();
 	// COMの終了
 	CoUninitialize();
 	instance.reset();
@@ -130,7 +131,7 @@ void WinApp::ProcessMessage() {
 	}
 }
 
-void WinApp::init_app(const std::string& programName, DWORD windowConfig) {
+void WinApp::initialize_application(const std::string& programName, DWORD windowConfig) {
 	windowName = programName;
 	// ウィンドウの設定
 	wc.lpfnWndProc = WindowProc;// ウィンドウプロシージャ
@@ -161,19 +162,6 @@ void WinApp::init_app(const std::string& programName, DWORD windowConfig) {
 		wc.hInstance,
 		nullptr
 	);
-}
-
-void WinApp::begin_frame() {
-	DirectXCore::BeginFrame();
-}
-
-void WinApp::end_frame() {
-	DirectXCore::EndFrame();
-	//wait_frame();
-}
-
-void WinApp::term_app() {
-	assert(instance);
 }
 
 #include <thread>

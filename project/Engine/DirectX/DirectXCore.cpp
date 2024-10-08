@@ -48,51 +48,12 @@ DirectXCore::DirectXCore() = default;
 
 DirectXCore::~DirectXCore() = default;
 
-void DirectXCore::Initialize() {
-	GetInstance().initialize();
-}
-
-void DirectXCore::BeginFrame() {
-	GetInstance().begin_frame();
-}
-
-void DirectXCore::EndFrame() {
-	GetInstance().end_frame();
-}
-
-void DirectXCore::Finalize() {
-	// ----------後で直す!!!----------
-	GetInstance().gridMesh.reset();
-	GetInstance().light.reset();
-	// ----------後で直す!!!----------
-	TextureManager::Finalize();
-#ifdef _DEBUG
-	ImGuiManager::Finalize();
-#endif // _DEBUG
-}
-
-void DirectXCore::Set3DLight() {
-	// ライトを設定しておく
-	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, GetInstance().light->get_resource()->GetGPUVirtualAddress());
-}
-
-#ifdef _DEBUG
-void DirectXCore::ShowDebugTools() {
-	GetInstance().show_debug_tools();
-}
-#endif // _DEBUG
-
-void DirectXCore::ShowGrid() {
-	GetInstance().gridMesh->begin_rendering();
-	GetInstance().gridMesh->draw();
-}
-
 DirectXCore& DirectXCore::GetInstance() {
 	static DirectXCore instance{};
 	return instance;
 }
 
-void DirectXCore::initialize() {
+void DirectXCore::Initialize() {
 	// Debugの初期化(必ず一番初めに行う)
 	Debug::Initialize();
 	// Deviceの初期化
@@ -132,24 +93,24 @@ void DirectXCore::initialize() {
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();
-	// システム使用のオブジェクトを生成
-	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -CVector3::BASIS_Y, 1.0f });
-	gridMesh = std::make_unique<GameObject>("Grid.obj");
+	// Thisの初期化
+	GetInstance().initialize();
 
 	// オールコンプリート
 	Console("[Engine] Complete create DirectXObjects\n");
 }
 
-void DirectXCore::begin_frame() {
+void DirectXCore::BeginFrame() {
 	// srvの設定
 	SRVDescriptorHeap::SetDescriptorHeaps();
 
 #ifdef _DEBUG
 	ImGuiManager::BeginFrame();
 #endif // _DEBUG
+	//GetInstance().begin_frame();
 }
 
-void DirectXCore::end_frame() {
+void DirectXCore::EndFrame() {
 	// レンダーパスが終わってないならおかしいので止める(デバッグ時のみ)
 	assert(RenderPathManager::IsEnd());
 
@@ -166,6 +127,39 @@ void DirectXCore::end_frame() {
 	DirectXCommand::GetInstance().wait_command();
 	// コマンドリセット
 	DirectXCommand::GetInstance().reset();
+}
+
+void DirectXCore::Finalize() {
+	// ----------後で直す!!!----------
+	GetInstance().gridMesh.reset();
+	GetInstance().light.reset();
+	// ----------後で直す!!!----------
+	TextureManager::Finalize();
+#ifdef _DEBUG
+	ImGuiManager::Finalize();
+#endif // _DEBUG
+}
+
+void DirectXCore::Set3DLight() {
+	// ライトを設定しておく
+	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, GetInstance().light->get_resource()->GetGPUVirtualAddress());
+}
+
+#ifdef _DEBUG
+void DirectXCore::ShowDebugTools() {
+	GetInstance().show_debug_tools();
+}
+#endif // _DEBUG
+
+void DirectXCore::ShowGrid() {
+	GetInstance().gridMesh->begin_rendering();
+	GetInstance().gridMesh->draw();
+}
+
+void DirectXCore::initialize() {
+	// システム使用のオブジェクトを生成
+	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -CVector3::BASIS_Y, 1.0f });
+	gridMesh = std::make_unique<GameObject>("Grid.obj");
 }
 
 #ifdef _DEBUG

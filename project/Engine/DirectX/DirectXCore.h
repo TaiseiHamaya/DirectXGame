@@ -19,6 +19,9 @@ private:
 	DirectXCore(const DirectXCore&) = delete;
 	DirectXCore& operator=(const DirectXCore&) = delete;
 
+private:
+	static DirectXCore& GetInstance();
+
 public:
 	static void Initialize();
 	static void BeginFrame();
@@ -40,13 +43,7 @@ public:
 	static void ShowGrid();
 
 private:
-	static DirectXCore& GetInstance();
-
-private:
 	void initialize();
-
-	void begin_frame();
-	void end_frame();
 
 #ifdef _DEBUG
 	void show_debug_tools();

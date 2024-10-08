@@ -40,10 +40,7 @@ private:
 	/// 初期化処理
 	/// </summary>
 	/// <returns></returns>
-	void init_app(const std::string& programName, DWORD windowConfig);
-	void begin_frame();
-	void end_frame();
-	void term_app();
+	void initialize_application(const std::string& programName, DWORD windowConfig);
 
 	void wait_frame();
 

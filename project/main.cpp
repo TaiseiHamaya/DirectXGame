@@ -42,7 +42,5 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		WinApp::EndFrame();
 	}
 
-	SceneManager::Finalize();
-
 	WinApp::Finalize();
 }
