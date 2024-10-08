@@ -21,6 +21,7 @@ private:
 	Matrix4x4 create_world_matrix() const;
 
 public:
+	void set_active(bool isActive);
 	bool is_active() const { return isActive; };
 	const Hierarchy& get_hierarchy() const;
 	Hierarchy& get_hierarchy();

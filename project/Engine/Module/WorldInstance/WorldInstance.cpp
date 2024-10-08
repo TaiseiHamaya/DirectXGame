@@ -19,6 +19,10 @@ Matrix4x4 WorldInstance::create_world_matrix() const {
 	return result;
 }
 
+void WorldInstance::set_active(bool isActive_) {
+	isActive = isActive_;
+}
+
 const Hierarchy& WorldInstance::get_hierarchy() const {
 	return hierarchy;
 }

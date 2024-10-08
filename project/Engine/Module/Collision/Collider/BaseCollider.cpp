@@ -14,6 +14,7 @@ BaseCollider::BaseCollider() {
 
 void BaseCollider::begin() {
 	if (!isActive) {
+		collisionMap.clear();
 		return;
 	}
 	for (auto itr = collisionMap.begin(); itr != collisionMap.end();){
