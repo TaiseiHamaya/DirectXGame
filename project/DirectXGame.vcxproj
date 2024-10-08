@@ -162,6 +162,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\Module\GameObject\SpriteObject.cpp" />
     <ClCompile Include="Engine\Module\Hierarchy\Hierarchy.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystem.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp" />
     <ClCompile Include="Engine\Module\PolygonMesh\PolygonMesh.cpp" />
     <ClCompile Include="Engine\Module\PolygonMesh\PolygonMeshManager.cpp" />
     <ClCompile Include="Engine\Module\TextureManager\TextureManager.cpp" />
@@ -218,6 +221,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\StructuredBuffer\StructuredBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
@@ -243,6 +247,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Module\GameObject\SpriteObject.h" />
     <ClInclude Include="Engine\Module\Hierarchy\Hierarchy.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystem.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h" />
     <ClInclude Include="Engine\Module\PolygonMesh\PolygonMesh.h" />
     <ClInclude Include="Engine\Module\PolygonMesh\PolygonMeshManager.h" />
     <ClInclude Include="Engine\Module\TextureManager\TextureManager.h" />
@@ -306,6 +313,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\Particle.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\Particle.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\RadialBlur\RadialBlur.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -351,6 +366,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <None Include="EngineResources\HLSL\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="EngineResources\HLSL\Particle\Particle.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="EngineResources\HLSL\RadialBlur\RadialBlur.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

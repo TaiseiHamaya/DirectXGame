@@ -235,9 +235,6 @@
     <Filter Include="Engine\DirectX\ShaderCompiler">
       <UniqueIdentifier>{20e834c2-3ec2-48d0-abd8-23a0fcdd1d85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Particle">
-      <UniqueIdentifier>{f00c8adb-6356-47fc-831f-c9a1dbe358c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Render\RenderNode\Particle">
       <UniqueIdentifier>{55a21a48-26d9-4ccd-88ec-714286f9785b}</UniqueIdentifier>
     </Filter>
@@ -267,6 +264,21 @@
     </Filter>
     <Filter Include="Engine\Module\Behavior">
       <UniqueIdentifier>{edd14c29-1f65-49c3-a78a-a0345e98720a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\ParticleSystem">
+      <UniqueIdentifier>{f00c8adb-6356-47fc-831f-c9a1dbe358c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\ParticleSystem\Particle">
+      <UniqueIdentifier>{4b8a7812-7c46-4ec1-8f54-63a1f3af6f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\Particle">
+      <UniqueIdentifier>{c8017c29-38cf-4cc7-8562-7f88718df918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\ResourceObject\StructuredBuffer">
+      <UniqueIdentifier>{0820ef88-74a4-48cf-a69c-0385ae28dc85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\ParticleSystem\Emitter">
+      <UniqueIdentifier>{1cd77655-ca16-4921-8cda-2578a1a7bce0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +500,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp">
       <Filter>Engine\Application\WorldClock</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp">
+      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystem.cpp">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp">
+      <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,6 +755,18 @@
     <ClInclude Include="Engine\Module\Behavior\Behavior.h">
       <Filter>Engine\Module\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h">
+      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystem.h">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\StructuredBuffer\StructuredBuffer.h">
+      <Filter>Engine\DirectX\ResourceObject\StructuredBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h">
+      <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
@@ -775,6 +808,12 @@
     <FxCompile Include="EngineResources\HLSL\RadialBlur\RadialBlur.PS.hlsl">
       <Filter>Engine\HLSL\PostEffect\RadialBlur</Filter>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\Particle.PS.hlsl">
+      <Filter>Engine\HLSL\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\Particle.VS.hlsl">
+      <Filter>Engine\HLSL\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
@@ -794,6 +833,9 @@
     </None>
     <None Include="EngineResources\HLSL\RadialBlur\RadialBlur.hlsli">
       <Filter>Engine\HLSL\PostEffect\RadialBlur</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Particle\Particle.hlsli">
+      <Filter>Engine\HLSL\Particle</Filter>
     </None>
   </ItemGroup>
 </Project>

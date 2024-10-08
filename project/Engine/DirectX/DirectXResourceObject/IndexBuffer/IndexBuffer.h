@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <concepts>
-#include <memory>
+#include <iterator>
 #include <type_traits>
 
 #include "Engine/DirectX/DirectXResourceObject/DirectXResourceObject.h"
