@@ -268,6 +268,18 @@
     <Filter Include="Engine\Module\Behavior">
       <UniqueIdentifier>{edd14c29-1f65-49c3-a78a-a0345e98720a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameScene">
+      <UniqueIdentifier>{b36c3180-ea2d-451e-ab30-8c4c716ba3e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Player">
+      <UniqueIdentifier>{6cfe26c0-df3d-4c23-8a15-d877098997f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Enemy">
+      <UniqueIdentifier>{b687c379-8351-4d7c-aba2-5afdfb6f19d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameScene\Rail">
+      <UniqueIdentifier>{65755ae3-290c-4fb5-a0ed-3a99011fd3e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
