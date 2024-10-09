@@ -28,9 +28,8 @@ public:
 	void update();
 
 public:
-	const T& state() const;
 	std::function<void(const T&)> get_request_function();
-	void request(const T& request__) noexcept { request_ = request__; };
+	void behavior_request(const T& request_) noexcept { request = request_; };
 	void add_list(
 		const T& key,
 		std::function<void(void)> initializeFunction,
@@ -44,23 +43,23 @@ public:
 
 private:
 	T behavior;
-	std::optional<T> request_;
+	std::optional<T> request;
 	std::unordered_map<T, BehaviorFunctions> behaviorList;
 };
 
 template<Object T>
 inline void Behavior<T>::initalize(const T& value) noexcept {
-	request(value);
+	behavior_request(value);
 }
 
 template<Object T>
 inline void Behavior<T>::update() {
-	if (request_.has_value()) {
-		if (behaviorList.contains(request_.value())) {
-			behavior = request_.value();
+	if (request.has_value()) {
+		if (behaviorList.contains(request.value())) {
+			behavior = request.value();
 			behaviorList.at(behavior).initializeFunction();
 		}
-		request_ = std::nullopt;
+		request = std::nullopt;
 	}
 
 	if (behaviorList.contains(behavior)) {
@@ -69,13 +68,8 @@ inline void Behavior<T>::update() {
 }
 
 template<Object T>
-inline const T& Behavior<T>::state() const {
-	return behavior;
-}
-
-template<Object T>
 inline std::function<void(const T&)> Behavior<T>::get_request_function() {
-	return std::bind(&Behavior<T>::request, this, std::placeholders::_1);
+	return std::bind(&Behavior<T>::behavior_request, this, std::placeholders::_1);
 }
 
 template<Object T>
