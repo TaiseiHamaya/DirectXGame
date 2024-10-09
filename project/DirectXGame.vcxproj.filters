@@ -501,6 +501,12 @@
     <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp">
       <Filter>Engine\Application\WorldClock</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameScene\GameScene.cpp">
+      <Filter>Game\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Rail\Rail.cpp">
+      <Filter>Game\GameScene\Rail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -745,6 +751,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Behavior\Behavior.h">
       <Filter>Engine\Module\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\GameScene.h">
+      <Filter>Game\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Rail\Rail.h">
+      <Filter>Game\GameScene\Rail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
