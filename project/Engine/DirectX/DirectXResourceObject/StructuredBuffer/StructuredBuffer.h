@@ -28,6 +28,8 @@ private:
 	void create_resource();
 	void create_srv();
 	void release_index();
+	void map();
+	void unmap();
 
 private:
 	T* data;
@@ -46,11 +48,12 @@ inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
 	arraySize = arraySize_;
 	create_resource();
 	create_srv();
-	span = std::span<T>{ data, arraySize };
+	map();
 }
 
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::finalize() {
+	unmap();
 	release_index();
 }
 
@@ -67,7 +70,6 @@ inline const std::span<T>& StructuredBuffer<T>::get_carray() const {
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::create_resource() {
 	resource = CreateBufferResource(arraySize * sizeof(T));
-
 }
 
 template<StructuredBufferType T>
@@ -93,4 +95,17 @@ inline void StructuredBuffer<T>::release_index() {
 	if (heapIndex.has_value()) {
 		SRVDescriptorHeap::ReleaseHeapIndex(heapIndex.has_value());
 	}
+}
+
+template<StructuredBufferType T>
+inline void StructuredBuffer<T>::map() {
+	resource->Map(0, nullptr, &data);
+	span = std::span<T>{ data, arraySize };
+}
+
+template<StructuredBufferType T>
+inline void StructuredBuffer<T>::unmap() {
+	span = std::span<T>{ nullptr };
+	data = nullptr;
+	resource->Unmap(0, nullptr);
 }
