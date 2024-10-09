@@ -20,6 +20,8 @@
 #include "Engine/Render/RenderPath/RenderPath.h"
 #include "Engine/DirectX/DirectXCore.h"
 
+#include "Engine/Module/Behavior/Behavior.h"
+
 SceneDemo::SceneDemo() = default;
 
 SceneDemo::~SceneDemo() = default;
