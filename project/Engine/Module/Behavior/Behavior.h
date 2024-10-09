@@ -41,7 +41,7 @@ public:
 	void debug_gui();
 #endif // _DEBUG
 
-public:
+private:
 	T behavior;
 	std::optional<T> request;
 	std::unordered_map<T, BehaviorFunctions> behaviorList;
