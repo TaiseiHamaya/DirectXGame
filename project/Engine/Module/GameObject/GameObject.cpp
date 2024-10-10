@@ -1,15 +1,14 @@
 #include "GameObject.h"
 
+#include "Engine/Debug/Output.h"
 #include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/Module/Hierarchy/Hierarchy.h"
+#include "Engine/Module/PolygonMesh/PolygonMesh.h"
 #include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
-#include "Engine/Module/PolygonMesh/PolygonMesh.h"
-#include "Engine/Module/Transform3D/Transform3D.h"
-#include "Engine/Debug/Output.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -41,7 +40,7 @@ void GameObject::begin_rendering() noexcept {
 	update_matrix();
 	// 各情報をGPUに転送
 	// Transformに転送
-	transformMatrix->set_transformation_matrix_data(worldMatrix);
+	transformMatrix->set_transformation_matrix_data(world_matrix());
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
@@ -110,27 +109,6 @@ void GameObject::default_material() {
 		}
 		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
 	}
-}
-
-void GameObject::look_at(const WorldInstance& rhs, const Vector3& upward) noexcept {
-	look_at(rhs.world_position(), upward);
-}
-
-// 既知の不具合 : 特定環境でlook_atが正しくならない場合がある
-void GameObject::look_at(const Vector3& point, const Vector3& upward) noexcept {
-	Vector3 localForward;
-	Vector3 localUpwoard;
-	if (hierarchy.has_parent()) {
-		Matrix4x4 parentInversedWorldMatrix = hierarchy.parent_matrix().inverse();
-		Vector3 rhsObjectCoordinatePosition = Transform3D::Homogeneous(point, parentInversedWorldMatrix);
-		localUpwoard = Transform3D::HomogeneousVector(upward, parentInversedWorldMatrix);
-		localForward = (rhsObjectCoordinatePosition - transform.get_translate()).normalize_safe();
-	}
-	else {
-		localUpwoard = upward;
-		localForward = (point - transform.get_translate()).normalize_safe();
-	}
-	transform.set_rotate(Quaternion::LookForward(localForward, localUpwoard));
 }
 
 std::vector<GameObject::MaterialDataRef>& GameObject::get_materials() {

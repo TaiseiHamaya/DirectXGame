@@ -18,20 +18,21 @@ public:
 	Transform3D& operator=(Transform3D&&) noexcept = default;
 
 public:
+	Matrix4x4 create_matrix() const noexcept;
+	void plus_translate(const Vector3& plus) noexcept;
+	void copy(const Transform3D& copy) noexcept;
+
+public:
 	void set_scale(const Vector3& scale_) noexcept;
-	void set_rotate(const Quaternion& rotate_) noexcept;
+	void set_quaternion(const Quaternion& quaternion_) noexcept;
 	void set_translate(const Vector3& translate_) noexcept;
 	void set_translate_x(float x) noexcept;
 	void set_translate_y(float y) noexcept;
 	void set_translate_z(float z) noexcept;
 
-	Matrix4x4 get_matrix() const noexcept;
 	const Vector3& get_scale() const noexcept;
-	const Vector3& get_translate() const noexcept;
 	const Quaternion& get_quaternion() const noexcept;
-	void plus_translate(const Vector3& plus) noexcept;
-
-	void copy(const Transform3D& copy) noexcept;
+	const Vector3& get_translate() const noexcept;
 
 #ifdef _DEBUG
 	void debug_gui();

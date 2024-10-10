@@ -11,48 +11,33 @@ void WorldInstance::update_matrix() {
 	worldMatrix = create_world_matrix();
 }
 
+void WorldInstance::look_at(const WorldInstance& rhs, const Vector3& upward) noexcept {
+	look_at(rhs.world_position(), upward);
+}
+
+// 既知の不具合 : 特定環境でlook_atが正しくならない場合がある
+void WorldInstance::look_at(const Vector3& point, const Vector3& upward) noexcept {
+	Vector3 localForward;
+	Vector3 localUpwoard;
+	if (hierarchy.has_parent()) {
+		Matrix4x4 parentInversedWorldMatrix = hierarchy.parent_matrix().inverse();
+		Vector3 rhsObjectCoordinatePosition = Transform3D::Homogeneous(point, parentInversedWorldMatrix);
+		localUpwoard = Transform3D::HomogeneousVector(upward, parentInversedWorldMatrix);
+		localForward = (rhsObjectCoordinatePosition - transform.get_translate()).normalize_safe();
+	}
+	else {
+		localUpwoard = upward;
+		localForward = (point - transform.get_translate()).normalize_safe();
+	}
+	transform.set_quaternion(Quaternion::LookForward(localForward, localUpwoard));
+}
+
 Matrix4x4 WorldInstance::create_world_matrix() const {
-	Matrix4x4 result = transform.get_matrix();
+	Matrix4x4 result = transform.create_matrix();
 	if (hierarchy.has_parent()) {
 		result *= hierarchy.parent_matrix();
 	}
 	return result;
-}
-
-void WorldInstance::set_active(bool isActive_) {
-	isActive = isActive_;
-}
-
-const Hierarchy& WorldInstance::get_hierarchy() const {
-	return hierarchy;
-}
-
-Hierarchy& WorldInstance::get_hierarchy() {
-	return hierarchy;
-}
-
-const Transform3D& WorldInstance::get_transform() const {
-	return transform;
-}
-
-Transform3D& WorldInstance::get_transform() {
-	return transform;
-}
-
-const WorldInstance* WorldInstance::get_parent() const {
-	return hierarchy.get_parent_address();
-}
-
-const Matrix4x4& WorldInstance::world_matrix() const {
-	return worldMatrix;
-}
-
-Vector3 WorldInstance::world_position() const {
-	return Transform3D::ExtractPosition(worldMatrix);
-}
-
-void WorldInstance::set_parent(const WorldInstance& hierarchy_) {
-	hierarchy.set_parent(hierarchy_);
 }
 
 #ifdef _DEBUG
