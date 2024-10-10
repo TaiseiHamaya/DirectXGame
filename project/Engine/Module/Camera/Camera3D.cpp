@@ -138,7 +138,7 @@ void Camera3D::debug_camera() {
 			Quaternion holizontal = Quaternion::AngleAxis(CVector3::BASIS_Y, rotateAngle.x);
 			Quaternion vertical = Quaternion::AngleAxis(CVector3::BASIS_X, rotateAngle.y);
 			// 垂直->元->平行で適用させる
-			debugCamera->get_transform().set_rotate(holizontal * rotation * vertical);
+			debugCamera->get_transform().set_quaternion(holizontal * rotation * vertical);
 		}
 
 		// 中クリック(Translate)
