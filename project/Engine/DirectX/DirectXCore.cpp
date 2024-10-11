@@ -97,7 +97,7 @@ void DirectXCore::Initialize() {
 	GetInstance().initialize();
 
 	// オールコンプリート
-	Console("[Engine] Complete create DirectXObjects\n");
+	Console("Complete create DirectXObjects\n");
 }
 
 void DirectXCore::BeginFrame() {

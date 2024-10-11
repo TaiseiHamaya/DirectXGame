@@ -50,7 +50,7 @@ const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& 
 		return GetInstance().audioResources.at(audioName);
 	}
 	else {
-		Console("[AudioManager] Audio Name-\'{:}\' is not loading.\n", audioName);
+		Console("Audio Name-\'{:}\' is not loading.\n", audioName);
 		return GetInstance().audioResources.at("NULL");
 	}
 }
@@ -70,10 +70,10 @@ void AudioManager::UnloadAudio(const std::string& audioName) {
 void AudioManager::Transfer(const std::string& name, std::unique_ptr<AudioResource>&& data) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
 	if (IsRegisteredNolocking(name)) {
-		Console("[AudioManager] Transferring registered Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+		Console("Transferring registered Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 		return;
 	}
-	Console("[AudioManager] Transfer new Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Console("Transfer new Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().audioResources.emplace(name, std::move(data));
 
 }

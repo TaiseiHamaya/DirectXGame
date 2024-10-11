@@ -24,7 +24,7 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 		WAVEFORMATEXTENSIBLE format;
 	};
 
-	Console("[AudioResource] Start load .wave file. file-\'{}/{}\'\n", directoryPath, fileName);
+	Console("Start load .wave file. file-\'{}/{}\'\n", directoryPath, fileName);
 
 	// ファイル読み込み
 	std::ifstream file;
@@ -32,7 +32,7 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 
 	// 失敗したら何もしない
 	if (!file.is_open()) {
-		Console("[AudioResource] Can't open file. \'{}\'\n", fileName);
+		Console("Can't open file. \'{}\'\n", fileName);
 		return false;
 	}
 
@@ -42,13 +42,13 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 
 	// RIFFじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.header.id, "RIFF")) {
-		Console("[AudioResource] File \'{}\' is not RIFF chunk.\n", fileName);
+		Console("File \'{}\' is not RIFF chunk.\n", fileName);
 		return false;
 	}
 
 	// WAVEフォーマットじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.type, "WAVE")) {
-		Console("[AudioResource] File \'{}\' is not .WAVE format_.\n", fileName);
+		Console("File \'{}\' is not .WAVE format_.\n", fileName);
 		return false;
 	}
 
@@ -94,7 +94,7 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 
 	// dataチャンクがなかったらエラー
 	if (!IsEqualArrayChunkId(data.id, "data")) {
-		Console("[AudioResource] \'data\' chunk is not found. File-\'{}/{}\'\n", directoryPath, fileName);
+		Console("\'data\' chunk is not found. File-\'{}/{}\'\n", directoryPath, fileName);
 		return false;
 	}
 
@@ -105,7 +105,7 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 	bufferSize_ = data.size;
 	file.close();
 
-	Console("[AudioResource] Success\n");
+	Console("Success\n");
 	return true;
 }
 

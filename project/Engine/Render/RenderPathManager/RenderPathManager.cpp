@@ -22,18 +22,18 @@ void RenderPathManager::Initialize() {
 
 void RenderPathManager::RegisterPath(const std::string& name, RenderPath&& path) {
 	if (!GetInstance().renderingPath.contains(name)) {
-		Console("[RenderPathManager] Register path. Name-\'{}\' Address-\'{}\'\n", name, (void*)&path);
+		Console("Register path. Name-\'{}\' Address-\'{}\'\n", name, (void*)&path);
 		GetInstance().renderingPath.emplace(std::move(name), std::move(path));
 	}
 	else {
-		Console("[RenderPathManager] Registering aleady used name. Name-\'{}\'\n", name);
+		Console("Registering aleady used name. Name-\'{}\'\n", name);
 	}
 }
 
 void RenderPathManager::UnregisterPath(const std::string& name) {
 	// DefaultPathを削除すると色々まずいのでさせない
 	if (name == "Default") {
-		Console("[RenderPathManager] Don't Unregister path \'Default\'.");
+		Console("Don't Unregister path \'Default\'.");
 		return;
 	}
 	auto&& instance = GetInstance();
@@ -42,19 +42,19 @@ void RenderPathManager::UnregisterPath(const std::string& name) {
 	if (instance.renderingPath.contains(name)) {
 		// 正常に削除されるのでログを出す
 		deletePath = &instance.renderingPath.at(name);
-		Console("[RenderPathManager] Unregisterd path. Name-\'{}\' Address-\'{}\'\n", name, (void*)deletePath);
+		Console("Unregisterd path. Name-\'{}\' Address-\'{}\'\n", name, (void*)deletePath);
 	}
 	// 削除
 	instance.renderingPath.erase(name);
 	// 削除したpathが今のPathと同じだった場合、delete済みポインタ参照が発生する場合があるので、強制的にDefaultにさせる
 	if (deletePath == instance.nowPath) {
 		SetPath("Default");
-		Console("[RenderPathManager] The path used has been unregistered. Current path is set to \'Default\'\n");
+		Console("The path used has been unregistered. Current path is set to \'Default\'\n");
 	}
 }
 
 void RenderPathManager::SetPath(const std::string& name) {
-	Console("[RenderPathManager] Set current render path. Name-\'{}\'\n", name);
+	Console("Set current render path. Name-\'{}\'\n", name);
 	auto& instance = GetInstance();
 	instance.nowPath = &instance.renderingPath.at(name);
 	instance.nowPath->use();

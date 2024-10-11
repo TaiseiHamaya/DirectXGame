@@ -18,7 +18,7 @@ PolygonMesh::~PolygonMesh() noexcept = default;
 
 bool PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
 	bool result;
-	Console("[PolygonMesh] Start load .obj file. file-\'{}/{}\'\n", directoryPath, fileName);
+	Console("Start load .obj file. file-\'{}/{}\'\n", directoryPath, fileName);
 	directory = directoryPath;
 	objectName = fileName;
 
@@ -37,7 +37,7 @@ bool PolygonMesh::load(const std::string& directoryPath, const std::string& file
 		++index;
 	}
 
-	Console("[PolygonMesh] Success\n");
+	Console("Success\n");
 	return true;
 }
 
@@ -89,7 +89,7 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 	// ファイルを開く
 	std::ifstream file(directoryPath + "/" + objFileName);
 	if (!file.is_open()) {
-		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directoryPath, objFileName);
+		Console("File \'{}/{}\' is not found.\n", directoryPath, objFileName);
 		return false;
 	}
 
@@ -218,7 +218,7 @@ bool PolygonMesh::load_mtl_file() {
 	// mtlファイルを開く
 	file.open(directory + "/" + mtlFileName);
 	if (!file.is_open()) {
-		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directory, mtlFileName);
+		Console("File \'{}/{}\' is not found.\n", directory, mtlFileName);
 		return false;
 	}
 

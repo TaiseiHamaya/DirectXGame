@@ -18,7 +18,7 @@ void DSVDescriptorHeap::Initialize() {
 
 const std::uint32_t DSVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Console("[DSVDescriptorHeap] Use RSV index. Index-\'{}\'\n", useIndex);
+	Console("Use RSV index. Index-\'{}\'\n", useIndex);
 	return useIndex;
 }
 
@@ -27,7 +27,7 @@ const D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetCPUHandle(std::uint32_t 
 }
 
 void DSVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
-	Console("[DSVDescriptorHeap] Release RSV index. Index-\'{}\'\n", index);
+	Console("Release RSV index. Index-\'{}\'\n", index);
 	GetInstance().release_heap(index);
 }
 

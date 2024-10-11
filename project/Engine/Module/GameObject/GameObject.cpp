@@ -105,7 +105,7 @@ void GameObject::default_material() {
 #ifdef _DEBUG
 			meshMaterials[i].textureName = "Error.png";
 #endif // _DEBUG
-			Console("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName);
+			Console("Mtl file used Object file \'{}\' is not found.\n", meshName);
 		}
 		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
 	}
