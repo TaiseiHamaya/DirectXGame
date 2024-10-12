@@ -13,9 +13,9 @@ struct FormatWithLocation {
 		requires std::constructible_from<std::basic_string_view<Char>, String>
 	consteval FormatWithLocation(
 		String&& string,
-		const std::source_location sourceLocation_ = std::source_location::current()
+		std::source_location sourceLocation_ = std::source_location::current()
 	) noexcept
-		: str_(std::forward<String>(string)), location(sourceLocation_) {
+		: str_(std::forward<String>(string)), location(std::move(sourceLocation_)) {
 	}
 };
 
