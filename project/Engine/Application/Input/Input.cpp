@@ -36,21 +36,30 @@ void Input::Update() {
 		static_cast<DWORD>(instance.keyboardState.size() * sizeof(BYTE)),
 		instance.keyboardState.data()
 	);
+	if (FAILED(result)) {
+		// 失敗したら0埋め
+		std::fill(instance.keyboardState.begin(), instance.keyboardState.end(), 0);
+	}
 
 	// マウス更新
 	instance.mouseDevice->Acquire();
-	instance.mouseDevice->GetDeviceState(
-		sizeof(DIMOUSESTATE),
+	result = instance.mouseDevice->GetDeviceState(
+		sizeof(DIMOUSESTATE2),
 		instance.mouseState.get()
 	);
+	if (FAILED(result)) {
+		// 失敗したら0埋め
+		*instance.mouseState.get() = { 0 };
+	}
 
 	// マウス位置更新
 	POINT point;
+	DWORD error;
 	if (!GetCursorPos(&point)) {
-		DWORD error = GetLastError();
+		error = GetLastError();
 	}
 	if (!ScreenToClient(WinApp::GetWndHandle(), &point)) {
-		DWORD error = GetLastError();
+		error = GetLastError();
 	}
 	instance.mousePosition = { static_cast<float>(point.x), static_cast<float>(point.y) };
 }
@@ -265,7 +274,7 @@ void Input::create_mouse_device() {
 	);
 	assert(SUCCEEDED(result));
 	// フォーマットの設定
-	result = mouseDevice->SetDataFormat(&c_dfDIMouse);
+	result = mouseDevice->SetDataFormat(&c_dfDIMouse2);
 	assert(SUCCEEDED(result));
 	// その他コンフィグ
 	result = mouseDevice->SetCooperativeLevel(
@@ -274,8 +283,8 @@ void Input::create_mouse_device() {
 	assert(SUCCEEDED(result));
 
 	// stateの生成
-	mouseState = std::make_unique<DIMOUSESTATE>();
-	preMouseState = std::make_unique<DIMOUSESTATE>();
+	mouseState = std::make_unique<DIMOUSESTATE2>();
+	preMouseState = std::make_unique<DIMOUSESTATE2>();
 }
 
 void Input::initialize_joystate() {
