@@ -105,6 +105,15 @@ void Camera3D::make_perspectivefov_matrix() {
 	};
 }
 
+Matrix4x4 Camera3D::MakeViewportMatrix(const Vector2& origin, const Vector2& size, float minDepth, float maxDepth) {
+	return {
+		{{ size.x / 2, 0, 0, 0 },
+		{ 0, -size.y / 2, 0, 0 },
+		{ 0, 0, maxDepth - minDepth, 0 },
+		{ origin.x + size.x / 2, origin.y + size.y / 2, minDepth, 1 } }
+	};
+}
+
 #ifdef _DEBUG
 void Camera3D::debug_gui() {
 	transform.debug_gui();
@@ -163,6 +172,10 @@ void Camera3D::debug_draw() const {
 		frustum->begin_rendering();
 		frustum->draw();
 	}
+}
+
+const Matrix4x4& Camera3D::vp_matrix_debug() const {
+	return *vpMatrixBuffer.get_data();
 }
 
 #endif // _DEBUG
