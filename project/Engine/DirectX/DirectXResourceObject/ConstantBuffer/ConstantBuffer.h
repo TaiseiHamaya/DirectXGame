@@ -7,6 +7,10 @@
 #include "Engine/Utility/ConvertString.h"
 
 template<typename T>
+concept ConstantBufferConcept = 
+(std::is_arithmetic_v<T> || std::is_class_v<T> || std::is_enum_v<T>);
+
+template<ConstantBufferConcept T>
 class ConstantBuffer : public DirectXResourceObject {
 public:
 	ConstantBuffer() noexcept(false);
@@ -27,38 +31,40 @@ protected:
 	UINT memorySize;
 };
 
-template<typename T>
+template<ConstantBufferConcept T>
 inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	memorySize = sizeof(T);
 	resource = CreateBufferResource(memorySize);
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 	*data = T{};
 	std::wstring typeName = ConvertString(typeid(T).name());
-	auto begin = std::find(typeName.begin(), typeName.end(), ' ') + 1;
-	resource->SetName(std::format(L"ConstantBuffer-{}", begin._Ptr).c_str());
+	if constexpr (std::is_class_v<T> || std::is_enum_v<T>) {
+		typeName = (std::find(typeName.begin(), typeName.end(), ' ') + 1)._Ptr;
+	}
+	resource->SetName(std::format(L"ConstantBuffer-{}", typeName).c_str());
 }
 
-template<typename T>
+template<ConstantBufferConcept T>
 inline ConstantBuffer<T>::ConstantBuffer(const T& data_) noexcept(false) : ConstantBuffer<T>() {
 	*data = data_;
 }
 
-template<typename T>
+template<ConstantBufferConcept T>
 inline ConstantBuffer<T>::~ConstantBuffer() noexcept {
 	unmap();
 }
 
-template<typename T>
+template<ConstantBufferConcept T>
 inline const T* const ConstantBuffer<T>::get_data() const noexcept {
 	return data;
 }
 
-template<typename T>
+template<ConstantBufferConcept T>
 inline T* const ConstantBuffer<T>::get_data() noexcept {
 	return data;
 }
 
-template<typename T>
+template<ConstantBufferConcept T>
 inline void ConstantBuffer<T>::unmap() {
 	if (data) {
 		resource->Unmap(0, nullptr);
