@@ -16,8 +16,10 @@ class Color;
 
 #include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
 #include "Engine/Render/RenderNode/Sprite/SpriteNode.h"
+#include "Engine/Render/RenderNode/CircleGauge/CircleGaugeNode.h"
 
 #include "Engine/Render/RenderNode/Outline/OutlineNode.h"
+#include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -48,6 +50,7 @@ public:
 private:
 	std::unique_ptr<GameObject> parent;
 	std::unique_ptr<GameObject> child;
+	std::unique_ptr<GameObject> test;
 	std::unique_ptr<SpriteObject> sprite;
 
 	std::shared_ptr<SphereCollider> parentCollider;
@@ -64,4 +67,7 @@ private:
 	std::shared_ptr<Object3DNode> object3dNode;
 	std::shared_ptr<SpriteNode> spriteNode;
 	std::shared_ptr<OutlineNode> outlineNode;
+	std::shared_ptr<CircleGaugeNode> circleGaugeNode;
+
+	ConstantBuffer<float> percentage;
 };

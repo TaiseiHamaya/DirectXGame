@@ -21,6 +21,8 @@
 #include "Engine/DirectX/DirectXCore.h"
 
 #include "Engine/Module/Behavior/Behavior.h"
+#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -28,6 +30,7 @@ SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/HitMarker", "HitMarker.obj");
 	AudioManager::RegisterLoadQue("./EngineResources", "Alarm01.wav");
 	AudioManager::RegisterLoadQue("./EngineResources/Texture", "CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
@@ -47,6 +50,8 @@ void SceneDemo::initialize() {
 		});
 	parent = std::make_unique<GameObject>();
 	parent->reset_object("Sphere.obj");
+	test = std::make_unique<GameObject>();
+	test->reset_object("HitMarker.obj");
 	child = std::make_unique<GameObject>();
 	child->reset_object("Sphere.obj");
 	child->set_parent(*parent);
@@ -82,10 +87,20 @@ void SceneDemo::initialize() {
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("Alarm01.wav");
 
+	std::shared_ptr<SingleRenderTarget> singleRT{ std::make_shared<SingleRenderTarget>() };
+	singleRT->initialize();
+
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
-	object3dNode->set_render_target();
+	object3dNode->set_render_target(singleRT);
+	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+
+	circleGaugeNode = std::make_shared<CircleGaugeNode>();
+	circleGaugeNode->initialize();
+	circleGaugeNode->set_render_target(singleRT);
+	circleGaugeNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
+
 
 	outlineNode = std::make_unique<OutlineNode>();
 	outlineNode->initialize();
@@ -93,7 +108,7 @@ void SceneDemo::initialize() {
 	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
 	outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
-	outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
+	outlineNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
 
 	spriteNode = std::make_unique<SpriteNode>();
 	spriteNode->initialize();
@@ -101,7 +116,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode,outlineNode,spriteNode });
+	path.initialize({ object3dNode,circleGaugeNode,outlineNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
@@ -131,6 +146,7 @@ void SceneDemo::update() {
 void SceneDemo::begin_rendering() {
 	camera3D->update_matrix();
 	parent->begin_rendering();
+	test->begin_rendering();
 	child->look_at(*camera3D);
 	child->begin_rendering();
 	sprite->begin_rendering();
@@ -154,9 +170,12 @@ void SceneDemo::draw() const {
 	DirectXCore::ShowGrid();
 #endif // _DEBUG
 	RenderPathManager::Next();
+	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(3, percentage.get_resource()->GetGPUVirtualAddress());
+	test->draw();
+	RenderPathManager::Next();
 	outlineNode->draw();
 	RenderPathManager::Next();
-	sprite->draw();
+	//sprite->draw();
 	RenderPathManager::Next();
 	//outlineNode->draw();
 	//RenderPathManager::Next();
@@ -229,6 +248,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("CollisionManager");
 	collisionManager->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("CircleTest");
+	ImGui::DragFloat("Percentage", percentage.get_data(), 0.001f, 0.0f, 1.0f);
 	ImGui::End();
 
 	DirectXCore::ShowDebugTools();

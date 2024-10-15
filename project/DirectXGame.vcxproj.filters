@@ -489,6 +489,9 @@
     <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp">
       <Filter>Engine\Application\WorldClock</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\CircleGauge\CircleGaugeNode.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -734,6 +737,9 @@
     <ClInclude Include="Engine\Module\Behavior\Behavior.h">
       <Filter>Engine\Module\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\CircleGauge\CircleGaugeNode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
@@ -775,6 +781,8 @@
     <FxCompile Include="EngineResources\HLSL\RadialBlur\RadialBlur.PS.hlsl">
       <Filter>Engine\HLSL\PostEffect\RadialBlur</Filter>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\CircleGauge\CircleGauge3D.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\CircleGauge\CircleGauge3D.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
@@ -795,5 +803,6 @@
     <None Include="EngineResources\HLSL\RadialBlur\RadialBlur.hlsli">
       <Filter>Engine\HLSL\PostEffect\RadialBlur</Filter>
     </None>
+    <None Include="EngineResources\HLSL\CircleGauge\CircleGauge3D.hlsli" />
   </ItemGroup>
 </Project>
