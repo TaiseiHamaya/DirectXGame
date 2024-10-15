@@ -18,14 +18,13 @@ private:
 	Texture& operator=(const Texture&) = delete;
 
 public: // public function
-	void set_command() const;
-
 	void release_srv_heap();
 
 	[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> load_texture(const std::string& directoryPath, const std::string& fileName);
 	void create_resource_view();
 	void set_name(const std::string& fileName);
 
+	const D3D12_GPU_DESCRIPTOR_HANDLE& get_gpu_handle() const;
 	const std::uint32_t& get_texture_width() const noexcept;
 	const std::uint32_t& get_texture_height() const noexcept;
 

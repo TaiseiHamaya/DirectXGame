@@ -62,13 +62,12 @@ void GameObject::draw() const {
 		commandList->IASetIndexBuffer(meshLocked->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
-		if (meshMaterials[i].texture.expired()) {
-			// テクスチャ情報が存在しないならエラーテクスチャを使用
-			TextureManager::GetTexture("Error.png").lock()->set_command();
-		}
-		else {
-			meshMaterials[i].texture.lock()->set_command();
-		}
+		const auto& lockedTexture = meshMaterials[i].texture.lock();
+		commandList->SetGraphicsRootDescriptorTable(4, 
+			lockedTexture ? 
+			lockedTexture->get_gpu_handle() : 
+			TextureManager::GetTexture("Error.png").lock()->get_gpu_handle()
+		);
 		commandList->DrawIndexedInstanced(meshLocked->index_size(i), 1, 0, 0, 0); // 描画コマンド
 	}
 }
