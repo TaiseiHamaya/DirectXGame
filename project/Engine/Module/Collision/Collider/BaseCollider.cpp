@@ -3,7 +3,7 @@
 #include "Engine/Module/Hierarchy/Hierarchy.h"
 
 BaseCollider::BaseCollider() {
-	hierarchy.initialize(worldMatrix);
+	hierarchy.initialize(world_matrix());
 	groupName = nullptr;
 
 #ifdef _DEBUG

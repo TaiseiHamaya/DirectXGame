@@ -44,9 +44,6 @@ protected:
 	struct MaterialDataRef;
 
 public:
-	void look_at(const WorldInstance& rhs, const Vector3& upward = CVector3::BASIS_Y) noexcept;
-	void look_at(const Vector3& point, const Vector3& upward = CVector3::BASIS_Y) noexcept;
-
 	std::vector<MaterialDataRef>& get_materials();
 
 protected:

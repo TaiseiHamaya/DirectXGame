@@ -18,11 +18,25 @@ Transform3D::Transform3D(Vector3&& scale_, Quaternion&& quaternion, Vector3&& tr
 	translate(std::move(translate_)) {
 }
 
+Matrix4x4 Transform3D::create_matrix() const noexcept {
+	return Transform3D::MakeAffineMatrix(scale, rotate, translate);;
+}
+
+void Transform3D::plus_translate(const Vector3& plus) noexcept {
+	translate += plus;
+}
+
+void Transform3D::copy(const Transform3D& copy) noexcept {
+	scale = copy.scale;
+	rotate = copy.rotate;
+	translate = copy.translate;
+}
+
 void Transform3D::set_scale(const Vector3& scale_) noexcept {
 	scale = scale_;
 }
 
-void Transform3D::set_rotate(const Quaternion& rotate_) noexcept {
+void Transform3D::set_quaternion(const Quaternion& rotate_) noexcept {
 	rotate = rotate_.normalize();
 }
 
@@ -42,30 +56,16 @@ void Transform3D::set_translate_z(float z) noexcept {
 	translate.z = z;
 }
 
-Matrix4x4 Transform3D::get_matrix() const noexcept {
-	return Transform3D::MakeAffineMatrix(scale, rotate, translate);;
-}
-
 const Vector3& Transform3D::get_scale() const noexcept {
 	return scale;
-}
-
-const Vector3& Transform3D::get_translate() const noexcept {
-	return translate;
 }
 
 const Quaternion& Transform3D::get_quaternion() const noexcept {
 	return rotate;
 }
 
-void Transform3D::plus_translate(const Vector3& plus) noexcept {
-	translate += plus;
-}
-
-void Transform3D::copy(const Transform3D& copy) noexcept {
-	scale = copy.scale;
-	rotate = copy.rotate;
-	translate = copy.translate;
+const Vector3& Transform3D::get_translate() const noexcept {
+	return translate;
 }
 
 #ifdef _DEBUG
