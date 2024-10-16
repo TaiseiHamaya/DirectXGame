@@ -15,21 +15,14 @@ Texture::Texture() noexcept = default;
 
 Texture::~Texture() noexcept = default;
 
-void Texture::set_command() const {
-	if (heapIndex.has_value()) {
-		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(4, gpuHandle); // Texture
-	}
-	else {
-		DirectXCommand::GetCommandList()->SetGraphicsRootDescriptorTable(
-			4, TextureManager::GetTexture("Error.png").lock()->gpuHandle
-		); // Texture
-	}
-}
-
 void Texture::release_srv_heap() {
 	if (heapIndex.has_value()) {
 		SRVDescriptorHeap::ReleaseHeapIndex(heapIndex.value());
 	}
+}
+
+const D3D12_GPU_DESCRIPTOR_HANDLE& Texture::get_gpu_handle() const {
+	return gpuHandle;
 }
 
 const std::uint32_t& Texture::get_texture_width() const noexcept {

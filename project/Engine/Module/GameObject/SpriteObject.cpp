@@ -53,7 +53,7 @@ void SpriteObject::draw() const {
 	commandList->IASetIndexBuffer(indexes->get_p_ibv());
 	commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 	commandList->SetGraphicsRootConstantBufferView(1, material->get_resource()->GetGPUVirtualAddress()); // Color,UV
-	texture_locked->set_command();
+	commandList->SetGraphicsRootDescriptorTable(2, texture_locked->get_gpu_handle()); // Texture
 	commandList->DrawIndexedInstanced(indexes->index_size(), 1, 0, 0, 0); // 描画コマンド
 }
 
