@@ -94,7 +94,7 @@ void WinApp::BeginFrame() {
 void WinApp::EndFrame() {
 	DirectXCore::EndFrame();
 
-	instance->wait_frame();
+	///instance->wait_frame();
 }
 
 void WinApp::Finalize() {

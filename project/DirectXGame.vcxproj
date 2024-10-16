@@ -274,6 +274,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\TimedCall\TimedCall.h" />
     <ClInclude Include="Engine\WinApp.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
+    <ClInclude Include="Game\GameScene\Rail\CatmullRom.h" />
     <ClInclude Include="Game\GameScene\Rail\Rail.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
   </ItemGroup>

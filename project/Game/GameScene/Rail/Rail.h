@@ -12,7 +12,7 @@ class Rail {
 public:
 	struct RailPoint {
 		Vector3 position;
-		std::optional<Vector3> upward;
+		std::optional<float> upwardAngle;
 #ifdef _DEBUG
 		std::unique_ptr<GameObject> debugDrawObj; // デバッグ表示用モデル
 #endif // _DEBUG
@@ -29,6 +29,7 @@ public:
 	void initialize();
 	void load_rail(const std::string& filename);
 
+	void begin_rendering();
 	void draw() const;
 
 #ifdef _DEBUG
@@ -37,7 +38,8 @@ public:
 #endif // _DEBUG
 
 private:
-	void create_rail_point(const Vector3& position, const std::optional<Vector3>& upward);
+	void create_rail_point(const Vector3& position, const std::optional<float>& upwardAngle = std::nullopt);
+	void create_rail();
 
 private:
 	std::vector<RailPoint> railPoints;

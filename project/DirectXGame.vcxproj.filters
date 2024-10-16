@@ -758,6 +758,9 @@
     <ClInclude Include="Game\GameScene\Rail\Rail.h">
       <Filter>Game\GameScene\Rail</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameScene\Rail\CatmullRom.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">

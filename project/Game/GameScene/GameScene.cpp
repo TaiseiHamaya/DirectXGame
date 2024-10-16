@@ -35,6 +35,7 @@ void GameScene::update() {
 
 void GameScene::begin_rendering() {
 	camera3D->update_matrix();
+	rail->begin_rendering();
 }
 
 void GameScene::late_update() {
@@ -43,7 +44,11 @@ void GameScene::late_update() {
 void GameScene::draw() const {
 	RenderPathManager::BeginFrame();
 	camera3D->set_command(1);
+	rail->draw();
+#ifdef _DEBUG
 	rail->debug_draw();
+	camera3D->debug_draw();
+#endif // _DEBUG
 	RenderPathManager::Next();
 }
 
