@@ -2,6 +2,7 @@
 
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/WorldInstance/WorldInstance.h"
+#include "Engine/Math/Vector2.h"
 
 #ifdef _DEBUG
 #include "Engine/Module/GameObject/GameObject.h"
