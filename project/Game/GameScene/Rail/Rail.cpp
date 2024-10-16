@@ -10,18 +10,28 @@
 void Rail::initialize() {
 	load_rail("");
 	if (railPoints.empty()) {
+		create_rail_point({0,0,-3});
 		create_rail_point(CVector3::ZERO);
-		create_rail_point({ 1,0,5 }, PI);
-		create_rail_point({ 2,3,0 });
-		create_rail_point({ 10,1,1 }, PI);
+		create_rail_point({ 4,0,3 }, -PI/6);
+		create_rail_point({ 5,3,0 }, 0.0f);
+		create_rail_point({ 15,1,1 }, PI);
 	}
 #ifdef _DEBUG
 	float upwardAngle = 0;
 	Vector3 forward;
 	Quaternion rotation;
-	for (int i = 0; i + 1 < static_cast<int>(railPoints.size()); ++i) {
+
+	RailPoint& front = railPoints.front();
+	front.debugDrawObj->get_transform().set_rotate(rotation);
+	front.debugDrawObj->begin_rendering();
+	if (!front.upwardAngle.has_value()) {
+		front.upwardAngle = upwardAngle;
+	}
+
+	for (int i = 1; i + 1 < static_cast<int>(railPoints.size()); ++i) {
 		RailPoint& railPoint = railPoints[i];
 		RailPoint& next = railPoints[i + 1];
+		RailPoint& prev = railPoints[i - 1];
 		if (railPoint.upwardAngle.has_value()) {
 			upwardAngle = railPoint.upwardAngle.value();
 		}
@@ -29,7 +39,7 @@ void Rail::initialize() {
 			railPoint.upwardAngle = upwardAngle;
 		}
 		forward =
-			(next.position - railPoint.position).normalize_safe(1e4f, CVector3::BASIS_Z);
+			(next.position - prev.position).normalize_safe(1e4f, CVector3::BASIS_Z);
 		
 		rotation = Quaternion::LookForward(forward) *
 			Quaternion::AngleAxis(CVector3::BASIS_Z, upwardAngle);
