@@ -326,3 +326,4 @@ imgui.ini
 
 # Ignore DirectXTex compiled shader
 /project/externals/DirectXTex/Shaders/Compiled
+/project/Log/*
