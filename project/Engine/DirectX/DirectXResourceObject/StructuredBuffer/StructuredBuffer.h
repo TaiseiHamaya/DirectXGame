@@ -99,13 +99,13 @@ inline void StructuredBuffer<T>::release_index() {
 
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::map() {
-	resource->Map(0, nullptr, &data);
+	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 	span = std::span<T>{ data, arraySize };
 }
 
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::unmap() {
-	span = std::span<T>{ nullptr };
+	span = std::span<T, 0>();
 	data = nullptr;
 	resource->Unmap(0, nullptr);
 }
