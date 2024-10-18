@@ -181,8 +181,8 @@ private:
 
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseDevice;
 	Vector2 mousePosition;
-	std::unique_ptr<DIMOUSESTATE> mouseState;
-	std::unique_ptr<DIMOUSESTATE> preMouseState;
+	std::unique_ptr<DIMOUSESTATE2> mouseState;
+	std::unique_ptr<DIMOUSESTATE2> preMouseState;
 	
 	uint32_t dwUserIndex = 0;
 	std::unique_ptr<XINPUT_STATE> joystate;

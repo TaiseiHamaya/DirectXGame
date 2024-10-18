@@ -3,17 +3,18 @@
 #include "Engine/Module/Hierarchy/Hierarchy.h"
 
 BaseCollider::BaseCollider() {
-	hierarchy.initialize(worldMatrix);
+	hierarchy.initialize(world_matrix());
 	groupName = nullptr;
 
 #ifdef _DEBUG
 	colliderDrawer = std::make_unique<GameObject>();
-	colliderDrawer->set_parent(hierarchy);
+	colliderDrawer->set_parent(*this);
 #endif // _DEBUG
 }
 
 void BaseCollider::begin() {
 	if (!isActive) {
+		collisionMap.clear();
 		return;
 	}
 	for (auto itr = collisionMap.begin(); itr != collisionMap.end();){

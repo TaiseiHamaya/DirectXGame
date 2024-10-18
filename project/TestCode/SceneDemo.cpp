@@ -20,6 +20,8 @@
 #include "Engine/Render/RenderPath/RenderPath.h"
 #include "Engine/DirectX/DirectXCore.h"
 
+#include "Engine/Module/Behavior/Behavior.h"
+
 SceneDemo::SceneDemo() = default;
 
 SceneDemo::~SceneDemo() = default;
@@ -27,6 +29,7 @@ SceneDemo::~SceneDemo() = default;
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
 	AudioManager::RegisterLoadQue("./EngineResources", "Alarm01.wav");
+	AudioManager::RegisterLoadQue("./EngineResources/Texture", "CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
 	AudioManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
@@ -46,15 +49,15 @@ void SceneDemo::initialize() {
 	parent->reset_object("Sphere.obj");
 	child = std::make_unique<GameObject>();
 	child->reset_object("Sphere.obj");
-	child->set_parent(parent->get_hierarchy());
+	child->set_parent(*parent);
 
 	parentCollider = std::make_unique<SphereCollider>();
 	parentCollider->initialize();
-	parentCollider->get_hierarchy().set_parent(parent->get_hierarchy());
+	parentCollider->set_parent(*parent);
 
 	childCollider = std::make_unique<SphereCollider>();
 	childCollider->initialize();
-	childCollider->get_hierarchy().set_parent(child->get_hierarchy());
+	childCollider->set_parent(*child);
 
 	singleCollider = std::make_unique<SphereCollider>();
 	singleCollider->initialize();
@@ -153,7 +156,7 @@ void SceneDemo::draw() const {
 	RenderPathManager::Next();
 	outlineNode->draw();
 	RenderPathManager::Next();
-	//sprite->draw();
+	sprite->draw();
 	RenderPathManager::Next();
 	//outlineNode->draw();
 	//RenderPathManager::Next();
