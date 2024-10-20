@@ -7,7 +7,6 @@
 
 #include <memory>
 #include <list>
-#include <deque>
 
 class BaseParticleMovements;
 
@@ -34,6 +33,7 @@ public:
 	void emit();
 
 public:
+	bool is_end_all() const;
 	const BaseEmitter& get_emitter() const { return *emitter; };
 	const std::list<Particle>& get_particles() const { return particles; };
 
@@ -43,13 +43,15 @@ public:
 private:
 	void create_buffers();
 
+#ifdef _DEBUG
+public:
+	void debug_gui();
+#endif // _DEBUG
+
 protected:
 	uint32_t numMaxParticle{ 0 };
 	
 private:
-	uint32_t nextUseIndex{ 0 };
-	std::deque<uint32_t> releasedIndex;
-
 	std::unique_ptr<BaseEmitter> emitter;
 	std::list<Particle> particles;
 

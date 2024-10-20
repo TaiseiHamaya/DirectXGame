@@ -6,7 +6,7 @@
 class ParticleSystemModel final : public BaseParticleSystem {
 public:
 	ParticleSystemModel() = default;
-	virtual ~ParticleSystemModel() = default;
+	~ParticleSystemModel() = default;
 
 	ParticleSystemModel(const ParticleSystemModel&) = delete;
 	ParticleSystemModel& operator=(const ParticleSystemModel&) = delete;

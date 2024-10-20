@@ -262,7 +262,7 @@ void SceneDemo::debug_update() {
 	if (ImGui::Button("Emit")) {
 		//particleSystem->emit();
 	}
-	//particleSystem->debug_gui();
+	particleSystem->debug_gui();
 	ImGui::End();
 
 	DirectXCore::ShowDebugTools();

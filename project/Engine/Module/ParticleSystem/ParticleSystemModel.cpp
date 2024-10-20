@@ -14,7 +14,7 @@ void ParticleSystemModel::draw() const {
 		commandList->SetGraphicsRootDescriptorTable(0, particleBuffer.get_handle_gpu());
 		commandList->SetGraphicsRootDescriptorTable(2, texture.lock()->get_gpu_handle());
 
-		commandList->DrawIndexedInstanced(lockedMesh->index_size(0), numMaxParticle, 0, 0, 0);
+		commandList->DrawIndexedInstanced(lockedMesh->index_size(0), static_cast<UINT>(get_particles().size()), 0, 0, 0);
 	}
 }
 
