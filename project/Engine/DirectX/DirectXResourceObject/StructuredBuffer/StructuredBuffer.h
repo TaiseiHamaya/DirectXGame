@@ -21,8 +21,10 @@ public:
 	void initialize(uint32_t arraySize_);
 	void finalize();
 
-	std::span<T>& get_array() const;
+public:
+	std::span<T>& get_array();
 	const std::span<T>& get_carray() const;
+	const D3D12_GPU_DESCRIPTOR_HANDLE& get_handle_gpu() const { return gpuHandle; };
 
 private:
 	void create_resource();
@@ -58,7 +60,7 @@ inline void StructuredBuffer<T>::finalize() {
 }
 
 template<StructuredBufferType T>
-inline std::span<T>& StructuredBuffer<T>::get_array() const {
+inline std::span<T>& StructuredBuffer<T>::get_array() {
 	return span;
 }
 

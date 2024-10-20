@@ -280,6 +280,12 @@
     <Filter Include="Engine\Module\ParticleSystem\Emitter">
       <UniqueIdentifier>{1cd77655-ca16-4921-8cda-2578a1a7bce0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Module\ParticleSystem\Particle\Movements">
+      <UniqueIdentifier>{4030497c-8562-438f-b091-07c2854d39c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\Particle\ParticleMesh">
+      <UniqueIdentifier>{8ae07648-acfc-4628-b030-5c27df0b4e35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -486,9 +492,6 @@
     <ClCompile Include="Engine\Application\Input\Input.cpp">
       <Filter>Engine\Application\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleNode.cpp">
-      <Filter>Engine\Render\RenderNode\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\WorldInstance\WorldInstance.cpp">
       <Filter>Engine\Module\WorldInstance</Filter>
     </ClCompile>
@@ -501,14 +504,32 @@
     <ClCompile Include="Engine\Application\WorldClock\WorldClock.cpp">
       <Filter>Engine\Application\WorldClock</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp">
-      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystem.cpp">
+    <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp">
       <Filter>Engine\Module\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp">
       <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp">
+      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\ParticleSample.cpp">
+      <Filter>TestProgram</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\EmitterSample.cpp">
+      <Filter>TestProgram</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.cpp">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,9 +755,6 @@
     <ClInclude Include="Engine\Utility\Bitflag\bitflag.h">
       <Filter>Engine\Utility\Bitflag</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleNode.h">
-      <Filter>Engine\Render\RenderNode\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\WorldInstance\WorldInstance.h">
       <Filter>Engine\Module\WorldInstance</Filter>
     </ClInclude>
@@ -755,10 +773,7 @@
     <ClInclude Include="Engine\Module\Behavior\Behavior.h">
       <Filter>Engine\Module\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h">
-      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystem.h">
+    <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h">
       <Filter>Engine\Module\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\StructuredBuffer\StructuredBuffer.h">
@@ -766,6 +781,33 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h">
       <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Particle.h">
+      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\EmitterSample.h">
+      <Filter>TestProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\ParticleSample.h">
+      <Filter>TestProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h">
+      <Filter>Engine\Module\ParticleSystem\Particle\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.h">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
+      <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -808,11 +850,11 @@
     <FxCompile Include="EngineResources\HLSL\RadialBlur\RadialBlur.PS.hlsl">
       <Filter>Engine\HLSL\PostEffect\RadialBlur</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\Particle.PS.hlsl">
-      <Filter>Engine\HLSL\Particle</Filter>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
+      <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\Particle.VS.hlsl">
-      <Filter>Engine\HLSL\Particle</Filter>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
+      <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -834,8 +876,8 @@
     <None Include="EngineResources\HLSL\RadialBlur\RadialBlur.hlsli">
       <Filter>Engine\HLSL\PostEffect\RadialBlur</Filter>
     </None>
-    <None Include="EngineResources\HLSL\Particle\Particle.hlsli">
-      <Filter>Engine\HLSL\Particle</Filter>
+    <None Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.hlsli">
+      <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </None>
   </ItemGroup>
 </Project>
