@@ -2,8 +2,6 @@
 
 #include "Engine/Render/RenderNode/SingleRenderTargetNode.h"
 
-class DepthStencil;
-
 class Object3DNode final : public SingleRenderTargetNode {
 public:
 	Object3DNode();

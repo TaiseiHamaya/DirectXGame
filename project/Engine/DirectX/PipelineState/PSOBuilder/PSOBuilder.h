@@ -24,6 +24,7 @@ public:
 
 public:
 	void add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister);
+	void add_structured(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1);
 	void add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1);
 	void sampler(
 		D3D12_SHADER_VISIBILITY visibility,

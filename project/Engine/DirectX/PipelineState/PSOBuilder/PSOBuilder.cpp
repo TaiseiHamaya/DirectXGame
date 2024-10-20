@@ -49,6 +49,11 @@ void RootSignatureBuilder::add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shad
 	rootParameter.Descriptor.ShaderRegister = shaderRagister; // レジスタ番号0
 }
 
+void RootSignatureBuilder::add_structured(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors) {
+	// やることはtexutreと同じなのでラップ
+	add_texture(visibility, baseShaderRegister, numDescriptors);
+}
+
 void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors) {
 	D3D12_DESCRIPTOR_RANGE& descriptorRange = descriptorRanges.emplace_back();
 	descriptorRange.BaseShaderRegister = baseShaderRegister;
@@ -59,8 +64,8 @@ void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT 
 	D3D12_ROOT_PARAMETER& rootParameter = rootParameters.emplace_back();
 	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE; // DescriptorTableを使う
 	rootParameter.ShaderVisibility = visibility;
-	rootParameter.DescriptorTable.pDescriptorRanges = &descriptorRanges.back(); // デスクリプタの中身の設定
-	rootParameter.DescriptorTable.NumDescriptorRanges = descriptorRanges.back().NumDescriptors; // Tableで使用する数
+	rootParameter.DescriptorTable.pDescriptorRanges = &descriptorRange; // デスクリプタの中身の設定
+	rootParameter.DescriptorTable.NumDescriptorRanges = descriptorRange.NumDescriptors; // Tableで使用する数
 }
 
 void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {

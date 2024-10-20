@@ -42,9 +42,12 @@ void ShaderCompiler::initialize() {
 		filePath.c_str(),
 		L"-E", L"main",
 		L"-T", profile,
+#ifdef _DEBUG
 		L"-Zi", L"-Qembed_debug",
 		L"-Od",
+#endif // _DEBUG
 		L"-Zpr"
+		//L"/enable_unbounded_descriptor_tables"
 	};
 	Microsoft::WRL::ComPtr<IDxcResult> shaderResult = nullptr;
 	hr = dxcCompiler->Compile( // ここでコンパイル
@@ -59,7 +62,8 @@ void ShaderCompiler::initialize() {
 	Microsoft::WRL::ComPtr<IDxcBlobUtf8> shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(shaderError.GetAddressOf()), nullptr); // エラーを取得
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
-		Console("{}", shaderError->GetStringPointer()); // CEだったら停止
+		auto msg = shaderError->GetStringPointer();
+		Console("{}", msg); // CEだったら停止
 		assert(false);
 	}
 

@@ -72,9 +72,11 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\d3dcompiler_47.dll" "$(TargetDir)d3dcompiler_47.dll"
 copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
 </Command>
     </PostBuildEvent>
@@ -105,9 +107,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\d3dcompiler_47.dll" "$(TargetDir)d3dcompiler_47.dll"
 copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"
 </Command>
     </PostBuildEvent>
@@ -162,6 +166,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\Module\GameObject\SpriteObject.cpp" />
     <ClCompile Include="Engine\Module\Hierarchy\Hierarchy.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp" />
     <ClCompile Include="Engine\Module\PolygonMesh\PolygonMesh.cpp" />
     <ClCompile Include="Engine\Module\PolygonMesh\PolygonMeshManager.cpp" />
     <ClCompile Include="Engine\Module\TextureManager\TextureManager.cpp" />
@@ -174,7 +182,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Render\RenderNode\MultiRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Outline\OutlineNode.cpp" />
-    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleNode.cpp" />
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
+    <ClCompile Include="Engine\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\SingleRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Render\RenderNode\Sprite\SpriteNode.cpp" />
@@ -188,6 +198,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\ConvertString.cpp" />
     <ClCompile Include="Engine\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestCode\EmitterSample.cpp" />
+    <ClCompile Include="TestCode\ParticleSample.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +230,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h" />
+    <ClInclude Include="Engine\DirectX\DirectXResourceObject\StructuredBuffer\StructuredBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\Texture\Texture.h" />
     <ClInclude Include="Engine\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\DirectX\DirectXSwapChain\DirectXSwapChain.h" />
@@ -243,6 +256,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\GameObject\GameObject.h" />
     <ClInclude Include="Engine\Module\GameObject\SpriteObject.h" />
     <ClInclude Include="Engine\Module\Hierarchy\Hierarchy.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Particle.h" />
     <ClInclude Include="Engine\Module\PolygonMesh\PolygonMesh.h" />
     <ClInclude Include="Engine\Module\PolygonMesh\PolygonMeshManager.h" />
     <ClInclude Include="Engine\Module\TextureManager\TextureManager.h" />
@@ -255,7 +274,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Render\RenderNode\MultiRenderTargetNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Object3DNode\Object3DNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Outline\OutlineNode.h" />
-    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleNode.h" />
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.h" />
+    <ClInclude Include="Engine\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\RadialBlur\RadialBlurNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\SingleRenderTargetNode.h" />
     <ClInclude Include="Engine\Render\RenderNode\Sprite\SpriteNode.h" />
@@ -271,6 +292,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\SmartPointer.h" />
     <ClInclude Include="Engine\Utility\TimedCall\TimedCall.h" />
     <ClInclude Include="Engine\WinApp.h" />
+    <ClInclude Include="TestCode\EmitterSample.h" />
+    <ClInclude Include="TestCode\ParticleSample.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +326,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Outline\Outline.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -349,6 +380,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="EngineResources\HLSL\NormalColor\NormalColor.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
