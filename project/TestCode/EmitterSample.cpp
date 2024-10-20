@@ -12,7 +12,8 @@ void EmitterSample::initialize() {
 void EmitterSample::update() {
 	isEmit = false;
 	BaseEmitter::update();
-	if (std::fmod(timer, 1.0f) < WorldClock::DeltaSeconds()) {
+	//if (std::fmod(timer, 1.0f) < WorldClock::DeltaSeconds()) {
+	if (true) {
 		isEmit = true;
 	}
 }

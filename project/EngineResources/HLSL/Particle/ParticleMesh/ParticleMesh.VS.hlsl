@@ -3,7 +3,6 @@
 struct ParticleData {
 	float4x4 world;
 	float4 color;
-	uint isDraw;
 };
 
 struct CameraInfomation {
@@ -20,14 +19,8 @@ ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0);
 
 VertexShaderOutput main(VertexShaderInput input, uint instanceID : SV_InstanceID) {
 	VertexShaderOutput output;
-	if (gParticleData[instanceID].isDraw) {	
-		const float4x4 wvp = mul(gParticleData[instanceID].world, gCameraMatrix.viewProjection);
-
-		output.position = mul(input.position, wvp);
-	}
-	else {
-		output.position = float4(0,0,0,0);
-	}
+	const float4x4 wvp = mul(gParticleData[instanceID].world, gCameraMatrix.viewProjection);
+	output.position = mul(input.position, wvp);
 	output.texcoord = input.texcoord;
 	output.color = gParticleData[instanceID].color;
 	return output;

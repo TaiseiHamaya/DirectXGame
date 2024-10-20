@@ -7,7 +7,6 @@
 
 #include <memory>
 #include <list>
-#include <deque>
 
 class BaseParticleMovements;
 
@@ -47,9 +46,6 @@ protected:
 	uint32_t numMaxParticle{ 0 };
 	
 private:
-	uint32_t nextUseIndex{ 0 };
-	std::deque<uint32_t> releasedIndex;
-
 	std::unique_ptr<BaseEmitter> emitter;
 	std::list<Particle> particles;
 

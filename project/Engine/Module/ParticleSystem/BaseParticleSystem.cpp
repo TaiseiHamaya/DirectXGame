@@ -1,7 +1,5 @@
 #include "BaseParticleSystem.h"
 
-#include <optional>
-
 #include "Particle/Movements/BaseParticleMovements.h"
 
 BaseParticleSystem::BaseParticleSystem() = default;
@@ -35,8 +33,6 @@ void BaseParticleSystem::update() {
 	particles.remove_if(
 		[&](Particle& particle) {
 		if (particle.is_destroy()) {
-			particleBuffer.get_array()[particle.used_index()].isDraw = false;
-			releasedIndex.emplace_back(particle.used_index());
 			return true;
 		}
 		return false;
@@ -53,28 +49,23 @@ void BaseParticleSystem::update() {
 }
 
 void BaseParticleSystem::begin_rendering() {
-	for (Particle& particle : particles) {
-		particle.begin_rendering();
+	for (uint32_t index = 0; Particle& particle : particles) {
+		particle.update_matrix();
+		particleBuffer.get_array()[index] = {
+			particle.world_matrix(),
+			particle.get_color()
+		};
+		++index;
 	}
 }
 
 void BaseParticleSystem::emit() {
-	std::optional<uint32_t> useIndex;
-	if (!releasedIndex.empty()) {
-		useIndex = releasedIndex.front();
-		releasedIndex.pop_front();
-	}
-	else if (nextUseIndex < numMaxParticle) {
-		useIndex = nextUseIndex;
-		++nextUseIndex;
-	}
-	if (useIndex.has_value()) {
-		particleBuffer.get_array()[useIndex.value()].isDraw = true;
-		particles.emplace_back(
-			useIndex.value(),
-			particleBuffer.get_array()[useIndex.value()],
-			particleMovements ? particleMovements->clone() : nullptr
+	size_t next = particles.size();
+	if (next < numMaxParticle) {
+		auto& newParticle = particles.emplace_back(
+			particleMovements->clone()
 		);
+		newParticle.initialize();
 	}
 }
 
