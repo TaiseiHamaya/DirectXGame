@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Engine/Module/ParticleSystem/ParticleBufferValue.h"
 #include "Engine/Module/WorldInstance/WorldInstance.h"
+
+#include "Engine/Module/Color/Color.h"
 
 #include <memory>
 
@@ -18,6 +19,7 @@ public: // Constructor/Destructor
 	Particle& operator=(Particle&&) = delete;
 
 public: // Member function
+	void initialize() override;
 	void update();
 
 public: // Getter/Setter

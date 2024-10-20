@@ -63,7 +63,7 @@ void BaseParticleSystem::emit() {
 	size_t next = particles.size();
 	if (next < numMaxParticle) {
 		auto& newParticle = particles.emplace_back(
-			particleMovements->clone()
+			particleMovements ? particleMovements->clone() : nullptr
 		);
 		newParticle.initialize();
 	}

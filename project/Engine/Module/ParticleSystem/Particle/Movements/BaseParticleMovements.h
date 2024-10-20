@@ -13,5 +13,6 @@ public: // Constructor/Destructor
 
 public: // Member function
 	virtual std::unique_ptr<BaseParticleMovements> clone() = 0;
+	virtual void initialize(Particle* const particle) = 0;
 	virtual void move(Particle* const particle) = 0;
 };
