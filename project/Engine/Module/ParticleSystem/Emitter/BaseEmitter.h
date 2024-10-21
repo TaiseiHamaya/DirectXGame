@@ -2,7 +2,7 @@
 
 #include "Engine/Module/WorldInstance/WorldInstance.h"
 
-class Particle;
+#include "Engine/Module/ParticleSystem/Particle/Particle.h"
 
 class BaseEmitter : public WorldInstance {
 public: // Constructor/Destructor

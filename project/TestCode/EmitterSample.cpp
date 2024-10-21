@@ -1,10 +1,8 @@
 #include "EmitterSample.h"
 
-#include "Engine/Module/ParticleSystem/Particle/Particle.h"
-
 #include <random>
 
-namespace EmitterRandom {
+namespace EmitterRandomSample {
 
 static std::random_device device{};
 static std::mt19937 mt{ device() };
@@ -36,6 +34,6 @@ void EmitterSample::restart() {
 
 void EmitterSample::on_emit(Particle* const particle) {
 	particle->get_transform().set_translate(
-		this->world_position() + Vector3{ EmitterRandom::ufd1010(EmitterRandom::mt), 0, EmitterRandom::ufd1010(EmitterRandom::mt) }
+		this->world_position() + Vector3{ EmitterRandomSample::ufd1010(EmitterRandomSample::mt), 0, EmitterRandomSample::ufd1010(EmitterRandomSample::mt) }
 		);
 }
