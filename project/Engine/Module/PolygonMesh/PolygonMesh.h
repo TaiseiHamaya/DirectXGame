@@ -6,9 +6,9 @@
 #include <string>
 #include <unordered_map>
 
+#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Module/Transform2D/Transform2D.h"
 
-class VertexBuffer;
 class IndexBuffer;
 class Texture;
 
@@ -95,7 +95,7 @@ private:
 
 	struct MeshData {
 		std::string objectName;
-		std::unique_ptr<VertexBuffer> vertices;
+		std::unique_ptr<Object3DVertexBuffer> vertices;
 		std::unique_ptr<IndexBuffer> indexes;
 		std::string usemtl;
 	};

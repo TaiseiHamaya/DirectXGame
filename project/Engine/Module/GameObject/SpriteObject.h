@@ -3,14 +3,14 @@
 #include <memory>
 #include <string>
 
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/Matrix4x4.h"
-#include "Engine/Module/Color/Color.h"
 #include "Engine/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
+#include "Engine/Math/Matrix4x4.h"
+#include "Engine/Math/Vector2.h"
+#include "Engine/Module/Color/Color.h"
 
 class Texture;
 class Transform2D;
-class VertexBuffer;
 class IndexBuffer;
 
 class SpriteObject {
@@ -24,7 +24,7 @@ public:
 
 private:
 	SpriteObject(const SpriteObject&) = delete;
-	SpriteObject operator=(const SpriteObject&) = delete;
+	SpriteObject& operator=(const SpriteObject&) = delete;
 
 public:
 	const Transform2D& get_transform() noexcept;
@@ -40,7 +40,7 @@ private:
 	void create_local_vertices(const Vector2& pivot);
 
 private:
-	std::unique_ptr<VertexBuffer> vertices;
+	std::unique_ptr<Object3DVertexBuffer> vertices;
 	std::unique_ptr<IndexBuffer> indexes;
 	std::weak_ptr<Texture> texture;
 

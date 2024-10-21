@@ -7,7 +7,6 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
-#include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/Utility/ConvertString.h"
 #include "Engine/Utility/SmartPointer.h"
@@ -181,7 +180,7 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 		else if (identifier == "o") {
 			if (!vertices.empty() && !indexes.empty()) {
 				// リソースの作成とコピー
-				current->vertices = eps::CreateUnique<VertexBuffer>(vertices);
+				current->vertices = eps::CreateUnique<Object3DVertexBuffer>(std::move(vertices));
 				current->indexes = eps::CreateUnique<IndexBuffer>(indexes);
 			}
 			meshDatas.emplace_back();
@@ -205,7 +204,7 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 	}
 
 	// 最後にもう1度リソースの作成とコピー
-	current->vertices = std::make_unique<VertexBuffer>(vertices);
+	current->vertices = std::make_unique<Object3DVertexBuffer>(vertices);
 	current->indexes = std::make_unique<IndexBuffer>(indexes);
 
 	return true;

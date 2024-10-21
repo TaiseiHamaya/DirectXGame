@@ -4,10 +4,10 @@
 
 #include "Engine/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Module/TextureManager/TextureManager.h"
 #include "Engine/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
-#include "Engine/Module/Transform2D/Transform2D.h"
 #include "Engine/Module/Camera/Camera2D.h"
+#include "Engine/Module/TextureManager/TextureManager.h"
+#include "Engine/Module/Transform2D/Transform2D.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -88,5 +88,5 @@ void SpriteObject::create_local_vertices(const Vector2& pivot) {
 		CVector2::BASIS_X
 	};
 
-	vertices = std::make_unique<VertexBuffer>(vertexData);
+	vertices = std::make_unique<Object3DVertexBuffer>(vertexData);
 }
