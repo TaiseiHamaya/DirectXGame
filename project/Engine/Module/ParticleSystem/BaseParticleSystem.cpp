@@ -49,6 +49,7 @@ void BaseParticleSystem::update() {
 }
 
 void BaseParticleSystem::begin_rendering() {
+	emitter->update_matrix();
 	for (uint32_t index = 0; Particle& particle : particles) {
 		particle.update_matrix();
 		particleBuffer.get_array()[index] = {
@@ -66,6 +67,9 @@ void BaseParticleSystem::emit() {
 			particleMovements ? particleMovements->clone() : nullptr
 		);
 		newParticle.initialize();
+		if (emitter) {
+			emitter->on_emit(&newParticle);
+		}
 	}
 }
 
@@ -81,3 +85,16 @@ void BaseParticleSystem::set_particle_movements(std::unique_ptr<BaseParticleMove
 void BaseParticleSystem::create_buffers() {
 	particleBuffer.initialize(numMaxParticle);
 }
+
+#ifdef _DEBUG
+
+#include <imgui.h>
+void BaseParticleSystem::debug_gui() {
+	if (ImGui::CollapsingHeader("Emitter")) {
+		emitter->debug_gui();
+	}
+	if (ImGui::CollapsingHeader("Particles")) {
+		ImGui::Text("Now/Max : %d/%d", particles.size(), numMaxParticle);
+	}
+}
+#endif // _DEBUG

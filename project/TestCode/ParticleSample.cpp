@@ -18,7 +18,7 @@ std::unique_ptr<BaseParticleMovements> ParticleSample::clone() {
 }
 
 void ParticleSample::initialize(Particle* const particle) {
-	particle->get_transform().set_translate({ ufd1010(mt),0,ufd1010(mt) });
+	// do nothing
 }
 
 void ParticleSample::move(Particle* const particle) {

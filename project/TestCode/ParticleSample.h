@@ -10,6 +10,6 @@ public: // Member function
 
 private:
 	float timer;
-	float lifeTime = 1;
+	float lifeTime = 100;
 	Vector3 velocity;
 };

@@ -2,6 +2,8 @@
 
 #include "Engine/Module/WorldInstance/WorldInstance.h"
 
+class Particle;
+
 class BaseEmitter : public WorldInstance {
 public: // Constructor/Destructor
 	BaseEmitter() = default;
@@ -11,6 +13,7 @@ public: // Member function
 	virtual void initialize() {};
 	virtual void update();
 
+	virtual void on_emit(Particle* const particle) {};
 	virtual void restart() = 0;
 
 public: // Getter/Setter

@@ -42,6 +42,11 @@ public:
 private:
 	void create_buffers();
 
+#ifdef _DEBUG
+public:
+	void debug_gui();
+#endif // _DEBUG
+
 protected:
 	uint32_t numMaxParticle{ 0 };
 	
