@@ -95,7 +95,7 @@ inline void StructuredBuffer<T>::create_srv() {
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::release_index() {
 	if (heapIndex.has_value()) {
-		SRVDescriptorHeap::ReleaseHeapIndex(heapIndex.has_value());
+		SRVDescriptorHeap::ReleaseHeapIndex(heapIndex.value());
 	}
 }
 

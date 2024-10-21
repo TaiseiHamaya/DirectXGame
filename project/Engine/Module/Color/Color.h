@@ -34,10 +34,10 @@ public:
 	constexpr Color(float _red, float _green, float _blue, float _alpha) noexcept;
 
 public:
-	float red; // 赤[0, 1]
-	float green; // 緑[0, 1]
-	float blue; // 青[0, 1]
-	float alpha; // アルファ[0, 1]
+	float red{ 1.0f }; // 赤[0, 1]
+	float green{ 1.0f }; // 緑[0, 1]
+	float blue{ 1.0f }; // 青[0, 1]
+	float alpha{ 1.0f }; // アルファ[0, 1]
 
 public:
 	/// <summary>
