@@ -73,6 +73,10 @@ void BaseParticleSystem::emit() {
 	}
 }
 
+bool BaseParticleSystem::is_end_all() {
+	return emitter->is_end() && particles.empty();
+}
+
 void BaseParticleSystem::set_emitter(std::unique_ptr<BaseEmitter>&& emitter_) {
 	emitter = std::move(emitter_);
 	emitter->initialize();

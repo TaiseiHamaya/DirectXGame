@@ -33,6 +33,7 @@ public:
 	void emit();
 
 public:
+	bool is_end_all();
 	const BaseEmitter& get_emitter() const { return *emitter; };
 	const std::list<Particle>& get_particles() const { return particles; };
 
