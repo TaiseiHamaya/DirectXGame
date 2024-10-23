@@ -11,10 +11,10 @@ Object3DNode::Object3DNode() = default;
 Object3DNode::~Object3DNode() noexcept = default;
 
 void Object3DNode::initialize() {
+	depthStencil = DirectXSwapChain::GetDepthStencil();
 	create_pipeline_state();
 	pipelineState->set_name("Object3DNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	depthStencil = DirectXSwapChain::GetDepthStencil();
 }
 
 void Object3DNode::begin() {
@@ -60,7 +60,7 @@ void Object3DNode::create_pipeline_state() {
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
-	psoBuilder->depthstencilstate(*DirectXSwapChain::GetDepthStencil());
+	psoBuilder->depthstencilstate(*depthStencil);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

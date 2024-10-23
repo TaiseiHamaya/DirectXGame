@@ -23,7 +23,7 @@ void RenderPathManager::Initialize() {
 void RenderPathManager::RegisterPath(const std::string& name, RenderPath&& path) {
 	if (!GetInstance().renderingPath.contains(name)) {
 		Console("[RenderPathManager] Register path. Name-\'{}\' Address-\'{}\'\n", name, (void*)&path);
-		GetInstance().renderingPath.emplace(std::move(name), std::move(path));
+		GetInstance().renderingPath.emplace(name, std::move(path));
 	}
 	else {
 		Console("[RenderPathManager] Registering aleady used name. Name-\'{}\'\n", name);
@@ -79,5 +79,5 @@ void RenderPathManager::create_default() {
 
 	RenderPath path{};
 	path.initialize({ node });
-	renderingPath.emplace("Default", std::move(path));
+	RegisterPath("Default", std::move(path));
 }
