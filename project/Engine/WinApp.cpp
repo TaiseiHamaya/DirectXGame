@@ -56,6 +56,9 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	instance.reset(new WinApp{ width, height });
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
+
+	InitializeLog();
+
 	instance->initialize_application(programName, windowConfig);
 	//DirectXの初期化
 	DirectXCore::Initialize();

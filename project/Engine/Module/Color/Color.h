@@ -7,7 +7,7 @@ public:
 	/// <summary>
 	/// デフォルトコンストラクタ(0,0,0,0で初期化)
 	/// </summary>
-	constexpr Color() noexcept;
+	constexpr Color() noexcept = default;
 
 	/// <summary>
 	/// カラーコードから生成
@@ -34,10 +34,10 @@ public:
 	constexpr Color(float _red, float _green, float _blue, float _alpha) noexcept;
 
 public:
-	float red; // 赤[0, 1]
-	float green; // 緑[0, 1]
-	float blue; // 青[0, 1]
-	float alpha; // アルファ[0, 1]
+	float red{ 1.0f }; // 赤[0, 1]
+	float green{ 1.0f }; // 緑[0, 1]
+	float blue{ 1.0f }; // 青[0, 1]
+	float alpha{ 1.0f }; // アルファ[0, 1]
 
 public:
 	/// <summary>
@@ -47,7 +47,7 @@ public:
 	[[deprecated]] const unsigned int hex() const;
 #ifdef _DEBUG
 	void debug_gui3() noexcept(false);
-	
+
 	void debug_gui4() noexcept(false);
 #endif // _DEBUG
 
@@ -73,13 +73,6 @@ public:
 	/// <returns></returns>
 	[[deprecated]] static Color LerpC(const Color& color1, const Color& color2, float t);
 };
-
-constexpr Color::Color() noexcept {
-	red = 0;
-	green = 0;
-	blue = 0;
-	alpha = 0;
-}
 
 constexpr Color::Color(std::uint32_t hex) noexcept {
 	red = ((hex >> 24) & 0x000000ff) / 255.0f;

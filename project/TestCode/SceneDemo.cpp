@@ -21,6 +21,10 @@
 #include "Engine/DirectX/DirectXCore.h"
 
 #include "Engine/Module/Behavior/Behavior.h"
+#include "Engine/Utility/SmartPointer.h"
+#include "TestCode/EmitterSample.h"
+#include "TestCode/ParticleSample.h"
+#include "Engine/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -70,6 +74,14 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
+	particleSystem = eps::CreateUnique<ParticleSystemModel>();
+	particleSystem->initialize(128);
+	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
+	particleSystem->set_mesh("Sphere.obj");
+	particleSystem->set_particle_movements(
+		eps::CreateUnique<ParticleSample>()
+	);
+
 	sprite = std::make_unique<SpriteObject>("uvChecker.png");
 
 	collisionManager = std::make_unique<CollisionManager>();
@@ -82,10 +94,20 @@ void SceneDemo::initialize() {
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("Alarm01.wav");
 
+	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
+	renderTarget->initialize();
+
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
-	object3dNode->set_render_target();
+	object3dNode->set_render_target(renderTarget);
+	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
+
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+
+	particleMeshNode = std::make_unique<ParticleMeshNode>();
+	particleMeshNode->initialize();
+	particleMeshNode->set_render_target(renderTarget);
+	particleMeshNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
 
 	outlineNode = std::make_unique<OutlineNode>();
 	outlineNode->initialize();
@@ -101,7 +123,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode,outlineNode,spriteNode });
+	path.initialize({ object3dNode,particleMeshNode,outlineNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
@@ -119,13 +141,14 @@ void SceneDemo::finalize() {
 	RenderPathManager::UnregisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 	object3dNode->finalize();
 	//outlineNode->finalize();
+	particleSystem->finalize();
 }
 
 void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
-	//camera3D->update();
+	particleSystem->update();
 }
 
 void SceneDemo::begin_rendering() {
@@ -134,6 +157,7 @@ void SceneDemo::begin_rendering() {
 	child->look_at(*camera3D);
 	child->begin_rendering();
 	sprite->begin_rendering();
+	particleSystem->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -154,9 +178,12 @@ void SceneDemo::draw() const {
 	DirectXCore::ShowGrid();
 #endif // _DEBUG
 	RenderPathManager::Next();
+	camera3D->set_command(1);
+	particleSystem->draw();
+	RenderPathManager::Next();
 	outlineNode->draw();
 	RenderPathManager::Next();
-	sprite->draw();
+	//sprite->draw();
 	RenderPathManager::Next();
 	//outlineNode->draw();
 	//RenderPathManager::Next();
@@ -229,6 +256,13 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("CollisionManager");
 	collisionManager->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("ParticleSystem");
+	if (ImGui::Button("Emit")) {
+		//particleSystem->emit();
+	}
+	particleSystem->debug_gui();
 	ImGui::End();
 
 	DirectXCore::ShowDebugTools();

@@ -42,9 +42,12 @@ void ShaderCompiler::initialize() {
 		filePath.c_str(),
 		L"-E", L"main",
 		L"-T", profile,
+#ifdef _DEBUG
 		L"-Zi", L"-Qembed_debug",
 		L"-Od",
+#endif // _DEBUG
 		L"-Zpr"
+		//L"/enable_unbounded_descriptor_tables"
 	};
 	Microsoft::WRL::ComPtr<IDxcResult> shaderResult = nullptr;
 	hr = dxcCompiler->Compile( // ここでコンパイル
@@ -59,14 +62,15 @@ void ShaderCompiler::initialize() {
 	Microsoft::WRL::ComPtr<IDxcBlobUtf8> shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(shaderError.GetAddressOf()), nullptr); // エラーを取得
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
-		Console("{}", shaderError->GetStringPointer()); // CEだったら停止
+		auto msg = shaderError->GetStringPointer();
+		Console("{}", msg); // CEだったら停止
 		assert(false);
 	}
 
 	Microsoft::WRL::ComPtr<IDxcBlob>  shaderBlob = nullptr;
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(shaderBlob.GetAddressOf()), nullptr); // 成功したので書き込み
 	assert(SUCCEEDED(hr));
-	Console(L"[ShaderCompiler] Compile succeeded. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 成功ログ
+	Console(L"[ShaderCompiler] Compile succeeded.\n"); // 成功ログ
 
 	return shaderBlob;
 }
