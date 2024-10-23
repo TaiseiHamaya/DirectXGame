@@ -22,7 +22,7 @@ void Rail::initialize() {
 	Quaternion rotation;
 
 	RailPoint& front = railPoints.front();
-	front.debugDrawObj->get_transform().set_rotate(rotation);
+	front.debugDrawObj->get_transform().set_quaternion(rotation);
 	front.debugDrawObj->begin_rendering();
 	if (!front.upwardAngle.has_value()) {
 		front.upwardAngle = upwardAngle;
@@ -44,11 +44,11 @@ void Rail::initialize() {
 		rotation = Quaternion::LookForward(forward) *
 			Quaternion::AngleAxis(CVector3::BASIS_Z, upwardAngle);
 
-		railPoint.debugDrawObj->get_transform().set_rotate(rotation);
+		railPoint.debugDrawObj->get_transform().set_quaternion(rotation);
 		railPoint.debugDrawObj->begin_rendering();
 	}
 	RailPoint& end = railPoints.back();
-	end.debugDrawObj->get_transform().set_rotate(rotation);
+	end.debugDrawObj->get_transform().set_quaternion(rotation);
 	end.debugDrawObj->begin_rendering();
 	if (!end.upwardAngle.has_value()) {
 		end.upwardAngle = upwardAngle;
@@ -140,7 +140,7 @@ void Rail::create_rail() {
 	GameObject& startMesh = railDrawMesh.emplace_back("Rail.obj");
 	startMesh.get_transform().set_translate(controls[0].point);
 	Quaternion forward = Quaternion::LookForward((controls[1].point - controls[0].point).normalize_safe());
-	startMesh.get_transform().set_rotate(forward);
+	startMesh.get_transform().set_quaternion(forward);
 	Vector3 nextStart = controls[0].point + CVector3::BASIS_Z * forward;
 	for (int i = 1; i + 1 < controls.size(); ++i) {
 		GameObject& newMesh = railDrawMesh.emplace_back("Rail.obj");
@@ -149,7 +149,7 @@ void Rail::create_rail() {
 		// 回転算出
 		forward = 
 			Quaternion::LookForward((controls[i + 1].point - nextStart).normalize_safe()) * controls[i].zAngle;
-		newMesh.get_transform().set_rotate(forward);
+		newMesh.get_transform().set_quaternion(forward);
 		// 次の開始位置位置
 		nextStart = nextStart + CVector3::BASIS_Z * forward;
 	}
