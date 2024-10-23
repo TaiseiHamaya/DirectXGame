@@ -32,19 +32,24 @@ public:
 	void begin_rendering();
 	void draw() const;
 
+public:
+	float rail_length() const;
+	void transform_from_mileage(WorldInstance& worldInstance, float mileage) const;
+
+private:
+	void create_rail_point(const Vector3& position, const std::optional<float>& upwardAngle = std::nullopt);
+	void create_rail();
+
 #ifdef _DEBUG
 public:
 	void debug_draw();
 #endif // _DEBUG
 
 private:
-	void create_rail_point(const Vector3& position, const std::optional<float>& upwardAngle = std::nullopt);
-	void create_rail();
-
-private:
 	std::vector<RailPoint> railPoints;
 
 	std::vector<GameObject> railDrawMesh;
+	float railLength;
 
 public:
 	static void LoadMesh();

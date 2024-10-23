@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <Engine/Module/Camera/Camera3D.h>
+#include "Game/GameScene/Player/RailCamera.h"
 #include "Game/GameScene/Rail/Rail.h"
 
 class GameScene : public BaseScene {
@@ -31,6 +31,6 @@ public:
 #endif // _DEBUG
 
 private:
-	std::unique_ptr<Camera3D> camera3D;
+	std::unique_ptr<RailCamera> camera3D;
 	std::unique_ptr<Rail> rail;
 };

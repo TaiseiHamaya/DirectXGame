@@ -9,7 +9,7 @@ void GameScene::load() {
 }
 
 void GameScene::initialize() {
-	camera3D = std::make_unique<Camera3D>();
+	camera3D = std::make_unique<RailCamera>();
 	camera3D->initialize();
 	camera3D->set_transform({
 		CVector3::BASIS,
@@ -19,6 +19,8 @@ void GameScene::initialize() {
 
 	rail = eps::CreateUnique<Rail>();
 	rail->initialize();
+
+	camera3D->set_rail(rail.get());
 }
 
 void GameScene::finalize() {
@@ -31,6 +33,7 @@ void GameScene::begin() {
 }
 
 void GameScene::update() {
+	camera3D->update();
 }
 
 void GameScene::begin_rendering() {
@@ -57,9 +60,7 @@ void GameScene::draw() const {
 #include <imgui.h>
 void GameScene::debug_update() {
 
-	ImGui::Begin("Camera3D");
 	camera3D->debug_gui();
-	ImGui::End();
 
 	ImGui::Begin("WorldClock");
 	WorldClock::DebugGui();

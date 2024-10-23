@@ -549,6 +549,9 @@
     <ClCompile Include="Game\GameScene\Rail\Rail.cpp">
       <Filter>Game\GameScene\Rail</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameScene\Player\RailCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp.h">
@@ -834,6 +837,9 @@
       <Filter>Game\GameScene\Rail</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene\Rail\CatmullRom.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Player\RailCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -56,6 +56,8 @@ void Rail::initialize() {
 #endif // _DEBUG
 
 	create_rail();
+
+	railLength = static_cast<float>(railDrawMesh.size());
 }
 
 void Rail::load_rail(const std::string& filename) {
@@ -73,11 +75,38 @@ void Rail::draw() const {
 	}
 }
 
-void Rail::debug_draw() {
-	for (RailPoint& railPoint : railPoints) {
-		railPoint.debugDrawObj->begin_rendering();
-		railPoint.debugDrawObj->draw();
+float Rail::rail_length() const {
+	return railLength;
+}
+
+void Rail::transform_from_mileage(WorldInstance& worldInstance, float mileage) const {
+	// Index算出
+	int index = static_cast<int>(mileage);
+	float parametric = mileage - std::floor(mileage);
+	std::optional<int> nextIndex;
+	if (index + 1 < railLength) {
+		nextIndex = index + 1;
 	}
+	// Translate算出
+	Vector3 internal = railDrawMesh[index].world_position();
+	Vector3 terminal =
+		nextIndex.has_value() ?
+		railDrawMesh[nextIndex.value()].world_position() :
+		railPoints.back().position;
+	worldInstance.get_transform().set_translate(Vector3::Lerp(internal, terminal, parametric));
+	// Quaternion
+	Quaternion internalRotation = railDrawMesh[index].get_transform().get_quaternion();
+	Quaternion terminalRotation;
+	if (nextIndex.has_value()) {
+		terminalRotation = railDrawMesh[nextIndex.value()].get_transform().get_quaternion();
+	}
+	else {
+		Vector3 forward = (terminal - internal).normalize_safe();
+		terminalRotation = Quaternion::LookForward(forward) * Quaternion::AngleAxis(CVector3::BASIS_Z, railPoints.back().upwardAngle.value());
+	}
+	worldInstance.get_transform().set_quaternion(
+		Quaternion::Slerp(internalRotation, terminalRotation, parametric)
+	);
 }
 
 void Rail::create_rail_point(const Vector3& position, const std::optional<float>& upward) {
@@ -152,6 +181,13 @@ void Rail::create_rail() {
 		newMesh.get_transform().set_quaternion(forward);
 		// 次の開始位置位置
 		nextStart = nextStart + CVector3::BASIS_Z * forward;
+	}
+}
+
+void Rail::debug_draw() {
+	for (RailPoint& railPoint : railPoints) {
+		railPoint.debugDrawObj->begin_rendering();
+		railPoint.debugDrawObj->draw();
 	}
 }
 
