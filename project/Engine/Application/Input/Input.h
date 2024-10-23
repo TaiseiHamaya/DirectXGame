@@ -23,8 +23,8 @@ private:
 	Input() = default;
 	~Input() = default;
 	
-	Input(const Input&) = default;
-	Input& operator=(const Input&) = default;
+	Input(const Input&) = delete;
+	Input& operator=(const Input&) = delete;
 
 public:
 	static Input& GetInstance();
@@ -188,4 +188,41 @@ private:
 	std::unique_ptr<XINPUT_STATE> joystate;
 	std::unique_ptr<XINPUT_STATE> preJoystate;
 	float deadZone = 0.2f;
+};
+
+class InputAdvanced {
+private:
+	InputAdvanced() = default;
+	~InputAdvanced() = default;
+
+	InputAdvanced(const InputAdvanced&) = delete;
+	InputAdvanced& operator=(const InputAdvanced&) = delete;
+
+public:
+	/// <summary>
+	/// WASDの入力を取得
+	/// ※ワールド空間ベース
+	/// </summary>
+	/// <returns></returns>
+	static Vector2 PressWASD();
+
+	/// <summary>
+	/// 矢印の入力を取得
+	/// ※ワールド空間ベース
+	/// </summary>
+	/// <returns></returns>
+	static Vector2 PressArrow();
+
+	/// <summary>
+	/// 4キーの入力を取得
+	/// </summary>
+	/// <param name="up">Y+</param>
+	/// <param name="down">Y-</param>
+	/// <param name="left">X-</param>
+	/// <param name="right">X+</param>
+	/// <returns></returns>
+	static Vector2 PressCustum(KeyID up, KeyID down, KeyID left, KeyID right);
+
+private:
+	static void NormalizeOneOrOver(Vector2& vector);
 };

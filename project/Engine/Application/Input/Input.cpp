@@ -292,3 +292,35 @@ void Input::initialize_joystate() {
 	joystate = std::make_unique<XINPUT_STATE>();
 	preJoystate = std::make_unique<XINPUT_STATE>();
 }
+
+Vector2 InputAdvanced::PressWASD() {
+	return PressCustum(KeyID::W, KeyID::S, KeyID::A, KeyID::D);
+}
+
+Vector2 InputAdvanced::PressArrow() {
+	return PressCustum(KeyID::Up, KeyID::Down, KeyID::Left, KeyID::Right);
+}
+
+Vector2 InputAdvanced::PressCustum(KeyID up, KeyID down, KeyID left, KeyID right) {
+	Vector2 result = CVector2::ZERO;
+	if (Input::IsPressKey(up)) {
+		result.y += 1.0f;
+	}
+	if (Input::IsPressKey(down)) {
+		result.y -= 1.0f;
+	}
+	if (Input::IsPressKey(right)) {
+		result.x += 1.0f;
+	}
+	if (Input::IsPressKey(left)) {
+		result.x -= 1.0f;
+	}
+	NormalizeOneOrOver(result);
+	return result;
+}
+
+void InputAdvanced::NormalizeOneOrOver(Vector2& vector) {
+	if (vector.length() >= 1) {
+		vector = vector.normalize();
+	}
+}
