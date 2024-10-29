@@ -3,8 +3,8 @@
 
 #include <format>
 #include <imgui.h>
-#include "Engine/Module/TextureManager/TextureManager.h"
-#include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 
 ImGuiLoadManager::ImGuiLoadManager() {
 	meshCurrentPath = "./Engine/Resources";

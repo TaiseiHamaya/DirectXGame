@@ -19,6 +19,8 @@ struct FormatWithLocation {
 	}
 };
 
+void InitializeLog();
+
 void ConsoleA(const std::string& msg);
 
 void ConsoleW(const std::wstring& msg);

@@ -4,12 +4,12 @@
 
 #include <memory>
 
-#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/WinApp.h"
-#include "Engine/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Rendering/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
+#include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Application/WinApp.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 #include "imgui.h"
 #include "imgui_impl_dx12.h"

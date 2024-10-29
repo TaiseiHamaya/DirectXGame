@@ -1,26 +1,30 @@
 #include "SceneDemo.h"
 
-#include "Engine/Module/Camera/Camera3D.h"
-#include "Engine/Module/GameObject/GameObject.h"
-#include "Engine/Module/Hierarchy/Hierarchy.h"
-#include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Application/Scene/SceneManager.h"
-#include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/Module/Collision/Collider/SphereCollider.h"
-#include "Engine/Module/Collision/CollisionManager.h"
+#include "Engine/Module/World/Camera/Camera3D.h"
+#include "Engine/Module/World/GameObject/GameObject.h"
+#include "Library/Math/Hierarchy.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Module/Render/RenderPathManager/RenderPathManager.h"
+#include "Engine/Module/World/Collision/Collider/SphereCollider.h"
+#include "Engine/Module/World/Collision/CollisionManager.h"
 
-#include "Engine/Module/GameObject/SpriteObject.h"
-#include "Engine/Module/Camera/Camera2D.h"
+#include "Engine/Module/World/GameObject/SpriteObject.h"
+#include "Engine/Module/World/Camera/Camera2D.h"
 
-#include "Engine/Module/Color/Color.h"
+#include "Library/Math/Color.h"
 
-#include "Engine/Application/Audio/AudioManager.h"
-#include "Engine/Module/TextureManager/TextureManager.h"
-#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Render/RenderPath/RenderPath.h"
-#include "Engine/DirectX/DirectXCore.h"
+#include "Engine/Resources/Audio/AudioManager.h"
+#include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Module/Render/RenderPath/RenderPath.h"
+#include "Engine/Rendering/DirectX/DirectXCore.h"
 
-#include "Engine/Module/Behavior/Behavior.h"
+#include "Engine/Utility/Template/Behavior.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
+#include "TestCode/EmitterSample.h"
+#include "TestCode/ParticleSample.h"
+#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -29,6 +33,7 @@ SceneDemo::~SceneDemo() = default;
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
 	AudioManager::RegisterLoadQue("./EngineResources", "Alarm01.wav");
+	AudioManager::RegisterLoadQue("./EngineResources/Texture", "CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
 	AudioManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
@@ -69,6 +74,15 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
+	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
+	particleSystem->initialize(128);
+	particleSystem->set_texture("uvChecker.png");
+	particleSystem->create_rect(CVector2::BASIS);
+	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
+	auto&& movements = eps::CreateUnique<ParticleSample>();
+	movements->set_camera(camera3D.get());
+	particleSystem->set_particle_movements(std::move(movements));
+
 	sprite = std::make_unique<SpriteObject>("uvChecker.png");
 
 	collisionManager = std::make_unique<CollisionManager>();
@@ -81,10 +95,20 @@ void SceneDemo::initialize() {
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("Alarm01.wav");
 
+	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
+	renderTarget->initialize();
+
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
-	object3dNode->set_render_target();
+	object3dNode->set_render_target(renderTarget);
+	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
+
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+
+	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
+	particleBillboardNode->initialize();
+	particleBillboardNode->set_render_target(renderTarget);
+	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
 
 	outlineNode = std::make_unique<OutlineNode>();
 	outlineNode->initialize();
@@ -100,7 +124,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode,outlineNode,spriteNode });
+	path.initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
@@ -118,13 +142,14 @@ void SceneDemo::finalize() {
 	RenderPathManager::UnregisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 	object3dNode->finalize();
 	//outlineNode->finalize();
+	particleSystem->finalize();
 }
 
 void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
-	//camera3D->update();
+	particleSystem->update();
 }
 
 void SceneDemo::begin_rendering() {
@@ -133,6 +158,7 @@ void SceneDemo::begin_rendering() {
 	child->look_at(*camera3D);
 	child->begin_rendering();
 	sprite->begin_rendering();
+	particleSystem->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -152,6 +178,9 @@ void SceneDemo::draw() const {
 	camera3D->debug_draw();
 	DirectXCore::ShowGrid();
 #endif // _DEBUG
+	RenderPathManager::Next();
+	camera3D->set_command(1);
+	particleSystem->draw();
 	RenderPathManager::Next();
 	outlineNode->draw();
 	RenderPathManager::Next();
@@ -228,6 +257,13 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("CollisionManager");
 	collisionManager->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("ParticleSystem");
+	if (ImGui::Button("Emit")) {
+		//particleSystem->emit();
+	}
+	particleSystem->debug_gui();
 	ImGui::End();
 
 	DirectXCore::ShowDebugTools();
