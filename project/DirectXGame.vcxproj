@@ -166,6 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Math\Hierarchy.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMesh.cpp" />
@@ -255,6 +256,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\GameObject\SpriteObject.h" />
     <ClInclude Include="Library\Math\Hierarchy.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h" />
@@ -328,6 +330,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -371,6 +381,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="EngineResources\HLSL\NormalColor\NormalColor.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

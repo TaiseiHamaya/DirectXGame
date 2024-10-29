@@ -54,6 +54,7 @@ void BaseParticleSystem::begin_rendering() {
 		particle.update_matrix();
 		particleBuffer.get_array()[index] = {
 			particle.world_matrix(),
+			particle.create_uv_matrix(),
 			particle.get_color()
 		};
 		++index;
