@@ -531,6 +531,9 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
       <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -812,6 +815,9 @@
     <ClInclude Include="Engine\Utility\Template\Array2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
@@ -859,6 +865,8 @@
     <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
       <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
@@ -882,5 +890,6 @@
     <None Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.hlsli">
       <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </None>
+    <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli" />
   </ItemGroup>
 </Project>
