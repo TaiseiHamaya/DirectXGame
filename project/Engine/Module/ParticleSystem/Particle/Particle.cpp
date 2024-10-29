@@ -18,3 +18,7 @@ void Particle::update() {
 		movements->move(this);
 	}
 }
+
+const Matrix4x4 Particle::create_uv_matrix() const {
+	return uvTransform.get_matrix4x4_padding();
+}

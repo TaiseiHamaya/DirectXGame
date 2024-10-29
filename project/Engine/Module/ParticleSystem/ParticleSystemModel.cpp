@@ -1,9 +1,9 @@
 #include "ParticleSystemModel.h"
 
-#include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Module/TextureManager/TextureManager.h"
-#include "Engine/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 
 void ParticleSystemModel::draw() const {
 	auto& commandList = DirectXCommand::GetCommandList();

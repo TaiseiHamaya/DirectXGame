@@ -1,30 +1,30 @@
 #include "SceneDemo.h"
 
-#include "Engine/Module/Camera/Camera3D.h"
-#include "Engine/Module/GameObject/GameObject.h"
-#include "Engine/Module/Hierarchy/Hierarchy.h"
-#include "Engine/Module/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Application/Scene/SceneManager.h"
-#include "Engine/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/Module/Collision/Collider/SphereCollider.h"
-#include "Engine/Module/Collision/CollisionManager.h"
+#include "Engine/Module/World/Camera/Camera3D.h"
+#include "Engine/Module/World/GameObject/GameObject.h"
+#include "Library/Math/Hierarchy.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Module/Render/RenderPathManager/RenderPathManager.h"
+#include "Engine/Module/World/Collision/Collider/SphereCollider.h"
+#include "Engine/Module/World/Collision/CollisionManager.h"
 
-#include "Engine/Module/GameObject/SpriteObject.h"
-#include "Engine/Module/Camera/Camera2D.h"
+#include "Engine/Module/World/GameObject/SpriteObject.h"
+#include "Engine/Module/World/Camera/Camera2D.h"
 
-#include "Engine/Module/Color/Color.h"
+#include "Library/Math/Color.h"
 
-#include "Engine/Application/Audio/AudioManager.h"
-#include "Engine/Module/TextureManager/TextureManager.h"
-#include "Engine/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Render/RenderPath/RenderPath.h"
-#include "Engine/DirectX/DirectXCore.h"
+#include "Engine/Resources/Audio/AudioManager.h"
+#include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Module/Render/RenderPath/RenderPath.h"
+#include "Engine/Rendering/DirectX/DirectXCore.h"
 
-#include "Engine/Module/Behavior/Behavior.h"
-#include "Engine/Utility/SmartPointer.h"
+#include "Engine/Utility/Template/Behavior.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
 #include "TestCode/EmitterSample.h"
 #include "TestCode/ParticleSample.h"
-#include "Engine/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -74,13 +74,14 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleSystem = eps::CreateUnique<ParticleSystemModel>();
+	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
 	particleSystem->initialize(128);
+	particleSystem->set_texture("uvChecker.png");
+	particleSystem->create_rect(CVector2::BASIS);
 	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	particleSystem->set_mesh("Sphere.obj");
-	particleSystem->set_particle_movements(
-		eps::CreateUnique<ParticleSample>()
-	);
+	auto&& movements = eps::CreateUnique<ParticleSample>();
+	movements->set_camera(camera3D.get());
+	particleSystem->set_particle_movements(std::move(movements));
 
 	sprite = std::make_unique<SpriteObject>("uvChecker.png");
 
@@ -104,10 +105,10 @@ void SceneDemo::initialize() {
 
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	particleMeshNode = std::make_unique<ParticleMeshNode>();
-	particleMeshNode->initialize();
-	particleMeshNode->set_render_target(renderTarget);
-	particleMeshNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
+	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
+	particleBillboardNode->initialize();
+	particleBillboardNode->set_render_target(renderTarget);
+	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
 
 	outlineNode = std::make_unique<OutlineNode>();
 	outlineNode->initialize();
@@ -123,7 +124,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode,particleMeshNode,outlineNode,spriteNode });
+	path.initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));

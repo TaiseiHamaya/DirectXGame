@@ -1,8 +1,8 @@
-#include "Engine/WinApp.h"
+#include "Engine/Application/WinApp.h"
 
 #include <cstdint>
 
-#include "Engine/Application/Scene/SceneManager.h"
+#include "Engine/Runtime/Scene/SceneManager.h"
 #include "TestCode/SceneDemo.h"
 #include "Game/GameScene/GameScene.h"
 

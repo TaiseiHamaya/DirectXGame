@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Engine/Math/Matrix4x4.h"
-#include "Engine/Module/Color/Color.h"
+#include "Library/Math/Matrix4x4.h"
+#include "Library/Math/Color.h"
 
 struct ParticleBuffer {
 	Matrix4x4 world{ CMatrix4x4::IDENTITY };
+	Matrix4x4 uvMatrix{ CMatrix4x4::IDENTITY };
 	Color color{ 1.0f, 1.0f, 1.0f, 1.0f };
 };

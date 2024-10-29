@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BaseParticleSystem.h"
-#include "Engine/Module/PolygonMesh/PolygonMesh.h"
+#include "Engine/Resources/PolygonMesh/PolygonMesh.h"
 
 class ParticleSystemModel final : public BaseParticleSystem {
 public:
