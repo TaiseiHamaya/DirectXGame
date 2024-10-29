@@ -8,7 +8,6 @@
 
 #include "Library/Math/Transform2D.h"
 
-class VertexBuffer;
 class IndexBuffer;
 class Texture;
 
@@ -95,7 +94,7 @@ private:
 
 	struct MeshData {
 		std::string objectName;
-		std::unique_ptr<VertexBuffer> vertices;
+		std::unique_ptr<Object3DVertexBuffer> vertices;
 		std::unique_ptr<IndexBuffer> indexes;
 		std::string usemtl;
 	};
