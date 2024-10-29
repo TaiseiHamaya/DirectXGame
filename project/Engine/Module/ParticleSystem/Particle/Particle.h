@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Module/WorldInstance/WorldInstance.h"
+#include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-#include "Engine/Module/Color/Color.h"
+#include "Library/Math/Color.h"
 
 #include <memory>
 

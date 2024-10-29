@@ -325,5 +325,5 @@ FodyWeavers.xsd
 imgui.ini
 
 # Ignore DirectXTex compiled shader
-/project/externals/DirectXTex/Shaders/Compiled
+/project/Library/Externals/DirectXTex/Shaders/Compiled
 /project/Log/*
