@@ -1,9 +1,9 @@
 #include "Rail.h"
 
-#include <Engine/Module/PolygonMesh/PolygonMeshManager.h>
+#include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
 
-#include <Engine/Utility/SmartPointer.h>
-#include <Engine/Math/Definition.h>
+#include <Engine/Utility/Tools/SmartPointer.h>
+#include <Library/Math/Definition.h>
 
 #include "Game/GameScene/Rail/CatmullRom.h"
 

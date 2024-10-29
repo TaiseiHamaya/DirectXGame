@@ -1,8 +1,8 @@
 #include "GameScene.h"
 
-#include <Engine/Render/RenderPathManager/RenderPathManager.h>
-#include <Engine/Utility/SmartPointer.h>
-#include <Engine/Application/WorldClock/WorldClock.h>
+#include <Engine/Module/Render/RenderPathManager/RenderPathManager.h>
+#include <Engine/Utility/Tools/SmartPointer.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
 
 void GameScene::load() {
 	Rail::LoadMesh();

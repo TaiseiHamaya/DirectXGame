@@ -4,9 +4,9 @@
 #include <vector>
 #include <optional>
 
-#include "Engine/Math/Vector3.h"
+#include "Library/Math/Vector3.h"
 
-#include <Engine/Module/GameObject/GameObject.h>
+#include <Engine/Module/World/GameObject/GameObject.h>
 
 class Rail {
 public:
