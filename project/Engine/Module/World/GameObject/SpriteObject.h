@@ -7,6 +7,7 @@
 #include "Library/Math/Matrix4x4.h"
 #include "Library/Math/Color.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 
 class Texture;
 class Transform2D;

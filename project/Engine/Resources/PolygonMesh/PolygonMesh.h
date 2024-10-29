@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 #include "Library/Math/Transform2D.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 
 class IndexBuffer;
 class Texture;
