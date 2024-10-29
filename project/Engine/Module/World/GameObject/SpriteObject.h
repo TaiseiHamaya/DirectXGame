@@ -7,10 +7,10 @@
 #include "Library/Math/Matrix4x4.h"
 #include "Library/Math/Color.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 
 class Texture;
 class Transform2D;
-class VertexBuffer;
 class IndexBuffer;
 
 class SpriteObject {
@@ -24,7 +24,7 @@ public:
 
 private:
 	SpriteObject(const SpriteObject&) = delete;
-	SpriteObject operator=(const SpriteObject&) = delete;
+	SpriteObject& operator=(const SpriteObject&) = delete;
 
 public:
 	const Transform2D& get_transform() noexcept;
@@ -40,7 +40,7 @@ private:
 	void create_local_vertices(const Vector2& pivot);
 
 private:
-	std::unique_ptr<VertexBuffer> vertices;
+	std::unique_ptr<Object3DVertexBuffer> vertices;
 	std::unique_ptr<IndexBuffer> indexes;
 	std::weak_ptr<Texture> texture;
 

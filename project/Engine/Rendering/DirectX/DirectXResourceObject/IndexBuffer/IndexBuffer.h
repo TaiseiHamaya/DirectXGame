@@ -9,8 +9,9 @@
 
 template <class T>
 concept WriteableIndexBuffer =
+// 連続メモリ配置またはイニシャライザーリスト
 (std::contiguous_iterator<typename T::iterator> || std::same_as<T, std::initializer_list<typename T::value_type>>) &&
-std::same_as<typename T::value_type, std::uint32_t> && // template型がuint32_t
+std::same_as<typename T::value_type, std::uint32_t>&& // template型がuint32_t
 	requires(T v) {
 		{ v.size() } -> std::convertible_to<std::size_t>; // size()が利用可能で、size_tに変換可能
 		{ std::to_address(v.begin()) } -> std::convertible_to<const typename T::value_type*>; // 先頭アドレス取得関数が存在し、それがconst T::value_type*に変換可能
@@ -41,7 +42,7 @@ private:
 
 private:
 	std::uint32_t* data;
-	std::uint32_t size{ _MSC_VER };
+	std::uint32_t size{};
 	UINT memorySize;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
 };

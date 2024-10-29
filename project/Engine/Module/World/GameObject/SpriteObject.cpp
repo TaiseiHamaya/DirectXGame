@@ -88,5 +88,5 @@ void SpriteObject::create_local_vertices(const Vector2& pivot) {
 		CVector2::BASIS_X
 	};
 
-	vertices = std::make_unique<VertexBuffer>(vertexData);
+	vertices = std::make_unique<Object3DVertexBuffer>(vertexData);
 }
