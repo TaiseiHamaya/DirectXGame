@@ -1,7 +1,7 @@
 #include "ParticleSample.h"
 
-#include "Engine/Utility/SmartPointer.h"
-#include "Engine/Application/WorldClock/WorldClock.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
+#include "Engine/Runtime/WorldClock/WorldClock.h"
 
 #include <random>
 

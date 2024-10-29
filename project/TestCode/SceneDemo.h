@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Application/Scene/BaseScene.h"
+#include "Engine/Runtime/Scene/BaseScene.h"
 
 #include <memory>
 
-#include "Engine/Application/Audio/AudioPlayer.h"
+#include "Engine/Resources/Audio/AudioPlayer.h"
 
 class GameObject;
 class SpriteObject;
@@ -14,11 +14,11 @@ class SphereCollider;
 class CollisionManager;
 class Color;
 
-#include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
-#include "Engine/Render/RenderNode/Sprite/SpriteNode.h"
-#include "Engine/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
+#include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
+#include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
+#include "Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
 
-#include "Engine/Render/RenderNode/Outline/OutlineNode.h"
+#include "Engine/Module/Render/RenderNode/Outline/OutlineNode.h"
 #include "Engine/Module/ParticleSystem/ParticleSystemModel.h"
 
 class SceneDemo : public BaseScene {

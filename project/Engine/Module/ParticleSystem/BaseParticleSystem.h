@@ -2,7 +2,7 @@
 
 #include "Particle/Particle.h"
 #include "Emitter/BaseEmitter.h"
-#include "Engine/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
 #include "ParticleBufferValue.h"
 
 #include <memory>
