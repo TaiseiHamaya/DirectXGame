@@ -38,19 +38,14 @@ void BaseParticleSystem::update() {
 		return false;
 	});
 	// 生成
-	if (emitter->is_active() && emitter->is_emit()) {
-		uint32_t numEmits = emitter->num_emits();
-		if (numEmits && !emitter->is_end()) {
-			for (uint32_t i = 0; i < numEmits; ++i) {
-				emit();
-			}
-		}
+	if (emitter->is_active() && emitter->is_emit() && !emitter->is_end()) {
+		emit();
 	}
 }
 
 void BaseParticleSystem::begin_rendering() {
 	emitter->update_matrix();
-	for (uint32_t index = 0; Particle& particle : particles) {
+	for (uint32_t index = 0; Particle & particle : particles) {
 		particle.update_matrix();
 		particleBuffer.get_array()[index] = {
 			particle.world_matrix(),
@@ -62,6 +57,13 @@ void BaseParticleSystem::begin_rendering() {
 }
 
 void BaseParticleSystem::emit() {
+	uint32_t numEmits = emitter->num_emits();
+	for (uint32_t i = 0; i < numEmits; ++i) {
+		emit_once();
+	}
+}
+
+void BaseParticleSystem::emit_once() {
 	size_t next = particles.size();
 	if (next < numMaxParticle) {
 		auto& newParticle = particles.emplace_back(

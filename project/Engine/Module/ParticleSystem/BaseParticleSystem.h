@@ -31,6 +31,7 @@ public:
 	virtual void draw() const = 0;
 
 	void emit();
+	void emit_once();
 
 public:
 	bool is_end_all() const;
