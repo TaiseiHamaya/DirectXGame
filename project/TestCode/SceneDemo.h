@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Application/Scene/BaseScene.h"
+#include "Engine/Runtime/Scene/BaseScene.h"
 
 #include <memory>
 
-#include "Engine/Application/Audio/AudioPlayer.h"
+#include "Engine/Resources/Audio/AudioPlayer.h"
 
 class GameObject;
 class SpriteObject;
@@ -14,10 +14,12 @@ class SphereCollider;
 class CollisionManager;
 class Color;
 
-#include "Engine/Render/RenderNode/Object3DNode/Object3DNode.h"
-#include "Engine/Render/RenderNode/Sprite/SpriteNode.h"
+#include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
+#include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
+#include "Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
 
-#include "Engine/Render/RenderNode/Outline/OutlineNode.h"
+#include "Engine/Module/Render/RenderNode/Outline/OutlineNode.h"
+#include "Engine/Module/ParticleSystem/ParticleSystemBillboard.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -56,6 +58,8 @@ private:
 	std::shared_ptr<SphereCollider> single2Collider;
 	std::shared_ptr<SphereCollider> single3Collider;
 
+	std::unique_ptr<ParticleSystemBillboard> particleSystem;
+
 	std::unique_ptr<CollisionManager> collisionManager;
 	std::unique_ptr<Camera3D> camera3D;
 
@@ -64,4 +68,5 @@ private:
 	std::shared_ptr<Object3DNode> object3dNode;
 	std::shared_ptr<SpriteNode> spriteNode;
 	std::shared_ptr<OutlineNode> outlineNode;
+	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
 };
