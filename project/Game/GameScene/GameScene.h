@@ -6,6 +6,10 @@
 
 #include "Game/GameScene/Player/RailCamera.h"
 #include "Game/GameScene/Rail/Rail.h"
+#include "Game/GameScene/Player/Beam.h"
+
+#include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
+#include <Engine/Module/Render/RenderNode/Sprite/SpriteNode.h>
 
 class GameScene : public BaseScene {
 public:
@@ -33,4 +37,8 @@ public:
 private:
 	std::unique_ptr<RailCamera> camera3D;
 	std::unique_ptr<Rail> rail;
+	std::unique_ptr<Beam> beam;
+
+	std::shared_ptr<Object3DNode> object3dNode;
+	std::shared_ptr<SpriteNode> spriteNode;
 };

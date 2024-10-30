@@ -11,8 +11,14 @@ void RailCamera::update() {
 	}
 
 	rail->transform_from_mileage(*this, mileage);
+	basePoint = transform.get_translate();
 	Vector3 upward = offset * transform.get_quaternion();
 	transform.plus_translate(upward);
+}
+
+Vector3 RailCamera::camera_upward_point(const Vector3& offset_) const {
+	Vector3 upward = offset_ * transform.get_quaternion();
+	return basePoint + offset;
 }
 
 #ifdef _DEBUG

@@ -197,6 +197,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\Tools\ConvertString.cpp" />
     <ClCompile Include="Engine\Application\WinApp.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
+    <ClCompile Include="Game\GameScene\Player\Beam.cpp" />
     <ClCompile Include="Game\GameScene\Player\RailCamera.cpp" />
     <ClCompile Include="Game\GameScene\Rail\Rail.cpp" />
     <ClCompile Include="main.cpp" />
@@ -296,6 +297,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Tools\SmartPointer.h" />
     <ClInclude Include="Engine\Utility\Template\TimedCall.h" />
     <ClInclude Include="Engine\Application\WinApp.h" />
+    <ClInclude Include="Game\GameScene\Player\Beam.h" />
     <ClInclude Include="Game\GameScene\Player\RailCamera.h" />
     <ClInclude Include="TestCode\EmitterSample.h" />
     <ClInclude Include="TestCode\ParticleSample.h" />

@@ -36,7 +36,11 @@ SpriteObject::SpriteObject(SpriteObject&&) noexcept = default;
 
 SpriteObject& SpriteObject::operator=(SpriteObject&&) noexcept = default;
 
-const Transform2D& SpriteObject::get_transform() noexcept {
+const Transform2D& SpriteObject::get_transform() const noexcept {
+	return *transform;
+}
+
+Transform2D& SpriteObject::get_transform() noexcept {
 	return *transform;
 }
 

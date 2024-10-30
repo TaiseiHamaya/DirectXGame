@@ -27,7 +27,8 @@ private:
 	SpriteObject& operator=(const SpriteObject&) = delete;
 
 public:
-	const Transform2D& get_transform() noexcept;
+	const Transform2D& get_transform() const noexcept;
+	Transform2D& get_transform() noexcept;
 	//void update();
 	void begin_rendering() noexcept;
 	void draw() const;
