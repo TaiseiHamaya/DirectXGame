@@ -1,14 +1,14 @@
 #include "RailCamera.h"
 
+#include <algorithm>
+
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 
 #include "Game/GameScene/Rail/Rail.h"
 
 void RailCamera::update() {
 	mileage += speed * WorldClock::DeltaSeconds();
-	if (mileage >= rail->rail_length() - 1) {
-		mileage = rail->rail_length() - 1;
-	}
+	mileage = std::clamp(mileage, 0.0f, rail->rail_length() - 1);
 
 	rail->transform_from_mileage(*this, mileage);
 	basePoint = transform.get_translate();
