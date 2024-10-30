@@ -1,7 +1,5 @@
 #include "BaseParticleSystem.h"
 
-#include "Particle/Movements/BaseParticleMovements.h"
-
 BaseParticleSystem::BaseParticleSystem() = default;
 
 BaseParticleSystem::~BaseParticleSystem() = default;
@@ -24,15 +22,15 @@ void BaseParticleSystem::update() {
 		emitter->update();
 	}
 	// パティクルの更新
-	for (Particle& particle : particles) {
-		if (particle.is_active()) {
-			particle.update();
+	for (std::unique_ptr<BaseParticle>& particle : particles) {
+		if (particle->is_active()) {
+			particle->update();
 		}
 	}
 	// 削除
 	particles.remove_if(
-		[&](Particle& particle) {
-		if (particle.is_destroy()) {
+		[&](std::unique_ptr<BaseParticle>& particle) {
+		if (particle->is_destroy()) {
 			return true;
 		}
 		return false;
@@ -45,12 +43,12 @@ void BaseParticleSystem::update() {
 
 void BaseParticleSystem::begin_rendering() {
 	emitter->update_matrix();
-	for (uint32_t index = 0; Particle & particle : particles) {
-		particle.update_matrix();
+	for (uint32_t index = 0; std::unique_ptr<BaseParticle>& particle : particles) {
+		particle->update_matrix();
 		particleBuffer.get_array()[index] = {
-			particle.world_matrix(),
-			particle.create_uv_matrix(),
-			particle.get_color()
+			particle->world_matrix(),
+			particle->create_uv_matrix(),
+			particle->get_color()
 		};
 		++index;
 	}
@@ -59,19 +57,21 @@ void BaseParticleSystem::begin_rendering() {
 void BaseParticleSystem::emit() {
 	uint32_t numEmits = emitter->num_emits();
 	for (uint32_t i = 0; i < numEmits; ++i) {
-		emit_once();
+		size_t numParticle = particles.size();
+		if (numParticle < numMaxParticle) {
+			emit_once();
+		}
 	}
 }
 
 void BaseParticleSystem::emit_once() {
-	size_t next = particles.size();
-	if (next < numMaxParticle) {
-		auto& newParticle = particles.emplace_back(
-			particleMovements ? particleMovements->clone() : nullptr
-		);
-		newParticle.initialize();
+	auto& newParticle = particles.emplace_back(
+		factory ? factory->factory() : nullptr
+	);
+	if (newParticle) {
+		newParticle->initialize();
 		if (emitter) {
-			emitter->on_emit(&newParticle);
+			emitter->on_emit(newParticle.get());
 		}
 	}
 }
@@ -83,10 +83,6 @@ bool BaseParticleSystem::is_end_all() const {
 void BaseParticleSystem::set_emitter(std::unique_ptr<BaseEmitter>&& emitter_) {
 	emitter = std::move(emitter_);
 	emitter->initialize();
-}
-
-void BaseParticleSystem::set_particle_movements(std::unique_ptr<BaseParticleMovements>&& particleMovements_) {
-	particleMovements = std::move(particleMovements_);
 }
 
 void BaseParticleSystem::create_buffers() {

@@ -1,14 +1,13 @@
 #pragma once
 
-#include "Particle/Particle.h"
+#include "Particle/BaseParticle.h"
+#include "Particle/ParticleFactroy.h"
 #include "Emitter/BaseEmitter.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
 #include "ParticleBufferValue.h"
 
 #include <memory>
 #include <list>
-
-class BaseParticleMovements;
 
 class BaseParticleSystem {
 public:
@@ -36,10 +35,10 @@ public:
 public:
 	bool is_end_all() const;
 	const BaseEmitter& get_emitter() const { return *emitter; };
-	const std::list<Particle>& get_particles() const { return particles; };
+	const std::list<std::unique_ptr<BaseParticle>>& get_particles() const { return particles; };
 
 	void set_emitter(std::unique_ptr<BaseEmitter>&& emitter_);
-	void set_particle_movements(std::unique_ptr<BaseParticleMovements>&& particleMovements_);
+	void set_factory(std::unique_ptr<ParticleFactory>&& factory_) { factory = std::move(factory_); };
 
 private:
 	void create_buffers();
@@ -54,9 +53,8 @@ protected:
 	
 private:
 	std::unique_ptr<BaseEmitter> emitter;
-	std::list<Particle> particles;
-
-	std::unique_ptr<BaseParticleMovements> particleMovements;
+	std::list<std::unique_ptr<BaseParticle>> particles;
+	std::unique_ptr<ParticleFactory> factory;
 
 protected:
 	StructuredBuffer<ParticleBuffer> particleBuffer;

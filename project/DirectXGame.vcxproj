@@ -168,7 +168,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMesh.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshManager.cpp" />
     <ClCompile Include="Engine\Resources\Texture\TextureManager.cpp" />
@@ -197,7 +197,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\Tools\ConvertString.cpp" />
     <ClCompile Include="Engine\Application\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp" />
     <ClCompile Include="TestCode\EmitterSample.cpp" />
+    <ClCompile Include="TestCode\ParticleFactorySample.cpp" />
     <ClCompile Include="TestCode\ParticleSample.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
@@ -258,10 +260,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Particle.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMesh.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshManager.h" />
     <ClInclude Include="Engine\Resources\Texture\TextureManager.h" />
@@ -293,7 +294,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Tools\SmartPointer.h" />
     <ClInclude Include="Engine\Utility\Template\TimedCall.h" />
     <ClInclude Include="Engine\Application\WinApp.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h" />
     <ClInclude Include="TestCode\EmitterSample.h" />
+    <ClInclude Include="TestCode\ParticleFactorySample.h" />
     <ClInclude Include="TestCode\ParticleSample.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
   </ItemGroup>

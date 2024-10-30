@@ -510,7 +510,7 @@
     <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp">
       <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp">
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClCompile>
     <ClCompile Include="TestCode\ParticleSample.cpp">
@@ -532,6 +532,12 @@
       <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\ParticleFactorySample.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -788,7 +794,7 @@
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h">
       <Filter>Engine\Module\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Particle.h">
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClInclude>
     <ClInclude Include="TestCode\EmitterSample.h">
@@ -799,9 +805,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h">
       <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h">
-      <Filter>Engine\Module\ParticleSystem\Particle\Movements</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
       <Filter>Engine\Render\RenderNode\Particle</Filter>
@@ -816,6 +819,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\ParticleFactorySample.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
