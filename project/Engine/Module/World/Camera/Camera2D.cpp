@@ -14,7 +14,7 @@ std::unique_ptr<Camera2D> Camera2D::instance;
 void Camera2D::Initialize() {
 	instance.reset(new Camera2D{});
 	SetCameraTransform(Transform2D{ CVector2::BASIS, 0, CVector2::ZERO });
-	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), static_cast<float>(WinApp::GetClientHight()), 0, 0, 1000);
+	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), 0, static_cast<float>(WinApp::GetClientHight()), 0, 1000);
 	instance->camera_update();
 }
 

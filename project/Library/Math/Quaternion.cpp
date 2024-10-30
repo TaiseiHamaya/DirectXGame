@@ -123,7 +123,7 @@ const Vector3& Quaternion::vector() const noexcept {
 
 const Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
 	float cos = Vector3::DotProduct(from, to);
-	constexpr float PERMISSIBLE = 1e-4f;
+	constexpr float PERMISSIBLE = 1e-6f;
 	// from == toの場合
 	if (cos >= 1 - PERMISSIBLE) {
 		return CQuaternion::IDENTITY;
