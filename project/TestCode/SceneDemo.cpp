@@ -24,6 +24,7 @@
 #include "Engine/Utility/Tools/SmartPointer.h"
 #include "TestCode/EmitterSample.h"
 #include "TestCode/ParticleSample.h"
+#include "TestCode/ParticleFactorySample.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SceneDemo::SceneDemo() = default;
@@ -79,9 +80,7 @@ void SceneDemo::initialize() {
 	particleSystem->set_texture("uvChecker.png");
 	particleSystem->create_rect(CVector2::BASIS);
 	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	auto&& movements = eps::CreateUnique<ParticleSample>();
-	movements->set_camera(camera3D.get());
-	particleSystem->set_particle_movements(std::move(movements));
+	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get()));
 
 	sprite = std::make_unique<SpriteObject>("uvChecker.png");
 
