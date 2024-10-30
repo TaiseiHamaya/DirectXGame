@@ -16,10 +16,10 @@ class Color;
 
 #include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
 #include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
-#include "Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
+#include "Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
 
 #include "Engine/Module/Render/RenderNode/Outline/OutlineNode.h"
-#include "Engine/Module/ParticleSystem/ParticleSystemModel.h"
+#include "Engine/Module/ParticleSystem/ParticleSystemBillboard.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -58,7 +58,7 @@ private:
 	std::shared_ptr<SphereCollider> single2Collider;
 	std::shared_ptr<SphereCollider> single3Collider;
 
-	std::unique_ptr<ParticleSystemModel> particleSystem;
+	std::unique_ptr<ParticleSystemBillboard> particleSystem;
 
 	std::unique_ptr<CollisionManager> collisionManager;
 	std::unique_ptr<Camera3D> camera3D;
@@ -68,5 +68,5 @@ private:
 	std::shared_ptr<Object3DNode> object3dNode;
 	std::shared_ptr<SpriteNode> spriteNode;
 	std::shared_ptr<OutlineNode> outlineNode;
-	std::shared_ptr<ParticleMeshNode> particleMeshNode;
+	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
 };

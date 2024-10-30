@@ -74,13 +74,14 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleSystem = eps::CreateUnique<ParticleSystemModel>();
+	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
 	particleSystem->initialize(128);
+	particleSystem->set_texture("uvChecker.png");
+	particleSystem->create_rect(CVector2::BASIS);
 	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	particleSystem->set_mesh("Sphere.obj");
-	particleSystem->set_particle_movements(
-		eps::CreateUnique<ParticleSample>()
-	);
+	auto&& movements = eps::CreateUnique<ParticleSample>();
+	movements->set_camera(camera3D.get());
+	particleSystem->set_particle_movements(std::move(movements));
 
 	sprite = std::make_unique<SpriteObject>("uvChecker.png");
 
@@ -104,10 +105,10 @@ void SceneDemo::initialize() {
 
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	particleMeshNode = std::make_unique<ParticleMeshNode>();
-	particleMeshNode->initialize();
-	particleMeshNode->set_render_target(renderTarget);
-	particleMeshNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
+	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
+	particleBillboardNode->initialize();
+	particleBillboardNode->set_render_target(renderTarget);
+	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
 
 	outlineNode = std::make_unique<OutlineNode>();
 	outlineNode->initialize();
@@ -123,7 +124,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	RenderPath path{};
-	path.initialize({ object3dNode,particleMeshNode,outlineNode,spriteNode });
+	path.initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
 
 	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
 	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
