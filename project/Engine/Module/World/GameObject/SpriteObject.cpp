@@ -73,19 +73,19 @@ void SpriteObject::create_local_vertices(const Vector2& pivot) {
 	std::vector<VertexData> vertexData(4);
 	vertexData[0] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}).convert(0), 1},
-		CVector2::BASIS_Y
+		CVector2::ZERO
 	};
 	vertexData[1] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, -pivot.y}).convert(0), 1},
-		CVector2::ZERO
+		CVector2::BASIS_Y
 	};
 	vertexData[2] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}).convert(0), 1},
-		CVector2::BASIS
+		CVector2::BASIS_X
 	};
 	vertexData[3] = {
 		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, -pivot.y}).convert(0), 1},
-		CVector2::BASIS_X
+		CVector2::BASIS
 	};
 
 	vertices = std::make_unique<Object3DVertexBuffer>(vertexData);
