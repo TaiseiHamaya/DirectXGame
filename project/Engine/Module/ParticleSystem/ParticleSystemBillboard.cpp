@@ -21,27 +21,27 @@ void ParticleSystemBillboard::create_rect(const Vector2& size, const Vector2& pi
 	std::vector<BillboardBuffer> vertexData(6);
 	vertexData[0] = {
 		Vector2::Multiply(size, {-pivot.x, 1 - pivot.y}),
-		CVector2::BASIS_Y
+		CVector2::ZERO
 	};
 	vertexData[1] = {
 		Vector2::Multiply(size, {-pivot.x, -pivot.y}),
-		CVector2::ZERO
+		CVector2::BASIS_Y
 	};
 	vertexData[2] = {
 		Vector2::Multiply(size, {1 - pivot.x, 1 - pivot.y}),
-		CVector2::BASIS
+		CVector2::BASIS_X
 	};
 	vertexData[3] = {
 		Vector2::Multiply(size, {-pivot.x, -pivot.y}),
-		CVector2::ZERO
+		CVector2::BASIS_Y
 	};
 	vertexData[4] = {
 		Vector2::Multiply(size, {1 - pivot.x, -pivot.y}),
-		CVector2::BASIS_X
+		CVector2::BASIS
 	};
 	vertexData[5] = {
 		Vector2::Multiply(size, {1 - pivot.x, 1 - pivot.y}),
-		CVector2::BASIS
+		CVector2::BASIS_X
 	};
 	vertexBuffer.write(vertexData);
 }
