@@ -75,14 +75,10 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
-	particleSystem->initialize(128);
-	particleSystem->set_texture("uvChecker.png");
-	particleSystem->create_rect(CVector2::BASIS);
-	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get()));
-
-	sprite = std::make_unique<SpriteObject>("uvChecker.png");
+	fieldCollider = std::make_unique<SphereCollider>();
+	fieldCollider->initialize();
+	fieldCollider->get_transform().set_translate(Vector3{0.0f,3.0f,0.0f});
+	fieldCollider->set_radius(3.0f);
 
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);
@@ -90,6 +86,16 @@ void SceneDemo::initialize() {
 	collisionManager->register_collider("Single", single2Collider);
 	collisionManager->register_collider("Single", single3Collider);
 	collisionManager->register_collider("Child", childCollider);
+	collisionManager->register_collider("WindField", fieldCollider);
+
+	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
+	particleSystem->initialize(128);
+	particleSystem->set_texture("uvChecker.png");
+	particleSystem->create_rect(CVector2::BASIS, Vector2{ 0.5f, 0.5f });
+	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
+	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get(), collisionManager.get()));
+
+	sprite = std::make_unique<SpriteObject>("uvChecker.png");
 
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("Alarm01.wav");
@@ -165,6 +171,7 @@ void SceneDemo::late_update() {
 	collisionManager->collision("Parent", "Single");
 	collisionManager->collision("Single", "Child");
 	collisionManager->collision("Single", "Single");
+	collisionManager->collision("WindField", "Particle");
 }
 
 void SceneDemo::draw() const {
@@ -260,7 +267,7 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("ParticleSystem");
 	if (ImGui::Button("Emit")) {
-		//particleSystem->emit();
+		particleSystem->emit();
 	}
 	particleSystem->debug_gui();
 	ImGui::End();

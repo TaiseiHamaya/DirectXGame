@@ -1,12 +1,17 @@
 #include "ParticleSample.h"
 
 #include "Engine/Runtime/WorldClock/WorldClock.h"
+#include <Engine/Utility/Tools/SmartPointer.h>
 
 #include <algorithm>
 
-ParticleSample::ParticleSample(const Vector3& velocity_, WorldInstance* camera_) :
+ParticleSample::ParticleSample(const Vector3& velocity_, const WorldInstance* camera_) :
 	velocity(velocity_), camera(camera_), timer(0) {
-
+	collider = eps::CreateShared<SphereCollider>();
+	collider->initialize();
+	collider->set_parent(*this);
+	collider->set_radius(0.0f);
+	collider->set_on_collision(std::bind(&ParticleSample::on_collision, this, std::placeholders::_1));
 }
 
 void ParticleSample::initialize() {
@@ -31,4 +36,9 @@ void ParticleSample::update() {
 	if (transform.get_translate().y <= 0) {
 		isDestroy = true;
 	}
+}
+
+void ParticleSample::on_collision([[maybe_unused]] const BaseCollider* const other) {
+	Vector3 wind = Vector3{ 5.0f, 0.0f,0.0f };
+	velocity += wind * WorldClock::DeltaSeconds();
 }

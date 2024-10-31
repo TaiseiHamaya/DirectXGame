@@ -57,6 +57,7 @@ private:
 	std::shared_ptr<SphereCollider> singleCollider;
 	std::shared_ptr<SphereCollider> single2Collider;
 	std::shared_ptr<SphereCollider> single3Collider;
+	std::shared_ptr<SphereCollider> fieldCollider;
 
 	std::unique_ptr<ParticleSystemBillboard> particleSystem;
 

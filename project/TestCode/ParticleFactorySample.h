@@ -3,14 +3,19 @@
 #include <Engine/Module/ParticleSystem/Particle/ParticleFactroy.h>
 
 class WorldInstance;
+class CollisionManager;
 
 class ParticleFactorySample final : public ParticleFactory {
 public:
-	ParticleFactorySample(WorldInstance* camera_) : camera(camera_) {};
+	ParticleFactorySample(
+		const WorldInstance* camera_,
+		CollisionManager* collisionManager_
+	) : camera(camera_) ,collisionManager(collisionManager_) {};
 
 public:
 	std::unique_ptr<BaseParticle> factory()const;
 
 private:
-	WorldInstance* camera;
+	const WorldInstance* camera;
+	CollisionManager* collisionManager;
 };
