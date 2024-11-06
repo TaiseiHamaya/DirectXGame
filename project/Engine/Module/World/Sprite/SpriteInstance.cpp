@@ -1,4 +1,4 @@
-#include "SpriteObject.h"
+#include "SpriteInstance.h"
 
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 
@@ -13,7 +13,7 @@
 #include <imgui.h>
 #endif // _DEBUG
 
-SpriteObject::SpriteObject() :
+SpriteInstance::SpriteInstance() :
 	material(std::make_unique<ConstantBuffer<SpriteMaterial>>(SpriteMaterial{ Color{ 1.0f,1.0f,1.0f,1.0f }, CMatrix4x4::IDENTITY })),
 	color(material->get_data()->color),
 	transformMatrix(std::make_unique<ConstantBuffer<Matrix4x4>>()),
@@ -21,8 +21,8 @@ SpriteObject::SpriteObject() :
 	uvTransform(std::make_unique<Transform2D>()) {
 }
 
-SpriteObject::SpriteObject(const std::string& textureName, const Vector2& pivot) :
-	SpriteObject() {
+SpriteInstance::SpriteInstance(const std::string& textureName, const Vector2& pivot) :
+	SpriteInstance() {
 
 	texture = TextureManager::GetTexture(textureName);
 	create_local_vertices(pivot);
@@ -30,22 +30,22 @@ SpriteObject::SpriteObject(const std::string& textureName, const Vector2& pivot)
 	indexes = std::make_unique<IndexBuffer>(indexData);
 }
 
-SpriteObject::~SpriteObject() noexcept = default;
+SpriteInstance::~SpriteInstance() noexcept = default;
 
-SpriteObject::SpriteObject(SpriteObject&&) noexcept = default;
+SpriteInstance::SpriteInstance(SpriteInstance&&) noexcept = default;
 
-SpriteObject& SpriteObject::operator=(SpriteObject&&) noexcept = default;
+SpriteInstance& SpriteInstance::operator=(SpriteInstance&&) noexcept = default;
 
-const Transform2D& SpriteObject::get_transform() noexcept {
+const Transform2D& SpriteInstance::get_transform() noexcept {
 	return *transform;
 }
 
-void SpriteObject::begin_rendering() noexcept {
+void SpriteInstance::begin_rendering() noexcept {
 	*transformMatrix->get_data() = transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix();
 	material->get_data()->uvTransform = uvTransform->get_matrix4x4_transform();
 }
 
-void SpriteObject::draw() const {
+void SpriteInstance::draw() const {
 	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
 	// 設定したデータをコマンドに積む
 	auto&& texture_locked = texture.lock();
@@ -58,7 +58,7 @@ void SpriteObject::draw() const {
 }
 
 #ifdef _DEBUG
-void SpriteObject::debug_gui() {
+void SpriteInstance::debug_gui() {
 	transform->debug_gui(1.0f);
 	ImGui::Separator();
 	uvTransform->debug_gui();
@@ -67,7 +67,7 @@ void SpriteObject::debug_gui() {
 }
 #endif // _DEBUG
 
-void SpriteObject::create_local_vertices(const Vector2& pivot) {
+void SpriteInstance::create_local_vertices(const Vector2& pivot) {
 	auto&& tex = texture.lock();
 	Vector2 base = { static_cast<float>(tex->get_texture_width()), static_cast<float>(tex->get_texture_height()) };
 	std::vector<VertexData> vertexData(4);

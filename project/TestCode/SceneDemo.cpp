@@ -1,7 +1,7 @@
 #include "SceneDemo.h"
 
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/GameObject/GameObject.h"
+#include "Engine/Module/World/Mesh/MeshInstance.h"
 #include "Library/Math/Hierarchy.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
@@ -9,7 +9,7 @@
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
 
-#include "Engine/Module/World/GameObject/SpriteObject.h"
+#include "Engine/Module/World/Sprite/SpriteInstance.h"
 #include "Engine/Module/World/Camera/Camera2D.h"
 
 #include "Library/Math/Color.h"
@@ -50,9 +50,9 @@ void SceneDemo::initialize() {
 		Quaternion::EulerDegree(45,0,0),
 		{0,10,-10}
 		});
-	parent = std::make_unique<GameObject>();
+	parent = std::make_unique<MeshInstance>();
 	parent->reset_object("Sphere.obj");
-	child = std::make_unique<GameObject>();
+	child = std::make_unique<MeshInstance>();
 	child->reset_object("Sphere.obj");
 	child->set_parent(*parent);
 
@@ -82,7 +82,7 @@ void SceneDemo::initialize() {
 	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
 	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get()));
 
-	sprite = std::make_unique<SpriteObject>("uvChecker.png");
+	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);

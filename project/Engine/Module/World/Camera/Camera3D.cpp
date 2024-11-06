@@ -20,11 +20,11 @@ void Camera3D::initialize() {
 
 #ifdef _DEBUG
 	isVaildDebugCamera = false;
-	debugCamera = std::make_unique<GameObject>();
-	debugCameraCenter = std::make_unique<GameObject>("CameraAxis.obj");
+	debugCamera = std::make_unique<MeshInstance>();
+	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
 	debugCamera->set_parent(*debugCameraCenter);
-	frustum = std::make_unique<GameObject>("Frustum.obj");
+	frustum = std::make_unique<MeshInstance>("Frustum.obj");
 	frustum->set_parent(*this);
 #endif // _DEBUG
 

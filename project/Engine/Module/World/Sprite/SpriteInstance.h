@@ -13,18 +13,18 @@ class Texture;
 class Transform2D;
 class IndexBuffer;
 
-class SpriteObject {
+class SpriteInstance {
 public:
-	SpriteObject() noexcept(false);
-	explicit SpriteObject(const std::string& textureName, const Vector2& pivot = CVector2::ZERO) noexcept(false);
-	~SpriteObject() noexcept;
+	SpriteInstance() noexcept(false);
+	explicit SpriteInstance(const std::string& textureName, const Vector2& pivot = CVector2::ZERO) noexcept(false);
+	~SpriteInstance() noexcept;
 
-	SpriteObject(SpriteObject&&) noexcept;
-	SpriteObject& operator=(SpriteObject&&) noexcept;
+	SpriteInstance(SpriteInstance&&) noexcept;
+	SpriteInstance& operator=(SpriteInstance&&) noexcept;
 
 private:
-	SpriteObject(const SpriteObject&) = delete;
-	SpriteObject& operator=(const SpriteObject&) = delete;
+	SpriteInstance(const SpriteInstance&) = delete;
+	SpriteInstance& operator=(const SpriteInstance&) = delete;
 
 public:
 	const Transform2D& get_transform() noexcept;

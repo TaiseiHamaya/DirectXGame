@@ -161,8 +161,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Collision\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionManager.cpp" />
     <ClCompile Include="Library\Math\Color.cpp" />
-    <ClCompile Include="Engine\Module\World\GameObject\GameObject.cpp" />
-    <ClCompile Include="Engine\Module\World\GameObject\SpriteObject.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\MeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp" />
     <ClCompile Include="Library\Math\Hierarchy.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp" />
@@ -254,8 +254,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Collision\CollisionFunctions.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionManager.h" />
     <ClInclude Include="Library\Math\Color.h" />
-    <ClInclude Include="Engine\Module\World\GameObject\GameObject.h" />
-    <ClInclude Include="Engine\Module\World\GameObject\SpriteObject.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\MeshInstance.h" />
+    <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h" />
     <ClInclude Include="Library\Math\Hierarchy.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h" />
