@@ -187,6 +187,7 @@ public:
 	/// <returns></returns>
 	static const Vector2 Abs(const Vector2& vector) noexcept;
 
+	// TODO関数増やす
 };
 
 inline constexpr Vector2::Vector2() noexcept :
