@@ -9,6 +9,7 @@
 #include "Engine/Runtime/WorldClock/WorldClock.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "Engine/Runtime/Input/Input.h"
+#include "Engine/Utility/Tools/RandomEngine.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -66,6 +67,8 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	AudioManager::Initialize();
 
 	Input::Initialize();
+
+	RandomEngine::Initialize();
 
 	WorldClock::Initialize();
 

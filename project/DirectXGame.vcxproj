@@ -149,6 +149,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Library\Math\Definition.cpp" />
     <ClCompile Include="Library\Math\Matrix3x3.cpp" />
     <ClCompile Include="Library\Math\Matrix4x4.cpp" />
@@ -239,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Utility\Tools\RandomEngine.h" />
     <ClInclude Include="Library\Math\Definition.h" />
     <ClInclude Include="Library\Math\Matrix.h" />
     <ClInclude Include="Library\Math\Matrix3x3.h" />
