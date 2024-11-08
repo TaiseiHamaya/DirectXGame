@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "Library/Math/VectorConverter.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 
@@ -153,7 +154,7 @@ void Camera3D::debug_camera() {
 		// 中クリック(Translate)
 		else if (Input::IsPressMouse(MouseID::Middle)) {
 			// Vector3にし、倍率をかける
-			Vector3 move = mouseDelta.convert(0) / 100;
+			Vector3 move = Converter::ToVector3(mouseDelta / 100, 0);
 			// X軸は反転させる
 			move.x *= -1;
 			// デバッグカメラの方向を向かせる

@@ -6,8 +6,10 @@
 #include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
-#include "Library/Math/Transform2D.h"
 #include "Engine/Module/World/Camera/Camera2D.h"
+
+#include "Library/Math/VectorConverter.h"
+#include "Library/Math/Transform2D.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -72,19 +74,19 @@ void SpriteInstance::create_local_vertices(const Vector2& pivot) {
 	Vector2 base = { static_cast<float>(tex->get_texture_width()), static_cast<float>(tex->get_texture_height()) };
 	std::vector<VertexData> vertexData(4);
 	vertexData[0] = {
-		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}).convert(0), 1},
+		VertexData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}), 0), 1},
 		CVector2::ZERO
 	};
 	vertexData[1] = {
-		VertexData::Vector4{ Vector2::Multiply(base, {-pivot.x, -pivot.y}).convert(0), 1},
+		VertexData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, -pivot.y}), 0), 1},
 		CVector2::BASIS_Y
 	};
 	vertexData[2] = {
-		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}).convert(0), 1},
+		VertexData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}), 0), 1},
 		CVector2::BASIS_X
 	};
 	vertexData[3] = {
-		VertexData::Vector4{ Vector2::Multiply(base, {1 - pivot.x, -pivot.y}).convert(0), 1},
+		VertexData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {1 - pivot.x, -pivot.y}), 0), 1},
 		CVector2::BASIS
 	};
 

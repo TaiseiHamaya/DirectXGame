@@ -197,6 +197,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\BackgroundLoader\BackgroundLoader.cpp" />
     <ClCompile Include="Engine\Utility\Tools\ConvertString.cpp" />
     <ClCompile Include="Engine\Application\WinApp.cpp" />
+    <ClCompile Include="Library\Math\VectorConverter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp" />
     <ClCompile Include="TestCode\EmitterSample.cpp" />
@@ -300,6 +301,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Template\TimedCall.h" />
     <ClInclude Include="Engine\Application\WinApp.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h" />
+    <ClInclude Include="Library\Math\VectorConverter.h" />
     <ClInclude Include="TestCode\EmitterSample.h" />
     <ClInclude Include="TestCode\ParticleFactorySample.h" />
     <ClInclude Include="TestCode\ParticleSample.h" />
