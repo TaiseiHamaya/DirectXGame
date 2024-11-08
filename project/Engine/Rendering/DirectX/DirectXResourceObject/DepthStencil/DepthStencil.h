@@ -3,7 +3,7 @@
 #include <optional>
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Engine/Application/WinApp.h"
+#include "Engine/Application/EngineSettings.h"
 
 class DepthStencil final : public DirectXResourceObject {
 public:
@@ -11,7 +11,7 @@ public:
 	~DepthStencil() = default;
 
 public:
-	void initialize(DXGI_FORMAT format, std::uint32_t width = WinApp::GetClientWidth(), std::uint32_t height = WinApp::GetClientHight());
+	void initialize(DXGI_FORMAT format, std::uint32_t width = EngineSettings::CLIENT_WIDTH, std::uint32_t height = EngineSettings::CLIENT_HEIGHT);
 
 	void change_resource_state();
 	void release_index();

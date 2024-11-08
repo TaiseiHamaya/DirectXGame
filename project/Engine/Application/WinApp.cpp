@@ -9,6 +9,8 @@
 #include "Engine/Runtime/WorldClock/WorldClock.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "Engine/Runtime/Input/Input.h"
+#include "Engine/Utility/Tools/RandomEngine.h"
+#include "EngineSettings.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -33,16 +35,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp::WinApp(int32_t width, int32_t height) noexcept :
-	kClientWidth(width),
-	kClientHight(height),
+WinApp::WinApp() noexcept :
 	hWnd(nullptr),
 	hInstance(nullptr) {
 	msg = {};
 	timeBeginPeriod(1);
 }
 
-void WinApp::Initialize(const std::string& programName, int32_t width, int32_t height, DWORD windowConfig) {
+void WinApp::Initialize(DWORD windowConfig) {
 #ifdef _DEBUG
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
@@ -53,19 +53,21 @@ void WinApp::Initialize(const std::string& programName, int32_t width, int32_t h
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _DEBUG
 	assert(!instance);
-	instance.reset(new WinApp{ width, height });
+	instance.reset(new WinApp{});
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	InitializeLog();
 
-	instance->initialize_application(programName, windowConfig);
+	instance->initialize_application(windowConfig);
 	//DirectXの初期化
 	DirectXCore::Initialize();
 
 	AudioManager::Initialize();
 
 	Input::Initialize();
+
+	RandomEngine::Initialize();
 
 	WorldClock::Initialize();
 
@@ -134,12 +136,10 @@ void WinApp::ProcessMessage() {
 	}
 }
 
-void WinApp::initialize_application(const std::string& programName, DWORD windowConfig) {
-	windowName = programName;
+void WinApp::initialize_application(DWORD windowConfig) {
 	// ウィンドウの設定
 	wc.lpfnWndProc = WindowProc;// ウィンドウプロシージャ
-	auto&& name = ConvertString(programName);
-	wc.lpszClassName = name.c_str();
+	wc.lpszClassName = EngineSettings::WINDOW_TITLE_W.data();
 	wc.hInstance = GetModuleHandle(nullptr); // インスタンスハンドル
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -147,14 +147,15 @@ void WinApp::initialize_application(const std::string& programName, DWORD window
 	RegisterClass(&wc);
 
 	// ウィンドウサイズ指定用に構造体にする
-	RECT wrc = { 0,0,kClientWidth, kClientHight };
+	RECT wrc = { 0,0,
+		EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT };
 	// 実際にwrcを変更
 	AdjustWindowRect(&wrc, windowConfig, false);
 
 	// ウィンドウの生成
 	hWnd = CreateWindowW(
 		wc.lpszClassName,
-		name.c_str(),
+		EngineSettings::WINDOW_TITLE_W.data(),
 		windowConfig,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,

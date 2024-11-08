@@ -13,18 +13,18 @@ class Texture;
 class TransformMatrix;
 class Color;
 
-class GameObject : public WorldInstance {
+class MeshInstance : public WorldInstance {
 public:
-	GameObject() noexcept(false);
-	explicit GameObject(const std::string& meshName_) noexcept(false);
-	virtual ~GameObject() noexcept;
+	MeshInstance() noexcept(false);
+	explicit MeshInstance(const std::string& meshName_) noexcept(false);
+	virtual ~MeshInstance() noexcept;
 
-	GameObject(GameObject&&) noexcept;
-	GameObject& operator=(GameObject&&) noexcept;
+	MeshInstance(MeshInstance&&) noexcept;
+	MeshInstance& operator=(MeshInstance&&) noexcept;
 
 private:
-	GameObject(const GameObject&) = delete;
-	GameObject& operator=(const GameObject&) = delete;
+	MeshInstance(const MeshInstance&) = delete;
+	MeshInstance& operator=(const MeshInstance&) = delete;
 
 public:
 	virtual void begin() {};

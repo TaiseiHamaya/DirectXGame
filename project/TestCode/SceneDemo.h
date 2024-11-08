@@ -6,8 +6,8 @@
 
 #include "Engine/Resources/Audio/AudioPlayer.h"
 
-class GameObject;
-class SpriteObject;
+class MeshInstance;
+class SpriteInstance;
 class Camera3D;
 class BaseCollider;
 class SphereCollider;
@@ -48,9 +48,9 @@ public:
 #endif // _DEBUG
 
 private:
-	std::unique_ptr<GameObject> parent;
-	std::unique_ptr<GameObject> child;
-	std::unique_ptr<SpriteObject> sprite;
+	std::unique_ptr<MeshInstance> parent;
+	std::unique_ptr<MeshInstance> child;
+	std::unique_ptr<SpriteInstance> sprite;
 
 	std::shared_ptr<SphereCollider> parentCollider;
 	std::shared_ptr<SphereCollider> childCollider;

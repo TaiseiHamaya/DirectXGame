@@ -10,12 +10,9 @@
 class SwapChainRenderTargetGroup;
 class PSOBuilder;
 
-// ダブルバッファなのでHeapも2
-constexpr uint32_t SWAPCHAIN_HEAP = 2;
-
 class DirectXSwapChain final {
 private:
-	DirectXSwapChain() noexcept;
+	DirectXSwapChain() noexcept = default;
 
 public:
 	~DirectXSwapChain() noexcept = default;
@@ -31,8 +28,7 @@ public:
 	static void SwapScreen();
 
 public:
-	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
-	static UINT GetBackBufferIndex() noexcept { return GetInstance().backBufferIndex; }
+	//static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
 	static const std::shared_ptr<SwapChainRenderTargetGroup>& GetRenderTarget();
 
 	/// <summary>
@@ -53,7 +49,6 @@ private:
 
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
-	UINT backBufferIndex;
 	std::shared_ptr<SwapChainRenderTargetGroup> renderTarget;
 
 	/// <summary>

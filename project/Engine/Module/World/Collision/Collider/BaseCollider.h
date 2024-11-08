@@ -9,7 +9,7 @@
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
 #ifdef _DEBUG
-#include <Engine/Module/World/GameObject/GameObject.h>
+#include <Engine/Module/World/Mesh/MeshInstance.h>
 #endif // _DEBUG
 
 class BaseCollider : public WorldInstance {
@@ -46,10 +46,10 @@ private:
 
 #ifdef _DEBUG
 public:
-	GameObject& get_collider_drawer() const;
+	MeshInstance& get_collider_drawer() const;
 
 protected:
-	std::unique_ptr<GameObject> colliderDrawer;
+	std::unique_ptr<MeshInstance> colliderDrawer;
 #endif // _DEBUG
 };
 

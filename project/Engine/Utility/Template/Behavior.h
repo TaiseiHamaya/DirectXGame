@@ -28,7 +28,7 @@ public:
 	void update();
 
 public:
-	const T& state() const;
+	const T& now() const;
 	std::function<void(const T&)> get_request_function();
 	void request(const T& request__) noexcept { request_ = request__; };
 	void add_list(
@@ -69,7 +69,7 @@ inline void Behavior<T>::update() {
 }
 
 template<Object T>
-inline const T& Behavior<T>::state() const {
+inline const T& Behavior<T>::now() const {
 	return behavior;
 }
 

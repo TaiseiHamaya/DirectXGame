@@ -23,7 +23,7 @@
 #include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Rendering/DirectX/ShaderCompiler/ShaderCompiler.h"
 #include "Engine/Module/Render/RenderPathManager/RenderPathManager.h"
-#include "Engine/Module/World/GameObject/GameObject.h"
+#include "Engine/Module/World/Mesh/MeshInstance.h"
 
 #include "Library/Math/Vector3.h"
 #include "Library/Math/Color.h"
@@ -159,7 +159,7 @@ void DirectXCore::ShowGrid() {
 void DirectXCore::initialize() {
 	// システム使用のオブジェクトを生成
 	light = std::make_unique<ConstantBuffer<DirectionalLightData>>(DirectionalLightData{ Color{ 1.0f,1.0f,1.0f,1.0f }, -CVector3::BASIS_Y, 1.0f });
-	gridMesh = std::make_unique<GameObject>("Grid.obj");
+	gridMesh = std::make_unique<MeshInstance>("Grid.obj");
 }
 
 #ifdef _DEBUG

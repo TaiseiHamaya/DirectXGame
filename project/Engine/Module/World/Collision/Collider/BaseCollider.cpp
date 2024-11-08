@@ -7,7 +7,7 @@ BaseCollider::BaseCollider() {
 	groupName = nullptr;
 
 #ifdef _DEBUG
-	colliderDrawer = std::make_unique<GameObject>();
+	colliderDrawer = std::make_unique<MeshInstance>();
 	colliderDrawer->set_parent(*this);
 #endif // _DEBUG
 }
@@ -106,7 +106,7 @@ void BaseCollider::set_group_name(const std::string& name) {
 }
 
 #ifdef _DEBUG
-GameObject& BaseCollider::get_collider_drawer() const {
+MeshInstance& BaseCollider::get_collider_drawer() const {
 	return *colliderDrawer;
 }
 #endif // _DEBUG

@@ -4,7 +4,7 @@
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
-class GameObject;
+class MeshInstance;
 struct DirectionalLightData;
 class Camera3D;
 
@@ -50,7 +50,7 @@ private:
 #endif // _DEBUG
 
 private:
-	std::unique_ptr<GameObject> gridMesh;
+	std::unique_ptr<MeshInstance> gridMesh;
 	std::unique_ptr<ConstantBuffer<DirectionalLightData>> light;
 
 private:

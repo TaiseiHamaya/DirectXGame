@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "Library/Math/VectorConverter.h"
 #include "Library/Math/Transform3D.h"
 
 Transform2D::Transform2D() noexcept {
@@ -47,7 +48,7 @@ Matrix3x3 Transform2D::get_matrix() const noexcept {
 }
 
 Matrix4x4 Transform2D::get_matrix4x4_transform() const noexcept {
-	return Transform3D::MakeAffineMatrix(scale.convert(1.0f), Quaternion::EulerRadian(0, 0, rotate), translate.convert(0.0f));
+	return Transform3D::MakeAffineMatrix(Converter::ToVector3(scale, 1.0f), Quaternion::EulerRadian(0, 0, rotate), Converter::ToVector3(translate, 0.0f));
 }
 
 Matrix4x4 Transform2D::get_matrix4x4_padding() const {

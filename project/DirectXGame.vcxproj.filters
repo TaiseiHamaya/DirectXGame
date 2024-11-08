@@ -280,11 +280,11 @@
     <Filter Include="Engine\Module\ParticleSystem\Emitter">
       <UniqueIdentifier>{1cd77655-ca16-4921-8cda-2578a1a7bce0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\ParticleSystem\Particle\Movements">
-      <UniqueIdentifier>{4030497c-8562-438f-b091-07c2854d39c7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\HLSL\Particle\ParticleMesh">
       <UniqueIdentifier>{8ae07648-acfc-4628-b030-5c27df0b4e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\HLSL\Particle\ParticleBillboard">
+      <UniqueIdentifier>{eb767786-ad72-4585-93f5-5efd4d99f93f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -468,10 +468,10 @@
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshManager.cpp">
       <Filter>Engine\Module\PolygonMesh</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\GameObject\GameObject.cpp">
+    <ClCompile Include="Engine\Module\World\Mesh\MeshInstance.cpp">
       <Filter>Engine\Module\Objects\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\GameObject\SpriteObject.cpp">
+    <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp">
       <Filter>Engine\Module\Objects\SpriteObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp">
@@ -510,7 +510,7 @@
     <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp">
       <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp">
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClCompile>
     <ClCompile Include="TestCode\ParticleSample.cpp">
@@ -531,7 +531,19 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
       <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="TestCode\ParticleFactorySample.cpp">
+      <Filter>TestProgram</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp">
+      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utility\Tools\RandomEngine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Math\VectorConverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -728,10 +740,10 @@
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshManager.h">
       <Filter>Engine\Module\PolygonMesh</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\GameObject\GameObject.h">
+    <ClInclude Include="Engine\Module\World\Mesh\MeshInstance.h">
       <Filter>Engine\Module\Objects\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\GameObject\SpriteObject.h">
+    <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h">
       <Filter>Engine\Module\Objects\SpriteObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Resources\Audio\AudioManager.h">
@@ -788,7 +800,7 @@
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h">
       <Filter>Engine\Module\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Particle.h">
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClInclude>
     <ClInclude Include="TestCode\EmitterSample.h">
@@ -800,9 +812,6 @@
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h">
       <Filter>Engine\Module\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h">
-      <Filter>Engine\Module\ParticleSystem\Particle\Movements</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
       <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClInclude>
@@ -812,10 +821,31 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
       <Filter>Engine\Render\RenderNode\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\Array2D.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="TestCode\ParticleFactorySample.h">
+      <Filter>TestProgram</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h">
+      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h">
+      <Filter>Engine\Module\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Template\Array2D.h">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Tools\RandomEngine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\EngineSettings.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Rendering\RenderingSystemValues.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Math\VectorConverter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -865,8 +895,12 @@
     <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
       <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl" />
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
+      <Filter>Engine\HLSL\Particle\ParticleBillboard</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
+      <Filter>Engine\HLSL\Particle\ParticleBillboard</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
@@ -890,6 +924,8 @@
     <None Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.hlsli">
       <Filter>Engine\HLSL\Particle\ParticleMesh</Filter>
     </None>
-    <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli" />
+    <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli">
+      <Filter>Engine\HLSL\Particle\ParticleBillboard</Filter>
+    </None>
   </ItemGroup>
 </Project>
