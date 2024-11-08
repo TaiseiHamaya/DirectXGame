@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "Engine/Application/WinApp.h"
+#include "Engine/Application/EngineSettings.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 
 #ifdef _DEBUG
@@ -13,7 +13,7 @@
 void Camera3D::initialize() {
 	set_perspective_fov_info(
 		0.45f,
-		static_cast<float>(WinApp::GetClientWidth()) / static_cast<float>(WinApp::GetClientHight()),
+		EngineSettings::CLIENT_SIZE.x / EngineSettings::CLIENT_SIZE.y,
 		0.1f, 1000
 	);
 	WorldInstance::initialize();

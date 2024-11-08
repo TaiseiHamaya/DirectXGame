@@ -833,6 +833,15 @@
     <ClInclude Include="Engine\Utility\Tools\RandomEngine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Application\EngineSettings.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Rendering\RenderingSystemValues.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">

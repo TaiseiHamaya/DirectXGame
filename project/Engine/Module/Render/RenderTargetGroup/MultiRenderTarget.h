@@ -66,7 +66,7 @@ private:
 
 template<uint32_t NumRenderTarget>
 inline void MultiRenderTarget<NumRenderTarget>::initialize() {
-	initialize(WinApp::GetClientWidth(), WinApp::GetClientHight());
+	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
 }
 
 template<uint32_t NumRenderTarget>
