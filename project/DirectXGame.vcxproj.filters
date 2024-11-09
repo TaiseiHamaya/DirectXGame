@@ -540,6 +540,12 @@
     <ClCompile Include="Library\Math\VectorConverter.cpp">
       <Filter>Library\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\CallbackManagerDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -853,6 +859,18 @@
     </ClInclude>
     <ClInclude Include="Library\Math\VectorConverter.h">
       <Filter>Library\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Template\SortedPair.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utility\Tools\Hash.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\CallbackManagerDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

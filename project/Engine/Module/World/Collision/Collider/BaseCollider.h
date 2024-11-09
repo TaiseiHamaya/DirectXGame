@@ -1,10 +1,8 @@
 #pragma once
 
-#include <string>
-#include <bitset>
-#include <memory>
 #include <functional>
-#include <unordered_map>
+#include <memory>
+#include <string>
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
@@ -19,9 +17,7 @@ public:
 
 public:
 	virtual void initialize() = 0;
-	void begin();
 	virtual void update();
-	void collision(const BaseCollider* const collider, bool result);
 
 public:
 	virtual constexpr std::string type() const = 0;
@@ -41,8 +37,6 @@ private:
 	std::function<void(const BaseCollider* const)> onCollisionFunc;
 	std::function<void(const BaseCollider* const)> onCollisionEnterFunc;
 	std::function<void(const BaseCollider* const)> onCollisionExitFunc;
-
-	std::unordered_map<const BaseCollider*, std::bitset<2>> collisionMap;
 
 #ifdef _DEBUG
 public:
