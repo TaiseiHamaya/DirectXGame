@@ -16,8 +16,6 @@
 void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
 	GetInstance().create_render_terget();
-	GetInstance().depthStencil = std::make_unique<DepthStencil>();
-	GetInstance().depthStencil->initialize(DXGI_FORMAT_D32_FLOAT);
 	SetClearColor(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
 }
 
@@ -27,10 +25,6 @@ void DirectXSwapChain::SwapScreen() {
 
 const std::shared_ptr<SwapChainRenderTargetGroup>& DirectXSwapChain::GetRenderTarget() {
 	return GetInstance().renderTarget;
-}
-
-const std::shared_ptr<DepthStencil>& DirectXSwapChain::GetDepthStencil() noexcept {
-	return GetInstance().depthStencil;
 }
 
 void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {

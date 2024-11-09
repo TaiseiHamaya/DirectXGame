@@ -15,7 +15,7 @@ WorldClock& WorldClock::GetInstance() {
 void WorldClock::Initialize() {
 	auto& instance = GetInstance();
 	instance.startFrameTimePoint = chrono::high_resolution_clock::now();
-	std::this_thread::sleep_for(chrono::microseconds(16667));
+	std::this_thread::sleep_for(chrono::microseconds(1666));
 	instance.frameTimeInfomation = {};
 	instance.fpsSummation = 0;
 	instance.deltaSeconds = EngineSettings::FixDeltaSeconds;

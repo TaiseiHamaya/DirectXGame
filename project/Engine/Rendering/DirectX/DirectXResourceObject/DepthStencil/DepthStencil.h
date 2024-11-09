@@ -33,8 +33,16 @@ private:
 
 	std::optional<std::uint32_t> dsvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvCPUHandle;
-	
+
 	std::optional<std::uint32_t> srvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE srvCPUHandle{};
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGPUHandle{};
 };
+
+
+#include <memory>
+namespace DepthStencilValue {
+
+inline std::shared_ptr<DepthStencil> depthStencil = nullptr;
+
+}

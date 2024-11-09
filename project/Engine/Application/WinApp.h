@@ -21,17 +21,17 @@ public:
 
 public:
 	static void Initialize(DWORD windowConfig = WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME);
-	static void ShowAppWindow();
-	static bool IsEndApp();
 	static void BeginFrame();
 	static void EndFrame();
 	static void Finalize();
 
+	static void ShowAppWindow();
+	static bool IsEndApp();
 	static void ProcessMessage();
 
 public:
 	static HWND& GetWndHandle() noexcept { return instance->hWnd; };
-	static WNDCLASS& GetWindowClass() noexcept { return instance->wc; };
+	static const HINSTANCE& GetWindowHandle() noexcept { return instance->hInstance; };
 
 private:
 	void initialize_application(DWORD windowConfig);
@@ -47,7 +47,5 @@ private:
 	HINSTANCE hInstance;
 
 	MSG msg;
-
-	WNDCLASS wc{};
 };
 

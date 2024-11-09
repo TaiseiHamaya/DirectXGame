@@ -18,8 +18,9 @@
 #include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
-#include "Engine/Rendering/DirectX/DirectXCore.h"
+#include "Engine/Debug/DebugValues.h"
 
+#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
 #include "TestCode/EmitterSample.h"
@@ -84,6 +85,9 @@ void SceneDemo::initialize() {
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
+	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
+	directionalLight->initialize();
+
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
@@ -114,7 +118,7 @@ void SceneDemo::initialize() {
 	//outlineNode->set_render_target();
 	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
-	outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
+	outlineNode->set_depth_resource(DepthStencilValue::depthStencil->texture_gpu_handle());
 	outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
 
 	spriteNode = std::make_unique<SpriteNode>();
@@ -149,6 +153,7 @@ void SceneDemo::begin() {
 
 void SceneDemo::update() {
 	particleSystem->update();
+	directionalLight->update();
 }
 
 void SceneDemo::begin_rendering() {
@@ -158,6 +163,7 @@ void SceneDemo::begin_rendering() {
 	child->begin_rendering();
 	sprite->begin_rendering();
 	particleSystem->begin_rendering();
+	directionalLight->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -169,13 +175,14 @@ void SceneDemo::late_update() {
 
 void SceneDemo::draw() const {
 	RenderPathManager::BeginFrame();
+	directionalLight->register_world(3);
 	camera3D->set_command(1);
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
 	collisionManager->debug_draw3d();
 	camera3D->debug_draw();
-	DirectXCore::ShowGrid();
+	DebugValues::ShowGrid();
 #endif // _DEBUG
 	RenderPathManager::Next();
 	camera3D->set_command(1);
@@ -265,6 +272,8 @@ void SceneDemo::debug_update() {
 	particleSystem->debug_gui();
 	ImGui::End();
 
-	DirectXCore::ShowDebugTools();
+	ImGui::Begin("DirectionalLight");
+	directionalLight->debug_gui();
+	ImGui::End();
 }
 #endif // _DEBUG

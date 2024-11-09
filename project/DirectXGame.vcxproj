@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
+    <ClCompile Include="Engine\Debug\DebugValues.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResource.cpp" />
@@ -206,7 +208,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />
+    <ClInclude Include="Engine\Debug\DebugValues.h" />
     <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h" />
     <ClInclude Include="Engine\Rendering\RenderingSystemValues.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioManager.h" />
@@ -302,6 +306,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\WinApp.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h" />
     <ClInclude Include="Library\Math\VectorConverter.h" />
+    <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="TestCode\EmitterSample.h" />
     <ClInclude Include="TestCode\ParticleFactorySample.h" />
     <ClInclude Include="TestCode\ParticleSample.h" />
