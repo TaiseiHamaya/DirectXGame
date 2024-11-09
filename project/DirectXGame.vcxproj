@@ -246,6 +246,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Utility\Template\SingletonInterface.h" />
+    <ClInclude Include="Engine\Utility\Tools\ConstructorMacro.h" />
     <ClInclude Include="Engine\Utility\Tools\RandomEngine.h" />
     <ClInclude Include="Library\Math\Definition.h" />
     <ClInclude Include="Library\Math\Matrix.h" />

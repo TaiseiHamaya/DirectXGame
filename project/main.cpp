@@ -1,7 +1,5 @@
 #include "Engine/Application/WinApp.h"
 
-#include <cstdint>
-
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "TestCode/SceneDemo.h"
 

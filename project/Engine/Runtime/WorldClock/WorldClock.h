@@ -3,19 +3,12 @@
 #include <chrono>
 #include <list>
 
-class WorldClock {
-private:
-	WorldClock() = default;
+#include "Engine/Utility/Template/SingletonInterface.h"
+
+class WorldClock final : public SingletonInterface<WorldClock> {
+	__SINGLETON_INTERFACE(WorldClock)
 
 public:
-	~WorldClock() = default;
-
-	WorldClock(const WorldClock&) = delete;
-	WorldClock& operator=(const WorldClock&) = delete;
-
-public:
-	static WorldClock& GetInstance();
-
 	static void Initialize();
 	static void Update();
 

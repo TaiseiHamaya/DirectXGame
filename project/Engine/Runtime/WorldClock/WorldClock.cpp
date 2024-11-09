@@ -7,11 +7,6 @@
 
 namespace chrono = std::chrono;
 
-WorldClock& WorldClock::GetInstance() {
-	static WorldClock instance{};
-	return instance;
-}
-
 void WorldClock::Initialize() {
 	auto& instance = GetInstance();
 	instance.startFrameTimePoint = chrono::high_resolution_clock::now();
@@ -96,7 +91,7 @@ void WorldClock::DebugGui() {
 	uint32_t msInteger = static_cast<uint32_t>(deltaMS);
 	uint32_t msDecimal = static_cast<uint32_t>((deltaMS - std::floor(deltaMS)) * 1e4f);
 	ImGui::Text(std::format("Delta : {:>5}.{:0>4}ms", msInteger, msDecimal).c_str());
-	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
+	ImGui::Text("AverageFPS : %.1fFPS", instance.averageFPS);
 	ImGui::Checkbox("IsFixDeltaTime", &instance.isFixDeltaTime);
 	ImGui::Checkbox("IsUnlimitedFPS", &instance.isUnlimitedRefreshRate);
 }
