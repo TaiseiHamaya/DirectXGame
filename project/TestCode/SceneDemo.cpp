@@ -18,7 +18,7 @@
 #include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
-#include "Engine/Debug/DebugValues.h"
+#include "Engine/Debug/DebugValues/DebugValues.h"
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"

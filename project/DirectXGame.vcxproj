@@ -119,7 +119,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
-    <ClCompile Include="Engine\Debug\DebugValues.cpp" />
+    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResource.cpp" />
@@ -210,7 +210,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />
-    <ClInclude Include="Engine\Debug\DebugValues.h" />
+    <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h" />
     <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h" />
     <ClInclude Include="Engine\Rendering\RenderingSystemValues.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioManager.h" />

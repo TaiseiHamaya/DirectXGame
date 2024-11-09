@@ -546,7 +546,7 @@
     <ClCompile Include="Library\Math\VectorConverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\DebugValues.cpp">
+    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp">
@@ -854,7 +854,7 @@
     <ClInclude Include="Library\Math\VectorConverter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\DebugValues.h">
+    <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h">

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef _DEBUG
+
 #include <memory>
 
 #include <Engine/Module/World/Mesh/MeshInstance.h>
@@ -21,3 +23,5 @@ public:
 private:
 	std::unique_ptr<MeshInstance> gridMesh = nullptr;
 };
+
+#endif // _DEBUG
