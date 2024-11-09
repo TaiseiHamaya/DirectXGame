@@ -40,11 +40,6 @@ public:
 	virtual void initialize() = 0;
 
 	/// <summary>
-	/// 終了処理
-	/// </summary>
-	virtual void finalize();
-
-	/// <summary>
 	/// 使用決定時処理
 	/// </summary>
 	//virtual void use() = 0;

@@ -5,7 +5,6 @@
 #include "Library/Math/Hierarchy.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
-#include "Engine/Module/Render/RenderPathManager/RenderPathManager.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
 
@@ -101,13 +100,14 @@ void SceneDemo::initialize() {
 	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
 	renderTarget->initialize();
 
+	std::shared_ptr<Object3DNode> object3dNode;
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
 	object3dNode->set_render_target(renderTarget);
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
-
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
+	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
 	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
 	particleBillboardNode->initialize();
 	particleBillboardNode->set_render_target(renderTarget);
@@ -121,31 +121,23 @@ void SceneDemo::initialize() {
 	outlineNode->set_depth_resource(DepthStencilValue::depthStencil->texture_gpu_handle());
 	outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
 
+	std::shared_ptr<SpriteNode> spriteNode;
 	spriteNode = std::make_unique<SpriteNode>();
 	spriteNode->initialize();
 	spriteNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	RenderPath path{};
-	path.initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
-
-	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
-	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
+	renderPath = eps::CreateUnique<RenderPath>();
+	renderPath->initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
 }
 
 void SceneDemo::poped() {
-	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 }
 
 void SceneDemo::finalize() {
-	audioPlayer->finalize();
-	RenderPathManager::UnregisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
-	object3dNode->finalize();
-	//outlineNode->finalize();
-	particleSystem->finalize();
 }
 
 void SceneDemo::begin() {
@@ -174,7 +166,7 @@ void SceneDemo::late_update() {
 }
 
 void SceneDemo::draw() const {
-	RenderPathManager::BeginFrame();
+	renderPath->begin();
 	directionalLight->register_world(3);
 	camera3D->set_command(1);
 	parent->draw();
@@ -184,16 +176,17 @@ void SceneDemo::draw() const {
 	camera3D->debug_draw();
 	DebugValues::ShowGrid();
 #endif // _DEBUG
-	RenderPathManager::Next();
+
+	renderPath->next();
 	camera3D->set_command(1);
 	particleSystem->draw();
-	RenderPathManager::Next();
+
+	renderPath->next();
 	outlineNode->draw();
-	RenderPathManager::Next();
+
+	renderPath->next();
 	//sprite->draw();
-	RenderPathManager::Next();
-	//outlineNode->draw();
-	//RenderPathManager::Next();
+
 }
 
 void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color* object) {

@@ -12,6 +12,15 @@ struct DirectionalLightData {
 
 class DirectionalLightInstance : public BaseLightInstance<DirectionalLightData> {
 public:
+	DirectionalLightInstance() = default;
+	virtual ~DirectionalLightInstance() = default;
+
+	DirectionalLightInstance(const DirectionalLightInstance&) = delete;
+	DirectionalLightInstance& operator=(const DirectionalLightInstance&&) = delete;
+	DirectionalLightInstance(DirectionalLightInstance&&) = default;
+	DirectionalLightInstance& operator=(DirectionalLightInstance&&) = default;
+
+public:
 	void begin_rendering() override;
 
 #ifdef _DEBUG

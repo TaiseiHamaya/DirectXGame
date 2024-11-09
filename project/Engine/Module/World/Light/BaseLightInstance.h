@@ -9,6 +9,13 @@
 template<class T>
 class BaseLightInstance : public WorldInstance {
 public:
+	BaseLightInstance() = default;
+	virtual ~BaseLightInstance() = default;
+
+	BaseLightInstance(const BaseLightInstance&) = delete;
+	BaseLightInstance& operator=(const BaseLightInstance&&) = delete;
+	BaseLightInstance(BaseLightInstance&&) = default;
+	BaseLightInstance& operator=(BaseLightInstance&&) = default;
 
 public:
 	virtual void update() {};

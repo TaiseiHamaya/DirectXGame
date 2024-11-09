@@ -14,7 +14,6 @@
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
-#include "Engine/Module/Render/RenderPathManager/RenderPathManager.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -82,8 +81,6 @@ void WinApp::Initialize(DWORD windowConfig) {
 	WorldClock::Initialize();
 	// バックグラウンドローダーの初期化
 	BackgroundLoader::Initialize();
-	// RenderPathManagerの初期化
-	RenderPathManager::Initialize();
 
 #ifdef _DEBUG
 	ImGuiManager::Initialize();
