@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <random>
 #include <type_traits>
 
@@ -21,6 +22,12 @@ public:
 	/// 初期化
 	/// </summary>
 	static void Initialize();
+
+	/// <summary>
+	/// メルセンヌ・ツイスターでの32bit乱数生成
+	/// </summary>
+	/// <returns></returns>
+	static std::uint32_t RandomMT();
 
 	/// <summary>
 	/// [0-1)離散一様分布乱数を生成
@@ -68,6 +75,5 @@ private:
 template<typename T>
 	requires(std::convertible_to<unsigned int, T>)
 inline T RandomEngine::Random01Bit() {
-	RandomEngine& instance = GetInstance();
-	return static_cast<T>(instance.mersenneTwister() & 0b1);
+	return static_cast<T>(RandomMT() & 0b1);
 }

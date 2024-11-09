@@ -330,9 +330,6 @@
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp">
       <Filter>Engine\DirectX\ResourceObject\RenderTarget</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp">
-      <Filter>Engine\DirectX\ResourceObject\VertexBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp">
       <Filter>Engine\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClCompile>
@@ -374,9 +371,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp">
       <Filter>Engine\DirectX\PiplineState\ShaderBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPathManager\RenderPathManager.cpp">
-      <Filter>Engine\Render\RenderPathManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Render\RenderPath</Filter>
@@ -546,6 +540,12 @@
     <ClCompile Include="Library\Math\VectorConverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -640,9 +640,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h">
       <Filter>Engine\DirectX\PiplineState\ShaderBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPathManager\RenderPathManager.h">
-      <Filter>Engine\Render\RenderPathManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Render\RenderPath</Filter>
@@ -846,6 +843,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\VectorConverter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

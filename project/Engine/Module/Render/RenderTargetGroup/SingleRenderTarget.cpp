@@ -12,10 +12,6 @@ void SingleRenderTarget::initialize() {
 	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
 }
 
-void SingleRenderTarget::finalize() {
-	renderTarget->release_index();
-}
-
 void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {
 	renderTarget = std::make_unique<OffscreenRender>();
 	renderTarget->initialize(width, hight);

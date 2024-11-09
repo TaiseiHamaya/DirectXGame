@@ -19,16 +19,20 @@ void RandomEngine::Initialize() {
 	instance.mersenneTwister.seed(seed);
 }
 
+uint32_t RandomEngine::RandomMT() {
+	RandomEngine& instance = GetInstance();
+	return instance.mersenneTwister();
+}
+
 float RandomEngine::Random01() {
 	RandomEngine& instance = GetInstance();
 	return instance.random01(instance.mersenneTwister);
 }
 
 float RandomEngine::Random01MOD() {
-	RandomEngine& instance = GetInstance();
 	// なんかしらんけどこれでうまくいくらしい
 	// ソース : https://speakerdeck.com/hole/rand01?slide=42
-	return (instance.mersenneTwister() >> 8) / 16777216.0f;
+	return (RandomMT() >> 8) / 16777216.0f;
 }
 
 float RandomEngine::Random01Closed() {

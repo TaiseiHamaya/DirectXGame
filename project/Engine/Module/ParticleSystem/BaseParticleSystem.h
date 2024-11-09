@@ -21,7 +21,6 @@ public:
 
 public:
 	void initialize(uint32_t numMaxParticle_);
-	void finalize();
 
 	void update();
 

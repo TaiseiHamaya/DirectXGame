@@ -9,10 +9,6 @@ void BaseParticleSystem::initialize(uint32_t numMaxParticle_) {
 	create_buffers();
 }
 
-void BaseParticleSystem::finalize() {
-	particleBuffer.finalize();
-}
-
 void BaseParticleSystem::update() {
 	if (!emitter) {
 		return;

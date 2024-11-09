@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
+    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResource.cpp" />
@@ -143,7 +145,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\Texture\Texture.cpp" />
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PipelineState.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
@@ -188,7 +189,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPathManager\RenderPathManager.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp" />
@@ -206,7 +206,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />
+    <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h" />
     <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h" />
     <ClInclude Include="Engine\Rendering\RenderingSystemValues.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioManager.h" />
@@ -287,7 +289,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderPathManager\RenderPathManager.h" />
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.h" />
@@ -302,6 +303,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\WinApp.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h" />
     <ClInclude Include="Library\Math\VectorConverter.h" />
+    <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="TestCode\EmitterSample.h" />
     <ClInclude Include="TestCode\ParticleFactorySample.h" />
     <ClInclude Include="TestCode\ParticleSample.h" />

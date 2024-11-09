@@ -4,6 +4,10 @@
 #include "Engine/Rendering/DirectX/DirectXDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 
+RenderTarget::~RenderTarget() noexcept {
+	release_index();
+}
+
 const D3D12_CPU_DESCRIPTOR_HANDLE& RenderTarget::get_cpu_handle() const noexcept {
 	return rtvCPUHandle;
 }

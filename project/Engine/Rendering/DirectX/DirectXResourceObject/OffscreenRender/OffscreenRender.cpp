@@ -9,7 +9,9 @@
 
 OffscreenRender::OffscreenRender() noexcept = default;
 
-OffscreenRender::~OffscreenRender() noexcept = default;
+OffscreenRender::~OffscreenRender() noexcept {
+	release_index();
+};
 
 void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) {
 	resource.Reset();
