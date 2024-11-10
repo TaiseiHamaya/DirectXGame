@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Engine/Module/World/GameObject/GameObject.h>
+#include <Engine/Module/World/Mesh/MeshInstance.h>
 
 #include <memory>
 
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 
-class BaseEnemy : public GameObject {
+class BaseEnemy : public MeshInstance {
 public:
 	BaseEnemy() noexcept(false) = default;
 	virtual ~BaseEnemy() noexcept = default;

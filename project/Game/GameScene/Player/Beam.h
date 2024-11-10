@@ -2,8 +2,8 @@
 
 #include <Library/Math/Vector2.h>
 #include <Library/Math/Vector3.h>
-#include <Engine/Module/World/GameObject/SpriteObject.h>
-#include <Engine/Module/World/GameObject/GameObject.h>
+#include <Engine/Module/World/Sprite/SpriteInstance.h>
+#include <Engine/Module/World/Mesh/MeshInstance.h>
 
 class RailCamera;
 
@@ -39,8 +39,8 @@ private:
 	Vector2 keyInput;
 
 	Vector2 reticle;
-	std::unique_ptr<SpriteObject> sprite;
-	std::unique_ptr<GameObject> beam;
+	std::unique_ptr<SpriteInstance> sprite;
+	std::unique_ptr<MeshInstance> beam;
 	const RailCamera* camera;
 	bool isBeaming;
 
