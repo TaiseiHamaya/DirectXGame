@@ -24,7 +24,7 @@ inline size_t hash(size_t seed, size_t value) {
 }
 
 template<typename T>
-size_t compression_value64(const T& value) {
+constexpr size_t _compression_64bit(const T& value) {
 	size_t result;
 	// sizeof(size_t)以下
 	if constexpr ((sizeof(T) <= sizeof(size_t))) {
@@ -33,7 +33,8 @@ size_t compression_value64(const T& value) {
 	}
 	else {
 		// 1度ハッシュ化して64bitに圧縮
-		result = std::hash<T>()(value);
+		// TがCV修飾の場合、定義なしになるのでCV修飾を外す
+		result = std::hash<std::remove_cv_t<T>>()(value);
 	}
 	return result;
 }
@@ -43,7 +44,7 @@ size_t hash_vector(const Array& array) {
 	size_t result = array.size();
 	size_t value;
 	for (auto itr = std::begin(array); itr != std::end(array); ++itr) {
-		value = compression_value64<typename Array::value_type>(*itr);
+		value = _compression_64bit<typename Array::value_type>(*itr);
 		result = hash(result, value);
 	}
 	return result;
@@ -54,7 +55,7 @@ size_t hash_vector(std::initializer_list<T>&& initializerList) {
 	size_t result = initializerList.size();
 	size_t value;
 	for (auto itr : initializerList) {
-		value = compression_value64<T>(itr);
+		value = _compression_64bit<T>(itr);
 		result = hash(result, value);
 	}
 	return result;
