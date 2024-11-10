@@ -138,7 +138,7 @@ void SceneDemo::initialize() {
 	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
 }
 
-void SceneDemo::poped() {
+void SceneDemo::popped() {
 }
 
 void SceneDemo::finalize() {
