@@ -15,8 +15,11 @@ public:
 	BaseEnemy& operator=(BaseEnemy&&) noexcept = default;
 
 public:
-	virtual void initialize();
-	virtual void update();
+	virtual void initialize() override;
+	virtual void update() override;
+
+public:
+	std::shared_ptr<SphereCollider> get_collider() { return collider; };
 
 protected:
 	float timer;
@@ -26,6 +29,6 @@ protected:
 
 	int hitpoint;
 	int score;
-	std::unique_ptr<SphereCollider> collider;
+	std::shared_ptr<SphereCollider> collider;
 };
 

@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\GameScene\Collision\GameCollisionCallback.cpp" />
+    <ClCompile Include="Game\GameScene\RenderNode\BeamNode.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -213,6 +215,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\GameScene\Collision\GameCollisionCallback.h" />
+    <ClInclude Include="Game\GameScene\RenderNode\BeamNode.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />

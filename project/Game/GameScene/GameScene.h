@@ -4,9 +4,12 @@
 
 #include <memory>
 
-#include "Game/GameScene/Player/Beam.h"
-#include "Game/GameScene/Player/RailCamera.h"
-#include "Game/GameScene/Rail/Rail.h"
+#include "Enemy/EnemyManager.h"
+#include "Player/Beam.h"
+#include "Player/RailCamera.h"
+#include "Rail/Rail.h"
+
+#include <Engine/Module/World/Collision/CollisionManager.h>
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
 
 #include <Engine/Module/Render/RenderPath/RenderPath.h>
@@ -36,10 +39,12 @@ public:
 
 private:
 	std::unique_ptr<RenderPath> renderPath;
+	std::unique_ptr<CollisionManager> collisionManager;
 
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
 
 	std::unique_ptr<RailCamera> camera3D;
 	std::unique_ptr<Rail> rail;
 	std::unique_ptr<Beam> beam;
+	std::unique_ptr<EnemyManager> enemyManager;
 };

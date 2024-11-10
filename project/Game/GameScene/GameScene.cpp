@@ -11,13 +11,22 @@
 #include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
 #include <Engine/Module/Render/RenderNode/Sprite/SpriteNode.h>
 
+#include "RenderNode/BeamNode.h"
+#include "Collision/GameCollisionCallback.h"
+
 void GameScene::load() {
 	Rail::LoadMesh();
 	PolygonMeshManager::RegisterLoadQue("./Resources/Model/", "beam.obj");
+	PolygonMeshManager::RegisterLoadQue("./Resources/Model/", "enemy.obj");
 	TextureManager::RegisterLoadQue("./Resources/Sprite", "reticle.png");
 }
 
 void GameScene::initialize() {
+	collisionManager = eps::CreateUnique<CollisionManager>();
+	collisionManager->set_callback_manager(
+		eps::CreateUnique<GameCollisionCallback>()
+	);
+
 	Camera2D::Initialize();
 	camera3D = std::make_unique<RailCamera>();
 	camera3D->initialize();
@@ -37,6 +46,9 @@ void GameScene::initialize() {
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
 	directionalLight->initialize();
 
+	enemyManager = eps::CreateUnique<EnemyManager>();
+	enemyManager->initialize(collisionManager.get());
+
 	camera3D->set_rail(rail.get());
 
 	auto object3dNode = std::make_shared<Object3DNode>();
@@ -44,13 +56,18 @@ void GameScene::initialize() {
 	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore));
 
+	auto beamNode = std::make_shared<BeamNode>();
+	beamNode->initialize();
+	beamNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	beamNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
+
 	auto spriteNode = std::make_shared<SpriteNode>();
 	spriteNode->initialize();
 	spriteNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	
 	renderPath = eps::CreateUnique<RenderPath>();
-	renderPath->initialize({ object3dNode,spriteNode });
+	renderPath->initialize({ object3dNode,beamNode,spriteNode });
 }
 
 void GameScene::finalize() {
@@ -61,12 +78,15 @@ void GameScene::popped() {
 
 void GameScene::begin() {
 	beam->begin();
+	enemyManager->begin();
+	collisionManager->begin();
 }
 
 void GameScene::update() {
 	camera3D->update();
 	beam->update();
 	directionalLight->update();
+	enemyManager->update();
 }
 
 void GameScene::begin_rendering() {
@@ -74,9 +94,14 @@ void GameScene::begin_rendering() {
 	rail->begin_rendering();
 	beam->begin_rendering();
 	directionalLight->begin_rendering();
+	enemyManager->begin_rendering();
 }
 
 void GameScene::late_update() {
+	collisionManager->update();
+	collisionManager->collision("Enemy", "Beam");
+
+	enemyManager->late_update();
 }
 
 void GameScene::draw() const {
@@ -84,14 +109,19 @@ void GameScene::draw() const {
 	camera3D->set_command(1);
 	directionalLight->register_world(3);
 	rail->draw();
-	beam->draw();
+	enemyManager->draw();
 #ifdef _DEBUG
 	rail->debug_draw();
 	camera3D->debug_draw();
+	collisionManager->debug_draw3d();
 #endif // _DEBUG
 
 	renderPath->next();
+	beam->draw();
+
+	renderPath->next();
 	beam->draw_reticle();
+
 	renderPath->next();
 }
 
@@ -106,6 +136,10 @@ void GameScene::debug_update() {
 
 	ImGui::Begin("WorldClock");
 	WorldClock::DebugGui();
+	ImGui::End();
+
+	ImGui::Begin("CollisionManager");
+	collisionManager->debug_gui();
 	ImGui::End();
 }
 #endif // _DEBUG
