@@ -1,17 +1,20 @@
 #pragma once
 
-#include "Engine/Module/ParticleSystem/Particle/Movements/BaseParticleMovements.h"
+#include "Engine/Module/ParticleSystem/Particle/BaseParticle.h"
 
-class ParticleSample : public BaseParticleMovements {
-public: // Member function
-	std::unique_ptr<BaseParticleMovements> clone() override;
-	void initialize(Particle* const particle) override;
-	void move(Particle* const particle) override;
+class ParticleSample : public BaseParticle {
+public:
+	ParticleSample(
+		const Vector3& velocity_,
+		WorldInstance* camera_
+	);
 
-	void set_camera(WorldInstance* camera_) { camera = camera_; };
+public:
+	void initialize() override;
+	void update() override;
 
 private:
-	float timer;
+	float timer = 0;
 	float lifeTime = 100;
 	Vector3 velocity;
 

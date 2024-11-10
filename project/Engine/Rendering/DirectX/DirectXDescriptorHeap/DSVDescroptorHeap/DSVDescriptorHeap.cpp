@@ -2,9 +2,7 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
-
-// ダブルバッファのみで使用するため2
-constexpr uint32_t DSV_HEAP_SIZE = 1;
+#include "Engine/Rendering/DirectX/DirectXSystemValues.h"
 
 DSVDescriptorHeap& DSVDescriptorHeap::GetInstance() noexcept {
 	static DSVDescriptorHeap instance{};
@@ -32,7 +30,7 @@ void DSVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
 }
 
 void DSVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, DSV_HEAP_SIZE, false);
+	descriptorHeap = DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, DirectXSystemValues::HEAP_SIZE_DSV, false);
 }
 
 void DSVDescriptorHeap::initialize() {

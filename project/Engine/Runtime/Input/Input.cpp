@@ -49,7 +49,7 @@ void Input::Update() {
 	);
 	if (FAILED(result)) {
 		// 失敗したら0埋め
-		*instance.mouseState.get() = { 0 };
+		*instance.mouseState= { 0 };
 	}
 
 	// マウス位置更新
@@ -232,7 +232,7 @@ void Input::create_direct_input() {
 
 	// 作成
 	result = DirectInput8Create(
-		WinApp::GetWindowClass().hInstance,
+		WinApp::GetWindowHandle(),
 		DIRECTINPUT_VERSION,
 		IID_IDirectInput8,
 		reinterpret_cast<void**>(directInput.GetAddressOf()),

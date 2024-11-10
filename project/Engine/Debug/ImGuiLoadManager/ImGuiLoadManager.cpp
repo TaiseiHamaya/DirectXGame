@@ -7,11 +7,12 @@
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 
 ImGuiLoadManager::ImGuiLoadManager() {
-	meshCurrentPath = "./Engine/Resources";
-	textureCurrentPath = "./Engine/Resources";
+	meshCurrentPath = "./EngineResources";
+	textureCurrentPath = "./EngineResources";
 	get_file_list(meshFileList, meshCurrentPath, ".obj");
 	get_file_list(textureFileList, textureCurrentPath, ".png");
 };
+
 ImGuiLoadManager::~ImGuiLoadManager() noexcept = default;
 
 ImGuiLoadManager& ImGuiLoadManager::GetInstance() {

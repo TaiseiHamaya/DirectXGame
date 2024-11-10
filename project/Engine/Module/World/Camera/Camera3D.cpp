@@ -2,7 +2,8 @@
 
 #include <cmath>
 
-#include "Engine/Application/WinApp.h"
+#include "Library/Math/VectorConverter.h"
+#include "Engine/Application/EngineSettings.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 
 #ifdef _DEBUG
@@ -13,18 +14,18 @@
 void Camera3D::initialize() {
 	set_perspective_fov_info(
 		0.45f,
-		static_cast<float>(WinApp::GetClientWidth()) / static_cast<float>(WinApp::GetClientHight()),
+		EngineSettings::CLIENT_SIZE.x / EngineSettings::CLIENT_SIZE.y,
 		0.1f, 1000
 	);
 	WorldInstance::initialize();
 
 #ifdef _DEBUG
 	isVaildDebugCamera = false;
-	debugCamera = std::make_unique<GameObject>();
-	debugCameraCenter = std::make_unique<GameObject>("CameraAxis.obj");
+	debugCamera = std::make_unique<MeshInstance>();
+	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
 	debugCamera->set_parent(*debugCameraCenter);
-	frustum = std::make_unique<GameObject>("Frustum.obj");
+	frustum = std::make_unique<MeshInstance>("Frustum.obj");
 	frustum->set_parent(*this);
 #endif // _DEBUG
 
@@ -153,7 +154,7 @@ void Camera3D::debug_camera() {
 		// 中クリック(Translate)
 		else if (Input::IsPressMouse(MouseID::Middle)) {
 			// Vector3にし、倍率をかける
-			Vector3 move = mouseDelta.convert(0) / 100;
+			Vector3 move = Converter::ToVector3(mouseDelta / 100, 0);
 			// X軸は反転させる
 			move.x *= -1;
 			// デバッグカメラの方向を向かせる

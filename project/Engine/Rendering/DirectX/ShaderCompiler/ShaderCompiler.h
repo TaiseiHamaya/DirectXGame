@@ -22,7 +22,7 @@ public:
 	static ShaderCompiler& GetInstance() noexcept;
 
 public:
-	[[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob> compile_shader(const std::wstring& filePath, const wchar_t* profile);
+	[[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob> compile_shader(const std::wstring& filePath, const std::wstring& profile);
 
 private:
 	void initialize();

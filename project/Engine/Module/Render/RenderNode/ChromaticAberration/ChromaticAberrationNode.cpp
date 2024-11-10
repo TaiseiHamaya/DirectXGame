@@ -6,7 +6,7 @@
 
 #ifdef _DEBUG
 #include <imgui.h>
-#include "Engine/Application/WinApp.h"
+#include "Engine/Application/EngineSettings.h"
 #endif // _DEBUG
 
 ChromaticAberrationNode::ChromaticAberrationNode() = default;
@@ -60,7 +60,7 @@ void ChromaticAberrationNode::create_pipeline_state() {
 
 #ifdef _DEBUG
 void ChromaticAberrationNode::debug_gui() {
-	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / WinApp::GetClientWidth(), -0.5f, 0.5f, "%.4f");
-	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / WinApp::GetClientHight(), -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / EngineSettings::CLIENT_WIDTH, -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / EngineSettings::CLIENT_HEIGHT, -0.5f, 0.5f, "%.4f");
 }
 #endif // _DEBUG

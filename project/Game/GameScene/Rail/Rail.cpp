@@ -64,13 +64,13 @@ void Rail::load_rail(const std::string& filename) {
 }
 
 void Rail::begin_rendering() {
-	for (GameObject& railMesh : railDrawMesh) {
+	for (MeshInstance& railMesh : railDrawMesh) {
 		railMesh.begin_rendering();
 	}
 }
 
 void Rail::draw() const {
-	for (const GameObject& railMesh : railDrawMesh) {
+	for (const MeshInstance& railMesh : railDrawMesh) {
 		railMesh.draw();
 	}
 }
@@ -110,7 +110,7 @@ void Rail::transform_from_mileage(WorldInstance& worldInstance, float mileage) c
 }
 
 void Rail::create_rail_point(const Vector3& position, const std::optional<float>& upward) {
-	std::unique_ptr<GameObject> temp = eps::CreateUnique<GameObject>("RailPoint.obj");
+	std::unique_ptr<MeshInstance> temp = eps::CreateUnique<MeshInstance>("RailPoint.obj");
 	temp->initialize();
 	temp->get_transform().set_translate(position);
 	railPoints.emplace_back(
@@ -166,13 +166,13 @@ void Rail::create_rail() {
 	railDrawMesh.reserve(controls.size());
 
 	// 先頭要素
-	GameObject& startMesh = railDrawMesh.emplace_back("Rail.obj");
+	MeshInstance& startMesh = railDrawMesh.emplace_back("Rail.obj");
 	startMesh.get_transform().set_translate(controls[0].point);
 	Quaternion forward = Quaternion::LookForward((controls[1].point - controls[0].point).normalize_safe());
 	startMesh.get_transform().set_quaternion(forward);
 	Vector3 nextStart = controls[0].point + CVector3::BASIS_Z * forward;
 	for (int i = 1; i + 1 < controls.size(); ++i) {
-		GameObject& newMesh = railDrawMesh.emplace_back("Rail.obj");
+		MeshInstance& newMesh = railDrawMesh.emplace_back("Rail.obj");
 		// 連続する位置にする
 		newMesh.get_transform().set_translate(nextStart);
 		// 回転算出

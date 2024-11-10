@@ -107,24 +107,3 @@ inline void VertexBuffer<T>::unmap() {
 }
 
 using Object3DVertexBuffer = VertexBuffer<VertexData>;
-
-//template<WriteableVertexBuffer T>
-//inline VertexBuffer::VertexBuffer(const T& vertices_) noexcept(false) {
-//	write(vertices_);
-//}
-//
-//template<WriteableVertexBuffer Array>
-//inline void VertexBuffer::write(const Array& vertices_array) {
-//	std::uint32_t arraySize = static_cast<std::uint32_t>(vertices_array.size());
-//	// リソースがnullptrなら作成
-//	// すでに確保された容量と違う場合、再生成
-//	if (!resource || size != arraySize) {
-//		set_size(arraySize);
-//		create_resource();
-//	}
-//	// Map
-//	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
-//	// コピー
-//	std::memcpy(data, std::to_address(vertices_array.begin()), memorySize);
-//	unmap();
-//}

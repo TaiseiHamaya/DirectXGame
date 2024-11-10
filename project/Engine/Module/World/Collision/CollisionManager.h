@@ -1,10 +1,11 @@
 #pragma once
 
-#include <unordered_map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
-#include "Engine/Module/World/Collision/Collider/BaseCollider.h"
+#include "Collider/BaseCollider.h"
+#include "CollisionCallbackManager.h"
 
 #ifdef _DEBUG
 #include <unordered_set>
@@ -19,12 +20,16 @@ public:
 	CollisionManager(CollisionManager&&) = delete;
 
 public:
+	void begin();
 	void update();
 	void collision(const std::string& groupName1, const std::string& groupName2);
 	void register_collider(const std::string& groupName, const std::weak_ptr<BaseCollider>& collider);
 
 private:
-	void test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2);
+	bool test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2);
+
+public:
+	void set_callback_manager(std::unique_ptr<CollisionCallbackManager> manager) { collisionCallbackManager = std::move(manager); };
 
 #ifdef _DEBUG
 public:
@@ -34,6 +39,7 @@ public:
 #endif // _DEBUG
 
 private:
+	std::unique_ptr<CollisionCallbackManager> collisionCallbackManager;
 	std::unordered_multimap<std::string, std::weak_ptr<BaseCollider>> colliderList;
 
 #ifdef _DEBUG

@@ -3,7 +3,7 @@
 #include <optional>
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Engine/Application/WinApp.h"
+#include "Engine/Application/EngineSettings.h"
 
 class DepthStencil final : public DirectXResourceObject {
 public:
@@ -11,7 +11,7 @@ public:
 	~DepthStencil() = default;
 
 public:
-	void initialize(DXGI_FORMAT format, std::uint32_t width = WinApp::GetClientWidth(), std::uint32_t height = WinApp::GetClientHight());
+	void initialize(DXGI_FORMAT format, std::uint32_t width = EngineSettings::CLIENT_WIDTH, std::uint32_t height = EngineSettings::CLIENT_HEIGHT);
 
 	void change_resource_state();
 	void release_index();
@@ -33,8 +33,16 @@ private:
 
 	std::optional<std::uint32_t> dsvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvCPUHandle;
-	
+
 	std::optional<std::uint32_t> srvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE srvCPUHandle{};
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGPUHandle{};
 };
+
+
+#include <memory>
+namespace DepthStencilValue {
+
+inline std::shared_ptr<DepthStencil> depthStencil = nullptr;
+
+}

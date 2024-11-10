@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
-#include "Engine/Application/WinApp.h"
+#include "Engine/Application/EngineSettings.h"
 
 class VertexBuffer;
 
@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	/// <param name="width">幅</param>
 	/// <param name="height">高さ</param>
-	void initialize(UINT64 width = WinApp::GetClientWidth() , UINT height = WinApp::GetClientHight(), DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+	void initialize(UINT64 width = EngineSettings::CLIENT_WIDTH, UINT height = EngineSettings::CLIENT_HEIGHT, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
 	/// <summary>
 	/// リソースバリアの状態遷移

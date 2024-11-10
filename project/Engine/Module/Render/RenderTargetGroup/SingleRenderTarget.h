@@ -16,11 +16,6 @@ public:
 	void initialize() override;
 
 	/// <summary>
-	/// 終了処理
-	/// </summary>
-	void finalize() override;
-
-	/// <summary>
 	/// サイズ指定付き初期化
 	/// </summary>
 	/// <param name="width">幅</param>

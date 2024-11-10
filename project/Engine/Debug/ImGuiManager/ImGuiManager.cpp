@@ -7,7 +7,7 @@
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/Rendering/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/Rendering/DirectX/DirectXSystemValues.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
@@ -29,11 +29,10 @@ void ImGuiManager::Initialize() {
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	ImGui_ImplWin32_Init(WinApp::GetWndHandle());
-	auto format = DirectXSwapChain::GetRenderTarget()->get_render_targets()[0].get_rtv_desc().Format;
 	ImGui_ImplDX12_Init(
 		DirectXDevice::GetDevice().Get(),
-		SWAPCHAIN_HEAP,
-		format,
+		RenderingSystemValues::NUM_BUFFERING,
+		DirectXSystemValues::SCREEN_RTV_FORMAT,
 		SRVDescriptorHeap::GetDescriptorHeap().Get(),
 		SRVDescriptorHeap::GetCPUHandle(index),
 		SRVDescriptorHeap::GetGPUHandle(index)

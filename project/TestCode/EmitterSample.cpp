@@ -32,7 +32,7 @@ void EmitterSample::restart() {
 	timer = 0;
 }
 
-void EmitterSample::on_emit(Particle* const particle) {
+void EmitterSample::on_emit(BaseParticle* const particle) {
 	particle->get_transform().set_translate(
 		this->world_position() + Vector3{ EmitterRandomSample::ufd1010(EmitterRandomSample::mt), 0, EmitterRandomSample::ufd1010(EmitterRandomSample::mt) }
 		);

@@ -5,7 +5,7 @@
 #include "Library/Math/Vector2.h"
 
 #ifdef _DEBUG
-#include "Engine/Module/World/GameObject/GameObject.h"
+#include "Engine/Module/World/Mesh/MeshInstance.h"
 #endif // _DEBUG
 
 class Camera3D : public WorldInstance {
@@ -60,9 +60,9 @@ private:
 	Matrix4x4 vpMatrix;
 	Matrix4x4 debugViewMatrix;
 	bool isVaildDebugCamera;
-	std::unique_ptr<GameObject> debugCameraCenter;
-	std::unique_ptr<GameObject> debugCamera;
-	std::unique_ptr<GameObject> frustum;
+	std::unique_ptr<MeshInstance> debugCameraCenter;
+	std::unique_ptr<MeshInstance> debugCamera;
+	std::unique_ptr<MeshInstance> frustum;
 	Vector3 offset;
 	Vector2 preMousePos;
 #endif // _DEBUG

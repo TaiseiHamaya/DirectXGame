@@ -11,12 +11,6 @@ BaseRenderNode::BaseRenderNode() = default;
 
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
-void BaseRenderNode::finalize() {
-	if (renderTarget.use_count() == 1) {
-		renderTarget->finalize();
-	}
-}
-
 void BaseRenderNode::begin() {
 	auto&& commandList = DirectXCommand::GetCommandList();
 	// RenderTargetの設定

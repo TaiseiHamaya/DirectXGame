@@ -16,7 +16,8 @@ public:
 
 public:
 	void initialize(const std::string& name, float volume = 1.0f, bool isLoop = false);
-	void finalize();
+	void destroy();
+
 	void play();
 	void stop();
 	void pause();
@@ -33,5 +34,5 @@ public:
 
 private:
 	XAUDIO2_BUFFER buffer{};
-	IXAudio2SourceVoice* sourceVoice;
+	IXAudio2SourceVoice* sourceVoice{ nullptr };
 };

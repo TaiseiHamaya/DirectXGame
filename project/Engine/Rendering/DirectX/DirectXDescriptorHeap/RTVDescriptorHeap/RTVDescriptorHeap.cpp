@@ -2,9 +2,7 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
-
-// ダブルバッファ+PEで3
-constexpr uint32_t RTV_HEAP_SIZE = 10;
+#include "Engine/Rendering/DirectX/DirectXSystemValues.h"
 
 RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {
 	static RTVDescriptorHeap instance{};
@@ -32,7 +30,7 @@ void RTVDescriptorHeap::ReleaseIndex(std::uint32_t index) {
 }
 
 void RTVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, RTV_HEAP_SIZE, false);
+	descriptorHeap = DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, DirectXSystemValues::HEAP_SIZE_RTV, false);
 }
 
 void RTVDescriptorHeap::initialize() {

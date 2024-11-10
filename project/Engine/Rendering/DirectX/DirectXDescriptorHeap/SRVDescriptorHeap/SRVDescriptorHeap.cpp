@@ -3,9 +3,7 @@
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-
-// SRVのHeapは65536
-constexpr uint32_t SRV_HEAP_SIZE = 65536;
+#include "Engine/Rendering/DirectX/DirectXSystemValues.h"
 
 SRVDescriptorHeap& SRVDescriptorHeap::GetInstance() noexcept {
 	static SRVDescriptorHeap instance{};
@@ -46,7 +44,7 @@ void SRVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
 }
 
 void SRVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, SRV_HEAP_SIZE, true);
+	descriptorHeap = DirectXDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, DirectXSystemValues::HEAP_SIZE_SRV, true);
 }
 
 void SRVDescriptorHeap::initialize() {

@@ -1,15 +1,15 @@
 #include "ParticleBillboardNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
 #include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 ParticleBillboardNode::ParticleBillboardNode() = default;
 
 ParticleBillboardNode::~ParticleBillboardNode() noexcept = default;
 
 void ParticleBillboardNode::initialize() {
-	depthStencil = DirectXSwapChain::GetDepthStencil();
+	depthStencil = DepthStencilValue::depthStencil;
 	create_pipeline_state();
 	pipelineState->set_name("ParticleBillboardNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;

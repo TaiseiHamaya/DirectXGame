@@ -21,15 +21,18 @@ public:
 	/// vector配列で初期化
 	/// </summary>
 	/// <param name="list"></param>
-	void initialize(std::vector<std::weak_ptr<BaseRenderNode>>&& list);
+	void initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list);
 
 	/// <summary>
 	/// initializer_listで初期化
 	/// </summary>
 	/// <param name="list"></param>
-	void initialize(std::initializer_list<std::weak_ptr<BaseRenderNode>>&& list);
+	void initialize(std::initializer_list<std::shared_ptr<BaseRenderNode>>&& list);
 
-	void use();
+	/// <summary>
+	/// 使用禁止
+	/// </summary>
+	[[deprecated]] void use();
 
 	/// <summary>
 	/// 開始処理
@@ -40,7 +43,7 @@ public:
 	/// <summary>
 	/// 次のノードに遷移
 	/// </summary>
-	/// <returns>次に行ったかどうか</returns>
+	/// <returns>正しく処理さてたかの可否</returns>
 	bool next();
 
 	/// <summary>
@@ -50,6 +53,6 @@ public:
 	bool is_end();
 
 private:
-	std::vector<std::weak_ptr<BaseRenderNode>>::iterator nowNode;
-	std::vector<std::weak_ptr<BaseRenderNode>> renderNodeList;
+	std::vector<std::shared_ptr<BaseRenderNode>>::iterator nowNode;
+	std::vector<std::shared_ptr<BaseRenderNode>> renderNodeList;
 };

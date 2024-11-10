@@ -1,6 +1,6 @@
 #include "Camera2D.h"
 
-#include "Engine/Application/WinApp.h"
+#include "Engine/Application/EngineSettings.h"
 
 #undef near
 #undef far
@@ -14,7 +14,7 @@ std::unique_ptr<Camera2D> Camera2D::instance;
 void Camera2D::Initialize() {
 	instance.reset(new Camera2D{});
 	SetCameraTransform(Transform2D{ CVector2::BASIS, 0, CVector2::ZERO });
-	instance->SetNDCInfomation(0, static_cast<float>(WinApp::GetClientWidth()), 0, static_cast<float>(WinApp::GetClientHight()), 0, 1000);
+	instance->SetNDCInfomation(0, EngineSettings::CLIENT_SIZE.x, 0, EngineSettings::CLIENT_SIZE.y, 0, 1000);
 	instance->camera_update();
 }
 

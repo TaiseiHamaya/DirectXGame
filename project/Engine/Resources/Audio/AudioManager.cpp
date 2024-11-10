@@ -40,7 +40,6 @@ void AudioManager::RegisterLoadQue(const std::string& filePath, const std::strin
 		return;
 	}
 	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadAudio, filePath, audioFile);
-
 }
 
 const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& audioName) {

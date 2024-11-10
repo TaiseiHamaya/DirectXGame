@@ -6,7 +6,7 @@
 #include "Engine/Resources/Audio/AudioManager.h"
 
 AudioPlayer::~AudioPlayer() {
-	//finalize();
+	destroy();
 }
 
 void AudioPlayer::initialize(const std::string& name, float volume, bool isLoop) {
@@ -27,7 +27,7 @@ void AudioPlayer::initialize(const std::string& name, float volume, bool isLoop)
 	assert(SUCCEEDED(result));
 }
 
-void AudioPlayer::finalize() {
+void AudioPlayer::destroy() {
 	if (sourceVoice) {
 		pause();
 		sourceVoice->DestroyVoice();

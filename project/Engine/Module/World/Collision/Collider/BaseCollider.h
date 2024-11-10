@@ -1,15 +1,13 @@
 #pragma once
 
-#include <string>
-#include <bitset>
-#include <memory>
 #include <functional>
-#include <unordered_map>
+#include <memory>
+#include <string>
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
 #ifdef _DEBUG
-#include <Engine/Module/World/GameObject/GameObject.h>
+#include <Engine/Module/World/Mesh/MeshInstance.h>
 #endif // _DEBUG
 
 class BaseCollider : public WorldInstance {
@@ -19,9 +17,7 @@ public:
 
 public:
 	virtual void initialize() = 0;
-	void begin();
 	virtual void update();
-	void collision(const BaseCollider* const collider, bool result);
 
 public:
 	virtual constexpr std::string type() const = 0;
@@ -42,14 +38,12 @@ private:
 	std::function<void(const BaseCollider* const)> onCollisionEnterFunc;
 	std::function<void(const BaseCollider* const)> onCollisionExitFunc;
 
-	std::unordered_map<const BaseCollider*, std::bitset<2>> collisionMap;
-
 #ifdef _DEBUG
 public:
-	GameObject& get_collider_drawer() const;
+	MeshInstance& get_collider_drawer() const;
 
 protected:
-	std::unique_ptr<GameObject> colliderDrawer;
+	std::unique_ptr<MeshInstance> colliderDrawer;
 #endif // _DEBUG
 };
 

@@ -60,11 +60,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -94,8 +94,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\DirectXTex</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -118,6 +118,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
+    <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
+    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResource.cpp" />
@@ -143,15 +147,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\Texture\Texture.cpp" />
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXSwapChain\DirectXSwapChain.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PipelineState.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\BaseEnemy.cpp" />
     <ClCompile Include="Game\GameScene\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Library\Math\Definition.cpp" />
     <ClCompile Include="Library\Math\Matrix3x3.cpp" />
     <ClCompile Include="Library\Math\Matrix4x4.cpp" />
     <ClCompile Include="Library\Math\Quaternion.cpp" />
@@ -163,14 +166,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Collision\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionManager.cpp" />
     <ClCompile Include="Library\Math\Color.cpp" />
-    <ClCompile Include="Engine\Module\World\GameObject\GameObject.cpp" />
-    <ClCompile Include="Engine\Module\World\GameObject\SpriteObject.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\MeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp" />
     <ClCompile Include="Library\Math\Hierarchy.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp" />
     <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\Particle.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMesh.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshManager.cpp" />
     <ClCompile Include="Engine\Resources\Texture\TextureManager.cpp" />
@@ -189,7 +192,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPathManager\RenderPathManager.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp" />
@@ -198,16 +200,26 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\BackgroundLoader\BackgroundLoader.cpp" />
     <ClCompile Include="Engine\Utility\Tools\ConvertString.cpp" />
     <ClCompile Include="Engine\Application\WinApp.cpp" />
+    <ClCompile Include="Library\Math\VectorConverter.cpp" />
     <ClCompile Include="Game\GameScene\GameScene.cpp" />
     <ClCompile Include="Game\GameScene\Player\Beam.cpp" />
     <ClCompile Include="Game\GameScene\Player\RailCamera.cpp" />
     <ClCompile Include="Game\GameScene\Rail\Rail.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp" />
     <ClCompile Include="TestCode\EmitterSample.cpp" />
+    <ClCompile Include="TestCode\ParticleFactorySample.cpp" />
     <ClCompile Include="TestCode\ParticleSample.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TestCode\CallbackManagerDemo.h" />
+    <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
+    <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
+    <ClInclude Include="Engine\Application\EngineSettings.h" />
+    <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h" />
+    <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h" />
+    <ClInclude Include="Engine\Rendering\RenderingSystemValues.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioResource.h" />
@@ -243,6 +255,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Utility\Template\SingletonInterface.h" />
+    <ClInclude Include="Engine\Utility\Template\SortedPair.h" />
+    <ClInclude Include="Engine\Utility\Tools\ConstructorMacro.h" />
+    <ClInclude Include="Engine\Utility\Tools\Hash.h" />
+    <ClInclude Include="Engine\Utility\Tools\RandomEngine.h" />
     <ClInclude Include="Game\GameScene\Enemy\BaseEnemy.h" />
     <ClInclude Include="Game\GameScene\Enemy\EnemyManager.h" />
     <ClInclude Include="Library\Math\Definition.h" />
@@ -260,16 +277,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Collision\CollisionFunctions.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionManager.h" />
     <ClInclude Include="Library\Math\Color.h" />
-    <ClInclude Include="Engine\Module\World\GameObject\GameObject.h" />
-    <ClInclude Include="Engine\Module\World\GameObject\SpriteObject.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\MeshInstance.h" />
+    <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h" />
     <ClInclude Include="Library\Math\Hierarchy.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Movements\BaseParticleMovements.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h" />
     <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\Particle.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMesh.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshManager.h" />
     <ClInclude Include="Engine\Resources\Texture\TextureManager.h" />
@@ -288,7 +304,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderPathManager\RenderPathManager.h" />
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.h" />
@@ -301,9 +316,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Tools\SmartPointer.h" />
     <ClInclude Include="Engine\Utility\Template\TimedCall.h" />
     <ClInclude Include="Engine\Application\WinApp.h" />
+    <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h" />
+    <ClInclude Include="Library\Math\VectorConverter.h" />
+    <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="Game\GameScene\Player\Beam.h" />
     <ClInclude Include="Game\GameScene\Player\RailCamera.h" />
     <ClInclude Include="TestCode\EmitterSample.h" />
+    <ClInclude Include="TestCode\ParticleFactorySample.h" />
     <ClInclude Include="TestCode\ParticleSample.h" />
     <ClInclude Include="Game\GameScene\GameScene.h" />
     <ClInclude Include="Game\GameScene\Rail\CatmullRom.h" />

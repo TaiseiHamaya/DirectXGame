@@ -1,30 +1,32 @@
 #include "SceneDemo.h"
 
+#include "CallbackManagerDemo.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/GameObject/GameObject.h"
-#include "Library/Math/Hierarchy.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Runtime/Scene/SceneManager.h"
-#include "Engine/Module/Render/RenderPathManager/RenderPathManager.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
+#include "Engine/Module/World/Mesh/MeshInstance.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Library/Math/Hierarchy.h"
 
-#include "Engine/Module/World/GameObject/SpriteObject.h"
 #include "Engine/Module/World/Camera/Camera2D.h"
+#include "Engine/Module/World/Sprite/SpriteInstance.h"
 
 #include "Library/Math/Color.h"
 
+#include "Engine/Debug/DebugValues/DebugValues.h"
+#include "Engine/Module/Render/RenderPath/RenderPath.h"
+#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Resources/Audio/AudioManager.h"
 #include "Engine/Resources/Texture/TextureManager.h"
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Module/Render/RenderPath/RenderPath.h"
-#include "Engine/Rendering/DirectX/DirectXCore.h"
 
+#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
 #include "TestCode/EmitterSample.h"
+#include "TestCode/ParticleFactorySample.h"
 #include "TestCode/ParticleSample.h"
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -49,9 +51,9 @@ void SceneDemo::initialize() {
 		Quaternion::EulerDegree(45,0,0),
 		{0,10,-10}
 		});
-	parent = std::make_unique<GameObject>();
+	parent = std::make_unique<MeshInstance>();
 	parent->reset_object("Sphere.obj");
-	child = std::make_unique<GameObject>();
+	child = std::make_unique<MeshInstance>();
 	child->reset_object("Sphere.obj");
 	child->set_parent(*parent);
 
@@ -79,13 +81,17 @@ void SceneDemo::initialize() {
 	particleSystem->set_texture("uvChecker.png");
 	particleSystem->create_rect(CVector2::BASIS);
 	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	auto&& movements = eps::CreateUnique<ParticleSample>();
-	movements->set_camera(camera3D.get());
-	particleSystem->set_particle_movements(std::move(movements));
+	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get()));
 
-	sprite = std::make_unique<SpriteObject>("uvChecker.png");
+	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
+
+	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
+	directionalLight->initialize();
 
 	collisionManager = std::make_unique<CollisionManager>();
+	collisionManager->set_callback_manager(
+		eps::CreateUnique<CallbackManagerDemo>()
+	);
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
 	collisionManager->register_collider("Single", single2Collider);
@@ -98,13 +104,14 @@ void SceneDemo::initialize() {
 	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
 	renderTarget->initialize();
 
+	std::shared_ptr<Object3DNode> object3dNode;
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
 	object3dNode->set_render_target(renderTarget);
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
-
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
+	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
 	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
 	particleBillboardNode->initialize();
 	particleBillboardNode->set_render_target(renderTarget);
@@ -115,41 +122,35 @@ void SceneDemo::initialize() {
 	//outlineNode->set_render_target();
 	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
-	outlineNode->set_depth_resource(DirectXSwapChain::GetDepthStencil()->texture_gpu_handle());
+	outlineNode->set_depth_resource(DepthStencilValue::depthStencil->texture_gpu_handle());
 	outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
 
+	std::shared_ptr<SpriteNode> spriteNode;
 	spriteNode = std::make_unique<SpriteNode>();
 	spriteNode->initialize();
 	spriteNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	RenderPath path{};
-	path.initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
-
-	RenderPathManager::RegisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)), std::move(path));
-	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
+	renderPath = eps::CreateUnique<RenderPath>();
+	renderPath->initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
 }
 
 void SceneDemo::poped() {
-	RenderPathManager::SetPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
 }
 
 void SceneDemo::finalize() {
-	audioPlayer->finalize();
-	RenderPathManager::UnregisterPath("SceneDemo" + std::to_string(reinterpret_cast<std::uint64_t>(this)));
-	object3dNode->finalize();
-	//outlineNode->finalize();
-	particleSystem->finalize();
 }
 
 void SceneDemo::begin() {
+	collisionManager->begin();
 }
 
 void SceneDemo::update() {
 	particleSystem->update();
+	directionalLight->update();
 }
 
 void SceneDemo::begin_rendering() {
@@ -159,6 +160,7 @@ void SceneDemo::begin_rendering() {
 	child->begin_rendering();
 	sprite->begin_rendering();
 	particleSystem->begin_rendering();
+	directionalLight->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -169,25 +171,27 @@ void SceneDemo::late_update() {
 }
 
 void SceneDemo::draw() const {
-	RenderPathManager::BeginFrame();
+	renderPath->begin();
+	directionalLight->register_world(3);
 	camera3D->set_command(1);
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
 	collisionManager->debug_draw3d();
 	camera3D->debug_draw();
-	DirectXCore::ShowGrid();
+	DebugValues::ShowGrid();
 #endif // _DEBUG
-	RenderPathManager::Next();
+
+	renderPath->next();
 	camera3D->set_command(1);
 	particleSystem->draw();
-	RenderPathManager::Next();
+
+	renderPath->next();
 	outlineNode->draw();
-	RenderPathManager::Next();
+
+	renderPath->next();
 	//sprite->draw();
-	RenderPathManager::Next();
-	//outlineNode->draw();
-	//RenderPathManager::Next();
+
 }
 
 void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color* object) {
@@ -266,6 +270,8 @@ void SceneDemo::debug_update() {
 	particleSystem->debug_gui();
 	ImGui::End();
 
-	DirectXCore::ShowDebugTools();
+	ImGui::Begin("DirectionalLight");
+	directionalLight->debug_gui();
+	ImGui::End();
 }
 #endif // _DEBUG

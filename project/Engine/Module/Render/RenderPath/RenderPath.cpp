@@ -4,13 +4,13 @@
 
 #include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
 
-void RenderPath::initialize(std::vector<std::weak_ptr<BaseRenderNode>>&& list) {
+void RenderPath::initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める
 	assert(!list.empty());
 	renderNodeList = std::move(list);
 }
 
-void RenderPath::initialize(std::initializer_list<std::weak_ptr<BaseRenderNode>>&& list) {
+void RenderPath::initialize(std::initializer_list<std::shared_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める
 	assert(list.size() >= 1);
 	// 全て転送
@@ -30,7 +30,7 @@ bool RenderPath::begin() {
 	nowNode = renderNodeList.begin();
 	if (nowNode != renderNodeList.end()) {
 		// 最初の描画処理を開始
-		nowNode->lock()->begin();
+		(*nowNode)->begin();
 		return true;
 	}
 	else {
@@ -40,12 +40,12 @@ bool RenderPath::begin() {
 
 bool RenderPath::next() {
 	// 今の処理を終了
-	nowNode->lock()->end();
+	(*nowNode)->end();
 	// 次に進める
 	++nowNode;
 	// 末尾に行っていなければ次の処理を開始
 	if (nowNode != renderNodeList.end()) {
-		nowNode->lock()->begin();
+		(*nowNode)->begin();
 		return true;
 	}
 	else {

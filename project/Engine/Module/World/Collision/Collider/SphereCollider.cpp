@@ -2,7 +2,7 @@
 
 void SphereCollider::initialize() {
 #ifdef _DEBUG
-	colliderDrawer = std::make_unique<GameObject>();
+	colliderDrawer = std::make_unique<MeshInstance>();
 	colliderDrawer->reset_object("SphereCollider.obj");
 	colliderDrawer->set_parent(*this);
 #endif // _DEBUG

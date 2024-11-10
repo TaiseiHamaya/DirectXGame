@@ -18,8 +18,17 @@ std::same_as<T, std::remove_cvref_t<T>> && // CV修飾、Reference修飾され�
 template<StructuredBufferType T>
 class StructuredBuffer : public  DirectXResourceObject {
 public:
+	StructuredBuffer() noexcept = default;
+	virtual ~StructuredBuffer() noexcept;
+
+public:
+	StructuredBuffer(const StructuredBuffer&) = delete;
+	StructuredBuffer& operator=(const StructuredBuffer&) = delete;
+	StructuredBuffer(StructuredBuffer&& rhs) noexcept = default;
+	StructuredBuffer& operator=(StructuredBuffer&& rhs) noexcept = default;
+
+public:
 	void initialize(uint32_t arraySize_);
-	void finalize();
 
 public:
 	std::span<T>& get_array();
@@ -34,14 +43,20 @@ private:
 	void unmap();
 
 private:
-	T* data;
-	uint32_t arraySize;
+	T* data{nullptr};
+	uint32_t arraySize{0};
 	std::span<T> span;
 
 	std::optional<std::uint32_t> heapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle{};
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 };
+
+template<StructuredBufferType T>
+inline StructuredBuffer<T>::~StructuredBuffer() noexcept {
+	unmap();
+	release_index();
+}
 
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
@@ -51,12 +66,6 @@ inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
 	create_resource();
 	create_srv();
 	map();
-}
-
-template<StructuredBufferType T>
-inline void StructuredBuffer<T>::finalize() {
-	unmap();
-	release_index();
 }
 
 template<StructuredBufferType T>
