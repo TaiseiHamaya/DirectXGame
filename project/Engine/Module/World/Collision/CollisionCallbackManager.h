@@ -13,16 +13,16 @@
 
 class CollisionCallbackManager {
 protected:
-	using CallbackMapKey = SortedPair<std::string>;
+	using CallbackMapKey = SortedPair<const std::string>;
 	struct CallbackFunctions {
-		std::function<void(const BaseCollider* const, const BaseCollider* const)> onContinue;
-		std::function<void(const BaseCollider* const, const BaseCollider* const)> onEnter;
-		std::function<void(const BaseCollider* const, const BaseCollider* const)> onExit;
+		std::function<void(BaseCollider* const, BaseCollider* const)> onContinue;
+		std::function<void(BaseCollider* const, BaseCollider* const)> onEnter;
+		std::function<void(BaseCollider* const, BaseCollider* const)> onExit;
 	};
 
 private:
-	using CallbackInfo = std::pair<std::string, const BaseCollider*>;
-	using CollisionRecentKeyType = SortedPair<const BaseCollider*>;
+	using CallbackInfo = std::pair<const std::string&, BaseCollider* const>;
+	using CollisionRecentKeyType = SortedPair<BaseCollider* const>;
 
 public:
 	CollisionCallbackManager() = default;
@@ -32,7 +32,7 @@ public:
 
 public:
 	void begin();
-	void callback(const CallbackInfo& lhs, const CallbackInfo& rhs, bool result);
+	void callback(CallbackInfo lhs, CallbackInfo rhs, bool result);
 
 protected:
 	std::unordered_map<CallbackMapKey, CallbackFunctions> callbackFunctions;
@@ -40,3 +40,15 @@ protected:
 private:
 	std::unordered_map<CollisionRecentKeyType, std::bitset<2>> collisionRecent;
 };
+
+#define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
+#define __CALLBACK_ARGUMENT_DEFAULT BaseCollider* const, BaseCollider* const
+
+
+/*
+Callbackメモ
+
+callback用関数で呼び出される引数の順序は、
+CollisionManager::collisionの引数順序と同じ
+
+*/
