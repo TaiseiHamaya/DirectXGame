@@ -6,13 +6,15 @@
 
 #include "Engine/Resources/Audio/AudioPlayer.h"
 
-class GameObject;
-class SpriteObject;
+class MeshInstance;
+class SpriteInstance;
 class Camera3D;
 class BaseCollider;
 class SphereCollider;
 class CollisionManager;
 class Color;
+class RenderPath;
+#include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
 #include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
 #include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
@@ -48,9 +50,12 @@ public:
 #endif // _DEBUG
 
 private:
-	std::unique_ptr<GameObject> parent;
-	std::unique_ptr<GameObject> child;
-	std::unique_ptr<SpriteObject> sprite;
+	std::unique_ptr<RenderPath> renderPath;
+
+	std::unique_ptr<MeshInstance> parent;
+	std::unique_ptr<MeshInstance> child;
+	std::unique_ptr<SpriteInstance> sprite;
+	std::unique_ptr<DirectionalLightInstance> directionalLight;
 
 	std::shared_ptr<SphereCollider> parentCollider;
 	std::shared_ptr<SphereCollider> childCollider;
@@ -64,9 +69,5 @@ private:
 	std::unique_ptr<Camera3D> camera3D;
 
 	std::shared_ptr<AudioPlayer> audioPlayer;
-
-	std::shared_ptr<Object3DNode> object3dNode;
-	std::shared_ptr<SpriteNode> spriteNode;
 	std::shared_ptr<OutlineNode> outlineNode;
-	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
 };

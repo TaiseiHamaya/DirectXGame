@@ -8,7 +8,7 @@
 class RenderTarget : public DirectXResourceObject {
 public:
 	RenderTarget() noexcept = default;
-	virtual ~RenderTarget() noexcept = default;
+	virtual ~RenderTarget() noexcept;
 
 	RenderTarget(RenderTarget&&) noexcept = default;
 	RenderTarget& operator=(RenderTarget&&) noexcept = default;

@@ -94,3 +94,8 @@ constexpr Color::Color(float _red, float _green, float _blue, float _alpha) noex
 	blue = _blue;
 	alpha = _alpha;
 }
+
+// TODO
+namespace CColor {
+
+}

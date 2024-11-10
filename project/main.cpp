@@ -1,17 +1,11 @@
 #include "Engine/Application/WinApp.h"
 
-#include <cstdint>
-
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "TestCode/SceneDemo.h"
 #include "Game/GameScene/GameScene.h"
 
-// クライアント領域サイズ
-const std::int32_t kClientWidth = 1280;
-const std::int32_t kClientHight = 720;
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	WinApp::Initialize("DirectXGame", kClientWidth, kClientHight);
+	WinApp::Initialize();
 
 #ifdef _DEBUG
 	WorldClock::IsFixDeltaTime(true);

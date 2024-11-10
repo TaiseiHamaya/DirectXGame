@@ -26,7 +26,7 @@ void ShaderCompiler::initialize() {
 	assert(SUCCEEDED(hr));
 }
 
-[[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob>  ShaderCompiler::compile_shader(const std::wstring& filePath, const wchar_t* profile) {
+[[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob>  ShaderCompiler::compile_shader(const std::wstring& filePath, const std::wstring& profile) {
 	HRESULT hr;
 	Console(L"[ShaderCompiler] Start compile shader. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 開始ログ
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> shaderSource = nullptr;
@@ -41,7 +41,7 @@ void ShaderCompiler::initialize() {
 	LPCWSTR arguments[] = { // 追加パラメータ
 		filePath.c_str(),
 		L"-E", L"main",
-		L"-T", profile,
+		L"-T", profile.c_str(),
 #ifdef _DEBUG
 		L"-Zi", L"-Qembed_debug",
 		L"-Od",

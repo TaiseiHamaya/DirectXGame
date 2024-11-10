@@ -9,11 +9,7 @@ SingleRenderTarget::SingleRenderTarget() = default;
 SingleRenderTarget::~SingleRenderTarget() noexcept = default;
 
 void SingleRenderTarget::initialize() {
-	initialize(WinApp::GetClientWidth(), WinApp::GetClientHight());
-}
-
-void SingleRenderTarget::finalize() {
-	renderTarget->release_index();
+	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
 }
 
 void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {

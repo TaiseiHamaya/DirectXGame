@@ -2,8 +2,6 @@
 
 #include <limits>
 
-#include "Vector3.h"
-
 /// <summary>
 /// 2次元ベクトル構造体
 /// <param name="x">x方向のベクトル</param>
@@ -21,17 +19,13 @@ public:
 
 	~Vector2() noexcept = default;
 
-	/// <summary>
-	/// 基礎構造
-	/// </summary>
 public:
+	// ------------------基礎構造------------------
 	float x; // X座標
 	float y; // Y座標
 
-	/// <summary>
-	/// operator
-	/// </summary>
 public:
+	// ------------------operator------------------
 	inline constexpr Vector2& operator=(const Vector2& vec) noexcept = default;
 	inline constexpr Vector2& operator=(Vector2&& vec) noexcept = default;
 	inline constexpr const Vector2 operator+(void) const noexcept;
@@ -47,10 +41,9 @@ public:
 	inline constexpr bool operator==(const Vector2& opr) const noexcept;
 	inline constexpr bool operator!=(const Vector2& opr) const noexcept;
 
-	/// <summary>
-	/// 便利関数
-	/// </summary>
 public:
+	// ------------------便利関数------------------
+
 	/// <summary>
 	/// ベクトルの長さを出す
 	/// </summary>
@@ -71,17 +64,9 @@ public:
 	/// <returns></returns>
 	const Vector2 normalize_safe(float tolerance = 0.0001f, const Vector2& disapproval = { 1,0 }) const noexcept;
 
-	/// <summary>
-	/// Vector3に変換する
-	/// </summary>
-	/// <param name="z">変換後のzパラメータ値</param>
-	/// <returns>変換後のVector3</returns>
-	constexpr const Vector3 convert(float z) const noexcept;
-
-	/// <summary>
-	/// 静的メンバ関数
-	/// </summary>
 public:
+	// ------------------static関数------------------
+
 	/// <summary>
 	/// 2つのベクトルの内積を計算
 	/// <param name="input1">2次元ベクトル1</param>
@@ -187,6 +172,40 @@ public:
 	/// <returns></returns>
 	static const Vector2 Abs(const Vector2& vector) noexcept;
 
+	/// <summary>
+	/// ベクトル射影
+	/// </summary>
+	/// <param name="vector">射影するベクトル</param>
+	/// <param name="onto">射影対象の単位ベクトル</param>
+	/// <returns></returns>
+	static Vector2 Projection(const Vector2& vector, const Vector2& onto);
+
+	/// <summary>
+	/// ベクトル反射
+	/// </summary>
+	/// <param name="input">反射するベクトル</param>
+	/// <param name="normal">平面の法線</param>
+	/// <returns></returns>
+	static Vector2 Reflect(const Vector2& input, const Vector2& normal);
+
+	/// <summary>
+	/// XYZ各要素をmin、max範囲内に収める
+	/// </summary>
+	/// <param name="vector">元ベクトル</param>
+	/// <param name="min">最小値</param>
+	/// <param name="max">最大値</param>
+	/// <returns></returns>
+	static Vector2 Clamp(const Vector2& vector, const Vector2& min, const Vector2& max);
+
+	/// <summary>
+	/// 球面線形補間
+	/// </summary>
+	/// <param name="from">t=0のベクトル</param>
+	/// <param name="to">t=1のベクトル</param>
+	/// <param name="t">媒介変数</param>
+	/// <returns></returns>
+	static Vector2 Slerp(const Vector2& from, const Vector2& to, const float& t);
+
 };
 
 inline constexpr Vector2::Vector2() noexcept :
@@ -255,10 +274,6 @@ inline constexpr bool Vector2::operator!=(const Vector2& opr) const noexcept {
 	return !(*this == opr);
 }
 
-constexpr const Vector3 Vector2::convert(float z) const noexcept {
-	return Vector3{ x,y,z };
-}
-
 constexpr float Vector2::DotProduct(const Vector2& input1, const Vector2& input2) noexcept {
 	return input1.x * input2.x + input1.y * input2.y;
 }
@@ -301,11 +316,11 @@ constexpr const Vector2 Vector2::Rotate(const Vector2& vector, const float sinTh
 /// Vector2定数
 /// </summary>
 namespace CVector2 {
-	constexpr Vector2 BASIS_X = Vector2{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
-	constexpr Vector2 BASIS_Y = Vector2{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
-	constexpr Vector2 ZERO = Vector2{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
-	constexpr Vector2 BASIS = Vector2{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
-	constexpr Vector2 INFINTY = Vector2{ std::numeric_limits<float>::infinity(),std::numeric_limits<float>::infinity() };
-	constexpr Vector2 INFINTY_X = Vector2{ std::numeric_limits<float>::infinity(),0 };
-	constexpr Vector2 INFINTY_Y = Vector2{ 0, std::numeric_limits<float>::infinity() };
+constexpr Vector2 BASIS_X = Vector2{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
+constexpr Vector2 BASIS_Y = Vector2{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
+constexpr Vector2 ZERO = Vector2{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
+constexpr Vector2 BASIS = Vector2{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
+constexpr Vector2 INFINTY = Vector2{ std::numeric_limits<float>::infinity(),std::numeric_limits<float>::infinity() };
+constexpr Vector2 INFINTY_X = Vector2{ std::numeric_limits<float>::infinity(),0 };
+constexpr Vector2 INFINTY_Y = Vector2{ 0, std::numeric_limits<float>::infinity() };
 };
