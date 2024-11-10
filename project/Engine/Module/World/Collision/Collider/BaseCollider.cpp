@@ -12,71 +12,8 @@ BaseCollider::BaseCollider() {
 #endif // _DEBUG
 }
 
-void BaseCollider::begin() {
-	if (!isActive) {
-		collisionMap.clear();
-		return;
-	}
-	for (auto itr = collisionMap.begin(); itr != collisionMap.end();){
-		if (itr->second.none()) {
-			itr = collisionMap.erase(itr);
-		}
-		else {
-			itr->second <<= 1;
-			++itr;
-		}
-	}
-}
-
 void BaseCollider::update() {
 	update_matrix();
-}
-
-void BaseCollider::collision(const BaseCollider* const collider, bool result) {
-	if (!isActive) {
-		return;
-	}
-	if (!collisionMap.contains(collider)) {
-		collisionMap.emplace(collider, "00");
-	}
-
-	auto& collisionObject = collisionMap.at(collider);
-
-	collisionObject.set(0, result);
-	unsigned long state = collisionObject.to_ulong();
-	// このフレーム衝突しているか
-	switch (state) {
-	case 0b00:
-		// 前フレームも衝突していない
-		break;
-	case 0b01:
-		// 今はじめて衝突
-			// Enter判定
-		if (onCollisionEnterFunc) {
-			onCollisionEnterFunc(collider);
-		}
-		else if (onCollisionFunc) {
-			onCollisionFunc(collider);
-		}
-		break;
-	case 0b10:
-		// Exit
-		if (onCollisionExitFunc) {
-			onCollisionExitFunc(collider);
-		}
-		else if (onCollisionFunc) {
-			onCollisionFunc(collider);
-		}
-		break;
-	case 0b11:
-		// 連続衝突
-		if (onCollisionFunc) {
-			onCollisionFunc(collider);
-		}
-		break;
-	default:
-		break;
-	}
 }
 
 const std::string& BaseCollider::group() const noexcept {

@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
     <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp" />
@@ -151,7 +153,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.cpp" />
     <ClCompile Include="Engine\Utility\Tools\RandomEngine.cpp" />
-    <ClCompile Include="Library\Math\Definition.cpp" />
     <ClCompile Include="Library\Math\Matrix3x3.cpp" />
     <ClCompile Include="Library\Math\Matrix4x4.cpp" />
     <ClCompile Include="Library\Math\Quaternion.cpp" />
@@ -206,6 +207,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TestCode\CallbackManagerDemo.h" />
+    <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />
     <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h" />
@@ -247,7 +250,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
     <ClInclude Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.h" />
     <ClInclude Include="Engine\Utility\Template\SingletonInterface.h" />
+    <ClInclude Include="Engine\Utility\Template\SortedPair.h" />
     <ClInclude Include="Engine\Utility\Tools\ConstructorMacro.h" />
+    <ClInclude Include="Engine\Utility\Tools\Hash.h" />
     <ClInclude Include="Engine\Utility\Tools\RandomEngine.h" />
     <ClInclude Include="Library\Math\Definition.h" />
     <ClInclude Include="Library\Math\Matrix.h" />

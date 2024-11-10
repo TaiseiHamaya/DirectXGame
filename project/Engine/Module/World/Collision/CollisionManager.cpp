@@ -4,6 +4,12 @@
 
 #include "Engine/Module/World/Collision/CollisionFunctions.h"
 
+void CollisionManager::begin() {
+	if (collisionCallbackManager) {
+		collisionCallbackManager->begin();
+	}
+}
+
 void CollisionManager::update() {
 	// 解放済み要素の削除
 	for (auto itr = colliderList.begin(); itr != colliderList.end();) {
@@ -23,7 +29,6 @@ void CollisionManager::update() {
 	for (const auto& list : colliderList | std::views::values) {
 		auto colliderLocked = list.lock();
 		if (colliderLocked) {
-			colliderLocked->begin();
 			colliderLocked->update();
 		}
 	}
@@ -49,10 +54,22 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 
 		for (; group2 != group2Range.second; ++group2) {
 			std::shared_ptr<BaseCollider> group2Locked = group2->second.lock();
+			// 非アクティブの場合は判定しない
 			if (!group2Locked->is_active()) {
 				continue;
 			}
-			test_collision(group1Locked, group2Locked);
+			// 衝突対象が同じ場合は判定しない(この書き方だと存在しない…？)
+			if (group1Locked == group2Locked) {
+				continue;
+			}
+			// コリジョンテスト
+			bool result = test_collision(group1Locked, group2Locked);
+			// コールバック
+			collisionCallbackManager->callback(
+				std::make_pair(groupName1, group1Locked.get()),
+				std::make_pair(groupName2, group2Locked.get()),
+				result
+			);
 		}
 	}
 }
@@ -65,11 +82,7 @@ void CollisionManager::register_collider(const std::string& groupName, const std
 #endif // _DEBUG
 }
 
-void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
-	// 衝突対象が同じ場合は判定しない
-	if (test1 == test2) {
-		return;
-	}
+bool CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
 	std::string type1 = test1->type();
 	std::string type2 = test2->type();
 
@@ -84,9 +97,7 @@ void CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1
 			}
 		}
 	}
-
-	test1->collision(test2.get(), result);
-	test2->collision(test1.get(), result);
+	return result;
 }
 
 #ifdef _DEBUG

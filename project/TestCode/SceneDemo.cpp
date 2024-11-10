@@ -1,31 +1,32 @@
 #include "SceneDemo.h"
 
+#include "CallbackManagerDemo.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/Mesh/MeshInstance.h"
-#include "Library/Math/Hierarchy.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Runtime/Scene/SceneManager.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
+#include "Engine/Module/World/Mesh/MeshInstance.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Library/Math/Hierarchy.h"
 
-#include "Engine/Module/World/Sprite/SpriteInstance.h"
 #include "Engine/Module/World/Camera/Camera2D.h"
+#include "Engine/Module/World/Sprite/SpriteInstance.h"
 
 #include "Library/Math/Color.h"
 
+#include "Engine/Debug/DebugValues/DebugValues.h"
+#include "Engine/Module/Render/RenderPath/RenderPath.h"
+#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Resources/Audio/AudioManager.h"
 #include "Engine/Resources/Texture/TextureManager.h"
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Module/Render/RenderPath/RenderPath.h"
-#include "Engine/Debug/DebugValues/DebugValues.h"
 
+#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
 #include "TestCode/EmitterSample.h"
-#include "TestCode/ParticleSample.h"
 #include "TestCode/ParticleFactorySample.h"
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "TestCode/ParticleSample.h"
 
 SceneDemo::SceneDemo() = default;
 
@@ -88,6 +89,9 @@ void SceneDemo::initialize() {
 	directionalLight->initialize();
 
 	collisionManager = std::make_unique<CollisionManager>();
+	collisionManager->set_callback_manager(
+		eps::CreateUnique<CallbackManagerDemo>()
+	);
 	collisionManager->register_collider("Parent", parentCollider);
 	collisionManager->register_collider("Single", singleCollider);
 	collisionManager->register_collider("Single", single2Collider);
@@ -141,6 +145,7 @@ void SceneDemo::finalize() {
 }
 
 void SceneDemo::begin() {
+	collisionManager->begin();
 }
 
 void SceneDemo::update() {
