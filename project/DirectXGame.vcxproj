@@ -118,6 +118,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\World\Collision\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Game\GameScene\Collision\GameCollisionCallback.cpp" />
     <ClCompile Include="Game\GameScene\RenderNode\BeamNode.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
@@ -215,6 +216,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\World\Collision\Collider\CapsuleCollider.h" />
     <ClInclude Include="Game\GameScene\Collision\GameCollisionCallback.h" />
     <ClInclude Include="Game\GameScene\RenderNode\BeamNode.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />

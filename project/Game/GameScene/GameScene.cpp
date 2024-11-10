@@ -22,11 +22,6 @@ void GameScene::load() {
 }
 
 void GameScene::initialize() {
-	collisionManager = eps::CreateUnique<CollisionManager>();
-	collisionManager->set_callback_manager(
-		eps::CreateUnique<GameCollisionCallback>()
-	);
-
 	Camera2D::Initialize();
 	camera3D = std::make_unique<RailCamera>();
 	camera3D->initialize();
@@ -47,10 +42,18 @@ void GameScene::initialize() {
 	directionalLight->initialize();
 
 	enemyManager = eps::CreateUnique<EnemyManager>();
+
+	collisionManager = eps::CreateUnique<CollisionManager>();
+	collisionManager->set_callback_manager(
+		eps::CreateUnique<GameCollisionCallback>(enemyManager.get())
+	);
 	enemyManager->initialize(collisionManager.get());
 
 	camera3D->set_rail(rail.get());
 
+	collisionManager->register_collider("Beam", beam->get_collider());
+
+	// レンダリング初期化
 	auto object3dNode = std::make_shared<Object3DNode>();
 	object3dNode->initialize();
 	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());

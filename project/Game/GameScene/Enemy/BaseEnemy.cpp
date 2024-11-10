@@ -19,4 +19,11 @@ void BaseEnemy::update() {
 	if (timer >= ActiveTime) {
 		isActive = false;
 	}
+	if (hitpoint <= 0) {
+		isDestroy = true;
+	}
+}
+
+void BaseEnemy::hit() {
+	--hitpoint;
 }

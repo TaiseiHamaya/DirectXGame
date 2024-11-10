@@ -3,13 +3,20 @@
 #include <Engine/Module/World/Collision/CollisionCallbackManager.h>
 #include <Engine/Module/World/Collision/Collider/BaseCollider.h>
 
+class EnemyManager;
+
 class GameCollisionCallback final : public CollisionCallbackManager {
 public:
-	GameCollisionCallback();
+	GameCollisionCallback(EnemyManager* enemyManager_);
 	~GameCollisionCallback() = default;
 
 	__NON_COPYABLE_CLASS(GameCollisionCallback)
 
+private:
+	void beam_enemy_callback(__CALLBACK_ARGUMENT_DEFAULT(enemyCollider, beam));
+
 public:
-	void beam_enemy_callback(const BaseCollider* const beam, const BaseCollider* const enemy);
+
+private:
+	EnemyManager* enemyManager;
 };

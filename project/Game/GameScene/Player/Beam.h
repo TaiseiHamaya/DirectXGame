@@ -1,11 +1,13 @@
 #pragma once
 
+#include <Engine/Module/World/Mesh/MeshInstance.h>
+#include <Engine/Module/World/Sprite/SpriteInstance.h>
 #include <Library/Math/Vector2.h>
 #include <Library/Math/Vector3.h>
-#include <Engine/Module/World/Sprite/SpriteInstance.h>
-#include <Engine/Module/World/Mesh/MeshInstance.h>
 
 class RailCamera;
+
+#include <Engine/Module/World/Collision/Collider/CapsuleCollider.h>
 
 class Beam {
 public:
@@ -24,6 +26,7 @@ private:
 
 public:
 	void set_camera(const RailCamera* camera_);
+	const std::shared_ptr<CapsuleCollider>& get_collider() const { return collider; };
 
 #ifdef _DEBUG
 public:
@@ -41,6 +44,8 @@ private:
 	Vector2 reticle;
 	std::unique_ptr<SpriteInstance> sprite;
 	std::unique_ptr<MeshInstance> beam;
+	std::shared_ptr<CapsuleCollider> collider;
+
 	const RailCamera* camera;
 	bool isBeaming;
 

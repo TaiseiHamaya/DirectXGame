@@ -19,6 +19,9 @@ public:
 	virtual void update() override;
 
 public:
+	void hit();
+
+public:
 	std::shared_ptr<SphereCollider> get_collider() { return collider; };
 
 protected:

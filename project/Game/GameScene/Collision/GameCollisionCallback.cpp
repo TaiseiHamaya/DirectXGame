@@ -1,21 +1,22 @@
 #include "GameCollisionCallback.h"
 
 #include "Game/GameScene/Enemy/BaseEnemy.h"
+#include "Game/GameScene/Enemy/EnemyManager.h"
 
-GameCollisionCallback::GameCollisionCallback() {
+GameCollisionCallback::GameCollisionCallback(EnemyManager* enemyManager_) :
+	enemyManager(enemyManager_) {
 	callbackFunctions.emplace(
 		CallbackMapKey{ "Beam", "Enemy" },
-		CallbackFunctions {
-			std::bind(&GameCollisionCallback::beam_enemy_callback, this, std::placeholders::_1, std::placeholders::_2),
+		CallbackFunctions{
+			std::bind(&GameCollisionCallback::beam_enemy_callback, this, __CALLBACK_PLACEHOLDERS_12),
 			nullptr,
 			nullptr
 		}
 	);
 }
 
-void GameCollisionCallback::beam_enemy_callback(const BaseCollider* const beam, const BaseCollider* const enemyCollider) {
-	auto parent = enemyCollider->get_parent_address();
-	if (parent && enemyCollider->group() == "Enemy") {
-		const BaseEnemy* enemy = static_cast<const BaseEnemy*>(parent);
+void GameCollisionCallback::beam_enemy_callback(__CALLBACK_ARGUMENT_DEFAULT(enemyCollider, beam)) {
+	if (enemyCollider && enemyCollider->group() == "Enemy") {
+		enemyManager->callback_collider(enemyCollider);
 	}
 }

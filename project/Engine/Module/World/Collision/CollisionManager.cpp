@@ -96,6 +96,27 @@ bool CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1
 				result = true;
 			}
 		}
+		else if (type2 == "Capsule") {
+			auto downed2 = static_cast<CapsuleCollider*>(test2.get());
+			if (Collision(downed2, downed1)) {
+				result = true;
+			}
+		}
+	}
+	else if (type1 == "Capsule") {
+		auto downed1 = static_cast<CapsuleCollider*>(test1.get());
+		if (type2 == "Sphere") {
+			auto downed2 = static_cast<SphereCollider*>(test2.get());
+			if (Collision(downed1, downed2)) {
+				result = true;
+			}
+		}
+		else if (type2 == "Capsule") {
+			auto downed2 = static_cast<CapsuleCollider*>(test2.get());
+			//if (Collision(downed2, downed1)) {
+			//	result = true;
+			//}
+		}
 	}
 	return result;
 }
