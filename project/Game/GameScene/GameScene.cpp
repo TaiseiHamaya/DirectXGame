@@ -8,6 +8,9 @@
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Utility/Tools/SmartPointer.h>
 
+#include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
+#include <Engine/Module/Render/RenderNode/Sprite/SpriteNode.h>
+
 void GameScene::load() {
 	Rail::LoadMesh();
 	PolygonMeshManager::RegisterLoadQue("./Resources/Model/", "beam.obj");
@@ -53,7 +56,7 @@ void GameScene::initialize() {
 void GameScene::finalize() {
 }
 
-void GameScene::poped() {
+void GameScene::popped() {
 }
 
 void GameScene::begin() {

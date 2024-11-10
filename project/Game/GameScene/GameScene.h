@@ -4,14 +4,12 @@
 
 #include <memory>
 
+#include "Game/GameScene/Player/Beam.h"
 #include "Game/GameScene/Player/RailCamera.h"
 #include "Game/GameScene/Rail/Rail.h"
-#include "Game/GameScene/Player/Beam.h"
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
 
 #include <Engine/Module/Render/RenderPath/RenderPath.h>
-#include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
-#include <Engine/Module/Render/RenderNode/Sprite/SpriteNode.h>
 
 class GameScene : public BaseScene {
 public:
@@ -22,7 +20,7 @@ public:
 	void load();
 	void initialize();
 	void finalize();
-	void poped();
+	void popped();
 
 	void begin();
 	void update();
