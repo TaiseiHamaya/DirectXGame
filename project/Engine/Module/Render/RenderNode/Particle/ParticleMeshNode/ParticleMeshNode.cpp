@@ -1,15 +1,15 @@
 #include "ParticleMeshNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
 #include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 ParticleMeshNode::ParticleMeshNode() = default;
 
 ParticleMeshNode::~ParticleMeshNode() noexcept = default;
 
 void ParticleMeshNode::initialize() {
-	depthStencil = DirectXSwapChain::GetDepthStencil();
+	depthStencil = DepthStencilValue::depthStencil;
 	create_pipeline_state();
 	pipelineState->set_name("ParticleMeshNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;

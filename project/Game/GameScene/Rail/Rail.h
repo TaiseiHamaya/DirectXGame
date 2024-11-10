@@ -6,7 +6,7 @@
 
 #include "Library/Math/Vector3.h"
 
-#include <Engine/Module/World/GameObject/GameObject.h>
+#include <Engine/Module/World/Mesh/MeshInstance.h>
 
 class Rail {
 public:
@@ -14,7 +14,7 @@ public:
 		Vector3 position;
 		std::optional<float> upwardAngle;
 #ifdef _DEBUG
-		std::unique_ptr<GameObject> debugDrawObj; // デバッグ表示用モデル
+		std::unique_ptr<MeshInstance> debugDrawObj; // デバッグ表示用モデル
 #endif // _DEBUG
 	};
 
@@ -48,7 +48,7 @@ public:
 private:
 	std::vector<RailPoint> railPoints;
 
-	std::vector<GameObject> railDrawMesh;
+	std::vector<MeshInstance> railDrawMesh;
 	float railLength;
 
 public:

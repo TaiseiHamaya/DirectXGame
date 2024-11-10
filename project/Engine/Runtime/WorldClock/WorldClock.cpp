@@ -3,20 +3,17 @@
 #include <ratio>
 #include <thread>
 
-namespace chrono = std::chrono;
+#include <Engine/Application/EngineSettings.h>
 
-WorldClock& WorldClock::GetInstance() {
-	static WorldClock instance{};
-	return instance;
-}
+namespace chrono = std::chrono;
 
 void WorldClock::Initialize() {
 	auto& instance = GetInstance();
 	instance.startFrameTimePoint = chrono::high_resolution_clock::now();
-	std::this_thread::sleep_for(std::chrono::microseconds(16667));
+	std::this_thread::sleep_for(chrono::microseconds(1666));
 	instance.frameTimeInfomation = {};
 	instance.fpsSummation = 0;
-	instance.deltaSeconds = 1.0f / 60.0f;
+	instance.deltaSeconds = EngineSettings::FixDeltaSeconds;
 	instance.timeSummation = 0;
 #ifdef _DEBUG
 	instance.isFixDeltaTime = false;
@@ -25,7 +22,7 @@ void WorldClock::Initialize() {
 
 void WorldClock::Update() {
 	// 少数型秒のusing
-	using second_f = std::chrono::duration<float, std::ratio<1>>;
+	using second_f = chrono::duration<float, std::ratio<1>>;
 
 	auto&& instance = GetInstance();
 
@@ -35,11 +32,10 @@ void WorldClock::Update() {
 	auto secDuration = chrono::duration_cast<second_f>(now - instance.startFrameTimePoint);
 	// deltaTimeとして記録
 #ifdef _DEBUG
-	instance.deltaSeconds = instance.isFixDeltaTime ? std::min((1.0f / 60), secDuration.count()) : secDuration.count();
+	instance.deltaSeconds = instance.isFixDeltaTime ? std::min(EngineSettings::FixDeltaSeconds, secDuration.count()) : secDuration.count();
 #else
 	instance.deltaSeconds = secDuration.count();
 #endif // _DEBUG
-
 
 	// 平均フレーム秒を算出
 	// リストに追加
@@ -60,7 +56,7 @@ void WorldClock::Update() {
 	}
 	else {
 		// 今の容量を算出
-		newFrameInfo.second = (instance.frameTimeInfomation.size());
+		newFrameInfo.second = instance.frameTimeInfomation.size();
 		// その分だけSumを増やす
 		instance.fpsSummation += newFrameInfo.second;
 
@@ -79,7 +75,7 @@ float WorldClock::AverageFPS() {
 	return GetInstance().averageFPS;
 }
 
-const std::chrono::high_resolution_clock::time_point& WorldClock::BeginTime() {
+const chrono::high_resolution_clock::time_point& WorldClock::BeginTime() {
 	return GetInstance().startFrameTimePoint;
 }
 
@@ -95,7 +91,7 @@ void WorldClock::DebugGui() {
 	uint32_t msInteger = static_cast<uint32_t>(deltaMS);
 	uint32_t msDecimal = static_cast<uint32_t>((deltaMS - std::floor(deltaMS)) * 1e4f);
 	ImGui::Text(std::format("Delta : {:>5}.{:0>4}ms", msInteger, msDecimal).c_str());
-	ImGui::Text("AvarageFPS : %.1fFPS", instance.averageFPS);
+	ImGui::Text("AverageFPS : %.1fFPS", instance.averageFPS);
 	ImGui::Checkbox("IsFixDeltaTime", &instance.isFixDeltaTime);
 	ImGui::Checkbox("IsUnlimitedFPS", &instance.isUnlimitedRefreshRate);
 }

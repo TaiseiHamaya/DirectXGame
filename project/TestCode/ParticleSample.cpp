@@ -1,39 +1,34 @@
 #include "ParticleSample.h"
 
-#include "Engine/Utility/Tools/SmartPointer.h"
 #include "Engine/Runtime/WorldClock/WorldClock.h"
 
-#include <random>
+#include <algorithm>
 
-static std::random_device device{};
-static std::mt19937 mt{ device() };
-static std::uniform_real_distribution<float> ufd10{ 0,10 };
-static std::uniform_real_distribution<float> ufd1010{ -10,10 };
-static std::uniform_real_distribution<float> ufd1{ 0,1 };
+ParticleSample::ParticleSample(const Vector3& velocity_, WorldInstance* camera_) :
+	velocity(velocity_), camera(camera_), timer(0) {
 
-std::unique_ptr<BaseParticleMovements> ParticleSample::clone() {
-	auto result = eps::CreateUnique<ParticleSample>();
-	result->velocity = { 0, ufd10(mt),0 };
-	result->camera = this->camera;
-	return std::move(result);
 }
 
-void ParticleSample::initialize(Particle* const particle) {
-	// do nothing
+void ParticleSample::initialize() {
+	BaseParticle::initialize();
+	if (camera) {
+		Vector3 upward = CVector3::BASIS_Y * camera->get_transform().get_quaternion();
+		look_at(*camera, upward);
+	}
 }
 
-void ParticleSample::move(Particle* const particle) {
+void ParticleSample::update() {
 	timer += WorldClock::DeltaSeconds();
 	Vector3 gravity = Vector3{ 0,-9.8f,0 };
 	velocity += gravity * WorldClock::DeltaSeconds();
-	particle->get_transform().plus_translate(velocity * WorldClock::DeltaSeconds());
+	transform.plus_translate(velocity * WorldClock::DeltaSeconds());
 	float base = std::lerp(1.0f, 0.0f, std::clamp(timer / lifeTime, 0.0f, 1.0f));
-	particle->set_color({ base,base,base, base});
+	color = { base,base,base, base };
 	if (camera) {
 		Vector3 upward = CVector3::BASIS_Y * camera->get_transform().get_quaternion();
-		particle->look_at(*camera, upward);
+		look_at(*camera, upward);
 	}
-	if (particle->get_transform().get_translate().y <= 0) {
-		particle->set_destroy();
+	if (transform.get_translate().y <= 0) {
+		isDestroy = true;
 	}
 }

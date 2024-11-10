@@ -4,18 +4,14 @@
 #include <memory>
 #include <wrl/client.h>
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Library/Math/Color.h"
 
 class SwapChainRenderTargetGroup;
 class PSOBuilder;
 
-// ダブルバッファなのでHeapも2
-constexpr uint32_t SWAPCHAIN_HEAP = 2;
-
 class DirectXSwapChain final {
 private:
-	DirectXSwapChain() noexcept;
+	DirectXSwapChain() noexcept = default;
 
 public:
 	~DirectXSwapChain() noexcept = default;
@@ -31,15 +27,9 @@ public:
 	static void SwapScreen();
 
 public:
-	static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
-	static UINT GetBackBufferIndex() noexcept { return GetInstance().backBufferIndex; }
+	//static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
 	static const std::shared_ptr<SwapChainRenderTargetGroup>& GetRenderTarget();
 
-	/// <summary>
-	/// !!!!!!!!!!!!!!!!!別の場所に置く!!!!!!!!!!!!!!!!!
-	/// </summary>
-	/// <returns></returns>
-	static const std::shared_ptr<DepthStencil>& GetDepthStencil() noexcept;
 	static void SetClearColor(const Color& color_) noexcept;
 	static void EndRenderTarget();
 
@@ -53,12 +43,5 @@ private:
 
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
-	UINT backBufferIndex;
 	std::shared_ptr<SwapChainRenderTargetGroup> renderTarget;
-
-	/// <summary>
-	/// 修正予定
-	/// !!!!!!!!!!!!!!!!!別の場所に置く!!!!!!!!!!!!!!!!!
-	/// </summary>
-	std::shared_ptr<DepthStencil> depthStencil;
 };

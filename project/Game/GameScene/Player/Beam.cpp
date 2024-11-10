@@ -2,22 +2,24 @@
 
 #include <algorithm>
 
+#include <Engine/Application/EngineSettings.h>
 #include <Engine/Runtime/Input/Input.h>
 #include <Engine/Application/WinApp.h>
 #include <Engine/Utility/Tools/SmartPointer.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Module/World/Camera/Camera2D.h>
+#include <Library/Math/VectorConverter.h>
 
 #include "Game/GameScene/Player/RailCamera.h"
 
 void Beam::initialize() {
 	reticle = {
-		static_cast<float>(WinApp::GetClientWidth()) / 2,
-		static_cast<float>(WinApp::GetClientHight()) / 2
+		static_cast<float>(EngineSettings::CLIENT_WIDTH) / 2,
+		static_cast<float>(EngineSettings::CLIENT_HEIGHT) / 2
 	};
 
-	sprite = eps::CreateUnique<SpriteObject>("reticle.png", Vector2{ 0.5f,0.5f });
-	beam = eps::CreateUnique<GameObject>("beam.obj");
+	sprite = eps::CreateUnique<SpriteInstance>("reticle.png", Vector2{ 0.5f,0.5f });
+	beam = eps::CreateUnique<MeshInstance>("beam.obj");
 	beam->initialize();
 }
 
@@ -29,15 +31,15 @@ void Beam::begin() {
 void Beam::update() {
 	reticle += keyInput * 100.0f * reticleMoveSpeed * WorldClock::DeltaSeconds();
 	reticle = {
-		std::clamp(reticle.x, 64.0f, static_cast<float>(WinApp::GetClientWidth()) - 64) ,
-		std::clamp(reticle.y, 64.0f, static_cast<float>(WinApp::GetClientHight()) - 64)
+		std::clamp(reticle.x, 64.0f, static_cast<float>(EngineSettings::CLIENT_WIDTH) - 64) ,
+		std::clamp(reticle.y, 64.0f, static_cast<float>(EngineSettings::CLIENT_HEIGHT) - 64)
 	};
 
 	sprite->get_transform().set_translate(reticle);
 
 	if (camera) {
-		Matrix4x4 viewport = Camera3D::MakeViewportMatrix(CVector2::ZERO, { static_cast<float>(WinApp::GetClientWidth()),static_cast<float>(WinApp::GetClientHight()) });
-		Vector3 reticleScreenNear = Transform3D::Homogeneous(reticle.convert(0), Camera2D::GetVPMatrix() * viewport);
+		Matrix4x4 viewport = Camera3D::MakeViewportMatrix(CVector2::ZERO, { static_cast<float>(EngineSettings::CLIENT_WIDTH),static_cast<float>(EngineSettings::CLIENT_HEIGHT) });
+		Vector3 reticleScreenNear = Transform3D::Homogeneous(Converter::ToVector3(reticle, 0), Camera2D::GetVPMatrix() * viewport);
 		Vector3 reticleScreenFar = reticleScreenNear;
 		reticleScreenFar.z = 1.0f;
 		Matrix4x4 vpv = camera->vp_matrix() * viewport;

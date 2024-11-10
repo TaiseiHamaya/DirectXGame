@@ -11,5 +11,5 @@ public:
 	void initialize() override;
 	void update() override;
 	void restart() override;
-	void on_emit(Particle* const particle) override;
+	void on_emit(BaseParticle* const particle) override;
 };

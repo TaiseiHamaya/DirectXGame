@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "MeshInstance.h"
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
@@ -14,25 +14,25 @@
 #include <imgui.h>
 #endif // _DEBUG
 
-GameObject::GameObject() noexcept(false) :
+MeshInstance::MeshInstance() noexcept(false) :
 	// 各メモリの取得
 	transformMatrix(std::make_unique<TransformMatrix>()) {
 	meshMaterials.clear();
 	hierarchy.initialize(*transformMatrix->get_data());
 }
 
-GameObject::GameObject(const std::string& meshName_) noexcept(false) :
-	GameObject() {
+MeshInstance::MeshInstance(const std::string& meshName_) noexcept(false) :
+	MeshInstance() {
 	reset_object(meshName_);
 }
 
-GameObject::~GameObject() noexcept = default;
+MeshInstance::~MeshInstance() noexcept = default;
 
-GameObject::GameObject(GameObject&&) noexcept = default;
+MeshInstance::MeshInstance(MeshInstance&&) noexcept = default;
 
-GameObject& GameObject::operator=(GameObject&&) noexcept = default;
+MeshInstance& MeshInstance::operator=(MeshInstance&&) noexcept = default;
 
-void GameObject::begin_rendering() noexcept {
+void MeshInstance::begin_rendering() noexcept {
 	if (!isActive) {
 		return;
 	}
@@ -47,7 +47,7 @@ void GameObject::begin_rendering() noexcept {
 	}
 }
 
-void GameObject::draw() const {
+void MeshInstance::draw() const {
 	if (!isActive || !isDraw) {
 		return;
 	}
@@ -72,7 +72,7 @@ void GameObject::draw() const {
 	}
 }
 
-void GameObject::reset_object(const std::string& meshName_) {
+void MeshInstance::reset_object(const std::string& meshName_) {
 	meshName = meshName_;
 	mesh = PolygonMeshManager::GetPolygonMesh(meshName);
 	size_t meshSize = mesh.lock()->material_count();
@@ -83,7 +83,7 @@ void GameObject::reset_object(const std::string& meshName_) {
 	default_material();
 }
 
-void GameObject::default_material() {
+void MeshInstance::default_material() {
 	auto&& meshLocked = mesh.lock();
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		// 色情報のリセット
@@ -104,22 +104,22 @@ void GameObject::default_material() {
 #ifdef _DEBUG
 			meshMaterials[i].textureName = "Error.png";
 #endif // _DEBUG
-			Console("[GameObject] Mtl file used Object file \'{}\' is not found.\n", meshName);
+			Console("[MeshInstance] Mtl file used Object file \'{}\' is not found.\n", meshName);
 		}
 		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
 	}
 }
 
-std::vector<GameObject::MaterialDataRef>& GameObject::get_materials() {
+std::vector<MeshInstance::MaterialDataRef>& MeshInstance::get_materials() {
 	return materialData;
 }
 
-void GameObject::set_texture(const std::string& name, int index) {
+void MeshInstance::set_texture(const std::string& name, int index) {
 	meshMaterials[index].texture = TextureManager::GetTexture(name);
 }
 
 #ifdef _DEBUG
-void GameObject::debug_gui() {
+void MeshInstance::debug_gui() {
 	if (PolygonMeshManager::MeshListGui(meshName)) {
 		reset_object(meshName);
 	}
@@ -160,7 +160,7 @@ void GameObject::debug_gui() {
 }
 #endif // _DEBUG
 
-GameObject::PolygonMeshMaterial::PolygonMeshMaterial() :
+MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
 	material(std::make_unique<Material>()),
 	color(material->get_color_reference()) {
 	material->get_data()->color = Color{ 1.0f, 1.0f, 1.0f, 1.0f };
@@ -169,7 +169,7 @@ GameObject::PolygonMeshMaterial::PolygonMeshMaterial() :
 	material->get_data()->uvTransform = CMatrix4x4::IDENTITY;
 }
 
-GameObject::MaterialDataRef::MaterialDataRef(Color& color_, Transform2D& uvTransform_) :
+MeshInstance::MaterialDataRef::MaterialDataRef(Color& color_, Transform2D& uvTransform_) :
 	color(color_),
 	uvTransform(uvTransform_) {
 }
