@@ -41,10 +41,6 @@ public:
 
 	void draw() const override;
 
-	void on_collision(const BaseCollider* const, Color* object);
-	void on_collision_enter(const BaseCollider* const, Color* object);
-	void on_collision_exit(const BaseCollider* const, Color* object);
-
 #ifdef _DEBUG
 	void debug_update() override;
 #endif // _DEBUG

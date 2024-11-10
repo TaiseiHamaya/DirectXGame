@@ -149,7 +149,7 @@ void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
-	particleSystem->update();
+	//particleSystem->update();
 	directionalLight->update();
 }
 
@@ -159,7 +159,7 @@ void SceneDemo::begin_rendering() {
 	child->look_at(*camera3D);
 	child->begin_rendering();
 	sprite->begin_rendering();
-	particleSystem->begin_rendering();
+	//particleSystem->begin_rendering();
 	directionalLight->begin_rendering();
 }
 
@@ -184,7 +184,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 	camera3D->set_command(1);
-	particleSystem->draw();
+	//particleSystem->draw();
 
 	renderPath->next();
 	outlineNode->draw();
@@ -192,18 +192,6 @@ void SceneDemo::draw() const {
 	renderPath->next();
 	//sprite->draw();
 
-}
-
-void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color* object) {
-	*object = { 1.0f,0,0,1.0f };
-}
-
-void SceneDemo::on_collision_enter(const BaseCollider* const other, Color* object) {
-	*object = { 0,1.0f,0,1.0f };
-}
-
-void SceneDemo::on_collision_exit(const BaseCollider* const, Color* object) {
-	*object = { 1.0f,1.0f,1.0f,1.0f };
 }
 
 #ifdef _DEBUG
