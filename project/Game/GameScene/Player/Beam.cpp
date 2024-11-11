@@ -17,8 +17,7 @@ void Beam::initialize() {
 	beam->initialize();
 
 	collider = eps::CreateShared<CapsuleCollider>();
-	collider->initialize(0.1f, 100, CVector3::BASIS_Z);
-	collider->set_parent(*beam);
+	collider->initialize(0, 100, CVector3::BASIS_Z);
 	collider->get_transform().set_translate({ 0.0f, 0.0f, 50.0f });
 	collider->set_active(false);
 }
@@ -36,17 +35,21 @@ void Beam::update() {
 
 	if (camera) {
 		Matrix4x4 viewport = Camera3D::MakeViewportMatrix(CVector2::ZERO, EngineSettings::CLIENT_SIZE);
-		Vector3 reticleScreenFar = Transform3D::Homogeneous(Converter::ToVector3(reticle, 1000.0f), Camera2D::GetVPMatrix() * viewport);
+		Vector3 reticleScreenNear = Transform3D::Homogeneous(Converter::ToVector3(reticle, 0), Camera2D::GetVPMatrix() * viewport);
+		Vector3 reticleScreenFar = reticleScreenNear;
+		reticleScreenFar.z = 1.0f;
 		Matrix4x4 vpv = camera->vp_matrix() * viewport;
 		Matrix4x4 vpvInv = vpv.inverse();
+		Vector3 nearReticle = Transform3D::Homogeneous(reticleScreenNear, vpvInv);
 		Vector3 farReticle = Transform3D::Homogeneous(reticleScreenFar, vpvInv);
-		beamRay.origin = beam->world_position();
-		beamRay.direction = (farReticle - beamRay.origin).normalize_safe();
+		beamRay.origin = nearReticle;
+		beamRay.direction = (farReticle - nearReticle).normalize_safe();
 
 		Vector3 cameraUpward = CVector3::BASIS_Y * camera->get_transform().get_quaternion();
 		beam->look_at(beamRay.origin + beamRay.direction * 10.f, cameraUpward);
 
 		collider->set_direction(beamRay.direction);
+		collider->get_transform().set_translate(beamRay.origin + beamRay.direction * collider->get_length() / 2);
 	}
 
 	beam->update();
