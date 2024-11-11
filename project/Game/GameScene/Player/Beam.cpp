@@ -1,7 +1,5 @@
 #include "Beam.h"
 
-#include <algorithm>
-
 #include <Engine/Application/EngineSettings.h>
 #include <Engine/Module/World/Camera/Camera2D.h>
 #include <Engine/Runtime/Input/Input.h>
@@ -22,6 +20,7 @@ void Beam::initialize() {
 	collider->initialize(0.1f, 100, CVector3::BASIS_Z);
 	collider->set_parent(*beam);
 	collider->get_transform().set_translate({ 0.0f, 0.0f, 50.0f });
+	collider->set_active(false);
 }
 
 void Beam::begin() {
@@ -78,6 +77,12 @@ void Beam::input() {
 
 	if (Input::IsTriggerKey(KeyID::Space)) {
 		isBeaming ^= 1;
+		if (isBeaming) {
+			collider->set_active(true);
+		}
+		else {
+			collider->set_active(false);
+		}
 	}
 }
 

@@ -11,8 +11,8 @@
 #include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
 #include <Engine/Module/Render/RenderNode/Sprite/SpriteNode.h>
 
-#include "RenderNode/BeamNode.h"
 #include "Collision/GameCollisionCallback.h"
+#include "RenderNode/BeamNode.h"
 
 void GameScene::load() {
 	Rail::LoadMesh();
