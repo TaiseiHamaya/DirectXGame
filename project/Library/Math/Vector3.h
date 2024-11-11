@@ -308,13 +308,22 @@ constexpr Vector3 Vector3::Bezier(const Vector3& initial, const Vector3& control
 /// Vector3定数
 /// </summary>
 namespace CVector3 {
-	constexpr Vector3 BASIS{ 1.0f, 1.0f, 1.0f }; // x(1.0f), y(1.0f), z(1.0f)
-	constexpr Vector3 BASIS_X{ 1.0f, 0.0f, 0.0f }; // x(1.0f), y(0.0f), z(0.0f)
-	constexpr Vector3 BASIS_Y{ 0.0f, 1.0f, 0.0f }; // x(0.0f), y(1.0f), z(0.0f)
-	constexpr Vector3 BASIS_Z{ 0.0f, 0.0f, 1.0f }; // x(0.0f), y(0.0f), z(1.0f)
-	constexpr Vector3 ZERO{ 0.0f, 0.0f, 0.0f }; // x(0.0f), y(0.0f), z(0.0f)
-	constexpr Vector3 INFINTY{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
-	constexpr Vector3 INFINTY_X{ std::numeric_limits<float>::infinity(), 0, 0 };
-	constexpr Vector3 INFINTY_Y{ 0, std::numeric_limits<float>::infinity(), 0 };
-	constexpr Vector3 INFINTY_Z{ 0, 0, std::numeric_limits<float>::infinity() };
+
+constexpr Vector3 BASIS{ 1.0f, 1.0f, 1.0f }; // x(1.0f), y(1.0f), z(1.0f)
+constexpr Vector3 BASIS_X{ 1.0f, 0.0f, 0.0f }; // x(1.0f), y(0.0f), z(0.0f)
+constexpr Vector3 BASIS_Y{ 0.0f, 1.0f, 0.0f }; // x(0.0f), y(1.0f), z(0.0f)
+constexpr Vector3 BASIS_Z{ 0.0f, 0.0f, 1.0f }; // x(0.0f), y(0.0f), z(1.0f)
+constexpr Vector3 ZERO{ 0.0f, 0.0f, 0.0f }; // x(0.0f), y(0.0f), z(0.0f)
+constexpr Vector3 INFINTY{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
+constexpr Vector3 INFINTY_X{ std::numeric_limits<float>::infinity(), 0, 0 };
+constexpr Vector3 INFINTY_Y{ 0, std::numeric_limits<float>::infinity(), 0 };
+constexpr Vector3 INFINTY_Z{ 0, 0, std::numeric_limits<float>::infinity() };
+
+constexpr Vector3 FORWARD{ BASIS_Z };
+constexpr Vector3 BACKWARD{ -FORWARD };
+constexpr Vector3 UP{ BASIS_Y };
+constexpr Vector3 BACK{ -UP };
+constexpr Vector3 RIGHT{ BASIS_X };
+constexpr Vector3 LEFT{ -RIGHT };
+
 }

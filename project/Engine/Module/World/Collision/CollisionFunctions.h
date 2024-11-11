@@ -6,7 +6,7 @@
 
 #include "Engine/Module/World/Collision/Collider/CapsuleCollider.h"
 
-bool Collision(SphereCollider* lhs, SphereCollider* rhs) {
+bool Collision(const SphereCollider* lhs, const SphereCollider* rhs) {
 	Vector3 distance = lhs->world_position() - rhs->world_position();
 	float range = lhs->get_radius() + rhs->get_radius();
 	return distance.length() <= range;
@@ -18,7 +18,7 @@ bool Collision(const CapsuleCollider* lhs, SphereCollider* rhs) {
 	// 各ワールド座標を取得
 	const Vector3& capsuleWorldPosition = lhs->world_position();
 	const Vector3& sphereWorldPosition = rhs->world_position();
-	
+
 	// カプセルの向きを取得
 	Vector3 direction = lhs->get_direction();
 	// 始点取得
