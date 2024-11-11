@@ -19,6 +19,9 @@ void GameScene::load() {
 	PolygonMeshManager::RegisterLoadQue("./Resources/Model/", "beam.obj");
 	PolygonMeshManager::RegisterLoadQue("./Resources/Model/", "enemy.obj");
 	TextureManager::RegisterLoadQue("./Resources/Sprite", "reticle.png");
+	for (int i = 0; i < 10; ++i) {
+		TextureManager::RegisterLoadQue("./Resources/Sprite", std::format("score_sprite_{}.png", i));
+	}
 }
 
 void GameScene::initialize() {
@@ -43,11 +46,14 @@ void GameScene::initialize() {
 
 	enemyManager = eps::CreateUnique<EnemyManager>();
 
+	scoreManager = eps::CreateUnique<ScoreManager>();
+	scoreManager->initialize(camera3D.get());
+
 	collisionManager = eps::CreateUnique<CollisionManager>();
 	collisionManager->set_callback_manager(
 		eps::CreateUnique<GameCollisionCallback>(enemyManager.get())
 	);
-	enemyManager->initialize(collisionManager.get());
+	enemyManager->initialize(collisionManager.get(), scoreManager.get());
 
 	camera3D->set_rail(rail.get());
 
@@ -83,6 +89,7 @@ void GameScene::begin() {
 	beam->begin();
 	enemyManager->begin();
 	collisionManager->begin();
+	scoreManager->begin();
 }
 
 void GameScene::update() {
@@ -90,6 +97,7 @@ void GameScene::update() {
 	beam->update();
 	directionalLight->update();
 	enemyManager->update();
+	scoreManager->update();
 }
 
 void GameScene::begin_rendering() {
@@ -98,6 +106,7 @@ void GameScene::begin_rendering() {
 	beam->begin_rendering();
 	directionalLight->begin_rendering();
 	enemyManager->begin_rendering();
+	scoreManager->begin_rendering();
 }
 
 void GameScene::late_update() {
@@ -105,12 +114,14 @@ void GameScene::late_update() {
 	collisionManager->collision("Enemy", "Beam");
 
 	enemyManager->late_update();
+	scoreManager->late_update();
 }
 
 void GameScene::draw() const {
-	renderPath->begin();
+	renderPath->begin(); // 3D Mesh
 	camera3D->set_command(1);
 	directionalLight->register_world(3);
+
 	rail->draw();
 	enemyManager->draw();
 #ifdef _DEBUG
@@ -119,11 +130,13 @@ void GameScene::draw() const {
 	collisionManager->debug_draw3d();
 #endif // _DEBUG
 
-	renderPath->next();
+	renderPath->next(); // Depthなし描画
 	beam->draw();
+	scoreManager->draw();
 
-	renderPath->next();
+	renderPath->next(); // Sprite
 	beam->draw_reticle();
+	scoreManager->draw_sprite();
 
 	renderPath->next();
 }

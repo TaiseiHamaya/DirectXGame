@@ -121,6 +121,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Collision\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Game\GameScene\Collision\GameCollisionCallback.cpp" />
     <ClCompile Include="Game\GameScene\RenderNode\BeamNode.cpp" />
+    <ClCompile Include="Game\GameScene\ScoreManager\ScoreManager.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -219,6 +220,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Collision\Collider\CapsuleCollider.h" />
     <ClInclude Include="Game\GameScene\Collision\GameCollisionCallback.h" />
     <ClInclude Include="Game\GameScene\RenderNode\BeamNode.h" />
+    <ClInclude Include="Game\GameScene\ScoreManager\ScoreManager.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />

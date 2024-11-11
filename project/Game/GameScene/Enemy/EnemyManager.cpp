@@ -4,8 +4,11 @@
 
 #include <Engine/Module/World/Collision/CollisionManager.h>
 
-void EnemyManager::initialize(CollisionManager* collisionManager_) {
+#include "Game/GameScene/ScoreManager/ScoreManager.h"
+
+void EnemyManager::initialize(CollisionManager* collisionManager_, ScoreManager* scoreManager_) {
 	collisionManager = collisionManager_;
+	scoreManager = scoreManager_;
 
 	create();
 }
@@ -20,6 +23,10 @@ void EnemyManager::update() {
 	for (std::unique_ptr<BaseEnemy>& enemy : enemies) {
 		enemy->update();
 	}
+
+	enemies.remove_if(
+		[](const std::unique_ptr<BaseEnemy>& enemy) { return enemy->is_dead(); }
+	);
 }
 
 void EnemyManager::begin_rendering() noexcept {
@@ -46,13 +53,16 @@ void EnemyManager::callback_collider(BaseCollider* const collider) {
 	}
 	BaseEnemy* enemy = reverseEnemies.at(collider);
 	enemy->hit();
+	if (enemy->is_dead()) {
+		scoreManager->register_enemy(enemy);
+	}
 }
 
 void EnemyManager::create() {
 	auto& newEnemy = enemies.emplace_back(
 		eps::CreateUnique<BaseEnemy>()
 	);
-	newEnemy->initialize();
+	newEnemy->initialize("enemy.obj", 0.2f, 5, 100, 30);
 	newEnemy->get_transform().set_translate(Vector3{ 0.0f, 0.8f, 3.0f });
 
 	collisionManager->register_collider("Enemy", newEnemy->get_collider());
