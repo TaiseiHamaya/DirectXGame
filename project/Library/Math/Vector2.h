@@ -316,6 +316,7 @@ constexpr const Vector2 Vector2::Rotate(const Vector2& vector, const float sinTh
 /// Vector2定数
 /// </summary>
 namespace CVector2 {
+
 constexpr Vector2 BASIS_X = Vector2{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
 constexpr Vector2 BASIS_Y = Vector2{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
 constexpr Vector2 ZERO = Vector2{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
@@ -323,4 +324,10 @@ constexpr Vector2 BASIS = Vector2{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
 constexpr Vector2 INFINTY = Vector2{ std::numeric_limits<float>::infinity(),std::numeric_limits<float>::infinity() };
 constexpr Vector2 INFINTY_X = Vector2{ std::numeric_limits<float>::infinity(),0 };
 constexpr Vector2 INFINTY_Y = Vector2{ 0, std::numeric_limits<float>::infinity() };
+
+constexpr Vector2 FORWARD{ BASIS_X };
+constexpr Vector2 BACKWARD{ -FORWARD };
+constexpr Vector2 UP{ BASIS_Y };
+constexpr Vector2 BACK{ -UP };
+
 };
