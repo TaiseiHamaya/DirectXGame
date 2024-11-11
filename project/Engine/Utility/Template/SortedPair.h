@@ -16,7 +16,7 @@
 template<std::totally_ordered T>
 class SortedPair {
 public:
-	SortedPair() = default;
+	constexpr SortedPair() = default;
 	~SortedPair() = default;
 
 	SortedPair(const SortedPair&) = default;
@@ -25,26 +25,26 @@ public:
 	SortedPair& operator=(SortedPair&&) = default;
 
 public:
-	bool operator==(const SortedPair& rhs) const {
+	constexpr bool operator==(const SortedPair& rhs) const {
 		return values.first == rhs.values.first && values.second == rhs.values.second;
 	}
-	bool operator!=(const SortedPair& rhs) const {
+	constexpr bool operator!=(const SortedPair& rhs) const {
 		return !(*this == rhs);
 	}
 
 public:
-	SortedPair(const T& val1, const T& val2);
+	constexpr SortedPair(const T& val1, const T& val2);
 
 public:
-	const T& small() const { return values.first; };
-	const T& big() const { return values.second; };
+	constexpr T& small() const { return values.first; };
+	constexpr T& big() const { return values.second; };
 
 private:
 	std::pair<T, T> values;
 };
 
 template<std::totally_ordered T>
-inline SortedPair<T>::SortedPair(const T& val1, const T& val2) :
+constexpr SortedPair<T>::SortedPair(const T& val1, const T& val2) :
 	values(
 		val1 <= val2 ?
 		std::make_pair(val1, val2) :

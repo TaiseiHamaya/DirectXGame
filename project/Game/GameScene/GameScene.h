@@ -4,14 +4,16 @@
 
 #include <memory>
 
-#include "Game/GameScene/Player/RailCamera.h"
-#include "Game/GameScene/Rail/Rail.h"
-#include "Game/GameScene/Player/Beam.h"
+#include "Enemy/EnemyManager.h"
+#include "Player/Beam.h"
+#include "Player/RailCamera.h"
+#include "Rail/Rail.h"
+#include "ScoreManager/ScoreManager.h"
+
+#include <Engine/Module/World/Collision/CollisionManager.h>
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
 
 #include <Engine/Module/Render/RenderPath/RenderPath.h>
-#include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
-#include <Engine/Module/Render/RenderNode/Sprite/SpriteNode.h>
 
 class GameScene : public BaseScene {
 public:
@@ -22,7 +24,7 @@ public:
 	void load();
 	void initialize();
 	void finalize();
-	void poped();
+	void popped();
 
 	void begin();
 	void update();
@@ -38,10 +40,13 @@ public:
 
 private:
 	std::unique_ptr<RenderPath> renderPath;
+	std::unique_ptr<CollisionManager> collisionManager;
+	std::unique_ptr<ScoreManager> scoreManager;
 
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
 
 	std::unique_ptr<RailCamera> camera3D;
 	std::unique_ptr<Rail> rail;
 	std::unique_ptr<Beam> beam;
+	std::unique_ptr<EnemyManager> enemyManager;
 };

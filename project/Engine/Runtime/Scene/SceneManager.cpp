@@ -146,7 +146,7 @@ void SceneManager::NextScene() {
 			newScene->initialize();
 		}
 		else {
-			newScene->poped();
+			newScene->popped();
 		}
 	}
 	// 遷移状態を解除

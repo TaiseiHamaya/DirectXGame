@@ -1,8 +1,8 @@
 #pragma once
 
+#include <cassert>
 #include <cmath>
 #include <vector>
-#include <cassert>
 
 template<class Type>
 inline Type CatmullRom(const Type& p0, const Type& p1, const Type& p2, const Type& p3, float t) {

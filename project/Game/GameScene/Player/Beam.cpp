@@ -1,26 +1,25 @@
 #include "Beam.h"
 
-#include <algorithm>
-
 #include <Engine/Application/EngineSettings.h>
-#include <Engine/Runtime/Input/Input.h>
-#include <Engine/Application/WinApp.h>
-#include <Engine/Utility/Tools/SmartPointer.h>
-#include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Module/World/Camera/Camera2D.h>
+#include <Engine/Runtime/Input/Input.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
+#include <Engine/Utility/Tools/SmartPointer.h>
 #include <Library/Math/VectorConverter.h>
 
 #include "Game/GameScene/Player/RailCamera.h"
 
 void Beam::initialize() {
-	reticle = {
-		static_cast<float>(EngineSettings::CLIENT_WIDTH) / 2,
-		static_cast<float>(EngineSettings::CLIENT_HEIGHT) / 2
-	};
+	reticle = EngineSettings::CLIENT_SIZE / 2;
 
 	sprite = eps::CreateUnique<SpriteInstance>("reticle.png", Vector2{ 0.5f,0.5f });
 	beam = eps::CreateUnique<MeshInstance>("beam.obj");
 	beam->initialize();
+
+	collider = eps::CreateShared<CapsuleCollider>();
+	collider->initialize(0, 100, CVector3::BASIS_Z);
+	collider->get_transform().set_translate({ 0.0f, 0.0f, 50.0f });
+	collider->set_active(false);
 }
 
 void Beam::begin() {
@@ -30,15 +29,12 @@ void Beam::begin() {
 
 void Beam::update() {
 	reticle += keyInput * 100.0f * reticleMoveSpeed * WorldClock::DeltaSeconds();
-	reticle = {
-		std::clamp(reticle.x, 64.0f, static_cast<float>(EngineSettings::CLIENT_WIDTH) - 64) ,
-		std::clamp(reticle.y, 64.0f, static_cast<float>(EngineSettings::CLIENT_HEIGHT) - 64)
-	};
+	reticle = Vector2::Clamp(reticle, Vector2{ 64.0f, 64.0f }, EngineSettings::CLIENT_SIZE - Vector2{ 64.0f, 64.0f });
 
 	sprite->get_transform().set_translate(reticle);
 
 	if (camera) {
-		Matrix4x4 viewport = Camera3D::MakeViewportMatrix(CVector2::ZERO, { static_cast<float>(EngineSettings::CLIENT_WIDTH),static_cast<float>(EngineSettings::CLIENT_HEIGHT) });
+		Matrix4x4 viewport = Camera3D::MakeViewportMatrix(CVector2::ZERO, EngineSettings::CLIENT_SIZE);
 		Vector3 reticleScreenNear = Transform3D::Homogeneous(Converter::ToVector3(reticle, 0), Camera2D::GetVPMatrix() * viewport);
 		Vector3 reticleScreenFar = reticleScreenNear;
 		reticleScreenFar.z = 1.0f;
@@ -51,6 +47,9 @@ void Beam::update() {
 
 		Vector3 cameraUpward = CVector3::BASIS_Y * camera->get_transform().get_quaternion();
 		beam->look_at(beamRay.origin + beamRay.direction * 10.f, cameraUpward);
+
+		collider->set_direction(beamRay.direction);
+		collider->get_transform().set_translate(beamRay.origin + beamRay.direction * collider->get_length() / 2);
 	}
 
 	beam->update();
@@ -81,6 +80,12 @@ void Beam::input() {
 
 	if (Input::IsTriggerKey(KeyID::Space)) {
 		isBeaming ^= 1;
+		if (isBeaming) {
+			collider->set_active(true);
+		}
+		else {
+			collider->set_active(false);
+		}
 	}
 }
 

@@ -18,8 +18,8 @@ void CollisionCallbackManager::begin() {
 	}
 }
 
-void CollisionCallbackManager::callback(const CallbackInfo& lhs, const CallbackInfo& rhs, bool result) {
-	SortedPair<std::string> callbackKey = SortedPair<std::string>(lhs.first, rhs.first);
+void CollisionCallbackManager::callback(CallbackInfo lhs, CallbackInfo rhs, bool result) {
+	CallbackMapKey callbackKey = CallbackMapKey(lhs.first, rhs.first);
 	if (!callbackFunctions.contains(callbackKey)) {
 		return;
 	}

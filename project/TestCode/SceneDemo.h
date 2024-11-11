@@ -31,7 +31,7 @@ public:
 public:
 	void load() override;
 	void initialize() override;
-	void poped() override;
+	void popped() override;
 	void finalize() override;
 
 	void begin() override;
