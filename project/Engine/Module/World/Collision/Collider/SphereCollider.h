@@ -12,7 +12,7 @@ public:
 
 public:
 	void set_radius(float radius_);
-	float get_radius();
+	float get_radius() const;
 
 public:
 	constexpr std::string type() const override;

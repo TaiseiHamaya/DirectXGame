@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <memory>
 #include <string>
 
@@ -24,19 +23,10 @@ public:
 	const std::string& group() const noexcept;
 
 public:
-	void set_on_collision(std::function<void(const BaseCollider* const)> function);
-	void set_on_collision_enter(std::function<void(const BaseCollider* const)> function);
-	void set_on_collision_exit(std::function<void(const BaseCollider* const)> function);
-
 	void set_group_name(const std::string& name);
 
 private:
 	const std::string* groupName;
-
-private:
-	std::function<void(const BaseCollider* const)> onCollisionFunc;
-	std::function<void(const BaseCollider* const)> onCollisionEnterFunc;
-	std::function<void(const BaseCollider* const)> onCollisionExitFunc;
 
 #ifdef _DEBUG
 public:

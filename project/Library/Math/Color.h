@@ -39,31 +39,14 @@ public:
 	float blue{ 1.0f }; // 青[0, 1]
 	float alpha{ 1.0f }; // アルファ[0, 1]
 
-public:
-	/// <summary>
-	/// 削除予定
-	/// </summary>
-	/// <returns></returns>
-	[[deprecated]] const unsigned int hex() const;
 #ifdef _DEBUG
+public:
 	void debug_gui3() noexcept(false);
 
 	void debug_gui4() noexcept(false);
 #endif // _DEBUG
 
 public:
-	/// <summary>
-	/// 削除予定
-	/// </summary>
-	/// <returns></returns>
-	[[deprecated]] static unsigned int ToHex(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha);
-
-	/// <summary>
-	/// 削除予定
-	/// </summary>
-	/// <returns></returns>
-	[[deprecated]] static unsigned int LerpC(unsigned int hex1, unsigned int hex2, float t);
-
 	/// <summary>
 	/// 色の線形補間(Easing.hが存在しないため未実装)
 	/// </summary>
@@ -95,7 +78,22 @@ constexpr Color::Color(float _red, float _green, float _blue, float _alpha) noex
 	alpha = _alpha;
 }
 
-// TODO
+/// <summary>
+/// Color定数
+/// </summary>
 namespace CColor {
+
+constexpr Color WHITE{ 1.0f, 1.0f, 1.0f, 1.0f };
+constexpr Color BLACK{ 0.0f, 0.0f, 0.0f, 1.0f };
+constexpr Color RED{ 1.0f, 0.0f, 0.0f, 1.0f };
+constexpr Color GREEN{ 0.0f, 1.0f, 0.0f, 1.0f };
+constexpr Color BLUE{ 0.0f, 0.0f, 1.0f, 1.0f };
+
+constexpr Color YELLOW{ 1.0f, 1.0f, 0.0f, 1.0f };
+constexpr Color MAGENTA{ 1.0f, 0.0f, 1.0f, 1.0f };
+constexpr Color CYAN{ 0.0f, 1.0f, 1.0f, 1.0f };
+
+constexpr Color ZERO{ 0.0f, 0.0f, 0.0f, 0.0f };
+constexpr Color ZERO_WHITE{ 1.0f, 1.0f, 1.0f, 0.0f };
 
 }
