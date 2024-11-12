@@ -9,6 +9,7 @@
 #include "Player/RailCamera.h"
 #include "Rail/Rail.h"
 #include "ScoreManager/ScoreManager.h"
+#include "Timeline/Timeline.h"
 
 #include <Engine/Module/World/Collision/CollisionManager.h>
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
@@ -42,6 +43,7 @@ private:
 	std::unique_ptr<RenderPath> renderPath;
 	std::unique_ptr<CollisionManager> collisionManager;
 	std::unique_ptr<ScoreManager> scoreManager;
+	std::unique_ptr<Timeline> timeline;
 
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
 

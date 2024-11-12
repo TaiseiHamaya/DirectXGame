@@ -53,7 +53,11 @@ void GameScene::initialize() {
 	collisionManager->set_callback_manager(
 		eps::CreateUnique<GameCollisionCallback>(enemyManager.get())
 	);
+
 	enemyManager->initialize(collisionManager.get(), scoreManager.get());
+
+	timeline = eps::CreateUnique<Timeline>();
+	timeline->initialize(enemyManager.get());
 
 	camera3D->set_rail(rail.get());
 
@@ -96,6 +100,7 @@ void GameScene::update() {
 	camera3D->update();
 	beam->update();
 	directionalLight->update();
+	timeline->update();
 	enemyManager->update();
 	scoreManager->update();
 }
@@ -159,5 +164,9 @@ void GameScene::debug_update() {
 	ImGui::End();
 
 	rail->editor_gui();
+	
+	enemyManager->debug_gui();
+
+	timeline->debug_gui();
 }
 #endif // _DEBUG

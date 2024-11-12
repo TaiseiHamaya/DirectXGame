@@ -13,7 +13,7 @@ inline Type CatmullRom(const Type& p0, const Type& p1, const Type& p2, const Typ
 		p1 * 2) / 2;
 }
 
-float CatmullRomWidth(float t, uint32_t size) {
+inline float CatmullRomWidth(float t, uint32_t size) {
 	uint32_t division = size - 1;
 
 	return std::fmod(t * division, 1.0f) + static_cast<int32_t>(t);
@@ -21,7 +21,7 @@ float CatmullRomWidth(float t, uint32_t size) {
 
 template<class Type>
 inline Type CatmullRom(std::vector<Type>& points, float t) {
-	assert(points.size() >= 4);
+	//assert(points.size() >= 4);
 	uint32_t division = static_cast<std::uint32_t> (points.size() - 1);
 	float interveningWidth = CatmullRomWidth(t, uint32_t(points.size()));
 

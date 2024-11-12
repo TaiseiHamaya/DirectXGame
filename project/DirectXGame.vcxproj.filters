@@ -591,6 +591,15 @@
     <ClCompile Include="Game\GameScene\Rail\RailEditor\RailEditor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\EnemyEditor\EnemyMovementsEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Timeline\Timeline.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameScene\Enemy\EnemyEditor\EnemyTypeEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -957,6 +966,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Library\Externals\nlohmann\json.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\EnemyEditor\EnemyMovementsEditor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Timeline\Timeline.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameScene\Enemy\EnemyEditor\EnemyTypeEditor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

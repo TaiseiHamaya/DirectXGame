@@ -7,6 +7,19 @@
 
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 
+struct EnemyTypeData {
+	std::string useObj;
+	std::string objDirectory;
+	float radius;
+	int hitpoint;
+	int score;
+};
+
+struct EnemyMovementsData {
+	std::vector<Vector3> controls;
+	float Time;
+};
+
 class BaseEnemy : public MeshInstance {
 public:
 	BaseEnemy() noexcept(false) = default;
@@ -16,11 +29,14 @@ public:
 	BaseEnemy& operator=(BaseEnemy&&) noexcept = default;
 
 public:
-	void initialize(const std::string& useObj, float radius_, int hitpoint_, float ActiveTime_, int score_);
+	void initialize(const Vector3& start_, const EnemyTypeData& typeData, EnemyMovementsData data);
 	virtual void update() override;
 
 public:
 	void hit();
+
+private:
+	void move();
 
 public:
 	bool is_dead() const;
@@ -30,12 +46,14 @@ public:
 
 protected:
 	float timer;
-	float ActiveTime;
+	Vector3 start;
 
 	int hitpoint;
 	std::shared_ptr<SphereCollider> collider;
 
 	int score;
 	std::string modelName;
+
+	EnemyMovementsData movements;
 };
 
