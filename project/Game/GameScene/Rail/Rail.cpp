@@ -1,7 +1,9 @@
 #include "Rail.h"
 
-#include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
+#include <algorithm>
 
+#include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Utility/Tools/SmartPointer.h>
 #include <Library/Math/Definition.h>
 
@@ -10,11 +12,11 @@
 void Rail::initialize() {
 	load_rail("");
 	if (railPoints.empty()) {
-		create_rail_point({0,0,-3});
-		create_rail_point(CVector3::ZERO);
-		create_rail_point({ 4,0,3 }, -PI/6);
-		create_rail_point({ 5,3,0 }, 0.0f);
-		create_rail_point({ 15,1,1 }, PI);
+		create_rail_point({ 0,0,-3 }, 0.5f, 5.0f);
+		create_rail_point(CVector3::ZERO, 0.5f, 5.0f);
+		create_rail_point({ 4,0,3 }, 0.2f, 5.0f, -PI / 6);
+		create_rail_point({ 5,3,0 }, 0.5f, 5.0f, 0.0f);
+		create_rail_point({ 15,1,1 }, 0.5f, 5.0f, PI);
 	}
 #ifdef _DEBUG
 	float upwardAngle = 0;
@@ -40,7 +42,7 @@ void Rail::initialize() {
 		}
 		forward =
 			(next.position - prev.position).normalize_safe(1e4f, CVector3::BASIS_Z);
-		
+
 		rotation = Quaternion::LookForward(forward) *
 			Quaternion::AngleAxis(CVector3::BASIS_Z, upwardAngle);
 
@@ -64,14 +66,14 @@ void Rail::load_rail(const std::string& filename) {
 }
 
 void Rail::begin_rendering() {
-	for (MeshInstance& railMesh : railDrawMesh) {
-		railMesh.begin_rendering();
+	for (RailMesh& railMesh : railDrawMesh) {
+		railMesh.mesh->begin_rendering();
 	}
 }
 
 void Rail::draw() const {
-	for (const MeshInstance& railMesh : railDrawMesh) {
-		railMesh.draw();
+	for (const RailMesh& railMesh : railDrawMesh) {
+		railMesh.mesh->draw();
 	}
 }
 
@@ -88,17 +90,17 @@ void Rail::transform_from_mileage(WorldInstance& worldInstance, float mileage) c
 		nextIndex = index + 1;
 	}
 	// Translate算出
-	Vector3 internal = railDrawMesh[index].world_position();
+	Vector3 internal = railDrawMesh[index].mesh->world_position();
 	Vector3 terminal =
 		nextIndex.has_value() ?
-		railDrawMesh[nextIndex.value()].world_position() :
+		railDrawMesh[nextIndex.value()].mesh->world_position() :
 		railPoints.back().position;
 	worldInstance.get_transform().set_translate(Vector3::Lerp(internal, terminal, parametric));
 	// Quaternion
-	Quaternion internalRotation = railDrawMesh[index].get_transform().get_quaternion();
+	Quaternion internalRotation = railDrawMesh[index].mesh->get_transform().get_quaternion();
 	Quaternion terminalRotation;
 	if (nextIndex.has_value()) {
-		terminalRotation = railDrawMesh[nextIndex.value()].get_transform().get_quaternion();
+		terminalRotation = railDrawMesh[nextIndex.value()].mesh->get_transform().get_quaternion();
 	}
 	else {
 		Vector3 forward = (terminal - internal).normalize_safe();
@@ -109,18 +111,45 @@ void Rail::transform_from_mileage(WorldInstance& worldInstance, float mileage) c
 	);
 }
 
-void Rail::create_rail_point(const Vector3& position, const std::optional<float>& upward) {
+void Rail::update_speed_from_mileage(float& speed, float mileage) const {
+	// Index算出
+	int index = static_cast<int>(mileage);
+	float parametric = mileage - std::floor(mileage);
+	std::optional<int> nextIndex;
+	if (index + 1 < railLength) {
+		nextIndex = index + 1;
+	}
+	Vector3 internal = railDrawMesh[index].mesh->world_position();
+	Vector3 terminal =
+		nextIndex.has_value() ?
+		railDrawMesh[nextIndex.value()].mesh->world_position() :
+		railPoints.back().position;
+	if (nextIndex.has_value()) {
+		Vector3 forward = (terminal - internal).normalize_safe();
+		constexpr Vector3 GRAVITY = { 0.0f, -9.8f, 0.0f };
+		float dot = Vector3::DotProduct(forward, CVector3::BACK);
+		speed += dot * GRAVITY.length() * WorldClock::DeltaSeconds();
+		speed = std::clamp(speed, railDrawMesh[index].minSpeed, railDrawMesh[index].maxSpeed);
+	}
+	else {
+		speed = 0;
+	}
+}
+
+void Rail::create_rail_point(const Vector3& position, float min, float max, const std::optional<float>& upward) {
 	std::unique_ptr<MeshInstance> temp = eps::CreateUnique<MeshInstance>("RailPoint.obj");
 	temp->initialize();
 	temp->get_transform().set_translate(position);
 	railPoints.emplace_back(
-		position, upward, std::move(temp)
+		position, upward, min, max, std::move(temp)
 	);
 }
 
 struct Control {
 	Vector3 point;
 	Quaternion zAngle;
+	float minSpeed;
+	float maxSpeed;
 };
 
 void Rail::create_rail() {
@@ -155,7 +184,9 @@ void Rail::create_rail() {
 					Quaternion::AngleAxis(CVector3::BASIS_Z, railPoints[index1].upwardAngle.value()),
 					Quaternion::AngleAxis(CVector3::BASIS_Z, railPoints[index2].upwardAngle.value()),
 					parametric
-				)
+				),
+				railPoints[index1].minSpeed,
+				railPoints[index1].maxSpeed
 			);
 		}
 		// オーバーした位置に重ならないようにoffsetを算出
@@ -166,19 +197,19 @@ void Rail::create_rail() {
 	railDrawMesh.reserve(controls.size());
 
 	// 先頭要素
-	MeshInstance& startMesh = railDrawMesh.emplace_back("Rail.obj");
-	startMesh.get_transform().set_translate(controls[0].point);
+	RailMesh& startMesh = railDrawMesh.emplace_back(RailMesh{ eps::CreateUnique<MeshInstance>("Rail.obj"), controls[0].minSpeed, controls[0].maxSpeed });
+	startMesh.mesh->get_transform().set_translate(controls[0].point);
 	Quaternion forward = Quaternion::LookForward((controls[1].point - controls[0].point).normalize_safe());
-	startMesh.get_transform().set_quaternion(forward);
+	startMesh.mesh->get_transform().set_quaternion(forward);
 	Vector3 nextStart = controls[0].point + CVector3::BASIS_Z * forward;
 	for (int i = 1; i + 1 < controls.size(); ++i) {
-		MeshInstance& newMesh = railDrawMesh.emplace_back("Rail.obj");
+		RailMesh& newMesh = railDrawMesh.emplace_back(RailMesh{ eps::CreateUnique<MeshInstance>("Rail.obj"), controls[i].minSpeed, controls[i].maxSpeed });
 		// 連続する位置にする
-		newMesh.get_transform().set_translate(nextStart);
+		newMesh.mesh->get_transform().set_translate(nextStart);
 		// 回転算出
-		forward = 
+		forward =
 			Quaternion::LookForward((controls[i + 1].point - nextStart).normalize_safe()) * controls[i].zAngle;
-		newMesh.get_transform().set_quaternion(forward);
+		newMesh.mesh->get_transform().set_quaternion(forward);
 		// 次の開始位置位置
 		nextStart = nextStart + CVector3::BASIS_Z * forward;
 	}
