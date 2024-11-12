@@ -28,7 +28,7 @@ void Beam::begin() {
 }
 
 void Beam::update() {
-	reticle += keyInput * 100.0f * reticleMoveSpeed * WorldClock::DeltaSeconds();
+	reticle += keyInput * 300.0f * reticleMoveSpeed * WorldClock::DeltaSeconds();
 	reticle = Vector2::Clamp(reticle, Vector2{ 64.0f, 64.0f }, EngineSettings::CLIENT_SIZE - Vector2{ 64.0f, 64.0f });
 
 	sprite->get_transform().set_translate(reticle);
