@@ -223,6 +223,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\RenderNode\BeamNode.h" />
     <ClInclude Include="Game\GameScene\ScoreManager\ScoreManager.h" />
     <ClInclude Include="Game\GameScene\Rail\RailEditor\RailEditor.h" />
+    <ClInclude Include="Library\Externals\nlohmann\json.hpp" />
+    <ClInclude Include="Library\Externals\nlohmann\json_fwd.hpp" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />

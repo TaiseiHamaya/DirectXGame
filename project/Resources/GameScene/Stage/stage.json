@@ -1,0 +1,104 @@
+{
+	"Stage": {
+		"00": {
+			"Angle": 0.0,
+			"MaxSpeed": 5.0,
+			"MinSpeed": 0.5,
+			"Position": [
+				1.600000023841858,
+				0.0,
+				-3.0
+			]
+		},
+		"01": {
+			"Angle": 0.0,
+			"MaxSpeed": 5.0,
+			"MinSpeed": 0.5,
+			"Position": [
+				1.399999976158142,
+				0.5,
+				0.0
+			]
+		},
+		"02": {
+			"Angle": 0.0,
+			"MaxSpeed": 5.0,
+			"MinSpeed": 0.20000000298023224,
+			"Position": [
+				4.0,
+				1.600000023841858,
+				0.5
+			]
+		},
+		"03": {
+			"Angle": 0.0,
+			"MaxSpeed": 5.0,
+			"MinSpeed": 0.5,
+			"Position": [
+				4.800000190734863,
+				2.200000047683716,
+				0.0
+			]
+		},
+		"04": {
+			"Angle": 0.0,
+			"MaxSpeed": 5.0,
+			"MinSpeed": 0.5,
+			"Position": [
+				10.0,
+				1.0,
+				0.0
+			]
+		},
+		"05": {
+			"Angle": 0.12999999523162842,
+			"MaxSpeed": 1.0,
+			"MinSpeed": 1.0,
+			"Position": [
+				15.0,
+				5.0,
+				0.25
+			]
+		},
+		"06": {
+			"Angle": 0.0,
+			"MaxSpeed": 1.0,
+			"MinSpeed": 1.0,
+			"Position": [
+				10.0,
+				10.0,
+				0.5
+			]
+		},
+		"07": {
+			"Angle": 0.0,
+			"MaxSpeed": 1.0,
+			"MinSpeed": 1.0,
+			"Position": [
+				5.0,
+				5.0,
+				0.75
+			]
+		},
+		"08": {
+			"Angle": 0.0,
+			"MaxSpeed": 1.0,
+			"MinSpeed": 1.0,
+			"Position": [
+				10.0,
+				0.0,
+				1.0
+			]
+		},
+		"09": {
+			"Angle": 0.0,
+			"MaxSpeed": 0.0,
+			"MinSpeed": 0.0,
+			"Position": [
+				15.0,
+				0.0,
+				1.0
+			]
+		}
+	}
+}

@@ -7,13 +7,13 @@
 #include "Game/GameScene/Rail/Rail.h"
 
 void RailCamera::update() {
-	rail->update_speed_from_mileage(speed, mileage);
 	mileage += speed * WorldClock::DeltaSeconds();
 	mileage = std::clamp(mileage, 0.0f, rail->rail_length() - 1);
 	rail->transform_from_mileage(*this, mileage);
 	basePoint = transform.get_translate();
 	Vector3 upward = offset * transform.get_quaternion();
 	transform.plus_translate(upward);
+	rail->update_speed_from_mileage(speed, mileage);
 }
 
 Vector3 RailCamera::camera_upward_point(const Vector3& offset_) const {

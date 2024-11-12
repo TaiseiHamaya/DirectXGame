@@ -157,5 +157,7 @@ void GameScene::debug_update() {
 	ImGui::Begin("CollisionManager");
 	collisionManager->debug_gui();
 	ImGui::End();
+
+	rail->editor_gui();
 }
 #endif // _DEBUG
