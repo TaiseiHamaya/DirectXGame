@@ -29,9 +29,14 @@ public:
 	void register_enemy(BaseEnemy* enemy);
 
 private:
+	void create_score_sprite();
+
+private:
 	float displayTimer = 0;
+	int score;
 	float DefaultDisplayTime = 3.0f;
-	std::list<ScoreDisplay> score;
+	std::list<ScoreDisplay> scoreDisplay;
+	std::vector<std::unique_ptr<SpriteInstance>> scoreSprite;
 
 	const WorldInstance* camera;
 };
