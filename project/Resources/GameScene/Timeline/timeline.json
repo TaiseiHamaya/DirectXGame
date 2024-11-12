@@ -1,0 +1,12 @@
+{
+	"00": {
+		"Delay": 10.0,
+		"Movement": "test",
+		"Translate": [
+			10.0,
+			0.0,
+			0.0
+		],
+		"Type": "test"
+	}
+}

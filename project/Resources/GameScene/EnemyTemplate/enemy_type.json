@@ -1,0 +1,9 @@
+{
+	"test": {
+		"Hitpoint": 10,
+		"Radius": 0.5,
+		"Score": 30,
+		"UseObj": "enemy.obj",
+		"objDirectory": ""
+	}
+}

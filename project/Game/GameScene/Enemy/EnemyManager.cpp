@@ -10,7 +10,10 @@ void EnemyManager::initialize(CollisionManager* collisionManager_, ScoreManager*
 	collisionManager = collisionManager_;
 	scoreManager = scoreManager_;
 
-	create();
+	typeDatabase = eps::CreateUnique<EnemyTypeEditor>();
+	typeDatabase->initialize();
+	movementDatabase = eps::CreateUnique<EnemyMovementsEditor>();
+	movementDatabase->initialize();
 }
 
 void EnemyManager::begin() {
@@ -64,12 +67,15 @@ void EnemyManager::callback_collider(BaseCollider* const collider) {
 	}
 }
 
-void EnemyManager::create() {
+void EnemyManager::create(const Vector3& translate, const std::string& type, const std::string& movement) {
 	auto& newEnemy = enemies.emplace_back(
 		eps::CreateUnique<BaseEnemy>()
 	);
-	newEnemy->initialize("enemy.obj", 0.2f, 5, 100, 30);
-	newEnemy->get_transform().set_translate(Vector3{ 0.0f, 0.8f, 3.0f });
+	newEnemy->initialize(
+		translate,
+		typeDatabase->get_template(type),
+		movementDatabase->get_template(movement)
+	);
 
 	collisionManager->register_collider("Enemy", newEnemy->get_collider());
 	reverseEnemies.emplace(newEnemy->get_collider().get(), newEnemy.get());
@@ -77,4 +83,9 @@ void EnemyManager::create() {
 
 void EnemyManager::destroy(BaseEnemy* enemy) {
 	reverseEnemies.erase(enemy->get_collider().get());
+}
+
+void EnemyManager::debug_gui() {
+	typeDatabase->debug_gui();
+	movementDatabase->debug_gui();
 }

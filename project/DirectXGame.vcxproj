@@ -118,8 +118,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\GameScene\Enemy\EnemyEditor\EnemyMovementsEditor.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Game\GameScene\Collision\GameCollisionCallback.cpp" />
+    <ClCompile Include="Game\GameScene\Enemy\EnemyEditor\EnemyTypeEditor.cpp" />
     <ClCompile Include="Game\GameScene\RenderNode\BeamNode.cpp" />
     <ClCompile Include="Game\GameScene\ScoreManager\ScoreManager.cpp" />
     <ClCompile Include="Game\GameScene\Rail\RailEditor\RailEditor.cpp" />
@@ -216,10 +218,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\ParticleFactorySample.cpp" />
     <ClCompile Include="TestCode\ParticleSample.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
+    <ClCompile Include="Game\GameScene\Timeline\Timeline.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\GameScene\Enemy\EnemyEditor\EnemyMovementsEditor.h" />
     <ClInclude Include="Engine\Module\World\Collision\Collider\CapsuleCollider.h" />
     <ClInclude Include="Game\GameScene\Collision\GameCollisionCallback.h" />
+    <ClInclude Include="Game\GameScene\Enemy\EnemyEditor\EnemyTypeEditor.h" />
     <ClInclude Include="Game\GameScene\RenderNode\BeamNode.h" />
     <ClInclude Include="Game\GameScene\ScoreManager\ScoreManager.h" />
     <ClInclude Include="Game\GameScene\Rail\RailEditor\RailEditor.h" />
@@ -340,6 +345,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\GameScene\Rail\CatmullRom.h" />
     <ClInclude Include="Game\GameScene\Rail\Rail.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
+    <ClInclude Include="Game\GameScene\Timeline\Timeline.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.PS.hlsl">
