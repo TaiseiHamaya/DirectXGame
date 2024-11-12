@@ -1,9 +1,9 @@
 {
 	"test": {
 		"Hitpoint": 10,
-		"Radius": 0.5,
+		"ObjDirectory": "./Resources/Model",
+		"Radius": 0.20000000298023224,
 		"Score": 30,
-		"UseObj": "enemy.obj",
-		"objDirectory": ""
+		"UseObj": "enemy.obj"
 	}
 }

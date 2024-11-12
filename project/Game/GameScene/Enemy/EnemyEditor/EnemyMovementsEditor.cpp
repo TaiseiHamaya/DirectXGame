@@ -5,7 +5,9 @@
 #include <fstream>
 #include <format>
 
+#ifdef _DEBUG
 #include <imgui.h>
+#endif // _DEBUG
 
 #include "../BaseEnemy.h"
 
@@ -17,6 +19,7 @@ void EnemyMovementsEditor::initialize() {
 	load_json_all();
 }
 
+#ifdef _DEBUG
 void EnemyMovementsEditor::debug_gui() {
 	ImGui::Begin("EnemyMovementsEditor");
 	if (ImGui::Button("Save")) {
@@ -41,6 +44,7 @@ void EnemyMovementsEditor::debug_gui() {
 
 	detail_window();
 }
+#endif // _DEBUG
 
 const EnemyMovementsData& EnemyMovementsEditor::get_template(const std::string& name) const {
 	return templateData.at(name);
@@ -50,6 +54,7 @@ void EnemyMovementsEditor::reset_select(std::optional<std::string> select_) {
 	select = select_;
 }
 
+#ifdef _DEBUG
 void EnemyMovementsEditor::detail_window() {
 	if (select.has_value()) {
 		static ImVec2 WindowPosition;
@@ -75,6 +80,7 @@ void EnemyMovementsEditor::detail_window() {
 		}
 	}
 }
+#endif // _DEBUG
 
 void EnemyMovementsEditor::load_json_all() {
 	std::filesystem::directory_iterator directoryItr{ LoadPath };

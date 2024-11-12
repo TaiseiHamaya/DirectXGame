@@ -5,7 +5,9 @@
 #include <fstream>
 
 #include <Windows.h>
+#ifdef _DEBUG
 #include <imgui.h>
+#endif // _DEBUG
 #include <Library/Externals/nlohmann/json.hpp>
 
 #include <Engine/Debug/Output.h>
@@ -17,11 +19,12 @@ using json = nlohmann::json;
 
 void Timeline::initialize(EnemyManager* enemyManager_) {
 	enemyManager = enemyManager_;
-	initialize_editor(enemyManager->get_type_database(), enemyManager->get_movement_database());
-
 	load_pop_data();
 
+#ifdef _DEBUG
+	initialize_editor(enemyManager->get_type_database(), enemyManager->get_movement_database());
 	editData = data;
+#endif // _DEBUG
 }
 
 void Timeline::update() {
@@ -65,6 +68,7 @@ void Timeline::load_pop_data() {
 	}
 }
 
+#ifdef _DEBUG
 void Timeline::initialize_editor(const EnemyTypeEditor* typeDatabase_, const EnemyMovementsEditor* moveDatabase_) {
 	typeDatabase = typeDatabase_;
 	moveDatabase = moveDatabase_;
@@ -157,3 +161,4 @@ void Timeline::export_pop_data() {
 	ofstream << std::setfill('\t') << std::setw(1) << root;
 	ofstream.close();
 }
+#endif // _DEBUG

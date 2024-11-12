@@ -5,7 +5,9 @@
 #include <fstream>
 #include <format>
 
+#ifdef _DEBUG
 #include <imgui.h>
+#endif // _DEBUG
 #include <Library/Externals/nlohmann/json.hpp>
 
 #include "../BaseEnemy.h"
@@ -15,12 +17,15 @@
 using json = nlohmann::json;
 
 void EnemyTypeEditor::initialize() {
+#ifdef _DEBUG
 	meshCurrentPath = "./Resources";
 	get_file_list(meshFileList, meshCurrentPath, ".obj");
+#endif // _DEBUG
 	load_json();
 	load_obj();
 }
 
+#ifdef _DEBUG
 void EnemyTypeEditor::debug_gui() {
 	ImGui::Begin("EnemyTypeEditor");
 	if (ImGui::Button("Save")) {
@@ -46,6 +51,7 @@ void EnemyTypeEditor::debug_gui() {
 	detail_window();
 	obj_file_list();
 }
+#endif // _DEBUG
 
 const EnemyTypeData& EnemyTypeEditor::get_template(const std::string& name) const {
 	return templateData.at(name);
@@ -55,6 +61,7 @@ void EnemyTypeEditor::reset_select(std::optional<std::string> select_) {
 	select = select_;
 }
 
+#ifdef _DEBUG
 void EnemyTypeEditor::detail_window() {
 	if (select.has_value()) {
 		static ImVec2 WindowPosition;
@@ -153,6 +160,7 @@ void EnemyTypeEditor::get_file_list(std::vector<std::string>& list, const std::f
 	list = std::move(folders);
 	list.insert(list.end(), files.begin(), files.end());
 }
+#endif // _DEBUG
 
 void EnemyTypeEditor::load_json() {
 	std::filesystem::path directory{ LoadPath.string() + "enemy_type.json" };
@@ -189,7 +197,7 @@ void EnemyTypeEditor::export_json_all() {
 		main["Radius"] = type.radius;
 		main["Score"] = type.score;
 		main["UseObj"] = type.useObj;
-		main["objDirectory"] = type.objDirectory;
+		main["ObjDirectory"] = type.objDirectory;
 
 	}
 	std::ofstream ofstream{ LoadPath.string() + "enemy_type.json", std::ios::trunc };

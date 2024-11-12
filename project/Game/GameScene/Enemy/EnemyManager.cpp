@@ -85,7 +85,9 @@ void EnemyManager::destroy(BaseEnemy* enemy) {
 	reverseEnemies.erase(enemy->get_collider().get());
 }
 
+#ifdef _DEBUG
 void EnemyManager::debug_gui() {
 	typeDatabase->debug_gui();
 	movementDatabase->debug_gui();
 }
+#endif // _DEBUG
