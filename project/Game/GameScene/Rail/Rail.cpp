@@ -18,14 +18,15 @@ void Rail::initialize() {
 		create_rail_point({ 5,3,0 }, 0.5f, 5.0f, 0.0f);
 		create_rail_point({ 15,1,1 }, 0.5f, 5.0f, PI);
 	}
-#ifdef _DEBUG
 	float upwardAngle = 0;
 	Vector3 forward;
 	Quaternion rotation;
 
 	RailPoint& front = railPoints.front();
+#ifdef _DEBUG
 	front.debugDrawObj->get_transform().set_quaternion(rotation);
 	front.debugDrawObj->begin_rendering();
+#endif // _DEBUG
 	if (!front.upwardAngle.has_value()) {
 		front.upwardAngle = upwardAngle;
 	}
@@ -46,16 +47,19 @@ void Rail::initialize() {
 		rotation = Quaternion::LookForward(forward) *
 			Quaternion::AngleAxis(CVector3::BASIS_Z, upwardAngle);
 
+#ifdef _DEBUG
 		railPoint.debugDrawObj->get_transform().set_quaternion(rotation);
 		railPoint.debugDrawObj->begin_rendering();
+#endif // _DEBUG
 	}
 	RailPoint& end = railPoints.back();
+#ifdef _DEBUG
 	end.debugDrawObj->get_transform().set_quaternion(rotation);
 	end.debugDrawObj->begin_rendering();
+#endif // _DEBUG
 	if (!end.upwardAngle.has_value()) {
 		end.upwardAngle = upwardAngle;
 	}
-#endif // _DEBUG
 
 	create_rail();
 
@@ -137,11 +141,16 @@ void Rail::update_speed_from_mileage(float& speed, float mileage) const {
 }
 
 void Rail::create_rail_point(const Vector3& position, float min, float max, const std::optional<float>& upward) {
+#ifdef _DEBUG
 	std::unique_ptr<MeshInstance> temp = eps::CreateUnique<MeshInstance>("RailPoint.obj");
 	temp->initialize();
 	temp->get_transform().set_translate(position);
+#endif // _DEBUG
 	railPoints.emplace_back(
-		position, upward, min, max, std::move(temp)
+		position, upward, min, max
+#ifdef _DEBUG
+		, std::move(temp)
+#endif // _DEBUG
 	);
 }
 
@@ -215,12 +224,18 @@ void Rail::create_rail() {
 	}
 }
 
+#ifdef _DEBUG
 void Rail::debug_draw() {
 	for (RailPoint& railPoint : railPoints) {
 		railPoint.debugDrawObj->begin_rendering();
 		railPoint.debugDrawObj->draw();
 	}
 }
+
+void Rail::editor_gui() {
+	editor->debug_gui();
+}
+#endif // _DEBUG
 
 void Rail::LoadMesh() {
 	PolygonMeshManager::RegisterLoadQue("Resources/Model", "RailPoint.obj");

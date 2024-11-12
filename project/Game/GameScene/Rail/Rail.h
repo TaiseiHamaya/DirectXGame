@@ -5,11 +5,15 @@
 #include <vector>
 #include <memory>
 
-#include "Library/Math/Vector3.h"
-
+#include <Library/Math/Vector3.h>
 #include <Engine/Module/World/Mesh/MeshInstance.h>
 
+#ifdef _DEBUG
+#include "./RailEditor/RailEditor.h"
+#endif // _DEBUG
+
 class Rail {
+	friend class RailEditor;
 public:
 	struct RailPoint {
 		Vector3 position;
@@ -55,6 +59,7 @@ private:
 #ifdef _DEBUG
 public:
 	void debug_draw();
+	void editor_gui();
 #endif // _DEBUG
 
 private:
@@ -62,6 +67,10 @@ private:
 
 	std::vector<RailMesh> railDrawMesh;
 	float railLength;
+
+#ifdef _DEBUG
+	std::unique_ptr<RailEditor> editor;
+#endif // _DEBUG
 
 public:
 	static void LoadMesh();
