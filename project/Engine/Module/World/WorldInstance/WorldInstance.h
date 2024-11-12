@@ -87,7 +87,7 @@ public:
 	const Matrix4x4& world_matrix() const { return worldMatrix; };
 
 	/// <summary>
-	/// WorldPosiitonの取得
+	/// WorldPositionの取得
 	/// </summary>
 	/// <returns></returns>
 	Vector3 world_position() const { return Transform3D::ExtractPosition(worldMatrix); };

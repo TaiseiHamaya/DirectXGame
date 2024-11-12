@@ -2,6 +2,8 @@
 
 #include "Engine/Module/World/Collision/CollisionCallbackManager.h"
 
+#include <Library/Math/Color.h>
+
 class CallbackManagerDemo final : public CollisionCallbackManager {
 public:
 	CallbackManagerDemo();
@@ -10,5 +12,5 @@ public:
 	__NON_COPYABLE_CLASS(CallbackManagerDemo)
 
 public:
-	static void SetColor(const BaseCollider* const lhs, const BaseCollider* const rhs, Color color);
+	static void SetColor(BaseCollider* const lhs, BaseCollider* const rhs, Color color);
 };

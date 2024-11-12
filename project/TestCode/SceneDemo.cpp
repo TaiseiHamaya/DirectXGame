@@ -173,7 +173,7 @@ void SceneDemo::late_update() {
 void SceneDemo::draw() const {
 	renderPath->begin();
 	directionalLight->register_world(3);
-	camera3D->set_command(1);
+	camera3D->register_world(1);
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
@@ -183,7 +183,7 @@ void SceneDemo::draw() const {
 #endif // _DEBUG
 
 	renderPath->next();
-	camera3D->set_command(1);
+	camera3D->register_world(1);
 	particleSystem->draw();
 
 	renderPath->next();

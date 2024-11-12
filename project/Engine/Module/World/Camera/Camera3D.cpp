@@ -66,7 +66,7 @@ void Camera3D::update_matrix() {
 #endif // _DEBUG
 }
 
-void Camera3D::set_command(uint32_t index) {
+void Camera3D::register_world(uint32_t index) {
 	auto& commandList = DirectXCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, vpMatrixBuffer.get_resource()->GetGPUVirtualAddress()

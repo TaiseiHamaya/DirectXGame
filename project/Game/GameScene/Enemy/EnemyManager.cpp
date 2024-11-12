@@ -25,7 +25,13 @@ void EnemyManager::update() {
 	}
 
 	enemies.remove_if(
-		[](const std::unique_ptr<BaseEnemy>& enemy) { return enemy->is_dead(); }
+		[&](const std::unique_ptr<BaseEnemy>& enemy) {
+		if (enemy->is_dead()) {
+			destroy(enemy.get());
+			return true;
+		}
+		return false;
+	}
 	);
 }
 
@@ -67,4 +73,8 @@ void EnemyManager::create() {
 
 	collisionManager->register_collider("Enemy", newEnemy->get_collider());
 	reverseEnemies.emplace(newEnemy->get_collider().get(), newEnemy.get());
+}
+
+void EnemyManager::destroy(BaseEnemy* enemy) {
+	reverseEnemies.erase(enemy->get_collider().get());
 }

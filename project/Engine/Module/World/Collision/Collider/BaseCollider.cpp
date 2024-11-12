@@ -26,18 +26,6 @@ const std::string& BaseCollider::group() const noexcept {
 	}
 }
 
-void BaseCollider::set_on_collision(std::function<void(const BaseCollider* const)> function) {
-	onCollisionFunc = function;
-}
-
-void BaseCollider::set_on_collision_enter(std::function<void(const BaseCollider* const)> function) {
-	onCollisionEnterFunc = function;
-}
-
-void BaseCollider::set_on_collision_exit(std::function<void(const BaseCollider* const)> function) {
-	onCollisionExitFunc = function;
-}
-
 void BaseCollider::set_group_name(const std::string& name) {
 	groupName = &name;
 }

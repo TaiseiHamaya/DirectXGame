@@ -30,7 +30,7 @@ CallbackManagerDemo::CallbackManagerDemo() {
 	);
 }
 
-void CallbackManagerDemo::SetColor(const BaseCollider* const lhs, const BaseCollider* const rhs, Color color) {
+void CallbackManagerDemo::SetColor(BaseCollider* const lhs, BaseCollider* const rhs, Color color) {
 	auto lhsParentAddr = const_cast<WorldInstance*>(lhs->get_parent_address());
 	if (lhsParentAddr) {
 		MeshInstance* mesh = dynamic_cast<MeshInstance*>(lhsParentAddr);

@@ -119,7 +119,7 @@ void GameScene::late_update() {
 
 void GameScene::draw() const {
 	renderPath->begin(); // 3D Mesh
-	camera3D->set_command(1);
+	camera3D->register_world(1);
 	directionalLight->register_world(3);
 
 	rail->draw();
@@ -157,5 +157,7 @@ void GameScene::debug_update() {
 	ImGui::Begin("CollisionManager");
 	collisionManager->debug_gui();
 	ImGui::End();
+
+	rail->editor_gui();
 }
 #endif // _DEBUG

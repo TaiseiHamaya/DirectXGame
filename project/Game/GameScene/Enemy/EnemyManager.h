@@ -32,7 +32,7 @@ public:
 public:
 	void callback_collider(BaseCollider* const collider);
 	void create();
-	//void destroy();
+	void destroy(BaseEnemy* enemy);
 
 private:
 	std::list<std::unique_ptr<BaseEnemy>> enemies;

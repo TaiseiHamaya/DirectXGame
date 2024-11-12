@@ -18,6 +18,6 @@ void SphereCollider::set_radius(float radius_) {
 #endif // _DEBUG
 }
 
-float SphereCollider::get_radius() {
+float SphereCollider::get_radius() const {
 	return radius;
 }

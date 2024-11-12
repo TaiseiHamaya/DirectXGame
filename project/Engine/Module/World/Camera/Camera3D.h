@@ -21,7 +21,7 @@ public:
 
 	void update_matrix();
 
-	void set_command(uint32_t index);
+	void register_world(uint32_t index);
 
 public:
 	void set_transform(const Transform3D& transform) noexcept;
