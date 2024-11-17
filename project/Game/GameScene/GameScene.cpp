@@ -57,7 +57,7 @@ void GameScene::initialize() {
 	enemyManager->initialize(collisionManager.get(), scoreManager.get());
 
 	timeline = eps::CreateUnique<Timeline>();
-	timeline->initialize(enemyManager.get());
+	timeline->initialize(enemyManager.get(), camera3D.get());
 
 	camera3D->set_rail(rail.get());
 

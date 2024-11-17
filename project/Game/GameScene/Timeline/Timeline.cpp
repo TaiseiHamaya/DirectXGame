@@ -14,11 +14,13 @@
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 
 #include "Game/GameScene/Enemy/EnemyManager.h"
+#include "Game/GameScene/Player/RailCamera.h"
 
 using json = nlohmann::json;
 
-void Timeline::initialize(EnemyManager* enemyManager_) {
+void Timeline::initialize(EnemyManager* enemyManager_, RailCamera* railCamera_) {
 	enemyManager = enemyManager_;
+	railCamera = railCamera_;
 	load_pop_data();
 
 #ifdef _DEBUG
@@ -28,11 +30,10 @@ void Timeline::initialize(EnemyManager* enemyManager_) {
 }
 
 void Timeline::update() {
-	timer += WorldClock::DeltaSeconds();
 
 	auto next = data.begin();
 
-	while (data.end() != next && timer >= next->delay) {
+	while (data.end() != next && railCamera->get_mileage() >= next->mileage) {
 		enemyManager->create(next->translate, next->type, next->movement);
 		data.pop_front();
 		next = data.begin();
@@ -60,7 +61,7 @@ void Timeline::load_pop_data() {
 
 	for (const auto& read : root) {
 		data.emplace_back(
-			read["Delay"],
+			read["Mileage"],
 			Vector3{ read["Translate"].at(0), read["Translate"].at(1),read["Translate"].at(2) },
 			read["Type"],
 			read["Movement"]
@@ -76,17 +77,14 @@ void Timeline::initialize_editor(const EnemyTypeEditor* typeDatabase_, const Ene
 
 void Timeline::debug_gui() {
 	ImGui::Begin("Timeline");
-	ImGui::Text("%f", timer);
 
 	if (ImGui::Button("Export")) {
 		export_pop_data();
 	}
 	if (ImGui::Button("Restart")) {
-		timer = 0;
 		load_pop_data();
 	}
 	if (ImGui::Button("Apply")) {
-		timer = 0;
 		data = editData;
 	}
 
@@ -113,7 +111,7 @@ void Timeline::detail_window() {
 
 	bool isOpen = true;
 	ImGui::Begin("DetailWindow", &isOpen);
-	ImGui::DragFloat("Delay", &detail->delay, 0.01f, 10.0f, std::numeric_limits<float>::infinity());
+	ImGui::DragFloat("Mileage", &detail->mileage, 0.01f, 10.0f, std::numeric_limits<float>::infinity());
 	ImGui::DragFloat3("Translate", &detail->translate.x, 0.01f);
 	if (ImGui::BeginCombo("Type", detail->type.c_str())) {
 		auto& templates = typeDatabase->template_data();
@@ -151,7 +149,7 @@ void Timeline::export_pop_data() {
 	for (int i = 0; auto & popData : data) {
 		std::string name = std::format("{:02}", i);
 		json& popJson = root[name];
-		popJson["Delay"] = popData.delay;
+		popJson["Mileage"] = popData.mileage;
 		popJson["Translate"] = json::array({ popData.translate.x,popData.translate.y,popData.translate.z });
 		popJson["Type"] = popData.type;
 		popJson["Movement"] = popData.movement;

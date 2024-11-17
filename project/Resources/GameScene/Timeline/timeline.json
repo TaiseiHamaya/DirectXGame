@@ -1,1 +1,32 @@
-null
+{
+	"00": {
+		"Mileage": 10.0,
+		"Movement": "test",
+		"Translate": [
+			10.0,
+			0.0,
+			-0.75
+		],
+		"Type": "test"
+	},
+	"01": {
+		"Mileage": 10.0,
+		"Movement": "test",
+		"Translate": [
+			10.0,
+			0.0,
+			-0.25
+		],
+		"Type": "test"
+	},
+	"02": {
+		"Mileage": 10.0,
+		"Movement": "test",
+		"Translate": [
+			11.0,
+			0.0,
+			-1.350000023841858
+		],
+		"Type": "test"
+	}
+}
