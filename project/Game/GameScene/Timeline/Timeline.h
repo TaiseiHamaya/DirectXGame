@@ -9,9 +9,10 @@
 class EnemyManager;
 class EnemyTypeEditor;
 class EnemyMovementsEditor;
+class RailCamera;
 
 struct PopData {
-	float delay{10};
+	float mileage;
 	Vector3 translate;
 	std::string type;
 	std::string movement;
@@ -19,10 +20,10 @@ struct PopData {
 
 class Timeline {
 public:
-	void initialize(EnemyManager* enemyManager_);
+	void initialize(EnemyManager* enemyManager_, RailCamera* railCamera_);
 	void update();
 
-private:
+public:
 	void load_pop_data();
 
 #ifdef _DEBUG
@@ -42,7 +43,7 @@ private:
 	static const inline std::filesystem::path LoadPath
 	{ "./Resources/GameScene/Timeline/" };
 
-	float timer;
+	RailCamera* railCamera;
 
 	std::list<PopData> data;
 	PopData* detail;

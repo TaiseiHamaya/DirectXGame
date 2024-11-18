@@ -2,6 +2,7 @@
 
 #include <Engine/Application/EngineSettings.h>
 #include <Engine/Module/World/Camera/Camera2D.h>
+#include <Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h>
 #include <Engine/Runtime/Input/Input.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Utility/Tools/SmartPointer.h>
@@ -15,6 +16,7 @@ void Beam::initialize() {
 	sprite = eps::CreateUnique<SpriteInstance>("reticle.png", Vector2{ 0.5f,0.5f });
 	beam = eps::CreateUnique<MeshInstance>("beam.obj");
 	beam->initialize();
+	beam->get_materials()[0].lighingType = LighingType::None;
 
 	collider = eps::CreateShared<CapsuleCollider>();
 	collider->initialize(0, 100, CVector3::BASIS_Z);

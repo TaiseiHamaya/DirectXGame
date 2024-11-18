@@ -13,6 +13,7 @@ struct EnemyTypeData {
 	float radius;
 	int hitpoint;
 	int score;
+	bool isLookForward;
 };
 
 struct EnemyMovementsData {
@@ -46,6 +47,7 @@ public:
 
 protected:
 	float timer;
+	bool isLookForward;
 	Vector3 start;
 
 	int hitpoint;

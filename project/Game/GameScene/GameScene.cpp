@@ -57,7 +57,7 @@ void GameScene::initialize() {
 	enemyManager->initialize(collisionManager.get(), scoreManager.get());
 
 	timeline = eps::CreateUnique<Timeline>();
-	timeline->initialize(enemyManager.get());
+	timeline->initialize(enemyManager.get(), camera3D.get());
 
 	camera3D->set_rail(rail.get());
 
@@ -120,6 +120,11 @@ void GameScene::late_update() {
 
 	enemyManager->late_update();
 	scoreManager->late_update();
+
+	if (camera3D->get_mileage() >= rail->rail_length() - 1) {
+		camera3D->reset();
+		timeline->load_pop_data();
+	}
 }
 
 void GameScene::draw() const {

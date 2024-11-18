@@ -15,11 +15,12 @@ using json = nlohmann::json;
 void RailEditor::initialize(Rail* rail_) {
 	rail = rail_;
 	editRailPoints.resize(rail->railPoints.size());
-	for (int i = 0; i < editRailPoints.size(); ++i) {
-		editRailPoints[i].position = rail->railPoints[i].position;
-		editRailPoints[i].upwardAngle = rail->railPoints[i].upwardAngle;
-		editRailPoints[i].minSpeed = rail->railPoints[i].minSpeed;
-		editRailPoints[i].maxSpeed = rail->railPoints[i].maxSpeed;
+	for (int i = 0; auto& edit : editRailPoints) {
+		edit.position = rail->railPoints[i].position;
+		edit.upwardAngle = rail->railPoints[i].upwardAngle;
+		edit.minSpeed = rail->railPoints[i].minSpeed;
+		edit.maxSpeed = rail->railPoints[i].maxSpeed;
+		++i;
 	}
 }
 
@@ -59,7 +60,33 @@ void RailEditor::debug_gui() {
 		editRailPoints.emplace_back();
 	}
 
+	if (ImGui::Button("PopBack")) {
+		editRailPoints.pop_back();
+	}
+
 	ImGui::End();
+}
+
+void RailEditor::debug_draw() {
+	int diff = int(editRailPoints.size()) - int(editDraw.size());
+	if (diff) {
+		editDraw.resize(editRailPoints.size());
+		if (diff > 0) {
+			for (int i = 0; auto & edit : editDraw | std::views::reverse) {
+				if (diff == i) {
+					break;
+				}
+				edit.reset_object("RailPoint.obj");
+				++i;
+			}
+		}
+	}
+	for (int i = 0; auto & edit : editRailPoints) {
+		editDraw[i].get_transform().set_translate(edit.position);
+		editDraw[i].begin_rendering();
+		editDraw[i].draw();
+		++i;
+	}
 }
 
 void RailEditor::apply() {

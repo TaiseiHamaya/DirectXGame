@@ -1,1 +1,102 @@
-null
+{
+	"00": {
+		"Mileage": 55.0,
+		"Movement": "rotation",
+		"Translate": [
+			-5.0,
+			0.0,
+			18.0
+		],
+		"Type": "Ghost"
+	},
+	"01": {
+		"Mileage": 71.0,
+		"Movement": "rotation",
+		"Translate": [
+			-10.0,
+			2.140000104904175,
+			29.0
+		],
+		"Type": "Ghost"
+	},
+	"02": {
+		"Mileage": 71.0,
+		"Movement": "rotation",
+		"Translate": [
+			-9.0,
+			2.0,
+			28.0
+		],
+		"Type": "Ghost"
+	},
+	"03": {
+		"Mileage": 90.0,
+		"Movement": "rotation",
+		"Translate": [
+			-3.2309999465942383,
+			6.103000164031982,
+			25.135000228881836
+		],
+		"Type": "Ghost"
+	},
+	"04": {
+		"Mileage": 90.0,
+		"Movement": "rotation",
+		"Translate": [
+			-3.505000114440918,
+			6.056000232696533,
+			20.465999603271484
+		],
+		"Type": "Ghost"
+	},
+	"05": {
+		"Mileage": 110.0,
+		"Movement": "Airplane",
+		"Translate": [
+			-18.0,
+			1.0,
+			9.0
+		],
+		"Type": "Airplane"
+	},
+	"06": {
+		"Mileage": 110.0,
+		"Movement": "Airplane",
+		"Translate": [
+			-15.0,
+			2.0,
+			15.0
+		],
+		"Type": "Airplane"
+	},
+	"07": {
+		"Mileage": 130.0,
+		"Movement": "test",
+		"Translate": [
+			-17.0,
+			-2.0,
+			-5.0
+		],
+		"Type": "test"
+	},
+	"08": {
+		"Mileage": 130.0,
+		"Movement": "test",
+		"Translate": [
+			-20.0,
+			0.0,
+			-8.0
+		],
+		"Type": "test"
+	},
+	"09": {
+		"Mileage": 0.0,
+		"Movement": "test",
+		"Translate": [
+			-18.5,
+			1.0,
+			-6.0
+		],
+		"Type": "test"
+	}
+}

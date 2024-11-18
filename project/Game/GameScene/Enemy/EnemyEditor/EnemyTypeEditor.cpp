@@ -181,6 +181,7 @@ void EnemyTypeEditor::load_json() {
 		write.hitpoint = data["Hitpoint"];
 		write.radius = data["Radius"];
 		write.score = data["Score"];
+		write.isLookForward = data["IsLook"];
 		write.useObj = data["UseObj"];
 		write.objDirectory = data["ObjDirectory"];
 	}
@@ -196,6 +197,7 @@ void EnemyTypeEditor::export_json_all() {
 		main["Hitpoint"] = type.hitpoint;
 		main["Radius"] = type.radius;
 		main["Score"] = type.score;
+		main["IsLook"] = type.isLookForward;
 		main["UseObj"] = type.useObj;
 		main["ObjDirectory"] = type.objDirectory;
 
