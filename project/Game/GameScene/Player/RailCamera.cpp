@@ -7,7 +7,7 @@
 #include "Game/GameScene/Rail/Rail.h"
 
 void RailCamera::update() {
-	if (mileage >= 176.000) {
+	if (mileage >= rail->rail_length() - 1) {
 		mileage = 0;
 	}
 	mileage += speed * WorldClock::DeltaSeconds();

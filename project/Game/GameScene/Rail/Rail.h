@@ -15,11 +15,9 @@
 struct RailPoint {
 	Vector3 position;
 	std::optional<float> upwardAngle;
+	Vector3 upward;
 	float minSpeed;
 	float maxSpeed;
-#ifdef _DEBUG
-	std::unique_ptr<MeshInstance> debugDrawObj; // デバッグ表示用モデル
-#endif // _DEBUG
 };
 
 class Rail {

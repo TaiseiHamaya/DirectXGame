@@ -143,32 +143,16 @@ void Rail::load_rail() {
 
 void Rail::create_rail_point(const Vector3& position, float min, float max, const std::optional<float>& upward) {
 	railPoints.emplace_back(
-		position, upward, min, max
-#ifdef _DEBUG
-		, nullptr
-#endif // _DEBUG
+		position, upward, CVector3::BASIS_Y, min, max
 	);
 }
 
 void Rail::apply_rail_point() {
-#ifdef _DEBUG
-	for (auto& railPoint : railPoints) {
-		std::unique_ptr<MeshInstance> temp = eps::CreateUnique<MeshInstance>("RailPoint.obj");
-		temp->initialize();
-		temp->get_transform().set_translate(railPoint.position);
-		railPoint.debugDrawObj = std::move(temp);
-	}
-#endif // _DEBUG
-
 	float upwardAngle = 0;
 	Vector3 forward;
 	Quaternion rotation;
 
 	RailPoint& front = railPoints.front();
-#ifdef _DEBUG
-	front.debugDrawObj->get_transform().set_quaternion(rotation);
-	front.debugDrawObj->begin_rendering();
-#endif // _DEBUG
 	if (!front.upwardAngle.has_value()) {
 		front.upwardAngle = upwardAngle;
 	}
@@ -183,30 +167,39 @@ void Rail::apply_rail_point() {
 		else {
 			railPoint.upwardAngle = upwardAngle;
 		}
-#ifdef _DEBUG
 		forward =
 			(next.position - prev.position).normalize_safe(1e4f, CVector3::BASIS_Z);
 
 		rotation = Quaternion::LookForward(forward) *
 			Quaternion::AngleAxis(CVector3::BASIS_Z, upwardAngle);
-
-		railPoint.debugDrawObj->get_transform().set_quaternion(rotation);
-		railPoint.debugDrawObj->begin_rendering();
-#endif // _DEBUG
 	}
 	RailPoint& end = railPoints.back();
-#ifdef _DEBUG
-	end.debugDrawObj->get_transform().set_quaternion(rotation);
-	end.debugDrawObj->begin_rendering();
-#endif // _DEBUG
 	if (!end.upwardAngle.has_value()) {
 		end.upwardAngle = upwardAngle;
+	}
+
+	for (uint32_t i = 0; i + 1 < static_cast<uint32_t>(railPoints.size()); ++i) {
+		// インデックス
+		uint32_t index0 = i != 0 ? i - 1 : 0;
+		uint32_t index1 = i;
+		uint32_t index2 = i + 1;
+		uint32_t index3 = index2 < i ? i + 2 : index2;
+		Vector3 nextAfter = CatmullRom(
+			railPoints[index0].position,
+			railPoints[index1].position,
+			railPoints[index2].position,
+			railPoints[index3].position,
+			0.1f
+		);
+		Vector3 forward = (nextAfter - railPoints[i].position).normalize_safe(1e-4f, CVector3::BASIS_Z);
+		Quaternion rotation = Quaternion::LookForward(forward) * Quaternion::AngleAxis(CVector3::BASIS_Z, railPoints[i].upwardAngle.value());
+		railPoints[i].upward = CVector3::BASIS_Y * rotation;
 	}
 }
 
 struct Control {
 	Vector3 point;
-	Quaternion zAngle;
+	Vector3 upward;
 	float minSpeed;
 	float maxSpeed;
 };
@@ -233,20 +226,25 @@ void Rail::create_rail() {
 			// 全体の長さから今の媒介変数を算出
 			float parametric = (index + offset) / length;
 
-			// 位置追加
-			controls.emplace_back(
-				CatmullRom(
+			Vector3 point = CatmullRom(
 					railPoints[index0].position,
 					railPoints[index1].position,
 					railPoints[index2].position,
 					railPoints[index3].position,
 					parametric
-				),
-				Quaternion::Slerp(
-					Quaternion::AngleAxis(CVector3::BASIS_Z, railPoints[index1].upwardAngle.value()),
-					Quaternion::AngleAxis(CVector3::BASIS_Z, railPoints[index2].upwardAngle.value()),
-					parametric
-				),
+				);
+			Vector3 nextAfter = CatmullRom(
+					railPoints[index0].position,
+					railPoints[index1].position,
+					railPoints[index2].position,
+					railPoints[index3].position,
+					parametric + 1 / length
+				);
+			// 位置追加
+			controls.emplace_back(
+				point,
+				Vector3::Slerp(railPoints[index1].upward, railPoints[index2].upward, parametric),
+				//Quaternion::LookForward((nextAfter - point).normalize_safe(), ),
 				railPoints[index1].minSpeed,
 				railPoints[index1].maxSpeed
 			);
@@ -261,7 +259,8 @@ void Rail::create_rail() {
 	// 先頭要素
 	RailMesh& startMesh = railDrawMesh.emplace_back(RailMesh{ eps::CreateUnique<MeshInstance>("Rail.obj"), controls[0].minSpeed, controls[0].maxSpeed });
 	startMesh.mesh->get_transform().set_translate(controls[0].point);
-	Quaternion forward = Quaternion::LookForward((controls[1].point - controls[0].point).normalize_safe());
+	//Quaternion forward = Quaternion::LookForward((controls[1].point - controls[0].point).normalize_safe());
+	Quaternion forward = Quaternion::LookForward(CVector3::BASIS_Z, controls[0].upward);
 	startMesh.mesh->get_transform().set_quaternion(forward);
 	Vector3 nextStart = controls[0].point + CVector3::BASIS_Z * forward;
 	for (uint32_t i = 1; i + 1 < controls.size(); ++i) {
@@ -269,8 +268,10 @@ void Rail::create_rail() {
 		// 連続する位置にする
 		newMesh.mesh->get_transform().set_translate(nextStart);
 		// 回転算出
-		forward =
-			Quaternion::LookForward((controls[i + 1].point - nextStart).normalize_safe()) * controls[i].zAngle;
+		//forward =
+		//	Quaternion::LookForward((controls[i + 1].point - nextStart).normalize_safe()) * controls[i].zAngle;
+		Vector3 direction = (controls[i + 1].point - nextStart).normalize_safe();
+		forward = Quaternion::LookForward(direction, controls[i].upward);
 		newMesh.mesh->get_transform().set_quaternion(forward);
 		// 次の開始位置位置
 		nextStart = nextStart + CVector3::BASIS_Z * forward;
@@ -278,22 +279,22 @@ void Rail::create_rail() {
 
 
 	// 中間の回転
-	for (uint32_t i = 1; i + 1 < railDrawMesh.size(); ++i) {
-		RailMesh& mesh = railDrawMesh[i];
-		RailMesh& next = railDrawMesh[i + 1];
-		// 回転算出
-		// 直近のupward方向を基準にforwardを決めることで、正しく回転させる
-		Vector3 preUpward = CVector3::BASIS_Y * railDrawMesh[i - 1].mesh->get_transform().get_quaternion();
-		Vector3 forward = (next.mesh->get_transform().get_translate() - mesh.mesh->get_transform().get_translate()).normalize_safe();
-		Quaternion rotation =
-			Quaternion::LookForward(forward, preUpward) * controls[i].zAngle;
-		mesh.mesh->get_transform().set_quaternion(rotation);
-	}
+	//for (uint32_t i = 1; i + 1 < railDrawMesh.size(); ++i) {
+	//	RailMesh& mesh = railDrawMesh[i];
+	//	RailMesh& next = railDrawMesh[i + 1];
+	//	// 回転算出
+	//	// 直近のupward方向を基準にforwardを決めることで、正しく回転させる
+	//	Vector3 preUpward = CVector3::BASIS_Y * railDrawMesh[i - 1].mesh->get_transform().get_quaternion();
+	//	Vector3 forward = (next.mesh->get_transform().get_translate() - mesh.mesh->get_transform().get_translate()).normalize_safe();
+	//	Quaternion rotation =
+	//		Quaternion::LookForward(forward, preUpward) * controls[i].zAngle;
+	//	mesh.mesh->get_transform().set_quaternion(rotation);
+	//}
 
-	// 終点の回転
-	railDrawMesh.back().mesh->get_transform().set_quaternion(
-		(railDrawMesh.rbegin() + 1)->mesh->get_transform().get_quaternion()
-	);
+	//// 終点の回転
+	//railDrawMesh.back().mesh->get_transform().set_quaternion(
+	//	(railDrawMesh.rbegin() + 1)->mesh->get_transform().get_quaternion()
+	//);
 
 	railLength = static_cast<float>(railDrawMesh.size());
 
@@ -304,10 +305,7 @@ void Rail::create_rail() {
 
 #ifdef _DEBUG
 void Rail::debug_draw() {
-	for (RailPoint& railPoint : railPoints) {
-		railPoint.debugDrawObj->begin_rendering();
-		railPoint.debugDrawObj->draw();
-	}
+	editor->debug_draw();
 }
 
 void Rail::editor_gui() {

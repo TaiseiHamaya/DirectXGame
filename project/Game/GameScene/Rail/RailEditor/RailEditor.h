@@ -2,9 +2,11 @@
 
 #ifdef _DEBUG
 
+#include <list>
 #include <vector>
 
 class Rail;
+class MeshInstance;
 struct RailPoint;
 
 class RailEditor {
@@ -13,6 +15,7 @@ class RailEditor {
 public:
 	void initialize(Rail* rail_);
 	void debug_gui();
+	void debug_draw();
 
 private:
 	void apply();
@@ -21,6 +24,7 @@ private:
 private:
 	Rail* rail;
 
-	std::vector<RailPoint> editRailPoints;
+	std::list<RailPoint> editRailPoints;
+	std::vector<MeshInstance> editDraw;
 };
 #endif // _DEBUG
