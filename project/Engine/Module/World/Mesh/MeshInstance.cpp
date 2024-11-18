@@ -5,10 +5,10 @@
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/TransformMatrix/TransformMatrix.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Library/Math/Hierarchy.h"
 #include "Engine/Resources/PolygonMesh/PolygonMesh.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Resources/Texture/TextureManager.h"
+#include "Library/Math/Hierarchy.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -44,6 +44,7 @@ void MeshInstance::begin_rendering() noexcept {
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
+		meshMaterials[i].material->set_lighting(materialData[i].lighingType);
 	}
 }
 

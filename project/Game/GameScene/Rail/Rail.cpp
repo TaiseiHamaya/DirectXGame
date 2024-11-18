@@ -12,6 +12,7 @@
 #include <Engine/Utility/Tools/SmartPointer.h>
 #include <Library/Math/Definition.h>
 #include <Engine/Debug/Output.h>
+#include <Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h>
 
 #include "Game/GameScene/Rail/CatmullRom.h"
 
@@ -295,6 +296,10 @@ void Rail::create_rail() {
 	);
 
 	railLength = static_cast<float>(railDrawMesh.size());
+
+	for (auto& mesh : railDrawMesh) {
+		mesh.mesh->get_materials()[0].lighingType = LighingType::None;
+	}
 }
 
 #ifdef _DEBUG

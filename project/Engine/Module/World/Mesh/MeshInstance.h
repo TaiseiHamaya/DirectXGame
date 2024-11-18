@@ -12,6 +12,7 @@ class PolygonMesh;
 class Texture;
 class TransformMatrix;
 class Color;
+enum class LighingType;
 
 class MeshInstance : public WorldInstance {
 public:
@@ -80,6 +81,7 @@ protected:
 		MaterialDataRef(Color& color_, Transform2D& uvTransform_);
 		Color& color;
 		Transform2D& uvTransform;
+		LighingType lighingType{2};
 	};
 
 	std::vector<MaterialDataRef> materialData;
