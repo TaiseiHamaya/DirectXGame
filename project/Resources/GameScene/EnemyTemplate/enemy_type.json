@@ -1,23 +1,26 @@
 {
-	"Airplane": {
-		"Hitpoint": 15,
-		"ObjDirectory": "./Resources/Model",
-		"Radius": 0.20000000298023224,
-		"Score": 30,
-		"UseObj": "enemy.obj"
-	},
-	"Ghost": {
-		"Hitpoint": 15,
-		"ObjDirectory": "./Resources/Model",
-		"Radius": 0.20000000298023224,
-		"Score": 20,
-		"UseObj": "enemy.obj"
-	},
-  "test": {
-    "Hitpoint": 10,
+  "Airplane": {
+    "Hitpoint": 15,
+    "IsLook": true,
     "ObjDirectory": "./Resources/Model",
     "Radius": 0.20000000298023224,
     "Score": 30,
-    "UseObj": "enemy.obj"
-  }
+    "UseObj": "airship.obj"
+  },
+	"Ghost": {
+		"Hitpoint": 15,
+		"IsLook": true,
+		"ObjDirectory": "./Resources/Model",
+		"Radius": 0.20000000298023224,
+		"Score": 20,
+		"UseObj": "ghost.obj"
+	},
+	"test": {
+		"Hitpoint": 10,
+		"IsLook": false,
+		"ObjDirectory": "./Resources/Model",
+		"Radius": 0.20000000298023224,
+		"Score": 30,
+		"UseObj": "balloon.obj"
+	}
 }

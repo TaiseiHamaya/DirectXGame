@@ -16,6 +16,7 @@ void BaseEnemy::initialize(const Vector3& start_, const EnemyTypeData& typeData,
 	modelName = typeData.useObj;
 	hitpoint = typeData.hitpoint;
 	score = typeData.score;
+	isLookForward = typeData.isLookForward;
 	collider->set_parent(*this);
 	movements = std::move(data);
 	timer = 0;
@@ -41,10 +42,13 @@ void BaseEnemy::move() {
 	transform.set_translate(
 		start + CatmullRom(movements.controls, timer / movements.Time)
 	);
-	Vector3 forward = (transform.get_translate() - translate).normalize_safe();
-	transform.set_quaternion(
-		Quaternion::LookForward(forward)
-	);
+
+	if (isLookForward) {
+		Vector3 forward = (transform.get_translate() - translate).normalize_safe();
+		transform.set_quaternion(
+			Quaternion::LookForward(forward)
+		);
+	}
 }
 
 bool BaseEnemy::is_dead() const {
