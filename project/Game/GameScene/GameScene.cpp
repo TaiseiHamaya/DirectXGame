@@ -120,6 +120,11 @@ void GameScene::late_update() {
 
 	enemyManager->late_update();
 	scoreManager->late_update();
+
+	if (camera3D->get_mileage() >= rail->rail_length() - 1) {
+		camera3D->reset();
+		timeline->load_pop_data();
+	}
 }
 
 void GameScene::draw() const {

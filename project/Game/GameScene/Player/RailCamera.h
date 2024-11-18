@@ -14,6 +14,7 @@ public:
 public:
 	Vector3 camera_upward_point(const Vector3& offset_) const;
 	float get_mileage() const { return mileage; };
+	void reset() { mileage = 0; };
 
 #ifdef _DEBUG
 public:

@@ -1,9 +1,23 @@
 {
-	"test": {
-		"Hitpoint": 10,
+	"Airplane": {
+		"Hitpoint": 15,
 		"ObjDirectory": "./Resources/Model",
 		"Radius": 0.20000000298023224,
 		"Score": 30,
 		"UseObj": "enemy.obj"
-	}
+	},
+	"Ghost": {
+		"Hitpoint": 15,
+		"ObjDirectory": "./Resources/Model",
+		"Radius": 0.20000000298023224,
+		"Score": 20,
+		"UseObj": "enemy.obj"
+	},
+  "test": {
+    "Hitpoint": 10,
+    "ObjDirectory": "./Resources/Model",
+    "Radius": 0.20000000298023224,
+    "Score": 30,
+    "UseObj": "enemy.obj"
+  }
 }

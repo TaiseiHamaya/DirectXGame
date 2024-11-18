@@ -146,7 +146,7 @@ void Timeline::detail_window() {
 
 void Timeline::export_pop_data() {
 	json root;
-	for (int i = 0; auto & popData : data) {
+	for (int i = 0; auto & popData : editData) {
 		std::string name = std::format("{:02}", i);
 		json& popJson = root[name];
 		popJson["Mileage"] = popData.mileage;

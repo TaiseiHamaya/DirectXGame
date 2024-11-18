@@ -23,7 +23,7 @@ public:
 	void initialize(EnemyManager* enemyManager_, RailCamera* railCamera_);
 	void update();
 
-private:
+public:
 	void load_pop_data();
 
 #ifdef _DEBUG
