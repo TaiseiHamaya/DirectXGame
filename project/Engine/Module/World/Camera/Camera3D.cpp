@@ -40,7 +40,7 @@ void Camera3D::update_matrix() {
 		// デバッグ表示に使用するモデルのWorldMatrixの更新
 		debugCameraCenter->begin_rendering();
 		debugCamera->begin_rendering();
-		// ViewMatirxの更新
+		// ViewMatrixの更新
 		debugViewMatrix = debugCamera->world_matrix().inverse();
 	}
 #endif // _DEBUG

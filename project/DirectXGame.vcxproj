@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -129,8 +131,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp" />
-    <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp" />
-    <ClCompile Include="Engine\Debug\ImGuiManager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Debug\Output.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXCommand\DirectXCommand.cpp" />
     <ClCompile Include="Engine\Rendering\DirectX\DirectXCore.cpp" />
@@ -207,6 +209,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
@@ -222,8 +226,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Runtime\WorldClock\WorldClock.h" />
-    <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h" />
-    <ClInclude Include="Engine\Debug\ImGuiManager\ImGuiManager.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Engine\Debug\Output.h" />
     <ClInclude Include="Engine\Rendering\DirectX\DirectXCommand\DirectXCommand.h" />
     <ClInclude Include="Engine\Rendering\DirectX\DirectXCore.h" />

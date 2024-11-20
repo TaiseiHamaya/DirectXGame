@@ -7,13 +7,13 @@ DebugValues::DebugValues() {
 	gridMesh->initialize();
 }
 
-DebugValues& DebugValues::GetInsance() {
+DebugValues& DebugValues::GetInstance() {
 	static DebugValues instance;
 	return instance;
 }
 
 void DebugValues::ShowGrid() {
-	auto& instance = GetInsance();
+	auto& instance = GetInstance();
 	instance.gridMesh->begin_rendering();
 	instance.gridMesh->draw();
 }

@@ -5,20 +5,19 @@
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXCore.h"
 #include "Engine/Resources/Audio/AudioManager.h"
-#include "Engine/Runtime/WorldClock/WorldClock.h"
-#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Runtime/Input/Input.h"
+#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Runtime/WorldClock/WorldClock.h"
 #include "Engine/Utility/Tools/RandomEngine.h"
 #include "EngineSettings.h"
-#include "Engine/Resources/Texture/TextureManager.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Module/World/Collision/CollisionManager.h"
 
 #pragma comment(lib, "winmm.lib")
 
 #ifdef _DEBUG
-#include "Engine/Debug/ImGuiManager/ImGuiManager.h"
+#include "Engine/Debug/ImGui/ImGuiManager/ImGuiManager.h"
 
 #include <imgui.h>
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -90,10 +89,6 @@ void WinApp::Initialize(DWORD windowConfig) {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Frustum", "Frustum.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Grid.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Camera", "CameraAxis.obj");
-#ifdef _DEBUG
-	// コリジョン用メッシュのロード(削除予定)
-	CollisionManager::LoadDebugDrawMesh();
-#endif // _DEBUG
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();

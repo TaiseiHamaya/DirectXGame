@@ -2,8 +2,6 @@
 
 #define NOMINMAX
 
-#include <cstdint>
-#include <string>
 #include <memory>
 
 #include <windows.h>

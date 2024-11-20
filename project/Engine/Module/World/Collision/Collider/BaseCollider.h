@@ -19,7 +19,6 @@ public:
 	virtual void update();
 
 public:
-	virtual constexpr std::string type() const = 0;
 	const std::string& group() const noexcept;
 
 public:
@@ -27,14 +26,6 @@ public:
 
 private:
 	const std::string* groupName;
-
-#ifdef _DEBUG
-public:
-	MeshInstance& get_collider_drawer() const;
-
-protected:
-	std::unique_ptr<MeshInstance> colliderDrawer;
-#endif // _DEBUG
 };
 
 /*

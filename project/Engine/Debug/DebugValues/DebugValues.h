@@ -15,7 +15,7 @@ private:
 	DebugValues& operator=(const DebugValues&) = delete;
 
 public:
-	static DebugValues& GetInsance();
+	static DebugValues& GetInstance();
 
 public:
 	static void ShowGrid();

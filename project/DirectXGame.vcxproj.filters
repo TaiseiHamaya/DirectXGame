@@ -444,10 +444,10 @@
     <ClCompile Include="Engine\Resources\Audio\AudioResource.cpp">
       <Filter>Engine\Resources\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\ImGuiManager\ImGuiManager.cpp">
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp">
       <Filter>Engine\Debug\ImGUIManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.cpp">
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp">
       <Filter>Engine\Debug\ImGUILoadManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Runtime\Input\Input.cpp">
@@ -544,6 +544,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -716,10 +722,10 @@
     <ClInclude Include="Engine\Resources\Audio\AudioResource.h">
       <Filter>Engine\Resources\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\ImGuiManager\ImGuiManager.h">
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.h">
       <Filter>Engine\Debug\ImGUIManager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\ImGuiLoadManager\ImGuiLoadManager.h">
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.h">
       <Filter>Engine\Debug\ImGUILoadManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Runtime\Input\Input.h">
@@ -870,6 +876,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TestCode\CallbackManagerDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

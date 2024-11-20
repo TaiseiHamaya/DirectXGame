@@ -35,7 +35,6 @@ public:
 public:
 	void debug_gui();
 	void debug_draw3d();
-	static void LoadDebugDrawMesh();
 #endif // _DEBUG
 
 private:

@@ -5,11 +5,6 @@
 BaseCollider::BaseCollider() {
 	hierarchy.initialize(world_matrix());
 	groupName = nullptr;
-
-#ifdef _DEBUG
-	colliderDrawer = std::make_unique<MeshInstance>();
-	colliderDrawer->set_parent(*this);
-#endif // _DEBUG
 }
 
 void BaseCollider::update() {
@@ -29,9 +24,3 @@ const std::string& BaseCollider::group() const noexcept {
 void BaseCollider::set_group_name(const std::string& name) {
 	groupName = &name;
 }
-
-#ifdef _DEBUG
-MeshInstance& BaseCollider::get_collider_drawer() const {
-	return *colliderDrawer;
-}
-#endif // _DEBUG

@@ -1,6 +1,5 @@
 #include "Object3DNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXCore.h"
 #include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
 #include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"

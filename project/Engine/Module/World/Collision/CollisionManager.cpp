@@ -83,20 +83,21 @@ void CollisionManager::register_collider(const std::string& groupName, const std
 }
 
 bool CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
-	std::string type1 = test1->type();
-	std::string type2 = test2->type();
+	const type_info& type1 = typeid(*test1);
+	const type_info& type2 = typeid(*test2);
 
 	bool result = false;
 
-	if (type1 == "Sphere") {
+	if (type1 == typeid(SphereCollider)) {
 		auto downed1 = static_cast<SphereCollider*>(test1.get());
-		if (type2 == "Sphere") {
+		if (type2 == typeid(SphereCollider)) {
 			auto downed2 = static_cast<SphereCollider*>(test2.get());
 			if (Collision(downed1, downed2)) {
 				result = true;
 			}
 		}
 	}
+
 	return result;
 }
 
@@ -126,16 +127,7 @@ void CollisionManager::debug_draw3d() {
 	for (const auto& collider : colliderList | std::views::values) {
 		auto colliderLocked = collider.lock();
 		if (colliderLocked && colliderLocked->is_active()) {
-			auto& drawer = colliderLocked->get_collider_drawer();
-			drawer.begin_rendering();
-			drawer.draw();
 		}
 	}
-}
-
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-
-void CollisionManager::LoadDebugDrawMesh() {
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Collider/Sphere", "SphereCollider.obj");
 }
 #endif // _DEBUG
