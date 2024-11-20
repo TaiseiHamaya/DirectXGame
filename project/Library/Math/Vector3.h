@@ -322,7 +322,7 @@ constexpr Vector3 INFINTY_Z{ 0, 0, std::numeric_limits<float>::infinity() };
 constexpr Vector3 FORWARD{ BASIS_Z };
 constexpr Vector3 BACKWARD{ -FORWARD };
 constexpr Vector3 UP{ BASIS_Y };
-constexpr Vector3 BACK{ -UP };
+constexpr Vector3 DOWN{ -UP };
 constexpr Vector3 RIGHT{ BASIS_X };
 constexpr Vector3 LEFT{ -RIGHT };
 
