@@ -64,13 +64,20 @@ void Camera3D::update_matrix() {
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
 	* vpMatrixBuffer.get_data() = viewMatrix * perspectiveFovMatrix;
 #endif // _DEBUG
+
+	*worldPosition.get_data() = world_position();
 }
 
-void Camera3D::register_world(uint32_t index) {
+void Camera3D::register_world(uint32_t index, std::optional<uint32_t> specular) {
 	auto& commandList = DirectXCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, vpMatrixBuffer.get_resource()->GetGPUVirtualAddress()
 	);
+	if (specular.has_value()) {
+		commandList->SetGraphicsRootConstantBufferView(
+			specular.value(), worldPosition.get_resource()->GetGPUVirtualAddress()
+		);
+	}
 }
 
 void Camera3D::set_transform(const Transform3D& transform_) noexcept {

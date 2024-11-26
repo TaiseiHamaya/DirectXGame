@@ -40,6 +40,7 @@ void Object3DNode::create_pipeline_state() {
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : material
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 3 : light
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL); // 4 : texture
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 5 : camera world
 	rootSignatureBuilder.sampler( // sampler
 		D3D12_SHADER_VISIBILITY_PIXEL,
 		0,

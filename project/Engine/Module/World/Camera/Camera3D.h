@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 #include "Library/Math/Vector2.h"
@@ -21,7 +23,7 @@ public:
 
 	void update_matrix();
 
-	void register_world(uint32_t index);
+	void register_world(uint32_t index, std::optional<uint32_t> specular = std::nullopt);
 
 public:
 	void set_transform(const Transform3D& transform) noexcept;
@@ -50,6 +52,7 @@ private:
 	Matrix4x4 perspectiveFovMatrix;
 
 	ConstantBuffer<Matrix4x4> vpMatrixBuffer;
+	ConstantBuffer<Vector3> worldPosition;
 
 	float fovY;
 	float aspectRatio;
