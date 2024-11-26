@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
+    <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -211,6 +212,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
+    <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
