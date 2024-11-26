@@ -33,10 +33,19 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
 	float3 toCamera = normalize(gCameraInfoPS.position - input.world);
-	float3 reflectLight = reflect(gDirectionalLight.directon, normalize(input.normal));
-	float dotReflect = dot(reflectLight, toCamera);
-	float specularPow = pow(saturate(dotReflect), gMaterial.shininess);
-	specularPow = isnan(specularPow) ? 0 : specularPow * 2.0f;
+	//float3 reflectLight = reflect(gDirectionalLight.directon, normalize(input.normal));
+	//float dotReflect = dot(reflectLight, toCamera);
+	//float specularPow = pow(saturate(dotReflect), gMaterial.shininess);
+	//specularPow = isnan(specularPow) ? 0 : specularPow * 2.0f;
+	float3 halfVector = normalize(-gDirectionalLight.directon + toCamera);
+	float dotNormal = dot(normalize(input.normal), halfVector);
+	float specularPow = pow(saturate(dotNormal), gMaterial.shininess);
+	if (isnan(specularPow)) {
+		specularPow = 0;
+	}
+	else {
+		specularPow *= 2.0f;
+	}
 	float3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * gMaterial.color.rgb * textureColor.rgb;
 	
 	// ライティングなし
