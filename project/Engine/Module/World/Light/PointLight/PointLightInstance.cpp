@@ -26,6 +26,6 @@ void PointLightInstance::debug_gui() {
 	// 範囲
 	ImGui::DragFloat("Radius", &lightData->radius, 0.01f, 0.0f, FLOAT_MAX);
 	// 範囲
-	ImGui::DragFloat("Decay", &lightData->decay, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("Decay", &lightData->decay, 0.01f, 0.0f, FLOAT_MAX);
 }
 #endif // _DEBUG

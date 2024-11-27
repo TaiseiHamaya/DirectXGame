@@ -85,8 +85,8 @@ void SceneDemo::initialize() {
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
-	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
-	directionalLight->initialize();
+	pointLight = eps::CreateUnique<PointLightInstance>();
+	pointLight->initialize();
 
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->set_callback_manager(
@@ -150,7 +150,7 @@ void SceneDemo::begin() {
 
 void SceneDemo::update() {
 	particleSystem->update();
-	directionalLight->update();
+	pointLight->update();
 }
 
 void SceneDemo::begin_rendering() {
@@ -160,7 +160,7 @@ void SceneDemo::begin_rendering() {
 	child->begin_rendering();
 	sprite->begin_rendering();
 	particleSystem->begin_rendering();
-	directionalLight->begin_rendering();
+	pointLight->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -172,7 +172,7 @@ void SceneDemo::late_update() {
 
 void SceneDemo::draw() const {
 	renderPath->begin();
-	directionalLight->register_world(3);
+	pointLight->register_world(3);
 	camera3D->register_world(1, 5);
 	parent->draw();
 	child->draw();
@@ -270,8 +270,8 @@ void SceneDemo::debug_update() {
 	particleSystem->debug_gui();
 	ImGui::End();
 
-	ImGui::Begin("DirectionalLight");
-	directionalLight->debug_gui();
+	ImGui::Begin("PointLight");
+	pointLight->debug_gui();
 	ImGui::End();
 }
 #endif // _DEBUG
