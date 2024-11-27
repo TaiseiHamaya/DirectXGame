@@ -18,7 +18,7 @@ MeshInstance::MeshInstance() noexcept(false) :
 	// 各メモリの取得
 	transformMatrix(std::make_unique<TransformMatrix>()) {
 	meshMaterials.clear();
-	hierarchy.initialize(*transformMatrix->get_data());
+	hierarchy.initialize(transformMatrix->get_data()->world);
 }
 
 MeshInstance::MeshInstance(const std::string& meshName_) noexcept(false) :
@@ -63,9 +63,9 @@ void MeshInstance::draw() const {
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
 		const auto& lockedTexture = meshMaterials[i].texture.lock();
-		commandList->SetGraphicsRootDescriptorTable(4, 
-			lockedTexture ? 
-			lockedTexture->get_gpu_handle() : 
+		commandList->SetGraphicsRootDescriptorTable(4,
+			lockedTexture ?
+			lockedTexture->get_gpu_handle() :
 			TextureManager::GetTexture("Error.png").lock()->get_gpu_handle()
 		);
 		commandList->DrawIndexedInstanced(meshLocked->index_size(i), 1, 0, 0, 0); // 描画コマンド
@@ -143,6 +143,8 @@ void MeshInstance::debug_gui() {
 
 			meshMaterials[i].color.debug_gui3();
 
+			ImGui::DragFloat("Shininess", &meshMaterials[i].material->get_data()->shininess, 0.01f, 0.0f, 100.0f);
+
 			if (ImGui::RadioButton("None", meshMaterials[i].material->get_data()->lighting == static_cast<uint32_t>(LighingType::None))) {
 				meshMaterials[i].material->set_lighting(LighingType::None);
 			}
@@ -165,7 +167,8 @@ MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
 	color(material->get_color_reference()) {
 	material->get_data()->color = Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 	material->get_data()->lighting = static_cast<std::uint32_t>(LighingType::HalfLambert);
-	material->get_data()->padding = std::array<std::int32_t, 3>();
+	material->get_data()->shininess = 10.000f;
+	material->get_data()->padding = std::array<std::int32_t, 2>();
 	material->get_data()->uvTransform = CMatrix4x4::IDENTITY;
 }
 

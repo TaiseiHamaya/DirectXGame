@@ -165,15 +165,15 @@ void SceneDemo::begin_rendering() {
 
 void SceneDemo::late_update() {
 	collisionManager->update();
-	collisionManager->collision("Parent", "Single");
-	collisionManager->collision("Single", "Child");
-	collisionManager->collision("Single", "Single");
+	//collisionManager->collision("Parent", "Single");
+	//collisionManager->collision("Single", "Child");
+	//collisionManager->collision("Single", "Single");
 }
 
 void SceneDemo::draw() const {
 	renderPath->begin();
 	directionalLight->register_world(3);
-	camera3D->register_world(1);
+	camera3D->register_world(1, 5);
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
@@ -184,7 +184,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 	camera3D->register_world(1);
-	particleSystem->draw();
+	//particleSystem->draw();
 
 	renderPath->next();
 	outlineNode->draw();
