@@ -1,10 +1,8 @@
 #pragma once
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
-
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
-
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 template<class T>
 class BaseLightInstance : public WorldInstance {
