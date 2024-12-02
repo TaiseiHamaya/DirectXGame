@@ -118,6 +118,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
@@ -210,6 +212,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h" />
+    <ClInclude Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
