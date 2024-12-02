@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -93,7 +93,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\DirectXTex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -120,6 +120,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp" />
+    <ClCompile Include="Engine\Resources\Json\JsonLoader.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiJsonEditor.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
@@ -214,6 +216,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h" />
     <ClInclude Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.h" />
+    <ClInclude Include="Engine\Resources\Json\JsonLoader.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiJsonEditor.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
