@@ -23,6 +23,8 @@ class RenderPath;
 #include "Engine/Module/Render/RenderNode/Outline/OutlineNode.h"
 #include "Engine/Module/ParticleSystem/ParticleSystemBillboard.h"
 
+#include "Engine/Resources/Json/JsonResource.h"
+
 class SceneDemo : public BaseScene {
 public:
 	SceneDemo();
@@ -70,4 +72,6 @@ private:
 
 	std::shared_ptr<AudioPlayer> audioPlayer;
 	std::shared_ptr<OutlineNode> outlineNode;
+
+	JsonResource json{ "./Test.json" };
 };
