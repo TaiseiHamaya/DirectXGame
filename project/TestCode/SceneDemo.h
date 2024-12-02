@@ -16,6 +16,7 @@ class Color;
 class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
+#include "Engine/Module/World/Light/SpotLight/SpotLightInstance.h"
 
 #include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
 #include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
@@ -57,7 +58,7 @@ private:
 	std::unique_ptr<MeshInstance> child;
 	std::unique_ptr<SpriteInstance> sprite;
 	//std::unique_ptr<DirectionalLightInstance> directionalLight;
-	std::unique_ptr<PointLightInstance> pointLight;
+	std::unique_ptr<SpotLightInstance> spotLight;
 
 	std::shared_ptr<SphereCollider> parentCollider;
 	std::shared_ptr<SphereCollider> childCollider;

@@ -18,7 +18,7 @@ public:
 public:
 	virtual void update() {};
 
-	virtual void begin_rendering() {};
+	virtual void begin_rendering() = 0;
 
 	void register_world(uint32_t parameterIndex) const;
 

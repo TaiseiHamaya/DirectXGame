@@ -11,12 +11,15 @@ struct PixelShaderOutput {
 	float4 color : SV_Target0;
 };
 
-struct PointLight {
+struct SpotLight {
 	float4 color; // 色
 	float3 position; // 位置
 	float intensity; // 輝度
-	float radius; // 範囲
-	float decay; // 減衰率
+	float3 direction; // 向き
+	float distance; // ライト距離
+	float decay; // 距離減衰率
+	float angle; // ライト範囲
+	float falloffStart; // ライト
 };
 
 struct CameraInfoPS {
@@ -24,7 +27,7 @@ struct CameraInfoPS {
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
-ConstantBuffer<PointLight> gPointLight : register(b1);
+ConstantBuffer<SpotLight> gSpotLight : register(b1);
 ConstantBuffer<CameraInfoPS> gCameraInfoPS : register(b2);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
@@ -40,10 +43,15 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	//float dotReflect = dot(reflectLight, toCamera);
 	//float specularPow = pow(saturate(dotReflect), gMaterial.shininess);
 	//specularPow = isnan(specularPow) ? 0 : specularPow * 2.0f;
-	float3 direction = normalize(input.world - gPointLight.position);
-	float distance = length(input.world - gPointLight.position);
-	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
-	float3 lightColor = gPointLight.color.rgb * gPointLight.intensity * factor;
+	float3 direction = normalize(input.world - gSpotLight.position);
+	// 距離減衰
+	float distance = length(input.world - gSpotLight.position);
+	float distanceDecayFactor = pow(saturate(-distance / gSpotLight.distance + 1.0f), gSpotLight.decay);
+	// 範囲減衰
+	float cosAngle = dot(direction, gSpotLight.direction);
+	float falloffFactor = saturate((cosAngle - gSpotLight.angle) / (gSpotLight.falloffStart - gSpotLight.angle));
+	// ライト色
+	float3 lightColor = gSpotLight.color.rgb * gSpotLight.intensity * distanceDecayFactor * falloffFactor;
 	
 	float3 halfVector = normalize(-direction + toCamera);
 	float dotNormal = dot(normalize(input.normal), halfVector);
