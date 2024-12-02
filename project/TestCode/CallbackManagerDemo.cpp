@@ -1,7 +1,6 @@
 #include "CallbackManagerDemo.h"
 
 #include <Engine/Module/World/Mesh/MeshInstance.h>
-#include <Library/Math/Color3.h>
 
 CallbackManagerDemo::CallbackManagerDemo() {
 	callbackFunctions.emplace(

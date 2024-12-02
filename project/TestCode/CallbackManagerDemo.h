@@ -2,6 +2,8 @@
 
 #include "Engine/Module/World/Collision/CollisionCallbackManager.h"
 
+#include <Library/Math/Color3.h>
+
 class CallbackManagerDemo final : public CollisionCallbackManager {
 public:
 	CallbackManagerDemo();
