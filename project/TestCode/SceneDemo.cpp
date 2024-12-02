@@ -190,7 +190,7 @@ void SceneDemo::draw() const {
 	outlineNode->draw();
 
 	renderPath->next();
-	sprite->draw();
+	//sprite->draw();
 
 }
 
