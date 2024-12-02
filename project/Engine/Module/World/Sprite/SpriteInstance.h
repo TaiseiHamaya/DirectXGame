@@ -5,7 +5,7 @@
 
 #include "Library/Math/Vector2.h"
 #include "Library/Math/Matrix4x4.h"
-#include "Library/Math/Color.h"
+#include "Library/Math/Color4.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 
@@ -45,7 +45,7 @@ private:
 	std::weak_ptr<Texture> texture;
 
 	struct SpriteMaterial {
-		Color color;
+		Color4 color;
 		Matrix4x4 uvTransform;
 	};
 
@@ -53,7 +53,7 @@ private:
 	std::unique_ptr<ConstantBuffer<Matrix4x4>> transformMatrix;
 
 protected:
-	Color& color;
+	Color4& color;
 
 	std::unique_ptr<Transform2D> transform;
 	std::unique_ptr<Transform2D> uvTransform;

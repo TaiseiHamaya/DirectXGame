@@ -12,7 +12,7 @@
 #include "Engine/Module/World/Camera/Camera2D.h"
 #include "Engine/Module/World/Sprite/SpriteInstance.h"
 
-#include "Library/Math/Color.h"
+#include "Library/Math/Color4.h"
 
 #include "Engine/Debug/DebugValues/DebugValues.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
@@ -135,7 +135,7 @@ void SceneDemo::initialize() {
 	renderPath->initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
-	//DirectXSwapChain::SetClearColor(Color{ 0.0f,0.0f,0.0f,0.0f });
+	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
 }
 
 void SceneDemo::popped() {
@@ -190,19 +190,19 @@ void SceneDemo::draw() const {
 	outlineNode->draw();
 
 	renderPath->next();
-	//sprite->draw();
+	sprite->draw();
 
 }
 
-void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color* object) {
+void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color4* object) {
 	*object = { 1.0f,0,0,1.0f };
 }
 
-void SceneDemo::on_collision_enter(const BaseCollider* const other, Color* object) {
+void SceneDemo::on_collision_enter(const BaseCollider* const other, Color4* object) {
 	*object = { 0,1.0f,0,1.0f };
 }
 
-void SceneDemo::on_collision_exit(const BaseCollider* const, Color* object) {
+void SceneDemo::on_collision_exit(const BaseCollider* const, Color4* object) {
 	*object = { 1.0f,1.0f,1.0f,1.0f };
 }
 
@@ -232,6 +232,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("Child");
 	child->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("Sprite");
+	sprite->debug_gui();
 	ImGui::End();
 
 	ImGui::Begin("Single");

@@ -8,7 +8,7 @@ Material::Material() noexcept(false) : ConstantBuffer<MaterialData>() {
 Material::Material(const MaterialData& material) noexcept(false) : ConstantBuffer<MaterialData>(material) {
 }
 
-Color& Material::get_color_reference() const noexcept {
+Color3& Material::get_color_reference() const noexcept {
 	return data->color;
 }
 

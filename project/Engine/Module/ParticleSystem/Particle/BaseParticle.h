@@ -2,7 +2,7 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-#include "Library/Math/Color.h"
+#include "Library/Math/Color4.h"
 #include "Library/Math/Transform2D.h"
 
 class BaseParticle : public WorldInstance {
@@ -19,7 +19,7 @@ public: // Member function
 	virtual void update() {};
 
 public: // Getter/Setter
-	const Color& get_color() const { return color; };
+	const Color4& get_color() const { return color; };
 	const Transform2D& uv_transform() const { return uvTransform; };
 	bool is_destroy() const { return isDestroy; };
 
@@ -28,6 +28,6 @@ public: // Getter/Setter
 protected: // Member variable
 	bool isDestroy = false;
 
-	Color color;
+	Color4 color;
 	Transform2D uvTransform;
 };

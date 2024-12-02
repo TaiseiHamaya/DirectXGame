@@ -118,6 +118,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Math\Color3.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
@@ -165,7 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Collision\Collider\BaseCollider.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionManager.cpp" />
-    <ClCompile Include="Library\Math\Color.cpp" />
+    <ClCompile Include="Library\Math\Color4.cpp" />
     <ClCompile Include="Engine\Module\World\Mesh\MeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp" />
     <ClCompile Include="Library\Math\Hierarchy.cpp" />
@@ -209,6 +210,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
@@ -272,7 +274,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Collision\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionFunctions.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionManager.h" />
-    <ClInclude Include="Library\Math\Color.h" />
+    <ClInclude Include="Library\Math\Color4.h" />
     <ClInclude Include="Engine\Module\World\Mesh\MeshInstance.h" />
     <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h" />
     <ClInclude Include="Library\Math\Hierarchy.h" />

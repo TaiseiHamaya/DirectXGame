@@ -3,7 +3,7 @@
 #include <optional>
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Library/Math/Color.h"
+#include "Library/Math/Color4.h"
 
 class RenderTarget : public DirectXResourceObject {
 public:
@@ -52,12 +52,12 @@ public:
 
 	const D3D12_RENDER_TARGET_VIEW_DESC& get_rtv_desc() const;
 
-	void set_claer_color(Color color_);
+	void set_claer_color(Color4 color_);
 
 protected:
 	bool isRendering = false;
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvCPUHandle{};
 	std::optional<std::uint32_t> rtvHeapIndex;
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-	Color clearColor;
+	Color4 clearColor;
 };

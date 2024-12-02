@@ -1,36 +1,36 @@
 #include "CallbackManagerDemo.h"
 
 #include <Engine/Module/World/Mesh/MeshInstance.h>
-#include <Library/Math/Color.h>
+#include <Library/Math/Color3.h>
 
 CallbackManagerDemo::CallbackManagerDemo() {
 	callbackFunctions.emplace(
 		CallbackMapKey("Parent", "Single"),
 		CallbackFunctions{
-			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color{0.0f, 0.0f, 1.0f, 1.0f}),
-			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color{1.0f, 0.0f, 0.0f, 1.0f}),
-			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color{1.0f, 1.0f, 1.0f, 1.0f}),
+			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color3{ 0.0f, 0.0f, 1.0f }),
+			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color3{ 1.0f, 0.0f, 0.0f }),
+			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color3{ 1.0f, 1.0f, 1.0f }),
 		}
-	);
+		);
 	callbackFunctions.emplace(
 		CallbackMapKey("Single", "Child"),
 		CallbackFunctions{
 			nullptr,
-			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color{0.0f, 1.0f, 0.0f, 1.0f}),
-			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color{1.0f, 1.0f, 1.0f, 1.0f}), 
+			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color3{ 0.0f, 1.0f, 0.0f }),
+			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color3{ 1.0f, 1.0f, 1.0f }),
 		}
-	);
+		);
 	callbackFunctions.emplace(
 		CallbackMapKey("Single", "Single"),
 		CallbackFunctions{
 			nullptr,
-			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color{1.0f, 0.0f,0.0f,1.0f}),
+			std::bind(SetColor, std::placeholders::_1, std::placeholders::_2, Color3{ 1.0f, 0.0f,0.0f }),
 			nullptr
 		}
 	);
 }
 
-void CallbackManagerDemo::SetColor(const BaseCollider* const lhs, const BaseCollider* const rhs, Color color) {
+void CallbackManagerDemo::SetColor(const BaseCollider* const lhs, const BaseCollider* const rhs, Color3 color) {
 	auto lhsParentAddr = const_cast<WorldInstance*>(lhs->get_parent_address());
 	if (lhsParentAddr) {
 		MeshInstance* mesh = dynamic_cast<MeshInstance*>(lhsParentAddr);

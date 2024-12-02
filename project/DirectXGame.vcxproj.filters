@@ -507,7 +507,7 @@
     <ClCompile Include="Library\Math\Vector3.cpp">
       <Filter>Library\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Library\Math\Color.cpp">
+    <ClCompile Include="Library\Math\Color4.cpp">
       <Filter>Library\Math</Filter>
     </ClCompile>
     <ClCompile Include="Library\Math\Transform3D.cpp">
@@ -550,6 +550,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Math\Color3.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -797,7 +800,7 @@
     <ClInclude Include="Library\Math\Vector3.h">
       <Filter>Library\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Library\Math\Color.h">
+    <ClInclude Include="Library\Math\Color4.h">
       <Filter>Library\Math</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\Hierarchy.h">
@@ -882,6 +885,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Math\Color3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
