@@ -16,7 +16,7 @@
 #endif // _DEBUG
 
 SpriteInstance::SpriteInstance() :
-	material(std::make_unique<ConstantBuffer<SpriteMaterial>>(SpriteMaterial{ Color{ 1.0f,1.0f,1.0f,1.0f }, CMatrix4x4::IDENTITY })),
+	material(std::make_unique<ConstantBuffer<SpriteMaterial>>(SpriteMaterial{ Color4{ 1.0f,1.0f,1.0f,1.0f }, CMatrix4x4::IDENTITY })),
 	color(material->get_data()->color),
 	transformMatrix(std::make_unique<ConstantBuffer<Matrix4x4>>()),
 	transform(std::make_unique<Transform2D>()),
@@ -65,7 +65,7 @@ void SpriteInstance::debug_gui() {
 	ImGui::Separator();
 	uvTransform->debug_gui();
 	ImGui::Separator();
-	color.debug_gui4();
+	color.debug_gui();
 }
 #endif // _DEBUG
 

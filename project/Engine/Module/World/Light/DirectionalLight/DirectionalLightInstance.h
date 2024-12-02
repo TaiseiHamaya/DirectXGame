@@ -2,12 +2,12 @@
 
 #include "../BaseLightInstance.h"
 
-#include "Library/Math/Color.h"
+#include "Library/Math/Color3.h"
 
 struct DirectionalLightData {
-	Color color; // 色
-	Vector3 direction{ -CVector3::BASIS_Y }; // 向き
+	Color3 color; // 色
 	float intensity{ 1 }; // 輝度
+	Vector3 direction{ -CVector3::BASIS_Y }; // 向き
 };
 
 class DirectionalLightInstance : public BaseLightInstance<DirectionalLightData> {

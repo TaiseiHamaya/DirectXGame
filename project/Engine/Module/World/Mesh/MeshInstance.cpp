@@ -87,7 +87,7 @@ void MeshInstance::default_material() {
 	auto&& meshLocked = mesh.lock();
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		// 色情報のリセット
-		meshMaterials[i].color = Color{ 1.0f,1.0f,1.0f,1.0f };
+		meshMaterials[i].color = Color3{ 1.0f,1.0f,1.0f };
 		if (meshLocked->has_mtl(i)) {
 			// テクスチャ情報の取得
 			meshMaterials[i].texture = TextureManager::GetTexture(meshLocked->texture_name(i));
@@ -141,7 +141,7 @@ void MeshInstance::debug_gui() {
 
 			meshMaterials[i].uvTransform.debug_gui();
 
-			meshMaterials[i].color.debug_gui3();
+			meshMaterials[i].color.debug_gui();
 
 			if (ImGui::RadioButton("None", meshMaterials[i].material->get_data()->lighting == static_cast<uint32_t>(LighingType::None))) {
 				meshMaterials[i].material->set_lighting(LighingType::None);
@@ -163,13 +163,12 @@ void MeshInstance::debug_gui() {
 MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
 	material(std::make_unique<Material>()),
 	color(material->get_color_reference()) {
-	material->get_data()->color = Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+	material->get_data()->color = Color3{ 1.0f, 1.0f, 1.0f };
 	material->get_data()->lighting = static_cast<std::uint32_t>(LighingType::HalfLambert);
-	material->get_data()->padding = std::array<std::int32_t, 3>();
 	material->get_data()->uvTransform = CMatrix4x4::IDENTITY;
 }
 
-MeshInstance::MaterialDataRef::MaterialDataRef(Color& color_, Transform2D& uvTransform_) :
+MeshInstance::MaterialDataRef::MaterialDataRef(Color3& color_, Transform2D& uvTransform_) :
 	color(color_),
 	uvTransform(uvTransform_) {
 }

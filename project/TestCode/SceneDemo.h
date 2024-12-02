@@ -12,7 +12,7 @@ class Camera3D;
 class BaseCollider;
 class SphereCollider;
 class CollisionManager;
-class Color;
+class Color4;
 class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
@@ -41,9 +41,9 @@ public:
 
 	void draw() const override;
 
-	void on_collision(const BaseCollider* const, Color* object);
-	void on_collision_enter(const BaseCollider* const, Color* object);
-	void on_collision_exit(const BaseCollider* const, Color* object);
+	void on_collision(const BaseCollider* const, Color4* object);
+	void on_collision_enter(const BaseCollider* const, Color4* object);
+	void on_collision_exit(const BaseCollider* const, Color4* object);
 
 #ifdef _DEBUG
 	void debug_update() override;

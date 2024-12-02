@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include <Library/Math/Color.h>
+#include <Library/Math/Color4.h>
 
 class RenderingSystemValues {
 public:
@@ -10,7 +10,7 @@ public:
 	static constexpr std::uint32_t NUM_BUFFERING{ 2 };
 
 	// DefaultClearColor
-	static constexpr Color DEFAULT_CLEAR_COLOR{ .1f, 0.25f, 0.5f, 1.0f };
+	static constexpr Color4 DEFAULT_CLEAR_COLOR{ .1f, 0.25f, 0.5f, 1.0f };
 
 private:
 	inline static std::uint32_t nowBackbufferIndex{ 0 };

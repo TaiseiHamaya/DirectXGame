@@ -15,7 +15,7 @@
 
 void DirectXSwapChain::Initialize() {
 	GetInstance().create_swapchain();
-	GetInstance().create_render_terget();
+	GetInstance().create_render_target();
 	SetClearColor(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
 }
 
@@ -27,7 +27,7 @@ const std::shared_ptr<SwapChainRenderTargetGroup>& DirectXSwapChain::GetRenderTa
 	return GetInstance().renderTarget;
 }
 
-void DirectXSwapChain::SetClearColor(const Color& color_) noexcept {
+void DirectXSwapChain::SetClearColor(const Color4& color_) noexcept {
 	for (RenderTarget& renderTargetItr : GetInstance().renderTarget->get_render_targets()) {
 		renderTargetItr.set_claer_color(color_);
 	}
@@ -71,7 +71,7 @@ void DirectXSwapChain::create_swapchain() {
 	assert(SUCCEEDED(hr));
 }
 
-void DirectXSwapChain::create_render_terget() {
+void DirectXSwapChain::create_render_target() {
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る

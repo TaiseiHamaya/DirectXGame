@@ -4,7 +4,7 @@
 #include <memory>
 #include <wrl/client.h>
 
-#include "Library/Math/Color.h"
+#include "Library/Math/Color4.h"
 
 class SwapChainRenderTargetGroup;
 class PSOBuilder;
@@ -30,7 +30,7 @@ public:
 	//static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
 	static const std::shared_ptr<SwapChainRenderTargetGroup>& GetRenderTarget();
 
-	static void SetClearColor(const Color& color_) noexcept;
+	static void SetClearColor(const Color4& color_) noexcept;
 	static void EndRenderTarget();
 
 private:
@@ -38,7 +38,7 @@ private:
 
 private:
 	void create_swapchain();
-	void create_render_terget();
+	void create_render_target();
 	void swap_screen();
 
 private:

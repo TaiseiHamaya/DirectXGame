@@ -20,7 +20,7 @@ public:
 	Material& operator=(Material&&) = default;
 
 public:
-	Color& get_color_reference() const noexcept;
+	Color3& get_color_reference() const noexcept;
 	void set_uv_transform(Matrix4x4&& uvTransform) noexcept;
 	void set_lighting(LighingType lighting_);
 };

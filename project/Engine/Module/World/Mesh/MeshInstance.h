@@ -11,7 +11,7 @@ class Material;
 class PolygonMesh;
 class Texture;
 class TransformMatrix;
-class Color;
+class Color3;
 
 class MeshInstance : public WorldInstance {
 public:
@@ -65,7 +65,7 @@ private:
 		std::weak_ptr<Texture> texture;
 
 		std::unique_ptr<Material> material;
-		Color& color;
+		Color3& color;
 
 		Transform2D uvTransform;
 
@@ -77,8 +77,8 @@ private:
 
 protected:
 	struct MaterialDataRef {
-		MaterialDataRef(Color& color_, Transform2D& uvTransform_);
-		Color& color;
+		MaterialDataRef(Color3& color_, Transform2D& uvTransform_);
+		Color3& color;
 		Transform2D& uvTransform;
 	};
 

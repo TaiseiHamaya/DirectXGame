@@ -14,7 +14,7 @@ void DirectionalLightInstance::debug_gui() {
 		return;
 	}
 	// 色
-	lightData->color.debug_gui3();
+	lightData->color.debug_gui();
 	// 強度
 	ImGui::DragFloat("Intensity", &lightData->intensity, 0.01f, 0.0f, (std::numeric_limits<float>::max)());
 	// 向き

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Library/Math/Color.h"
+#include "Library/Math/Color3.h"
 #include "Library/Math/Matrix4x4.h"
 #include "Library/Math/Vector2.h"
 #include "Library/Math/Vector3.h"
@@ -15,8 +15,7 @@ struct VertexData {
 };
 
 struct MaterialData {
-	Color color;
+	Color3 color;
 	std::uint32_t lighting;
-	std::array<std::int32_t, 3> padding;
 	Matrix4x4 uvTransform = CMatrix4x4::IDENTITY;
 };
