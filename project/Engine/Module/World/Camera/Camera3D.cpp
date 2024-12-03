@@ -116,8 +116,22 @@ Matrix4x4 Camera3D::MakeViewportMatrix(const Vector2& origin, const Vector2& siz
 }
 
 #ifdef _DEBUG
+
+#include <string>
+#include <source_location>
+
+using namespace std::literals::string_literals;
+
 void Camera3D::debug_gui() {
 	transform.debug_gui();
+
+	//if (ImGui::Button("SaveJson")) {
+	//	constexpr const char* fileName = "Camera3D";
+	//	JsonResource output{ "WorldInstance/"s + fileName + ".json"};
+	//	to_json(output);
+	//	output.save();
+	//}
+
 	ImGui::Separator();
 	ImGui::Checkbox("DebugCamera", &isVaildDebugCamera);
 	if (isVaildDebugCamera) {

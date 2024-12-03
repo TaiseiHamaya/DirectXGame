@@ -914,6 +914,9 @@
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiJsonEditor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Resources\Json\JsonSerializer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">

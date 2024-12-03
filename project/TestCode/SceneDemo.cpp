@@ -28,6 +28,13 @@
 #include "TestCode/ParticleFactorySample.h"
 #include "TestCode/ParticleSample.h"
 
+//#define QUATERNION_SERIALIZER
+//#define VECTOR3_SERIALIZER
+//#define VECTOR2_SERIALIZER
+//#define COLOR3_SERIALIZER
+//#define COLOR4_SERIALIZER
+#include <Engine/Resources/Json/JsonSerializer.h>
+
 SceneDemo::SceneDemo() = default;
 
 SceneDemo::~SceneDemo() = default;
@@ -46,11 +53,12 @@ void SceneDemo::initialize() {
 	Camera2D::Initialize();
 	camera3D = std::make_unique<Camera3D>();
 	camera3D->initialize();
-	camera3D->set_transform({
-		CVector3::BASIS,
-		Quaternion::EulerDegree(45,0,0),
-		{0,10,-10}
-		});
+	//camera3D->set_transform({
+	//	CVector3::BASIS,
+	//	Quaternion::EulerDegree(45,0,0),
+	//	{0,10,-10}
+	//	});
+	camera3D->from_json(JsonResource{ "./Test.json" });
 	parent = std::make_unique<MeshInstance>();
 	parent->reset_object("Sphere.obj");
 	child = std::make_unique<MeshInstance>();

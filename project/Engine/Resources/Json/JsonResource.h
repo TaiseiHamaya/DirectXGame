@@ -17,7 +17,7 @@ public:
 	void save() const;
 
 	nlohmann::json& get();
-	const nlohmann::json& get() const;
+	const nlohmann::json& cget() const;
 
 private:
 	nlohmann::json json;

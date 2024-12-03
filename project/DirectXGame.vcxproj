@@ -218,6 +218,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.h" />
     <ClInclude Include="Engine\Resources\Json\JsonResource.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiJsonEditor.h" />
+    <ClInclude Include="Engine\Resources\Json\JsonSerializer.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />

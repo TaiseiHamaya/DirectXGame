@@ -24,7 +24,7 @@ void JsonResource::load(const std::filesystem::path& file) {
 	std::ifstream ifstream{ filePath };
 
 	if (ifstream.fail()) {
-		Console("[JsonResource] File-\'{}\'", filePath.stem().string());
+		Console("[JsonResource] File-\'{}\' is not found.\n", filePath.stem().string());
 		return;
 	}
 
@@ -32,8 +32,14 @@ void JsonResource::load(const std::filesystem::path& file) {
 }
 
 void JsonResource::save() const {
+	auto parentPath = filePath.parent_path();
+	if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
+		std::filesystem::create_directories(parentPath);
+	}
+
+
 	std::ofstream ofstream{ filePath, std::ios_base::out };
-	ofstream << json;
+	ofstream << std::setw(1) << std::setfill('\t') << json;
 	ofstream.close();
 }
 
@@ -41,6 +47,6 @@ nlohmann::json& JsonResource::get() {
 	return json;
 }
 
-const nlohmann::json& JsonResource::get() const {
+const nlohmann::json& JsonResource::cget() const {
 	return json;
 }

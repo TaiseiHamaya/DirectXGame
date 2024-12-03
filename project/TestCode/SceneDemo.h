@@ -73,5 +73,5 @@ private:
 	std::shared_ptr<AudioPlayer> audioPlayer;
 	std::shared_ptr<OutlineNode> outlineNode;
 
-	JsonResource json{ "./Test.json" };
+
 };
