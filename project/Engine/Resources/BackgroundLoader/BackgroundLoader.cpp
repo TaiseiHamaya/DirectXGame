@@ -148,7 +148,7 @@ void BackgroundLoader::load_manager() {
 			waitLoadingQue.emplace_back(std::move(*nowEvent));
 		}
 		else {
-			Console("[BackgroundLoader] Faild loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
+			Console("[BackgroundLoader] Failed loading. File-\'{}/{}\' Address-\'{:#x}\'\n",
 				nowEvent->data->filePath, nowEvent->data->fileName,
 				address
 			);
@@ -169,7 +169,7 @@ void BackgroundLoader::load_manager() {
 			DirectXCommand::WaitTextureCommand();
 			// リセット
 			DirectXCommand::ResetTextureCommand();
-			Console("[BackgroundLoader] Successed.\n");
+			Console("[BackgroundLoader] Succussed.\n");
 			// resourceViewの作成
 			create_texture_view();
 			transfer_data();

@@ -66,24 +66,24 @@ void Input::Update() {
 
 bool Input::IsPressKey(KeyID id) {
 	int idInt = static_cast<int>(id);
-	auto& keybordState = GetInstance().keyboardState;
-	return keybordState[idInt];
+	auto& keyboardState = GetInstance().keyboardState;
+	return keyboardState[idInt];
 }
 
 bool Input::IsTriggerKey(KeyID id) {
 	int idInt = static_cast<int>(id);
 	Input& instance = GetInstance();
-	auto& keybordState = instance.keyboardState;
+	auto& keyboardState = instance.keyboardState;
 	auto& preKeyboardState = instance.preKeyboardState;
-	return keybordState[idInt] && !preKeyboardState[idInt];
+	return keyboardState[idInt] && !preKeyboardState[idInt];
 }
 
 bool Input::IsReleaseKey(KeyID id) {
 	int idInt = static_cast<int>(id);
 	Input& instance = GetInstance();
-	auto& keybordState = instance.keyboardState;
+	auto& keyboardState = instance.keyboardState;
 	auto& preKeyboardState = instance.preKeyboardState;
-	return !keybordState[idInt] && preKeyboardState[idInt];
+	return !keyboardState[idInt] && preKeyboardState[idInt];
 }
 
 bool Input::IsPressMouse(MouseID id) {

@@ -24,7 +24,7 @@ public:
 	Behavior& operator=(Behavior&&) = default;
 
 public:
-	void initalize(const T& value) noexcept;
+	void initialize(const T& value) noexcept;
 	void update();
 
 public:
@@ -49,7 +49,7 @@ private:
 };
 
 template<Object T>
-inline void Behavior<T>::initalize(const T& value) noexcept {
+inline void Behavior<T>::initialize(const T& value) noexcept {
 	request(value);
 }
 

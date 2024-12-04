@@ -2,8 +2,7 @@
 
 void CollisionCallbackManager::begin() {
 	for (auto itr = collisionRecent.begin(); itr != collisionRecent.end();) {
-		auto& key = itr->first;
-		auto& value = itr->second;
+		auto& [key, value] = *itr;
 		// どちらかのcolliderが非アクティブ
 		// 2フレーム連続で衝突がない
 		if (!key.big()->is_active() || !key.small()->is_active() ||
@@ -12,7 +11,7 @@ void CollisionCallbackManager::begin() {
 			itr = collisionRecent.erase(itr);
 		}
 		else {
-			itr->second <<= 1;
+			value <<= 1;
 			++itr;
 		}
 	}
