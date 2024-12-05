@@ -9,6 +9,12 @@
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 #endif // _DEBUG
 
+template<typename T>
+concept UseabelJson = requires(nlohmann::json json, T t) {
+	{ json.get<T>() } -> std::same_as<T>;
+	{ json["Name"] = t };
+};
+
 class JsonResource {
 public:
 	JsonResource() = default;
@@ -24,14 +30,14 @@ public:
 	nlohmann::json& get();
 	const nlohmann::json& cget() const;
 
-	template<typename T>
+	template<UseabelJson T>
 	T try_emplace(const std::string& contains);
 
-	template<typename T>
+	template<UseabelJson T>
 	void white(const std::string& name, const T& value);
 
 public:
-	template<typename T, typename ...Args>
+	template<UseabelJson T, typename ...Args>
 	void register_value(const std::string& name, T* pValue, Args&& ...args);
 
 #ifdef _DEBUG
@@ -47,7 +53,7 @@ private:
 #endif // _DEBUG
 };
 
-template<typename T>
+template<UseabelJson T>
 inline T JsonResource::try_emplace(const std::string& contains) {
 	if (json.contains(contains)) {
 		return json.at(contains).get<T>();
@@ -58,12 +64,12 @@ inline T JsonResource::try_emplace(const std::string& contains) {
 	}
 }
 
-template<typename T>
+template<UseabelJson T>
 inline void JsonResource::white(const std::string& name, const T& value) {
 	json[name] = value;
 }
 
-template<typename T, typename ...Args>
+template<UseabelJson T, typename ...Args>
 inline void JsonResource::register_value(const std::string& name, T* pValue, [[maybe_unused]] Args&& ...args) {
 	assert(pValue != nullptr);
 	(*pValue) = std::move(this->try_emplace<T>(name));

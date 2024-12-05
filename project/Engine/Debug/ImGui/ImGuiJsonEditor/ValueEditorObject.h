@@ -13,9 +13,8 @@ namespace ValueEditor {
 
 template<typename T>
 struct show_object {
-	inline void show_gui() {
-		static_assert(false, "Template paramater (ValueEditor::show_object<T>) is not defined.");
-	};
+	static_assert(false, "Template paramater (ValueEditor::show_object<T>) is not defined.");
+	inline void show_gui() {};
 };
 
 // float
