@@ -24,6 +24,7 @@ class RenderPath;
 #include "Engine/Module/ParticleSystem/ParticleSystemBillboard.h"
 
 #include "Engine/Resources/Json/JsonResource.h"
+#include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -73,5 +74,6 @@ private:
 	std::shared_ptr<AudioPlayer> audioPlayer;
 	std::shared_ptr<OutlineNode> outlineNode;
 
-
+	JsonResource jsonResource{ "./Test.json" };
+	Transform2D testValue{};
 };

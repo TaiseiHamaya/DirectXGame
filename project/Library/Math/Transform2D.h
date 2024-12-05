@@ -33,7 +33,7 @@ public:
 
 #ifdef _DEBUG
 public:
-	void debug_gui(float translateMove = 0.01f);
+	void debug_gui(const char* tag = "Transform2D");
 #endif // _DEBUG
 
 private:

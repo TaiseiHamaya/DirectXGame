@@ -44,7 +44,7 @@ private:
 public:
 	static void DebugGUI();
 private:
-	void debug_gui();
+	void debug_gui(const char* tag = "2DCamera");
 #endif // _DEBUG
 
 private:// 一つに絞る

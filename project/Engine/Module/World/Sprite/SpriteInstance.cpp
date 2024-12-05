@@ -1,15 +1,14 @@
 #include "SpriteInstance.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Library/Math/Transform2D.h"
+#include "Library/Math/VectorConverter.h"
 
+#include "Engine/Module/World/Camera/Camera2D.h"
+#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
-#include "Engine/Module/World/Camera/Camera2D.h"
-
-#include "Library/Math/VectorConverter.h"
-#include "Library/Math/Transform2D.h"
+#include "Engine/Resources/Texture/TextureManager.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -61,7 +60,7 @@ void SpriteInstance::draw() const {
 
 #ifdef _DEBUG
 void SpriteInstance::debug_gui() {
-	transform->debug_gui(1.0f);
+	transform->debug_gui();
 	ImGui::Separator();
 	uvTransform->debug_gui();
 	ImGui::Separator();

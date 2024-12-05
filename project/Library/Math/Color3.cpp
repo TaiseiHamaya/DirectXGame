@@ -6,7 +6,7 @@
 #endif // _DEBUG
 
 #ifdef _DEBUG
-void Color3::debug_gui() noexcept(false) {
-	ImGui::ColorEdit3("Color3", &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_InputRGB);
+void Color3::debug_gui(const char* tag) noexcept(false) {
+	ImGui::ColorEdit3(tag, &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_InputRGB);
 }
 #endif // _DEBUG

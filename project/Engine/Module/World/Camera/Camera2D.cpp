@@ -62,11 +62,11 @@ void Camera2D::DebugGUI() {
 	instance->debug_gui();
 }
 
-void Camera2D::debug_gui() {
+void Camera2D::debug_gui(const char* tag) {
 	//ImGui::SetNextWindowSize(ImVec2{ 330,140 }, ImGuiCond_Once);
 	//ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
-	ImGui::Begin("2DCamera", nullptr);
-	camera.debug_gui(1.0f);
+	ImGui::Begin(tag, nullptr);
+	camera.debug_gui();
 	ImGui::End();
 }
 #endif // _DEBUG

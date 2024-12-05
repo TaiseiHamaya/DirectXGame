@@ -32,11 +32,14 @@ void JsonResource::load(const std::filesystem::path& file) {
 }
 
 void JsonResource::save() const {
+#ifdef _DEBUG
+	valueEditor.save_all();
+#endif // _DEBUG
+
 	auto parentPath = filePath.parent_path();
 	if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
 		std::filesystem::create_directories(parentPath);
 	}
-
 
 	std::ofstream ofstream{ filePath, std::ios_base::out };
 	ofstream << std::setw(1) << std::setfill('\t') << json;
@@ -50,3 +53,9 @@ nlohmann::json& JsonResource::get() {
 const nlohmann::json& JsonResource::cget() const {
 	return json;
 }
+
+#ifdef _DEBUG
+void JsonResource::show_imgui() {
+	valueEditor.show_imgui();
+}
+#endif // _DEBUG
