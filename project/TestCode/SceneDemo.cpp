@@ -28,6 +28,15 @@
 #include "TestCode/ParticleFactorySample.h"
 #include "TestCode/ParticleSample.h"
 
+//#define QUATERNION_SERIALIZER
+#define TRANSFORM3D_SERIALIZER
+#define TRANSFORM2D_SERIALIZER
+#define VECTOR3_SERIALIZER
+#define VECTOR2_SERIALIZER
+#define COLOR3_SERIALIZER
+#define COLOR4_SERIALIZER
+#include <Engine/Resources/Json/JsonSerializer.h>
+
 SceneDemo::SceneDemo() = default;
 
 SceneDemo::~SceneDemo() = default;
@@ -51,6 +60,12 @@ void SceneDemo::initialize() {
 		Quaternion::EulerDegree(45,0,0),
 		{0,10,-10}
 		});
+	//camera3D->from_json();
+
+
+	//testValue = jsonResource.try_emplace<WorldInstance>("name");
+	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
+
 	parent = std::make_unique<MeshInstance>();
 	parent->reset_object("Sphere.obj");
 	child = std::make_unique<MeshInstance>();
@@ -276,6 +291,14 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("DirectionalLight");
 	directionalLight->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("TestImGui");
+	jsonResource.show_imgui();
+	if (ImGui::Button("Save")) {
+		
+		jsonResource.save();
+	}
 	ImGui::End();
 }
 #endif // _DEBUG

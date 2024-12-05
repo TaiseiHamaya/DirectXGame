@@ -9,8 +9,8 @@
 #endif // _DEBUG
 
 #ifdef _DEBUG
-void Color4::debug_gui() noexcept(false) {
-	ImGui::ColorEdit4("Color4", &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
+void Color4::debug_gui(const char* tag) noexcept(false) {
+	ImGui::ColorEdit4(tag, &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
 }
 #endif // _DEBUG
 

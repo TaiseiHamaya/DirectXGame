@@ -41,7 +41,7 @@ public:
 
 #ifdef _DEBUG
 public:
-	void debug_gui() noexcept(false);
+	void debug_gui(const char* tag = "Color4") noexcept(false);
 #endif // _DEBUG
 
 public:

@@ -3,6 +3,8 @@
 #include "Library/Math/Transform3D.h"
 #include "Library/Math/Hierarchy.h"
 
+#include <Engine/Resources/Json/JsonResource.h>
+
 class WorldInstance {
 public:
 	WorldInstance() = default;
@@ -97,6 +99,10 @@ public:
 	/// </summary>
 	/// <param name="hierarchy_"></param>
 	void set_parent(const WorldInstance& hierarchy_) { hierarchy.set_parent(hierarchy_); };
+
+public:
+	void from_json(const JsonResource& json);
+	void to_json(JsonResource& json);
 
 #ifdef _DEBUG
 public:

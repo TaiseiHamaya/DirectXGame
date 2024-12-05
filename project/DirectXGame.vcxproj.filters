@@ -564,7 +564,7 @@
     <ClCompile Include="Engine\Resources\Json\JsonResource.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiJsonEditor.cpp">
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -911,7 +911,13 @@
     <ClInclude Include="Engine\Resources\Json\JsonResource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiJsonEditor.h">
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Resources\Json\JsonSerializer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

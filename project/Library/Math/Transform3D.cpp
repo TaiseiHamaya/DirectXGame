@@ -71,9 +71,9 @@ const Vector3& Transform3D::get_translate() const noexcept {
 #ifdef _DEBUG
 #include <imgui.h>
 #include <format>
-void Transform3D::debug_gui() {
+void Transform3D::debug_gui(const char* tag) {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-	if (ImGui::TreeNode(std::format("Transform3D##{:}", (void*)this).c_str())) {
+	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = CVector3::BASIS;
 		}
