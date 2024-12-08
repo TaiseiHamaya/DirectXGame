@@ -21,7 +21,7 @@ ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0);
 VertexShaderOutput main(VertexShaderInput input, uint instanceID : SV_InstanceID) {
 	VertexShaderOutput output;
 	const float4x4 wvp = mul(gParticleData[instanceID].world, gCameraMatrix.viewProjection);
-	output.position = mul(float4(input.position, 1.0f, 1.0f), wvp);
+	output.position = mul(float4(input.position, 0.0f, 1.0f), wvp);
 	float3 transformedUV = mul(float3(input.texcoord, 1.0f), (float3x3) gParticleData[instanceID].uvMatrix);
 	output.texcoord = transformedUV.xy / transformedUV.z;
 	output.color = gParticleData[instanceID].color;

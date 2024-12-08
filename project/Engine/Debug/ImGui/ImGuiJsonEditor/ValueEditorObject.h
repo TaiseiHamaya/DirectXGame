@@ -17,6 +17,24 @@ struct show_object {
 	inline void show_gui() {};
 };
 
+// bool
+template<>
+struct show_object<bool> {
+	inline show_object(const std::string& name_, bool* value_) :
+		name(name_),
+		value(value_) {
+	};
+	~show_object() = default;
+
+	inline void show_gui() {
+		ImGui::Checkbox(name.c_str(), value);
+	};
+
+private:
+	std::string name;
+	bool* value;
+};
+
 // float
 template<>
 struct show_object<float> {

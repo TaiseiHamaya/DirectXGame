@@ -143,6 +143,8 @@ public:
 	/// </summary>
 	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, const float& t) noexcept;
 
+	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, const Vector3& t) noexcept;
+
 	/// <summary>
 	/// 2次ベジエ曲線
 	/// </summary>
@@ -298,6 +300,14 @@ constexpr const Vector3 Vector3::Multiply(const Vector3& vector, const Vector3& 
 
 constexpr const Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, const float& t) noexcept {
 	return from * (1 - t) + to * t;
+}
+
+inline constexpr const Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, const Vector3& t) noexcept {
+	return {
+		from.x * (1 - t.x) + to.x * t.x,
+		from.y * (1 - t.y) + to.y * t.y,
+		from.z * (1 - t.z) + to.z * t.z
+	};
 }
 
 constexpr Vector3 Vector3::Bezier(const Vector3& initial, const Vector3& control, const Vector3& terminal, const float t) {

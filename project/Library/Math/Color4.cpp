@@ -2,7 +2,7 @@
 
 //#include "Easing.h"
 
-//#include <algorithm>
+#include <cmath>
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -14,11 +14,21 @@ void Color4::debug_gui(const char* tag) noexcept(false) {
 }
 #endif // _DEBUG
 
-//Color4 Color4::LerpC(const Color4& color1, const Color4& color2, float t) {
-//	return Color4{
-//		Lerp(color1.red, color2.red, t),
-//		Lerp(color1.green, color2.green, t),
-//		Lerp(color1.blue, color2.blue, t),
-//		Lerp(color1.alpha, color2.alpha, t)
-//	};
-//}
+Color4 Color4::Lerp(const Color4& color1, const Color4& color2, float t) {
+	return Color4{
+		std::lerp(color1.red, color2.red, t),
+		std::lerp(color1.green, color2.green, t),
+		std::lerp(color1.blue, color2.blue, t),
+		std::lerp(color1.alpha, color2.alpha, t)
+	};
+}
+
+Color4 Color4::Lerp(const Color4& color1, const Color4& color2, const Color4& t) {
+	return Color4{
+		std::lerp(color1.red, color2.red, t.red),
+		std::lerp(color1.green, color2.green, t.green),
+		std::lerp(color1.blue, color2.blue, t.blue),
+		std::lerp(color1.alpha, color2.alpha, t.alpha)
+	};
+    return Color4();
+}
