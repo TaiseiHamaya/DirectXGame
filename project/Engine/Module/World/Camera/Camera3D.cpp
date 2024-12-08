@@ -20,6 +20,9 @@ void Camera3D::initialize() {
 	);
 	WorldInstance::initialize();
 
+	JsonResource json{ "WorldInstance/Camera3D.json" };
+	from_json(json);
+
 #ifdef _DEBUG
 	isVaildDebugCamera = false;
 	debugCamera = std::make_unique<MeshInstance>();
@@ -126,12 +129,12 @@ using namespace std::literals::string_literals;
 void Camera3D::debug_gui() {
 	transform.debug_gui();
 
-	//if (ImGui::Button("SaveJson")) {
-	//	constexpr const char* fileName = "Camera3D";
-	//	JsonResource output{ "WorldInstance/"s + fileName + ".json"};
-	//	to_json(output);
-	//	output.save();
-	//}
+	if (ImGui::Button("SaveJson")) {
+		constexpr const char* fileName = "Camera3D";
+		JsonResource output{ "WorldInstance/"s + fileName + ".json"};
+		to_json(output);
+		output.save();
+	}
 
 	ImGui::Separator();
 	ImGui::Checkbox("DebugCamera", &isVaildDebugCamera);

@@ -45,36 +45,15 @@ public:
 
 	void draw() const override;
 
-	void on_collision(const BaseCollider* const, Color4* object);
-	void on_collision_enter(const BaseCollider* const, Color4* object);
-	void on_collision_exit(const BaseCollider* const, Color4* object);
-
 #ifdef _DEBUG
 	void debug_update() override;
 #endif // _DEBUG
 
 private:
 	std::unique_ptr<RenderPath> renderPath;
-
-	std::unique_ptr<MeshInstance> parent;
-	std::unique_ptr<MeshInstance> child;
-	std::unique_ptr<SpriteInstance> sprite;
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
-
-	std::shared_ptr<SphereCollider> parentCollider;
-	std::shared_ptr<SphereCollider> childCollider;
-	std::shared_ptr<SphereCollider> singleCollider;
-	std::shared_ptr<SphereCollider> single2Collider;
-	std::shared_ptr<SphereCollider> single3Collider;
 
 	std::unique_ptr<ParticleEmitterInstance> particleEmitter;
 
-	std::unique_ptr<CollisionManager> collisionManager;
 	std::unique_ptr<Camera3D> camera3D;
-
-	std::shared_ptr<AudioPlayer> audioPlayer;
-	std::shared_ptr<OutlineNode> outlineNode;
-
-	JsonResource jsonResource{ "./Test.json" };
-	Transform2D testValue{};
 };
