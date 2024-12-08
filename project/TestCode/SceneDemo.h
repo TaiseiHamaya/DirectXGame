@@ -27,6 +27,10 @@ class RenderPath;
 #include "Engine/Resources/Json/JsonResource.h"
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 
+#include <Game/PostEffects/Bloom/BloomNode.h>
+#include <Game/PostEffects/GaussianBlur/GaussianBlurNode.h>
+#include <Game/PostEffects/LuminanceExtraction/LuminanceExtractionNode.h>
+
 class SceneDemo : public BaseScene {
 public:
 	SceneDemo();
@@ -56,4 +60,8 @@ private:
 	std::unique_ptr<ParticleEmitterInstance> particleEmitter;
 
 	std::unique_ptr<Camera3D> camera3D;
+
+	std::shared_ptr<LuminanceExtractionNode> luminanceExtractionNode;
+	std::shared_ptr<GaussianBlurNode> gaussianBlurNode;
+	std::shared_ptr<BloomNode> bloomNode;
 };

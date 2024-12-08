@@ -40,17 +40,12 @@ SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
+	TextureManager::RegisterLoadQue("./EngineResources/Texture", "White.png");
 }
 
 void SceneDemo::initialize() {
 	camera3D = std::make_unique<Camera3D>();
 	camera3D->initialize();
-	//camera3D->set_transform({
-	//	CVector3::BASIS,
-	//	Quaternion::EulerDegree(45,0,0),
-	//	{0,10,-10}
-	//	});
-	//camera3D->from_json();
 
 	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
 	particleEmitter->initialize();
@@ -58,26 +53,40 @@ void SceneDemo::initialize() {
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
 	directionalLight->initialize();
 
+	std::shared_ptr<SingleRenderTarget> renderTarget;
+	renderTarget = eps::CreateShared<SingleRenderTarget>();
+	renderTarget->initialize();
+
 	std::shared_ptr<Object3DNode> object3dNode;
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
-	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	object3dNode->set_render_target(renderTarget);
 
 	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
 	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
 	particleBillboardNode->initialize();
 	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
-	particleBillboardNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	particleBillboardNode->set_render_target(renderTarget);
 
-	std::shared_ptr<SpriteNode> spriteNode;
-	spriteNode = std::make_unique<SpriteNode>();
-	spriteNode->initialize();
-	spriteNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
-	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	luminanceExtractionNode = eps::CreateShared<LuminanceExtractionNode>();
+	luminanceExtractionNode->initialize();
+	luminanceExtractionNode->set_render_target();
+	luminanceExtractionNode->set_texture_resource(particleBillboardNode->result_stv_handle());
+
+	gaussianBlurNode = eps::CreateShared<GaussianBlurNode>();
+	gaussianBlurNode->initialize();
+	gaussianBlurNode->set_render_target();
+	gaussianBlurNode->set_texture_resource(luminanceExtractionNode->result_stv_handle());
+
+	bloomNode = eps::CreateShared<BloomNode>();
+	bloomNode->initialize();
+	bloomNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	bloomNode->set_base_texture(particleBillboardNode->result_stv_handle());
+	bloomNode->set_blur_texture(gaussianBlurNode->result_stv_handle());
 
 	renderPath = eps::CreateUnique<RenderPath>();
-	renderPath->initialize({ object3dNode,particleBillboardNode,spriteNode });
+	renderPath->initialize({ object3dNode,particleBillboardNode, luminanceExtractionNode, gaussianBlurNode, bloomNode });
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
@@ -122,7 +131,15 @@ void SceneDemo::draw() const {
 	particleEmitter->draw();
 
 	renderPath->next();
-	//sprite->draw();
+	luminanceExtractionNode->draw();
+
+	renderPath->next();
+	gaussianBlurNode->draw();
+
+	renderPath->next();
+	bloomNode->draw();
+
+	renderPath->next();
 
 }
 
@@ -153,9 +170,6 @@ void SceneDemo::debug_update() {
 	ImGui::End();
 
 	ImGui::Begin("Particle");
-	if (ImGui::Button("Emit")) {
-		//particleSystem->emit();
-	}
 	particleEmitter->debug_gui();
 	ImGui::End();
 

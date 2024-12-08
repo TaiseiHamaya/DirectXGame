@@ -123,6 +123,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp" />
     <ClCompile Include="Engine\Resources\Json\JsonResource.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp" />
+    <ClCompile Include="Game\PostEffects\Bloom\BloomNode.cpp" />
+    <ClCompile Include="Game\PostEffects\GaussianBlur\GaussianBlurNode.cpp" />
+    <ClCompile Include="Game\PostEffects\LuminanceExtraction\LuminanceExtractionNode.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
@@ -217,6 +220,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\Json\JsonResource.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h" />
     <ClInclude Include="Engine\Resources\Json\JsonSerializer.h" />
+    <ClInclude Include="Game\PostEffects\Bloom\BloomNode.h" />
+    <ClInclude Include="Game\PostEffects\GaussianBlur\GaussianBlurNode.h" />
+    <ClInclude Include="Game\PostEffects\LuminanceExtraction\LuminanceExtractionNode.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
