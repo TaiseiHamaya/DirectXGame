@@ -44,17 +44,15 @@ public:
 		Randomize<Vector3> acceleration;
 		Randomize<Vector3> size;
 		struct Rotation {
-			enum class RotationMode {
-				Constant,
-				LookForward,
-				LookAt,
-
-			} mode = RotationMode::Constant;
+			Particle::RotationType mode;
 			struct Constant {
 				Vector3 radian;
 				Quaternion rotation;
 			};
-			std::variant<Constant, std::monostate> data;
+			struct Random {
+				Randomize<float> angularVelocity;
+			};
+			std::variant<Constant, std::monostate, Random> data;
 		} rotation;
 		Randomize<Color4> color;
 
@@ -136,7 +134,7 @@ protected: // Member variable
 	float duration;
 
 	ParticleDrawType drawType;
-	std::string useDrawName;
+	std::string useResourceName;
 	struct Rect {
 		Vector2 rect;
 		Vector2 pivot;
@@ -216,9 +214,26 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::to_json(json&
 	j["Size"]["Max"] = rhs.size.max;
 	j["Rotation"] = nlohmann::json::object();
 	j["Rotation"]["Mode"] = rhs.rotation.mode;
-	if (rhs.rotation.mode == ParticleEmitterInstance::ParticleInit::Rotation::RotationMode::Constant) {
-		const auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Constant>(rhs.rotation.data);
+	switch (rhs.rotation.mode) {
+	case Particle::RotationType::Constant:
+	{
+		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Constant>(rhs.rotation.data);
 		j["Rotation"]["Data"] = data.rotation;
+		break;
+	}
+	case Particle::RotationType::Velocity:
+	case Particle::RotationType::LookAt:
+		break;
+	case Particle::RotationType::Random:
+	{
+		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Random>(rhs.rotation.data);
+		j["Rotation"]["Data"] = nlohmann::json::object();
+		j["Rotation"]["Data"]["Min"] = data.angularVelocity.min;
+		j["Rotation"]["Data"]["Max"] = data.angularVelocity.max;
+		break;
+	}
+	default:
+		break;
 	}
 
 	j["Color"] = nlohmann::json::object();
@@ -285,11 +300,28 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(con
 	if (j.contains("Rotation")) {
 		if (j["Rotation"].contains("Mode")) {
 			rhs.rotation.mode = j["Rotation"]["Mode"];
-			if (rhs.rotation.mode == ParticleEmitterInstance::ParticleInit::Rotation::RotationMode::Constant) {
+			switch (rhs.rotation.mode) {
+			case Particle::RotationType::Constant:
+			{
+				//auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Constant>(rhs.rotation.data);
 				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::Constant{ j["Rotation"]["Data"] };
+				break;
 			}
-			else {
+			case Particle::RotationType::Velocity:
+			case Particle::RotationType::LookAt:
 				rhs.rotation.data = std::monostate();
+				break;
+			case Particle::RotationType::Random:
+			{
+				//auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Random>(rhs.rotation.data);
+				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::Random{
+					j["Rotation"]["Data"]["Min"],
+					j["Rotation"]["Data"]["Max"]
+				};
+				break;
+			}
+			default:
+				break;
 			}
 		}
 	}

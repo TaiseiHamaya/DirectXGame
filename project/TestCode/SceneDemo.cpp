@@ -119,8 +119,8 @@ void SceneDemo::initialize() {
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
-	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
+	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
+	particleBillboardNode = std::make_unique<ParticleMeshNode>();
 	particleBillboardNode->initialize();
 	particleBillboardNode->set_render_target(renderTarget);
 	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
@@ -144,6 +144,8 @@ void SceneDemo::initialize() {
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
+
+	Particle::lookAtDefault = camera3D.get();
 }
 
 void SceneDemo::popped() {

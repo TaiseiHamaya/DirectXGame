@@ -53,6 +53,8 @@ public:
 	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
 	static Color4 Lerp(const Color4& color1, const Color4& color2, float t);
+
+	static Color4 Lerp(const Color4& color1, const Color4& color2, const Color4& t);
 };
 
 constexpr Color4::Color4(std::uint32_t hex) noexcept :

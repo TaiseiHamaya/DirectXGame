@@ -2,17 +2,36 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
+#include <variant>
+
 #include "Library/Math/Color4.h"
 #include "Library/Math/Transform2D.h"
 
 class Particle final : public WorldInstance {
+public:
+	enum class RotationType {
+		Constant,
+		Velocity,
+		LookAt,
+		Random,
+	};
+
+	struct Constant {
+		Quaternion value;
+	};
+	struct Random {
+		Vector3 axis;
+		float angle;
+	};
+
 public: // Constructor/Destructor
 	Particle(
 		const Vector3& translate,
-		float lifetime_, 
+		float lifetime_,
 		const Vector3& velocity_, const Vector3& acceleration_,
 		const Color4& startColor_, const Color4& endColor_,
-		const Vector3& startSize_, const Vector3& endSize_
+		const Vector3& startSize_, const Vector3& endSize_,
+		RotationType rotationType, std::variant<Constant, std::monostate, Random> rotationData
 	);
 	~Particle() = default;
 
@@ -45,5 +64,13 @@ protected: // Member variable
 
 	Vector3 startSize;
 	Vector3 endSize;
+
+	RotationType rotationType;
+
+	std::variant<Constant, std::monostate, Random> rotationData;
+
 	Transform2D uvTransform;
+
+public:
+	inline static WorldInstance* lookAtDefault;
 };
