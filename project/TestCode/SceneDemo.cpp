@@ -24,9 +24,6 @@
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
-#include "TestCode/EmitterSample.h"
-#include "TestCode/ParticleFactorySample.h"
-#include "TestCode/ParticleSample.h"
 
 //#define QUATERNION_SERIALIZER
 #define TRANSFORM3D_SERIALIZER
@@ -91,12 +88,8 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
-	particleSystem->initialize(128);
-	particleSystem->set_texture("uvChecker.png");
-	particleSystem->create_rect(CVector2::BASIS);
-	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get()));
+	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
+	particleEmitter->initialize();
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
@@ -164,7 +157,7 @@ void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
-	particleSystem->update();
+	particleEmitter->update();
 	directionalLight->update();
 }
 
@@ -174,7 +167,7 @@ void SceneDemo::begin_rendering() {
 	child->look_at(*camera3D);
 	child->begin_rendering();
 	sprite->begin_rendering();
-	particleSystem->begin_rendering();
+	particleEmitter->begin_rendering();
 	directionalLight->begin_rendering();
 }
 
@@ -199,7 +192,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 	camera3D->register_world(1);
-	particleSystem->draw();
+	particleEmitter->draw();
 
 	renderPath->next();
 	outlineNode->draw();
@@ -282,11 +275,11 @@ void SceneDemo::debug_update() {
 	collisionManager->debug_gui();
 	ImGui::End();
 
-	ImGui::Begin("ParticleSystem");
+	ImGui::Begin("Particle");
 	if (ImGui::Button("Emit")) {
 		//particleSystem->emit();
 	}
-	particleSystem->debug_gui();
+	particleEmitter->debug_gui();
 	ImGui::End();
 
 	ImGui::Begin("DirectionalLight");

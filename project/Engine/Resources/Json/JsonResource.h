@@ -34,7 +34,7 @@ public:
 	T try_emplace(const std::string& contains);
 
 	template<UseabelJson T>
-	void white(const std::string& name, const T& value);
+	void write(const std::string& name, const T& value);
 
 public:
 	template<UseabelJson T, typename ...Args>
@@ -65,7 +65,7 @@ inline T JsonResource::try_emplace(const std::string& contains) {
 }
 
 template<UseabelJson T>
-inline void JsonResource::white(const std::string& name, const T& value) {
+inline void JsonResource::write(const std::string& name, const T& value) {
 	json[name] = value;
 }
 
@@ -75,7 +75,7 @@ inline void JsonResource::register_value(const std::string& name, T* pValue, [[m
 	(*pValue) = std::move(this->try_emplace<T>(name));
 #ifdef _DEBUG
 	valueEditor.register_value(
-		[&, &rValue = *pValue, name]() { this->white(name, rValue); },
+		[&, &rValue = *pValue, name]() { this->write(name, rValue); },
 		name, pValue, std::forward(args)...
 	);
 #endif // _DEBUG

@@ -1,10 +1,14 @@
-#include "ParticleSystemBillboard.h"
+#include "ParticleDrawSystemRect.h"
 
 #include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 
-void ParticleSystemBillboard::draw() const {
+ParticleDrawSystemRect::ParticleDrawSystemRect(const std::string& textureName) {
+	set_texture(textureName);
+}
+
+void ParticleDrawSystemRect::draw_command(size_t InstanceCount) const {
 	auto& commandList = DirectXCommand::GetCommandList();
 	std::shared_ptr<Texture> lockedTexture = texture.lock();
 	if (lockedTexture) {
@@ -12,11 +16,11 @@ void ParticleSystemBillboard::draw() const {
 		commandList->SetGraphicsRootDescriptorTable(0, particleBuffer.get_handle_gpu());
 		commandList->SetGraphicsRootDescriptorTable(2, texture.lock()->get_gpu_handle());
 
-		commandList->DrawInstanced(6, static_cast<UINT>(get_particles().size()), 0, 0);
+		commandList->DrawInstanced(6, static_cast<UINT>(InstanceCount), 0, 0);
 	}
 }
 
-void ParticleSystemBillboard::create_rect(const Vector2& size, const Vector2& pivot) {
+void ParticleDrawSystemRect::create_rect(const Vector2& size, const Vector2& pivot) {
 	auto lockedTexture = texture.lock();
 	std::vector<BillboardBuffer> vertexData(6);
 	vertexData[0] = {
@@ -46,6 +50,6 @@ void ParticleSystemBillboard::create_rect(const Vector2& size, const Vector2& pi
 	vertexBuffer.write(vertexData);
 }
 
-void ParticleSystemBillboard::set_texture(const std::string& textureName) {
+void ParticleDrawSystemRect::set_texture(const std::string& textureName) {
 	texture = TextureManager::GetTexture(textureName);
 }
