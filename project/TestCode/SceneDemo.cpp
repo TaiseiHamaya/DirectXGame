@@ -39,13 +39,13 @@ SceneDemo::SceneDemo() = default;
 SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models", "Sphere.obj");
-	AudioManager::RegisterLoadQue("./EngineResources", "Alarm01.wav");
-	AudioManager::RegisterLoadQue("./EngineResources/Texture", "CircularGaugeTexter.png");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Sphere.obj");
+	AudioManager::RegisterLoadQue("./EngineResources/Alarm01.wav");
+	AudioManager::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
-	AudioManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
-	TextureManager::RegisterLoadQue("./Engine/Resources", "SE_meteoEachOther.wav");
+	AudioManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 }
 
 void SceneDemo::initialize() {

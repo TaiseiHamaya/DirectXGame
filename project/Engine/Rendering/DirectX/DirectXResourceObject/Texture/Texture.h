@@ -1,5 +1,7 @@
 #pragma once
+
 #include <cstdint>
+#include <filesystem>
 #include <optional>
 #include <string>
 
@@ -20,7 +22,7 @@ private:
 public: // public function
 	void release_srv_heap();
 
-	[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> load_texture(const std::string& directoryPath, const std::string& fileName);
+	[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> load(const std::filesystem::path& filePath);
 	void create_resource_view();
 	void set_name(const std::string& fileName);
 
@@ -40,7 +42,7 @@ private: // private value
 	std::uint32_t height = 0;
 	
 private: // static function
-	static std::optional<DirectX::ScratchImage> LoadTextureData(const std::string& filePath);
+	static std::optional<DirectX::ScratchImage> LoadTextureData(const std::filesystem::path& filePath);
 	
 public: // getter
 };

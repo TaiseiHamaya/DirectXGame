@@ -2,9 +2,9 @@
 
 #include <mutex>
 
-#include "Engine/Resources/PolygonMesh/PolygonMesh.h"
-#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Debug/Output.h"
+#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Resources/PolygonMesh/PolygonMesh.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -21,13 +21,13 @@ PolygonMeshManager& PolygonMeshManager::GetInstance() noexcept {
 	return instance;
 }
 
-void PolygonMeshManager::RegisterLoadQue(const std::string& directoryPath, const std::string& fileName) {
+void PolygonMeshManager::RegisterLoadQue(const std::filesystem::path& filePath) {
 	// ロード済みの場合は何もしない
-	if (IsRegistered(fileName)) {
+	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
 	// BackgroundLoaderにLoadPolygonMeshイベントとして転送
-	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, directoryPath, fileName);
+	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, filePath);
 }
 
 std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {

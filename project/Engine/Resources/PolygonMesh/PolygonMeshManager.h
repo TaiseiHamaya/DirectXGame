@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -23,9 +24,8 @@ public:
 	/// <summary>
 	/// ロードキューに.objファイルを追加
 	/// </summary>
-	/// <param name="directoryPath">ディレクトリ</param>
-	/// <param name="fileName">ファイル名</param>
-	static void RegisterLoadQue(const std::string& directoryPath, const std::string& fileName);
+	/// <param name="filePath">ファイルパス</param>
+	static void RegisterLoadQue(const std::filesystem::path& filePath);
 
 	/// <summary>
 	/// メッシュの取得

@@ -35,11 +35,11 @@ void AudioManager::Finalize() {
 	instance.audioResources.clear();
 }
 
-void AudioManager::RegisterLoadQue(const std::string& filePath, const std::string& audioFile) {
-	if (IsRegistered(audioFile)) {
+void AudioManager::RegisterLoadQue(const std::filesystem::path& filePath) {
+	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadAudio, filePath, audioFile);
+	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadAudio, filePath);
 }
 
 const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& audioName) {

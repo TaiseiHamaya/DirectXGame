@@ -16,13 +16,13 @@ PolygonMesh::PolygonMesh() noexcept = default;
 
 PolygonMesh::~PolygonMesh() noexcept = default;
 
-bool PolygonMesh::load(const std::string& directoryPath, const std::string& fileName) {
+bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	bool result;
-	Console("[PolygonMesh] Start load .obj file. file-\'{}/{}\'\n", directoryPath, fileName);
-	directory = directoryPath;
-	objectName = fileName;
+	Console("[PolygonMesh] Start load .obj file. file-\'{}\'\n", filePath.string());
+	directory = filePath.parent_path();
+	objectName = filePath.filename().string();
 
-	result = load_obj_file(directoryPath, fileName);
+	result = load_obj_file(filePath);
 	if (!result) {
 		return result;
 	}
@@ -32,8 +32,8 @@ bool PolygonMesh::load(const std::string& directoryPath, const std::string& file
 	}
 
 	for (int index = 0; auto & meshData : meshDatas) {
-		meshData.vertices->get_resource()->SetName(ConvertString(std::format("VertexBuffer-{}({})", index, fileName)).c_str());
-		meshData.indexes->get_resource()->SetName(ConvertString(std::format("IndexBuffer-{}({})", index, fileName)).c_str());
+		meshData.vertices->get_resource()->SetName(ConvertString(std::format("VertexBuffer-{}({})", index, objectName)).c_str());
+		meshData.indexes->get_resource()->SetName(ConvertString(std::format("IndexBuffer-{}({})", index, objectName)).c_str());
 		++index;
 	}
 
@@ -73,7 +73,7 @@ const std::string& PolygonMesh::model_name(std::uint32_t index) const {
 	return meshDatas[index].objectName;
 }
 
-bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::string& objFileName) {
+bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 	std::vector<VertexData::Vector4> vertex; // objファイルの頂点情報
 	std::vector<Vector2> texcoord; // objファイルのtexcoord情報
 	std::vector<Vector3> normal; // objファイルのnormal情報
@@ -87,9 +87,9 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 	std::vector<MeshData>::iterator current = meshDatas.begin();
 
 	// ファイルを開く
-	std::ifstream file(directoryPath + "/" + objFileName);
+	std::ifstream file(filePath);
 	if (!file.is_open()) {
-		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directoryPath, objFileName);
+		Console("[PolygonMesh] File \'{}\' is not found.\n", filePath.string());
 		return false;
 	}
 
@@ -110,17 +110,17 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 		}
 		// texCoord
 		else if (identifier == "vt") {
-			texcoord.push_back(Vector2{});
-			sstream >> texcoord.back().x >> texcoord.back().y;
+			auto& newTexcoord = texcoord.emplace_back(Vector2{});
+			sstream >> newTexcoord.x >> newTexcoord.y;
 			// blenderとDirectXだとy軸の方向が逆
-			texcoord.back().y = 1.0f - texcoord.back().y;
+			newTexcoord.y = 1.0f - newTexcoord.y;
 		}
 		// normal
 		else if (identifier == "vn") {
-			normal.push_back(Vector3{});
-			sstream >> normal.back().x >> normal.back().y >> normal.back().z;
+			auto& newNormal = normal.emplace_back(Vector3{});
+			sstream >> newNormal.x >> newNormal.y >> newNormal.z;
 			// 左手座標系から右手座標系へ
-			normal.back().x *= -1;
+			newNormal.x *= -1;
 		}
 		// 面情報
 		else if (identifier == "f") {
@@ -133,7 +133,7 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 				if (reverseMeshVertices.contains(element)) {
 					// あった場合
 					// キーからvertexの要素番号(Index番号)を取り出す
-					indexes.push_back(reverseMeshVertices.at(element));
+					indexes.emplace_back(reverseMeshVertices.at(element));
 				}
 				else {
 					std::array<uint32_t, 3> elementIndexes;
@@ -152,13 +152,13 @@ bool PolygonMesh::load_obj_file(const std::string& directoryPath, const std::str
 					if (vertex.size() <= elementIndexes[0]) {
 						elementIndexes[0] = 0;
 						if (vertex.empty()) {
-							vertex.push_back(VertexData::Vector4{ CVector3::ZERO,0 });
+							vertex.emplace_back(VertexData::Vector4{ CVector3::ZERO, 0 });
 						}
 					}
 					if (texcoord.size() <= elementIndexes[1]) {
 						elementIndexes[1] = 0;
 						if (texcoord.empty()) {
-							texcoord.push_back(CVector2::ZERO);
+							texcoord.emplace_back(CVector2::ZERO);
 						}
 					}
 					if (normal.size() <= elementIndexes[2]) {
@@ -216,9 +216,9 @@ bool PolygonMesh::load_mtl_file() {
 	std::ifstream file;
 
 	// mtlファイルを開く
-	file.open(directory + "/" + mtlFileName);
+	file.open(directory / mtlFileName);
 	if (!file.is_open()) {
-		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directory, mtlFileName);
+		Console("[PolygonMesh] File \'{}/{}\' is not found.\n", directory.string(), mtlFileName);
 		return false;
 	}
 
@@ -240,7 +240,7 @@ bool PolygonMesh::load_mtl_file() {
 					// optionデータがそのままテクスチャファイル名になるので転送
 					current->textureFileName = std::move(option);
 					// テクスチャファイルのロード登録
-					TextureManager::RegisterLoadQue(directory, current->textureFileName);
+					TextureManager::RegisterLoadQue(directory / current->textureFileName);
 				}
 				// -sオプション(スケール)
 				else if (option[1] == 's') {

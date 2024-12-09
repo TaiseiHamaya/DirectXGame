@@ -8,7 +8,6 @@
 #include "Engine/Rendering/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DirectXResourceObject.h"
-#include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Utility/Tools/ConvertString.h"
 
 Texture::Texture() noexcept = default;
@@ -33,13 +32,12 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 	return height;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load_texture(const std::string& directoryPath, const std::string& fileName) {
-	std::string filePath = directoryPath + "/" + fileName;
-	Console("[Texture] Start load texture. file-\'{}\'\n", filePath);
+Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load(const std::filesystem::path& filePath) {
+	Console("[Texture] Start load texture. file-\'{}\'\n", filePath.string());
 	DirectX::ScratchImage mipImages;
 	auto loadData = LoadTextureData(filePath); // ロード
 	if (!loadData.has_value()) {
-		Console("[Texture] Faild loading texture.\n");
+		Console("[Texture] Failed loading texture.\n");
 		return 0;
 	}
 	mipImages = std::move(loadData.value());
@@ -99,11 +97,10 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::upload_texture_data(const Direct
 	return intermediateResource;
 }
 
-std::optional<DirectX::ScratchImage> Texture::LoadTextureData(const std::string& filePath) {
+std::optional<DirectX::ScratchImage> Texture::LoadTextureData(const std::filesystem::path& filePath) {
 	HRESULT hr;
 	DirectX::ScratchImage image{};
-	auto&& filePathW = ConvertString(filePath); // Wcharに変換
-	hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image); // ロード
+	hr = DirectX::LoadFromWICFile(filePath.wstring().c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image); // ロード
 	if (FAILED(hr)) {
 		return std::nullopt;
 	}

@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <string>
+#include <filesystem>
 #include <unordered_map>
 
 #include "Library/Math/Transform2D.h"
@@ -25,10 +26,9 @@ public:
 	/// <summary>
 	/// ロード関数
 	/// </summary>
-	/// <param name="directoryPath">ファイルディレクトリ</param>
-	/// <param name="objectName">ファイル名</param>
+	/// <param name="filePath">ファイルディレクトリ</param>
 	/// <returns>成功値</returns>
-	bool load(const std::string& directoryPath, const std::string& objectName);
+	bool load(const std::filesystem::path& filePath);
 
 	/// <summary>
 	/// VertexBufferViewを取得
@@ -84,11 +84,11 @@ public:
 	const std::string& model_name(std::uint32_t index) const;
 
 private:
-	bool load_obj_file(const std::string& directoryPath, const std::string& objFileName);
+	bool load_obj_file(const std::filesystem::path& filePath);
 	bool load_mtl_file();
 
 private:
-	std::string directory;
+	std::filesystem::path directory;
 	std::string objectName;
 
 	std::string mtlFileName;
