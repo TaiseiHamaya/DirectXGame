@@ -395,7 +395,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="cpp.hint" />
     <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

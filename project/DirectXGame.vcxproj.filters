@@ -975,6 +975,5 @@
     <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </None>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
