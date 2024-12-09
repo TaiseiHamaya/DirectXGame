@@ -82,9 +82,9 @@ void Transform2D::copy(const Transform2D& copy) noexcept {
 #include <imgui.h>
 #include <format>
 
-void Transform2D::debug_gui(float translateMove) {
+void Transform2D::debug_gui(const char* tag) {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-	if (ImGui::TreeNode(std::format("Transform2D##{:}", (void*)this).c_str())) {
+	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = CVector2::BASIS;
 		}
@@ -98,7 +98,7 @@ void Transform2D::debug_gui(float translateMove) {
 		}
 		ImGui::DragFloat2("Scale", &scale.x, 0.01f);
 		ImGui::DragFloat("Rotate", &rotate, 0.02f);
-		ImGui::DragFloat2("Translate", &translate.x, translateMove);
+		ImGui::DragFloat2("Translate", &translate.x, 0.1f);
 		ImGui::TreePop();
 	}
 }

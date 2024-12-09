@@ -45,7 +45,7 @@ void AudioManager::RegisterLoadQue(const std::string& filePath, const std::strin
 const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& audioName) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
 	// 見つかったらそのデータのweak_ptrを返す
-	if (IsRegisteredNolocking(audioName)) {
+	if (IsRegisteredNonlocking(audioName)) {
 		return GetInstance().audioResources.at(audioName);
 	}
 	else {
@@ -56,19 +56,19 @@ const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& 
 
 bool AudioManager::IsRegistered(const std::string& audioName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
-	return IsRegisteredNolocking(audioName);
+	return IsRegisteredNonlocking(audioName);
 }
 
 void AudioManager::UnloadAudio(const std::string& audioName) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
-	if (IsRegisteredNolocking(audioName)) {
+	if (IsRegisteredNonlocking(audioName)) {
 		GetInstance().audioResources.erase(audioName);
 	}
 }
 
 void AudioManager::Transfer(const std::string& name, std::unique_ptr<AudioResource>&& data) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
-	if (IsRegisteredNolocking(name)) {
+	if (IsRegisteredNonlocking(name)) {
 		Console("[AudioManager] Transferring registered Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 		return;
 	}
@@ -99,6 +99,6 @@ void AudioManager::DebugGui() {
 }
 #endif // _DEBUG
 
-bool AudioManager::IsRegisteredNolocking(const std::string& audioName) noexcept(false) {
+bool AudioManager::IsRegisteredNonlocking(const std::string& audioName) noexcept(false) {
 	return GetInstance().audioResources.contains(audioName);
 }

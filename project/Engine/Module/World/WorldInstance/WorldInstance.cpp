@@ -1,5 +1,8 @@
 #include "WorldInstance.h"
 
+#define TRANSFORM3D_SERIALIZER
+#include <Engine/Resources/Json/JsonSerializer.h>
+
 void WorldInstance::initialize() {
 	hierarchy.initialize(worldMatrix);
 }
@@ -40,10 +43,34 @@ Matrix4x4 WorldInstance::create_world_matrix() const {
 	return result;
 }
 
+void WorldInstance::from_json(const JsonResource& json_) {
+	const nlohmann::json& json = json_.cget();
+	if (json.contains("WorldInstance")) {
+		transform = json.at("WorldInstance").get<Transform3D>();
+	}
+}
+
+void WorldInstance::to_json(JsonResource& json) {
+	json.get()["WorldInstance"] = transform;
+}
+
 #ifdef _DEBUG
 #include <imgui.h>
+
+#include <string>
+#include <source_location>
+
+using namespace std::literals::string_literals;
+
 void WorldInstance::debug_gui() {
 	ImGui::Checkbox("Active", &isActive);
 	transform.debug_gui();
+
+	//if (ImGui::Button("SaveJson")) {
+	//	constexpr const char* fileName = std::source_location::current().file_name();
+	//	JsonResource output{ "WorldInstance"s + fileName };
+	//	to_json(output);
+	//	output.save();
+	//}
 }
 #endif // _DEBUG

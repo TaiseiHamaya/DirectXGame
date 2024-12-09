@@ -1,6 +1,7 @@
 #include "TextureManager.h"
 
 #include <mutex>
+#include <ranges>
 
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
@@ -26,9 +27,9 @@ void TextureManager::Initialize() noexcept {
 }
 
 void TextureManager::Finalize() {
-	auto&& end = GetInstance().textureInstanceList.end();
-	for (auto&& itr = GetInstance().textureInstanceList.begin(); itr != end; ++itr) {
-		itr->second->release_srv_heap();
+	auto&& list = GetInstance().textureInstanceList;
+	for (auto& texture : list | std::views::values) {
+		texture->release_srv_heap();
 	}
 }
 
@@ -42,7 +43,7 @@ void TextureManager::RegisterLoadQue(const std::string& filePath, const std::str
 std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	// 見つかったらそのデータのweak_ptrを返す
-	if (IsRegisteredNolocking(textureName)) {
+	if (IsRegisteredNonlocking(textureName)) {
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
@@ -53,12 +54,12 @@ std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName
 
 bool TextureManager::IsRegistered(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	return IsRegisteredNolocking(textureName);
+	return IsRegisteredNonlocking(textureName);
 }
 
 void TextureManager::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	if (IsRegisteredNolocking(textureName)) {
+	if (IsRegisteredNonlocking(textureName)) {
 		Console("[TextureManager] Unload texture Name-\'{:}\'.\n", textureName);
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		texture->release_srv_heap();
@@ -69,7 +70,7 @@ void TextureManager::UnloadTexture(const std::string& textureName) {
 
 void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>& data) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	if (IsRegisteredNolocking(name)) {
+	if (IsRegisteredNonlocking(name)) {
 		data->release_srv_heap();
 		Console("[TextureManager] Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 		return;
@@ -85,10 +86,10 @@ bool TextureManager::TextureListGui(std::string& current) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (ImGui::BeginCombo("TextureList", current.c_str())) {
 		auto&& list = GetInstance().textureInstanceList;
-		for (auto itr = list.begin(); itr != list.end(); ++itr) {
-			bool is_selected = (current == itr->first);
-			if (ImGui::Selectable(itr->first.c_str(), is_selected)) {
-				current = itr->first;
+		for (const auto& name : list | std::views::keys) {
+			bool is_selected = (current == name);
+			if (ImGui::Selectable(name.c_str(), is_selected)) {
+				current = name;
 				changed = true;
 			}
 			if (is_selected) {
@@ -102,6 +103,6 @@ bool TextureManager::TextureListGui(std::string& current) {
 }
 #endif // _DEBUG
 
-bool TextureManager::IsRegisteredNolocking(const std::string& textureName) noexcept(false) {
+bool TextureManager::IsRegisteredNonlocking(const std::string& textureName) noexcept(false) {
 	return GetInstance().textureInstanceList.contains(textureName);
 }

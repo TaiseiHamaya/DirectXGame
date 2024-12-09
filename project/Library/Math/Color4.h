@@ -41,18 +41,20 @@ public:
 
 #ifdef _DEBUG
 public:
-	void debug_gui() noexcept(false);
+	void debug_gui(const char* tag = "Color4") noexcept(false);
 #endif // _DEBUG
 
 public:
 	/// <summary>
-	/// 色の線形補間(Easing.hが存在しないため未実装)
+	/// 色の線形補間
 	/// </summary>
 	/// <param name="color1">t = 0の時の色</param>
 	/// <param name="color2">t = 1の時の色</param>
 	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
-	[[deprecated]] static Color4 LerpC(const Color4& color1, const Color4& color2, float t);
+	static Color4 Lerp(const Color4& color1, const Color4& color2, float t);
+
+	static Color4 Lerp(const Color4& color1, const Color4& color2, const Color4& t);
 };
 
 constexpr Color4::Color4(std::uint32_t hex) noexcept :

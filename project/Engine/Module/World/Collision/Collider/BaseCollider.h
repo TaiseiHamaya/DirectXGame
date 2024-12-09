@@ -1,13 +1,8 @@
 #pragma once
 
-#include <memory>
 #include <string>
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
-
-#ifdef _DEBUG
-#include <Engine/Module/World/Mesh/MeshInstance.h>
-#endif // _DEBUG
 
 class BaseCollider : public WorldInstance {
 public:

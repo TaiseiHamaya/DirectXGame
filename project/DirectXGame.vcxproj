@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -93,7 +93,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\DirectXTex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -120,9 +120,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp" />
+    <ClCompile Include="Engine\Resources\Json\JsonResource.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -172,11 +178,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Mesh\MeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp" />
     <ClCompile Include="Library\Math\Hierarchy.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\Particle\Particle.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMesh.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshManager.cpp" />
     <ClCompile Include="Engine\Resources\Texture\TextureManager.cpp" />
@@ -205,18 +207,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Application\WinApp.cpp" />
     <ClCompile Include="Library\Math\VectorConverter.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp" />
-    <ClCompile Include="TestCode\EmitterSample.cpp" />
-    <ClCompile Include="TestCode\ParticleFactorySample.cpp" />
-    <ClCompile Include="TestCode\ParticleSample.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h" />
     <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h" />
     <ClInclude Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.h" />
+    <ClInclude Include="Engine\Module\World\Particle\ParticleEmitterInstance.h" />
+    <ClInclude Include="Engine\Resources\Json\JsonResource.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h" />
+    <ClInclude Include="Engine\Resources\Json\JsonSerializer.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.h" />
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.h" />
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
@@ -282,12 +288,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Mesh\MeshInstance.h" />
     <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h" />
     <ClInclude Include="Library\Math\Hierarchy.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h" />
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleBufferValue.h" />
+    <ClInclude Include="Engine\Module\World\Particle\Particle\Particle.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMesh.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshManager.h" />
     <ClInclude Include="Engine\Resources\Texture\TextureManager.h" />
@@ -318,12 +320,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utility\Tools\SmartPointer.h" />
     <ClInclude Include="Engine\Utility\Template\TimedCall.h" />
     <ClInclude Include="Engine\Application\WinApp.h" />
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h" />
     <ClInclude Include="Library\Math\VectorConverter.h" />
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
-    <ClInclude Include="TestCode\EmitterSample.h" />
-    <ClInclude Include="TestCode\ParticleFactorySample.h" />
-    <ClInclude Include="TestCode\ParticleSample.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
   </ItemGroup>
   <ItemGroup>

@@ -85,7 +85,7 @@ private:
 	/// </summary>
 	/// <param name="textureName">オーディオ名</param>
 	/// <returns>bool値</returns>
-	static bool IsRegisteredNolocking(const std::string& textureName) noexcept(false);
+	static bool IsRegisteredNonlocking(const std::string& textureName) noexcept(false);
 
 private:
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;

@@ -112,6 +112,12 @@ public: // メンバ関数
 	/// <returns></returns>
 	const Vector3& vector() const noexcept;
 
+	/// <summary>
+	/// 実部の取得
+	/// </summary>
+	/// <returns></returns>
+	const float& real() const noexcept;
+
 public: // グローバルメンバ関数
 	/// <summary>
 	/// fromからtoに回転するQuaternionを生成

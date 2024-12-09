@@ -24,9 +24,15 @@
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
-#include "TestCode/EmitterSample.h"
-#include "TestCode/ParticleFactorySample.h"
-#include "TestCode/ParticleSample.h"
+
+//#define QUATERNION_SERIALIZER
+#define TRANSFORM3D_SERIALIZER
+#define TRANSFORM2D_SERIALIZER
+#define VECTOR3_SERIALIZER
+#define VECTOR2_SERIALIZER
+#define COLOR3_SERIALIZER
+#define COLOR4_SERIALIZER
+#include <Engine/Resources/Json/JsonSerializer.h>
 
 SceneDemo::SceneDemo() = default;
 
@@ -51,6 +57,12 @@ void SceneDemo::initialize() {
 		Quaternion::EulerDegree(45,0,0),
 		{0,10,-10}
 		});
+	//camera3D->from_json();
+
+
+	//testValue = jsonResource.try_emplace<WorldInstance>("name");
+	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
+
 	parent = std::make_unique<MeshInstance>();
 	parent->reset_object("Sphere.obj");
 	child = std::make_unique<MeshInstance>();
@@ -76,12 +88,8 @@ void SceneDemo::initialize() {
 	single3Collider->initialize();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleSystem = eps::CreateUnique<ParticleSystemBillboard>();
-	particleSystem->initialize(128);
-	particleSystem->set_texture("uvChecker.png");
-	particleSystem->create_rect(CVector2::BASIS);
-	particleSystem->set_emitter(eps::CreateUnique<EmitterSample>());
-	particleSystem->set_factory(eps::CreateUnique<ParticleFactorySample>(camera3D.get()));
+	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
+	particleEmitter->initialize();
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
@@ -111,8 +119,8 @@ void SceneDemo::initialize() {
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	std::shared_ptr<ParticleBillboardNode> particleBillboardNode;
-	particleBillboardNode = std::make_unique<ParticleBillboardNode>();
+	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
+	particleBillboardNode = std::make_unique<ParticleMeshNode>();
 	particleBillboardNode->initialize();
 	particleBillboardNode->set_render_target(renderTarget);
 	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
@@ -136,6 +144,8 @@ void SceneDemo::initialize() {
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
+
+	Particle::lookAtDefault = camera3D.get();
 }
 
 void SceneDemo::popped() {
@@ -149,7 +159,7 @@ void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
-	particleSystem->update();
+	particleEmitter->update();
 	directionalLight->update();
 }
 
@@ -159,7 +169,7 @@ void SceneDemo::begin_rendering() {
 	child->look_at(*camera3D);
 	child->begin_rendering();
 	sprite->begin_rendering();
-	particleSystem->begin_rendering();
+	particleEmitter->begin_rendering();
 	directionalLight->begin_rendering();
 }
 
@@ -184,7 +194,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 	camera3D->register_world(1);
-	particleSystem->draw();
+	particleEmitter->draw();
 
 	renderPath->next();
 	outlineNode->draw();
@@ -267,15 +277,23 @@ void SceneDemo::debug_update() {
 	collisionManager->debug_gui();
 	ImGui::End();
 
-	ImGui::Begin("ParticleSystem");
+	ImGui::Begin("Particle");
 	if (ImGui::Button("Emit")) {
 		//particleSystem->emit();
 	}
-	particleSystem->debug_gui();
+	particleEmitter->debug_gui();
 	ImGui::End();
 
 	ImGui::Begin("DirectionalLight");
 	directionalLight->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("TestImGui");
+	jsonResource.show_imgui();
+	if (ImGui::Button("Save")) {
+		
+		jsonResource.save();
+	}
 	ImGui::End();
 }
 #endif // _DEBUG

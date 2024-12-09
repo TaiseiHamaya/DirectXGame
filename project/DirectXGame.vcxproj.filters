@@ -465,17 +465,8 @@
     <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp">
       <Filter>Engine\Runtime\WorldClock</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.cpp">
-      <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\BaseParticle.cpp">
+    <ClCompile Include="Engine\Module\World\Particle\Particle\Particle.cpp">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCode\ParticleSample.cpp">
-      <Filter>TestProgram</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCode\EmitterSample.cpp">
-      <Filter>TestProgram</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
@@ -485,12 +476,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCode\ParticleFactorySample.cpp">
-      <Filter>TestProgram</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.cpp">
-      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Library\Math\Matrix3x3.cpp">
       <Filter>Library\Math</Filter>
@@ -522,15 +507,6 @@
     <ClCompile Include="Engine\Utility\Tools\RandomEngine.cpp">
       <Filter>Engine\Utility\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\BaseParticleSystem.cpp">
-      <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.cpp">
-      <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\ParticleSystem\ParticleSystemModel.cpp">
-      <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp">
       <Filter>Engine\Module\World\Light</Filter>
     </ClCompile>
@@ -559,6 +535,24 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Resources\Json\JsonResource.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -758,17 +752,8 @@
     <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\StructuredBuffer\StructuredBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\StructuredBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Emitter\BaseEmitter.h">
-      <Filter>Engine\Module\ParticleSystem\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\BaseParticle.h">
+    <ClInclude Include="Engine\Module\World\Particle\Particle\Particle.h">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCode\EmitterSample.h">
-      <Filter>TestProgram</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCode\ParticleSample.h">
-      <Filter>TestProgram</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
@@ -778,12 +763,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCode\ParticleFactorySample.h">
-      <Filter>TestProgram</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\Particle\ParticleFactroy.h">
-      <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\Definition.h">
       <Filter>Library\Math</Filter>
@@ -842,16 +821,7 @@
     <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h">
       <Filter>Engine\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\BaseParticleSystem.h">
-      <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleBufferValue.h">
-      <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemBillboard.h">
-      <Filter>Engine\Module\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ParticleSystem\ParticleSystemModel.h">
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleBufferValue.h">
       <Filter>Engine\Module\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h">
@@ -900,6 +870,30 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Resources\Json\JsonResource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Resources\Json\JsonSerializer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Particle\ParticleEmitterInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
