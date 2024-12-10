@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <optional>
+#include <variant>
 #include <string>
 
 #include <d3d12.h>
@@ -42,7 +43,7 @@ private: // private value
 	std::uint32_t height = 0;
 	
 private: // static function
-	static std::optional<DirectX::ScratchImage> LoadTextureData(const std::filesystem::path& filePath);
+	static std::variant<HRESULT, DirectX::ScratchImage>  LoadTextureData(const std::filesystem::path& filePath);
 	
 public: // getter
 };

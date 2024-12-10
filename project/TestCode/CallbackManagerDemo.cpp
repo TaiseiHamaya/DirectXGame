@@ -34,14 +34,14 @@ void CallbackManagerDemo::SetColor(const BaseCollider* const lhs, const BaseColl
 	if (lhsParentAddr) {
 		MeshInstance* mesh = dynamic_cast<MeshInstance*>(lhsParentAddr);
 		if (mesh) {
-			mesh->get_materials()[0].color = color;
+			//mesh->get_materials()[0].color = color;
 		}
 	}
 	auto rhsParentAddr = const_cast<WorldInstance*>(rhs->get_parent_address());
 	if (rhsParentAddr) {
 		MeshInstance* mesh = dynamic_cast<MeshInstance*>(rhsParentAddr);
 		if (mesh) {
-			mesh->get_materials()[0].color = color;
+			//mesh->get_materials()[0].color = color;
 		}
 	}
 }

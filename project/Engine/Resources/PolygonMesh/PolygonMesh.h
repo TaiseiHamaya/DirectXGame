@@ -2,18 +2,31 @@
 
 #include <d3d12.h>
 
+#include <filesystem>
 #include <memory>
 #include <string>
-#include <filesystem>
 #include <unordered_map>
 
-#include "Library/Math/Transform2D.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
+
+#include "Library/Math/Transform2D.h"
 
 class IndexBuffer;
 class Texture;
 
 class PolygonMesh final {
+public:
+	struct MeshData {
+		std::unique_ptr<Object3DVertexBuffer> vertices;
+		std::unique_ptr<IndexBuffer> indexes;
+		std::string materialName;
+	};
+
+	struct MeshMaterialData {
+		std::string textureFileName;
+		Transform2D defaultUV;
+	};
+
 public:
 	PolygonMesh() noexcept;
 	~PolygonMesh() noexcept;
@@ -49,61 +62,26 @@ public:
 	const size_t material_count() const;
 
 	/// <summary>
-	/// mtlファイルが存在しているか
-	/// </summary>
-	/// <param name="index">指定するインデックス</param>
-	/// <returns></returns>
-	bool has_mtl(std::uint32_t index) const;
-
-	/// <summary>
 	/// IndexBufferのサイズ
 	/// </summary>
 	/// <param name="index">指定するインデックス</param>
 	/// <returns>UINT型で返す</returns>
 	const UINT index_size(std::uint32_t index) const;
 
-	/// <summary>
-	/// デフォルトのテクスチャのweak_ptr
-	/// </summary>
-	/// <param name="index">指定するインデックス</param>
-	/// <returns></returns>
-	const std::string& texture_name(std::uint32_t index) const;
+	const MeshData* mesh_data(std::uint32_t index) const;
 
-	/// <summary>
-	/// デフォルトのUV Transformを取得
-	/// </summary>
-	/// <param name="index">指定するインデックス</param>
-	/// <returns>Transform2D</returns>
-	const Transform2D& default_uv(std::uint32_t index) const;
+	const MeshMaterialData* material_data(std::uint32_t index) const;
 
-	/// <summary>
-	/// デフォルトのテクスチャ名を取得
-	/// </summary>
-	/// <param name="index">指定するインデックス</param>
-	/// <returns>テクスチャ名[std::string]</returns>
-	const std::string& model_name(std::uint32_t index) const;
+private:
+	bool has_material(std::uint32_t index) const;
 
 private:
 	bool load_obj_file(const std::filesystem::path& filePath);
-	bool load_mtl_file();
+	bool load_mtl_file(const std::filesystem::path& mtlFileName);
+
+	bool load_gltf_file(const std::filesystem::path& mtlFilePath);
 
 private:
-	std::filesystem::path directory;
-	std::string objectName;
-
-	std::string mtlFileName;
-
-	struct MeshData {
-		std::string objectName;
-		std::unique_ptr<Object3DVertexBuffer> vertices;
-		std::unique_ptr<IndexBuffer> indexes;
-		std::string usemtl;
-	};
-	std::vector<MeshData> meshDatas;
-	
-	struct MaterialData {
-		std::string textureFileName;
-		Transform2D defaultUV;
-	};
-	std::unordered_map<std::string, MaterialData> materialDatas;
+	std::vector<MeshData> meshData;
+	std::unordered_map<std::string, MeshMaterialData> materialData;
 };

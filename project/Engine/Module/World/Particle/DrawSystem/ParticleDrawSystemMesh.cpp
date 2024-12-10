@@ -27,7 +27,7 @@ void ParticleDrawSystemMesh::set_mesh(const std::string& meshName) {
 	auto meshLocked = mesh.lock();
 	if (meshLocked) {
 		if (meshLocked->material_count()) {
-			texture = TextureManager::GetTexture(meshLocked->texture_name(0));
+			texture = TextureManager::GetTexture(meshLocked->material_data(0)->textureFileName);
 		}
 		else {
 			texture = TextureManager::GetTexture("Error.png");

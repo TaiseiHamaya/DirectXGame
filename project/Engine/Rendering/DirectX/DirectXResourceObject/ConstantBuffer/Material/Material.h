@@ -9,12 +9,12 @@ enum class LighingType {
 	HalfLambert,
 };
 
-class Material final : public ConstantBuffer<MaterialData> {
+class Material final : public ConstantBuffer<MaterialBufferData> {
 public:
 	Material() noexcept(false);
 	~Material() noexcept = default;
 
-	Material(const MaterialData& material) noexcept(false);
+	Material(const MaterialBufferData& material) noexcept(false);
 
 	Material(Material&&) = default;
 	Material& operator=(Material&&) = default;

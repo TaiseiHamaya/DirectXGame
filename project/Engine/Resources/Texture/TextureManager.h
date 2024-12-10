@@ -43,7 +43,7 @@ public:
 	/// </summary>
 	/// <param name="textureName">拡張子付きファイル名</param>
 	/// <returns>Textureクラスのweak_ptr</returns>
-	static std::weak_ptr<Texture> GetTexture(const std::string& textureName) noexcept(false);
+	static std::shared_ptr<Texture> GetTexture(const std::string& textureName) noexcept(false);
 	
 	/// <summary>
 	/// テクスチャが登録済みか取得

@@ -39,7 +39,9 @@ SceneDemo::SceneDemo() = default;
 SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Sphere.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Misc/multiMaterial.gltf");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/gltf-test/Boss_RangedAttack.gltf");
 	AudioManager::RegisterLoadQue("./EngineResources/Alarm01.wav");
 	AudioManager::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
@@ -89,12 +91,10 @@ void SceneDemo::initialize() {
 	single3Collider->get_transform().set_translate_x(3.0f);
 
 	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
-	particleEmitter->initialize();
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
-	directionalLight->initialize();
 
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->set_callback_manager(

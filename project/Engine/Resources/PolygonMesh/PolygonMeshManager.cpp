@@ -30,7 +30,7 @@ void PolygonMeshManager::RegisterLoadQue(const std::filesystem::path& filePath) 
 	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, filePath);
 }
 
-std::weak_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
+std::shared_ptr<PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
 	std::lock_guard<std::mutex> lock{ meshMutex }; 
 	if (IsRegisteredNonlocking(meshName)) {
 		return GetInstance().meshInstanceList.at(meshName);

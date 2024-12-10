@@ -7,7 +7,7 @@
 
 class WorldInstance {
 public:
-	WorldInstance() = default;
+	WorldInstance();
 	virtual ~WorldInstance() = default;
 
 	WorldInstance(const WorldInstance&) = delete;
@@ -16,11 +16,6 @@ public:
 	WorldInstance& operator=(WorldInstance&&) = default;
 
 public:
-	/// <summary>
-	/// 初期化処理
-	/// </summary>
-	virtual void initialize();
-
 	/// <summary>
 	/// 行列の更新
 	/// </summary>
