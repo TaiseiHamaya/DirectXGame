@@ -33,14 +33,14 @@ void TextureManager::Finalize() {
 	}
 }
 
-void TextureManager::RegisterLoadQue(const std::string& filePath, const std::string& textureName) {
-	if (IsRegistered(textureName)) {
+void TextureManager::RegisterLoadQue(const std::filesystem::path& filePath) {
+	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadTexture, filePath, textureName);
+	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadTexture, filePath);
 }
 
-std::weak_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {
+std::shared_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	// 見つかったらそのデータのweak_ptrを返す
 	if (IsRegisteredNonlocking(textureName)) {

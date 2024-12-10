@@ -9,7 +9,7 @@ bool IsEqualArrayChunkId(const std::array<char, 4>& read, std::string&& id) {
 	return std::strncmp(read.data(), id.c_str(), 4) == 0;
 }
 
-bool AudioResource::load(const std::string& directoryPath, const std::string& fileName) {
+bool AudioResource::load(const std::filesystem::path& filePath) {
 	// ローカル変数定義
 	struct ChunkHeader {
 		std::array<char, 4> id;
@@ -24,15 +24,15 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 		WAVEFORMATEXTENSIBLE format;
 	};
 
-	Console("[AudioResource] Start load .wave file. file-\'{}/{}\'\n", directoryPath, fileName);
+	Console("[AudioResource] Start load .wave file. file-\'{}\'\n", filePath.string());
 
 	// ファイル読み込み
 	std::ifstream file;
-	file.open(directoryPath + "/" + fileName, std::ios_base::binary);
+	file.open(filePath, std::ios_base::binary);
 
 	// 失敗したら何もしない
 	if (!file.is_open()) {
-		Console("[AudioResource] Can't open file. \'{}\'\n", fileName);
+		Console("[AudioResource] Can't open file. \'{}\'\n", filePath.filename().string());
 		return false;
 	}
 
@@ -42,13 +42,13 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 
 	// RIFFじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.header.id, "RIFF")) {
-		Console("[AudioResource] File \'{}\' is not RIFF chunk.\n", fileName);
+		Console("[AudioResource] File \'{}\' is not RIFF chunk.\n", filePath.filename().string());
 		return false;
 	}
 
 	// WAVEフォーマットじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.type, "WAVE")) {
-		Console("[AudioResource] File \'{}\' is not .WAVE format_.\n", fileName);
+		Console("[AudioResource] File \'{}\' is not .WAVE format_.\n", filePath.filename().string());
 		return false;
 	}
 
@@ -94,7 +94,7 @@ bool AudioResource::load(const std::string& directoryPath, const std::string& fi
 
 	// dataチャンクがなかったらエラー
 	if (!IsEqualArrayChunkId(data.id, "data")) {
-		Console("[AudioResource] \'data\' chunk is not found. File-\'{}/{}\'\n", directoryPath, fileName);
+		Console("[AudioResource] \'data\' chunk is not found. File-\'{}\'\n", filePath.string());
 		return false;
 	}
 

@@ -16,6 +16,24 @@ class Color3;
 
 class MeshInstance : public WorldInstance {
 public:
+	struct PolygonMeshMaterial {
+		PolygonMeshMaterial();
+		friend class MeshInstance;
+	private:
+		std::shared_ptr<Texture> texture;
+		std::unique_ptr<Material> material;
+
+	public:
+		Color3& color;
+		Transform2D uvTransform;
+
+#ifdef _DEBUG
+	private:
+		std::string textureName;
+#endif // _DEBUG
+	};
+
+public:
 	MeshInstance() noexcept(false);
 	explicit MeshInstance(const std::string& meshName_) noexcept(false);
 	virtual ~MeshInstance() noexcept;
@@ -45,7 +63,7 @@ protected:
 	struct MaterialDataRef;
 
 public:
-	std::vector<MaterialDataRef>& get_materials();
+	std::vector<PolygonMeshMaterial>& get_materials();
 
 protected:
 	void set_texture(const std::string& name, int index = 0);
@@ -57,31 +75,15 @@ public:
 
 private:
 	bool isDraw = true;
-	std::string meshName;
-	std::weak_ptr<PolygonMesh> mesh;
+
+	std::shared_ptr<PolygonMesh> mesh;
+
 	std::unique_ptr<TransformMatrix> transformMatrix;
-
-	struct PolygonMeshMaterial {
-		PolygonMeshMaterial();
-		std::weak_ptr<Texture> texture;
-
-		std::unique_ptr<Material> material;
-		Color3& color;
-
-		Transform2D uvTransform;
-
-#ifdef _DEBUG
-		std::string textureName;
-#endif // _DEBUG
-	};
+	
 	std::vector<PolygonMeshMaterial> meshMaterials;
 
-protected:
-	struct MaterialDataRef {
-		MaterialDataRef(Color3& color_, Transform2D& uvTransform_);
-		Color3& color;
-		Transform2D& uvTransform;
-	};
-
-	std::vector<MaterialDataRef> materialData;
+#ifdef _DEBUG
+private:
+	std::string meshName;
+#endif // _DEBUG
 };

@@ -223,9 +223,6 @@ void ParticleEmitterInstance::emit_once() {
 			particleInit.rotation.mode, rotation
 		)
 	);
-	if (newParticle) {
-		newParticle->initialize();
-	}
 }
 
 bool ParticleEmitterInstance::is_end_all() const {

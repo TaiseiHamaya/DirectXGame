@@ -45,13 +45,13 @@ void ImGuiLoadManager::show_gui() {
 	ImGui::Text(std::format("Current-\'{:}\'", meshCurrentPath.string()).c_str());
 	for (int i = 0; i < meshFileList.size(); ++i) {
 		if (ImGui::Button(meshFileList[i].c_str())) {
-			std::filesystem::path select = meshCurrentPath.string() + "/" + meshFileList[i];
+			std::filesystem::path select = meshCurrentPath / meshFileList[i];
 			if (std::filesystem::is_directory(select)) {
 				meshCurrentPath = std::move(select);
 				get_file_list(meshFileList, meshCurrentPath, ".obj");
 			}
-			else if(std::filesystem::exists(meshCurrentPath.string() + "/" + meshFileList[i])){
-				PolygonMeshManager::RegisterLoadQue(meshCurrentPath.string(), meshFileList[i]);
+			else if(std::filesystem::exists(select)){
+				PolygonMeshManager::RegisterLoadQue(select);
 			}
 		}
 	}
@@ -76,13 +76,13 @@ void ImGuiLoadManager::show_gui() {
 	ImGui::Text(std::format("Current-\'{:}\'", textureCurrentPath.string()).c_str());
 	for (int i = 0; i < textureFileList.size(); ++i) {
 		if (ImGui::Button(textureFileList[i].c_str())) {
-			std::filesystem::path select = textureCurrentPath.string() + "/" + textureFileList[i];
+			std::filesystem::path select = textureCurrentPath / textureFileList[i];
 			if (std::filesystem::is_directory(select)) {
 				textureCurrentPath = std::move(select);
 				get_file_list(textureFileList, textureCurrentPath, ".png");
 			}
-			else if (std::filesystem::exists(textureCurrentPath.string() + "/" + textureFileList[i])) {
-				TextureManager::RegisterLoadQue(textureCurrentPath.string(), textureFileList[i]);
+			else if (std::filesystem::exists(select)) {
+				TextureManager::RegisterLoadQue(select);
 			}
 		}
 	}

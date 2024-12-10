@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
+#include <filesystem>
 #include <list>
 #include <memory>
 #include <string>
@@ -46,8 +47,7 @@ public:
 	/// </summary>
 	/// <param name="eventID">LoadEventID</param>
 	/// <param name="filePath">ファイルパス</param>
-	/// <param name="fileName">ファイル名</param>
-	static void RegisterLoadQue(LoadEvent eventID, const std::string& filePath, const std::string& fileName) noexcept(false);
+	static void RegisterLoadQue(LoadEvent eventID, const std::filesystem::path& filePath) noexcept(false);
 
 	/// <summary>
 	/// ロードが完了するまで待機
@@ -86,8 +86,7 @@ private:
 	/// ロード用キュー
 	/// </summary>
 	struct LoadingQue {
-		std::string filePath; // パス
-		std::string fileName; // ファイル名
+		std::filesystem::path filePath;
 
 		// variant用定義
 		struct LoadTextureData {

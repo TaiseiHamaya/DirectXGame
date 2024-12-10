@@ -4,7 +4,6 @@
 
 DebugValues::DebugValues() {
 	gridMesh = std::make_unique<MeshInstance>("Grid.obj");
-	gridMesh->initialize();
 }
 
 DebugValues& DebugValues::GetInstance() {

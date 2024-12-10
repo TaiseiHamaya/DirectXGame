@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <filesystem>
 
 #include <xaudio2.h>
 
@@ -16,7 +16,7 @@ public:
 	AudioResource& operator=(AudioResource&&) = default;
 
 public:
-	bool load(const std::string& filePath, const std::string& fileName);
+	bool load(const std::filesystem::path& filePath);
 	std::uint32_t size() const noexcept;
 	const std::basic_string<BYTE>& buffer_data() const noexcept;
 	const WAVEFORMATEX& format() const noexcept;

@@ -3,7 +3,7 @@
 #define TRANSFORM3D_SERIALIZER
 #include <Engine/Resources/Json/JsonSerializer.h>
 
-void WorldInstance::initialize() {
+WorldInstance::WorldInstance() {
 	hierarchy.initialize(worldMatrix);
 }
 
