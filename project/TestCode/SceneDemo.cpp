@@ -48,6 +48,9 @@ void SceneDemo::load() {
 	AudioManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+
+	nodeAnimationResource = eps::CreateUnique<NodeAnimationResource>();
+	nodeAnimationResource->load("./EngineResources/Models/AnimatedCube.gltf");
 }
 
 void SceneDemo::initialize() {
@@ -61,6 +64,13 @@ void SceneDemo::initialize() {
 		});
 	//camera3D->from_json();
 
+	{
+		animationPlayer.isLoop = true;
+		animationPlayer.timer = 0;
+		animationPlayer.animationName = "animation_AnimatedCube";
+		animationPlayer.nodeName = "AnimatedCube";
+		animationPlayer.nodeAnimation = nodeAnimationResource;
+	}
 
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
@@ -159,6 +169,18 @@ void SceneDemo::begin() {
 }
 
 void SceneDemo::update() {
+	animationPlayer.update();
+	parent->get_transform().set_scale(
+		animationPlayer.calculate_scale()
+	);
+	parent->get_transform().set_quaternion(
+		animationPlayer.calculate_rotate()
+	);
+	parent->get_transform().set_translate(
+		animationPlayer.calculate_translate()
+	);
+
+
 	particleEmitter->update();
 	directionalLight->update();
 }
@@ -291,7 +313,7 @@ void SceneDemo::debug_update() {
 	ImGui::Begin("TestImGui");
 	jsonResource.show_imgui();
 	if (ImGui::Button("Save")) {
-		
+
 		jsonResource.save();
 	}
 	ImGui::End();

@@ -131,6 +131,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResource.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationPlayer.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -225,6 +227,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.h" />
+    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResource.h" />
+    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationPlayer.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />

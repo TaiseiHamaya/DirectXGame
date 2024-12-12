@@ -27,6 +27,9 @@ class RenderPath;
 #include "Engine/Resources/Json/JsonResource.h"
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 
+#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationResource.h"
+#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h"
+
 class SceneDemo : public BaseScene {
 public:
 	SceneDemo();
@@ -66,6 +69,9 @@ private:
 	std::shared_ptr<SphereCollider> singleCollider;
 	std::shared_ptr<SphereCollider> single2Collider;
 	std::shared_ptr<SphereCollider> single3Collider;
+
+	std::shared_ptr<NodeAnimationResource> nodeAnimationResource;
+	NodeAnimationPlayer animationPlayer;
 
 	std::unique_ptr<ParticleEmitterInstance> particleEmitter;
 

@@ -23,7 +23,7 @@ Color4 Color4::Lerp(const Color4& color1, const Color4& color2, float t) {
 	};
 }
 
-Color4 Color4::Lerp(const Color4& color1, const Color4& color2, const Color4& t) {
+Color4 Color4::LerpElement(const Color4& color1, const Color4& color2, const Color4& t) {
 	return Color4{
 		std::lerp(color1.red, color2.red, t.red),
 		std::lerp(color1.green, color2.green, t.green),

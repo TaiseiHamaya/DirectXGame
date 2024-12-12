@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <unordered_map>
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"

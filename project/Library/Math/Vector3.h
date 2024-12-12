@@ -141,9 +141,9 @@ public:
 	/// <param name="to">終点の位置ベクトル</param>
 	/// <param name="t">割合T</param>
 	/// </summary>
-	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, const float& t) noexcept;
+	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, float t) noexcept;
 
-	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, const Vector3& t) noexcept;
+	static constexpr const Vector3 LerpElement(const Vector3& from, const Vector3& to, const Vector3& t) noexcept;
 
 	/// <summary>
 	/// 2次ベジエ曲線
@@ -298,11 +298,11 @@ constexpr const Vector3 Vector3::Multiply(const Vector3& vector, const Vector3& 
 	return Vector3{ vector.x * times.x, vector.y * times.y, vector.z * times.z };
 }
 
-constexpr const Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, const float& t) noexcept {
+constexpr const Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, float t) noexcept {
 	return from * (1 - t) + to * t;
 }
 
-inline constexpr const Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, const Vector3& t) noexcept {
+inline constexpr const Vector3 Vector3::LerpElement(const Vector3& from, const Vector3& to, const Vector3& t) noexcept {
 	return {
 		from.x * (1 - t.x) + to.x * t.x,
 		from.y * (1 - t.y) + to.y * t.y,
