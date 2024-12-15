@@ -29,6 +29,7 @@ class RenderPath;
 
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationResource.h"
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h"
+#include "Engine/Resources/Animation/Skeleton/SkeletonResource.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -72,6 +73,7 @@ private:
 
 	std::shared_ptr<NodeAnimationResource> nodeAnimationResource;
 	NodeAnimationPlayer animationPlayer;
+	std::shared_ptr<SkeletonResource> skeletonResource;
 
 	std::unique_ptr<ParticleEmitterInstance> particleEmitter;
 

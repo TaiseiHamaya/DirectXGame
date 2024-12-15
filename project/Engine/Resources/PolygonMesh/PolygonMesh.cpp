@@ -362,6 +362,8 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 		// 転送
 		newMesh.vertices = std::make_unique<Object3DVertexBuffer>(vertices);
 		newMesh.indexes = std::make_unique<IndexBuffer>(indexes);
+		// メッシュ名の取得
+		newMesh.meshName = mesh->mName.C_Str();
 		// Material名の取得
 		if (materialNameFromIndex.contains(mesh->mMaterialIndex)) {
 			newMesh.materialName = materialNameFromIndex.at(mesh->mMaterialIndex);

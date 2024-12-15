@@ -50,7 +50,10 @@ void SceneDemo::load() {
 	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
 	nodeAnimationResource = eps::CreateUnique<NodeAnimationResource>();
-	nodeAnimationResource->load("./EngineResources/Models/AnimatedCube.gltf");
+	nodeAnimationResource->load("./EngineResources/Models/Primitive/AnimatedCube.gltf");
+	skeletonResource = eps::CreateUnique<SkeletonResource>();
+	skeletonResource->load("./EngineResources/Models/simpleSkin.gltf");
+	//skeletonResource->load("./EngineResources/Models/Primitive/AnimatedCube.gltf");
 }
 
 void SceneDemo::initialize() {

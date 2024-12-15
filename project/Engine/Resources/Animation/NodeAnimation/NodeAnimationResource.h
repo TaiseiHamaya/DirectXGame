@@ -46,7 +46,7 @@ public:
 	/// <summary>
 	/// ロード関数
 	/// </summary>
-	/// <param name="filePath">ファイルディレクトリ</param>
+	/// <param name="filePath">ファイルパス</param>
 	/// <returns>成功値</returns>
 	bool load(const std::filesystem::path& filePath);
 

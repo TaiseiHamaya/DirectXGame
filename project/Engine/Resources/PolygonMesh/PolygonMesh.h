@@ -19,6 +19,7 @@ public:
 	struct MeshData {
 		std::unique_ptr<Object3DVertexBuffer> vertices;
 		std::unique_ptr<IndexBuffer> indexes;
+		std::string meshName;
 		std::string materialName;
 	};
 
