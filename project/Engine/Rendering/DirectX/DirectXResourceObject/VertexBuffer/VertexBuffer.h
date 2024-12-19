@@ -47,7 +47,7 @@ private:
 	void unmap();
 
 private:
-	VertexBufferData* data;
+	T* data;
 	std::uint32_t size;
 	UINT memorySize;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};

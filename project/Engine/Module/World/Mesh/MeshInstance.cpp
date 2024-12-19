@@ -136,7 +136,7 @@ void MeshInstance::debug_gui() {
 			treeNodeName = meshData->materialName;
 		}
 		if (treeNodeName.empty()) {
-			treeNodeName = "UnknownMaterialName";
+			treeNodeName = "UnknownMaterialName" + std::to_string(i);
 		}
 		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 			if (TextureManager::TextureListGui(meshMaterial.textureName)) {

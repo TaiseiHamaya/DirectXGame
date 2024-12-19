@@ -1,10 +1,13 @@
 #include "SceneDemo.h"
 
 #include "CallbackManagerDemo.h"
+#include "Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
 #include "Engine/Module/World/Mesh/MeshInstance.h"
+#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h"
+#include "Engine/Resources/Animation/Skeleton/SkeletonManager.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "Library/Math/Hierarchy.h"
@@ -40,7 +43,7 @@ SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Misc/multiMaterial.gltf");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/bone.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/gltf-test/Boss_RangedAttack.gltf");
 	AudioManager::RegisterLoadQue("./EngineResources/Alarm01.wav");
 	AudioManager::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
@@ -49,10 +52,14 @@ void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
 	nodeAnimationResource = eps::CreateUnique<NodeAnimationResource>();
-	nodeAnimationResource->load("./EngineResources/Models/Primitive/AnimatedCube.gltf");
+	nodeAnimationResource->load("./EngineResources/Models/Boss_RangedAttack.gltf");
 	skeletonResource = eps::CreateUnique<SkeletonResource>();
-	skeletonResource->load("./EngineResources/Models/simpleSkin.gltf");
+	skeletonResource->load("./EngineResources/Models/Boss_RangedAttack.gltf");
+	
+	SkeletonManager::Transfer("Boss_RangedAttack.gltf", skeletonResource);
+	NodeAnimationManager::Transfer("Boss_RangedAttack.gltf", nodeAnimationResource);
 	//skeletonResource->load("./EngineResources/Models/Primitive/AnimatedCube.gltf");
 }
 
@@ -68,21 +75,23 @@ void SceneDemo::initialize() {
 	//camera3D->from_json();
 
 	{
-		animationPlayer.isLoop = true;
-		animationPlayer.timer = 0;
-		animationPlayer.animationName = "animation_AnimatedCube";
-		animationPlayer.nodeName = "AnimatedCube";
-		animationPlayer.nodeAnimation = nodeAnimationResource;
+		//animationPlayer.isLoop = true;
+		//animationPlayer.timer = 0;
+		//animationPlayer.animationName = "animation_AnimatedCube";
+		//animationPlayer.nodeName = "AnimatedCube";
+		//animationPlayer.nodeAnimation = nodeAnimationResource;
 	}
 
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
 	parent = std::make_unique<MeshInstance>();
-	parent->reset_object("Sphere.obj");
+	parent->reset_object("Boss_RangedAttack.gltf");
 	child = std::make_unique<MeshInstance>();
 	child->reset_object("Sphere.obj");
 	child->set_parent(*parent);
+
+	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Boss_RangedAttack.gltf", "\u30a2\u30fc\u30de\u30c1\u30e5\u30a2\u30a2\u30af\u30b7\u30e7\u30f3", true);
 
 	parentCollider = std::make_unique<SphereCollider>();
 	parentCollider->initialize();
@@ -132,6 +141,18 @@ void SceneDemo::initialize() {
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
+	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
+	skinningMeshNode = std::make_unique<SkinningMeshNode>();
+	skinningMeshNode->initialize();
+	skinningMeshNode->set_render_target(renderTarget);
+	skinningMeshNode->set_config(
+		eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) |
+		RenderNodeConfig::ContinueUseDpehtBefore |
+		RenderNodeConfig::ContinueDrawAfter |
+		RenderNodeConfig::ContinueUseDpehtAfter
+	);
+	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+
 	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
 	particleBillboardNode = std::make_unique<ParticleMeshNode>();
 	particleBillboardNode->initialize();
@@ -153,7 +174,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	renderPath = eps::CreateUnique<RenderPath>();
-	renderPath->initialize({ object3dNode,particleBillboardNode,outlineNode,spriteNode });
+	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode,outlineNode,spriteNode });
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
@@ -169,19 +190,22 @@ void SceneDemo::finalize() {
 
 void SceneDemo::begin() {
 	collisionManager->begin();
+	animatedMeshInstance->begin();
 }
 
 void SceneDemo::update() {
-	animationPlayer.update();
-	parent->get_transform().set_scale(
-		animationPlayer.calculate_scale()
-	);
-	parent->get_transform().set_quaternion(
-		animationPlayer.calculate_rotate()
-	);
-	parent->get_transform().set_translate(
-		animationPlayer.calculate_translate()
-	);
+	//animationPlayer.update();
+	//parent->get_transform().set_scale(
+	//	animationPlayer.calculate_scale()
+	//);
+	//parent->get_transform().set_quaternion(
+	//	animationPlayer.calculate_rotate()
+	//);
+	//parent->get_transform().set_translate(
+	//	animationPlayer.calculate_translate()
+	//);
+
+	animatedMeshInstance->update();
 
 
 	particleEmitter->update();
@@ -196,6 +220,8 @@ void SceneDemo::begin_rendering() {
 	sprite->begin_rendering();
 	particleEmitter->begin_rendering();
 	directionalLight->begin_rendering();
+
+	animatedMeshInstance->begin_rendering();
 }
 
 void SceneDemo::late_update() {
@@ -214,8 +240,14 @@ void SceneDemo::draw() const {
 #ifdef _DEBUG
 	collisionManager->debug_draw3d();
 	camera3D->debug_draw();
-	DebugValues::ShowGrid();
+	animatedMeshInstance->draw_skeleton();
+	//DebugValues::ShowGrid();
 #endif // _DEBUG
+
+	renderPath->next();
+	directionalLight->register_world(3);
+	camera3D->register_world(1);
+	animatedMeshInstance->draw();
 
 	renderPath->next();
 	camera3D->register_world(1);
@@ -259,6 +291,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("Camera3D");
 	camera3D->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("AnimatedMesh");
+	animatedMeshInstance->debug_gui();
 	ImGui::End();
 
 	ImGui::Begin("Parent");

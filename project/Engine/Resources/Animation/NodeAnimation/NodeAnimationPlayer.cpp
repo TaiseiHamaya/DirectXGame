@@ -1,33 +1,86 @@
 #include "NodeAnimationPlayer.h"
 
+#include <cmath>
+#include <functional>
+
+#include "NodeAnimationManager.h"
 #include "NodeAnimationResource.h"
 
 #include "Engine/Runtime/WorldClock/WorldClock.h"
 
-void NodeAnimationPlayer::update() {
-	timer += WorldClock::DeltaSeconds();
-	if (isLoop) {
-		timer = std::fmod(timer, nodeAnimation->duration(animationName));
+template<typename T>
+T CalculateValue(const NodeAnimationResource::AnimationCurve<T>& animationCurve, float time, std::function<T(const T&, const T&, float)> lerpFunc = std::lerp);
+
+NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName, bool isLoop_) :
+	isLoop(isLoop_),
+	nodeAnimation(NodeAnimationManager::GetAnimation(fileName)) {
+	if (nodeAnimation) {
+		animation = nodeAnimation->animation(animationName);
 	}
 }
 
-Vector3 NodeAnimationPlayer::calculate_scale() const {
-	if (nodeAnimation) {
-		return nodeAnimation->scale(animationName, nodeName, timer);
+void NodeAnimationPlayer::update() {
+	if (!isActive || !animation) {
+		return;
+	}
+	timer += WorldClock::DeltaSeconds();
+	if (isLoop && animation->duration) {
+		timer = std::fmod(timer, animation->duration);
+	}
+}
+
+Vector3 NodeAnimationPlayer::calculate_scale(const std::string& nodeName) const {
+	if (animation && animation->nodeAnimations.contains(nodeName)) {
+		return CalculateValue<Vector3>(animation->nodeAnimations.at(nodeName).scale, timer, Vector3::Lerp);
 	}
 	return CVector3::BASIS;
 }
 
-Quaternion NodeAnimationPlayer::calculate_rotate() const {
-	if (nodeAnimation) {
-		return nodeAnimation->rotate(animationName, nodeName, timer);
+Quaternion NodeAnimationPlayer::calculate_rotate(const std::string& nodeName) const {
+	if (animation && animation->nodeAnimations.contains(nodeName)) {
+		return CalculateValue<Quaternion>(animation->nodeAnimations.at(nodeName).rotate, timer, Quaternion::Slerp);
 	}
 	return CQuaternion::IDENTITY;
 }
 
-Vector3 NodeAnimationPlayer::calculate_translate() const {
-	if (nodeAnimation) {
-		return nodeAnimation->translate(animationName, nodeName, timer);
+Vector3 NodeAnimationPlayer::calculate_translate(const std::string& nodeName) const {
+	if (animation && animation->nodeAnimations.contains(nodeName)) {
+		return CalculateValue<Vector3>(animation->nodeAnimations.at(nodeName).translate, timer, Vector3::Lerp);
 	}
 	return CVector3::ZERO;
+}
+
+#ifdef _DEBUG
+#include <imgui.h>
+void NodeAnimationPlayer::debug_gui() {
+	ImGui::Checkbox("ActiveAnimation", &isActive);
+	ImGui::Checkbox("Loop", &isLoop);
+	if (animation) {
+		ImGui::SliderFloat("Timer", &timer, 0, animation->duration, "%.3fs");
+	}
+}
+#endif // _DEBUG
+
+template<typename T>
+T CalculateValue(const NodeAnimationResource::AnimationCurve<T>& animationCurve, float time, std::function<T(const T&, const T&, float)> lerpFunc) {
+	const std::map<float, T>& keyframes = animationCurve.keyframes;
+	// キーフレームがない場合はTを初期値で返す
+	if (keyframes.empty()) {
+		return T{};
+	}
+	// 要素が1もしくは先頭のキーフレームより早い場合は先頭のValueを返す
+	if (keyframes.size() == 1 || time <= keyframes.begin()->first) {
+		return keyframes.begin()->second;
+	}
+	
+	// にぶたんしてKeyを探す
+	auto endKey = keyframes.upper_bound(time);
+	// 末尾より後ろの場合は末尾の値を返す
+	if (endKey == keyframes.end()) {
+		return keyframes.rbegin()->second;
+	}
+	// 1つ前のKeyframeを取得
+	auto beginKey = std::prev(endKey);
+	float parametric = (time - beginKey->first) / (endKey->first - beginKey->first);
+	return lerpFunc(beginKey->second, endKey->second, parametric);
 }

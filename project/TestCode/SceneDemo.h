@@ -7,6 +7,7 @@
 #include "Engine/Resources/Audio/AudioPlayer.h"
 
 class MeshInstance;
+class AnimatedMeshInstance;
 class SpriteInstance;
 class Camera3D;
 class BaseCollider;
@@ -17,6 +18,7 @@ class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
 #include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
+#include "Engine/Module/Render/RenderNode/SkinningMesh/SkinningMeshNode.h"
 #include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
 #include "Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
 #include "Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
@@ -62,6 +64,7 @@ private:
 
 	std::unique_ptr<MeshInstance> parent;
 	std::unique_ptr<MeshInstance> child;
+	std::unique_ptr<AnimatedMeshInstance> animatedMeshInstance;
 	std::unique_ptr<SpriteInstance> sprite;
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
 

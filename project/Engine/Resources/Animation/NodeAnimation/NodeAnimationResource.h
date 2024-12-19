@@ -1,8 +1,8 @@
 #pragma once
 
 #include <filesystem>
-#include <string>
 #include <map>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -13,12 +13,6 @@
 
 class NodeAnimationResource final {
 private:
-	//template<typename T>
-	//struct Keyframe {
-	//	float time;
-	//	T value{};
-	//};
-
 	template<typename T>
 	struct AnimationCurve {
 		std::map<float, T> keyframes;
@@ -50,14 +44,7 @@ public:
 	/// <returns>成功値</returns>
 	bool load(const std::filesystem::path& filePath);
 
-	Vector3 scale(const std::string& animationName, const std::string& nodeName, float time);
-	Quaternion rotate(const std::string& animationName, const std::string& nodeName, float time);
-	Vector3 translate(const std::string& animationName, const std::string& nodeName, float time);
-
-public:
-	float duration(const std::string& animationName);
-
-private:
+	const Animation* animation(const std::string& animationName) const;
 
 private:
 	std::unordered_map<std::string, Animation> animations;

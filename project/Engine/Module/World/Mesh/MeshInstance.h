@@ -15,10 +15,12 @@ class TransformMatrix;
 class Color3;
 
 class MeshInstance : public WorldInstance {
+	friend class AnimatedMeshInstance;
 public:
 	struct PolygonMeshMaterial {
 		PolygonMeshMaterial();
 		friend class MeshInstance;
+		friend class AnimatedMeshInstance;
 	private:
 		std::shared_ptr<Texture> texture;
 		std::unique_ptr<Material> material;
@@ -73,9 +75,10 @@ public:
 	void debug_gui() override;
 #endif // _DEBUG
 
-private:
+protected:
 	bool isDraw = true;
 
+private:
 	std::shared_ptr<PolygonMesh> mesh;
 
 	std::unique_ptr<TransformMatrix> transformMatrix;

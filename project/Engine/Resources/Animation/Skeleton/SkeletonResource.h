@@ -6,17 +6,29 @@
 #include <unordered_map>
 #include <vector>
 
+#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Utility/Tools/ConstructorMacro.h"
+
+#include <Library/Math/Matrix4x4.h>
 
 struct Joint {
 	std::string name; // BoneName(== NodeName)
+	Matrix4x4 localMatrix;
+	Matrix4x4 inverseBindPoseMatrices;
 	std::optional<uint32_t> parent;
 	std::vector<uint32_t> children;
 };
 
+struct VertexInfluenceData {
+	inline static constexpr uint32_t NumMaxInfluence = 4;
+	std::array<float, NumMaxInfluence> weights;
+	std::array<uint32_t, NumMaxInfluence> jointIndex;
+};
+
 struct Skeleton {
-	Joint* root;
 	std::vector<Joint> joints;
+	std::unordered_map<std::string, std::vector<uint32_t>> useJointIndexesByMeshName;
 };
 
 class SkeletonResource {
@@ -36,8 +48,17 @@ public:
 	/// <returns>成功値</returns>
 	bool load(const std::filesystem::path& filePath);
 
-	const Skeleton* skeleton(const std::string& bindMeshName) const;
+	const Skeleton& skeleton() const;
+	const VertexBuffer<VertexInfluenceData>* weight_influence(const std::string& bindMeshName) const;
+	const std::vector<uint32_t>* use_joint_indexes(const std::string& bindMeshName) const;
+	uint32_t size() const;
 
 private:
-	std::unordered_map<std::string, Skeleton> skeletons;
+	Skeleton skeletonData;
+
+	/// <summary>
+	/// Key : Mesh名
+	/// Value : VertexBuffer
+	/// </summary>
+	std::unordered_map<std::string, VertexBuffer<VertexInfluenceData>> influenceBuffers;
 };
