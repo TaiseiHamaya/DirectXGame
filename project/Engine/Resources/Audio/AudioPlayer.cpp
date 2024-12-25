@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-#include "Engine/Resources/Audio/AudioResource.h"
 #include "Engine/Resources/Audio/AudioManager.h"
+#include "Engine/Resources/Audio/AudioResource.h"
 
 AudioPlayer::~AudioPlayer() {
 	destroy();
@@ -36,12 +36,18 @@ void AudioPlayer::destroy() {
 }
 
 void AudioPlayer::play() {
+	if (!sourceVoice) {
+		return;
+	}
 	HRESULT result;
 	result = sourceVoice->Start();
 	assert(SUCCEEDED(result));
 }
 
 void AudioPlayer::stop() {
+	if (!sourceVoice) {
+		return;
+	}
 	HRESULT result;
 	result = sourceVoice->Stop();
 	assert(SUCCEEDED(result));
@@ -50,6 +56,9 @@ void AudioPlayer::stop() {
 }
 
 void AudioPlayer::pause() {
+	if (!sourceVoice) {
+		return;
+	}
 	HRESULT result;
 	result = sourceVoice->Stop();
 	assert(SUCCEEDED(result));
@@ -61,10 +70,16 @@ void AudioPlayer::restart() {
 }
 
 void AudioPlayer::set_volume(float volume) {
+	if (!sourceVoice) {
+		return;
+	}
 	sourceVoice->SetVolume(volume);
 }
 
 void AudioPlayer::set_loop(bool isLoop) {
+	if (!sourceVoice) {
+		return;
+	}
 	buffer.LoopCount = isLoop ? XAUDIO2_LOOP_INFINITE : 0;
 	HRESULT result;
 	result = sourceVoice->SubmitSourceBuffer(&buffer);
@@ -73,6 +88,9 @@ void AudioPlayer::set_loop(bool isLoop) {
 #ifdef _DEBUG
 #include <imgui.h>
 void AudioPlayer::debug_gui() {
+	if (!sourceVoice) {
+		return;
+	}
 	bool isLoop = buffer.LoopCount == XAUDIO2_LOOP_INFINITE;
 	if(ImGui::Checkbox("Loop", &isLoop) ){
 		set_loop(isLoop);

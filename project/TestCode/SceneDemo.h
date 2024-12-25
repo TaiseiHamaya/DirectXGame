@@ -7,6 +7,7 @@
 #include "Engine/Resources/Audio/AudioPlayer.h"
 
 class MeshInstance;
+class AnimatedMeshInstance;
 class SpriteInstance;
 class Camera3D;
 class BaseCollider;
@@ -17,6 +18,7 @@ class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
 #include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
+#include "Engine/Module/Render/RenderNode/SkinningMesh/SkinningMeshNode.h"
 #include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
 #include "Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
 #include "Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
@@ -26,6 +28,10 @@ class RenderPath;
 
 #include "Engine/Resources/Json/JsonResource.h"
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
+
+#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationResource.h"
+#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h"
+#include "Engine/Resources/Animation/Skeleton/SkeletonResource.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -58,6 +64,7 @@ private:
 
 	std::unique_ptr<MeshInstance> parent;
 	std::unique_ptr<MeshInstance> child;
+	std::unique_ptr<AnimatedMeshInstance> animatedMeshInstance;
 	std::unique_ptr<SpriteInstance> sprite;
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
 
@@ -66,6 +73,10 @@ private:
 	std::shared_ptr<SphereCollider> singleCollider;
 	std::shared_ptr<SphereCollider> single2Collider;
 	std::shared_ptr<SphereCollider> single3Collider;
+
+	std::shared_ptr<NodeAnimationResource> nodeAnimationResource;
+	NodeAnimationPlayer animationPlayer;
+	std::shared_ptr<SkeletonResource> skeletonResource;
 
 	std::unique_ptr<ParticleEmitterInstance> particleEmitter;
 

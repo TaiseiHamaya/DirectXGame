@@ -120,6 +120,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Resources\Audio\AudioResourceBuilder.cpp" />
+    <ClCompile Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp" />
@@ -131,6 +133,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResource.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationPlayer.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResource.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationManager.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonManager.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\SkinningMesh\SkinningMeshNode.cpp" />
+    <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.cpp" />
+    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -210,8 +221,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Math\VectorConverter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
+    <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Resources\Audio\AudioResourceBuilder.h" />
+    <ClInclude Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h" />
     <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h" />
     <ClInclude Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.h" />
@@ -219,12 +233,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\Json\JsonResource.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h" />
     <ClInclude Include="Engine\Resources\Json\JsonSerializer.h" />
+    <ClInclude Include="Engine\Resources\BaseResourceBuilder.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.h" />
+    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResource.h" />
+    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationPlayer.h" />
+    <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResource.h" />
+    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationManager.h" />
+    <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonManager.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\SkinningMesh\SkinningMeshNode.h" />
+    <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.h" />
+    <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.h" />
+    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
@@ -325,6 +349,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Library\Math\VectorConverter.h" />
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
+    <ClInclude Include="Engine\Resources\Texture\TextureResourceBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.PS.hlsl">

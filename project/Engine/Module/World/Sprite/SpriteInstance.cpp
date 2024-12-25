@@ -49,12 +49,11 @@ void SpriteInstance::begin_rendering() noexcept {
 void SpriteInstance::draw() const {
 	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
 	// 設定したデータをコマンドに積む
-	auto&& texture_locked = texture.lock();
-	commandList->IASetVertexBuffers(0, 1, vertices->get_p_vbv()); // VBV
+	commandList->IASetVertexBuffers(0, 1, &vertices->get_vbv()); // VBV
 	commandList->IASetIndexBuffer(indexes->get_p_ibv());
 	commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 	commandList->SetGraphicsRootConstantBufferView(1, material->get_resource()->GetGPUVirtualAddress()); // Color,UV
-	commandList->SetGraphicsRootDescriptorTable(2, texture_locked->get_gpu_handle()); // Texture
+	commandList->SetGraphicsRootDescriptorTable(2, texture->get_gpu_handle()); // Texture
 	commandList->DrawIndexedInstanced(indexes->index_size(), 1, 0, 0, 0); // 描画コマンド
 }
 
@@ -69,8 +68,7 @@ void SpriteInstance::debug_gui() {
 #endif // _DEBUG
 
 void SpriteInstance::create_local_vertices(const Vector2& pivot) {
-	auto&& tex = texture.lock();
-	Vector2 base = { static_cast<float>(tex->get_texture_width()), static_cast<float>(tex->get_texture_height()) };
+	Vector2 base = { static_cast<float>(texture->get_texture_width()), static_cast<float>(texture->get_texture_height()) };
 	std::vector<VertexBufferData> vertexData(4);
 	vertexData[0] = {
 		VertexBufferData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}), 0), 1},

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <unordered_map>
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
@@ -47,8 +46,8 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	return true;
 }
 
-const D3D12_VERTEX_BUFFER_VIEW* const PolygonMesh::get_p_vbv(std::uint32_t index) const {
-	return meshData[index].vertices->get_p_vbv();
+const D3D12_VERTEX_BUFFER_VIEW& PolygonMesh::get_vbv(std::uint32_t index) const {
+	return meshData[index].vertices->get_vbv();
 }
 
 const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv(std::uint32_t index) const {
@@ -222,7 +221,7 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 
 	bool result;
 	std::filesystem::path directory{ filePath.parent_path() };
-	result = load_mtl_file( directory / mtlFileName);
+	result = load_mtl_file(directory / mtlFileName);
 	return result;
 }
 
@@ -288,7 +287,10 @@ bool PolygonMesh::load_mtl_file(const std::filesystem::path& mtlFilePath) {
 bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filePath.string().c_str(),
-		aiProcess_ConvertToLeftHanded /*| aiProcessPreset_TargetRealtime_Fast*/);
+		aiProcess_FlipUVs |
+		aiProcess_FlipWindingOrder |
+		aiProcess_LimitBoneWeights
+	);
 	if (importer.GetException() || !scene) {
 		Console("Import error. {}\n", importer.GetErrorString());
 		return false;
@@ -298,6 +300,7 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 		return false;
 	}
 
+	// あとで逆参照する用
 	std::unordered_map<uint32_t, std::string> materialNameFromIndex;
 
 	// Material解析
@@ -340,9 +343,9 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 			aiVector3D& position = mesh->mVertices[vertexIndex];
 			aiVector3D& normal = mesh->mNormals[vertexIndex];
 			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-			auto& vertex = vertices.emplace_back();
-			vertex.vertex = { { position.x,position.y, position.z }, 1.0f };
-			vertex.normal = { normal.x,normal.y, normal.z };
+			VertexBufferData& vertex = vertices.emplace_back();
+			vertex.vertex = { { -position.x,position.y, position.z }, 1.0f };
+			vertex.normal = { -normal.x, normal.y, normal.z };
 			vertex.texcoord = { texcoord.x, texcoord.y };
 		}
 		indexes.reserve(static_cast<size_t>(mesh->mNumFaces) * 3);
@@ -359,10 +362,12 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 			}
 		}
 		// 作成
-		auto& newMesh = meshData.emplace_back();
+		PolygonMesh::MeshData& newMesh = meshData.emplace_back();
 		// 転送
 		newMesh.vertices = std::make_unique<Object3DVertexBuffer>(vertices);
 		newMesh.indexes = std::make_unique<IndexBuffer>(indexes);
+		// メッシュ名の取得
+		newMesh.meshName = mesh->mName.C_Str();
 		// Material名の取得
 		if (materialNameFromIndex.contains(mesh->mMaterialIndex)) {
 			newMesh.materialName = materialNameFromIndex.at(mesh->mMaterialIndex);

@@ -19,6 +19,7 @@ public:
 	struct MeshData {
 		std::unique_ptr<Object3DVertexBuffer> vertices;
 		std::unique_ptr<IndexBuffer> indexes;
+		std::string meshName;
 		std::string materialName;
 	};
 
@@ -47,7 +48,7 @@ public:
 	/// VertexBufferViewを取得
 	/// </summary>
 	/// <returns>VertexBufferView Pointer</returns>
-	const D3D12_VERTEX_BUFFER_VIEW* const get_p_vbv(std::uint32_t index) const;
+	const D3D12_VERTEX_BUFFER_VIEW& get_vbv(std::uint32_t index) const;
 
 	/// <summary>
 	/// IndexBufferViewを取得

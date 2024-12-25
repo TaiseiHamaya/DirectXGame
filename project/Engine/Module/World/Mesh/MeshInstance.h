@@ -15,12 +15,14 @@ class TransformMatrix;
 class Color3;
 
 class MeshInstance : public WorldInstance {
+	friend class AnimatedMeshInstance;
 public:
 	struct PolygonMeshMaterial {
 		PolygonMeshMaterial();
 		friend class MeshInstance;
+		friend class AnimatedMeshInstance;
 	private:
-		std::shared_ptr<Texture> texture;
+		std::shared_ptr<const Texture> texture;
 		std::unique_ptr<Material> material;
 
 	public:
@@ -52,7 +54,7 @@ public:
 	virtual void late_update() {};
 	virtual void draw() const;
 
-	void reset_object(const std::string& meshName_);
+	void reset_mesh(const std::string& meshName_);
 
 	/// <summary>
 	/// Texture、Materialパラメータ、UVデータのリセットを行う
@@ -73,10 +75,11 @@ public:
 	void debug_gui() override;
 #endif // _DEBUG
 
-private:
+protected:
 	bool isDraw = true;
 
-	std::shared_ptr<PolygonMesh> mesh;
+private:
+	std::shared_ptr<const PolygonMesh> mesh;
 
 	std::unique_ptr<TransformMatrix> transformMatrix;
 	

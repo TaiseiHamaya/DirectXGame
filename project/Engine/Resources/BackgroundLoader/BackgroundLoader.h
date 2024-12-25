@@ -1,25 +1,10 @@
 #pragma once
 
-
-#include <d3d12.h>
-#include <wrl/client.h>
-
-#include <filesystem>
 #include <list>
 #include <memory>
-#include <string>
 #include <thread>
-#include <variant>
 
-class Texture;
-class PolygonMesh;
-class AudioResource;
-
-enum class LoadEvent {
-	LoadTexture,
-	LoadPolygonMesh,
-	LoadAudio,
-};
+#include "../BaseResourceBuilder.h"
 
 /// <summary>
 /// バックグラウンドロード用クラス
@@ -47,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="eventID">LoadEventID</param>
 	/// <param name="filePath">ファイルパス</param>
-	static void RegisterLoadQue(LoadEvent eventID, const std::filesystem::path& filePath) noexcept(false);
+	static void RegisterLoadQue(std::unique_ptr<BaseResourceBuilder> builder) noexcept(false);
 
 	/// <summary>
 	/// ロードが完了するまで待機
@@ -74,40 +59,20 @@ private:
 	/// <summary>
 	/// 読み込み済みテクスチャのビューを作成
 	/// </summary>
-	void create_texture_view();
+	void postprocess();
 
 	/// <summary>
 	/// ロード済みデータを各Managerに転送
 	/// </summary>
-	void transfer_data();
+	void transfer_all();
 
 private:
-	/// <summary>
-	/// ロード用キュー
-	/// </summary>
-	struct LoadingQue {
-		std::filesystem::path filePath;
-
-		// variant用定義
-		struct LoadTextureData {
-			std::shared_ptr<Texture> textureData; // 実データ
-			Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource; // 一時リソース
-		};
-		struct LoadPolygonMeshData {
-			std::shared_ptr<PolygonMesh> meshData; // メッシュデータ
-		};
-		struct LoadAudioData {
-			std::unique_ptr<AudioResource> audioData; // メッシュデータ
-		};
-		std::variant<LoadTextureData, LoadPolygonMeshData, LoadAudioData, std::monostate> loadData; // variantでDataを選択
-	};
 
 	/// <summary>
 	/// イベントデータ
 	/// </summary>
 	struct EventList {
-		LoadEvent eventId; // イベントID
-		std::unique_ptr<LoadingQue> data; // 実データ
+		std::unique_ptr<BaseResourceBuilder> data; // 実データ
 	};
 
 	/// <summary>
@@ -123,7 +88,7 @@ private:
 	/// <summary>
 	/// ロードが終わって転送待ち
 	/// </summary>
-	std::list<EventList> waitLoadingQue;
+	std::list<EventList> waitTransferQue;
 
 	/// <summary>
 	/// マルチスレッド終了判定用
