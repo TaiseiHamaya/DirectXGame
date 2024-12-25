@@ -10,7 +10,7 @@ on:
       - master
 
 jobs:
-  bild:
+  build:
     runs-on: windows-2022
     steps:
       - name: Checkout
