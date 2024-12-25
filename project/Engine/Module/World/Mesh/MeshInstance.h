@@ -15,6 +15,26 @@ class TransformMatrix;
 class Color3;
 
 class MeshInstance : public WorldInstance {
+	friend class AnimatedMeshInstance;
+public:
+	struct PolygonMeshMaterial {
+		PolygonMeshMaterial();
+		friend class MeshInstance;
+		friend class AnimatedMeshInstance;
+	private:
+		std::shared_ptr<const Texture> texture;
+		std::unique_ptr<Material> material;
+
+	public:
+		Color3& color;
+		Transform2D uvTransform;
+
+#ifdef _DEBUG
+	private:
+		std::string textureName;
+#endif // _DEBUG
+	};
+
 public:
 	MeshInstance() noexcept(false);
 	explicit MeshInstance(const std::string& meshName_) noexcept(false);
@@ -34,7 +54,7 @@ public:
 	virtual void late_update() {};
 	virtual void draw() const;
 
-	void reset_object(const std::string& meshName_);
+	void reset_mesh(const std::string& meshName_);
 
 	/// <summary>
 	/// Texture、Materialパラメータ、UVデータのリセットを行う
@@ -45,7 +65,7 @@ protected:
 	struct MaterialDataRef;
 
 public:
-	std::vector<MaterialDataRef>& get_materials();
+	std::vector<PolygonMeshMaterial>& get_materials();
 
 protected:
 	void set_texture(const std::string& name, int index = 0);
@@ -55,33 +75,18 @@ public:
 	void debug_gui() override;
 #endif // _DEBUG
 
-private:
+protected:
 	bool isDraw = true;
-	std::string meshName;
-	std::weak_ptr<PolygonMesh> mesh;
+
+private:
+	std::shared_ptr<const PolygonMesh> mesh;
+
 	std::unique_ptr<TransformMatrix> transformMatrix;
-
-	struct PolygonMeshMaterial {
-		PolygonMeshMaterial();
-		std::weak_ptr<Texture> texture;
-
-		std::unique_ptr<Material> material;
-		Color3& color;
-
-		Transform2D uvTransform;
-
-#ifdef _DEBUG
-		std::string textureName;
-#endif // _DEBUG
-	};
+	
 	std::vector<PolygonMeshMaterial> meshMaterials;
 
-protected:
-	struct MaterialDataRef {
-		MaterialDataRef(Color3& color_, Transform2D& uvTransform_);
-		Color3& color;
-		Transform2D& uvTransform;
-	};
-
-	std::vector<MaterialDataRef> materialData;
+#ifdef _DEBUG
+private:
+	std::string meshName;
+#endif // _DEBUG
 };

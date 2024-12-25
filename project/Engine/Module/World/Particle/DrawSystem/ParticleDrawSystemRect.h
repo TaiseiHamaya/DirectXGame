@@ -31,7 +31,7 @@ public:
 	void set_texture(const std::string& textureName);
 
 private:
-	std::weak_ptr<Texture> texture;
+	std::shared_ptr<const Texture> texture;
 
 public:
 	VertexBuffer<BillboardBuffer> vertexBuffer;

@@ -4,9 +4,9 @@
 #include "Engine/Rendering/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 
+#include <optional>
 #include <span>
 #include <type_traits>
-#include <optional>
 
 template<typename T>
 concept StructuredBufferType =
@@ -43,8 +43,8 @@ private:
 	void unmap();
 
 private:
-	T* data{nullptr};
-	uint32_t arraySize{0};
+	T* data{ nullptr };
+	uint32_t arraySize{ 0 };
 	std::span<T> span;
 
 	std::optional<std::uint32_t> heapIndex;
@@ -117,6 +117,8 @@ inline void StructuredBuffer<T>::map() {
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::unmap() {
 	span = std::span<T, 0>();
+	if (data) {
+		resource->Unmap(0, nullptr);
+	}
 	data = nullptr;
-	resource->Unmap(0, nullptr);
 }

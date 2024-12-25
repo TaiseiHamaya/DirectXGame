@@ -4,8 +4,10 @@
 
 #include <mutex>
 
+#include "./AudioResource.h"
+#include "./AudioResourceBuilder.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Resources/Audio/AudioResource.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
 #include "Engine/Debug/Output.h"
 
 std::mutex audioMutex;
@@ -35,11 +37,14 @@ void AudioManager::Finalize() {
 	instance.audioResources.clear();
 }
 
-void AudioManager::RegisterLoadQue(const std::string& filePath, const std::string& audioFile) {
-	if (IsRegistered(audioFile)) {
+void AudioManager::RegisterLoadQue(const std::filesystem::path& filePath) {
+	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadAudio, filePath, audioFile);
+	// BackgroundLoaderにイベント送信
+	BackgroundLoader::RegisterLoadQue(
+		eps::CreateUnique<AudioResourceBuilder>(filePath)
+	);
 }
 
 const std::unique_ptr<AudioResource>& AudioManager::GetAudio(const std::string& audioName) {

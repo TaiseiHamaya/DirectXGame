@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -35,15 +36,14 @@ public:
 	/// ロードキューにファイルを追加
 	/// </summary>
 	/// <param name="filePath">ファイルパス</param>
-	/// <param name="textureName">ファイル名(拡張子付き)</param>
-	static void RegisterLoadQue(const std::string& filePath, const std::string& textureName);
+	static void RegisterLoadQue(const std::filesystem::path& filePath);
 
 	/// <summary>
 	/// テクスチャデータの取得
 	/// </summary>
 	/// <param name="textureName">拡張子付きファイル名</param>
 	/// <returns>Textureクラスのweak_ptr</returns>
-	static std::weak_ptr<Texture> GetTexture(const std::string& textureName) noexcept(false);
+	static std::shared_ptr<const Texture> GetTexture(const std::string& textureName) noexcept(false);
 	
 	/// <summary>
 	/// テクスチャが登録済みか取得

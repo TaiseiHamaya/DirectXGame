@@ -2,16 +2,17 @@
 
 #include <cassert>
 
-#include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Debug/Output.h"
+#include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
-void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format) {
+void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot) {
 	D3D12_INPUT_ELEMENT_DESC& inputElementDesc = inputElementDescs.emplace_back();
 	inputElementDesc.SemanticName = semanticName;
 	inputElementDesc.SemanticIndex = semanticIndex;
 	inputElementDesc.Format = format;
 	inputElementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT; // 末尾に追加
+	inputElementDesc.InputSlot = slot;
 }
 
 const std::vector<D3D12_INPUT_ELEMENT_DESC>& InputLayoutBuilder::build() {

@@ -1,11 +1,11 @@
 #include "SceneManager.h"
 
-#include "Engine/Runtime/Scene/BaseScene.h"
 #include "Engine/Debug/Output.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Runtime/Scene/BaseScene.h"
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 
 SceneManager& SceneManager::GetInstance() noexcept {
 	static SceneManager instance{};

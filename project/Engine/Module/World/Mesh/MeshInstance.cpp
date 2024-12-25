@@ -10,6 +10,7 @@
 #include "Engine/Resources/PolygonMesh/PolygonMesh.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -24,7 +25,7 @@ MeshInstance::MeshInstance() noexcept(false) :
 
 MeshInstance::MeshInstance(const std::string& meshName_) noexcept(false) :
 	MeshInstance() {
-	reset_object(meshName_);
+	reset_mesh(meshName_);
 }
 
 MeshInstance::~MeshInstance() noexcept = default;
@@ -49,70 +50,66 @@ void MeshInstance::begin_rendering() noexcept {
 }
 
 void MeshInstance::draw() const {
+	// 非アクティブ時は描画しない
 	if (!isActive || !isDraw) {
 		return;
 	}
-	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
-	// 設定したデータをコマンドに積む
-	auto&& meshLocked = mesh.lock();
-	if (!meshLocked) {
+	// メッシュが存在しなければ描画しない
+	if (!mesh) {
 		return;
 	}
-	for (int i = 0; i < meshLocked->material_count(); ++i) {
-		commandList->IASetVertexBuffers(0, 1, meshLocked->get_p_vbv(i)); // VBV
-		commandList->IASetIndexBuffer(meshLocked->get_p_ibv(i)); // IBV
+	// 設定したデータをコマンドに積む
+	const auto& commandList = DirectXCommand::GetCommandList();
+	for (int i = 0; i < mesh->material_count(); ++i) {
+		commandList->IASetVertexBuffers(0, 1, &mesh->get_vbv(i)); // VBV
+		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
-		const auto& lockedTexture = meshMaterials[i].texture.lock();
-		commandList->SetGraphicsRootDescriptorTable(4, 
-			lockedTexture ? 
-			lockedTexture->get_gpu_handle() : 
-			TextureManager::GetTexture("Error.png").lock()->get_gpu_handle()
-		);
-		commandList->DrawIndexedInstanced(meshLocked->index_size(i), 1, 0, 0, 0); // 描画コマンド
+		commandList->SetGraphicsRootDescriptorTable(4, meshMaterials[i].texture->get_gpu_handle());
+		commandList->DrawIndexedInstanced(mesh->index_size(i), 1, 0, 0, 0); // 描画コマンド
 	}
 }
 
-void MeshInstance::reset_object(const std::string& meshName_) {
+void MeshInstance::reset_mesh(const std::string& meshName_) {
+	// メッシュ情報の取得
+	mesh = PolygonMeshManager::GetPolygonMesh(meshName_);
+#ifdef _DEBUG
 	meshName = meshName_;
-	mesh = PolygonMeshManager::GetPolygonMesh(meshName);
-	size_t meshSize = mesh.lock()->material_count();
-
-	meshMaterials.resize(meshSize);
-	materialData.clear();
+#endif // _DEBUG
 
 	default_material();
 }
 
 void MeshInstance::default_material() {
-	auto&& meshLocked = mesh.lock();
-	for (int i = 0; i < meshMaterials.size(); ++i) {
+	meshMaterials.resize(mesh->material_count());
+
+	for (int i = 0; auto & meshMaterial : meshMaterials) {
 		// 色情報のリセット
-		meshMaterials[i].color = Color3{ 1.0f,1.0f,1.0f };
-		if (meshLocked->has_mtl(i)) {
+		const auto* meshMaterialData = mesh->material_data(i);
+		if (meshMaterialData) {
 			// テクスチャ情報の取得
-			meshMaterials[i].texture = TextureManager::GetTexture(meshLocked->texture_name(i));
+			meshMaterial.texture = TextureManager::GetTexture(meshMaterialData->textureFileName);
 			// uv情報のリセット
-			meshMaterials[i].uvTransform.copy(meshLocked->default_uv(i));
+			meshMaterial.uvTransform.copy(meshMaterialData->defaultUV);
 
 #ifdef _DEBUG
-			meshMaterials[i].textureName = meshLocked->texture_name(i);
+			meshMaterial.textureName = meshMaterialData->textureFileName;
 #endif // _DEBUG
 		}
 		else {
-			meshMaterials[i].texture = TextureManager::GetTexture("Error.png");
-			meshMaterials[i].uvTransform.copy(Transform2D{});
+			meshMaterial.texture = TextureManager::GetTexture("Error.png");
+			meshMaterial.uvTransform.copy(Transform2D{});
 #ifdef _DEBUG
-			meshMaterials[i].textureName = "Error.png";
+			meshMaterial.textureName = "Error.png";
 #endif // _DEBUG
-			Console("[MeshInstance] Mtl file used Object file \'{}\' is not found.\n", meshName);
+			Console("[MeshInstance] Material data is not found.\n");
 		}
-		materialData.emplace_back(meshMaterials[i].color, meshMaterials[i].uvTransform);
+		++i;
 	}
 }
 
-std::vector<MeshInstance::MaterialDataRef>& MeshInstance::get_materials() {
-	return materialData;
+std::vector<MeshInstance::PolygonMeshMaterial>& MeshInstance::get_materials() {
+	return meshMaterials;
 }
 
 void MeshInstance::set_texture(const std::string& name, int index) {
@@ -122,7 +119,7 @@ void MeshInstance::set_texture(const std::string& name, int index) {
 #ifdef _DEBUG
 void MeshInstance::debug_gui() {
 	if (PolygonMeshManager::MeshListGui(meshName)) {
-		reset_object(meshName);
+		reset_mesh(meshName);
 	}
 	if (ImGui::Button("ResetMaterialData")) {
 		default_material();
@@ -132,44 +129,46 @@ void MeshInstance::debug_gui() {
 	WorldInstance::debug_gui();
 	ImGui::Separator();
 	ImGui::Text("Materials");
-	auto&& meshLocked = mesh.lock();
-	for (int i = 0; i < meshMaterials.size(); ++i) {
-		std::string treeNodeName = meshLocked->model_name(i).empty() ? "UnknownMaterialName" : meshLocked->model_name(i);
+	for (int i = 0; auto& meshMaterial : meshMaterials) {
+		std::string treeNodeName;
+		auto meshData = mesh->mesh_data(i);
+		if (meshData) {
+			treeNodeName = meshData->materialName;
+		}
+		if (treeNodeName.empty()) {
+			treeNodeName = "UnknownMaterialName" + std::to_string(i);
+		}
 		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-			if (TextureManager::TextureListGui(meshMaterials[i].textureName)) {
-				meshMaterials[i].texture = TextureManager::GetTexture(meshMaterials[i].textureName);
+			if (TextureManager::TextureListGui(meshMaterial.textureName)) {
+				set_texture(meshMaterial.textureName, i);
+				//meshMaterials[i].texture = TextureManager::GetTexture(meshMaterials[i].textureName);
 			}
 
-			meshMaterials[i].uvTransform.debug_gui();
+			meshMaterial.uvTransform.debug_gui();
 
-			meshMaterials[i].color.debug_gui();
+			meshMaterial.color.debug_gui();
 
-			if (ImGui::RadioButton("None", meshMaterials[i].material->get_data()->lighting == static_cast<uint32_t>(LighingType::None))) {
-				meshMaterials[i].material->set_lighting(LighingType::None);
-			}
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Lambert", meshMaterials[i].material->get_data()->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
-				meshMaterials[i].material->set_lighting(LighingType::Lambert);
+			const auto materialData = meshMaterial.material->get_data();
+			if (ImGui::RadioButton("None", materialData->lighting == static_cast<uint32_t>(LighingType::None))) {
+				meshMaterial.material->set_lighting(LighingType::None);
 			}
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Half lambert", meshMaterials[i].material->get_data()->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
-				meshMaterials[i].material->set_lighting(LighingType::HalfLambert);
+			if (ImGui::RadioButton("Lambert", materialData->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
+				meshMaterial.material->set_lighting(LighingType::Lambert);
+			}
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Half lambert", materialData->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
+				meshMaterial.material->set_lighting(LighingType::HalfLambert);
 			}
 			ImGui::TreePop();
 		}
+		++i;
 	}
 }
 #endif // _DEBUG
 
 MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
-	material(std::make_unique<Material>()),
-	color(material->get_color_reference()) {
-	material->get_data()->color = Color3{ 1.0f, 1.0f, 1.0f };
-	material->get_data()->lighting = static_cast<std::uint32_t>(LighingType::HalfLambert);
-	material->get_data()->uvTransform = CMatrix4x4::IDENTITY;
-}
-
-MeshInstance::MaterialDataRef::MaterialDataRef(Color3& color_, Transform2D& uvTransform_) :
-	color(color_),
-	uvTransform(uvTransform_) {
+	material(eps::CreateUnique<Material>()),
+	color(material->get_data()->color) {
+	material->get_data()->lighting = static_cast<uint32_t>(LighingType::HalfLambert);
 }

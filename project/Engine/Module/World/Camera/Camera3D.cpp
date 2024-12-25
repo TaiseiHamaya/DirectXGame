@@ -18,7 +18,6 @@ void Camera3D::initialize() {
 		EngineSettings::CLIENT_SIZE.x / EngineSettings::CLIENT_SIZE.y,
 		0.1f, 1000
 	);
-	WorldInstance::initialize();
 
 #ifdef _DEBUG
 	isVaildDebugCamera = false;

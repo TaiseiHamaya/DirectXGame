@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -23,16 +24,15 @@ public:
 	/// <summary>
 	/// ロードキューに.objファイルを追加
 	/// </summary>
-	/// <param name="directoryPath">ディレクトリ</param>
-	/// <param name="fileName">ファイル名</param>
-	static void RegisterLoadQue(const std::string& directoryPath, const std::string& fileName);
+	/// <param name="filePath">ファイルパス</param>
+	static void RegisterLoadQue(const std::filesystem::path& filePath);
 
 	/// <summary>
 	/// メッシュの取得
 	/// </summary>
 	/// <param name="meshName">メッシュ名</param>
 	/// <returns>PolygonMeshクラスのweak_ptr</returns>
-	static std::weak_ptr<PolygonMesh> GetPolygonMesh(const std::string& meshName);
+	static std::shared_ptr<const PolygonMesh> GetPolygonMesh(const std::string& meshName);
 
 	/// <summary>
 	/// メッシュが登録されているか取得

@@ -16,6 +16,6 @@ public:
 	void set_mesh(const std::string& meshName);
 
 private:
-	std::weak_ptr<PolygonMesh> mesh;
-	std::weak_ptr<Texture> texture;
+	std::shared_ptr<const PolygonMesh> mesh;
+	std::shared_ptr<const Texture> texture;
 };

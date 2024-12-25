@@ -2,10 +2,10 @@
 
 #include <utility>
 
-Material::Material() noexcept(false) : ConstantBuffer<MaterialData>() {
+Material::Material() noexcept(false) : ConstantBuffer<MaterialBufferData>() {
 }
 
-Material::Material(const MaterialData& material) noexcept(false) : ConstantBuffer<MaterialData>(material) {
+Material::Material(const MaterialBufferData& material) noexcept(false) : ConstantBuffer<MaterialBufferData>(material) {
 }
 
 Color3& Material::get_color_reference() const noexcept {
@@ -13,7 +13,7 @@ Color3& Material::get_color_reference() const noexcept {
 }
 
 void Material::set_uv_transform(Matrix4x4&& uvTransform) noexcept {
-	data->uvTransform = std::move(uvTransform);
+	data->uvTransformMatrix = std::move(uvTransform);
 }
 
 void Material::set_lighting(LighingType lighting_) {

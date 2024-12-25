@@ -1,9 +1,9 @@
 #pragma once
 
 #include <d3d12.h>
-#include <wrl/client.h>
-#include <vector>
 #include <list>
+#include <vector>
+#include <wrl/client.h>
 
 #include "Engine/Rendering/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
 
@@ -11,7 +11,7 @@ class DepthStencil;
 
 class InputLayoutBuilder {
 public:
-	void add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format);
+	void add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot = 0);
 	const std::vector<D3D12_INPUT_ELEMENT_DESC>& build();
 
 private:
