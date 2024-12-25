@@ -5,12 +5,6 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Resources/Audio/AudioManager.h"
-#include "Engine/Resources/Audio/AudioResource.h"
-#include "Engine/Resources/PolygonMesh/PolygonMesh.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Resources/Texture/TextureManager.h"
 
 std::mutex executeMutex;
 std::mutex referenceMutex;
@@ -36,32 +30,15 @@ void BackgroundLoader::Initialize() {
 	GetInstance().initialize();
 }
 
-void BackgroundLoader::RegisterLoadQue(LoadEvent eventID, const std::filesystem::path& filePath) noexcept(false) {
+void BackgroundLoader::RegisterLoadQue(std::unique_ptr<BaseResourceBuilder> builder) noexcept(false) {
 	// mutexのlock
 	std::lock_guard<std::mutex> lock{ referenceMutex };
-	GetInstance().isLoading = true;
-	// ロードイベント
-	switch (eventID) {
-	case LoadEvent::LoadTexture:
-		GetInstance().loadEvents.emplace_back(
-			eventID,
-			std::make_unique<LoadingQue>(filePath, LoadingQue::LoadTextureData{ std::make_shared<Texture>(), nullptr })
-		);
-		break;
-	case LoadEvent::LoadPolygonMesh:
-		GetInstance().loadEvents.emplace_back(
-			eventID,
-			std::make_unique<LoadingQue>(filePath, LoadingQue::LoadPolygonMeshData{ std::make_shared<PolygonMesh>() }));
-		break;
-	case LoadEvent::LoadAudio:
-		GetInstance().loadEvents.emplace_back(
-			eventID,
-			std::make_unique<LoadingQue>(filePath, LoadingQue::LoadAudioData{ std::make_unique<AudioResource>() }));
-		break;
-	default:
-		Console("[BackgroundLoader] EventID is wrong.\n");
-		break;
-	}
+	auto& instance = GetInstance();
+	instance.isLoading = true;
+
+	builder->preprocess();
+	instance.loadEvents.emplace_back(std::move(builder));
+
 	// 条件変数通知
 	loadConditionVariable.notify_all();
 }
@@ -100,57 +77,19 @@ void BackgroundLoader::load_manager() {
 		auto&& nowEvent = loadEvents.begin();
 		// ここからはunlock
 		lock.unlock();
+
+		// ----- ロードプロセス -----
 		bool result = false;
-		uint64_t address = 0;
-		switch (nowEvent->eventId) {
-		case LoadEvent::LoadTexture:
-		{
-			// テクスチャロードイベント
-			auto& tex = std::get<LoadingQue::LoadTextureData>(nowEvent->data->loadData);
-			// テクスチャロード(intermediateResourceはコマンド実行に必要なので保存)
-			tex.intermediateResource = tex.textureData->load(nowEvent->data->filePath);
-			if (tex.intermediateResource) {
-				result = true;
-			}
-			address = reinterpret_cast<uint64_t>(tex.textureData.get());
-			break;
-		}
-		case LoadEvent::LoadPolygonMesh:
-		{
-			// メッシュロードイベント
-			auto& mesh = std::get<LoadingQue::LoadPolygonMeshData>(nowEvent->data->loadData);
-			result = mesh.meshData->load(nowEvent->data->filePath);
-			address = reinterpret_cast<uint64_t>(mesh.meshData.get());
-		}
-		break;
-		case LoadEvent::LoadAudio:
-		{
-			// オーディオロードイベント
-			auto& audio = std::get<LoadingQue::LoadAudioData>(nowEvent->data->loadData);
-			result = audio.audioData->load(nowEvent->data->filePath);
-			address = reinterpret_cast<uint64_t>(audio.audioData.get());
-		}
-		break;
-		default:
-			// デフォルトを通る場合はEventIDがおかしいので止める
-			Console("[BackgroundLoader] EventID is wrong.\n\tID-\'{}\'\n\tFile-\'{}\'\n\tIndex-\'{}\'\n",
-				static_cast<int>(nowEvent->eventId),
-				nowEvent->data->filePath.string(),
-				nowEvent->data->loadData.index(),
-				nowEvent->data->loadData.valueless_by_exception()
-			);
-			std::range_error("[BackgroundLoader] EventID is wrong.");
-			break;
-		}
+		result = nowEvent->data->run();
+
+		// 成功した場合は転送キューにへ
 		if (result) {
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
-			waitLoadingQue.emplace_back(std::move(*nowEvent));
+			waitTransferQue.emplace_back(std::move(*nowEvent));
 		}
+		// 失敗時は転送せずエラー出力
 		else {
-			Console("[BackgroundLoader] Failed loading. File-\'{}\' Address-\'{:#x}\'\n",
-				nowEvent->data->filePath.string(),
-				address
-			);
+			Console("[BackgroundLoader] Failed loading. File-\'{}\'\n", nowEvent->data->filepath().string());
 		}
 
 		// mutexの再ロック
@@ -161,7 +100,7 @@ void BackgroundLoader::load_manager() {
 		// 空だったら自動execute
 		if (loadEvents.empty()) {
 			Console("[BackgroundLoader] Load events is empty. Start execute texture uploading.\n");
-			// 実行イベント
+			// ----- GPUコマンドの実行 -----
 			// コマンド実行
 			DirectXCommand::ExecuteTextureCommand();
 			// 終了まで待機
@@ -169,9 +108,12 @@ void BackgroundLoader::load_manager() {
 			// リセット
 			DirectXCommand::ResetTextureCommand();
 			Console("[BackgroundLoader] Succussed.\n");
-			// resourceViewの作成
-			create_texture_view();
-			transfer_data();
+
+			// ----- 実行済みを転送 -----
+			// 直前にやる
+			postprocess();
+			// 転送
+			transfer_all();
 			// 実行状態をfalseに
 			isLoading = false;
 			// waitしているかもしれないので通知
@@ -181,47 +123,16 @@ void BackgroundLoader::load_manager() {
 	}
 }
 
-void BackgroundLoader::create_texture_view() {
-	for (auto waitLoadingQueItr = waitLoadingQue.begin(); waitLoadingQueItr != waitLoadingQue.end(); ++waitLoadingQueItr) {
-		// ロードイベントIDがTextureなら
-		if (waitLoadingQueItr->eventId == LoadEvent::LoadTexture) {
-			LoadingQue::LoadTextureData& tex = std::get<0>(waitLoadingQueItr->data->loadData);
-			// ビューの作成
-			tex.textureData->create_resource_view();
-			tex.textureData->set_name(waitLoadingQueItr->data->filePath.filename().string());
-		}
+void BackgroundLoader::postprocess() {
+	for (EventList& waitLoading : waitTransferQue) {
+		waitLoading.data->postprocess();
 	}
 }
 
-void BackgroundLoader::transfer_data() {
-	// 新規データを転送
-	for (auto waitLoadingQueItr = waitLoadingQue.begin(); waitLoadingQueItr != waitLoadingQue.end(); ++waitLoadingQueItr) {
-		switch (waitLoadingQueItr->eventId) {
-		case LoadEvent::LoadTexture:
-		{
-			LoadingQue::LoadTextureData& tex = std::get<LoadingQue::LoadTextureData>(waitLoadingQueItr->data->loadData);
-			// TextureManagerに転送
-			TextureManager::Transfer(waitLoadingQueItr->data->filePath.filename().string(), tex.textureData);
-			break;
-		}
-		case LoadEvent::LoadPolygonMesh:
-		{
-			LoadingQue::LoadPolygonMeshData& mesh = std::get<LoadingQue::LoadPolygonMeshData>(waitLoadingQueItr->data->loadData);
-			// PolygomMeshManagerに転送
-			PolygonMeshManager::Transfer(waitLoadingQueItr->data->filePath.filename().string(), mesh.meshData);
-			break;
-		}
-		case LoadEvent::LoadAudio:
-		{
-			LoadingQue::LoadAudioData& audio = std::get<LoadingQue::LoadAudioData>(waitLoadingQueItr->data->loadData);
-			// AudioManagerに転送
-			AudioManager::Transfer(waitLoadingQueItr->data->filePath.filename().string(), std::move(audio.audioData));
-			break;
-		}
-		default:
-			break;
-		}
+void BackgroundLoader::transfer_all() {
+	for (EventList& waitLoading : waitTransferQue) {
+		waitLoading.data->transfer();
 	}
-	// 全て移したのでクリア
-	waitLoadingQue.clear();
+	// 転送完了したので削除
+	waitTransferQue.clear();
 }

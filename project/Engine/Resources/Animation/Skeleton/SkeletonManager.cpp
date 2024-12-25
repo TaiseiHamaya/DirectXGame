@@ -4,7 +4,9 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
 #include "SkeletonResource.h"
+#include "SkeletonResourceBuilder.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -17,8 +19,8 @@ void SkeletonManager::RegisterLoadQue(const std::filesystem::path& filePath) {
 	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	// BackgroundLoaderにLoadPolygonMeshイベントとして転送
-	//BackgroundLoader::RegisterLoadQue(LoadEvent::, filePath);
+	// BackgroundLoaderにイベント送信
+	BackgroundLoader::RegisterLoadQue(eps::CreateUnique<SkeletonResourceBuilder>(filePath));
 }
 
 std::shared_ptr<const SkeletonResource> SkeletonManager::GetSkeleton(const std::string& name) {

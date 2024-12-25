@@ -4,7 +4,9 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
 #include "NodeAnimationResource.h"
+#include "NodeAnimationResourceBuilder.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -17,8 +19,8 @@ void NodeAnimationManager::RegisterLoadQue(const std::filesystem::path& filePath
 	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	// BackgroundLoaderにLoadPolygonMeshイベントとして転送
-	//BackgroundLoader::RegisterLoadQue(LoadEvent::, filePath);
+	// BackgroundLoaderにイベント送信
+	BackgroundLoader::RegisterLoadQue(eps::CreateUnique<NodeAnimationResourceBuilder>(filePath));
 }
 
 std::shared_ptr<const NodeAnimationResource> NodeAnimationManager::GetAnimation(const std::string& name) {

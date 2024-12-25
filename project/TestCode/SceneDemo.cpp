@@ -53,14 +53,8 @@ void SceneDemo::load() {
 	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
-	nodeAnimationResource = eps::CreateUnique<NodeAnimationResource>();
-	nodeAnimationResource->load("./EngineResources/Models/Boss_RangedAttack.gltf");
-	skeletonResource = eps::CreateUnique<SkeletonResource>();
-	skeletonResource->load("./EngineResources/Models/Boss_RangedAttack.gltf");
-	
-	SkeletonManager::Transfer("Boss_RangedAttack.gltf", skeletonResource);
-	NodeAnimationManager::Transfer("Boss_RangedAttack.gltf", nodeAnimationResource);
-	//skeletonResource->load("./EngineResources/Models/Primitive/AnimatedCube.gltf");
+	NodeAnimationManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
+	SkeletonManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
 }
 
 void SceneDemo::initialize() {

@@ -3,9 +3,11 @@
 #include <mutex>
 #include <ranges>
 
-#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
 #include "Engine/Debug/Output.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
+#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
+#include "TextureResourceBuilder.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -37,7 +39,10 @@ void TextureManager::RegisterLoadQue(const std::filesystem::path& filePath) {
 	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadTexture, filePath);
+	// BackgroundLoaderにイベント送信
+	BackgroundLoader::RegisterLoadQue(
+		eps::CreateUnique<TextureResourceBuilder>(filePath)
+	);
 }
 
 std::shared_ptr<const Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {

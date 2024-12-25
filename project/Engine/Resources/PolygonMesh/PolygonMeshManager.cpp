@@ -4,7 +4,9 @@
 
 #include "Engine/Debug/Output.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Resources/PolygonMesh/PolygonMesh.h"
+#include "Engine/Utility/Tools/SmartPointer.h"
+#include "PolygonMesh.h"
+#include "PolygonMeshBuilder.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -26,8 +28,10 @@ void PolygonMeshManager::RegisterLoadQue(const std::filesystem::path& filePath) 
 	if (IsRegistered(filePath.filename().string())) {
 		return;
 	}
-	// BackgroundLoaderにLoadPolygonMeshイベントとして転送
-	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadPolygonMesh, filePath);
+	// BackgroundLoaderにイベント送信
+	BackgroundLoader::RegisterLoadQue(
+		eps::CreateUnique<PolygonMeshBuilder>(filePath)
+	);
 }
 
 std::shared_ptr<const PolygonMesh> PolygonMeshManager::GetPolygonMesh(const std::string& meshName) {
