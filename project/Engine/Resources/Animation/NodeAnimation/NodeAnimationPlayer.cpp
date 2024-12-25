@@ -49,9 +49,12 @@ Vector3 NodeAnimationPlayer::calculate_translate(const std::string& nodeName) co
 }
 
 void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
+#ifdef _DEBUG
 	animationName = animationName_;
+#endif // _DEBUG
+
 	if (nodeAnimation) {
-		animation = nodeAnimation->animation(animationName);
+		animation = nodeAnimation->animation(animationName_);
 	}
 }
 
