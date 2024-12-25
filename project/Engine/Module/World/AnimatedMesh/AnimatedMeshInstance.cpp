@@ -68,7 +68,7 @@ void AnimatedMeshInstance::begin() {
 
 void AnimatedMeshInstance::begin_rendering() noexcept {
 	MeshInstance::begin_rendering();
-	if (!isActive || !mesh) {
+	if (!isActive || !mesh || !skeletonResrouce) {
 		return;
 	}
 
@@ -125,7 +125,7 @@ void AnimatedMeshInstance::draw() const {
 		return;
 	}
 	// メッシュが存在しなければ描画しない
-	if (!mesh) {
+	if (!mesh || !skeletonResrouce) {
 		return;
 	}
 	// 設定したデータをコマンドに積む
