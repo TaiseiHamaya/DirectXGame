@@ -14,7 +14,6 @@
 
 struct Joint {
 	std::string name; // BoneName(== NodeName)
-	Matrix4x4 localMatrix;
 	Matrix4x4 inverseBindPoseMatrices;
 	std::optional<uint32_t> parent;
 	std::vector<uint32_t> children;
@@ -51,7 +50,7 @@ public:
 	const Skeleton& skeleton() const;
 	const VertexBuffer<VertexInfluenceData>* weight_influence(const std::string& bindMeshName) const;
 	const std::vector<uint32_t>* use_joint_indexes(const std::string& bindMeshName) const;
-	uint32_t size() const;
+	uint32_t joint_size() const;
 
 private:
 	Skeleton skeletonData;

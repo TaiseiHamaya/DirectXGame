@@ -11,12 +11,10 @@
 template<typename T>
 T CalculateValue(const NodeAnimationResource::AnimationCurve<T>& animationCurve, float time, std::function<T(const T&, const T&, float)> lerpFunc = std::lerp);
 
-NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName, bool isLoop_) :
+NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName_, bool isLoop_) :
 	isLoop(isLoop_),
 	nodeAnimation(NodeAnimationManager::GetAnimation(fileName)) {
-	if (nodeAnimation) {
-		animation = nodeAnimation->animation(animationName);
-	}
+	reset_animation(animationName_);
 }
 
 void NodeAnimationPlayer::update() {
@@ -50,13 +48,45 @@ Vector3 NodeAnimationPlayer::calculate_translate(const std::string& nodeName) co
 	return CVector3::ZERO;
 }
 
+void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
+	animationName = animationName_;
+	if (nodeAnimation) {
+		animation = nodeAnimation->animation(animationName);
+	}
+}
+
+void NodeAnimationPlayer::play() {
+	isActive = true;
+}
+
+void NodeAnimationPlayer::stop() {
+	isActive = false;
+	timer = 0;
+}
+
+void NodeAnimationPlayer::pause() {
+	isActive = false;
+}
+
+void NodeAnimationPlayer::restart() {
+	stop();
+	play();
+}
+
+void NodeAnimationPlayer::set_loop(bool isLoop_) {
+	isLoop = isLoop_;
+}
+
 #ifdef _DEBUG
 #include <imgui.h>
 void NodeAnimationPlayer::debug_gui() {
-	ImGui::Checkbox("ActiveAnimation", &isActive);
-	ImGui::Checkbox("Loop", &isLoop);
-	if (animation) {
-		ImGui::SliderFloat("Timer", &timer, 0, animation->duration, "%.3fs");
+	if (ImGui::TreeNode(animationName.c_str())) {
+		ImGui::Checkbox("ActiveAnimation", &isActive);
+		ImGui::Checkbox("Loop", &isLoop);
+		if (animation) {
+			ImGui::SliderFloat("Timer", &timer, 0, animation->duration, "%.3fs");
+		}
+		ImGui::TreePop();
 	}
 }
 #endif // _DEBUG
@@ -72,7 +102,7 @@ T CalculateValue(const NodeAnimationResource::AnimationCurve<T>& animationCurve,
 	if (keyframes.size() == 1 || time <= keyframes.begin()->first) {
 		return keyframes.begin()->second;
 	}
-	
+
 	// にぶたんしてKeyを探す
 	auto endKey = keyframes.upper_bound(time);
 	// 末尾より後ろの場合は末尾の値を返す

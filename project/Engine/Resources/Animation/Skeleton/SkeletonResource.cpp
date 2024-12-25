@@ -38,7 +38,6 @@ std::optional<uint32_t> CreateSkeleton(
 		// Jointの追加
 		joint = &joints.emplace_back(
 			name,
-			ToMatrix4x4(node->mTransformation),
 			CMatrix4x4::IDENTITY,
 			parentIndex,
 			std::vector<uint32_t>{}
@@ -191,6 +190,6 @@ const std::vector<uint32_t>* SkeletonResource::use_joint_indexes(const std::stri
 	return nullptr;
 }
 
-uint32_t SkeletonResource::size() const {
+uint32_t SkeletonResource::joint_size() const {
 	return static_cast<uint32_t>(skeletonData.joints.size());
 }

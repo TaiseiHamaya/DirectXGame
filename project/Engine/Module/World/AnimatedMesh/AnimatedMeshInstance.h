@@ -27,16 +27,19 @@ private:
 		std::vector<StructuredBuffer<SkeletonMatrixPaletteWell>> matrixPalettes; // GPU用Matrix
 	};
 
+private:
+	using MeshInstance::reset_mesh;
+
 public:
 	AnimatedMeshInstance() noexcept(false);
 
 	/// <summary>
 	/// 引数付きコンストラクタ
 	/// </summary>
-	/// <param name="file">メッシュファイル名</param>
+	/// <param name="meshName">メッシュ名</param>
 	/// <param name="animationName">アニメーション名</param>
 	/// <param name="isLoop">ループするかどうか</param>
-	explicit AnimatedMeshInstance(const std::string& file, const std::string& animationName = "", bool isLoop = false) noexcept(false);
+	explicit AnimatedMeshInstance(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
 	virtual ~AnimatedMeshInstance() noexcept = default;
 
 	__NON_COPYABLE_CLASS(AnimatedMeshInstance)
@@ -46,14 +49,20 @@ public:
 	void begin_rendering() noexcept override;
 	void draw() const override;
 
+public:
+	void reset_animated_mesh(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
+	NodeAnimationPlayer* const get_animation();
+
 #ifdef _DEBUG
 public:
 	void debug_gui() override;
 	void draw_skeleton();
 #endif // _DEBUG
 
-private:
+protected:
 	std::unique_ptr<NodeAnimationPlayer> nodeAnimation; // NodeAnimation
+	
+private:
 	std::shared_ptr<const SkeletonResource> skeletonResrouce; // Skeleton関連
 
 	SkeletonData skeletonData; // SkeletonのTransform関連

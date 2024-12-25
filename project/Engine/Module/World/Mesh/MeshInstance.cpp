@@ -25,7 +25,7 @@ MeshInstance::MeshInstance() noexcept(false) :
 
 MeshInstance::MeshInstance(const std::string& meshName_) noexcept(false) :
 	MeshInstance() {
-	reset_object(meshName_);
+	reset_mesh(meshName_);
 }
 
 MeshInstance::~MeshInstance() noexcept = default;
@@ -61,7 +61,7 @@ void MeshInstance::draw() const {
 	// 設定したデータをコマンドに積む
 	const auto& commandList = DirectXCommand::GetCommandList();
 	for (int i = 0; i < mesh->material_count(); ++i) {
-		commandList->IASetVertexBuffers(0, 1, mesh->get_p_vbv(i)); // VBV
+		commandList->IASetVertexBuffers(0, 1, &mesh->get_vbv(i)); // VBV
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
@@ -70,7 +70,7 @@ void MeshInstance::draw() const {
 	}
 }
 
-void MeshInstance::reset_object(const std::string& meshName_) {
+void MeshInstance::reset_mesh(const std::string& meshName_) {
 	// メッシュ情報の取得
 	mesh = PolygonMeshManager::GetPolygonMesh(meshName_);
 #ifdef _DEBUG
@@ -119,7 +119,7 @@ void MeshInstance::set_texture(const std::string& name, int index) {
 #ifdef _DEBUG
 void MeshInstance::debug_gui() {
 	if (PolygonMeshManager::MeshListGui(meshName)) {
-		reset_object(meshName);
+		reset_mesh(meshName);
 	}
 	if (ImGui::Button("ResetMaterialData")) {
 		default_material();

@@ -40,7 +40,7 @@ void TextureManager::RegisterLoadQue(const std::filesystem::path& filePath) {
 	BackgroundLoader::RegisterLoadQue(LoadEvent::LoadTexture, filePath);
 }
 
-std::shared_ptr<Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {
+std::shared_ptr<const Texture> TextureManager::GetTexture(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	// 見つかったらそのデータのweak_ptrを返す
 	if (IsRegisteredNonlocking(textureName)) {

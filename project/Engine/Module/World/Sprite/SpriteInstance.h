@@ -43,7 +43,7 @@ private:
 private:
 	std::unique_ptr<Object3DVertexBuffer> vertices;
 	std::unique_ptr<IndexBuffer> indexes;
-	std::weak_ptr<Texture> texture;
+	std::shared_ptr<const Texture> texture;
 
 	struct SpriteMaterial {
 		Color4 color;

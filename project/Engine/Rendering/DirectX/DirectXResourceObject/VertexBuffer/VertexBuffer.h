@@ -36,7 +36,7 @@ public:
 	VertexBuffer& operator=(VertexBuffer&&) = default;
 
 public:
-	const D3D12_VERTEX_BUFFER_VIEW* const get_p_vbv() const noexcept { return &vertexBufferView; };
+	const D3D12_VERTEX_BUFFER_VIEW& get_vbv() const noexcept { return vertexBufferView; };
 	const std::uint32_t vertex_size() const noexcept { return size; };
 	template<WriteableVertexBuffer<T> Array>
 	void write(const Array& vertices_array);
@@ -52,7 +52,7 @@ private:
 	UINT memorySize;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 
-	static const UINT VERTEX_DATA_SIZE = sizeof(T);
+	static constexpr UINT VERTEX_DATA_SIZE = sizeof(T);
 };
 
 template<VertexBufferConcept T>

@@ -22,7 +22,7 @@ public:
 		friend class MeshInstance;
 		friend class AnimatedMeshInstance;
 	private:
-		std::shared_ptr<Texture> texture;
+		std::shared_ptr<const Texture> texture;
 		std::unique_ptr<Material> material;
 
 	public:
@@ -54,7 +54,7 @@ public:
 	virtual void late_update() {};
 	virtual void draw() const;
 
-	void reset_object(const std::string& meshName_);
+	void reset_mesh(const std::string& meshName_);
 
 	/// <summary>
 	/// Texture、Materialパラメータ、UVデータのリセットを行う
@@ -79,7 +79,7 @@ protected:
 	bool isDraw = true;
 
 private:
-	std::shared_ptr<PolygonMesh> mesh;
+	std::shared_ptr<const PolygonMesh> mesh;
 
 	std::unique_ptr<TransformMatrix> transformMatrix;
 	

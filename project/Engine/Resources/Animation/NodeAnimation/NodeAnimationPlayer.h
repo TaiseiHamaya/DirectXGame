@@ -24,6 +24,15 @@ public:
 	Quaternion calculate_rotate(const std::string& nodeName) const;
 	Vector3 calculate_translate(const std::string& nodeName) const;
 
+	void reset_animation(const std::string& animationName);
+
+	void play();
+	void stop();
+	void pause();
+	void restart();
+
+	void set_loop(bool isLoop);
+
 #ifdef _DEBUG
 public:
 	void debug_gui();
@@ -35,4 +44,8 @@ private:
 	float timer{ 0 };
 	const NodeAnimationResource::Animation* animation{ nullptr };
 	std::shared_ptr<const NodeAnimationResource> nodeAnimation;
+
+#ifdef _DEBUG
+	std::string animationName;
+#endif // _DEBUG
 };

@@ -32,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="meshName">メッシュ名</param>
 	/// <returns>PolygonMeshクラスのweak_ptr</returns>
-	static std::shared_ptr<PolygonMesh> GetPolygonMesh(const std::string& meshName);
+	static std::shared_ptr<const PolygonMesh> GetPolygonMesh(const std::string& meshName);
 
 	/// <summary>
 	/// メッシュが登録されているか取得

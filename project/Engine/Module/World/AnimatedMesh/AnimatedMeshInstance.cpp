@@ -14,24 +14,22 @@ AnimatedMeshInstance::AnimatedMeshInstance() noexcept(false) :
 	MeshInstance() {
 }
 
-AnimatedMeshInstance::AnimatedMeshInstance(const std::string& file, const std::string& animationName, bool isLoop) noexcept(false) :
-	MeshInstance(file),
-	nodeAnimation(eps::CreateUnique<NodeAnimationPlayer>(file, animationName, isLoop)),
-	skeletonResrouce(SkeletonManager::GetSkeleton(file)) {
+AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) {
+	reset_animated_mesh(meshName, animationName, isLoop);
 
 	// Skeletonが取得できない場合何もしない
 	if (!skeletonResrouce) {
 		return;
 	}
 
-	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->size());
+	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->joint_size());
 	// Jointの配列を作成
 	skeletonData.jointInstance.resize(jointSize);
 
 	// SkeletonMatrixPaletteWellの生成
 	// マルチメッシュ分生成
 	skeletonData.matrixPalettes.resize(mesh->material_count());
-	for (uint32_t i = 0; StructuredBuffer<SkeletonMatrixPaletteWell>& matrixPalette : skeletonData.matrixPalettes) {
+	for (uint32_t i = 0; StructuredBuffer<SkeletonMatrixPaletteWell>&matrixPalette : skeletonData.matrixPalettes) {
 		const std::string& meshName = mesh->mesh_data(i)->meshName;
 		const std::vector<uint32_t>* useJointIndexes = skeletonResrouce->use_joint_indexes(meshName);
 		if (!useJointIndexes) {
@@ -48,7 +46,7 @@ AnimatedMeshInstance::AnimatedMeshInstance(const std::string& file, const std::s
 	for (uint32_t i = 0; i < jointSize; ++i) {
 		MeshInstance& boneMesh = boneMeshTest[i];
 		const Joint& joint = skeleton.joints[i];
-		boneMesh.reset_object("bone.obj");
+		boneMesh.reset_mesh("bone.obj");
 
 		if (joint.parent) {
 			boneMesh.set_parent(boneMeshTest[joint.parent.value()]);
@@ -60,6 +58,9 @@ AnimatedMeshInstance::AnimatedMeshInstance(const std::string& file, const std::s
 }
 
 void AnimatedMeshInstance::begin() {
+	if (!isActive) {
+		return;
+	}
 	if (nodeAnimation) {
 		nodeAnimation->update();
 	}
@@ -139,17 +140,27 @@ void AnimatedMeshInstance::draw() const {
 		}
 
 		D3D12_VERTEX_BUFFER_VIEW vbv[2] = {
-			*mesh->get_p_vbv(i),
-			*weightInfluence->get_p_vbv()
+			mesh->get_vbv(i),
+			weightInfluence->get_vbv()
 		};
 		commandList->IASetVertexBuffers(0, 2, vbv); // VBV
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
-		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
+		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Material
 		commandList->SetGraphicsRootDescriptorTable(4, meshMaterials[i].texture->get_gpu_handle());// Texture
 		commandList->SetGraphicsRootDescriptorTable(5, skeletonData.matrixPalettes[i].get_handle_gpu()); // BoneMatrix
 		commandList->DrawIndexedInstanced(mesh->index_size(i), 1, 0, 0, 0); // 描画コマンド
 	}
+}
+
+void AnimatedMeshInstance::reset_animated_mesh(const std::string& meshName, const std::string& animationName, bool isLoop) {
+	reset_mesh(meshName);
+	skeletonResrouce = SkeletonManager::GetSkeleton(meshName);
+	nodeAnimation = eps::CreateUnique<NodeAnimationPlayer>(meshName, animationName, isLoop);
+}
+
+NodeAnimationPlayer* const AnimatedMeshInstance::get_animation() {
+	return nodeAnimation.get();
 }
 
 #ifdef _DEBUG
@@ -161,7 +172,7 @@ void AnimatedMeshInstance::debug_gui() {
 	}
 	ImGui::Separator();
 	if (skeletonResrouce) {
-		ImGui::Text("NumSkeleton : %d", skeletonResrouce->size());
+		ImGui::Text("NumSkeleton : %d", skeletonResrouce->joint_size());
 	}
 	else {
 		ImGui::Text("Skeleton is not bind.");

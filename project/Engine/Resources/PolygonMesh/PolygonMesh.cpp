@@ -46,8 +46,8 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	return true;
 }
 
-const D3D12_VERTEX_BUFFER_VIEW* const PolygonMesh::get_p_vbv(std::uint32_t index) const {
-	return meshData[index].vertices->get_p_vbv();
+const D3D12_VERTEX_BUFFER_VIEW& PolygonMesh::get_vbv(std::uint32_t index) const {
+	return meshData[index].vertices->get_vbv();
 }
 
 const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv(std::uint32_t index) const {

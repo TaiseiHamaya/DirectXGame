@@ -43,7 +43,7 @@ SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/bone.obj");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Bone/bone.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/gltf-test/Boss_RangedAttack.gltf");
 	AudioManager::RegisterLoadQue("./EngineResources/Alarm01.wav");
 	AudioManager::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
@@ -86,9 +86,9 @@ void SceneDemo::initialize() {
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
 	parent = std::make_unique<MeshInstance>();
-	parent->reset_object("Boss_RangedAttack.gltf");
+	parent->reset_mesh("Boss_RangedAttack.gltf");
 	child = std::make_unique<MeshInstance>();
-	child->reset_object("Sphere.obj");
+	child->reset_mesh("Sphere.obj");
 	child->set_parent(*parent);
 
 	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Boss_RangedAttack.gltf", "\u30a2\u30fc\u30de\u30c1\u30e5\u30a2\u30a2\u30af\u30b7\u30e7\u30f3", true);
@@ -241,7 +241,7 @@ void SceneDemo::draw() const {
 	collisionManager->debug_draw3d();
 	camera3D->debug_draw();
 	animatedMeshInstance->draw_skeleton();
-	//DebugValues::ShowGrid();
+	DebugValues::ShowGrid();
 #endif // _DEBUG
 
 	renderPath->next();
@@ -295,6 +295,9 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("AnimatedMesh");
 	animatedMeshInstance->debug_gui();
+	if (ImGui::Button("Restart")) {
+		animatedMeshInstance->get_animation()->restart();
+	}
 	ImGui::End();
 
 	ImGui::Begin("Parent");
