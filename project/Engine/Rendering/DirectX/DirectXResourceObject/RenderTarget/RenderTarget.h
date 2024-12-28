@@ -52,7 +52,7 @@ public:
 
 	const D3D12_RENDER_TARGET_VIEW_DESC& get_rtv_desc() const;
 
-	void set_claer_color(Color4 color_);
+	void set_clear_color(Color4 color_);
 
 protected:
 	bool isRendering = false;

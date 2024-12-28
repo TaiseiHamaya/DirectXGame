@@ -57,6 +57,8 @@ AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const st
 	}
 }
 
+AnimatedMeshInstance::~AnimatedMeshInstance() noexcept = default;
+
 void AnimatedMeshInstance::begin() {
 	if (!isActive) {
 		return;

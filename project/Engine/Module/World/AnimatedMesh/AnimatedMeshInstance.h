@@ -40,7 +40,7 @@ public:
 	/// <param name="animationName">アニメーション名</param>
 	/// <param name="isLoop">ループするかどうか</param>
 	explicit AnimatedMeshInstance(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
-	virtual ~AnimatedMeshInstance() noexcept = default;
+	virtual ~AnimatedMeshInstance() noexcept;
 
 	__NON_COPYABLE_CLASS(AnimatedMeshInstance)
 

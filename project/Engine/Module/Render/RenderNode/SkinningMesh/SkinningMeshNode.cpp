@@ -22,14 +22,14 @@ void SkinningMeshNode::set_render_target(const std::shared_ptr<SingleRenderTarge
 	if (renderTarget_) {
 		renderTarget = renderTarget_;
 		resultSvtHandle = renderTarget_->offscreen_render().texture_gpu_handle();
-		renderTarget_->offscreen_render().set_claer_color(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
+		renderTarget_->offscreen_render().set_clear_color(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
 	}
 	else {
 		auto temp = std::make_shared<SingleRenderTarget>();
 		renderTarget = temp;
 		renderTarget->initialize();
 		resultSvtHandle = temp->offscreen_render().texture_gpu_handle();
-		temp->offscreen_render().set_claer_color(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
+		temp->offscreen_render().set_clear_color(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
 	}
 }
 

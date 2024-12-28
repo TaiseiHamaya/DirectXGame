@@ -61,6 +61,6 @@ const D3D12_RENDER_TARGET_VIEW_DESC& RenderTarget::get_rtv_desc() const {
 	return rtvDesc;
 }
 
-void RenderTarget::set_claer_color(Color4 color_) {
+void RenderTarget::set_clear_color(Color4 color_) {
 	clearColor = color_;
 }
