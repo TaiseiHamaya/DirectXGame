@@ -306,25 +306,6 @@ void SceneDemo::debug_update() {
 	sprite->debug_gui();
 	ImGui::End();
 
-	ImGui::Begin("Single");
-	singleCollider->debug_gui();
-	ImGui::End();
-
-	ImGui::Begin("Audio");
-	audioPlayer->debug_gui();
-	if (ImGui::Button("Play")) {
-		audioPlayer->play();
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Stop")) {
-		audioPlayer->stop();
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Pause")) {
-		audioPlayer->pause();
-	}
-	ImGui::End();
-
 	AudioManager::DebugGui();
 
 	ImGui::Begin("WorldClock");
@@ -335,23 +316,8 @@ void SceneDemo::debug_update() {
 	collisionManager->debug_gui();
 	ImGui::End();
 
-	ImGui::Begin("Particle");
-	if (ImGui::Button("Emit")) {
-		//particleSystem->emit();
-	}
-	particleEmitter->debug_gui();
-	ImGui::End();
-
 	ImGui::Begin("DirectionalLight");
 	directionalLight->debug_gui();
-	ImGui::End();
-
-	ImGui::Begin("TestImGui");
-	jsonResource.show_imgui();
-	if (ImGui::Button("Save")) {
-
-		jsonResource.save();
-	}
 	ImGui::End();
 }
 #endif // _DEBUG
