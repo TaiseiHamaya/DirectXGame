@@ -2,6 +2,8 @@
 
 #ifdef _DEBUG
 
+#include <cstdint>
+
 class ImGuiManager final {
 private:
 	ImGuiManager() noexcept = default;
@@ -23,7 +25,7 @@ public:
 	static void EndFrame();
 
 private:
-
+	uint32_t srvIndex;
 };
 
 #endif // _DEBUG

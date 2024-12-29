@@ -29,7 +29,7 @@ std::shared_ptr<const NodeAnimationResource> NodeAnimationManager::GetAnimation(
 		return GetInstance().instanceList.at(name);
 	}
 	else {
-		//Console("[NodeAnimationManager] Unloading . Name-\'{:}\'\n", name);
+		//Console("Unloading . Name-\'{:}\'\n", name);
 		return nullptr;
 	}
 }
@@ -41,7 +41,7 @@ bool NodeAnimationManager::IsRegistered(const std::string& name) {
 
 void NodeAnimationManager::Transfer(const std::string& name, std::shared_ptr<NodeAnimationResource>& data) {
 	std::lock_guard<std::mutex> lock{ nodeAnimationMutex };
-	Console("[NodeAnimationManager] Transfer new node animation. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Console("Transfer new node animation. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 

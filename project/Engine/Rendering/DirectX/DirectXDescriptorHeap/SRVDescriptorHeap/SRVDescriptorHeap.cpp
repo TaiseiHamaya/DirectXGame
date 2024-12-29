@@ -17,7 +17,7 @@ void SRVDescriptorHeap::Initialize() {
 
 const std::uint32_t SRVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Console("[SRVDescriptorHeap] Use SRV index. Index-\'{}\'\n", useIndex);
+	Console("Use SRV index. Index-\'{}\'\n", useIndex);
 	return useIndex;
 }
 
@@ -39,7 +39,7 @@ void SRVDescriptorHeap::SetDescriptorHeaps() {
 }
 
 void SRVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
-	Console("[SRVDescriptorHeap] Release SRV index. Index-\'{}\'\n", index);
+	Console("Release SRV index. Index-\'{}\'\n", index);
 	GetInstance().release_heap(index);
 }
 

@@ -52,7 +52,7 @@ std::shared_ptr<const Texture> TextureManager::GetTexture(const std::string& tex
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
-		Console("[TextureManager] Texture Name-\'{:}\' is not loading.\n", textureName);
+		Console("Warning : Texture Name-\'{:}\' is not loading.\n", textureName);
 		return GetInstance().textureInstanceList.at("Error.png");
 	}
 }
@@ -65,7 +65,7 @@ bool TextureManager::IsRegistered(const std::string& textureName) noexcept(false
 void TextureManager::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(textureName)) {
-		Console("[TextureManager] Unload texture Name-\'{:}\'.\n", textureName);
+		Console("Unload texture Name-\'{:}\'.\n", textureName);
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		texture->release_srv_heap();
 		texture.reset();
@@ -77,10 +77,10 @@ void TextureManager::Transfer(const std::string& name, std::shared_ptr<Texture>&
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(name)) {
 		data->release_srv_heap();
-		Console("[TextureManager] Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+		Console("Warning : Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 		return;
 	}
-	Console("[TextureManager] Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Console("Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 

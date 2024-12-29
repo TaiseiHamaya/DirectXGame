@@ -85,7 +85,7 @@ void SceneDemo::initialize() {
 	child->reset_mesh("Sphere.obj");
 	child->set_parent(*parent);
 
-	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Boss_RangedAttack.gltf", "\u30a2\u30fc\u30de\u30c1\u30e5\u30a2\u30a2\u30af\u30b7\u30e7\u30f3", true);
+	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Boss_RangedAttack.gltf", "", true);
 
 	parentCollider = std::make_unique<SphereCollider>();
 	parentCollider->initialize();

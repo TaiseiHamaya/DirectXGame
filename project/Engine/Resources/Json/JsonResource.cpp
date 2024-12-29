@@ -24,7 +24,7 @@ void JsonResource::load(const std::filesystem::path& file) {
 	std::ifstream ifstream{ filePath };
 
 	if (ifstream.fail()) {
-		Console("[JsonResource] File-\'{}\' is not found.\n", filePath.stem().string());
+		Console("Warning : File-\'{}\' is not found.\n", filePath.stem().string());
 		return;
 	}
 

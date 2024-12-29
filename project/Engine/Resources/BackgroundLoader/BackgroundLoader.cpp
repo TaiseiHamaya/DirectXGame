@@ -88,9 +88,9 @@ void BackgroundLoader::load_manager() {
 			waitTransferQue.emplace_back(std::move(*nowEvent));
 		}
 		// 失敗時は転送せずエラー出力
-		else {
-			Console("[BackgroundLoader] Failed loading. File-\'{}\'\n", nowEvent->data->filepath().string());
-		}
+		//else {
+		//	Console("Failed loading. File-\'{}\'\n", nowEvent->data->filepath().string());
+		//}
 
 		// mutexの再ロック
 		lock.lock();
@@ -99,7 +99,7 @@ void BackgroundLoader::load_manager() {
 
 		// 空だったら自動execute
 		if (loadEvents.empty()) {
-			Console("[BackgroundLoader] Load events is empty. Start execute texture uploading.\n");
+			Console("Notification : Load events is empty. Start uploading texture.\n");
 			// ----- GPUコマンドの実行 -----
 			// コマンド実行
 			DirectXCommand::ExecuteTextureCommand();
@@ -107,7 +107,7 @@ void BackgroundLoader::load_manager() {
 			DirectXCommand::WaitTextureCommand();
 			// リセット
 			DirectXCommand::ResetTextureCommand();
-			Console("[BackgroundLoader] Succussed.\n");
+			Console("Succeeded.\n");
 
 			// ----- 実行済みを転送 -----
 			// 直前にやる

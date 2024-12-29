@@ -47,7 +47,7 @@ void DirectXCore::Initialize() {
 	DepthStencilValue::depthStencil->initialize(DXGI_FORMAT_D32_FLOAT);
 
 	// オールコンプリート
-	Console("[Engine] Complete create DirectXObjects\n");
+	Console("Complete create DirectXObjects\n");
 }
 
 void DirectXCore::BeginFrame() {
@@ -70,6 +70,8 @@ void DirectXCore::EndFrame() {
 void DirectXCore::Finalize() {
 	// DepthStencilInstanceを削除
 	DepthStencilValue::depthStencil.reset();
+
+	DirectXSwapChain::Finalize();
 }
 
 DirectXCore::Debug::~Debug() {

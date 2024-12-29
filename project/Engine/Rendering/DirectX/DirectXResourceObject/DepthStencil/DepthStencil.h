@@ -8,7 +8,7 @@
 class DepthStencil final : public DirectXResourceObject {
 public:
 	DepthStencil() = default;
-	~DepthStencil() = default;
+	~DepthStencil();
 
 public:
 	void initialize(DXGI_FORMAT format, std::uint32_t width = EngineSettings::CLIENT_WIDTH, std::uint32_t height = EngineSettings::CLIENT_HEIGHT);

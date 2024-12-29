@@ -16,7 +16,7 @@ void RTVDescriptorHeap::Initialize() {
 
 std::uint32_t RTVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Console("[RTVDescriptorHeap] Use RTV index. Index-\'{}\'\n", useIndex);
+	Console("Use RTV index. Index-\'{}\'\n", useIndex);
 	return useIndex;
 }
 
@@ -25,7 +25,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(std::uint32_t index)
 }
 
 void RTVDescriptorHeap::ReleaseIndex(std::uint32_t index) {
-	Console("[RTVDescriptorHeap] Release RTV index. Index-\'{}\'\n", index);
+	Console("Release RTV index. Index-\'{}\'\n", index);
 	GetInstance().release_heap(index);
 }
 

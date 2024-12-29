@@ -102,7 +102,7 @@ void MeshInstance::default_material() {
 #ifdef _DEBUG
 			meshMaterial.textureName = "Error.png";
 #endif // _DEBUG
-			Console("[MeshInstance] Material data is not found.\n");
+			Console("Warning : Material data is not found.\n");
 		}
 		++i;
 	}

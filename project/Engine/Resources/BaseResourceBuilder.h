@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// Run on default timing
 	/// </summary>
-	/// <returns>Success / Failed</returns>
+	/// <returns>Succeed / Failed</returns>
 	virtual bool run() = 0;
 
 	/// <summary>

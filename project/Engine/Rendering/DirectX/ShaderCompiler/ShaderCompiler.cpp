@@ -28,7 +28,7 @@ void ShaderCompiler::initialize() {
 
 [[nodiscard]] Microsoft::WRL::ComPtr<IDxcBlob>  ShaderCompiler::compile_shader(const std::wstring& filePath, const std::wstring& profile) {
 	HRESULT hr;
-	Console(L"[ShaderCompiler] Start compile shader. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 開始ログ
+	Console(L"Start compile shader. Path-\'{}\', Profile-\'{}\'\n", filePath, profile); // 開始ログ
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> shaderSource = nullptr;
 	hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, shaderSource.GetAddressOf()); // ロード
 	assert(SUCCEEDED(hr)); // ファイル読み込みエラー
@@ -70,7 +70,7 @@ void ShaderCompiler::initialize() {
 	Microsoft::WRL::ComPtr<IDxcBlob>  shaderBlob = nullptr;
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(shaderBlob.GetAddressOf()), nullptr); // 成功したので書き込み
 	assert(SUCCEEDED(hr));
-	Console(L"[ShaderCompiler] Compile succeeded.\n"); // 成功ログ
+	Console(L"Compile succeeded.\n"); // 成功ログ
 
 	return shaderBlob;
 }
