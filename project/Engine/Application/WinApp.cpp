@@ -141,8 +141,12 @@ void WinApp::Finalize() {
 	// COMの終了
 	CoUninitialize();
 	instance.reset();
-	// App
+
+	// ログ
 	Console("Complete finalize application.\n");
+
+	// chrono内のTZDBを削除
+	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
 void WinApp::ShowAppWindow() {

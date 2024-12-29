@@ -29,7 +29,7 @@ std::shared_ptr<const SkeletonResource> SkeletonManager::GetSkeleton(const std::
 		return GetInstance().instanceList.at(name);
 	}
 	else {
-		Console("[SkeletonManager] Unloading skeleton. Name-\'{:}\'\n", name);
+		Console("Warning : Unloading skeleton. Name-\'{:}\'\n", name);
 		return nullptr;
 	}
 }
@@ -42,7 +42,7 @@ bool SkeletonManager::IsRegistered(const std::string& name) {
 
 void SkeletonManager::Transfer(const std::string& name, std::shared_ptr<SkeletonResource>& data) {
 	std::lock_guard<std::mutex> lock{ skeletonMutex };
-	Console("[SkeletonManager] Transfer new skeleton. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Console("Transfer new skeleton. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 

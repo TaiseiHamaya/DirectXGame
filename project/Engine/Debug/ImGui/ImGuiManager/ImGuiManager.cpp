@@ -2,8 +2,6 @@
 
 #include "ImGuiManager.h"
 
-#include <memory>
-
 #include "Engine/Application/WinApp.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
@@ -21,7 +19,8 @@ ImGuiManager& ImGuiManager::GetInstance() noexcept {
 }
 
 void ImGuiManager::Initialize() {
-	std::uint32_t index = SRVDescriptorHeap::UseHeapIndex();
+	auto& srvIndex = GetInstance().srvIndex;
+	srvIndex = SRVDescriptorHeap::UseHeapIndex();
 	// ----------ImGui初期化----------
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -34,16 +33,20 @@ void ImGuiManager::Initialize() {
 		RenderingSystemValues::NUM_BUFFERING,
 		DirectXSystemValues::SCREEN_RTV_FORMAT,
 		SRVDescriptorHeap::GetDescriptorHeap().Get(),
-		SRVDescriptorHeap::GetCPUHandle(index),
-		SRVDescriptorHeap::GetGPUHandle(index)
+		SRVDescriptorHeap::GetCPUHandle(srvIndex),
+		SRVDescriptorHeap::GetGPUHandle(srvIndex)
 	);
 }
 
 void ImGuiManager::Finalize() {
+	auto& srvIndex = GetInstance().srvIndex;
+
 	// ImGui終了処理
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+
+	SRVDescriptorHeap::ReleaseHeapIndex(srvIndex);
 }
 
 void ImGuiManager::BeginFrame() {

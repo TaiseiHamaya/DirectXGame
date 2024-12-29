@@ -12,9 +12,9 @@ void RandomEngine::Initialize() {
 	std::random_device device{};
 	uint32_t seed = device();
 #ifdef _DEBUG
-	Console("[RandomEngine] RandomEngine is initalized. Seed-\'{:#x}\'\n", seed);
+	Console("RandomEngine is initalized. Seed-\'{:#x}\'\n", seed);
 #else
-	Console("[RandomEngine] RandomEngine is initalized. SeedHash-\'{:#x}\'\n", std::hash<uint32_t>()(seed));
+	Console("RandomEngine is initalized. SeedHash-\'{:#x}\'\n", std::hash<uint32_t>()(seed));
 #endif // _DEBUG
 	instance.mersenneTwister.seed(seed);
 }

@@ -50,7 +50,7 @@ Vector3 NodeAnimationPlayer::calculate_translate(const std::string& nodeName) co
 
 void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
 #ifdef _DEBUG
-	animationName = animationName_;
+	animationName = animationName_.empty() ? "UnknownAnimation" : animationName_;
 #endif // _DEBUG
 
 	if (nodeAnimation) {
@@ -83,8 +83,8 @@ void NodeAnimationPlayer::set_loop(bool isLoop_) {
 #ifdef _DEBUG
 #include <imgui.h>
 void NodeAnimationPlayer::debug_gui() {
-	if (ImGui::TreeNode(animationName.c_str())) {
-		ImGui::Checkbox("ActiveAnimation", &isActive);
+	if (ImGui::TreeNodeEx(animationName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::Checkbox("Active", &isActive);
 		ImGui::Checkbox("Loop", &isLoop);
 		if (animation) {
 			ImGui::SliderFloat("Timer", &timer, 0, animation->duration, "%.3fs");

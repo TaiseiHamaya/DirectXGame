@@ -35,10 +35,10 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load(const std::filesystem::path& filePath) {
-	Console("[Texture] Start load texture. file-\'{}\'\n", filePath.string());
+	Console("Start load texture. file-\'{}\'\n", filePath.string());
 	auto loadData = LoadTextureData(filePath); // ロード
 	if (loadData.index() == 0) {
-		Console(L"[Texture] Failed loading texture. Message-\'{}\'\n", _com_error(std::get<0>(loadData)).ErrorMessage());
+		Console(L"Failed loading texture. Message-\'{}\'\n", _com_error(std::get<0>(loadData)).ErrorMessage());
 		return nullptr;
 	}
 	DirectX::ScratchImage& mipImages = std::get<1>(loadData);
@@ -53,19 +53,19 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load(const std::filesystem::path
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; // 2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-	Console("[Texture] Success intermediate.\n");
+	Console("Succeeded create intermediate.\n");
 	return intermediateResource;
 }
 
 void Texture::create_resource_view() {
-	Console("[Texture] Create texture resource view.\n");
+	Console("Create texture resource view.\n");
 	// 使用するディスクリプタヒープを取得
 	heapIndex = SRVDescriptorHeap::UseHeapIndex();
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());
 	gpuHandle = SRVDescriptorHeap::GetGPUHandle(heapIndex.value());
 	// textureResourceに転送
 	DirectXDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, textureSrvHandleCPU);
-	Console("[Texture] Success.\n");
+	Console("Succeeded.\n");
 }
 
 void Texture::set_name(const std::string& fileName) {

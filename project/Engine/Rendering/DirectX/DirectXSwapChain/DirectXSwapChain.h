@@ -22,6 +22,7 @@ private:
 
 public:
 	static void Initialize();
+	static void Finalize();
 
 public:
 	static void SwapScreen();

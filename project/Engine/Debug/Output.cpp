@@ -11,9 +11,19 @@
 
 #include <Engine/Utility/Tools/ConvertString.h>
 
+namespace chrono = std::chrono;
+
+LocalTimeSeconds NowLocalSecond() {
+	static const chrono::time_zone* timezone{ chrono::current_zone() };
+	chrono::zoned_time nowZT{ timezone, chrono::system_clock::now()};
+	LocalTimeSeconds nowZtFloor
+		= chrono::floor<chrono::seconds>(nowZT.get_local_time());
+	return nowZtFloor;
+}
+
 static const std::string LogFile{
 	std::format("./Log/{:%F-%H%M%S}.log",
-		std::chrono::time_point_cast<std::chrono::seconds>(std::chrono::system_clock::now()))
+		NowLocalSecond())
 };
 
 void InitializeLog() {
@@ -38,4 +48,18 @@ void ConsoleW(const std::wstring& msg) {
 	outputFile << ConvertString(msg);
 	outputFile.close();
 	OutputDebugStringW(msg.c_str());
+}
+
+std::string_view ToFilenameA(const std::source_location& sourceLocation) {
+	std::string_view fullPath = sourceLocation.file_name();
+	size_t position = fullPath.find_last_of('\\') + 1;
+	size_t end = fullPath.find_last_of('.');
+	return fullPath.substr(position, end - position);
+}
+
+std::wstring ToFilenameW(const std::source_location& sourceLocation) {
+	std::wstring fullPath = ConvertString(sourceLocation.file_name());
+	size_t position = fullPath.find_last_of('\\') + 1;
+	size_t end = fullPath.find_last_of('.');
+	return fullPath.substr(position, end - position);
 }

@@ -8,6 +8,12 @@
 #include "Engine/Rendering/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
 
+DepthStencil::~DepthStencil() {
+	if (resource) {
+		release_index();
+	}
+}
+
 void DepthStencil::initialize(DXGI_FORMAT format, std::uint32_t width, std::uint32_t height) {
 	create_depth_stencil_texture_resource(width, height, format);
 	create_dsv();

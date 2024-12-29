@@ -16,7 +16,7 @@ void DSVDescriptorHeap::Initialize() {
 
 const std::uint32_t DSVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Console("[DSVDescriptorHeap] Use RSV index. Index-\'{}\'\n", useIndex);
+	Console("Use DSV index. Index-\'{}\'\n", useIndex);
 	return useIndex;
 }
 
@@ -25,7 +25,7 @@ const D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetCPUHandle(std::uint32_t 
 }
 
 void DSVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
-	Console("[DSVDescriptorHeap] Release RSV index. Index-\'{}\'\n", index);
+	Console("Release DSV index. Index-\'{}\'\n", index);
 	GetInstance().release_heap(index);
 }
 
@@ -35,7 +35,7 @@ void DSVDescriptorHeap::create_descriptor_heap() {
 
 void DSVDescriptorHeap::initialize() {
 	heapStartCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	// RTVはGPUHandle参照不可
+	// DSVはGPUHandle参照不可
 	//heapStartGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	incrementSize = DirectXDevice::GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	releasedHeap.clear();
