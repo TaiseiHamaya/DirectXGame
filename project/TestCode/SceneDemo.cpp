@@ -131,14 +131,16 @@ void SceneDemo::initialize() {
 	std::shared_ptr<Object3DNode> object3dNode;
 	object3dNode = std::make_unique<Object3DNode>();
 	object3dNode->initialize();
-	object3dNode->set_render_target(renderTarget);
+	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//object3dNode->set_render_target(renderTarget);
 	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
 	skinningMeshNode = std::make_unique<SkinningMeshNode>();
 	skinningMeshNode->initialize();
-	skinningMeshNode->set_render_target(renderTarget);
+	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//skinningMeshNode->set_render_target(renderTarget);
 	skinningMeshNode->set_config(
 		eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) |
 		RenderNodeConfig::ContinueUseDpehtBefore |
@@ -150,16 +152,17 @@ void SceneDemo::initialize() {
 	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
 	particleBillboardNode = std::make_unique<ParticleMeshNode>();
 	particleBillboardNode->initialize();
-	particleBillboardNode->set_render_target(renderTarget);
 	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
+	//particleBillboardNode->set_render_target(renderTarget);
+	particleBillboardNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
-	outlineNode = std::make_unique<OutlineNode>();
-	outlineNode->initialize();
-	//outlineNode->set_render_target();
-	outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	outlineNode->set_texture_resource(object3dNode->result_stv_handle());
-	outlineNode->set_depth_resource(DepthStencilValue::depthStencil->texture_gpu_handle());
-	outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
+	//outlineNode = std::make_unique<OutlineNode>();
+	//outlineNode->initialize();
+	////outlineNode->set_render_target();
+	//outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	//outlineNode->set_texture_resource(object3dNode->result_stv_handle());
+	//outlineNode->set_depth_resource(DepthStencilValue::depthStencil->texture_gpu_handle());
+	//outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
 
 	std::shared_ptr<SpriteNode> spriteNode;
 	spriteNode = std::make_unique<SpriteNode>();
@@ -168,7 +171,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	renderPath = eps::CreateUnique<RenderPath>();
-	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode,outlineNode,spriteNode });
+	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
@@ -248,9 +251,9 @@ void SceneDemo::draw() const {
 	particleEmitter->draw();
 
 	renderPath->next();
-	outlineNode->draw();
+	//outlineNode->draw();
 
-	renderPath->next();
+	//renderPath->next();
 	//sprite->draw();
 
 }

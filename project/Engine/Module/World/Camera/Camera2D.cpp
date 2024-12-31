@@ -42,19 +42,19 @@ const Matrix4x4& Camera2D::GetVPMatrix() noexcept {
 void Camera2D::camera_update() {
 	make_view_matrix();
 	make_ortho_matrix();
-		vpMatrix = viewMatrix * orthoMatrix;
+	vpMatrix = viewMatrix * orthoMatrix;
 }
 
 void Camera2D::make_view_matrix() {
-		viewMatrix = camera.get_matrix4x4_transform().inverse();
+	viewMatrix = camera.get_matrix4x4_transform().inverse();
 }
 
 void Camera2D::make_ortho_matrix() {
-		orthoMatrix =
-		{ { 2 / (ndcRightTopFar.x - ndcLeftBottomNear.x),0,0,0},
-		{0,2 / (ndcRightTopFar.y - ndcLeftBottomNear.y),0,0},
-		{0,0, 1 / (ndcRightTopFar.z - ndcLeftBottomNear.z),0},
-		{(ndcLeftBottomNear.x + ndcRightTopFar.x) / (ndcLeftBottomNear.x - ndcRightTopFar.x),(ndcLeftBottomNear.y + ndcRightTopFar.y) / (ndcLeftBottomNear.y - ndcRightTopFar.y), ndcLeftBottomNear.z / (ndcLeftBottomNear.z - ndcRightTopFar.z), 1} };
+	orthoMatrix =
+	{ { 2 / (ndcRightTopFar.x - ndcLeftBottomNear.x),0,0,0},
+	{0,2 / (ndcRightTopFar.y - ndcLeftBottomNear.y),0,0},
+	{0,0, 1 / (ndcRightTopFar.z - ndcLeftBottomNear.z),0},
+	{(ndcLeftBottomNear.x + ndcRightTopFar.x) / (ndcLeftBottomNear.x - ndcRightTopFar.x),(ndcLeftBottomNear.y + ndcRightTopFar.y) / (ndcLeftBottomNear.y - ndcRightTopFar.y), ndcLeftBottomNear.z / (ndcLeftBottomNear.z - ndcRightTopFar.z), 1} };
 }
 
 #ifdef _DEBUG
