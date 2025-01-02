@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "Definition.h"
+#include "Basis.h"
 
 Quaternion::Quaternion() noexcept : Quaternion{ 0,0,0,1 } {}
 
@@ -101,6 +102,25 @@ const Matrix4x4 Quaternion::to_matrix() const noexcept {
 		{2 * (xy - zw),ww - xx + yy - zz, 2 * (yz + xw), 0},
 		{2 * (xz + yw), 2 * (yz - xw), ww - xx - yy + zz , 0},
 		{0,0,0,1}}
+	};
+}
+
+Basis Quaternion::to_basis() const noexcept {
+	float xx = xyz.x * xyz.x;
+	float xy = xyz.x * xyz.y;
+	float xz = xyz.x * xyz.z;
+	float xw = xyz.x * w;
+	float yy = xyz.y * xyz.y;
+	float yz = xyz.y * xyz.z;
+	float yw = xyz.y * w;
+	float zz = xyz.z * xyz.z;
+	float zw = xyz.z * w;
+	float ww = w * w;
+
+	return {
+		{ww + xx - yy - zz, 2 * (xy + zw), 2 * (xz - yw)},
+		{2 * (xy - zw),ww - xx + yy - zz, 2 * (yz + xw)},
+		{2 * (xz + yw), 2 * (yz - xw), ww - xx - yy + zz}
 	};
 }
 

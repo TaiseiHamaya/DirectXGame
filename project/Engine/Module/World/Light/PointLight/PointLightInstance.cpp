@@ -1,7 +1,7 @@
 #include "PointLightInstance.h"
 
 void PointLightInstance::begin_rendering() {
-	update_matrix();
+	update_affine();
 
 	auto lightData = lightBuffer.get_data();
 	lightData->position = world_position();

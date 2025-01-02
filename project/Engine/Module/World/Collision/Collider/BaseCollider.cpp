@@ -3,12 +3,12 @@
 #include "Library/Math/Hierarchy.h"
 
 BaseCollider::BaseCollider() {
-	hierarchy.initialize(world_matrix());
+	hierarchy.initialize(world_affine());
 	groupName = nullptr;
 }
 
 void BaseCollider::update() {
-	update_matrix();
+	update_affine();
 }
 
 const std::string& BaseCollider::group() const noexcept {

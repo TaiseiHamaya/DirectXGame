@@ -21,7 +21,7 @@ void Camera3D::initialize() {
 
 #ifdef _DEBUG
 	isVaildDebugCamera = false;
-	debugCamera = std::make_unique<MeshInstance>();
+	debugCamera = std::make_unique<WorldInstance>();
 	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
 	debugCamera->set_parent(*debugCameraCenter);
@@ -34,14 +34,14 @@ void Camera3D::initialize() {
 
 void Camera3D::update_matrix() {
 	// カメラそのもののMatrix更新
-	WorldInstance::update_matrix();
+	WorldInstance::update_affine();
 #ifdef _DEBUG
 	if (isVaildDebugCamera) {
 		// デバッグ表示に使用するモデルのWorldMatrixの更新
 		debugCameraCenter->begin_rendering();
-		debugCamera->begin_rendering();
+		debugCamera->update_affine();
 		// ViewMatrixの更新
-		debugViewMatrix = debugCamera->world_matrix().inverse();
+		debugViewAffine = debugCamera->world_affine().inverse_fast();
 	}
 #endif // _DEBUG
 
@@ -52,10 +52,10 @@ void Camera3D::update_matrix() {
 
 #ifdef _DEBUG
 	// 外部参照用Matrix
-	vpMatrix = viewMatrix * perspectiveFovMatrix;
+	vpMatrix = viewAffine.to_matrix() * perspectiveFovMatrix;
 	// 描画用
 	if (isVaildDebugCamera) {
-		*vpMatrixBuffer.get_data() = debugViewMatrix * perspectiveFovMatrix;
+		*vpMatrixBuffer.get_data() = debugViewAffine.to_matrix() * perspectiveFovMatrix;
 	}
 	else {
 		*vpMatrixBuffer.get_data() = vpMatrix;
@@ -93,7 +93,7 @@ const Matrix4x4& Camera3D::vp_matrix() const {
 }
 
 void Camera3D::make_view_matrix() {
-	viewMatrix = world_matrix().inverse();
+	viewAffine = world_affine().inverse_fast();
 }
 
 void Camera3D::make_perspectivefov_matrix() {
