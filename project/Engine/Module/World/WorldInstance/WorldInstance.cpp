@@ -4,14 +4,14 @@
 #include <Engine/Resources/Json/JsonSerializer.h>
 
 WorldInstance::WorldInstance() {
-	hierarchy.initialize(worldMatrix);
+	hierarchy.initialize(affine);
 }
 
-void WorldInstance::update_matrix() {
+void WorldInstance::update_affine() {
 	if (!isActive) {
 		return;
 	}
-	worldMatrix = create_world_matrix();
+	affine = create_world_affine();
 }
 
 void WorldInstance::look_at(const WorldInstance& rhs, const Vector3& upward) noexcept {
@@ -23,9 +23,9 @@ void WorldInstance::look_at(const Vector3& point, const Vector3& upward) noexcep
 	Vector3 localForward;
 	Vector3 localUpward;
 	if (hierarchy.has_parent()) {
-		Matrix4x4 parentInversedWorldMatrix = hierarchy.parent_matrix().inverse();
-		Vector3 rhsObjectCoordinatePosition = Transform3D::Homogeneous(point, parentInversedWorldMatrix);
-		localUpward = Transform3D::HomogeneousVector(upward, parentInversedWorldMatrix);
+		Affine parentInversedWorldAffine = hierarchy.parent_affine().inverse_fast();
+		Vector3 rhsObjectCoordinatePosition = point * parentInversedWorldAffine;
+		localUpward = upward * parentInversedWorldAffine.get_basis();
 		localForward = (rhsObjectCoordinatePosition - transform.get_translate()).normalize_safe();
 	}
 	else {
@@ -35,10 +35,10 @@ void WorldInstance::look_at(const Vector3& point, const Vector3& upward) noexcep
 	transform.set_quaternion(Quaternion::LookForward(localForward, localUpward));
 }
 
-Matrix4x4 WorldInstance::create_world_matrix() const {
-	Matrix4x4 result = transform.create_matrix();
+Affine WorldInstance::create_world_affine() const {
+	Affine result = Affine::FromTransform3D(transform);
 	if (hierarchy.has_parent()) {
-		result *= hierarchy.parent_matrix();
+		result *= hierarchy.parent_affine();
 	}
 	return result;
 }

@@ -47,7 +47,7 @@ public:
 #endif // _DEBUG
 
 private:
-	Matrix4x4 viewMatrix;
+	Affine viewAffine;
 	Matrix4x4 perspectiveFovMatrix;
 
 	ConstantBuffer<Matrix4x4> vpMatrixBuffer;
@@ -59,10 +59,10 @@ private:
 
 #ifdef _DEBUG
 	Matrix4x4 vpMatrix;
-	Matrix4x4 debugViewMatrix;
+	Affine debugViewAffine;
 	bool isVaildDebugCamera;
 	std::unique_ptr<MeshInstance> debugCameraCenter;
-	std::unique_ptr<MeshInstance> debugCamera;
+	std::unique_ptr<WorldInstance> debugCamera;
 	std::unique_ptr<MeshInstance> frustum;
 	Vector3 offset;
 	Vector2 preMousePos;

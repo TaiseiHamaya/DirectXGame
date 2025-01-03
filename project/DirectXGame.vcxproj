@@ -120,6 +120,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Math\Affine.cpp" />
+    <ClCompile Include="Library\Math\Basis.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResourceBuilder.cpp" />
     <ClCompile Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
@@ -224,6 +226,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Math\Affine.h" />
+    <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioResourceBuilder.h" />
     <ClInclude Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h" />
