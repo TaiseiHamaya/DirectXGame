@@ -62,7 +62,7 @@ void Camera3D::update_matrix() {
 	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
-	* vpMatrixBuffer.get_data() = viewMatrix * perspectiveFovMatrix;
+	*vpMatrixBuffer.get_data() = viewAffine.to_matrix() * perspectiveFovMatrix;
 #endif // _DEBUG
 }
 
