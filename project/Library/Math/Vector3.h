@@ -19,9 +19,15 @@ public:
 
 public:
 	// ------------------基礎構造------------------
-	float x; // X座標
-	float y; // Y座標
-	float z; // Z座標
+	union {
+		struct {
+			float x; // X座標
+			float y; // Y座標
+			float z; // Z座標
+		};
+
+		float xyz[3];
+	};
 
 public:
 	// ------------------operator------------------
@@ -39,6 +45,8 @@ public:
 	inline constexpr Vector3& operator/=(float times) noexcept;
 	inline constexpr bool operator==(const Vector3& opr) const noexcept;
 	inline constexpr bool operator!=(const Vector3& opr) const noexcept;
+	inline constexpr const float& operator[](size_t i) const;
+	inline constexpr float& operator[](size_t i);
 
 
 public:
@@ -268,6 +276,14 @@ inline constexpr bool Vector3::operator==(const Vector3& opr) const noexcept {
 
 inline constexpr bool Vector3::operator!=(const Vector3& opr) const noexcept {
 	return !(*this == opr);
+}
+
+inline constexpr const float& Vector3::operator[](size_t i) const {
+	return xyz[i];
+}
+
+inline constexpr float& Vector3::operator[](size_t i) {
+	return xyz[i];
 }
 
 constexpr float Vector3::DotProduct(const Vector3& input1, const Vector3& input2) noexcept {

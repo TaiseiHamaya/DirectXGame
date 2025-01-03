@@ -1,6 +1,6 @@
 #pragma once
 
-class Matrix4x4;
+class Affine;
 class WorldInstance;
 
 class Hierarchy final {
@@ -15,7 +15,7 @@ public:// コピー禁止、ムーブ許可
 	Hierarchy& operator=(Hierarchy&&) = default;
 
 public:
-	void initialize(const Matrix4x4& worldMatrix) noexcept;
+	void initialize(const Affine& worldMatrix) noexcept;
 
 public:
 	void set_parent(const WorldInstance& hierarchy) noexcept;
@@ -23,10 +23,10 @@ public:
 	const WorldInstance& get_parent() const noexcept;
 	const WorldInstance* get_parent_address() const noexcept;
 	bool has_parent() const noexcept;
-	const Matrix4x4& parent_matrix() const;
-	const Matrix4x4& parent_matrix_safe() const noexcept;
+	const Affine& parent_affine() const;
+	const Affine& parent_matrix_safe() const noexcept;
 
 private:
 	const WorldInstance* parent;
-	const Matrix4x4* currentMatrix;
+	const Affine* currentMatrix;
 };

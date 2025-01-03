@@ -3,6 +3,8 @@
 #include "Vector3.h"
 #include "Matrix4x4.h"
 
+class Basis;
+
 class Quaternion final {
 public:
 	Quaternion() noexcept;
@@ -87,6 +89,8 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>回転行列Matrix4x4</returns>
 	const Matrix4x4 to_matrix() const noexcept;
+
+	Basis to_basis() const noexcept;
 
 	/// <summary>
 	/// Quaternionベクトルの長さ[1]

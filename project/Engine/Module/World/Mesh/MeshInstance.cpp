@@ -20,7 +20,7 @@ MeshInstance::MeshInstance() noexcept(false) :
 	// 各メモリの取得
 	transformMatrix(std::make_unique<TransformMatrix>()) {
 	meshMaterials.clear();
-	hierarchy.initialize(*transformMatrix->get_data());
+	hierarchy.initialize(world_affine());
 }
 
 MeshInstance::MeshInstance(const std::string& meshName_) noexcept(false) :
@@ -39,10 +39,10 @@ void MeshInstance::begin_rendering() noexcept {
 		return;
 	}
 	// World行列更新
-	update_matrix();
+	update_affine();
 	// 各情報をGPUに転送
 	// Transformに転送
-	transformMatrix->set_transformation_matrix_data(world_matrix());
+	transformMatrix->set_transformation_matrix_data(world_affine().to_matrix());
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());

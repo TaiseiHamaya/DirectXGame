@@ -84,7 +84,7 @@ private:
 	std::unique_ptr<Camera3D> camera3D;
 
 	std::shared_ptr<AudioPlayer> audioPlayer;
-	std::shared_ptr<OutlineNode> outlineNode;
+	//std::shared_ptr<OutlineNode> outlineNode;
 
 	JsonResource jsonResource{ "./Test.json" };
 	Transform2D testValue{};

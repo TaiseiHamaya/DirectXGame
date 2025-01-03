@@ -1,9 +1,9 @@
 #include "Hierarchy.h"
 
-#include "Library/Math/Matrix4x4.h"
+#include "Library/Math/Affine.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-void Hierarchy::initialize(const Matrix4x4& worldMatrix) noexcept {
+void Hierarchy::initialize(const Affine& worldMatrix) noexcept {
 	currentMatrix = &worldMatrix;
 }
 
@@ -27,13 +27,13 @@ bool Hierarchy::has_parent() const noexcept {
 	return parent;
 }
 
-const Matrix4x4& Hierarchy::parent_matrix() const {
-	return parent->world_matrix();
+const Affine& Hierarchy::parent_affine() const {
+	return parent->world_affine();
 }
 
-const Matrix4x4& Hierarchy::parent_matrix_safe() const noexcept {
+const Affine& Hierarchy::parent_matrix_safe() const noexcept {
 	if (has_parent()) {
-		return parent_matrix();
+		return parent_affine();
 	}
-	return CMatrix4x4::IDENTITY;
+	return CAffine::IDENTITY;
 }

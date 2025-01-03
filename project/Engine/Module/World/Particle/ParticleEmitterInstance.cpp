@@ -65,15 +65,15 @@ void ParticleEmitterInstance::update() {
 }
 
 void ParticleEmitterInstance::begin_rendering() {
-	update_matrix();
+	update_affine();
 	if (!drawSystem) {
 		return;
 	}
 	for (uint32_t index = 0; std::unique_ptr<Particle>&particle : particles) {
-		particle->update_matrix();
+		particle->update_affine();
 		drawSystem->write_to_buffer(
 			index,
-			particle->world_matrix(),
+			particle->world_affine().to_matrix(),
 			particle->create_uv_matrix(),
 			particle->get_color()
 		);
