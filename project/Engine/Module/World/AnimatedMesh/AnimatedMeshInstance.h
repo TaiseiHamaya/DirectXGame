@@ -45,9 +45,9 @@ public:
 	__NON_COPYABLE_CLASS(AnimatedMeshInstance)
 
 public:
-	void begin();
-	void begin_rendering() noexcept override;
-	void draw() const override;
+	virtual void begin() override;
+	virtual void begin_rendering() noexcept override;
+	virtual void draw() const override;
 
 public:
 	void reset_animated_mesh(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);

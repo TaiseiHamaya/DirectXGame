@@ -12,6 +12,7 @@
 #include <Library/Math/Definition.h>
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
+	WorldInstance(),
 	numMaxParticle(MaxParticle),
 	jsonResource("Particle" / jsonFile) {
 	drawType = static_cast<ParticleDrawType>(jsonResource.try_emplace<int>("DrawType"));

@@ -22,7 +22,7 @@ void NodeAnimationPlayer::update() {
 		return;
 	}
 	timer += WorldClock::DeltaSeconds();
-	if (isLoop && animation->duration) {
+	if (isLoop && is_end()) {
 		timer = std::fmod(timer, animation->duration);
 	}
 }
@@ -74,6 +74,17 @@ void NodeAnimationPlayer::pause() {
 void NodeAnimationPlayer::restart() {
 	stop();
 	play();
+}
+
+bool NodeAnimationPlayer::is_end() const {
+	return parametric() >= 1.0f;
+}
+
+float NodeAnimationPlayer::parametric() const {
+	if (animation) {
+		return timer / animation->duration;
+	}
+	return 1.0f;
 }
 
 void NodeAnimationPlayer::set_loop(bool isLoop_) {
