@@ -30,6 +30,8 @@ public:
 	void stop();
 	void pause();
 	void restart();
+	bool is_end() const;
+	float parametric() const;
 
 	void set_loop(bool isLoop);
 

@@ -13,6 +13,7 @@ class PolygonMesh;
 class Texture;
 class TransformMatrix;
 class Color3;
+enum class LighingType;
 
 class MeshInstance : public WorldInstance {
 	friend class AnimatedMeshInstance;
@@ -28,6 +29,7 @@ public:
 	public:
 		Color3& color;
 		Transform2D uvTransform;
+		LighingType lightingType;
 
 #ifdef _DEBUG
 	private:

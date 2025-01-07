@@ -14,15 +14,15 @@ public:
 	Reference(Reference<T>&&) noexcept = default;
 	Reference& operator=(Reference<T>&&) noexcept = default;
 
-public: // T, T*, unique<T>からの暗黙代入
-	Reference(const T& rhs) noexcept : reference(&rhs) {};
-	Reference(const T* rhs) noexcept : reference(rhs) {};
+public: // -------------------- T, T*, unique<T>からの暗黙代入 --------------------
+	Reference(T& rhs) noexcept : reference(&rhs) {};
+	Reference(T* const rhs) noexcept : reference(rhs) {};
 	Reference(const std::unique_ptr<T>& rhs) noexcept : reference(rhs.get()) {};
-	Reference& operator=(const T& rhs) noexcept {
+	Reference& operator=(T& rhs) noexcept {
 		reference = &rhs;
 		return *this;
 	};
-	Reference& operator=(const T* rhs) noexcept {
+	Reference& operator=(T* const rhs) noexcept {
 		reference = rhs;
 		return *this;
 	};
@@ -31,23 +31,23 @@ public: // T, T*, unique<T>からの暗黙代入
 		return *this;
 	};
 
-public: // 型変換付きキャスト
-	template<std::convertible_to U>
-	Reference& operator=(const U* rhs) noexcept {
+public: // -------------------- 型変換付きキャスト --------------------
+	template<std::convertible_to<T> U>
+	Reference& operator=(U* const rhs) noexcept {
 		reference = rhs;
 		return *this;
 	};
-	template<std::convertible_to U>
+	template<std::convertible_to<T> U>
 	Reference& operator=(const std::unique_ptr<U>& rhs) noexcept {
 		reference = rhs.get();
 		return *this;
 	};
-	template<std::convertible_to U>
-	Reference(const U* rhs) noexcept { reference = rhs; };
-	template<std::convertible_to U>
+	template<std::convertible_to<T> U>
+	Reference(U* const rhs) noexcept { reference = rhs; };
+	template<std::convertible_to<T> U>
 	Reference(const std::unique_ptr<U>& rhs) noexcept { reference = rhs.get(); };
 
-public: // その他関数
+public: // -------------------- その他関数 --------------------
 	operator bool() const noexcept { return reference; };
 	bool operator!() const noexcept { return !static_cast<bool>(*this); };
 	T* operator->() const noexcept { return reference; };
@@ -59,16 +59,19 @@ public: // その他関数
 	void unref() noexcept { reference = nullptr; };
 
 private:
-	T* reference;
+	T* reference{ nullptr };
 };
 
-// 等価演算子
+// -------------------- 等価演算子 --------------------
+
 template<typename T, typename U>
 bool operator==(const Reference<T>& lhs, const Reference<U>& rhs) noexcept { return lhs.ptr() == rhs.ptr(); };
 template<typename T, typename U>
 bool operator!=(const Reference<T>& lhs, const Reference<U>& rhs) noexcept { return !(lhs == rhs); };
 
-// 比較演算子
+
+// -------------------- 比較演算子 --------------------
+
 template<typename T, typename U>
 bool operator<(const Reference<T>& lhs, const Reference<U>& rhs) noexcept { return lhs.ptr() < rhs.ptr(); };
 template<typename T, typename U>
