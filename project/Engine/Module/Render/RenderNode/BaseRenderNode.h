@@ -7,6 +7,7 @@ enum D3D_PRIMITIVE_TOPOLOGY;
 #include <memory>
 
 #include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
+#include <Engine/Utility/Template/bitflag.h>
 
 enum class RenderNodeConfig : std::uint8_t {
 	Default = 0,
@@ -21,7 +22,11 @@ enum class RenderNodeConfig : std::uint8_t {
 	ContinueDrawAfter = NoClearRenderTarget | NoChangeStateBegin,
 	ContinueUseDpehtBefore = NoChangeDepthStateEnd,
 	ContinueUseDpehtAfter = NoClearDepth | NoChangeDepthStateBegin,
+
 };
+
+// BitFlag型を使用
+__USE_BITFLAG(RenderNodeConfig)
 
 class BaseRenderNode {
 public:

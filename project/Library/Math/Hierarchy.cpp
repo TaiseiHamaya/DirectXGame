@@ -15,13 +15,13 @@ void Hierarchy::reset_parent() noexcept {
 	parent = nullptr;
 }
 
-const WorldInstance& Hierarchy::get_parent() const noexcept {
-	return *parent;
-}
-
-const WorldInstance* Hierarchy::get_parent_address() const noexcept {
+const Reference<const WorldInstance>& Hierarchy::get_parent() const noexcept {
 	return parent;
 }
+
+//const WorldInstance* Hierarchy::get_parent_address() const noexcept {
+//	return parent;
+//}
 
 bool Hierarchy::has_parent() const noexcept {
 	return parent;

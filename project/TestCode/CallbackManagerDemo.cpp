@@ -30,14 +30,14 @@ CallbackManagerDemo::CallbackManagerDemo() {
 }
 
 void CallbackManagerDemo::SetColor(const BaseCollider* const lhs, const BaseCollider* const rhs, Color3 color) {
-	auto lhsParentAddr = const_cast<WorldInstance*>(lhs->get_parent_address());
+	auto lhsParentAddr = const_cast<WorldInstance*>(lhs->get_parent_address().ptr());
 	if (lhsParentAddr) {
 		MeshInstance* mesh = dynamic_cast<MeshInstance*>(lhsParentAddr);
 		if (mesh) {
 			//mesh->get_materials()[0].color = color;
 		}
 	}
-	auto rhsParentAddr = const_cast<WorldInstance*>(rhs->get_parent_address());
+	auto rhsParentAddr = const_cast<WorldInstance*>(rhs->get_parent_address().ptr());
 	if (rhsParentAddr) {
 		MeshInstance* mesh = dynamic_cast<MeshInstance*>(rhsParentAddr);
 		if (mesh) {

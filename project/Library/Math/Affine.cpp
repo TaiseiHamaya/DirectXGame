@@ -16,10 +16,14 @@ Affine& Affine::operator*=(const Affine& rhs) {
 }
 
 Affine Affine::FromTransform3D(const Transform3D& transform) {
+	return FromSRT(transform.get_scale(), transform.get_quaternion(), transform.get_translate());
+}
+
+Affine Affine::FromSRT(const Vector3& scale, const Quaternion& rotation, const Vector3& translate) {
 	Affine result;
 
-	result.basis.scale_rotate(transform.get_scale(), transform.get_quaternion());
-	result.origin = transform.get_translate();
+	result.basis.scale_rotate(scale, rotation);
+	result.origin = translate;
 	return result;
 }
 

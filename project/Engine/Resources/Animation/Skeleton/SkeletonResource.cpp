@@ -1,24 +1,22 @@
 #include "SkeletonResource.h"
 
-#include <unordered_set>
-
-#include "Library/Math/Transform3D.h"
-
 #include "Engine/Debug/Output.h"
+
+#include <Library/Math/Quaternion.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
-Matrix4x4 ToMatrix4x4(const aiMatrix4x4& aiMatrix) {
+Affine ToAffine(const aiMatrix4x4& aiMatrix) {
 	aiVector3D scale;
 	aiQuaternion rotate;
 	aiVector3D translate;
 	aiMatrix.Decompose(scale, rotate, translate);
 
-	return Transform3D::MakeAffineMatrix(
+	return Affine::FromSRT(
 		{ scale.x,scale.y,scale.z },
-		{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+		Quaternion{ rotate.x, -rotate.y, -rotate.z, rotate.w },
 		{ -translate.x,translate.y,translate.z }
 	);
 }
@@ -38,7 +36,7 @@ std::optional<uint32_t> CreateSkeleton(
 		// Jointの追加
 		joint = &joints.emplace_back(
 			name,
-			CMatrix4x4::IDENTITY,
+			Affine{},
 			parentIndex,
 			std::vector<uint32_t>{}
 		);
@@ -126,7 +124,7 @@ bool SkeletonResource::load(const std::filesystem::path& filePath) {
 			continue;
 		}
 		aiBone* bone = boneElementsName.at(joint.name);
-		joint.inverseBindPoseMatrices = ToMatrix4x4(bone->mOffsetMatrix);
+		joint.inverseBindPoseAffine = ToAffine(bone->mOffsetMatrix);
 	}
 
 	// Meshで使用するNodeとJointのIndexを関連付け

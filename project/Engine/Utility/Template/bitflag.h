@@ -21,6 +21,7 @@ public: // using
 public: // constructor/destructor
 	constexpr bitflag();
 	constexpr bitflag(const value_type& base);
+	constexpr bitflag(const under_type& base);
 	constexpr ~bitflag() = default;
 
 	constexpr bitflag(const_reference_bitflag) = default;
@@ -52,6 +53,22 @@ private: // member value
 	under_type value;
 };
 
+#define __USE_BITFLAG(EnumName) \
+constexpr eps::bitflag<EnumName> operator|(const EnumName lhs, const EnumName rhs) {\
+	using U = typename std::underlying_type<EnumName>::type;\
+	return eps::bitflag<EnumName>(static_cast<U>(lhs) | static_cast<U>(rhs));\
+}\
+\
+constexpr eps::bitflag<EnumName> operator&(const EnumName lhs, const EnumName rhs) {\
+	using U = typename std::underlying_type<EnumName>::type;\
+	return eps::bitflag<EnumName>(static_cast<U>(lhs) & static_cast<U>(rhs));\
+}\
+\
+constexpr eps::bitflag<EnumName> operator^(const EnumName lhs, const EnumName rhs) {\
+	using U = typename std::underlying_type<EnumName>::type;\
+	return eps::bitflag<EnumName>(static_cast<U>(lhs) ^ static_cast<U>(rhs));\
+}
+
 // -------------------------------------
 // ---------- public function ----------
 // -------------------------------------
@@ -77,6 +94,10 @@ inline constexpr bitflag<T>::bitflag() : value(0) {
 
 template<Enum T>
 inline constexpr bitflag<T>::bitflag(const value_type& base) : value(to_under(base)) {
+}
+
+template<Enum T>
+inline constexpr bitflag<T>::bitflag(const under_type& base) : value(base) {
 }
 
 // -------------------------------------

@@ -19,7 +19,7 @@ private:
 
 	struct SkeletonSpaceInstance {
 		Transform3D transform;
-		Matrix4x4 matrix;
+		Affine affine;
 	};
 
 	struct SkeletonData {
