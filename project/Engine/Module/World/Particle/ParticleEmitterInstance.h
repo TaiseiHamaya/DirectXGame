@@ -110,8 +110,9 @@ public: // Member function
 	virtual void on_emit(Particle* const particle) {};
 	virtual void restart();
 
-protected:
 	void emit();
+
+protected:
 	void emit_once();
 
 public:
