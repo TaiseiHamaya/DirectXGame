@@ -11,7 +11,8 @@ Particle::Particle(
 	const Color4& startColor_, const Color4& endColor_,
 	const Vector3& startSize_, const Vector3& endSize_,
 	RotationType rotationType_, std::variant<Constant, std::monostate, Random> rotationData_
-) :
+) : 
+	WorldInstance(),
 	lifetime(lifetime_),
 	velocity(velocity_), acceleration(acceleration_),
 	startColor(startColor_), endColor(endColor_),
