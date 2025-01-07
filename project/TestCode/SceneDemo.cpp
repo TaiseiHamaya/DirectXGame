@@ -52,9 +52,9 @@ void SceneDemo::load() {
 	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
-	NodeAnimationManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
-	SkeletonManager::RegisterLoadQue("./EngineResources/Models/Boss_RangedAttack.gltf");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Player.gltf");
+	NodeAnimationManager::RegisterLoadQue("./EngineResources/Models/Player.gltf");
+	SkeletonManager::RegisterLoadQue("./EngineResources/Models/Player.gltf");
 }
 
 void SceneDemo::initialize() {
@@ -80,12 +80,12 @@ void SceneDemo::initialize() {
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
 	parent = std::make_unique<MeshInstance>();
-	parent->reset_mesh("Boss_RangedAttack.gltf");
+	parent->reset_mesh("Player.gltf");
 	child = std::make_unique<MeshInstance>();
 	child->reset_mesh("Sphere.obj");
 	child->set_parent(*parent);
 
-	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Boss_RangedAttack.gltf", "", true);
+	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Player.gltf", "Idle", true);
 
 	parentCollider = std::make_unique<SphereCollider>();
 	parentCollider->initialize();

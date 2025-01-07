@@ -6,15 +6,14 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Utility/Tools/ConstructorMacro.h"
 
-#include <Library/Math/Matrix4x4.h>
+#include <Library/Math/Affine.h>
 
 struct Joint {
 	std::string name; // BoneName(== NodeName)
-	Matrix4x4 inverseBindPoseMatrices;
+	Affine inverseBindPoseAffine;
 	std::optional<uint32_t> parent;
 	std::vector<uint32_t> children;
 };

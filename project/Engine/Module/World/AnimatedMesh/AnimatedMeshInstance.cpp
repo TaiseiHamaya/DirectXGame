@@ -86,10 +86,10 @@ void AnimatedMeshInstance::begin_rendering() noexcept {
 		jointInstance.transform.set_translate(nodeAnimation->calculate_translate(joint.name));
 		// 行列更新
 		if (joint.parent) {
-			jointInstance.matrix = jointInstance.transform.create_matrix() * skeletonData.jointInstance[joint.parent.value()].matrix;
+			jointInstance.affine = Affine::FromTransform3D(jointInstance.transform) * skeletonData.jointInstance[joint.parent.value()].affine;
 		}
 		else {
-			jointInstance.matrix = jointInstance.transform.create_matrix();
+			jointInstance.affine = Affine::FromTransform3D(jointInstance.transform);
 		}
 	}
 
@@ -104,18 +104,17 @@ void AnimatedMeshInstance::begin_rendering() noexcept {
 		for (uint32_t paletteIndex = 0; paletteIndex < paletteArray.size(); ++paletteIndex) {
 			SkeletonMatrixPaletteWell& paletteWell = paletteArray[paletteIndex]; // 編集するPalette
 			uint32_t jointIndex = useJointIndexes->at(paletteIndex);
+			Affine skeletonSpaceAffine;
 			// Jointが存在する場合
 			if (jointIndex < skeletonData.jointInstance.size()) {
-				const Matrix4x4& jointMatrix = skeletonData.jointInstance[jointIndex].matrix;
-				const Matrix4x4& ibpMatrix = skeleton.joints[jointIndex].inverseBindPoseMatrices;
-				paletteWell.skeletonSpaceMatrix = ibpMatrix * jointMatrix;
+				const Affine& jointAffine = skeletonData.jointInstance[jointIndex].affine;
+				const Affine& ibpAffine = skeleton.joints[jointIndex].inverseBindPoseAffine;
+				skeletonSpaceAffine = ibpAffine * jointAffine;
 			}
-			// 存在しない場合
-			else {
-				paletteWell.skeletonSpaceMatrix = CMatrix4x4::IDENTITY;
-			}
+			//// 存在しない場合
+			paletteWell.skeletonSpaceMatrix = skeletonSpaceAffine.to_matrix();
 			// 最後にInverse
-			paletteWell.skeletonSpaceInv = paletteWell.skeletonSpaceMatrix.inverse();
+			paletteWell.skeletonSpaceInv = skeletonSpaceAffine.inverse().to_matrix();
 		}
 		++i;
 	}
