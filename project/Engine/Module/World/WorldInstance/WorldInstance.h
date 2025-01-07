@@ -76,7 +76,7 @@ public:
 	/// Hierarchyの親アドレスの取得
 	/// </summary>
 	/// <returns>存在しなければnullptr</returns>
-	const WorldInstance* get_parent_address() const { return hierarchy.get_parent_address(); };
+	const Reference<const WorldInstance>& get_parent_address() const { return hierarchy.get_parent(); };
 
 	/// <summary>
 	/// World行列の取得

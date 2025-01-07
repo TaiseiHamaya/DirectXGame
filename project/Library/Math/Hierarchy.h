@@ -3,6 +3,8 @@
 class Affine;
 class WorldInstance;
 
+#include <Engine/Utility/Template/Reference.h>
+
 class Hierarchy final {
 public:
 	Hierarchy() = default;
@@ -20,13 +22,13 @@ public:
 public:
 	void set_parent(const WorldInstance& hierarchy) noexcept;
 	void reset_parent() noexcept;
-	const WorldInstance& get_parent() const noexcept;
-	const WorldInstance* get_parent_address() const noexcept;
+	const Reference<const WorldInstance>& get_parent() const noexcept;
+	//const WorldInstance* get_parent_address() const noexcept;
 	bool has_parent() const noexcept;
 	const Affine& parent_affine() const;
 	const Affine& parent_matrix_safe() const noexcept;
 
 private:
-	const WorldInstance* parent;
-	const Affine* currentMatrix;
+	Reference<const WorldInstance> parent;
+	Reference<const Affine> currentMatrix;
 };

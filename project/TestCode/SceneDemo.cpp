@@ -133,7 +133,7 @@ void SceneDemo::initialize() {
 	object3dNode->initialize();
 	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	//object3dNode->set_render_target(renderTarget);
-	object3dNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) | RenderNodeConfig::ContinueUseDpehtBefore);
+	object3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
 	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
@@ -142,7 +142,7 @@ void SceneDemo::initialize() {
 	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	//skinningMeshNode->set_render_target(renderTarget);
 	skinningMeshNode->set_config(
-		eps::to_bitflag(RenderNodeConfig::ContinueDrawBefore) |
+		RenderNodeConfig::ContinueDrawBefore |
 		RenderNodeConfig::ContinueUseDpehtBefore |
 		RenderNodeConfig::ContinueDrawAfter |
 		RenderNodeConfig::ContinueUseDpehtAfter
@@ -152,7 +152,7 @@ void SceneDemo::initialize() {
 	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
 	particleBillboardNode = std::make_unique<ParticleMeshNode>();
 	particleBillboardNode->initialize();
-	particleBillboardNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter);
+	particleBillboardNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
 	//particleBillboardNode->set_render_target(renderTarget);
 	particleBillboardNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
@@ -167,7 +167,7 @@ void SceneDemo::initialize() {
 	std::shared_ptr<SpriteNode> spriteNode;
 	spriteNode = std::make_unique<SpriteNode>();
 	spriteNode->initialize();
-	spriteNode->set_config(eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueDrawBefore);
+	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
 	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	renderPath = eps::CreateUnique<RenderPath>();
