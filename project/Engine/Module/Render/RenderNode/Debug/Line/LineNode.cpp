@@ -1,39 +1,32 @@
-#include "ParticleBillboardNode.h"
+#include "LineNode.h"
 
 #include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
 #include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
-ParticleBillboardNode::ParticleBillboardNode() = default;
+LineNode::LineNode() = default;
 
-ParticleBillboardNode::~ParticleBillboardNode() noexcept = default;
+LineNode::~LineNode() noexcept = default;
 
-void ParticleBillboardNode::initialize() {
+void LineNode::initialize() {
 	depthStencil = DepthStencilValue::depthStencil;
 	create_pipeline_state();
-	pipelineState->set_name("ParticleBillboardNode");
+	pipelineState->set_name("LineNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void ParticleBillboardNode::create_pipeline_state() {
+void LineNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
-	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1); // 0 :  transform
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 1 : camera
-	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : texture
-	rootSignatureBuilder.sampler( // sampler
-		D3D12_SHADER_VISIBILITY_PIXEL,
-		0,
-		D3D12_FILTER_ANISOTROPIC
-	);
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : material
 
 	InputLayoutBuilder inputLayoutBuilder;
-	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32_FLOAT);
-	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
+	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
-	ShaderBuilder shaderManager;
-	shaderManager.initialize(
-		"EngineResources/HLSL/Particle/ParticleBillboard/ParticleBillboard.VS.hlsl",
-		"EngineResources/HLSL/Particle/ParticleBillboard/ParticleBillboard.PS.hlsl"
+	ShaderBuilder shaderBuilder;
+	shaderBuilder.initialize(
+		"EngineResources/HLSL/Debug/Line/Line.VS.hlsl",
+		"EngineResources/HLSL/Debug/Line/Line.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
@@ -42,11 +35,10 @@ void ParticleBillboardNode::create_pipeline_state() {
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
+	psoBuilder->shaders(shaderBuilder);
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
-
 }

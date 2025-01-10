@@ -1,4 +1,4 @@
-#include "GrayscaleNode.h"
+#include "ChromaticAberrationNode.h"
 
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
@@ -6,33 +6,34 @@
 
 #ifdef _DEBUG
 #include <imgui.h>
+#include "Engine/Application/EngineSettings.h"
 #endif // _DEBUG
 
-GrayscaleNode::GrayscaleNode() = default;
+ChromaticAberrationNode::ChromaticAberrationNode() = default;
 
-GrayscaleNode::~GrayscaleNode() = default;
+ChromaticAberrationNode::~ChromaticAberrationNode() noexcept = default;
 
-void GrayscaleNode::initialize() {
+void ChromaticAberrationNode::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*isGray.get_data() = false;
+	*aberrationLevel.get_data() = CVector2::ZERO;
 }
 
-void GrayscaleNode::draw() {
+void ChromaticAberrationNode::draw() {
 	auto&& command = DirectXCommand::GetCommandList();
+	command->SetGraphicsRootConstantBufferView(0, aberrationLevel.get_resource()->GetGPUVirtualAddress());
 	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
-	command->SetGraphicsRootConstantBufferView(0, isGray.get_resource()->GetGPUVirtualAddress());
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
-void GrayscaleNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
+void ChromaticAberrationNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
 	textureGPUHandle = textureGPUHandle_;
 }
 
-void GrayscaleNode::create_pipeline_state() {
+void ChromaticAberrationNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0);
-	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL);
+	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,
 		0
@@ -41,7 +42,7 @@ void GrayscaleNode::create_pipeline_state() {
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
 		"EngineResources/HLSL/FullscreenShader.hlsl",
-		"EngineResources/HLSL/Grayscale/Grayscale.PS.hlsl"
+		"EngineResources/HLSL/Posteffect/ChromaticAberration/ChromaticAberration.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
@@ -54,10 +55,12 @@ void GrayscaleNode::create_pipeline_state() {
 
 	pipelineState = std::make_unique<PipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
+
 }
 
 #ifdef _DEBUG
-void GrayscaleNode::debug_gui() {
-	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
+void ChromaticAberrationNode::debug_gui() {
+	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / EngineSettings::CLIENT_WIDTH, -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / EngineSettings::CLIENT_HEIGHT, -0.5f, 0.5f, "%.4f");
 }
 #endif // _DEBUG
