@@ -67,7 +67,7 @@ void MeshInstance::draw() const {
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
-		commandList->SetGraphicsRootDescriptorTable(4, meshMaterials[i].texture->get_gpu_handle());
+		commandList->SetGraphicsRootDescriptorTable(3, meshMaterials[i].texture->get_gpu_handle());
 		commandList->DrawIndexedInstanced(mesh->index_size(i), 1, 0, 0, 0); // 描画コマンド
 	}
 }
@@ -152,15 +152,15 @@ void MeshInstance::debug_gui() {
 
 			const auto materialData = meshMaterial.material->get_data();
 			if (ImGui::RadioButton("None", materialData->lighting == static_cast<uint32_t>(LighingType::None))) {
-				meshMaterial.material->set_lighting(LighingType::None);
+				meshMaterial.lightingType = LighingType::None;
 			}
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Lambert", materialData->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
-				meshMaterial.material->set_lighting(LighingType::Lambert);
+				meshMaterial.lightingType = LighingType::Lambert;
 			}
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Half lambert", materialData->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
-				meshMaterial.material->set_lighting(LighingType::HalfLambert);
+				meshMaterial.lightingType = LighingType::HalfLambert;
 			}
 			ImGui::TreePop();
 		}

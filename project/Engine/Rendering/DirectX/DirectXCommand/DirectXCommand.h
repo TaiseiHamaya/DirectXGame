@@ -21,7 +21,7 @@ public:
 	static void Initialize();
 
 	static DirectXCommand& GetInstance() noexcept;
-	static const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& GetCommandList() noexcept;
+	static const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4>& GetCommandList() noexcept;
 	static const Microsoft::WRL::ComPtr<ID3D12CommandQueue>& GetCommandQueue() noexcept;
 	static void SetBarrier(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);
 
@@ -47,13 +47,13 @@ public:
 
 private:
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> commandList;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 	std::uint64_t fenceIndex;
 	HANDLE fenceEvent;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocatorTexture;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandListTexture;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> commandListTexture;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueueTexture;
 	Microsoft::WRL::ComPtr<ID3D12Fence> textureFence;
 	std::uint64_t textureFenceIndex;

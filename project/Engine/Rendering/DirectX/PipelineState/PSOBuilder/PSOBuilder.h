@@ -28,7 +28,7 @@ public:
 	void add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1);
 	void sampler(
 		D3D12_SHADER_VISIBILITY visibility,
-		UINT shaderRagister,
+		UINT shaderRegister,
 		D3D12_FILTER filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
 		D3D12_TEXTURE_ADDRESS_MODE textureMore = D3D12_TEXTURE_ADDRESS_MODE_WRAP,
 		D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_NEVER
@@ -47,6 +47,7 @@ enum class BlendMode {
 	Subtract,
 	Multily,
 	Screen,
+	LightingPath,
 };
 
 class PSOBuilder {
@@ -59,6 +60,7 @@ public:
 	void inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout);
 	void shaders(const ShaderBuilder& shaders);
 	void blendstate(BlendMode blendMode = BlendMode::None, uint32_t renderTarget = 0);
+	void blendstate_only_write();
 	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget = 0);
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);
 	void depthstencilstate(const DepthStencil& depthStencil);

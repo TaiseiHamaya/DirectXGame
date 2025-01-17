@@ -18,7 +18,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	//void use() override;
+	void preprocess() override {};
 
 	void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr) override;
 

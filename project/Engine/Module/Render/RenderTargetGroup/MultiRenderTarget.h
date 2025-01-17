@@ -28,17 +28,12 @@ public:
 	void initialize() override;
 
 	/// <summary>
-	/// 終了処理
-	/// </summary>
-	void finalize() override;
-
-	/// <summary>
 	/// サイズ指定付き初期化
 	/// </summary>
 	/// <param name="width">幅</param>
-	/// <param name="hight">高さ</param>
+	/// <param name="height">高さ</param>
 	/// <param name="size">レンダーターゲット数</param>
-	void initialize(std::uint32_t width, std::uint32_t hight);
+	void initialize(std::uint32_t width, std::uint32_t height, const std::array<DXGI_FORMAT, NumRenderTarget>& formats);
 
 	std::array<OffscreenRender, NumRenderTarget>& offscreen_render_list();
 	const std::array<OffscreenRender, NumRenderTarget>& offscreen_render_list() const;
@@ -66,23 +61,16 @@ private:
 
 template<uint32_t NumRenderTarget>
 inline void MultiRenderTarget<NumRenderTarget>::initialize() {
-	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
+	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT, { DXGI_FORMAT_R8G8B8A8_UNORM });
 }
 
 template<uint32_t NumRenderTarget>
-inline void MultiRenderTarget<NumRenderTarget>::finalize() {
-	for (auto& renderTarget : renderTargets) {
-		renderTarget.release_index();
-	}
-}
-
-template<uint32_t NumRenderTarget>
-inline void MultiRenderTarget<NumRenderTarget>::initialize(std::uint32_t width, std::uint32_t hight) {
+inline void MultiRenderTarget<NumRenderTarget>::initialize(std::uint32_t width, std::uint32_t height, const std::array<DXGI_FORMAT, NumRenderTarget>& formats) {
 	for (uint32_t i = 0; i < NumRenderTarget; ++i) {
-		renderTargets[i].initialize(width, hight);
+		renderTargets[i].initialize(width, height, formats[i]);
 		renderTargetsHandles[i] = renderTargets[i].get_cpu_handle();
 	}
-	create_view_port(width, hight);
+	create_view_port(width, height);
 }
 
 template<uint32_t NumRenderTarget>

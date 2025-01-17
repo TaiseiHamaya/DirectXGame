@@ -18,6 +18,8 @@ public:
 	/// </summary>
 	void initialize() override;
 
+	void preprocess() override {};
+
 private:
 	void create_pipeline_state();
 };

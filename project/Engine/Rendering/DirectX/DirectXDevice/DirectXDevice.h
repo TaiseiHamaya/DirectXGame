@@ -20,7 +20,7 @@ private:
 
 public:
 	static void Initialize();
-	static const Microsoft::WRL::ComPtr<ID3D12Device>& GetDevice() noexcept { return GetInstance().device; };
+	static const Microsoft::WRL::ComPtr<ID3D12Device10>& GetDevice() noexcept { return GetInstance().device; };
 	static const Microsoft::WRL::ComPtr<IDXGIFactory7>& GetFactory() noexcept { return GetInstance().dxgiFactory; }
 
 private:
@@ -31,6 +31,6 @@ private:
 private:
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
 	Microsoft::WRL::ComPtr<IDXGIAdapter4> useAdapter;
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
+	Microsoft::WRL::ComPtr<ID3D12Device10> device;
 };
 

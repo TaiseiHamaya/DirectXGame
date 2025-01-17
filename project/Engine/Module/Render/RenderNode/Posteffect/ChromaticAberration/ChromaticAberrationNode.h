@@ -18,6 +18,8 @@ public:
 public:
 	void initialize() override;
 
+	void preprocess() override {};
+
 	/// <summary>
 	/// 描画
 	/// </summary>

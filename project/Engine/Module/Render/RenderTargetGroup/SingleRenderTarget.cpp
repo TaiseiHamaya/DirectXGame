@@ -12,10 +12,10 @@ void SingleRenderTarget::initialize() {
 	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
 }
 
-void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {
+void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t height) {
 	renderTarget = std::make_unique<OffscreenRender>();
-	renderTarget->initialize(width, hight);
-	create_view_port(width, hight);
+	renderTarget->initialize(width, height);
+	create_view_port(width, height);
 }
 
 const OffscreenRender& SingleRenderTarget::offscreen_render() const {

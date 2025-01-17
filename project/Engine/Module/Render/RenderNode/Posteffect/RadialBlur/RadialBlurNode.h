@@ -21,6 +21,8 @@ public:
 	/// </summary>
 	void initialize() override;
 
+	void preprocess() override {};
+
 	/// <summary>
 	/// 描画
 	/// </summary>

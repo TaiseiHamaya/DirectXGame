@@ -5,9 +5,11 @@ struct Material {
 	int lightingType;
 	float4x4 uvTransform;
 };
+
 struct PixelShaderOutput {
 	float4 color : SV_Target0;
 };
+
 struct DirectionalLight {
 	float3 color; // 色
 	float intensity; // 輝度

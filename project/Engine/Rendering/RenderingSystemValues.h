@@ -10,7 +10,8 @@ public:
 	static constexpr std::uint32_t NUM_BUFFERING{ 2 };
 
 	// DefaultClearColor
-	static constexpr Color4 DEFAULT_CLEAR_COLOR{ .1f, 0.25f, 0.5f, 1.0f };
+	//static constexpr Color4 DEFAULT_CLEAR_COLOR{ .1f, 0.25f, 0.5f, 1.0f };
+	static constexpr Color4 DEFAULT_CLEAR_COLOR{ CColor4::BLACK };
 
 private:
 	inline static std::uint32_t nowBackbufferIndex{ 0 };
