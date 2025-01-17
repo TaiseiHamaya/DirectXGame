@@ -25,7 +25,9 @@ bool NodeAnimationResource::load(const std::filesystem::path& filePath) {
 		return false;
 	}
 
+#ifndef _DEBUG
 	animations.reserve(scene->mNumAnimations);
+#endif
 	for (uint32_t i = 0; i < scene->mNumAnimations; ++i) {
 		aiAnimation* aiPAnimation = scene->mAnimations[i];
 		// 追加
@@ -70,3 +72,25 @@ const NodeAnimationResource::Animation* NodeAnimationResource::animation(const s
 	}
 	return nullptr;
 }
+
+#ifdef _DEBUG
+#include <imgui.h>
+#include <ranges>
+bool NodeAnimationResource::animation_list_gui(std::string& current) const {
+	bool changed = false;
+	if (ImGui::BeginCombo("AnimationList", current.c_str())) {
+		for (const auto& name : animations | std::views::keys) {
+			bool isSelected = current == name;
+			if (ImGui::Selectable(name.c_str(), isSelected)) {
+				current = name;
+				changed = true;
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+	return changed;
+}
+#endif // _DEBUG

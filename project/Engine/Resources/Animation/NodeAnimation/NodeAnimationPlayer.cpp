@@ -21,7 +21,7 @@ void NodeAnimationPlayer::update() {
 	if (!isActive || !animation) {
 		return;
 	}
-	timer += WorldClock::DeltaSeconds();
+	timer += WorldClock::DeltaSeconds() * animationSpeed;
 	if (isLoop && is_end()) {
 		timer = std::fmod(timer, animation->duration);
 	}
@@ -91,15 +91,25 @@ void NodeAnimationPlayer::set_loop(bool isLoop_) {
 	isLoop = isLoop_;
 }
 
+void NodeAnimationPlayer::animation_speed(float speed) {
+	animationSpeed = speed;
+}
+
 #ifdef _DEBUG
 #include <imgui.h>
 void NodeAnimationPlayer::debug_gui() {
+	if (nodeAnimation) {
+		if (nodeAnimation->animation_list_gui(animationName)) {
+			reset_animation(animationName);
+		}
+	}
 	if (ImGui::TreeNodeEx(animationName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::Checkbox("Active", &isActive);
 		ImGui::Checkbox("Loop", &isLoop);
 		if (animation) {
 			ImGui::SliderFloat("Timer", &timer, 0, animation->duration, "%.3fs");
 		}
+		ImGui::DragFloat("AnimationSpeed", &animationSpeed, 0.1f);
 		ImGui::TreePop();
 	}
 }

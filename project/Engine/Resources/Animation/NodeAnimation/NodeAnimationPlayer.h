@@ -34,6 +34,7 @@ public:
 	float parametric() const;
 
 	void set_loop(bool isLoop);
+	void animation_speed(float speed = 1.0f);
 
 #ifdef _DEBUG
 public:
@@ -44,7 +45,9 @@ private:
 	bool isLoop{ false };
 	bool isActive{ true };
 	float timer{ 0 };
+	float animationSpeed{ 1.0f };
 	const NodeAnimationResource::Animation* animation{ nullptr };
+	const NodeAnimationResource::Animation* nextAnimation{ nullptr };
 	std::shared_ptr<const NodeAnimationResource> nodeAnimation;
 
 #ifdef _DEBUG

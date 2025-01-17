@@ -13,11 +13,14 @@ void CollisionManager::begin() {
 void CollisionManager::update() {
 	// 解放済み要素の削除
 	for (auto itr = colliderList.begin(); itr != colliderList.end();) {
-		if (itr->second.expired()) {
+		bool isEraseList{ true };
+		// 削除処理
+		isEraseList = erase_expired(itr->second.sphereColliders) && isEraseList;
+		isEraseList = erase_expired(itr->second.aabbColliders) && isEraseList;
+		// 要素が空の場合リストから名前を削除
+		if (isEraseList) {
 #ifdef _DEBUG
-			if (colliderList.count(itr->first) == 1) {
-				keyList.erase(itr->first);
-			}
+			keyList.erase(itr->first);
 #endif // _DEBUG
 			itr = colliderList.erase(itr);
 		}
@@ -26,79 +29,66 @@ void CollisionManager::update() {
 		}
 	}
 	// 更新処理
-	for (const auto& list : colliderList | std::views::values) {
-		auto colliderLocked = list.lock();
-		if (colliderLocked) {
-			colliderLocked->update();
+	for (Colliders& colliders : colliderList | std::views::values) {
+		for (std::weak_ptr<SphereCollider>& sphere : colliders.sphereColliders) {
+			sphere.lock()->update();
+		}
+		for (std::weak_ptr<AABBCollider>& aabb : colliders.aabbColliders) {
+			aabb.lock()->update();
 		}
 	}
 }
 
 void CollisionManager::collision(const std::string& groupName1, const std::string& groupName2) {
-	using ColliderIterator = std::unordered_multimap<std::string, std::weak_ptr<BaseCollider>>::const_iterator;
-	auto group1Range = colliderList.equal_range(groupName1);
-	auto group2Range = colliderList.equal_range(groupName2);
-	ColliderIterator group2;
-	for (ColliderIterator& group1 = group1Range.first; group1 != group1Range.second; ++group1) {
-		std::shared_ptr<BaseCollider> group1Locked = group1->second.lock();
-		if (!group1Locked->is_active()) {
-			continue;
-		}
-		// 同じグループのときは重複させないようにgroup1の次を参照させる
-		if (groupName1 == groupName2) {
-			group2 = std::next(group1);
+	// Listに存在しない名前の場合判定しない
+	if (!(colliderList.contains(groupName1) && colliderList.contains(groupName2))) {
+		return;
+	}
+	auto& group1 = colliderList.at(groupName1);
+	auto& group2 = colliderList.at(groupName2);
+
+	test_colliders(group1.sphereColliders, group2.sphereColliders);
+	test_colliders(group1.aabbColliders, group2.sphereColliders);
+	test_colliders(group1.aabbColliders, group2.aabbColliders);
+	test_colliders(group1.sphereColliders, group2.aabbColliders);
+}
+
+template<std::derived_from<BaseCollider> ColliderType>
+bool CollisionManager::erase_expired(std::list<std::weak_ptr<ColliderType>>& colliders) {
+	for (auto itr = colliders.begin(); itr != colliders.end();) {
+		if (itr->expired()) {
+			itr = colliders.erase(itr);
 		}
 		else {
-			group2 = group2Range.first;
+			++itr;
 		}
+	}
 
-		for (; group2 != group2Range.second; ++group2) {
-			std::shared_ptr<BaseCollider> group2Locked = group2->second.lock();
-			// 非アクティブの場合は判定しない
-			if (!group2Locked->is_active()) {
-				continue;
+	if (colliders.empty()) {
+		return true;
+	}
+	return false;
+}
+
+template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
+void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderType>>& lhs, const std::list<std::weak_ptr<RColliderType>>& rhs) {
+	for (const std::weak_ptr<LColliderType>& colliderL : lhs) {
+		for (const std::weak_ptr<RColliderType>& colliderR : rhs) {
+			auto lLocked = colliderL.lock();
+			auto rLocked = colliderR.lock();
+			if constexpr (std::is_same_v<LColliderType, RColliderType>) {
+				if (lLocked == rLocked) {
+					break;
+				}
 			}
-			// 衝突対象が同じ場合は判定しない(この書き方だと存在しない…？)
-			if (group1Locked == group2Locked) {
-				continue;
-			}
-			// コリジョンテスト
-			bool result = test_collision(group1Locked, group2Locked);
-			// コールバック
+			bool result = Collision(*lLocked, *rLocked);
 			collisionCallbackManager->callback(
-				std::make_pair(groupName1, group1Locked.get()),
-				std::make_pair(groupName2, group2Locked.get()),
+				std::make_pair(lLocked->group(), lLocked.get()),
+				std::make_pair(rLocked->group(), rLocked.get()),
 				result
 			);
 		}
 	}
-}
-
-void CollisionManager::register_collider(const std::string& groupName, const std::weak_ptr<BaseCollider>& collider) {
-	auto newCollider = colliderList.emplace(groupName, collider);
-	collider.lock()->set_group_name(newCollider->first);
-#ifdef _DEBUG
-	keyList.insert(groupName);
-#endif // _DEBUG
-}
-
-bool CollisionManager::test_collision(const std::shared_ptr<BaseCollider>& test1, const std::shared_ptr<BaseCollider>& test2) {
-	const type_info& type1 = typeid(*test1);
-	const type_info& type2 = typeid(*test2);
-
-	bool result = false;
-
-	if (type1 == typeid(SphereCollider)) {
-		auto downed1 = static_cast<SphereCollider*>(test1.get());
-		if (type2 == typeid(SphereCollider)) {
-			auto downed2 = static_cast<SphereCollider*>(test2.get());
-			if (Collision(downed1, downed2)) {
-				result = true;
-			}
-		}
-	}
-
-	return result;
 }
 
 #ifdef _DEBUG
@@ -111,8 +101,10 @@ void CollisionManager::debug_gui() {
 	if (ImGui::TreeNode(std::format("ColliderList##{:}", (void*)this).c_str())) {
 		for (auto& name : keyList) {
 			if (colliderList.contains(name)) {
+				auto& list = colliderList.at(name);
 				ImGui::Text(
-					std::format("{} : {}", name, colliderList.count(name)).c_str()
+					std::format("{} : {}", name, 
+						list.aabbColliders.size() + list.sphereColliders.size()).c_str()
 				);
 			}
 		}
@@ -124,10 +116,10 @@ void CollisionManager::debug_draw3d() {
 	if (!isShowDebugDraw) {
 		return;
 	}
-	for (const auto& collider : colliderList | std::views::values) {
-		auto colliderLocked = collider.lock();
-		if (colliderLocked && colliderLocked->is_active()) {
-		}
-	}
+	//for (const auto& collider : colliderList | std::views::values) {
+	//	auto colliderLocked = collider.lock();
+	//	if (colliderLocked && colliderLocked->is_active()) {
+	//	}
+	//}
 }
 #endif // _DEBUG
