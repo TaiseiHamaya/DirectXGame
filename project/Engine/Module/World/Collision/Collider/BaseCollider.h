@@ -10,7 +10,6 @@ public:
 	~BaseCollider() = default;
 
 public:
-	virtual void initialize() = 0;
 	virtual void update();
 
 public:

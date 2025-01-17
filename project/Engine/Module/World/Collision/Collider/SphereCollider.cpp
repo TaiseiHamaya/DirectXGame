@@ -1,7 +1,7 @@
 #include "SphereCollider.h"
 
-void SphereCollider::initialize() {
-	set_radius(1.0f);
+SphereCollider::SphereCollider(float radius_) :
+	radius(radius_) {
 }
 
 void SphereCollider::set_radius(float radius_) {
