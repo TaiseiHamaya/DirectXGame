@@ -43,9 +43,7 @@ private:
 
 	template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
 	void test_colliders(
-		std::string lGroupName,
-		const std::list<std::weak_ptr<LColliderType>>& lhs, 
-		std::string rGroupName,
+		const std::list<std::weak_ptr<LColliderType>>& lhs,
 		const std::list<std::weak_ptr<RColliderType>>& rhs);
 
 public:
@@ -77,7 +75,7 @@ inline void CollisionManager::register_collider(const std::string& groupName, co
 	else if constexpr (std::is_same_v<ColliderType, AABBCollider>) {
 		colliders.aabbColliders.emplace_back(collider);
 	}
-	collider->set_group_name(groupName);
+	collider->set_group_name(colliderList.find(groupName)->first);
 #ifdef _DEBUG
 	keyList.insert(groupName);
 #endif // _DEBUG

@@ -47,9 +47,10 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 	auto& group1 = colliderList.at(groupName1);
 	auto& group2 = colliderList.at(groupName2);
 
-	test_colliders(groupName1, group1.sphereColliders, groupName2, group2.sphereColliders);
-	test_colliders(groupName1, group1.aabbColliders, groupName2, group2.sphereColliders);
-	test_colliders(groupName1, group1.aabbColliders, groupName2, group2.aabbColliders);
+	test_colliders(group1.sphereColliders, group2.sphereColliders);
+	test_colliders(group1.aabbColliders, group2.sphereColliders);
+	test_colliders(group1.aabbColliders, group2.aabbColliders);
+	test_colliders(group1.sphereColliders, group2.aabbColliders);
 }
 
 template<std::derived_from<BaseCollider> ColliderType>
@@ -70,7 +71,7 @@ bool CollisionManager::erase_expired(std::list<std::weak_ptr<ColliderType>>& col
 }
 
 template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
-void CollisionManager::test_colliders(std::string lGroupName, const std::list<std::weak_ptr<LColliderType>>& lhs, std::string rGroupName, const std::list<std::weak_ptr<RColliderType>>& rhs) {
+void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderType>>& lhs, const std::list<std::weak_ptr<RColliderType>>& rhs) {
 	for (const std::weak_ptr<LColliderType>& colliderL : lhs) {
 		for (const std::weak_ptr<RColliderType>& colliderR : rhs) {
 			auto lLocked = colliderL.lock();
@@ -82,8 +83,8 @@ void CollisionManager::test_colliders(std::string lGroupName, const std::list<st
 			}
 			bool result = Collision(*lLocked, *rLocked);
 			collisionCallbackManager->callback(
-				std::make_pair(lGroupName, lLocked.get()),
-				std::make_pair(rGroupName, rLocked.get()),
+				std::make_pair(lLocked->group(), lLocked.get()),
+				std::make_pair(rLocked->group(), rLocked.get()),
 				result
 			);
 		}
