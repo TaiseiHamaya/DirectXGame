@@ -12,6 +12,7 @@ class SpriteInstance;
 class Camera3D;
 class BaseCollider;
 class SphereCollider;
+class AABBCollider;
 class CollisionManager;
 class Color4;
 class RenderPath;
@@ -71,8 +72,8 @@ private:
 	std::shared_ptr<SphereCollider> parentCollider;
 	std::shared_ptr<SphereCollider> childCollider;
 	std::shared_ptr<SphereCollider> singleCollider;
-	std::shared_ptr<SphereCollider> single2Collider;
-	std::shared_ptr<SphereCollider> single3Collider;
+	std::shared_ptr<AABBCollider> single2Collider;
+	std::shared_ptr<AABBCollider> single3Collider;
 
 	std::shared_ptr<NodeAnimationResource> nodeAnimationResource;
 	NodeAnimationPlayer animationPlayer;

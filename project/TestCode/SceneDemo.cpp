@@ -4,6 +4,7 @@
 #include "Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
+#include "Engine/Module/World/Collision/Collider/AABBCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
 #include "Engine/Module/World/Mesh/MeshInstance.h"
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h"
@@ -88,22 +89,17 @@ void SceneDemo::initialize() {
 	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Player.gltf", "Idle", true);
 
 	parentCollider = std::make_unique<SphereCollider>();
-	parentCollider->initialize();
 	parentCollider->set_parent(*parent);
 
 	childCollider = std::make_unique<SphereCollider>();
-	childCollider->initialize();
 	childCollider->set_parent(*child);
 
 	singleCollider = std::make_unique<SphereCollider>();
-	singleCollider->initialize();
 
-	single2Collider = std::make_unique<SphereCollider>();
-	single2Collider->initialize();
+	single2Collider = std::make_unique<AABBCollider>();
 	single2Collider->get_transform().set_translate_x(-3.0f);
 
-	single3Collider = std::make_unique<SphereCollider>();
-	single3Collider->initialize();
+	single3Collider = std::make_unique<AABBCollider>();
 	single3Collider->get_transform().set_translate_x(3.0f);
 
 	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
