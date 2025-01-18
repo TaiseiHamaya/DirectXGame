@@ -18,8 +18,18 @@ public:
 public:
 	void set_group_name(const std::string& name);
 
+#ifdef _DEBUG
+	Matrix4x4 debug_matrix() const;
+#endif // _DEBUG
+
+
 private:
 	const std::string* groupName;
+
+#ifdef _DEBUG
+protected:
+	Matrix4x4 debugMatrix;
+#endif // _DEBUG
 };
 
 /*

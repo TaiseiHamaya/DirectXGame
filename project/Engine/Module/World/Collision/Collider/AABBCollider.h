@@ -5,7 +5,7 @@
 class AABBCollider : public BaseCollider {
 public:
 	AABBCollider() = default;
-	AABBCollider(const Vector3& size_, const Vector3& offset_);
+	AABBCollider(const Vector3& size_, const Vector3& offset_ = CVector3::ZERO);
 	~AABBCollider() = default;
 
 public:
