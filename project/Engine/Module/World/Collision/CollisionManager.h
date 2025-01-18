@@ -13,6 +13,7 @@ class AABBCollider;
 
 #ifdef _DEBUG
 #include <unordered_set>
+#include "Engine/Module/DrawExecutor/LineGroupDrawExecutor/LineGroupDrawExecutor.h"
 #endif // _DEBUG
 
 class CollisionManager {
@@ -23,7 +24,7 @@ public:
 	};
 
 public:
-	CollisionManager() = default;
+	CollisionManager();
 	~CollisionManager() = default;
 
 	CollisionManager(const CollisionManager&) = delete;
@@ -63,6 +64,9 @@ private:
 #ifdef _DEBUG
 	bool isShowDebugDraw = true;
 	std::unordered_set<std::string> keyList;
+
+	std::unique_ptr<LineGroupDrawExecutor> sphereDebugDrawExecutor;
+	std::unique_ptr<LineGroupDrawExecutor> aabbDebugDrawExecutor;
 #endif // _DEBUG
 };
 

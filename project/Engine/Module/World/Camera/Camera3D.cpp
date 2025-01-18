@@ -24,9 +24,9 @@ void Camera3D::initialize() {
 	debugCamera = std::make_unique<WorldInstance>();
 	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
-	debugCamera->set_parent(*debugCameraCenter);
+	debugCamera->reparent(*debugCameraCenter);
 	frustum = std::make_unique<MeshInstance>("Frustum.obj");
-	frustum->set_parent(*this);
+	frustum->reparent(*this);
 #endif // _DEBUG
 
 	update_matrix();

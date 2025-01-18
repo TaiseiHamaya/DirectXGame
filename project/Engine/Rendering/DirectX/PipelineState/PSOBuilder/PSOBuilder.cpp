@@ -186,8 +186,36 @@ void PSOBuilder::rasterizerstate(D3D12_FILL_MODE fillMode, D3D12_CULL_MODE cullM
 }
 
 void PSOBuilder::depthstencilstate(const DepthStencil& depthStencil) {
+	graphicsPipelineStateDesc.DepthStencilState.DepthEnable = true;
 	graphicsPipelineStateDesc.DepthStencilState = depthStencil.get_desc();
 	graphicsPipelineStateDesc.DSVFormat = depthStencil.get_resource()->GetDesc().Format;
+}
+
+void PSOBuilder::depth_state(DXGI_FORMAT format, D3D12_DEPTH_WRITE_MASK mask, D3D12_COMPARISON_FUNC func) {
+	graphicsPipelineStateDesc.DSVFormat = format;
+	graphicsPipelineStateDesc.DepthStencilState.DepthEnable = true;
+	graphicsPipelineStateDesc.DepthStencilState.DepthFunc = func;
+	graphicsPipelineStateDesc.DepthStencilState.DepthWriteMask = mask;
+}
+
+void PSOBuilder::stencil_state(UINT8 read, D3D12_DEPTH_WRITE_MASK write) {
+	graphicsPipelineStateDesc.DepthStencilState.StencilEnable = true;
+	graphicsPipelineStateDesc.DepthStencilState.StencilReadMask= read;
+	graphicsPipelineStateDesc.DepthStencilState.DepthWriteMask = write;
+}
+
+void PSOBuilder::front_face(D3D12_COMPARISON_FUNC func, D3D12_STENCIL_OP depthFail, D3D12_STENCIL_OP stencilFail, D3D12_STENCIL_OP stencilPass) {
+	graphicsPipelineStateDesc.DepthStencilState.BackFace.StencilFunc = func;
+	graphicsPipelineStateDesc.DepthStencilState.BackFace.StencilDepthFailOp = depthFail;
+	graphicsPipelineStateDesc.DepthStencilState.BackFace.StencilFailOp = stencilFail;
+	graphicsPipelineStateDesc.DepthStencilState.BackFace.StencilPassOp = stencilPass;
+}
+
+void PSOBuilder::back_face(D3D12_COMPARISON_FUNC func, D3D12_STENCIL_OP depthFail, D3D12_STENCIL_OP stencilFail, D3D12_STENCIL_OP stencilPass) {
+	graphicsPipelineStateDesc.DepthStencilState.FrontFace.StencilFunc = func;
+	graphicsPipelineStateDesc.DepthStencilState.FrontFace.StencilDepthFailOp = depthFail;
+	graphicsPipelineStateDesc.DepthStencilState.FrontFace.StencilFailOp = stencilFail;
+	graphicsPipelineStateDesc.DepthStencilState.FrontFace.StencilPassOp = stencilPass;
 }
 
 void PSOBuilder::primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType_) {
