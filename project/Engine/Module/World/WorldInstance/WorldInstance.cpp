@@ -43,6 +43,17 @@ Affine WorldInstance::create_world_affine() const {
 	return result;
 }
 
+void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKeepPose) {
+	//const Affine& worldAffine = this->world_affine();
+	//if (hierarchy.has_parent()) {
+	//	const Affine& parentAffineInv = hierarchy.get_parent()->world_affine().inverse();
+	//}
+	//else {
+
+	//}
+	hierarchy.set_parent(*instance.ptr());
+}
+
 void WorldInstance::from_json(const JsonResource& json_) {
 	const nlohmann::json& json = json_.cget();
 	if (json.contains("WorldInstance")) {

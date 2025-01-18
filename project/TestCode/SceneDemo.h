@@ -23,6 +23,7 @@ class RenderPath;
 #include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
 #include "Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
 #include "Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
+#include "Engine/Module/Render/RenderNode/Debug/LineGroupNode/LineGroupNode.h"
 
 #include "Engine/Module/Render/RenderNode/Outline/OutlineNode.h"
 #include "Engine/Module/World/Particle/ParticleEmitterInstance.h"

@@ -49,10 +49,10 @@ AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const st
 		boneMesh.reset_mesh("bone.obj");
 
 		if (joint.parent) {
-			boneMesh.set_parent(boneMeshTest[joint.parent.value()]);
+			boneMesh.reparent(boneMeshTest[joint.parent.value()]);
 		}
 		else {
-			boneMesh.set_parent(*this);
+			boneMesh.reparent(*this);
 		}
 	}
 }

@@ -24,3 +24,11 @@ const std::string& BaseCollider::group() const noexcept {
 void BaseCollider::set_group_name(const std::string& name) {
 	groupName = &name;
 }
+
+#ifdef _DEBUG
+
+Matrix4x4 BaseCollider::debug_matrix() const {
+	return debugMatrix * Transform3D::MakeTranslateMatrix(world_position());
+}
+
+#endif // _DEBUG

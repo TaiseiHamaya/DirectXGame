@@ -38,7 +38,7 @@ public:
 
 private:
 	/// <summary>
-	/// WorldMatrixの作成
+	/// WorldAffineの作成
 	/// </summary>
 	/// <returns></returns>
 	Affine create_world_affine() const;
@@ -88,13 +88,14 @@ public:
 	/// WorldPositionの取得
 	/// </summary>
 	/// <returns></returns>
-	Vector3 world_position() const { return affine.get_origin(); };
+	const Vector3& world_position() const { return affine.get_origin(); };
 
 	/// <summary>
-	/// 親子付け
+	/// 親子付けを再設定
 	/// </summary>
-	/// <param name="hierarchy_"></param>
-	void set_parent(const WorldInstance& hierarchy_) { hierarchy.set_parent(hierarchy_); };
+	/// <param name="instance">対象のInstance</param>
+	/// <param name="isKeepPose">現在の姿勢を維持する</param>
+	void reparent(Reference<const WorldInstance> instance, bool isKeepPose = true);
 
 public:
 	void from_json(const JsonResource& json);

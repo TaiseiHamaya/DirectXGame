@@ -7,6 +7,8 @@
 #include "Engine/Resources/Audio/AudioManager.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Resources/Debug/LineGroup/LineGroupManager.h"
+#include "Engine/Resources/Debug/LineGroup/LineGroupResource.h"
 #include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
@@ -89,6 +91,16 @@ void WinApp::Initialize(DWORD windowConfig) {
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Frustum/Frustum.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Camera/CameraAxis.obj");
+
+#ifdef _DEBUG
+	LineGroupManager::Transfer(
+		"SphereCollider",
+		std::make_shared<LineGroupResource>("./EngineResources/Json/LineGroup/Collider/Sphere.json")
+	);
+	LineGroupManager::Transfer("AABBCollider",
+		std::make_shared<LineGroupResource>("./EngineResources/Json/LineGroup/Collider/AABB.json")
+	);
+#endif // _DEBUG
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();
