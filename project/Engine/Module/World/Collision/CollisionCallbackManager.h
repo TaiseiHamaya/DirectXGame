@@ -44,7 +44,6 @@ private:
 #define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
 #define __CALLBACK_ARGUMENT_DEFAULT(first, second) BaseCollider* const first, BaseCollider* const second
 
-
 /*
 Callbackメモ
 

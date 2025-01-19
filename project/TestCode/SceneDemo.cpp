@@ -4,6 +4,7 @@
 #include "Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
+#include "Engine/Module/World/Collision/Collider/AABBCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
 #include "Engine/Module/World/Mesh/MeshInstance.h"
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h"
@@ -88,27 +89,22 @@ void SceneDemo::initialize() {
 	parent->reset_mesh("Player.gltf");
 	child = std::make_unique<MeshInstance>();
 	child->reset_mesh("Sphere.obj");
-	child->set_parent(*parent);
+	child->reparent(*parent);
 
 	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Player.gltf", "Idle", true);
 
-	parentCollider = std::make_unique<SphereCollider>();
-	parentCollider->initialize();
-	parentCollider->set_parent(*parent);
+	parentCollider = std::make_unique<SphereCollider>(1.0f);
+	parentCollider->reparent(*parent);
 
-	childCollider = std::make_unique<SphereCollider>();
-	childCollider->initialize();
-	childCollider->set_parent(*child);
+	childCollider = std::make_unique<SphereCollider>(1.0f);
+	childCollider->reparent(*child);
 
-	singleCollider = std::make_unique<SphereCollider>();
-	singleCollider->initialize();
+	singleCollider = std::make_unique<SphereCollider>(1.0f);
 
-	single2Collider = std::make_unique<SphereCollider>();
-	single2Collider->initialize();
+	single2Collider = std::make_unique<AABBCollider>(Vector3{ 3.0f, 2.0f, 1.5f });
 	single2Collider->get_transform().set_translate_x(-3.0f);
 
-	single3Collider = std::make_unique<SphereCollider>();
-	single3Collider->initialize();
+	single3Collider = std::make_unique<AABBCollider>(CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
 	single3Collider->get_transform().set_translate_x(3.0f);
 
 	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
@@ -186,9 +182,18 @@ void SceneDemo::initialize() {
 	directionalLightingNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
+#ifdef _DEBUG
+	std::shared_ptr<LineGroupNode> lineGroupNode;
+	lineGroupNode = std::make_unique<LineGroupNode>();
+	lineGroupNode->initialize();
+#endif // _DEBUG
+
 	renderPath = eps::CreateUnique<RenderPath>();
-	//renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
-	renderPath->initialize({ deferredMeshNode,directionalLightingNode });
+#ifdef _DEBUG
+	renderPath->initialize({ deferredMeshNode,directionalLightingNode,lineGroupNode });
+#else
+	renderPath->initialize({ deferredMeshNode,directionalLightingNode,lineGroupNode });
+#endif // _DEBUG
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
@@ -252,7 +257,6 @@ void SceneDemo::draw() const {
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
-	collisionManager->debug_draw3d();
 	camera3D->debug_draw();
 	//animatedMeshInstance->draw_skeleton();
 	DebugValues::ShowGrid();
@@ -277,6 +281,14 @@ void SceneDemo::draw() const {
 
 	//renderPath->next();
 	//sprite->draw();
+
+	renderPath->next();
+
+#ifdef _DEBUG
+	camera3D->register_world(1);
+	collisionManager->debug_draw3d();
+	renderPath->next();
+#endif // _DEBUG
 
 }
 

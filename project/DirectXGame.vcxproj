@@ -124,6 +124,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\LineGroupDrawExecutor\LineGroupDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
     <ClCompile Include="Library\Math\Basis.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResourceBuilder.cpp" />
@@ -148,6 +150,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.cpp" />
     <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.cpp" />
     <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.cpp" />
+    <ClCompile Include="Engine\Resources\Debug\LineGroup\LineGroupResource.cpp" />
+    <ClCompile Include="Engine\Resources\Debug\LineGroup\LineGroupManager.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\LineGroupNode\LineGroupNode.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -228,11 +233,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
     <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp" />
+    <ClCompile Include="Engine\Module\World\WorldInstanceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\DeferredAdaptor.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\LineGroupDrawExecutor\LineGroupDrawExecutor.h" />
+    <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h" />
     <ClInclude Include="Library\Math\Affine.h" />
     <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioResourceBuilder.h" />
@@ -261,6 +269,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.h" />
     <ClInclude Include="Engine\Utility\Template\Reference.h" />
+    <ClInclude Include="Engine\Resources\Debug\LineGroup\LineGroupResource.h" />
+    <ClInclude Include="Engine\Resources\Debug\LineGroup\LineGroupManager.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\LineGroupNode\LineGroupNode.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
@@ -362,6 +373,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
     <ClInclude Include="Engine\Resources\Texture\TextureResourceBuilder.h" />
+    <ClInclude Include="Engine\Module\World\WorldInstanceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.PS.hlsl">
