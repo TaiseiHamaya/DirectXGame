@@ -606,19 +606,19 @@
     <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Debug\LineGroup\LineGroupResource.cpp">
+    <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\WorldInstanceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\DrawExecutor\LineGroupDrawExecutor\LineGroupDrawExecutor.cpp">
+    <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveLineDrawExecutor\PrimitiveLineDrawExecutor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Debug\LineGroup\LineGroupManager.cpp">
+    <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\LineGroupNode\LineGroupNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1022,19 +1022,19 @@
     <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Debug\LineGroup\LineGroupResource.h">
+    <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\WorldInstanceManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\DrawExecutor\LineGroupDrawExecutor\LineGroupDrawExecutor.h">
+    <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveLineDrawExecutor\PrimitiveLineDrawExecutor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Debug\LineGroup\LineGroupManager.h">
+    <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\LineGroupNode\LineGroupNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

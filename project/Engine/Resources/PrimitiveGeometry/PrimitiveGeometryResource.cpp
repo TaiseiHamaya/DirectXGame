@@ -1,13 +1,11 @@
-#include "LineGroupResource.h"
-
-#ifdef _DEBUG
+#include "PrimitiveGeometryResource.h"
 
 #define VECTOR3_SERIALIZER
 
 #include "Engine/Resources/Json/JsonSerializer.h"
 #include "Engine/Resources/Json/JsonResource.h"
 
-LineGroupResource::LineGroupResource(std::filesystem::path fileName) {
+PrimitiveGeometryResource::PrimitiveGeometryResource(std::filesystem::path fileName) {
 	JsonResource json{ fileName };
 	std::vector<Vector3> vertices;
 	std::vector<uint32_t> indexes;
@@ -34,21 +32,19 @@ LineGroupResource::LineGroupResource(std::filesystem::path fileName) {
 	}
 }
 
-LineGroupResource::LineGroupResource(std::vector<Vector3> vertices_, std::vector<uint32_t> indices) :
+PrimitiveGeometryResource::PrimitiveGeometryResource(std::vector<Vector3> vertices_, std::vector<uint32_t> indices) :
 	vertexBuffer(vertices_),
 	indexBuffer(indices) {
 }
 
-const D3D12_VERTEX_BUFFER_VIEW& LineGroupResource::get_vbv() const {
+const D3D12_VERTEX_BUFFER_VIEW& PrimitiveGeometryResource::get_vbv() const {
 	return vertexBuffer.get_vbv();
 }
 
-const D3D12_INDEX_BUFFER_VIEW* const LineGroupResource::get_p_ibv() const {
+const D3D12_INDEX_BUFFER_VIEW* const PrimitiveGeometryResource::get_p_ibv() const {
 	return indexBuffer.get_p_ibv();
 }
 
-const UINT LineGroupResource::index_size() const {
+const UINT PrimitiveGeometryResource::index_size() const {
 	return indexBuffer.index_size();
 }
-
-#endif // _DEBUG

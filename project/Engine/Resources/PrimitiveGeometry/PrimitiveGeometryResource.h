@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef _DEBUG
-
 #include <vector>
 #include <filesystem>
 
@@ -10,14 +8,14 @@
 #include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
 
-class LineGroupResource final {
+class PrimitiveGeometryResource final {
 public:
-	LineGroupResource() = default;
-	~LineGroupResource() = default;
+	PrimitiveGeometryResource() = default;
+	~PrimitiveGeometryResource() = default;
 
-	LineGroupResource(std::filesystem::path fileName);
+	PrimitiveGeometryResource(std::filesystem::path fileName);
 
-	LineGroupResource(
+	PrimitiveGeometryResource(
 		std::vector<Vector3> vertices_,
 		std::vector<uint32_t> indices
 	);
@@ -45,5 +43,3 @@ private:
 	VertexBuffer<Vector3> vertexBuffer;
 	IndexBuffer indexBuffer;
 };
-
-#endif // _DEBUG

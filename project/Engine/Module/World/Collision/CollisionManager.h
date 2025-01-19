@@ -13,7 +13,7 @@ class AABBCollider;
 
 #ifdef _DEBUG
 #include <unordered_set>
-#include "Engine/Module/DrawExecutor/LineGroupDrawExecutor/LineGroupDrawExecutor.h"
+#include "Engine/Module/DrawExecutor/PrimitiveLineDrawExecutor/PrimitiveLineDrawExecutor.h"
 #endif // _DEBUG
 
 class CollisionManager {
@@ -65,8 +65,8 @@ private:
 	bool isShowDebugDraw = true;
 	std::unordered_set<std::string> keyList;
 
-	std::unique_ptr<LineGroupDrawExecutor> sphereDebugDrawExecutor;
-	std::unique_ptr<LineGroupDrawExecutor> aabbDebugDrawExecutor;
+	std::unique_ptr<PrimitiveLineDrawExecutor> sphereDebugDrawExecutor;
+	std::unique_ptr<PrimitiveLineDrawExecutor> aabbDebugDrawExecutor;
 #endif // _DEBUG
 };
 

@@ -8,10 +8,10 @@
 CollisionManager::CollisionManager() {
 #ifdef _DEBUG
 
-	sphereDebugDrawExecutor = eps::CreateUnique<LineGroupDrawExecutor>(
+	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveLineDrawExecutor>(
 		"SphereCollider", 1024
 	);
-	aabbDebugDrawExecutor = eps::CreateUnique<LineGroupDrawExecutor>(
+	aabbDebugDrawExecutor = eps::CreateUnique<PrimitiveLineDrawExecutor>(
 		"AABBCollider", 1024
 	);
 

@@ -1,4 +1,4 @@
-#include "LineGroup.hlsli"
+#include "PrimitiveLine.hlsli"
 
 struct TransformMatrix {
 	float4x4 world;

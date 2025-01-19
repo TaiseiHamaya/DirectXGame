@@ -1,6 +1,6 @@
 #ifdef _DEBUG
 
-#include "LineGroupNode.h"
+#include "PrimitiveLineNode.h"
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
@@ -8,22 +8,22 @@
 
 #include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 
-LineGroupNode::LineGroupNode() = default;
-LineGroupNode::~LineGroupNode() noexcept = default;
+PrimitiveLineNode::PrimitiveLineNode() = default;
+PrimitiveLineNode::~PrimitiveLineNode() noexcept = default;
 
-void LineGroupNode::initialize() {
+void PrimitiveLineNode::initialize() {
 	depthStencil = DepthStencilValue::depthStencil;
 	create_pipeline_state();
-	pipelineState->set_name("LineGroupNode");
+	pipelineState->set_name("PrimitiveLineNode");
 	primitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
 	set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	set_config(RenderNodeConfig::ContinueDrawAfter | 
-		RenderNodeConfig::ContinueDrawBefore | 
+	set_config(RenderNodeConfig::ContinueDrawAfter |
+		RenderNodeConfig::ContinueDrawBefore |
 		RenderNodeConfig::NoClearDepth
 	);
 }
 
-void LineGroupNode::create_pipeline_state() {
+void PrimitiveLineNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 0 :  transform
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 1 : camera
@@ -33,8 +33,8 @@ void LineGroupNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Debug/LineGroup/LineGroup.VS.hlsl",
-		"EngineResources/HLSL/Debug/LineGroup/LineGroup.PS.hlsl"
+		"EngineResources/HLSL/Debug/PrimitiveGeometry/PrimitiveLine.VS.hlsl",
+		"EngineResources/HLSL/Debug/PrimitiveGeometry/PrimitiveLine.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

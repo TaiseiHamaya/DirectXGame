@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef _DEBUG
-
 #include "Engine/Utility/Template/SingletonInterface.h"
 
 #include <filesystem>
@@ -9,10 +7,10 @@
 #include <string>
 #include <unordered_map>
 
-class LineGroupResource;
+class PrimitiveGeometryResource;
 
-class LineGroupManager final : SingletonInterface<LineGroupManager> {
-	__SINGLETON_INTERFACE(LineGroupManager)
+class PrimitiveGeometryManager final : SingletonInterface<PrimitiveGeometryManager> {
+	__SINGLETON_INTERFACE(PrimitiveGeometryManager)
 
 public:
 	/// <summary>
@@ -26,7 +24,7 @@ public:
 	/// </summary>
 	/// <param name="name"></param>
 	/// <returns></returns>
-	static std::shared_ptr<const LineGroupResource> GetLineGroup(const std::string& name);
+	static std::shared_ptr<const PrimitiveGeometryResource> GetPrimitiveGeometry(const std::string& name);
 
 	/// <summary>
 	/// 登録チェック
@@ -40,18 +38,16 @@ public:
 	/// </summary>
 	/// <param name="name">登録名</param>
 	/// <param name="data">ロード済みデータ</param>
-	static void Transfer(const std::string& name, std::shared_ptr<LineGroupResource> data);
+	static void Transfer(const std::string& name, std::shared_ptr<PrimitiveGeometryResource> data);
 
 private:
 	/// <summary>
-	/// LineGroupが登録されているか取得(mutexなし)
+	/// PrimitiveGeometryが登録されているか取得(mutexなし)
 	/// </summary>
-	/// <param name="name">確認するLineGroup名</param>
+	/// <param name="name">確認するPrimitiveGeometry名</param>
 	/// <returns>登録されていればtrue[bool]</returns>
 	static bool IsRegisteredNonlocking(const std::string& name);
 
 private:
-	std::unordered_map<std::string, std::shared_ptr<LineGroupResource>> lineGroupList;
+	std::unordered_map<std::string, std::shared_ptr<PrimitiveGeometryResource>> primitiveGeometryList;
 };
-
-#endif // _DEBUG

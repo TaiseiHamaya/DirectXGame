@@ -183,14 +183,14 @@ void SceneDemo::initialize() {
 	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
 #ifdef _DEBUG
-	std::shared_ptr<LineGroupNode> lineGroupNode;
-	lineGroupNode = std::make_unique<LineGroupNode>();
-	lineGroupNode->initialize();
+	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
+	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
+	primitiveLineNode->initialize();
 #endif // _DEBUG
 
 	renderPath = eps::CreateUnique<RenderPath>();
 #ifdef _DEBUG
-	renderPath->initialize({ deferredMeshNode,directionalLightingNode,lineGroupNode });
+	renderPath->initialize({ deferredMeshNode,directionalLightingNode,primitiveLineNode });
 #else
 	renderPath->initialize({ deferredMeshNode,directionalLightingNode });
 #endif // _DEBUG
