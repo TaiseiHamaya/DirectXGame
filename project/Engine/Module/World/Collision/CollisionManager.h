@@ -17,7 +17,7 @@ class AABBCollider;
 #endif // _DEBUG
 
 class CollisionManager {
-public:
+private:
 	struct Colliders {
 		std::list<std::weak_ptr<SphereCollider>> sphereColliders;
 		std::list<std::weak_ptr<AABBCollider>> aabbColliders;

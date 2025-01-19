@@ -20,7 +20,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	//void use() override;
+	void preprocess() override {};
 
 private:
 	void create_pipeline_state();

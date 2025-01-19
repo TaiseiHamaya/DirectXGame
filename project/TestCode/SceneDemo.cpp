@@ -192,7 +192,7 @@ void SceneDemo::initialize() {
 #ifdef _DEBUG
 	renderPath->initialize({ deferredMeshNode,directionalLightingNode,lineGroupNode });
 #else
-	renderPath->initialize({ deferredMeshNode,directionalLightingNode,lineGroupNode });
+	renderPath->initialize({ deferredMeshNode,directionalLightingNode });
 #endif // _DEBUG
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
@@ -266,8 +266,6 @@ void SceneDemo::draw() const {
 	camera3D->register_world_lighting(1);
 	directionalLight->draw_deferred();
 	
-	renderPath->next();
-	
 	//directionalLight->register_world(3);
 	//camera3D->register_world(1);
 	//animatedMeshInstance->draw();
@@ -285,7 +283,7 @@ void SceneDemo::draw() const {
 	renderPath->next();
 
 #ifdef _DEBUG
-	camera3D->register_world(1);
+	camera3D->register_world_projection(1);
 	collisionManager->debug_draw3d();
 	renderPath->next();
 #endif // _DEBUG

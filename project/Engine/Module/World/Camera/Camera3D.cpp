@@ -75,8 +75,7 @@ void Camera3D::update_matrix() {
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
 	vpBuffers.get_data()->view = viewAffine.to_matrix();
-	vpBuffers.get_data()->projection = perspectiveFovMatrix;
-	vpBuffers.get_data()->view = viewAffine.to_matrix();
+	vpBuffers.get_data()->viewProjection = viewAffine.to_matrix() * perspectiveFovMatrix;
 	worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
 	worldPosition.get_data()->position = world_position();
 #endif // _DEBUG
@@ -111,7 +110,7 @@ const Matrix4x4& Camera3D::vp_matrix() const {
 #ifdef _DEBUG
 	return vpMatrix;
 #else
-	return *vpMatrixBuffer.get_data();
+	return vpBuffers.get_data()->viewProjection;
 #endif // _DEBUG
 }
 
