@@ -3,10 +3,12 @@
 #include "Tools/PackA2.hlsli"
 #include "Tools/ToLinearZBuffer.hlsli"
 
-struct DirectionalLight {
+struct PointLight {
 	float3 color; // 色
 	float intensity; // 輝度
-	float3 directon; // 向き
+	float3 position; // 位置
+	float radius; // 範囲
+	float decay; // 減衰率
 };
 
 struct Camera {
@@ -19,7 +21,7 @@ Texture2D<float3> gNormal : register(t1);
 Texture2D<float> gDepth : register(t2);
 SamplerState gSampler : register(s0);
 
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b0);
+ConstantBuffer<PointLight> gPointLight : register(b0);
 ConstantBuffer<Camera> gCamera : register(b1);
 
 float4 main(VertexShaderOutput input) : SV_TARGET {
@@ -41,7 +43,12 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	
 	// specular
 	float3 toCamera = normalize(gCamera.position - world);
-	float3 halfVector = normalize(-gDirectionalLight.directon + toCamera);
+	float3 direction = normalize(world - gPointLight.position);
+	float distance = length(world - gPointLight.position);
+	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
+	float3 lightColor = gPointLight.color.rgb * gPointLight.intensity * factor;
+	
+	float3 halfVector = normalize(-direction + toCamera);
 	float dotNormal = dot(normal, halfVector);
 	float specularPow = pow(saturate(dotNormal), shininess);
 	if (isnan(specularPow)) {
@@ -50,7 +57,7 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	else {
 		specularPow *= 2.0f;
 	}
-	float3 specular = gDirectionalLight.color * gDirectionalLight.intensity * specularPow * albedo;
+	float3 specular = gPointLight.color * gPointLight.intensity * specularPow * albedo;
 
 	
 	// ライティングなし
@@ -60,19 +67,19 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	}
 	// Lambert
 	else if (shadingType == 1) {
-		float NdotL = dot(normal, -gDirectionalLight.directon);
+		float NdotL = dot(normal, -direction);
 		float cos = saturate(NdotL);
-		float3 baseColor = albedo * gDirectionalLight.color;
-		output.rgb = baseColor * cos * gDirectionalLight.intensity;
+		float3 baseColor = albedo * gPointLight.color;
+		output.rgb = baseColor * cos * gPointLight.intensity;
 		output.rgb += specular;
 		output.a = 1.0f;
 	}
 	// Half Lambert
 	else if (shadingType == 2) {
-		float NdotL = dot(normal, -gDirectionalLight.directon);
+		float NdotL = dot(normal, -direction);
 		float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-		float3 baseColor = albedo * gDirectionalLight.color;
-		output.rgb = baseColor * cos * gDirectionalLight.intensity;
+		float3 baseColor = albedo * gPointLight.color;
+		output.rgb = baseColor * cos * gPointLight.intensity;
 		output.rgb += specular;
 		output.a = 1.0f;
 	}

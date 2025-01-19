@@ -3,7 +3,7 @@
 #include "Tools/PackA2.hlsli"
 
 struct Material {
-	float4 color;
+	float3 color;
 	uint lightingType;
 	float shininess;
 	float4x4 uvTransform;
