@@ -354,7 +354,7 @@
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Object3DNode\Object3DNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
@@ -369,7 +369,7 @@
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.cpp">
       <Filter>Engine\Module\Render\RenderTargetGroup\SingleRenderTarget</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Grayscale\GrayscaleNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Grayscale</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\BaseRenderNode.cpp">
@@ -381,19 +381,19 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\ChromaticAberration</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\RadialBlur</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="TestCode\SceneDemo.cpp">
       <Filter>TestProgram</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Outline\OutlineNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Outline</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Camera\Camera2D.cpp">
@@ -468,13 +468,13 @@
     <ClCompile Include="Engine\Module\World\Particle\Particle\Particle.cpp">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Library\Math\Matrix3x3.cpp">
@@ -520,6 +520,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp">
@@ -570,7 +573,7 @@
     <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\SkinningMesh\SkinningMeshNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp">
@@ -592,6 +595,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Library\Math\Affine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp">
@@ -689,7 +698,7 @@
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Object3DNode\Object3DNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.h">
       <Filter>Engine\Module\Render\RenderNode\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h">
@@ -704,7 +713,7 @@
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.h">
       <Filter>Engine\Module\Render\RenderTargetGroup\SingleRenderTarget</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Grayscale\GrayscaleNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.h">
       <Filter>Engine\Module\Render\RenderNode\Grayscale</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\BaseRenderNode.h">
@@ -716,19 +725,19 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.h">
       <Filter>Engine\Module\Render\RenderNode\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.h">
       <Filter>Engine\Module\Render\RenderNode\ChromaticAberration</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.h">
       <Filter>Engine\Module\Render\RenderNode\RadialBlur</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="TestCode\SceneDemo.h">
       <Filter>TestProgram</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Outline\OutlineNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h">
       <Filter>Engine\Module\Render\RenderNode\Outline</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Camera\Camera2D.h">
@@ -812,13 +821,13 @@
     <ClInclude Include="Engine\Module\World\Particle\Particle\Particle.h">
       <Filter>Engine\Module\ParticleSystem\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\Definition.h">
@@ -914,6 +923,9 @@
     <ClInclude Include="TestCode\CallbackManagerDemo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -968,7 +980,7 @@
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\SkinningMesh\SkinningMeshNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Resources\BaseResourceBuilder.h">
@@ -998,6 +1010,15 @@
     <ClInclude Include="Engine\Utility\Template\Reference.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\DeferredAdaptor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1021,22 +1042,22 @@
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
       <Filter>EngineResources\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.PS.hlsl">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.VS.hlsl">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\NormalColor\NormalColor.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
       <Filter>EngineResources\HLSL\NormalColor</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\NormalColor\NormalColor.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
       <Filter>EngineResources\HLSL\NormalColor</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Wireframe\Wireframe3d.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
       <Filter>EngineResources\HLSL\Wireframe</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Wireframe\Wireframe3d.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
       <Filter>EngineResources\HLSL\Wireframe</Filter>
     </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
@@ -1045,54 +1066,54 @@
     <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
       <Filter>EngineResources\HLSL\Texture</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\ChromaticAberration\ChromaticAberration.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
       <Filter>EngineResources\HLSL\PostEffect\ChromaticAberration</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Grayscale\Grayscale.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
       <Filter>EngineResources\HLSL\PostEffect\Grayscale</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Outline\Outline.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
       <Filter>EngineResources\HLSL\PostEffect\Outline</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\RadialBlur\RadialBlur.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
       <Filter>EngineResources\HLSL\PostEffect\RadialBlur</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
       <Filter>EngineResources\HLSL\Particle\ParticleMesh</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
       <Filter>EngineResources\HLSL\Particle\ParticleMesh</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
+    <None Include="EngineResources\HLSL\Forward\3DObject\Object3d.hlsli">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </None>
-    <None Include="EngineResources\HLSL\NormalColor\NormalColor.hlsli">
+    <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <Filter>EngineResources\HLSL\NormalColor</Filter>
     </None>
     <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli">
       <Filter>EngineResources\HLSL\Texture</Filter>
     </None>
-    <None Include="EngineResources\HLSL\ChromaticAberration\ChromaticAberration.hlsli">
+    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
       <Filter>EngineResources\HLSL\PostEffect\ChromaticAberration</Filter>
     </None>
-    <None Include="EngineResources\HLSL\Grayscale\Grayscale.hlsli">
+    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
       <Filter>EngineResources\HLSL\PostEffect\Grayscale</Filter>
     </None>
-    <None Include="EngineResources\HLSL\RadialBlur\RadialBlur.hlsli">
+    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
       <Filter>EngineResources\HLSL\PostEffect\RadialBlur</Filter>
     </None>
-    <None Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.hlsli">
+    <None Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleMesh</Filter>
     </None>
-    <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli">
+    <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </None>
   </ItemGroup>

@@ -12,7 +12,7 @@ void DirectXCommand::Initialize() {
 	GetInstance().create_fence();
 }
 
-const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& DirectXCommand::GetCommandList() noexcept {
+const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4>& DirectXCommand::GetCommandList() noexcept {
 	return GetInstance().commandList;
 }
 

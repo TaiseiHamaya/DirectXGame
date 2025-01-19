@@ -1,7 +1,15 @@
 #include "DirectionalLightInstance.h"
 
+#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+
 void DirectionalLightInstance::begin_rendering() {
 	auto lightData = lightBuffer.get_data();
+}
+
+void DirectionalLightInstance::draw_deferred() const {
+	auto&& command = DirectXCommand::GetCommandList();
+	command->SetGraphicsRootConstantBufferView(0, lightBuffer.get_resource()->GetGPUVirtualAddress());
+	command->DrawInstanced(3, 1, 0, 0);
 }
 
 #ifdef _DEBUG

@@ -22,7 +22,6 @@ enum class RenderNodeConfig : std::uint8_t {
 	ContinueDrawAfter = NoClearRenderTarget | NoChangeStateBegin,
 	ContinueUseDpehtBefore = NoChangeDepthStateEnd,
 	ContinueUseDpehtAfter = NoClearDepth | NoChangeDepthStateBegin,
-
 };
 
 // BitFlag型を使用
@@ -47,7 +46,7 @@ public:
 	/// <summary>
 	/// 使用決定時処理
 	/// </summary>
-	//virtual void use() = 0;
+	virtual void preprocess() = 0;
 
 	/// <summary>
 	/// 描画開始

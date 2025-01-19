@@ -69,7 +69,7 @@ void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT 
 	rootParameter.DescriptorTable.NumDescriptorRanges = descriptorRange.NumDescriptors; // Tableで使用する数
 }
 
-void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
+void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRegister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
 	D3D12_STATIC_SAMPLER_DESC& staticSampler = staticSamplers.emplace_back();
 	staticSampler.MaxAnisotropy = 16; // 異方性の場合はx16にする
 	staticSampler.Filter = filter; // フィルタ
@@ -78,7 +78,7 @@ void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shad
 	staticSampler.AddressW = textureMore;
 	staticSampler.ComparisonFunc = func;
 	staticSampler.MaxLOD = D3D12_FLOAT32_MAX; // すべてのMipmapを使う
-	staticSampler.ShaderRegister = shaderRagister;
+	staticSampler.ShaderRegister = shaderRegister;
 	staticSampler.ShaderVisibility = visibility;
 }
 
@@ -167,10 +167,24 @@ void PSOBuilder::blendstate(BlendMode blendMode, uint32_t renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
+	case BlendMode::LightingPath:
+		desc.SrcBlend = D3D12_BLEND_ONE;
+		desc.BlendOp = D3D12_BLEND_OP_ADD;
+		desc.DestBlend = D3D12_BLEND_ONE;
+		desc.SrcBlendAlpha = D3D12_BLEND_ONE;
+		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
 	default:
 		break;
 	}
 	blendstate(desc, renderTarget);
+}
+
+void PSOBuilder::blendstate_only_write() {
+	D3D12_RENDER_TARGET_BLEND_DESC desc{};
+	desc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendstate(desc, 0);
 }
 
 void PSOBuilder::blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget) {
@@ -224,5 +238,5 @@ void PSOBuilder::primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyTyp
 
 void PSOBuilder::rendertarget(DXGI_FORMAT format) {
 	graphicsPipelineStateDesc.RTVFormats[graphicsPipelineStateDesc.NumRenderTargets] = format;
-	graphicsPipelineStateDesc.NumRenderTargets = ++graphicsPipelineStateDesc.NumRenderTargets;
+	++graphicsPipelineStateDesc.NumRenderTargets;
 }

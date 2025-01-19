@@ -11,6 +11,18 @@
 
 class Camera3D : public WorldInstance {
 public:
+	struct CameraVPBuffers {
+		Matrix4x4 view;
+		Matrix4x4 viewProjection;
+	};
+
+	struct LightingPathBuffer {
+		Vector3 position;
+		uint32_t padding{ 0 };
+		Matrix4x4 viewInv;
+	};
+
+public:
 	Camera3D() = default;
 	virtual ~Camera3D() = default;
 
@@ -22,7 +34,8 @@ public:
 
 	void update_matrix();
 
-	void register_world(uint32_t index);
+	void register_world_projection(uint32_t index);
+	void register_world_lighting(uint32_t index);
 
 public:
 	void set_transform(const Transform3D& transform) noexcept;
@@ -50,7 +63,8 @@ private:
 	Affine viewAffine;
 	Matrix4x4 perspectiveFovMatrix;
 
-	ConstantBuffer<Matrix4x4> vpMatrixBuffer;
+	ConstantBuffer<CameraVPBuffers> vpBuffers;
+	ConstantBuffer<LightingPathBuffer> worldPosition;
 
 	float fovY;
 	float aspectRatio;
@@ -60,7 +74,8 @@ private:
 #ifdef _DEBUG
 	Matrix4x4 vpMatrix;
 	Affine debugViewAffine;
-	bool isVaildDebugCamera;
+	bool isValidDebugCamera;
+	bool useDebugCameraLighting;
 	std::unique_ptr<MeshInstance> debugCameraCenter;
 	std::unique_ptr<WorldInstance> debugCamera;
 	std::unique_ptr<MeshInstance> frustum;

@@ -20,6 +20,8 @@ public:
 
 	virtual void begin_rendering() = 0;
 
+	virtual void draw_deferred() const = 0;
+
 	void register_world(uint32_t parameterIndex) const;
 
 protected:

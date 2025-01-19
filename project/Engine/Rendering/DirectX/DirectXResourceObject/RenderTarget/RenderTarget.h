@@ -59,5 +59,5 @@ protected:
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvCPUHandle{};
 	std::optional<std::uint32_t> rtvHeapIndex;
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-	Color4 clearColor;
+	Color4 clearColor{ CColor4::BLACK };
 };
