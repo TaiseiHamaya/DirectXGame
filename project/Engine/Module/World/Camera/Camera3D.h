@@ -7,6 +7,7 @@
 
 #ifdef _DEBUG
 #include "Engine/Module/World/Mesh/MeshInstance.h"
+#include "Engine/Module/DrawExecutor/PrimitiveLineDrawExecutor/PrimitiveLineDrawExecutor.h"
 #endif // _DEBUG
 
 class Camera3D : public WorldInstance {
@@ -55,7 +56,8 @@ public:
 public:
 	virtual void debug_gui();
 	void debug_camera();
-	void debug_draw() const;
+	void debug_draw_axis() const;
+	void debug_draw_frustum() const;
 	const Matrix4x4& vp_matrix_debug() const;
 #endif // _DEBUG
 
@@ -78,7 +80,7 @@ private:
 	bool useDebugCameraLighting;
 	std::unique_ptr<MeshInstance> debugCameraCenter;
 	std::unique_ptr<WorldInstance> debugCamera;
-	std::unique_ptr<MeshInstance> frustum;
+	std::unique_ptr<PrimitiveLineDrawExecutor> frustumExecutor;
 	Vector3 offset;
 	Vector2 preMousePos;
 #endif // _DEBUG

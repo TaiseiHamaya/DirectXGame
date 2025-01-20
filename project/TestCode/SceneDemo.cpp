@@ -34,6 +34,8 @@
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
 #include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
 
+#include "Engine/Debug/Output.h"
+
 //#define QUATERNION_SERIALIZER
 #define TRANSFORM3D_SERIALIZER
 #define TRANSFORM2D_SERIALIZER
@@ -67,11 +69,11 @@ void SceneDemo::initialize() {
 	Camera2D::Initialize();
 	camera3D = std::make_unique<Camera3D>();
 	camera3D->initialize();
-	camera3D->set_transform({
-		CVector3::BASIS,
-		Quaternion::EulerDegree(45,0,0),
-		{0,10,-10}
-		});
+	//camera3D->set_transform({
+	//	CVector3::BASIS,
+	//	Quaternion::EulerDegree(45,0,0),
+	//	{0,10,-10}
+	//	});
 	//camera3D->from_json();
 
 	{
@@ -90,6 +92,24 @@ void SceneDemo::initialize() {
 	child = std::make_unique<MeshInstance>();
 	child->reset_mesh("Sphere.obj");
 	child->reparent(*parent);
+
+	Matrix4x4 vpInv = camera3D->vp_matrix().inverse();
+	Vector3 leftUpNear = Transform3D::Homogeneous({ -1.0f, -1.0f, 0 }, vpInv);
+	Vector3 leftUpFar = Transform3D::Homogeneous({ -1.0f, -1.0f, 1.0f }, vpInv);
+	Vector3 leftUnderNear = Transform3D::Homogeneous({ -1.0f, 1.0f, 0 }, vpInv);
+	Vector3 leftUnderFar = Transform3D::Homogeneous({ -1.0f, 1.0f, 1.0f }, vpInv);
+	Vector3 rightUpNear = Transform3D::Homogeneous({ 1.0f, -1.0f, 0 }, vpInv);
+	Vector3 rightUpFar = Transform3D::Homogeneous({ 1.0f, -1.0f, 1.0f }, vpInv);
+	Vector3 rightUnderNear = Transform3D::Homogeneous({ 1.0f, 1.0f, 0 }, vpInv);
+	Vector3 rightUnderFar = Transform3D::Homogeneous({ 1.0f, 1.0f, 1.0f }, vpInv);
+	Console("leftUpNear{:}, {:}, {:}\n", leftUpNear.x, leftUpNear.y, leftUpNear.z);
+	Console("leftUpFar{:}, {:}, {:}\n", leftUpFar.x, leftUpFar.y, leftUpFar.z);
+	Console("leftUnderNear{:}, {:}, {:}\n", leftUnderNear.x, leftUnderNear.y, leftUnderNear.z);
+	Console("leftUnderFar{:}, {:}, {:}\n", leftUnderFar.x, leftUnderFar.y, leftUnderFar.z);
+	Console("rightUpNear{:}, {:}, {:}\n", rightUpNear.x, rightUpNear.y, rightUpNear.z);
+	Console("rightUpFar{:}, {:}, {:}\n", rightUpFar.x, rightUpFar.y, rightUpFar.z);
+	Console("rightUnderNear{:}, {:}, {:}\n", rightUnderNear.x, rightUnderNear.y, rightUnderNear.z);
+	Console("rightUnderFar{:}, {:}, {:}\n", rightUnderFar.x, rightUnderFar.y, rightUnderFar.z);
 
 	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Player.gltf", "Idle", true);
 
@@ -257,7 +277,7 @@ void SceneDemo::draw() const {
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
-	camera3D->debug_draw();
+	camera3D->debug_draw_axis();
 	//animatedMeshInstance->draw_skeleton();
 	DebugValues::ShowGrid();
 #endif // _DEBUG
@@ -265,7 +285,7 @@ void SceneDemo::draw() const {
 	renderPath->next();
 	camera3D->register_world_lighting(1);
 	directionalLight->draw_deferred();
-	
+
 	//directionalLight->register_world(3);
 	//camera3D->register_world(1);
 	//animatedMeshInstance->draw();
@@ -285,6 +305,8 @@ void SceneDemo::draw() const {
 #ifdef _DEBUG
 	camera3D->register_world_projection(1);
 	collisionManager->debug_draw3d();
+	camera3D->debug_draw_frustum();
+
 	renderPath->next();
 #endif // _DEBUG
 

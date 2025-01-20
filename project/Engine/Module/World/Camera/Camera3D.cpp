@@ -10,6 +10,7 @@
 #ifdef _DEBUG
 #include <imgui.h>
 #include <Engine/Runtime/Input/Input.h>
+#include <Engine/Resources/PrimitiveGeometry/PrimitiveGeometryManager.h>
 #endif // _DEBUG
 
 void Camera3D::initialize() {
@@ -26,8 +27,7 @@ void Camera3D::initialize() {
 	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
 	debugCamera->reparent(*debugCameraCenter);
-	frustum = std::make_unique<MeshInstance>("Frustum.obj");
-	frustum->reparent(*this);
+	frustumExecutor = std::make_unique<PrimitiveLineDrawExecutor>("Frustum", 1);
 #endif // _DEBUG
 
 	update_matrix();
@@ -203,13 +203,18 @@ void Camera3D::debug_camera() {
 	debugCamera->get_transform().set_translate(offset * debugCamera->get_transform().get_quaternion());
 }
 
-void Camera3D::debug_draw() const {
+void Camera3D::debug_draw_axis() const {
 	if (isValidDebugCamera) {
 		if (offset.z < -0.001) {
 			debugCameraCenter->draw();
 		}
-		frustum->begin_rendering();
-		frustum->draw();
+	}
+}
+
+void Camera3D::debug_draw_frustum() const {
+	if (isValidDebugCamera && frustumExecutor) {
+		frustumExecutor->write_to_buffer(0, world_affine().to_matrix());
+		frustumExecutor->draw_command(1);
 	}
 }
 

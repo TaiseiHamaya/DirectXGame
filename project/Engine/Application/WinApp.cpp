@@ -101,6 +101,10 @@ void WinApp::Initialize(DWORD windowConfig) {
 		"AABBCollider",
 		std::make_shared<PrimitiveGeometryResource>("./EngineResources/Json/PrimitiveGeometry/Collider/AABB.json")
 	);
+	PrimitiveGeometryManager::Transfer(
+		"Frustum",
+		std::make_shared<PrimitiveGeometryResource>("./EngineResources/Json/PrimitiveGeometry/Frustum.json")
+	);
 #endif // _DEBUG
 
 	// 待機
