@@ -19,7 +19,7 @@ struct Camera {
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
-ConstantBuffer<Camera> gCamera : register(b2);
+ConstantBuffer<Camera> gCamera : register(b1);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
