@@ -1,4 +1,4 @@
-#include "DirectionalLighingNode.h"
+#include "PointLightingNode.h"
 
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
@@ -6,18 +6,18 @@
 #include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 #include <Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h>
 
-DirectionalLightingNode::DirectionalLightingNode() = default;
+PointLightingNode::PointLightingNode() = default;
 
-DirectionalLightingNode::~DirectionalLightingNode() noexcept = default;
+PointLightingNode::~PointLightingNode() noexcept = default;
 
-void DirectionalLightingNode::initialize() {
+void PointLightingNode::initialize() {
 	create_pipeline_state();
-	pipelineState->set_name("DirectionalLightingNode");
+	pipelineState->set_name("PointLightingNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	depthBuffer = DepthStencilValue::depthStencil->texture_gpu_handle();
 }
 
-void DirectionalLightingNode::preprocess() {
+void PointLightingNode::preprocess() {
 	auto& command = DirectXCommand::GetCommandList();
 	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		command->SetGraphicsRootDescriptorTable(2 + i, gBuffers[i]);
@@ -25,14 +25,14 @@ void DirectionalLightingNode::preprocess() {
 	command->SetGraphicsRootDescriptorTable(4, depthBuffer);
 }
 
-void DirectionalLightingNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT) {
+void PointLightingNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT) {
 	auto& list = gBufferRT->offscreen_render_list();
 	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		gBuffers[i] = list[i].texture_gpu_handle();
 	}
 }
 
-void DirectionalLightingNode::create_pipeline_state() {
+void PointLightingNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 0 : Light
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 1 : Camera
@@ -45,8 +45,8 @@ void DirectionalLightingNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/FullscreenShader.hlsl",
-		"EngineResources/HLSL/Deferred/Lighting/DirectionalLighting.hlsl"
+		"EngineResources/HLSL/.hlsl",
+		"EngineResources/HLSL/Deferred/Lighting/PointLighting.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
