@@ -5,12 +5,14 @@
 #include <imgui.h>
 #include "Engine/Resources/Texture/TextureManager.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h"
+#include "Engine/Resources/Animation/Skeleton/SkeletonManager.h"
 
 ImGuiLoadManager::ImGuiLoadManager() {
 	meshCurrentPath = "./EngineResources";
 	textureCurrentPath = "./EngineResources";
-	get_file_list(meshFileList, meshCurrentPath, ".obj");
-	get_file_list(textureFileList, textureCurrentPath, ".png");
+	get_file_list(meshFileList, meshCurrentPath, { ".obj", ".gltf" });
+	get_file_list(textureFileList, textureCurrentPath, { ".png" });
 };
 
 ImGuiLoadManager::~ImGuiLoadManager() noexcept = default;
@@ -34,12 +36,12 @@ void ImGuiLoadManager::show_gui() {
 	if (ImGui::Button("<-")) {
 		if (meshCurrentPath != ".") {
 			meshCurrentPath = meshCurrentPath.parent_path();
-			get_file_list(meshFileList, meshCurrentPath, ".obj");
+			get_file_list(meshFileList, meshCurrentPath, { ".obj", ".gltf" });
 		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reload")) {
-		get_file_list(meshFileList, meshCurrentPath, ".obj");
+		get_file_list(meshFileList, meshCurrentPath, { ".obj", ".gltf" });
 	}
 	ImGui::SameLine();
 	ImGui::Text(std::format("Current-\'{:}\'", meshCurrentPath.string()).c_str());
@@ -48,10 +50,12 @@ void ImGuiLoadManager::show_gui() {
 			std::filesystem::path select = meshCurrentPath / meshFileList[i];
 			if (std::filesystem::is_directory(select)) {
 				meshCurrentPath = std::move(select);
-				get_file_list(meshFileList, meshCurrentPath, ".obj");
+				get_file_list(meshFileList, meshCurrentPath, { ".obj", ".gltf" });
 			}
 			else if(std::filesystem::exists(select)){
 				PolygonMeshManager::RegisterLoadQue(select);
+				NodeAnimationManager::RegisterLoadQue(select);
+				SkeletonManager::RegisterLoadQue(select);
 			}
 		}
 	}
@@ -65,12 +69,12 @@ void ImGuiLoadManager::show_gui() {
 	if (ImGui::Button("<-")) {
 		if (textureCurrentPath != ".") {
 			textureCurrentPath = textureCurrentPath.parent_path();
-			get_file_list(textureFileList, textureCurrentPath, ".png");
+			get_file_list(textureFileList, textureCurrentPath, { ".png" });
 		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reload")) {
-		get_file_list(textureFileList, textureCurrentPath, ".png");
+		get_file_list(textureFileList, textureCurrentPath, { ".png" });
 	}
 	ImGui::SameLine();
 	ImGui::Text(std::format("Current-\'{:}\'", textureCurrentPath.string()).c_str());
@@ -79,7 +83,7 @@ void ImGuiLoadManager::show_gui() {
 			std::filesystem::path select = textureCurrentPath / textureFileList[i];
 			if (std::filesystem::is_directory(select)) {
 				textureCurrentPath = std::move(select);
-				get_file_list(textureFileList, textureCurrentPath, ".png");
+				get_file_list(textureFileList, textureCurrentPath, { ".png" });
 			}
 			else if (std::filesystem::exists(select)) {
 				TextureManager::RegisterLoadQue(select);
@@ -89,7 +93,7 @@ void ImGuiLoadManager::show_gui() {
 	ImGui::End();
 }
 
-void ImGuiLoadManager::get_file_list(std::vector<std::string>& list, const std::filesystem::path& path, const std::string& extension) {
+void ImGuiLoadManager::get_file_list(std::vector<std::string>& list, const std::filesystem::path& path, std::unordered_set<std::string> extensions) {
 
 	std::filesystem::directory_iterator folderItr{ path };
 	std::filesystem::directory_iterator end;
@@ -108,7 +112,7 @@ void ImGuiLoadManager::get_file_list(std::vector<std::string>& list, const std::
 
 	std::vector<std::string> files;
 	while (fileItr != end) {
-		if (fileItr->path().extension() == extension) {
+		if (extensions.contains(fileItr->path().extension().string())) {
 			files.emplace_back(fileItr->path().filename().string());
 		}
 		++fileItr;

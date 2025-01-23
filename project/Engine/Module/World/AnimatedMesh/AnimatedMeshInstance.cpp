@@ -16,45 +16,6 @@ AnimatedMeshInstance::AnimatedMeshInstance() noexcept(false) :
 
 AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) {
 	reset_animated_mesh(meshName, animationName, isLoop);
-
-	// Skeletonが取得できない場合何もしない
-	if (!skeletonResrouce) {
-		return;
-	}
-
-	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->joint_size());
-	// Jointの配列を作成
-	skeletonData.jointInstance.resize(jointSize);
-
-	// SkeletonMatrixPaletteWellの生成
-	// マルチメッシュ分生成
-	skeletonData.matrixPalettes.resize(mesh->material_count());
-	for (uint32_t i = 0; StructuredBuffer<SkeletonMatrixPaletteWell>&matrixPalette : skeletonData.matrixPalettes) {
-		const std::string& meshName = mesh->mesh_data(i)->meshName;
-		const std::vector<uint32_t>* useJointIndexes = skeletonResrouce->use_joint_indexes(meshName);
-		if (!useJointIndexes) {
-			continue;
-		}
-		// 各要素について初期化
-		matrixPalette.initialize(static_cast<uint32_t>(useJointIndexes->size()));
-		++i;
-	}
-
-	// ボーン描画用(削除予定)
-	const Skeleton skeleton = skeletonResrouce->skeleton();
-	boneMeshTest.resize(jointSize);
-	for (uint32_t i = 0; i < jointSize; ++i) {
-		MeshInstance& boneMesh = boneMeshTest[i];
-		const Joint& joint = skeleton.joints[i];
-		boneMesh.reset_mesh("bone.obj");
-
-		if (joint.parent) {
-			boneMesh.reparent(boneMeshTest[joint.parent.value()]);
-		}
-		else {
-			boneMesh.reparent(*this);
-		}
-	}
 }
 
 AnimatedMeshInstance::~AnimatedMeshInstance() noexcept = default;
@@ -75,12 +36,14 @@ void AnimatedMeshInstance::begin_rendering() noexcept {
 	}
 
 	// Skeletonの行列計算
-	const Skeleton skeleton = skeletonResrouce->skeleton();
+	const Skeleton& skeleton = skeletonResrouce->skeleton();
 	for (uint32_t jointIndex = 0; jointIndex < skeletonData.jointInstance.size(); ++jointIndex) {
 		SkeletonSpaceInstance& jointInstance = skeletonData.jointInstance[jointIndex];
 		const Joint& joint = skeleton.joints[jointIndex];
 
 		// Transform更新
+		// HOTFIX : Animationが存在しないかつデフォルトのTransformが変更されている場合に正しくない
+		// Mixamoとかこれの典型例なので注意
 		jointInstance.transform.set_scale(nodeAnimation->calculate_scale(joint.name));
 		jointInstance.transform.set_quaternion(nodeAnimation->calculate_rotate(joint.name));
 		jointInstance.transform.set_translate(nodeAnimation->calculate_translate(joint.name));
@@ -148,8 +111,8 @@ void AnimatedMeshInstance::draw() const {
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
 		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Material
-		commandList->SetGraphicsRootDescriptorTable(4, meshMaterials[i].texture->get_gpu_handle());// Texture
-		commandList->SetGraphicsRootDescriptorTable(5, skeletonData.matrixPalettes[i].get_handle_gpu()); // BoneMatrix
+		commandList->SetGraphicsRootDescriptorTable(3, meshMaterials[i].texture->get_gpu_handle());// Texture
+		commandList->SetGraphicsRootDescriptorTable(4, skeletonData.matrixPalettes[i].get_handle_gpu()); // BoneMatrix
 		commandList->DrawIndexedInstanced(mesh->index_size(i), 1, 0, 0, 0); // 描画コマンド
 	}
 }
@@ -158,15 +121,106 @@ void AnimatedMeshInstance::reset_animated_mesh(const std::string& meshName, cons
 	reset_mesh(meshName);
 	skeletonResrouce = SkeletonManager::GetSkeleton(meshName);
 	nodeAnimation = eps::CreateUnique<NodeAnimationPlayer>(meshName, animationName, isLoop);
+	create_skeleton();
 }
 
 NodeAnimationPlayer* const AnimatedMeshInstance::get_animation() {
 	return nodeAnimation.get();
 }
 
+void AnimatedMeshInstance::create_skeleton() {
+
+	// Skeletonが取得できない場合何もしない
+	if (!skeletonResrouce) {
+		return;
+	}
+
+	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->joint_size());
+	// Jointの配列を作成
+	skeletonData.jointInstance.resize(jointSize);
+
+	// SkeletonMatrixPaletteWellの生成
+	// マルチメッシュ分生成
+	skeletonData.matrixPalettes.resize(mesh->material_count());
+	for (uint32_t i = 0; StructuredBuffer<SkeletonMatrixPaletteWell>&matrixPalette : skeletonData.matrixPalettes) {
+		const std::string& meshName = mesh->mesh_data(i)->meshName;
+		const std::vector<uint32_t>* useJointIndexes = skeletonResrouce->use_joint_indexes(meshName);
+		if (!useJointIndexes) {
+			continue;
+		}
+		// 各要素について初期化
+		matrixPalette.initialize(static_cast<uint32_t>(useJointIndexes->size()));
+		++i;
+	}
+
+	// ボーン描画用(削除予定)
+	const Skeleton skeleton = skeletonResrouce->skeleton();
+	boneMeshTest.resize(jointSize);
+	for (uint32_t i = 0; i < jointSize; ++i) {
+		MeshInstance& boneMesh = boneMeshTest[i];
+		const Joint& joint = skeleton.joints[i];
+		boneMesh.reset_mesh("bone.obj");
+
+		if (joint.parent) {
+			boneMesh.reparent(boneMeshTest[joint.parent.value()]);
+		}
+		else {
+			boneMesh.reparent(*this);
+		}
+	}
+}
+
 #ifdef _DEBUG
+#include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
+#include <Engine/Resources/Texture/TextureManager.h>
 void AnimatedMeshInstance::debug_gui() {
-	MeshInstance::debug_gui();
+	if (PolygonMeshManager::MeshListGui(meshName)) {
+		reset_animated_mesh(meshName);
+	}
+	if (ImGui::Button("ResetMaterialData")) {
+		default_material();
+	}
+	ImGui::Checkbox("Draw", &isDraw);
+	ImGui::Separator();
+	WorldInstance::debug_gui();
+	ImGui::Separator();
+	ImGui::Text("Materials");
+	for (int i = 0; auto & meshMaterial : meshMaterials) {
+		std::string treeNodeName;
+		auto meshData = mesh->mesh_data(i);
+		if (meshData) {
+			treeNodeName = meshData->materialName;
+		}
+		if (treeNodeName.empty()) {
+			treeNodeName = "UnknownMaterialName" + std::to_string(i);
+		}
+		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+			if (TextureManager::TextureListGui(meshMaterial.textureName)) {
+				set_texture(meshMaterial.textureName, i);
+				//meshMaterials[i].texture = TextureManager::GetTexture(meshMaterials[i].textureName);
+			}
+
+			meshMaterial.uvTransform.debug_gui();
+
+			meshMaterial.color.debug_gui();
+
+			const auto materialData = meshMaterial.material->get_data();
+			if (ImGui::RadioButton("None", materialData->lighting == static_cast<uint32_t>(LighingType::None))) {
+				meshMaterial.lightingType = LighingType::None;
+			}
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Lambert", materialData->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
+				meshMaterial.lightingType = LighingType::Lambert;
+			}
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Half lambert", materialData->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
+				meshMaterial.lightingType = LighingType::HalfLambert;
+			}
+			ImGui::TreePop();
+		}
+		++i;
+	}
+	//ここからAnimation専用処理
 	ImGui::Separator();
 	if (nodeAnimation) {
 		nodeAnimation->debug_gui();

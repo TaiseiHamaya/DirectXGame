@@ -624,6 +624,9 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -1041,6 +1044,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,7 +15,6 @@ void SkinningMeshNode::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("SkinningMeshNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
 }
 
 void SkinningMeshNode::set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_) {
@@ -38,9 +37,10 @@ void SkinningMeshNode::create_pipeline_state() {
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 0 :  transform
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 1); // 1 : camera
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : material
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 3 : light
-	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 4 : texture
-	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 1); // 5 : bone
+	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 3 : texture
+	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 1); // 4 : bone
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 5 : camera
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 6 : light
 	rootSignatureBuilder.sampler( // sampler
 		D3D12_SHADER_VISIBILITY_PIXEL,
 		0,

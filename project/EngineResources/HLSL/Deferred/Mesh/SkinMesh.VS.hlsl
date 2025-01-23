@@ -1,4 +1,4 @@
-#include "AnimatedMesh.hlsli"
+#include "../Deferred.hlsli"
 
 struct TransformMatrix {
 	float4x4 world;
@@ -6,6 +6,7 @@ struct TransformMatrix {
 
 struct CameraInfomation {
 	float4x4 viewProjection;
+	float4x4 view;
 };
 
 struct SkeletonMatrixPalette {
@@ -26,6 +27,8 @@ ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
 ConstantBuffer<CameraInfomation> gCameraMatrix : register(b1);
 StructuredBuffer<SkeletonMatrixPalette> gSkeletonMatrixPalette : register(t1);
 
+static const float4x4 wv = mul(gTransformMatrix.world, gCameraMatrix.view);
+
 static const float4x4 wvp = mul(gTransformMatrix.world, gCameraMatrix.viewProjection);
 
 struct SkinnedVertex {
@@ -42,17 +45,15 @@ VertexShaderOutput main(VertexShaderInput input) {
 		uint index = input.index[i];
 		float weight = input.weight[i];
 		skinned.position += mul(input.position, gSkeletonMatrixPalette[index].skeletonSpaceMatrix) * weight;
-		skinned.normal += mul(input.normal, (float3x3) transpose(gSkeletonMatrixPalette[index].skeletonSpaceInv)) * weight;
+		skinned.normal += mul(input.normal, (float3x3)transpose(gSkeletonMatrixPalette[index].skeletonSpaceInv)) * weight;
 	}
 	skinned.position.w = 1.0f;
 	skinned.normal = normalize(skinned.normal);
 	
 	VertexShaderOutput output;
 
-	output.world = mul(skinned.position, gTransformMatrix.world).xyz;
-	output.position = mul(float4(output.world, 1.0f), gCameraMatrix.viewProjection);
+	output.position = mul(skinned.position, wvp);
 	output.texcoord = input.texcoord;
-	output.normal = normalize(mul(skinned.normal, (float3x3)gTransformMatrix.world));
-
+	output.normal = normalize(mul(skinned.normal, (float3x3)wv));
 	return output;
 }
