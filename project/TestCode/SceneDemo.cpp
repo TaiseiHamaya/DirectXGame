@@ -33,6 +33,7 @@
 #include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
 #include "Engine/Module/Render/RenderNode/Deferred/SkinMesh/SkinMeshNodeDeferred.h"
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
+#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
 #include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
 
 #include "Engine/Debug/Output.h"

@@ -2,6 +2,7 @@
 
 struct TransformMatrix {
 	float4x4 world;
+	float4x4 worldIT;
 };
 
 struct CameraInfomation {
@@ -27,7 +28,7 @@ ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
 ConstantBuffer<CameraInfomation> gCameraMatrix : register(b1);
 StructuredBuffer<SkeletonMatrixPalette> gSkeletonMatrixPalette : register(t1);
 
-static const float4x4 wv = mul(gTransformMatrix.world, gCameraMatrix.view);
+static const float4x4 wITv = mul(gTransformMatrix.worldIT, gCameraMatrix.view);
 
 static const float4x4 wvp = mul(gTransformMatrix.world, gCameraMatrix.viewProjection);
 
@@ -54,6 +55,6 @@ VertexShaderOutput main(VertexShaderInput input) {
 
 	output.position = mul(skinned.position, wvp);
 	output.texcoord = input.texcoord;
-	output.normal = normalize(mul(skinned.normal, (float3x3)wv));
+	output.normal = normalize(mul(skinned.normal, (float3x3)wITv));
 	return output;
 }
