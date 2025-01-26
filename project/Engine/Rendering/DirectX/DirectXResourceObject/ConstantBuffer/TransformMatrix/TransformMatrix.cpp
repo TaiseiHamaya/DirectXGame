@@ -1,14 +1,12 @@
 #include "TransformMatrix.h"
 
-TransformMatrix::TransformMatrix() : ConstantBuffer<Matrix4x4>() {
-}
+#include <Library/Math/Affine.h>
+
+TransformMatrix::TransformMatrix() : ConstantBuffer<TransformMatrixData>() {}
 
 TransformMatrix::~TransformMatrix() noexcept = default;
 
-TransformMatrix::TransformMatrix(const Matrix4x4& transformMatrixData)
-	: ConstantBuffer<Matrix4x4>(transformMatrixData) {
-}
-
-void TransformMatrix::set_transformation_matrix_data(const Matrix4x4& world) noexcept {
-	*data = world;
+void TransformMatrix::set_transformation_matrix_data(const Affine& world) noexcept {
+	Basis wIT = world.inverse().get_basis().transposed();
+	*data = { world.to_matrix(), wIT.to_matrix4x4() };
 }

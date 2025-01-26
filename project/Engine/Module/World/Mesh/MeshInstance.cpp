@@ -42,7 +42,7 @@ void MeshInstance::begin_rendering() noexcept {
 	update_affine();
 	// 各情報をGPUに転送
 	// Transformに転送
-	transformMatrix->set_transformation_matrix_data(world_affine().to_matrix());
+	transformMatrix->set_transformation_matrix_data(world_affine());
 	// Materialに転送
 	for (PolygonMeshMaterial& material : meshMaterials) {
 		auto& gpuValue = material.material;

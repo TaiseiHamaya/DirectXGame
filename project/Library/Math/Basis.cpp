@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "Quaternion.h"
+#include "Matrix3x3.h"
 
 #define cofac(row1, col1, row2, col2) \
 	(rows[row1][col1] * rows[row2][col2] - rows[row1][col2] * rows[row2][col1])
@@ -39,6 +40,22 @@ Basis Basis::transposed() const {
 	Basis tr = *this;
 	tr.transpose();
 	return tr;
+}
+
+Matrix3x3 Basis::to_matrix() const {
+	Matrix3x3 result;
+	for (int i = 0; i < 3; ++i) {
+		std::memcpy(result[i].data(), &rows[i], sizeof(float) * 3);
+	}
+	return result;
+}
+
+Matrix4x4 Basis::to_matrix4x4() const {
+	Matrix4x4 result;
+	for (int i = 0; i < 3; ++i) {
+		std::memcpy(result[i].data(), &rows[i], sizeof(float) * 3);
+	}
+	return result;
 }
 
 void Basis::scale_rotate(const Vector3& scale, const Quaternion& rotate) {
