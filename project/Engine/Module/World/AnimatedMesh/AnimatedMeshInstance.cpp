@@ -14,7 +14,8 @@ AnimatedMeshInstance::AnimatedMeshInstance() noexcept(false) :
 	MeshInstance() {
 }
 
-AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) {
+AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) :
+	MeshInstance() {
 	reset_animated_mesh(meshName, animationName, isLoop);
 }
 
@@ -129,13 +130,19 @@ NodeAnimationPlayer* const AnimatedMeshInstance::get_animation() {
 }
 
 void AnimatedMeshInstance::create_skeleton() {
-
 	// Skeletonが取得できない場合何もしない
 	if (!skeletonResrouce) {
 		return;
 	}
 
 	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->joint_size());
+
+	// Jointがのサイズが0の場合おかしいので強制終了
+	if (jointSize == 0) {
+		skeletonResrouce = nullptr;
+		return;
+	}
+
 	// Jointの配列を作成
 	skeletonData.jointInstance.resize(jointSize);
 
@@ -216,9 +223,13 @@ void AnimatedMeshInstance::debug_gui() {
 			if (ImGui::RadioButton("Half lambert", materialData->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
 				meshMaterial.lightingType = LighingType::HalfLambert;
 			}
+
+			ImGui::DragFloat("Specular", &meshMaterial.material->get_data()->shininess, 0.1f, 0.0f, std::numeric_limits<float>::max());
+	
 			ImGui::TreePop();
 		}
 		++i;
+
 	}
 	//ここからAnimation専用処理
 	ImGui::Separator();
@@ -231,6 +242,9 @@ void AnimatedMeshInstance::debug_gui() {
 	}
 	else {
 		ImGui::Text("Skeleton is not bind.");
+	}
+	if (ImGui::Button("Restart")) {
+		get_animation()->restart();
 	}
 }
 
