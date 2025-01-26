@@ -220,7 +220,7 @@ void SceneDemo::initialize() {
 #ifdef _DEBUG
 	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,primitiveLineNode });
 #else
-	renderPath->initialize({ deferredMeshNode,directionalLightingNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode });
 #endif // _DEBUG
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
