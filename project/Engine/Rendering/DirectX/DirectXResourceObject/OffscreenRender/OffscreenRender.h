@@ -3,8 +3,6 @@
 #include "Engine/Rendering/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
 #include "Engine/Application/EngineSettings.h"
 
-class VertexBuffer;
-
 class OffscreenRender final : public RenderTarget {
 public:
 	OffscreenRender() noexcept;
@@ -40,7 +38,7 @@ public:
 	void release_index() override;
 
 	/// <summary>
-	/// 明示delete(外部から使用しない)
+	/// 明示 delete(外部から使用しない)
 	/// </summary>
 	void create_view() = delete;
 
@@ -55,7 +53,7 @@ private:
 	/// <summary>
 	/// SRVの作成
 	/// </summary>
-	void create_textue_view();
+	void create_texture_view();
 
 private:
 	std::optional<std::uint32_t> srvHeapIndex;

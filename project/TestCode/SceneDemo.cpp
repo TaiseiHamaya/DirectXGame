@@ -25,9 +25,18 @@
 #include "Engine/Resources/Texture/TextureManager.h"
 
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 #include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 #include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
+
+#include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
+#include "Engine/Module/Render/RenderNode/Deferred/SkinMesh/SkinMeshNodeDeferred.h"
+#include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
+#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
+#include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
+
+#include "Engine/Debug/Output.h"
 
 //#define QUATERNION_SERIALIZER
 #define TRANSFORM3D_SERIALIZER
@@ -62,11 +71,11 @@ void SceneDemo::initialize() {
 	Camera2D::Initialize();
 	camera3D = std::make_unique<Camera3D>();
 	camera3D->initialize();
-	camera3D->set_transform({
-		CVector3::BASIS,
-		Quaternion::EulerDegree(45,0,0),
-		{0,10,-10}
-		});
+	//camera3D->set_transform({
+	//	CVector3::BASIS,
+	//	Quaternion::EulerDegree(45,0,0),
+	//	{0,10,-10}
+	//	});
 	//camera3D->from_json();
 
 	{
@@ -121,62 +130,97 @@ void SceneDemo::initialize() {
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("Alarm01.wav");
 
-	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
-	renderTarget->initialize();
+	///
+	/// ここはForward
+	/// 
+//		// ---------------------- RT設定 ----------------------
+//	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
+//	renderTarget->initialize();
+//
+//	// ---------------------- StaticMesh ----------------------
+//	std::shared_ptr<Object3DNode> object3dNode;
+//	object3dNode = std::make_unique<Object3DNode>();
+//	object3dNode->initialize();
+//	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	//object3dNode->set_render_target(renderTarget);
+//	object3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
+//	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//
+//	/// ---------------------- SkinMesh ----------------------
+//	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
+//	skinningMeshNode = std::make_unique<SkinningMeshNode>();
+//	skinningMeshNode->initialize();
+//	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	//skinningMeshNode->set_render_target(renderTarget);
+//	skinningMeshNode->set_config(
+//		RenderNodeConfig::ContinueDrawBefore |
+//		RenderNodeConfig::ContinueUseDpehtBefore |
+//		RenderNodeConfig::ContinueDrawAfter |
+//		RenderNodeConfig::ContinueUseDpehtAfter
+//	);
+//	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//
+//	// ---------------------- ParticleBillboard ----------------------
+//	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
+//	particleBillboardNode = std::make_unique<ParticleMeshNode>();
+//	particleBillboardNode->initialize();
+//	particleBillboardNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
+//	//particleBillboardNode->set_render_target(renderTarget);
+//	particleBillboardNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//
+//	// ---------------------- Sprite ----------------------
+//	std::shared_ptr<SpriteNode> spriteNode;
+//	spriteNode = std::make_unique<SpriteNode>();
+//	spriteNode->initialize();
+//	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
+//	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//
+//#ifdef _DEBUG
+//	// ---------------------- 線 ----------------------
+//	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
+//	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
+//	primitiveLineNode->initialize();
+//#endif // _DEBUG
+//
+//	// ---------------------- 生成 ----------------------
+//	renderPath = eps::CreateUnique<RenderPath>();
+//#ifdef _DEBUG
+//	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode,primitiveLineNode });
+//#else
+//	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
+//#endif // _DEBUG
 
-	std::shared_ptr<Object3DNode> object3dNode;
-	object3dNode = std::make_unique<Object3DNode>();
-	object3dNode->initialize();
-	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	//object3dNode->set_render_target(renderTarget);
-	object3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
-	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	///
+	/// Deferredテスト用
+	/// 
+	auto deferredRenderTarget = DeferredAdaptor::CreateGBufferRenderTarget();
 
-	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
-	skinningMeshNode = std::make_unique<SkinningMeshNode>();
-	skinningMeshNode->initialize();
-	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	//skinningMeshNode->set_render_target(renderTarget);
-	skinningMeshNode->set_config(
-		RenderNodeConfig::ContinueDrawBefore |
-		RenderNodeConfig::ContinueUseDpehtBefore |
-		RenderNodeConfig::ContinueDrawAfter |
-		RenderNodeConfig::ContinueUseDpehtAfter
-	);
-	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	auto deferredMeshNode = eps::CreateShared<MeshNodeDeferred>();
+	deferredMeshNode->initialize();
+	deferredMeshNode->set_render_target(deferredRenderTarget);
+	deferredMeshNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
 
-	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
-	particleBillboardNode = std::make_unique<ParticleMeshNode>();
-	particleBillboardNode->initialize();
-	particleBillboardNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
-	//particleBillboardNode->set_render_target(renderTarget);
-	particleBillboardNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	auto skinMeshNodeDeferred = eps::CreateShared<SkinMeshNodeDeferred>();
+	skinMeshNodeDeferred->initialize();
+	skinMeshNodeDeferred->set_render_target(deferredRenderTarget);
+	skinMeshNodeDeferred->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
 
-	//outlineNode = std::make_unique<OutlineNode>();
-	//outlineNode->initialize();
-	////outlineNode->set_render_target();
-	//outlineNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
-	//outlineNode->set_texture_resource(object3dNode->result_stv_handle());
-	//outlineNode->set_depth_resource(DepthStencilValue::depthStencil->texture_gpu_handle());
-	//outlineNode->set_config(RenderNodeConfig::ContinueDrawBefore);
-
-	std::shared_ptr<SpriteNode> spriteNode;
-	spriteNode = std::make_unique<SpriteNode>();
-	spriteNode->initialize();
-	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
-	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	auto directionalLightingNode = eps::CreateShared<DirectionalLightingNode>();
+	directionalLightingNode->initialize();
+	directionalLightingNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
 #ifdef _DEBUG
-	std::shared_ptr<LineGroupNode> lineGroupNode;
-	lineGroupNode = std::make_unique<LineGroupNode>();
-	lineGroupNode->initialize();
+	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
+	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
+	primitiveLineNode->initialize();
 #endif // _DEBUG
 
 	renderPath = eps::CreateUnique<RenderPath>();
 #ifdef _DEBUG
-	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode,lineGroupNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,primitiveLineNode });
 #else
-	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode });
 #endif // _DEBUG
 
 	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
@@ -235,37 +279,73 @@ void SceneDemo::late_update() {
 }
 
 void SceneDemo::draw() const {
+	///
+	/// Forward
+	/// 
+//	renderPath->begin();
+//	camera3D->register_world_projection(1);
+//	camera3D->register_world_lighting(4);
+//	directionalLight->register_world(5);
+//	parent->draw();
+//	child->draw();
+//#ifdef _DEBUG
+//	camera3D->debug_draw_axis();
+//	animatedMeshInstance->draw_skeleton();
+//	DebugValues::ShowGrid();
+//#endif // _DEBUG
+//
+//	renderPath->next();
+//	camera3D->register_world_projection(1);
+//	camera3D->register_world_lighting(5);
+//	directionalLight->register_world(6);
+//
+//	animatedMeshInstance->draw();
+//
+//	renderPath->next();
+//	camera3D->register_world_projection(1);
+//	particleEmitter->draw();
+//
+//	renderPath->next();
+//	sprite->draw();
+//
+//	renderPath->next();
+//
+//#ifdef _DEBUG
+//	camera3D->register_world_projection(1);
+//	collisionManager->debug_draw3d();
+//	camera3D->debug_draw_frustum();
+//
+//	renderPath->next();
+//#endif // _DEBUG
+
+	///
+	/// Deferred
+	/// 
 	renderPath->begin();
-	directionalLight->register_world(3);
-	camera3D->register_world(1);
+	camera3D->register_world_projection(1);
 	parent->draw();
 	child->draw();
 #ifdef _DEBUG
-	camera3D->debug_draw();
-	animatedMeshInstance->draw_skeleton();
+	camera3D->debug_draw_axis();
 	DebugValues::ShowGrid();
 #endif // _DEBUG
 
 	renderPath->next();
-	directionalLight->register_world(3);
-	camera3D->register_world(1);
+	camera3D->register_world_projection(1);
 	animatedMeshInstance->draw();
 
 	renderPath->next();
-	camera3D->register_world(1);
-	particleEmitter->draw();
-
-	renderPath->next();
-	//outlineNode->draw();
-
-	//renderPath->next();
-	//sprite->draw();
+	directionalLight->register_world(0);
+	camera3D->register_world_lighting(1);
+	directionalLight->draw_deferred();
 
 	renderPath->next();
 
 #ifdef _DEBUG
-	camera3D->register_world(1);
+	camera3D->register_world_projection(1);
 	collisionManager->debug_draw3d();
+	camera3D->debug_draw_frustum();
+
 	renderPath->next();
 #endif // _DEBUG
 
@@ -335,5 +415,7 @@ void SceneDemo::debug_update() {
 	ImGui::Begin("DirectionalLight");
 	directionalLight->debug_gui();
 	ImGui::End();
+
+	ImGuiLoadManager::ShowGUI();
 }
 #endif // _DEBUG

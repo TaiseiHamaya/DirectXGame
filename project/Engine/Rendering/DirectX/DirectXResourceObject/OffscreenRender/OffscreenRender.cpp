@@ -9,9 +9,7 @@
 
 OffscreenRender::OffscreenRender() noexcept = default;
 
-OffscreenRender::~OffscreenRender() noexcept {
-	release_index();
-};
+OffscreenRender::~OffscreenRender() noexcept = default;
 
 void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) {
 	resource.Reset();
@@ -20,7 +18,7 @@ void OffscreenRender::initialize(UINT64 width, UINT height, DXGI_FORMAT format) 
 	// view作成
 	RenderTarget::create_view(format);
 	// テクスチャ用Viewの作成
-	create_textue_view();
+	create_texture_view();
 
 	resource->SetName(std::format(L"Offscreen-RTV{}, SRV{}", rtvHeapIndex.value(), srvHeapIndex.value()).c_str());
 }
@@ -68,7 +66,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE OffscreenRender::texture_gpu_handle() const {
 	return srvGPUHandle;
 }
 
-void OffscreenRender::create_textue_view() {
+void OffscreenRender::create_texture_view() {
 	// テクスチャ用ヒープの取得
 	srvHeapIndex = SRVDescriptorHeap::UseHeapIndex();
 	srvCPUHandle = SRVDescriptorHeap::GetCPUHandle(srvHeapIndex.value());

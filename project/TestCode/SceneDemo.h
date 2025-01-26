@@ -18,14 +18,14 @@ class Color4;
 class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
-#include "Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h"
-#include "Engine/Module/Render/RenderNode/SkinningMesh/SkinningMeshNode.h"
-#include "Engine/Module/Render/RenderNode/Sprite/SpriteNode.h"
-#include "Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
-#include "Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h"
-#include "Engine/Module/Render/RenderNode/Debug/LineGroupNode/LineGroupNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/Object3DNode/Object3DNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/SkinningMesh/SkinningMeshNode.h"
+#include "Engine/Module/Render/RenderNode/2D/Sprite/SpriteNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/Particle/ParticleMeshNode/ParticleMeshNode.h"
+#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
 
-#include "Engine/Module/Render/RenderNode/Outline/OutlineNode.h"
+#include "Engine/Module/Render/RenderNode/Posteffect/Outline/OutlineNode.h"
 #include "Engine/Module/World/Particle/ParticleEmitterInstance.h"
 
 #include "Engine/Resources/Json/JsonResource.h"

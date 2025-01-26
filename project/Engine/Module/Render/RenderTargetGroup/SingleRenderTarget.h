@@ -19,8 +19,8 @@ public:
 	/// サイズ指定付き初期化
 	/// </summary>
 	/// <param name="width">幅</param>
-	/// <param name="hight">高さ</param>
-	void initialize(std::uint32_t width, std::uint32_t hight);
+	/// <param name="height">高さ</param>
+	void initialize(std::uint32_t width, std::uint32_t height);
 
 public:
 	/// <summary>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -84,6 +84,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ShaderModel>6.6</ShaderModel>
       <ShaderType>
       </ShaderType>
+      <AdditionalIncludeDirectories>$(ProjectDir)EngineResources\HLSL\</AdditionalIncludeDirectories>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -117,10 +118,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>6.6</ShaderModel>
+      <AdditionalIncludeDirectories>$(ProjectDir)EngineResources\HLSL\</AdditionalIncludeDirectories>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Module\DrawExecutor\LineGroupDrawExecutor\LineGroupDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveLineDrawExecutor\PrimitiveLineDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
     <ClCompile Include="Library\Math\Basis.cpp" />
@@ -132,6 +136,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\Json\JsonResource.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp" />
     <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp" />
@@ -141,13 +146,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResource.cpp" />
     <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationManager.cpp" />
     <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonManager.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\SkinningMesh\SkinningMeshNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.cpp" />
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.cpp" />
     <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.cpp" />
     <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.cpp" />
-    <ClCompile Include="Engine\Resources\Debug\LineGroup\LineGroupResource.cpp" />
-    <ClCompile Include="Engine\Resources\Debug\LineGroup\LineGroupManager.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\LineGroupNode\LineGroupNode.cpp" />
+    <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.cpp" />
+    <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryManager.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -205,17 +212,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Math\Transform3D.cpp" />
     <ClCompile Include="Engine\Module\World\WorldInstance\WorldInstance.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\BaseRenderNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Grayscale\GrayscaleNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Object3DNode\Object3DNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Outline\OutlineNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp" />
@@ -231,7 +238,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\WorldInstanceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Module\DrawExecutor\LineGroupDrawExecutor\LineGroupDrawExecutor.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\DeferredAdaptor.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveLineDrawExecutor\PrimitiveLineDrawExecutor.h" />
     <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h" />
     <ClInclude Include="Library\Math\Affine.h" />
     <ClInclude Include="Library\Math\Basis.h" />
@@ -246,6 +256,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\Json\JsonSerializer.h" />
     <ClInclude Include="Engine\Resources\BaseResourceBuilder.h" />
     <ClInclude Include="Library\Math\Color3.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.h" />
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.h" />
@@ -255,14 +266,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResource.h" />
     <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationManager.h" />
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonManager.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\SkinningMesh\SkinningMeshNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.h" />
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.h" />
     <ClInclude Include="Engine\Utility\Template\Reference.h" />
-    <ClInclude Include="Engine\Resources\Debug\LineGroup\LineGroupResource.h" />
-    <ClInclude Include="Engine\Resources\Debug\LineGroup\LineGroupManager.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\LineGroupNode\LineGroupNode.h" />
+    <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.h" />
+    <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryManager.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
@@ -337,17 +350,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Library\Math\Transform3D.h" />
     <ClInclude Include="Engine\Module\World\WorldInstance\WorldInstance.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\BaseRenderNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\ChromaticAberration\ChromaticAberrationNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Grayscale\GrayscaleNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Object3DNode\Object3DNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Outline\OutlineNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleMeshNode\ParticleMeshNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\RadialBlur\RadialBlurNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Sprite\SpriteNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.h" />
@@ -367,15 +380,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\WorldInstanceManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\ChromaticAberration\ChromaticAberration.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -383,39 +396,39 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Grayscale\Grayscale.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\NormalColor\NormalColor.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\NormalColor\NormalColor.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Outline\Outline.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\RadialBlur\RadialBlur.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -427,41 +440,41 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Wireframe\Wireframe3d.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Wireframe\Wireframe3d.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EngineResources\HLSL\3DObject\Object3d.hlsli">
+    <None Include="EngineResources\HLSL\Forward\3DObject\Object3d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="EngineResources\HLSL\ChromaticAberration\ChromaticAberration.hlsli">
+    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="EngineResources\HLSL\Grayscale\Grayscale.hlsli">
+    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="EngineResources\HLSL\NormalColor\NormalColor.hlsli">
+    <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="EngineResources\HLSL\Particle\ParticleBillboard\ParticleBillboard.hlsli">
+    <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="EngineResources\HLSL\Particle\ParticleMesh\ParticleMesh.hlsli">
+    <None Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="EngineResources\HLSL\RadialBlur\RadialBlur.hlsli">
+    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

@@ -42,12 +42,10 @@ void MeshInstance::begin_rendering() noexcept {
 	update_affine();
 	// 各情報をGPUに転送
 	// Transformに転送
-	transformMatrix->set_transformation_matrix_data(world_affine().to_matrix());
+	transformMatrix->set_transformation_matrix_data(world_affine());
 	// Materialに転送
 	for (PolygonMeshMaterial& material : meshMaterials) {
-		auto& gpuValue = material.material;
-		gpuValue->get_data()->lighting = static_cast<uint32_t>(material.lightingType);
-		gpuValue->set_uv_transform(material.uvTransform.get_matrix4x4_transform());
+		material.write_buffer();
 	}
 }
 
@@ -66,8 +64,8 @@ void MeshInstance::draw() const {
 		commandList->IASetVertexBuffers(0, 1, &mesh->get_vbv(i)); // VBV
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
-		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Color
-		commandList->SetGraphicsRootDescriptorTable(4, meshMaterials[i].texture->get_gpu_handle());
+		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].buffer()->get_resource()->GetGPUVirtualAddress()); // Material
+		commandList->SetGraphicsRootDescriptorTable(3, meshMaterials[i].texture->get_gpu_handle());
 		commandList->DrawIndexedInstanced(mesh->index_size(i), 1, 0, 0, 0); // 描画コマンド
 	}
 }
@@ -150,18 +148,20 @@ void MeshInstance::debug_gui() {
 
 			meshMaterial.color.debug_gui();
 
-			const auto materialData = meshMaterial.material->get_data();
-			if (ImGui::RadioButton("None", materialData->lighting == static_cast<uint32_t>(LighingType::None))) {
-				meshMaterial.material->set_lighting(LighingType::None);
+			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
+				meshMaterial.lightingType = LighingType::None;
 			}
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Lambert", materialData->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
-				meshMaterial.material->set_lighting(LighingType::Lambert);
+			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
+				meshMaterial.lightingType = LighingType::Lambert;
 			}
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Half lambert", materialData->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
-				meshMaterial.material->set_lighting(LighingType::HalfLambert);
+			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
+				meshMaterial.lightingType = LighingType::HalfLambert;
 			}
+
+			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<float>::max());
+
 			ImGui::TreePop();
 		}
 		++i;
@@ -170,7 +170,21 @@ void MeshInstance::debug_gui() {
 #endif // _DEBUG
 
 MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
-	material(eps::CreateUnique<Material>()),
-	color(material->get_data()->color) {
+	materialBuffer(eps::CreateUnique<Material>()) {
 	lightingType = LighingType::HalfLambert;
+	shininess = 50;
+}
+
+void MeshInstance::PolygonMeshMaterial::write_buffer() {
+	*materialBuffer->get_data() = {
+		color,
+		static_cast<uint32_t>(lightingType),
+		shininess,
+		{0,0,0},
+		uvTransform.get_matrix4x4_padding()
+	};
+}
+
+Reference<const Material> MeshInstance::PolygonMeshMaterial::buffer() const {
+	return materialBuffer;
 }

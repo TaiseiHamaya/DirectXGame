@@ -61,6 +61,12 @@ D3D12_GPU_DESCRIPTOR_HANDLE DepthStencil::texture_gpu_handle() const {
 	return srvGPUHandle;
 }
 
+DXGI_FORMAT DepthStencil::texture_format() const {
+	// DXGI_FORMATのD~の次の項目がTexture用として使用できるフォーマットになっている
+	// こうすることで無理やりFormatを合わせることができる
+	return static_cast<DXGI_FORMAT>(resource->GetDesc().Format + 1);
+}
+
 void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height, DXGI_FORMAT format) {
 	HRESULT hr;
 	D3D12_RESOURCE_DESC resourceDesc{};
@@ -111,9 +117,7 @@ void DepthStencil::create_srv() {
 	srvGPUHandle = SRVDescriptorHeap::GetGPUHandle(srvHeapIndex.value());
 	// ここは通常のテクスチャと同じ
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	// DXGI_FORMATのD~の次の項目がTexture用として使用できるフォーマットになっている
-	// こうすることで無理やりFormatを合わせることができる
-	srvDesc.Format = static_cast<DXGI_FORMAT>(resource->GetDesc().Format + 1);
+	srvDesc.Format = texture_format();
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1; // 1枚しかないのでmiplevelsも1

@@ -53,6 +53,9 @@ public:
 	void reset_animated_mesh(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
 	NodeAnimationPlayer* const get_animation();
 
+private:
+	void create_skeleton();
+
 #ifdef _DEBUG
 public:
 	void debug_gui() override;

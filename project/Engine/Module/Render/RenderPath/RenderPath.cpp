@@ -31,6 +31,7 @@ bool RenderPath::begin() {
 	if (nowNode != renderNodeList.end()) {
 		// 最初の描画処理を開始
 		(*nowNode)->begin();
+		(*nowNode)->preprocess();
 		return true;
 	}
 	else {
@@ -46,6 +47,7 @@ bool RenderPath::next() {
 	// 末尾に行っていなければ次の処理を開始
 	if (nowNode != renderNodeList.end()) {
 		(*nowNode)->begin();
+		(*nowNode)->preprocess();
 		return true;
 	}
 	else {
