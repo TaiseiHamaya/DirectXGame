@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <unordered_set>
 
 class ImGuiLoadManager final {
 private:
@@ -24,7 +25,7 @@ public:
 
 private:
 	void show_gui();
-	void get_file_list(std::vector<std::string>& list, const std::filesystem::path& path, const std::string& extension);
+	void get_file_list(std::vector<std::string>& list, const std::filesystem::path& path, std::unordered_set<std::string> extensions);
 
 private:
 	std::filesystem::path meshCurrentPath;

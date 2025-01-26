@@ -13,8 +13,8 @@
 class Camera3D : public WorldInstance {
 public:
 	struct CameraVPBuffers {
-		Matrix4x4 view;
 		Matrix4x4 viewProjection;
+		Matrix4x4 view;
 	};
 
 	struct LightingPathBuffer {

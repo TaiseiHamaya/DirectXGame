@@ -5,8 +5,8 @@ struct TransformMatrix {
 };
 
 struct CameraInfomation {
-	float4x4 view;
 	float4x4 viewProjection;
+	float4x4 view;
 };
 
 struct VertexShaderInput {
