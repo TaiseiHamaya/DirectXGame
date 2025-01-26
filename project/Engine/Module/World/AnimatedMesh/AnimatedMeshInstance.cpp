@@ -14,7 +14,8 @@ AnimatedMeshInstance::AnimatedMeshInstance() noexcept(false) :
 	MeshInstance() {
 }
 
-AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) {
+AnimatedMeshInstance::AnimatedMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) :
+	MeshInstance() {
 	reset_animated_mesh(meshName, animationName, isLoop);
 }
 
@@ -110,7 +111,7 @@ void AnimatedMeshInstance::draw() const {
 		commandList->IASetVertexBuffers(0, 2, vbv); // VBV
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(i)); // IBV
 		commandList->SetGraphicsRootConstantBufferView(0, transformMatrix->get_resource()->GetGPUVirtualAddress()); // Matrix
-		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].material->get_resource()->GetGPUVirtualAddress()); // Material
+		commandList->SetGraphicsRootConstantBufferView(2, meshMaterials[i].buffer()->get_resource()->GetGPUVirtualAddress()); // Material
 		commandList->SetGraphicsRootDescriptorTable(3, meshMaterials[i].texture->get_gpu_handle());// Texture
 		commandList->SetGraphicsRootDescriptorTable(4, skeletonData.matrixPalettes[i].get_handle_gpu()); // BoneMatrix
 		commandList->DrawIndexedInstanced(mesh->index_size(i), 1, 0, 0, 0); // 描画コマンド
@@ -136,6 +137,13 @@ void AnimatedMeshInstance::create_skeleton() {
 	}
 
 	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->joint_size());
+
+	// Jointがのサイズが0の場合おかしいので強制終了
+	if (jointSize == 0) {
+		skeletonResrouce = nullptr;
+		return;
+	}
+
 	// Jointの配列を作成
 	skeletonData.jointInstance.resize(jointSize);
 
@@ -204,18 +212,20 @@ void AnimatedMeshInstance::debug_gui() {
 
 			meshMaterial.color.debug_gui();
 
-			const auto materialData = meshMaterial.material->get_data();
-			if (ImGui::RadioButton("None", materialData->lighting == static_cast<uint32_t>(LighingType::None))) {
+			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
 				meshMaterial.lightingType = LighingType::None;
 			}
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Lambert", materialData->lighting == static_cast<uint32_t>(LighingType::Lambert))) {
+			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
 				meshMaterial.lightingType = LighingType::Lambert;
 			}
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Half lambert", materialData->lighting == static_cast<uint32_t>(LighingType::HalfLambert))) {
+			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
 				meshMaterial.lightingType = LighingType::HalfLambert;
 			}
+
+			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<float>::max());
+
 			ImGui::TreePop();
 		}
 		++i;
@@ -231,6 +241,9 @@ void AnimatedMeshInstance::debug_gui() {
 	}
 	else {
 		ImGui::Text("Skeleton is not bind.");
+	}
+	if (ImGui::Button("Restart")) {
+		get_animation()->restart();
 	}
 }
 

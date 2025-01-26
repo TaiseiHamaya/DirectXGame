@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "Library/Math/Transform2D.h"
+#include <Library/Math/Transform2D.h>
+#include <Library/Math/Color3.h>
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
@@ -12,7 +13,6 @@ class Material;
 class PolygonMesh;
 class Texture;
 class TransformMatrix;
-class Color3;
 enum class LighingType;
 
 class MeshInstance : public WorldInstance {
@@ -20,19 +20,21 @@ class MeshInstance : public WorldInstance {
 public:
 	struct PolygonMeshMaterial {
 		PolygonMeshMaterial();
-		friend class MeshInstance;
-		friend class AnimatedMeshInstance;
+	public:
+		void write_buffer();
+		Reference<const Material> buffer() const;
+
 	private:
-		std::shared_ptr<const Texture> texture;
-		std::unique_ptr<Material> material;
+		std::unique_ptr<Material> materialBuffer;
 
 	public:
-		Color3& color;
+		std::shared_ptr<const Texture> texture;
+		Color3 color;
 		Transform2D uvTransform;
 		LighingType lightingType;
+		float shininess;
 
 #ifdef _DEBUG
-	private:
 		std::string textureName;
 #endif // _DEBUG
 	};
