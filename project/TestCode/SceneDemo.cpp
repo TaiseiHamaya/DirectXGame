@@ -1,33 +1,19 @@
 #include "SceneDemo.h"
 
-#include "CallbackManagerDemo.h"
 #include "Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/Collision/Collider/SphereCollider.h"
-#include "Engine/Module/World/Collision/Collider/AABBCollider.h"
-#include "Engine/Module/World/Collision/CollisionManager.h"
 #include "Engine/Module/World/Mesh/MeshInstance.h"
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h"
 #include "Engine/Resources/Animation/Skeleton/SkeletonManager.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
-#include "Library/Math/Hierarchy.h"
 
 #include "Engine/Module/World/Camera/Camera2D.h"
-#include "Engine/Module/World/Sprite/SpriteInstance.h"
-
-#include "Library/Math/Color4.h"
 
 #include "Engine/Debug/DebugValues/DebugValues.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
 #include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
 #include "Engine/Resources/Audio/AudioManager.h"
-#include "Engine/Resources/Texture/TextureManager.h"
-
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
-#include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Utility/Template/Behavior.h"
 #include "Engine/Utility/Tools/SmartPointer.h"
 
 #include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
@@ -155,18 +141,6 @@ void SceneDemo::draw() const {
 
 #include <imgui.h>
 void SceneDemo::debug_update() {
-	ImGui::Begin("DemoScene");
-	if (ImGui::Button("StackScene")) {
-		SceneManager::SetSceneChange(std::make_unique<SceneDemo>(), 1, true);
-	}
-	if (ImGui::Button("ChangeScene")) {
-		SceneManager::SetSceneChange(std::make_unique<SceneDemo>(), 1, false);
-	}
-	if (ImGui::Button("PopScene")) {
-		SceneManager::PopScene(1);
-	}
-	ImGui::End();
-
 	ImGui::Begin("Camera3D");
 	camera3D->debug_gui();
 	ImGui::End();
