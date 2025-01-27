@@ -106,6 +106,10 @@ void WinApp::Initialize(DWORD windowConfig) {
 		std::make_shared<PrimitiveGeometryResource>("./EngineResources/Json/PrimitiveGeometry/Frustum.json")
 	);
 #endif // _DEBUG
+	PrimitiveGeometryManager::Transfer(
+		"Ico3",
+		std::make_shared<PrimitiveGeometryResource>("./EngineResources/Json/PrimitiveGeometry/Ico3.json")
+	);
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();

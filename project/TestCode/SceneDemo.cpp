@@ -33,6 +33,7 @@
 #include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
 #include "Engine/Module/Render/RenderNode/Deferred/SkinMesh/SkinMeshNodeDeferred.h"
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
+#include "Engine/Module/Render/RenderNode/Deferred/Lighting/PointLightingNode.h"
 #include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
 #include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
 
@@ -116,6 +117,10 @@ void SceneDemo::initialize() {
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
+	pointLight = eps::CreateUnique<PointLightInstance>();
+
+	pointLightingExecutor = eps::CreateUnique<PointLightingExecutor>("Ico3", 1);
+	directionalLightingExecutor = eps::CreateUnique<DirectionalLightingExecutor>(1);
 
 	collisionManager = std::make_unique<CollisionManager>();
 	collisionManager->set_callback_manager(
@@ -210,6 +215,12 @@ void SceneDemo::initialize() {
 	directionalLightingNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
+	auto pointLightingNode = eps::CreateShared<PointLightingNode>();
+	pointLightingNode->initialize();
+	pointLightingNode->set_config(RenderNodeConfig::ContinueDrawAfter);
+	pointLightingNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	pointLightingNode->set_gbuffers(deferredRenderTarget);
+
 #ifdef _DEBUG
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
 	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
@@ -218,7 +229,7 @@ void SceneDemo::initialize() {
 
 	renderPath = eps::CreateUnique<RenderPath>();
 #ifdef _DEBUG
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,primitiveLineNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,pointLightingNode,primitiveLineNode });
 #else
 	renderPath->initialize({ deferredMeshNode,directionalLightingNode });
 #endif // _DEBUG
@@ -257,6 +268,7 @@ void SceneDemo::update() {
 
 	particleEmitter->update();
 	directionalLight->update();
+	pointLight->update();
 }
 
 void SceneDemo::begin_rendering() {
@@ -267,15 +279,19 @@ void SceneDemo::begin_rendering() {
 	sprite->begin_rendering();
 	particleEmitter->begin_rendering();
 	directionalLight->begin_rendering();
+	pointLight->begin_rendering();
 
 	animatedMeshInstance->begin_rendering();
+
+	pointLightingExecutor->write_to_buffer(0, pointLight->transform_matrix(), pointLight->light_data());
+	directionalLightingExecutor->write_to_buffer(0, directionalLight->light_data());
 }
 
 void SceneDemo::late_update() {
 	collisionManager->update();
-	collisionManager->collision("Parent", "Single");
-	collisionManager->collision("Single", "Child");
-	collisionManager->collision("Single", "Single");
+	//collisionManager->collision("Parent", "Single");
+	//collisionManager->collision("Single", "Child");
+	//collisionManager->collision("Single", "Single");
 }
 
 void SceneDemo::draw() const {
@@ -335,9 +351,13 @@ void SceneDemo::draw() const {
 	animatedMeshInstance->draw();
 
 	renderPath->next();
-	directionalLight->register_world(0);
 	camera3D->register_world_lighting(1);
-	directionalLight->draw_deferred();
+	directionalLightingExecutor->draw_command(1);
+
+	renderPath->next();
+	camera3D->register_world_projection(1);
+	camera3D->register_world_lighting(6);
+	pointLightingExecutor->draw_command(1);
 
 	renderPath->next();
 
@@ -414,6 +434,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("DirectionalLight");
 	directionalLight->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("PointLight");
+	pointLight->debug_gui();
 	ImGui::End();
 
 	ImGuiLoadManager::ShowGUI();

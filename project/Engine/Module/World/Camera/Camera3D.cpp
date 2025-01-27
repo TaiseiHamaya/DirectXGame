@@ -27,7 +27,7 @@ void Camera3D::initialize() {
 	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
 	//debugCameraCenter->begin_rendering();
 	debugCamera->reparent(*debugCameraCenter);
-	frustumExecutor = std::make_unique<PrimitiveLineDrawExecutor>("Frustum", 1);
+	frustumExecutor = std::make_unique<PrimitiveGeometryDrawExecutor>("Frustum", 1);
 #endif // _DEBUG
 
 	update_matrix();
@@ -66,11 +66,13 @@ void Camera3D::update_matrix() {
 		vpBuffers.get_data()->view = debugViewAffine.to_matrix();
 		worldPosition.get_data()->viewInv = debugViewAffine.inverse_fast().to_matrix();
 		worldPosition.get_data()->position = debugCamera->world_position();
+		worldPosition.get_data()->projInv = perspectiveFovMatrix.inverse();
 	}
 	else {
 		vpBuffers.get_data()->view = viewAffine.to_matrix();
 		worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
 		worldPosition.get_data()->position = world_position();
+		worldPosition.get_data()->projInv = perspectiveFovMatrix.inverse();
 	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
@@ -78,6 +80,7 @@ void Camera3D::update_matrix() {
 	vpBuffers.get_data()->viewProjection = viewAffine.to_matrix() * perspectiveFovMatrix;
 	worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
 	worldPosition.get_data()->position = world_position();
+	worldPosition.get_data()->projInv = perspectiveFovMatrix.inverse();
 #endif // _DEBUG
 }
 

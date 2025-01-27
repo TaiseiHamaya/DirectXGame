@@ -17,6 +17,7 @@ class CollisionManager;
 class Color4;
 class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
+#include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 
 #include "Engine/Module/Render/RenderNode/Forward/Object3DNode/Object3DNode.h"
 #include "Engine/Module/Render/RenderNode/Forward/SkinningMesh/SkinningMeshNode.h"
@@ -34,6 +35,9 @@ class RenderPath;
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationResource.h"
 #include "Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h"
 #include "Engine/Resources/Animation/Skeleton/SkeletonResource.h"
+
+#include "Engine/Module/DrawExecutor/LightingExecutor/DirectionalLightingExecutor.h"
+#include "Engine/Module/DrawExecutor/LightingExecutor/PointLightingExecutor.h"
 
 class SceneDemo : public BaseScene {
 public:
@@ -64,11 +68,16 @@ public:
 private:
 	std::unique_ptr<RenderPath> renderPath;
 
+	std::unique_ptr<DirectionalLightingExecutor> directionalLightingExecutor;
+	std::unique_ptr<PointLightingExecutor> pointLightingExecutor;
+
 	std::unique_ptr<MeshInstance> parent;
 	std::unique_ptr<MeshInstance> child;
 	std::unique_ptr<AnimatedMeshInstance> animatedMeshInstance;
 	std::unique_ptr<SpriteInstance> sprite;
+
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
+	std::unique_ptr<PointLightInstance> pointLight;
 
 	std::shared_ptr<SphereCollider> parentCollider;
 	std::shared_ptr<SphereCollider> childCollider;
