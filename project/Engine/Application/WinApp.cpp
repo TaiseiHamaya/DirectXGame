@@ -88,7 +88,6 @@ void WinApp::Initialize(DWORD windowConfig) {
 #endif // _DEBUG
 	// システム使用のオブジェクトをロード
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/ErrorObject/ErrorObject.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Frustum/Frustum.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
 	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Camera/CameraAxis.obj");
 
