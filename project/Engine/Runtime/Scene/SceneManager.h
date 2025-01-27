@@ -1,6 +1,7 @@
 #pragma once
 
 class BaseScene;
+class BaseSceneFactory;
 
 #include <memory>
 #include <deque>
@@ -23,7 +24,7 @@ public:
 	static SceneManager& GetInstance() noexcept;
 
 public:
-	static void Initialize(std::unique_ptr<BaseScene>&& initScene);
+	static void Initialize();
 	static void Finalize() noexcept;
 
 	static void Begin();
@@ -31,15 +32,20 @@ public:
 	static void Draw();
 	//static void Debug();
 	static void SetSceneChange(
-		std::unique_ptr<BaseScene>&& nextScenePtr,
+		int32_t next,
 		float interval,
 		bool isStackInitialScene_ = false,
 		bool isStopLoad = true
 	);
 	static void PopScene(float interval);
+
+public:
 	static bool IsEndProgram() noexcept;
 
 	static const std::deque<std::unique_ptr<BaseScene>>& GetSceneQue();
+
+	template<typename T>
+	static void SetFactory();
 
 private:
 	static void NextScene();
@@ -54,6 +60,7 @@ private:
 	/// シーンスタック
 	/// </summary>
 	std::deque<std::unique_ptr<BaseScene>> sceneQue;
+	std::unique_ptr<BaseSceneFactory> factory;
 
 	enum class SceneStatus {
 		NANE,
@@ -74,3 +81,9 @@ private:
 		TimedCall<void(void)> endCall;
 	} sceneChangeInfo;
 };
+
+template<typename T>
+inline void SceneManager::SetFactory() {
+	auto& instance = GetInstance();
+	GetInstance().factory = std::make_unique<T>();
+}

@@ -390,7 +390,7 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="TestCode\SceneDemo.cpp">
+    <ClCompile Include="TestCode\Scene\SceneDemo.cpp">
       <Filter>TestProgram</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp">
@@ -630,6 +630,12 @@
     <ClCompile Include="Engine\Application\Framework.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="TestCode\Scene\FactoryDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\GameDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -743,7 +749,7 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="TestCode\SceneDemo.h">
+    <ClInclude Include="TestCode\Scene\SceneDemo.h">
       <Filter>TestProgram</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h">
@@ -1053,6 +1059,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Application\Framework.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\Scene\FactoryDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\GameDemo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
