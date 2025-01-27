@@ -3,11 +3,11 @@
 
 #include <memory>
 
-#include "Engine/Application/Framework.h"
+#include "TestCode/GameDemo.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<Framework> framework =
-		std::make_unique<Framework>();
+		std::make_unique<GameDemo>();
 
 	framework->run();
 

@@ -3,6 +3,7 @@
 #include "Engine/Debug/Output.h"
 #include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Runtime/Scene/BaseScene.h"
+#include "Engine/Runtime/Scene/BaseSceneFactory.h"
 
 #include <algorithm>
 #include <cassert>
@@ -12,17 +13,18 @@ SceneManager& SceneManager::GetInstance() noexcept {
 	return instance;
 }
 
-void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
+void SceneManager::Initialize() {
+	SceneManager& instance = GetInstance();
+	assert(instance.sceneQue.empty());
+	// 最初にnullptrをemplace_backする
+	instance.sceneQue.emplace_back(nullptr);
+	auto initScene = instance.factory->initialize_scene();
 	assert(initScene);
 	initScene->load();
 	BackgroundLoader::WaitEndExecute();
 	initScene->initialize();
 
-	SceneManager& instance = GetInstance();
-	assert(instance.sceneQue.empty());
 	Console("Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get());
-	// 最初にnullptrをemplace_backする
-	instance.sceneQue.emplace_back(nullptr);
 	instance.sceneQue.emplace_back(std::move(initScene));
 	instance.sceneStatus = SceneStatus::DEFAULT;
 	instance.sceneChangeInfo.endCall = {
@@ -61,9 +63,9 @@ void SceneManager::Draw() {
 //	sceneQue.back()->DebugDraw();
 //}
 
-void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, float interval, bool isStackInitialScene, bool isStopLoad) {
-	assert(nextScenePtr);
+void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInitialScene, bool isStopLoad) {
 	SceneManager& instance = GetInstance();
+	auto nextScenePtr = instance.factory->create_scene(next);
 	Console("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),

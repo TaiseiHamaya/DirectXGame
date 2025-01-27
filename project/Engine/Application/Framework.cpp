@@ -3,23 +3,21 @@
 #include "Engine/Application/WinApp.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 
-#include "TestCode/SceneDemo.h"
-
 void Framework::run() {
 	initialize();
 
 	while (true) {
 		begin_frame();
 
+		if (WinApp::IsEndApp()) {
+			break;
+		}
+
 		update();
 
 		draw();
 
 		end_frame();
-
-		if (WinApp::IsEndApp()) {
-			break;
-		}
 	}
 
 	finalize();
@@ -30,7 +28,7 @@ void Framework::initialize() {
 #ifdef _DEBUG
 	WorldClock::IsFixDeltaTime(false);
 #endif // _DEBUG
-	SceneManager::Initialize(std::make_unique<SceneDemo>());
+	SceneManager::Initialize();
 	WinApp::ShowAppWindow();
 }
 

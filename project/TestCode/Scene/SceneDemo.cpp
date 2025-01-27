@@ -369,10 +369,10 @@ void SceneDemo::on_collision_exit(const BaseCollider* const, Color4* object) {
 void SceneDemo::debug_update() {
 	ImGui::Begin("DemoScene");
 	if (ImGui::Button("StackScene")) {
-		SceneManager::SetSceneChange(std::make_unique<SceneDemo>(), 1, true);
+		SceneManager::SetSceneChange(0, 1, true);
 	}
 	if (ImGui::Button("ChangeScene")) {
-		SceneManager::SetSceneChange(std::make_unique<SceneDemo>(), 1, false);
+		SceneManager::SetSceneChange(0, 1, false);
 	}
 	if (ImGui::Button("PopScene")) {
 		SceneManager::PopScene(1);
