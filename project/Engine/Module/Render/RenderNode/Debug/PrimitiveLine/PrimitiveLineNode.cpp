@@ -33,8 +33,8 @@ void PrimitiveLineNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Debug/PrimitiveGeometry/PrimitiveLine.VS.hlsl",
-		"EngineResources/HLSL/Debug/PrimitiveGeometry/PrimitiveLine.PS.hlsl"
+		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
+		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

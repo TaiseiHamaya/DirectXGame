@@ -34,24 +34,30 @@ void PointLightingNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersTy
 
 void PointLightingNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 0 : Light
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 1 : Camera
+	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 0 : Transform
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 1 : Camera
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : Albedo
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 3 : Normal
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 4 : Depth
+	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_PIXEL, 3); // 5 : Light
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 6 : Camera
 	rootSignatureBuilder.sampler( // sampler
 		D3D12_SHADER_VISIBILITY_PIXEL, 0
 	);
 
+	InputLayoutBuilder inputLayoutBuilder;
+	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
+
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/.hlsl",
+		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
 		"EngineResources/HLSL/Deferred/Lighting/PointLighting.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate(BlendMode::LightingPath);
-	psoBuilder->rasterizerstate();
+	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_FRONT);
+	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(shaderBuilder);
 	psoBuilder->primitivetopologytype();

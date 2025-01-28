@@ -31,8 +31,6 @@ public:
 public:
 	void begin_rendering() override;
 
-	void draw_deferred() const override;
-
 #ifdef _DEBUG
 public:
 	void debug_gui() override;

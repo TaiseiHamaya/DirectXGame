@@ -1,4 +1,4 @@
-#include "AnimatedMesh.hlsli"
+#include "../Forward.hlsli"
 
 struct TransformMatrix {
 	float4x4 world;

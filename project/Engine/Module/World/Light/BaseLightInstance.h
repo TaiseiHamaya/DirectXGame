@@ -20,18 +20,9 @@ public:
 
 	virtual void begin_rendering() = 0;
 
-	virtual void draw_deferred() const = 0;
-
-	void register_world(uint32_t parameterIndex) const;
+public:
+	const T& light_data() const { return lightData; };
 
 protected:
-	ConstantBuffer<T> lightBuffer;
+	T lightData;
 };
-
-template<class T>
-inline void BaseLightInstance<T>::register_world(uint32_t parameterIndex) const {
-	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(
-		parameterIndex,
-		lightBuffer.get_resource()->GetGPUVirtualAddress()
-	);
-}

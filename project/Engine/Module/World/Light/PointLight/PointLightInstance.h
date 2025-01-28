@@ -27,7 +27,8 @@ public:
 public:
 	void begin_rendering() override;
 
-	void draw_deferred() const override;
+public:
+	Matrix4x4 transform_matrix() const;
 
 #ifdef _DEBUG
 public:
