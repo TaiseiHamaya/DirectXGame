@@ -58,7 +58,7 @@ void SkinningMeshNode::create_pipeline_state() {
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
 		"EngineResources/HLSL/Forward/AnimatedMesh/AnimatedMesh.VS.hlsl",
-		"EngineResources/HLSL/Forward/AnimatedMesh/AnimatedMesh.PS.hlsl"
+		"EngineResources/HLSL/Forward/Forward.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

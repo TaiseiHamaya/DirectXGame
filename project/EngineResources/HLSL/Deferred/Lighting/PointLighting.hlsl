@@ -24,7 +24,7 @@ SamplerState gSampler : register(s0);
 
 StructuredBuffer<PointLight> gPointLight : register(t3);
 ConstantBuffer<Camera> gCamera : register(b0);
-
+//const bool isFrontFace : SV_IsFrontFace
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output;
 	
@@ -53,6 +53,11 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	float3 toCamera = normalize(gCamera.position - world);
 	float3 direction = normalize(world - pointLight.position);
 	float distance = length(world - pointLight.position);
+	
+	//if (!isFrontFace && pointLight.radius > distance) {
+	//	discard;
+	//}
+	
 	float factor = pow(saturate(-distance / pointLight.radius + 1.0f), pointLight.decay);
 	if (isnan(factor)) {
 		factor = 0;
@@ -97,6 +102,12 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	// それ以外は異常値なので、黒を出力
 	else {
 		output = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+	
+	// 透明の場合は出力せず終了
+	// サンプリングによっては0にならない場合があるためバッファを取る
+	if (output.a <= 0.05f) {
+		discard;
 	}
 	
 	return output;

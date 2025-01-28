@@ -1,4 +1,4 @@
-#include "Object3d.hlsli"
+#include "Forward.hlsli"
 
 struct TransformMatrix {
 	float4x4 world;

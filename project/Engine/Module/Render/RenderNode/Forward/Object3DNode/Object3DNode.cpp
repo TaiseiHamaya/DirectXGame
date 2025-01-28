@@ -55,7 +55,7 @@ void Object3DNode::create_pipeline_state() {
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
 		"EngineResources/HLSL/Forward/3DObject/Object3d.VS.hlsl",
-		"EngineResources/HLSL/Forward/3DObject/Object3d.PS.hlsl"
+		"EngineResources/HLSL/Forward/Forward.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

@@ -1069,7 +1069,7 @@
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
       <Filter>EngineResources\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.VS.hlsl">
@@ -1119,7 +1119,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EngineResources\HLSL\Forward\3DObject\Object3d.hlsli">
+    <None Include="EngineResources\HLSL\Forward\Forward.hlsli">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </None>
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
@@ -1143,5 +1143,8 @@
     <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EngineResources\HLSL\Document.txt" />
   </ItemGroup>
 </Project>
