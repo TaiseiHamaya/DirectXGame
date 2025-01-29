@@ -6,6 +6,7 @@
 
 #include "Engine/Resources/Audio/AudioPlayer.h"
 
+class WorldManager;
 class MeshInstance;
 class AnimatedMeshInstance;
 class SpriteInstance;
@@ -67,6 +68,7 @@ public:
 
 private:
 	std::unique_ptr<RenderPath> renderPath;
+	std::unique_ptr<WorldManager> worldManager;
 
 	std::unique_ptr<DirectionalLightingExecutor> directionalLightingExecutor;
 	std::unique_ptr<PointLightingExecutor> pointLightingExecutor;

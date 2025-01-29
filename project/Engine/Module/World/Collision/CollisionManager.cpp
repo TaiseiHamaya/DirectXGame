@@ -42,15 +42,6 @@ void CollisionManager::update() {
 			++itr;
 		}
 	}
-	// 更新処理
-	for (Colliders& colliders : colliderList | std::views::values) {
-		for (std::weak_ptr<SphereCollider>& sphere : colliders.sphereColliders) {
-			sphere.lock()->update();
-		}
-		for (std::weak_ptr<AABBCollider>& aabb : colliders.aabbColliders) {
-			aabb.lock()->update();
-		}
-	}
 }
 
 void CollisionManager::collision(const std::string& groupName1, const std::string& groupName2) {

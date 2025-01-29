@@ -1,14 +1,8 @@
 #include "BaseCollider.h"
 
-#include "Library/Math/Hierarchy.h"
-
-BaseCollider::BaseCollider() {
-	hierarchy.initialize(world_affine());
+BaseCollider::BaseCollider() : 
+	WorldInstance() {
 	groupName = nullptr;
-}
-
-void BaseCollider::update() {
-	update_affine();
 }
 
 const std::string& BaseCollider::group() const noexcept {

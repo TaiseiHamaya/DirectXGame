@@ -1,13 +1,14 @@
 #include "PointLightInstance.h"
 
-void PointLightInstance::begin_rendering() {
+void PointLightInstance::update_affine() {
 	float scale = lightData.radius + 0.1f;
 	transform.set_scale(
 		{ scale, scale, scale }
 	);
+	WorldInstance::update_affine();
+}
 
-	update_affine();
-
+void PointLightInstance::transfer() {
 	lightData.position = world_position();
 }
 

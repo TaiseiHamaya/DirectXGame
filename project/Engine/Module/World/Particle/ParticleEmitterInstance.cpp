@@ -1,13 +1,13 @@
 #include "ParticleEmitterInstance.h"
 
-#include <Engine/Runtime/WorldClock/WorldClock.h>
-#include "Engine/Utility/Tools/RandomEngine.h"
-
-#include "DrawSystem/ParticleDrawSystemRect.h"
 #include "DrawSystem/ParticleDrawSystemMesh.h"
+#include "DrawSystem/ParticleDrawSystemRect.h"
 
+#include "../WorldManager.h"
 #include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
 #include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/Utility/Tools/RandomEngine.h"
+#include "Engine/Runtime/WorldClock/WorldClock.h"
 
 #include <Library/Math/Definition.h>
 
@@ -65,13 +65,11 @@ void ParticleEmitterInstance::update() {
 	}
 }
 
-void ParticleEmitterInstance::begin_rendering() {
-	update_affine();
+void ParticleEmitterInstance::transfer() {
 	if (!drawSystem) {
 		return;
 	}
 	for (uint32_t index = 0; std::unique_ptr<Particle>&particle : particles) {
-		particle->update_affine();
 		drawSystem->write_to_buffer(
 			index,
 			particle->world_affine().to_matrix(),
@@ -207,7 +205,8 @@ void ParticleEmitterInstance::emit_once() {
 
 	// 生成
 	auto& newParticle = particles.emplace_back(
-		std::make_unique<Particle>(
+		world_manager()->create<Particle>(
+			nullptr,
 			world_position() + offset,
 			std::lerp(particleInit.lifetime.min, particleInit.lifetime.max, RandomEngine::Random01Closed()),
 			direction * speed,

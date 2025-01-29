@@ -609,7 +609,7 @@
     <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\WorldInstanceManager.cpp">
+    <ClCompile Include="Engine\Module\World\WorldManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp">
@@ -1046,7 +1046,7 @@
     <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\WorldInstanceManager.h">
+    <ClInclude Include="Engine\Module\World\WorldManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h">

@@ -46,7 +46,7 @@ public:
 
 public:
 	virtual void begin() override;
-	virtual void begin_rendering() noexcept override;
+	virtual void transfer() noexcept override;
 	virtual void draw() const override;
 
 public:

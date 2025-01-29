@@ -13,7 +13,7 @@ DebugValues& DebugValues::GetInstance() {
 
 void DebugValues::ShowGrid() {
 	auto& instance = GetInstance();
-	instance.gridMesh->begin_rendering();
+	instance.gridMesh->transfer();
 	instance.gridMesh->draw();
 }
 #endif // _DEBUG

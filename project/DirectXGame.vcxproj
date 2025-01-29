@@ -240,7 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestCode\Scene\SceneDemo.cpp" />
     <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp" />
-    <ClCompile Include="Engine\Module\World\WorldInstanceManager.cpp" />
+    <ClCompile Include="Engine\Module\World\WorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h" />
@@ -389,7 +389,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="TestCode\Scene\SceneDemo.h" />
     <ClInclude Include="Engine\Resources\Texture\TextureResourceBuilder.h" />
-    <ClInclude Include="Engine\Module\World\WorldInstanceManager.h" />
+    <ClInclude Include="Engine\Module\World\WorldManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">

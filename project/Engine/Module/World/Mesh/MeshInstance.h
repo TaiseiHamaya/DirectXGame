@@ -52,10 +52,7 @@ private:
 	MeshInstance& operator=(const MeshInstance&) = delete;
 
 public:
-	virtual void begin() {};
-	virtual void update() {};
-	virtual void begin_rendering() noexcept;
-	virtual void late_update() {};
+	virtual void transfer() noexcept;
 	virtual void draw() const;
 
 	void reset_mesh(const std::string& meshName_);

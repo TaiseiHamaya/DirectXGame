@@ -6,22 +6,52 @@
 
 #include <Engine/Resources/Json/JsonResource.h>
 
+class WorldManager;
+
 class WorldInstance {
 public:
 	WorldInstance();
-	virtual ~WorldInstance() = default;
+	virtual ~WorldInstance();
 
 	WorldInstance(const WorldInstance&) = delete;
 	WorldInstance& operator=(const WorldInstance&&) = delete;
-	WorldInstance(WorldInstance&&) = default;
-	WorldInstance& operator=(WorldInstance&&) = default;
+	WorldInstance(WorldInstance&&);
+	WorldInstance& operator=(WorldInstance&&);
 
 public:
 	/// <summary>
-	/// 行列の更新
+	/// 開始処理
 	/// </summary>
-	void update_affine();
+	virtual void begin() {};
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	virtual void update() {};
+
+	/// <summary>
+	/// Affine更新直前処理
+	/// </summary>
+	virtual void fixed_update() {};
+
+	/// <summary>
+	/// Affine行列の更新
+	/// </summary>
+	virtual void update_affine();
+	
+	/// <summary>
+	/// 遅延更新処理
+	/// </summary>
+	virtual void late_update() {};
+
+private:
+	/// <summary>
+	/// WorldAffineの作成
+	/// </summary>
+	/// <returns></returns>
+	Affine create_world_affine() const;
+
+public:
 	/// <summary>
 	/// Targetの方向を向く
 	/// </summary>
@@ -36,14 +66,6 @@ public:
 	/// <param name="upward">上方向</param>
 	void look_at(const Vector3& point, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
-private:
-	/// <summary>
-	/// WorldAffineの作成
-	/// </summary>
-	/// <returns></returns>
-	Affine create_world_affine() const;
-
-public:
 	/// <summary>
 	/// アクティブフラグの設定
 	/// </summary>
@@ -55,6 +77,14 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool is_active() const { return isActive; };
+
+	/// <summary>
+	/// 階層構造の震度
+	/// </summary>
+	/// <returns></returns>
+	uint32_t depth() const { return hierarchyDepth; };
+
+	const Reference<WorldManager>& world_manager() const { return worldManager; };
 
 	// 削除するかも？
 	const Hierarchy& get_hierarchy() const { return hierarchy; };
@@ -97,6 +127,8 @@ public:
 	/// <param name="isKeepPose">現在の姿勢を維持する</param>
 	void reparent(Reference<const WorldInstance> instance, bool isKeepPose = true);
 
+	void set_world_manager(Reference<WorldManager> worldManager_);
+
 public:
 	void from_json(const JsonResource& json);
 	void to_json(JsonResource& json);
@@ -112,6 +144,9 @@ protected:
 
 private:
 	Affine affine;
+
+	Reference<WorldManager> worldManager{ nullptr };
+	uint32_t hierarchyDepth{ 0 };
 
 protected:
 	bool isActive = true;
