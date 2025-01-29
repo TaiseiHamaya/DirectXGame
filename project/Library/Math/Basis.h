@@ -44,6 +44,10 @@ public:
 	constexpr Vector3 column(uint32_t index) const noexcept;
 
 	void scale_rotate(const Vector3& scale, const Quaternion& rotate);
+
+public:
+	Vector3 to_scale() const;
+	Quaternion to_quaternion() const;
 };
 
 inline constexpr Basis::Basis(const Vector3& rowX, const Vector3& rowY, const Vector3& rowZ) :

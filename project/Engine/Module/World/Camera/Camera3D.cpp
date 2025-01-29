@@ -4,8 +4,10 @@
 
 #include "Library/Math/VectorConverter.h"
 
+#include "../WorldManager.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -23,40 +25,37 @@ void Camera3D::initialize() {
 #ifdef _DEBUG
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
-	debugCamera = std::make_unique<WorldInstance>();
-	debugCameraCenter = std::make_unique<MeshInstance>("CameraAxis.obj");
-	//debugCameraCenter->begin_rendering();
-	debugCamera->reparent(*debugCameraCenter);
+	debugCameraCenter = world_manager()->create<MeshInstance>(nullptr, "CameraAxis.obj");
+	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
+	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
 	frustumExecutor = std::make_unique<PrimitiveGeometryDrawExecutor>("Frustum", 1);
 #endif // _DEBUG
 
-	update_matrix();
+	update_affine();
 }
 
-void Camera3D::update_matrix() {
+void Camera3D::update_affine() {
+	if (!isActive) {
+		return;
+	}
 	// カメラそのもののMatrix更新
 	WorldInstance::update_affine();
-#ifdef _DEBUG
-	if (isValidDebugCamera) {
-		// デバッグ表示に使用するモデルのWorldMatrixの更新
-		debugCameraCenter->begin_rendering();
-		debugCamera->update_affine();
-		// ViewMatrixの更新
-		debugViewAffine = debugCamera->world_affine().inverse_fast();
-	}
-#endif // _DEBUG
 
 	// カメラ位置をもとにViewMatrixを更新
 	make_view_matrix();
 	make_perspectivefov_matrix();
+}
 
-
+void Camera3D::transfer() {
 #ifdef _DEBUG
 	// 外部参照用Matrix
-	vpMatrix = viewAffine.to_matrix() * perspectiveFovMatrix;
+	vpMatrix = viewAffine.to_matrix() * projectionMatrix;
 	// 描画用
 	if (isValidDebugCamera) {
-		vpBuffers.get_data()->viewProjection = debugViewAffine.to_matrix() * perspectiveFovMatrix;
+		// デバッグ表示に使用するモデルのWorldMatrixの更新
+		// ViewMatrixの更新
+		debugViewAffine = debugCamera->world_affine().inverse_fast();
+		vpBuffers.get_data()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
 	}
 	else {
 		vpBuffers.get_data()->viewProjection = vpMatrix;
@@ -66,13 +65,13 @@ void Camera3D::update_matrix() {
 		vpBuffers.get_data()->view = debugViewAffine.to_matrix();
 		worldPosition.get_data()->viewInv = debugViewAffine.inverse_fast().to_matrix();
 		worldPosition.get_data()->position = debugCamera->world_position();
-		worldPosition.get_data()->projInv = perspectiveFovMatrix.inverse();
+		worldPosition.get_data()->projInv = projectionMatrix.inverse();
 	}
 	else {
 		vpBuffers.get_data()->view = viewAffine.to_matrix();
 		worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
 		worldPosition.get_data()->position = world_position();
-		worldPosition.get_data()->projInv = perspectiveFovMatrix.inverse();
+		worldPosition.get_data()->projInv = projectionMatrix.inverse();
 	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
@@ -123,7 +122,7 @@ void Camera3D::make_view_matrix() {
 
 void Camera3D::make_perspectivefov_matrix() {
 	float cot = 1 / std::tan(fovY / 2);
-	perspectiveFovMatrix = {
+	projectionMatrix = {
 		{{ cot / aspectRatio, 0, 0, 0 },
 		{ 0, cot, 0, 0 },
 		{ 0, 0, farClip / (farClip - nearClip), 1 },
@@ -206,9 +205,10 @@ void Camera3D::debug_camera() {
 	debugCamera->get_transform().set_translate(offset * debugCamera->get_transform().get_quaternion());
 }
 
-void Camera3D::debug_draw_axis() const {
+void Camera3D::debug_draw_axis() {
 	if (isValidDebugCamera) {
 		if (offset.z < -0.001) {
+			debugCameraCenter->transfer();
 			debugCameraCenter->draw();
 		}
 	}

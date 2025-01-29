@@ -34,7 +34,8 @@ public:
 public:
 	virtual void initialize();
 
-	void update_matrix();
+	void update_affine() override;
+	void transfer();
 
 	void register_world_projection(uint32_t index);
 	void register_world_lighting(uint32_t index);
@@ -57,14 +58,14 @@ public:
 public:
 	virtual void debug_gui();
 	void debug_camera();
-	void debug_draw_axis() const;
+	void debug_draw_axis();
 	void debug_draw_frustum() const;
 	const Matrix4x4& vp_matrix_debug() const;
 #endif // _DEBUG
 
 private:
 	Affine viewAffine;
-	Matrix4x4 perspectiveFovMatrix;
+	Matrix4x4 projectionMatrix;
 
 	ConstantBuffer<CameraVPBuffers> vpBuffers;
 	ConstantBuffer<LightingPathBuffer> worldPosition;

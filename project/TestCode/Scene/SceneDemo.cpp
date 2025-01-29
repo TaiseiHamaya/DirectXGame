@@ -1,6 +1,7 @@
 #include "SceneDemo.h"
 
 #include "../CallbackManagerDemo.h"
+#include "Engine/Module/World/WorldManager.h"
 #include "Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 #include "Engine/Module/World/Collision/Collider/SphereCollider.h"
@@ -69,8 +70,10 @@ void SceneDemo::load() {
 }
 
 void SceneDemo::initialize() {
+	worldManager = eps::CreateUnique<WorldManager>();
+
 	Camera2D::Initialize();
-	camera3D = std::make_unique<Camera3D>();
+	camera3D = worldManager->create<Camera3D>();
 	camera3D->initialize();
 	//camera3D->set_transform({
 	//	CVector3::BASIS,
@@ -90,34 +93,29 @@ void SceneDemo::initialize() {
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
-	parent = std::make_unique<MeshInstance>();
-	parent->reset_mesh("Player.gltf");
-	child = std::make_unique<MeshInstance>();
-	child->reset_mesh("Sphere.obj");
-	child->reparent(*parent);
+	parent = worldManager->create<MeshInstance>(nullptr, "Player.gltf");
+	child = worldManager->create<MeshInstance>(parent, "Sphere.obj");
 
-	animatedMeshInstance = eps::CreateUnique<AnimatedMeshInstance>("Player.gltf", "Idle", true);
+	animatedMeshInstance = worldManager->create<AnimatedMeshInstance>(nullptr, "Player.gltf", "Idle", true);
 
-	parentCollider = std::make_unique<SphereCollider>(1.0f);
-	parentCollider->reparent(*parent);
+	parentCollider = worldManager->create<SphereCollider>(parent, 1.0f);
 
-	childCollider = std::make_unique<SphereCollider>(1.0f);
-	childCollider->reparent(*child);
+	childCollider = worldManager->create<SphereCollider>(child ,1.0f);
 
-	singleCollider = std::make_unique<SphereCollider>(1.0f);
+	singleCollider = worldManager->create<SphereCollider>(nullptr, 1.0f);
 
-	single2Collider = std::make_unique<AABBCollider>(Vector3{ 3.0f, 2.0f, 1.5f });
+	single2Collider = worldManager->create<AABBCollider>(nullptr, Vector3{ 3.0f, 2.0f, 1.5f });
 	single2Collider->get_transform().set_translate_x(-3.0f);
 
-	single3Collider = std::make_unique<AABBCollider>(CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
+	single3Collider = worldManager->create<AABBCollider>(nullptr, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleEmitter = eps::CreateUnique<ParticleEmitterInstance>("test.json", 128);
+	particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, "test.json", 128);
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
-	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
-	pointLight = eps::CreateUnique<PointLightInstance>();
+	directionalLight = worldManager->create<DirectionalLightInstance>();
+	pointLight = worldManager->create<PointLightInstance>();
 
 	pointLightingExecutor = eps::CreateUnique<PointLightingExecutor>("Ico3", 1);
 	directionalLightingExecutor = eps::CreateUnique<DirectionalLightingExecutor>(1);
@@ -265,23 +263,24 @@ void SceneDemo::update() {
 
 	animatedMeshInstance->update();
 
-
 	particleEmitter->update();
 	directionalLight->update();
 	pointLight->update();
 }
 
 void SceneDemo::begin_rendering() {
-	camera3D->update_matrix();
-	parent->begin_rendering();
 	child->look_at(*camera3D);
-	child->begin_rendering();
-	sprite->begin_rendering();
-	particleEmitter->begin_rendering();
-	directionalLight->begin_rendering();
-	pointLight->begin_rendering();
 
-	animatedMeshInstance->begin_rendering();
+	worldManager->update_matrix();
+
+	parent->transfer();
+	child->transfer();
+	sprite->transfer();
+	particleEmitter->transfer();
+	directionalLight->transfer();
+	pointLight->transfer();
+	animatedMeshInstance->transfer();
+	camera3D->transfer();
 
 	pointLightingExecutor->write_to_buffer(0, pointLight->transform_matrix(), pointLight->light_data());
 	directionalLightingExecutor->write_to_buffer(0, directionalLight->light_data());

@@ -34,12 +34,10 @@ MeshInstance::MeshInstance(MeshInstance&&) noexcept = default;
 
 MeshInstance& MeshInstance::operator=(MeshInstance&&) noexcept = default;
 
-void MeshInstance::begin_rendering() noexcept {
+void MeshInstance::transfer() noexcept {
 	if (!isActive) {
 		return;
 	}
-	// World行列更新
-	update_affine();
 	// 各情報をGPUに転送
 	// Transformに転送
 	transformMatrix->set_transformation_matrix_data(world_affine());

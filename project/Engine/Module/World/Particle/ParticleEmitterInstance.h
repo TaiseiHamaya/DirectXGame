@@ -104,7 +104,7 @@ public: // Constructor/Destructor
 
 public: // Member function
 	virtual void update();
-	virtual void begin_rendering();
+	virtual void transfer();
 	void draw() const;
 
 	virtual void on_emit(Particle* const particle) {};

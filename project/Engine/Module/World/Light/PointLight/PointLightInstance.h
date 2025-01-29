@@ -25,7 +25,8 @@ public:
 	PointLightInstance& operator=(PointLightInstance&&) = default;
 
 public:
-	void begin_rendering() override;
+	void update_affine() override;
+	void transfer() override;
 
 public:
 	Matrix4x4 transform_matrix() const;

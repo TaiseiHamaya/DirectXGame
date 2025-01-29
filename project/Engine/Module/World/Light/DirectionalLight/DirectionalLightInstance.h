@@ -21,7 +21,7 @@ public:
 	DirectionalLightInstance& operator=(DirectionalLightInstance&&) = default;
 
 public:
-	void begin_rendering() override;
+	void transfer() override;
 
 #ifdef _DEBUG
 public:

@@ -41,7 +41,7 @@ const Transform2D& SpriteInstance::get_transform() noexcept {
 	return *transform;
 }
 
-void SpriteInstance::begin_rendering() noexcept {
+void SpriteInstance::transfer() noexcept {
 	*transformMatrix->get_data() = transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix();
 	material->get_data()->uvTransform = uvTransform->get_matrix4x4_transform();
 }

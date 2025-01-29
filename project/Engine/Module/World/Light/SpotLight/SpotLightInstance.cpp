@@ -1,8 +1,6 @@
 #include "SpotLightInstance.h"
 
-void SpotLightInstance::begin_rendering() {
-	update_affine();
-
+void SpotLightInstance::transfer() {
 	lightData.position = world_position();
 }
 

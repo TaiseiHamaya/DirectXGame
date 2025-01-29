@@ -16,9 +16,7 @@ public:
 	BaseLightInstance& operator=(BaseLightInstance&&) = default;
 
 public:
-	virtual void update() {};
-
-	virtual void begin_rendering() = 0;
+	virtual void transfer() = 0;
 
 public:
 	const T& light_data() const { return lightData; };

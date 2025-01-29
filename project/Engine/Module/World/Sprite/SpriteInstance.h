@@ -30,7 +30,7 @@ private:
 public:
 	const Transform2D& get_transform() noexcept;
 	//void update();
-	void begin_rendering() noexcept;
+	void transfer() noexcept;
 	void draw() const;
 
 #ifdef _DEBUG

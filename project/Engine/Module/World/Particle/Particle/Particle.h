@@ -41,7 +41,7 @@ public: // Constructor/Destructor
 	Particle& operator=(Particle&&) = delete;
 
 public: // Member function
-	void update();
+	void update() override;
 
 public: // Getter/Setter
 	const Color4& get_color() const { return color; };

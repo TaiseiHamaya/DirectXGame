@@ -29,7 +29,7 @@ public:
 	SpotLightInstance& operator=(SpotLightInstance&&) = default;
 
 public:
-	void begin_rendering() override;
+	void transfer() override;
 
 #ifdef _DEBUG
 public:

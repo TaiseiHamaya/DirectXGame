@@ -30,8 +30,8 @@ void AnimatedMeshInstance::begin() {
 	}
 }
 
-void AnimatedMeshInstance::begin_rendering() noexcept {
-	MeshInstance::begin_rendering();
+void AnimatedMeshInstance::transfer() noexcept {
+	MeshInstance::transfer();
 	if (!isActive || !mesh || !skeletonResrouce) {
 		return;
 	}
@@ -252,7 +252,7 @@ void AnimatedMeshInstance::draw_skeleton() {
 		SkeletonSpaceInstance& jointInstance = skeletonData.jointInstance[i];
 		drawMesh.get_transform().copy(jointInstance.transform);
 
-		drawMesh.begin_rendering();
+		drawMesh.transfer();
 		drawMesh.draw();
 		++i;
 	}

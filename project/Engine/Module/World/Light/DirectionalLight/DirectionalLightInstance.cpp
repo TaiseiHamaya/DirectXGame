@@ -1,6 +1,6 @@
 #include "DirectionalLightInstance.h"
 
-void DirectionalLightInstance::begin_rendering() {
+void DirectionalLightInstance::transfer() {
 }
 
 #ifdef _DEBUG

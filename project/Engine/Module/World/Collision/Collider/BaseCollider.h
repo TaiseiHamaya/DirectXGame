@@ -10,9 +10,6 @@ public:
 	~BaseCollider() = default;
 
 public:
-	virtual void update();
-
-public:
 	const std::string& group() const noexcept;
 
 public:

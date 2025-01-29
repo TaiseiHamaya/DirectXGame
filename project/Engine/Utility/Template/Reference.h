@@ -33,7 +33,19 @@ public: // -------------------- T, T*, unique<T>からの暗黙代入 ----------
 
 public: // -------------------- 型変換付きキャスト --------------------
 	template<std::convertible_to<T> U>
-	Reference& operator=(U* const rhs) noexcept {
+	Reference(Reference<U> rhs) noexcept { reference = rhs.ptr(); };
+	template<std::convertible_to<T> U>
+	Reference(U* const rhs) noexcept { reference = rhs; };
+	template<std::convertible_to<T> U>
+	Reference(const std::unique_ptr<U>& rhs) noexcept { reference = rhs.get(); };
+	template<std::convertible_to<T> U>
+
+	Reference& operator=(Reference<U> rhs) noexcept {
+		reference = rhs.ptr();
+		return *this;
+	};
+	template<std::convertible_to<T> U>
+		Reference& operator=(U* const rhs) noexcept {
 		reference = rhs;
 		return *this;
 	};
@@ -42,10 +54,6 @@ public: // -------------------- 型変換付きキャスト --------------------
 		reference = rhs.get();
 		return *this;
 	};
-	template<std::convertible_to<T> U>
-	Reference(U* const rhs) noexcept { reference = rhs; };
-	template<std::convertible_to<T> U>
-	Reference(const std::unique_ptr<U>& rhs) noexcept { reference = rhs.get(); };
 
 public: // -------------------- その他関数 --------------------
 	operator bool() const noexcept { return reference; };
@@ -80,3 +88,10 @@ template<typename T, typename U>
 bool operator<=(const Reference<T>& lhs, const Reference<U>& rhs) noexcept { return !(rhs > lhs); };
 template<typename T, typename U>
 bool operator>=(const Reference<T>& lhs, const Reference<U>& rhs) noexcept { return !(rhs < lhs); };
+
+template<typename T>
+struct std::hash<Reference<T>> {
+	uint64_t operator()(const Reference<T>& val) const {
+		return std::hash<uint64_t>()(val);
+	}
+};
