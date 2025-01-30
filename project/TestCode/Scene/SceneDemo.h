@@ -4,11 +4,11 @@
 
 #include <memory>
 
-#include "Engine/Resources/Audio/AudioPlayer.h"
+#include "Engine/Assets/Audio/AudioPlayer.h"
 
 class WorldManager;
-class MeshInstance;
-class AnimatedMeshInstance;
+class StaticMeshInstance;
+class SkinningMeshInstance;
 class SpriteInstance;
 class Camera3D;
 class BaseCollider;
@@ -30,12 +30,12 @@ class RenderPath;
 #include "Engine/Module/Render/RenderNode/Posteffect/Outline/OutlineNode.h"
 #include "Engine/Module/World/Particle/ParticleEmitterInstance.h"
 
-#include "Engine/Resources/Json/JsonResource.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 
-#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationResource.h"
-#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h"
-#include "Engine/Resources/Animation/Skeleton/SkeletonResource.h"
+#include "Engine/Assets/Animation/NodeAnimation/NodeAnimationAsset.h"
+#include "Engine/Assets/Animation/NodeAnimation/NodeAnimationPlayer.h"
+#include "Engine/Assets/Animation/Skeleton/SkeletonAsset.h"
 
 #include "Engine/Module/DrawExecutor/LightingExecutor/DirectionalLightingExecutor.h"
 #include "Engine/Module/DrawExecutor/LightingExecutor/PointLightingExecutor.h"
@@ -73,9 +73,9 @@ private:
 	std::unique_ptr<DirectionalLightingExecutor> directionalLightingExecutor;
 	std::unique_ptr<PointLightingExecutor> pointLightingExecutor;
 
-	std::unique_ptr<MeshInstance> parent;
-	std::unique_ptr<MeshInstance> child;
-	std::unique_ptr<AnimatedMeshInstance> animatedMeshInstance;
+	std::unique_ptr<StaticMeshInstance> parent;
+	std::unique_ptr<StaticMeshInstance> child;
+	std::unique_ptr<SkinningMeshInstance> animatedMeshInstance;
 	std::unique_ptr<SpriteInstance> sprite;
 
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
@@ -87,9 +87,9 @@ private:
 	std::shared_ptr<AABBCollider> single2Collider;
 	std::shared_ptr<AABBCollider> single3Collider;
 
-	std::shared_ptr<NodeAnimationResource> nodeAnimationResource;
+	std::shared_ptr<NodeAnimationAsset> nodeAnimationResource;
 	NodeAnimationPlayer animationPlayer;
-	std::shared_ptr<SkeletonResource> skeletonResource;
+	std::shared_ptr<SkeletonAsset> skeletonResource;
 
 	std::unique_ptr<ParticleEmitterInstance> particleEmitter;
 
@@ -99,6 +99,6 @@ private:
 	std::shared_ptr<AudioPlayer> audioPlayer;
 	//std::shared_ptr<OutlineNode> outlineNode;
 
-	JsonResource jsonResource{ "./Test.json" };
+	JsonAsset jsonResource{ "./Test.json" };
 	Transform2D testValue{};
 };

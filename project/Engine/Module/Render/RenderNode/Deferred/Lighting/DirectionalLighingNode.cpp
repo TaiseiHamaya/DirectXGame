@@ -1,10 +1,10 @@
 #include "DirectionalLighingNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-#include <Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h>
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
 DirectionalLightingNode::DirectionalLightingNode() = default;
 
@@ -18,7 +18,7 @@ void DirectionalLightingNode::initialize() {
 }
 
 void DirectionalLightingNode::preprocess() {
-	auto& command = DirectXCommand::GetCommandList();
+	auto& command = DxCommand::GetCommandList();
 	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		command->SetGraphicsRootDescriptorTable(2 + i, gBuffers[i]);
 	}

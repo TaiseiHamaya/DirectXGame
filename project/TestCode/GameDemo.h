@@ -2,7 +2,7 @@
 
 #include <Engine/Application/Framework.h>
 
-class GameDemo final : public Framework{
+class GameDemo final : public Framework {
 public:
 	void initialize() override;
 };

@@ -2,9 +2,9 @@
 
 #include <cassert>
 
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
 
 SingleRenderTargetNode::SingleRenderTargetNode() = default;
 

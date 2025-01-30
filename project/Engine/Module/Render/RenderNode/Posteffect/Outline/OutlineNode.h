@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
 	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
-	
+
 	void set_depth_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& depthGPUHandle_);
 
 private:

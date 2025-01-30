@@ -3,11 +3,11 @@
 #include "ImGuiManager.h"
 
 #include "Engine/Application/WinApp.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
+#include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
+#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
-#include "Engine/Rendering/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/Rendering/DirectX/DirectXSystemValues.h"
 
 #include "imgui.h"
 #include "imgui_impl_dx12.h"
@@ -29,9 +29,9 @@ void ImGuiManager::Initialize() {
 	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	ImGui_ImplWin32_Init(WinApp::GetWndHandle());
 	ImGui_ImplDX12_Init(
-		DirectXDevice::GetDevice().Get(),
+		DxDevice::GetDevice().Get(),
 		RenderingSystemValues::NUM_BUFFERING,
-		DirectXSystemValues::SCREEN_RTV_FORMAT,
+		DxSystemValues::SCREEN_RTV_FORMAT,
 		SRVDescriptorHeap::GetDescriptorHeap().Get(),
 		SRVDescriptorHeap::GetCPUHandle(srvIndex),
 		SRVDescriptorHeap::GetGPUHandle(srvIndex)
@@ -57,7 +57,7 @@ void ImGuiManager::BeginFrame() {
 
 void ImGuiManager::EndFrame() {
 	ImGui::Render();
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DirectXCommand::GetCommandList().Get());
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DxCommand::GetCommandList().Get());
 }
 
 #endif // _DEBUG

@@ -2,18 +2,18 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-#include <memory>
 #include <list>
+#include <memory>
 #include <variant>
 
-#include "Particle/Particle.h"
-#include "DrawSystem/BaseParticleDrawSystem.h"
+#include "./DrawSystem/BaseParticleDrawSystem.h"
+#include "./Particle/Particle.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER
 #define COLOR4_SERIALIZER
 #define QUATERNION_SERIALIZER
-#include "Engine/Resources/Json/JsonSerializer.h"
+#include "Engine/Assets/Json/JsonSerializer.h"
 
 class ParticleEmitterInstance : public WorldInstance {
 public:
@@ -146,7 +146,7 @@ protected: // Member variable
 	ParticleFinal particleFinal;
 	Emission emission;
 
-	JsonResource jsonResource;
+	JsonAsset jsonResource;
 
 private:
 	uint32_t numMaxParticle{ 0 };

@@ -49,7 +49,7 @@ void Input::Update() {
 	);
 	if (FAILED(result)) {
 		// 失敗したら0埋め
-		*instance.mouseState= { 0 };
+		*instance.mouseState = { 0 };
 	}
 
 	// マウス位置更新

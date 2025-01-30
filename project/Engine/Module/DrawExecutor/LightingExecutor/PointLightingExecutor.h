@@ -2,14 +2,14 @@
 
 #include "../BaseDrawExecutor.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
-#include "Engine/Resources/PrimitiveGeometry/PrimitiveGeometryResource.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
 #include <Library/Math/Matrix4x4.h>
 
 struct PointLightData;
 
-class PointLightingExecutor final : BaseDrawExecutor<PrimitiveGeometryResource> {
+class PointLightingExecutor final : BaseDrawExecutor<PrimitiveGeometryAsset> {
 public:
 	PointLightingExecutor() = default;
 	virtual ~PointLightingExecutor() = default;

@@ -2,7 +2,7 @@
 
 #include "../BaseLightInstance.h"
 
-#include "Library/Math/Color3.h"
+#include <Library/Math/Color3.h>
 
 struct SpotLightData {
 	Color3 color; // 色

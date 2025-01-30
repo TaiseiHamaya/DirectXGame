@@ -1,7 +1,7 @@
 #include "SpriteNode.h"
 
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 SpriteNode::SpriteNode() = default;
 

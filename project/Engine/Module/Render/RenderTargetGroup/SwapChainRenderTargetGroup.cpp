@@ -1,14 +1,14 @@
 #include "SwapChainRenderTargetGroup.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
 #include "Engine/Application/EngineSettings.h"
-#include "Engine/Rendering/DirectX/DirectXSystemValues.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
 void SwapChainRenderTargetGroup::initialize() {
 	create_view_port(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
 	for (int i = 0; i < renderTargets.size(); ++i) {
-		renderTargets[i].create_view(DirectXSystemValues::SCREEN_RTV_FORMAT);
+		renderTargets[i].create_view(DxSystemValues::SCREEN_RTV_FORMAT);
 		renderTargetHandles[i] = renderTargets[i].get_cpu_handle();
 	}
 }
@@ -26,7 +26,7 @@ std::array<RenderTarget, RenderingSystemValues::NUM_BUFFERING>& SwapChainRenderT
 }
 
 void SwapChainRenderTargetGroup::set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) {
-	auto&& commandList = DirectXCommand::GetCommandList();
+	auto&& commandList = DxCommand::GetCommandList();
 	commandList->OMSetRenderTargets(
 		1, &renderTargetHandles[RenderingSystemValues::NowBackbufferIndex()],
 		depthStencil ? 1 : 0,

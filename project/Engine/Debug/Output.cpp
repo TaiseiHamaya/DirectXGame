@@ -1,7 +1,5 @@
 #include "Output.h"
 
-#define NOMINMAX
-
 #include <Windows.h>
 
 #include <fstream>
@@ -9,13 +7,13 @@
 #include <filesystem>
 #include <format>
 
-#include <Engine/Utility/Tools/ConvertString.h>
+#include <Library/Utility/Tools/ConvertString.h>
 
 namespace chrono = std::chrono;
 
 LocalTimeSeconds NowLocalSecond() {
 	static const chrono::time_zone* timezone{ chrono::current_zone() };
-	chrono::zoned_time nowZT{ timezone, chrono::system_clock::now()};
+	chrono::zoned_time nowZT{ timezone, chrono::system_clock::now() };
 	LocalTimeSeconds nowZtFloor
 		= chrono::floor<chrono::seconds>(nowZT.get_local_time());
 	return nowZtFloor;

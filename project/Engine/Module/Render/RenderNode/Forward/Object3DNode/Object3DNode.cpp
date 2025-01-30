@@ -1,12 +1,12 @@
 #include "Object3DNode.h"
 
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
-#include "Engine/Rendering/RenderingSystemValues.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 Object3DNode::Object3DNode() = default;
 Object3DNode::~Object3DNode() noexcept = default;

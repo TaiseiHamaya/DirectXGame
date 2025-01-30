@@ -1,11 +1,7 @@
 #pragma once
 
 #include "../BaseDrawExecutor.h"
-
-#include "Engine/Rendering/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
-#include "Engine/Resources/PrimitiveGeometry/PrimitiveGeometryResource.h"
-
-#include <Library/Math/Matrix4x4.h>
+#include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
 struct DirectionalLightData;
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
-#include "ParticleBufferValue.h"
+#include "./ParticleBufferValue.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
-#include <Engine/Utility/Tools/ConstructorMacro.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 enum class ParticleDrawType {
 	Mesh,

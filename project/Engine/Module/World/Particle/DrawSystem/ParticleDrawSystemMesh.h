@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BaseParticleDrawSystem.h"
-#include "Engine/Resources/PolygonMesh/PolygonMesh.h"
+#include "./BaseParticleDrawSystem.h"
+#include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 
 #include <string>
 

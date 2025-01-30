@@ -1,15 +1,14 @@
 #include "ParticleEmitterInstance.h"
 
-#include "DrawSystem/ParticleDrawSystemMesh.h"
-#include "DrawSystem/ParticleDrawSystemRect.h"
+#include <Library/Math/Definition.h>
+#include <Library/Utility/Tools/RandomEngine.h>
 
 #include "../WorldManager.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Resources/Texture/TextureManager.h"
-#include "Engine/Utility/Tools/RandomEngine.h"
+#include "./DrawSystem/ParticleDrawSystemMesh.h"
+#include "./DrawSystem/ParticleDrawSystemRect.h"
+#include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Runtime/WorldClock/WorldClock.h"
-
-#include <Library/Math/Definition.h>
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
 	WorldInstance(),
@@ -275,11 +274,11 @@ void ParticleEmitterInstance::debug_gui() {
 	ImGui::Text("Draw use : %s", useResourceName.c_str());
 	switch (drawType) {
 	case ParticleDrawType::Mesh:
-		PolygonMeshManager::MeshListGui(useResourceName);
+		PolygonMeshLibrary::MeshListGui(useResourceName);
 		break;
 	case ParticleDrawType::Rect:
 	{
-		TextureManager::TextureListGui(useResourceName);
+		TextureLibrary::TextureListGui(useResourceName);
 		auto& data = std::get<Rect>(drawSystemData);
 
 		ImGui::DragFloat2("Size", &data.rect.x, 0.1f, 0.0f, 1e10f);

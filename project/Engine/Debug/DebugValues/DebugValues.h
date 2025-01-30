@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <Engine/Module/World/Mesh/MeshInstance.h>
+#include <Engine/Module/World/Mesh/StaticMeshInstance.h>
 
 class DebugValues {
 private:
@@ -21,7 +21,7 @@ public:
 	static void ShowGrid();
 
 private:
-	std::unique_ptr<MeshInstance> gridMesh = nullptr;
+	std::unique_ptr<StaticMeshInstance> gridMesh = nullptr;
 };
 
 #endif // _DEBUG

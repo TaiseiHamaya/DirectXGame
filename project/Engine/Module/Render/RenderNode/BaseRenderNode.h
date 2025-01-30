@@ -1,13 +1,14 @@
 #pragma once
 
+#include <memory>
+
+#include <Library/Utility/Template/bitflag.h>
+
+#include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
+
 class DepthStencil;
 class PipelineState;
 enum D3D_PRIMITIVE_TOPOLOGY;
-
-#include <memory>
-
-#include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
-#include <Engine/Utility/Template/bitflag.h>
 
 enum class RenderNodeConfig : std::uint8_t {
 	Default = 0,

@@ -1,6 +1,6 @@
 #include "DirectionalLightingExecutor.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
 DirectionalLightingExecutor::DirectionalLightingExecutor(uint32_t maxInstance) {
@@ -12,7 +12,7 @@ void DirectionalLightingExecutor::reinitialize(uint32_t maxInstance) {
 }
 
 void DirectionalLightingExecutor::draw_command(uint32_t InstanceCount) const {
-	auto&& command = DirectXCommand::GetCommandList();
+	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootDescriptorTable(0, lightData.get_handle_gpu());
 	command->DrawInstanced(3, InstanceCount, 0, 0);
 }

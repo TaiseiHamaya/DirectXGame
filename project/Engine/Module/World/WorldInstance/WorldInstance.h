@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Library/Math/Transform3D.h"
-#include "Library/Math/Hierarchy.h"
-#include "Library/Math/Affine.h"
+#include <Library/Math/Affine.h>
+#include <Library/Math/Hierarchy.h>
+#include <Library/Math/Transform3D.h>
 
-#include <Engine/Resources/Json/JsonResource.h>
+#include <Engine/Assets/Json/JsonAsset.h>
 
 class WorldManager;
 
@@ -38,7 +38,7 @@ public:
 	/// Affine行列の更新
 	/// </summary>
 	virtual void update_affine();
-	
+
 	/// <summary>
 	/// 遅延更新処理
 	/// </summary>
@@ -130,8 +130,8 @@ public:
 	void set_world_manager(Reference<WorldManager> worldManager_);
 
 public:
-	void from_json(const JsonResource& json);
-	void to_json(JsonResource& json);
+	void from_json(const JsonAsset& json);
+	void to_json(JsonAsset& json);
 
 #ifdef _DEBUG
 public:
