@@ -76,10 +76,10 @@ void Camera3D::transfer() {
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
 	vpBuffers.get_data()->view = viewAffine.to_matrix();
-	vpBuffers.get_data()->viewProjection = viewAffine.to_matrix() * perspectiveFovMatrix;
+	vpBuffers.get_data()->viewProjection = viewAffine.to_matrix() * projectionMatrix;
 	worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
 	worldPosition.get_data()->position = world_position();
-	worldPosition.get_data()->projInv = perspectiveFovMatrix.inverse();
+	worldPosition.get_data()->projInv = projectionMatrix.inverse();
 #endif // _DEBUG
 }
 
