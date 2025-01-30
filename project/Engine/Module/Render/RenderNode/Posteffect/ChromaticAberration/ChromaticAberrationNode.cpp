@@ -1,8 +1,8 @@
 #include "ChromaticAberrationNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -20,7 +20,7 @@ void ChromaticAberrationNode::initialize() {
 }
 
 void ChromaticAberrationNode::draw() {
-	auto&& command = DirectXCommand::GetCommandList();
+	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootConstantBufferView(0, aberrationLevel.get_resource()->GetGPUVirtualAddress());
 	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
 	command->DrawInstanced(3, 1, 0, 0);

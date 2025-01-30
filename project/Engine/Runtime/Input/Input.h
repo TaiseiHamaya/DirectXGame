@@ -1,7 +1,5 @@
 #pragma once
 
-#define NOMINMAX
-
 #include <memory>
 #include <vector>
 
@@ -15,14 +13,15 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment (lib, "xinput.lib")
 
-#include "InputEnum.h"
-#include "Library/Math/Vector2.h"
+#include <Library/Math/Vector2.h>
+
+#include "./InputEnum.h"
 
 class Input {
 private:
 	Input() = default;
 	~Input() = default;
-	
+
 	Input(const Input&) = delete;
 	Input& operator=(const Input&) = delete;
 
@@ -41,7 +40,7 @@ public:
 	static void Update();
 
 	// ----------キーボード----------
-	
+
 	/// <summary>
 	/// キーが押されている
 	/// </summary>
@@ -109,7 +108,7 @@ public:
 	/// <param name="id">ID</param>
 	/// <returns></returns>
 	static bool IsPressPad(PadID id);
-	
+
 	/// <summary>
 	/// Padボタンがトリガーしたか
 	/// </summary>
@@ -153,7 +152,7 @@ public:
 	/// </summary>
 	/// <param name="deadZone">[0,1]で設定</param>
 	static void SetDeadZone(float deadZone) { GetInstance().deadZone = deadZone; };
-	
+
 	/// <summary>
 	/// 接続されたゲームパッド数を取得
 	/// </summary>
@@ -174,7 +173,7 @@ private:
 
 private:
 	Microsoft::WRL::ComPtr<IDirectInput8> directInput = nullptr;
-	
+
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> keyboardDevice;
 	std::vector<BYTE> keyboardState;
 	std::vector<BYTE> preKeyboardState;
@@ -183,7 +182,7 @@ private:
 	Vector2 mousePosition;
 	std::unique_ptr<DIMOUSESTATE2> mouseState;
 	std::unique_ptr<DIMOUSESTATE2> preMouseState;
-	
+
 	uint32_t dwUserIndex = 0;
 	std::unique_ptr<XINPUT_STATE> joystate;
 	std::unique_ptr<XINPUT_STATE> preJoystate;

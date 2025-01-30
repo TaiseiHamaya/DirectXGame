@@ -5,10 +5,10 @@
 #include <memory>
 #include <string>
 
-#include "Library/Math/Vector2.h"
+#include <Library/Math/Vector2.h>
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
 class Camera3D;
 

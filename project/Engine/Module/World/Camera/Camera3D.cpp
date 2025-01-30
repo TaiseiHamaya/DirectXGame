@@ -2,17 +2,17 @@
 
 #include <cmath>
 
-#include "Library/Math/VectorConverter.h"
+#include <Library/Math/VectorConverter.h>
 
 #include "../WorldManager.h"
 #include "Engine/Application/EngineSettings.h"
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/Material/Material.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
 #include <Engine/Runtime/Input/Input.h>
-#include <Engine/Resources/PrimitiveGeometry/PrimitiveGeometryManager.h>
+#include <Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h>
 #endif // _DEBUG
 
 void Camera3D::initialize() {
@@ -25,7 +25,7 @@ void Camera3D::initialize() {
 #ifdef _DEBUG
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
-	debugCameraCenter = world_manager()->create<MeshInstance>(nullptr, "CameraAxis.obj");
+	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
 	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
 	frustumExecutor = std::make_unique<PrimitiveGeometryDrawExecutor>("Frustum", 1);
@@ -84,14 +84,14 @@ void Camera3D::transfer() {
 }
 
 void Camera3D::register_world_projection(uint32_t index) {
-	auto& commandList = DirectXCommand::GetCommandList();
+	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, vpBuffers.get_resource()->GetGPUVirtualAddress()
 	);
 }
 
 void Camera3D::register_world_lighting(uint32_t index) {
-	auto& commandList = DirectXCommand::GetCommandList();
+	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, worldPosition.get_resource()->GetGPUVirtualAddress()
 	);
@@ -151,7 +151,7 @@ void Camera3D::debug_gui() {
 
 	//if (ImGui::Button("SaveJson")) {
 	//	constexpr const char* fileName = "Camera3D";
-	//	JsonResource output{ "WorldInstance/"s + fileName + ".json"};
+	//	JsonAsset output{ "WorldInstance/"s + fileName + ".json"};
 	//	to_json(output);
 	//	output.save();
 	//}

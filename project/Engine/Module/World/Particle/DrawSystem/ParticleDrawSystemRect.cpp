@@ -1,15 +1,15 @@
 #include "ParticleDrawSystemRect.h"
 
-#include "Engine/Resources/Texture/TextureManager.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 ParticleDrawSystemRect::ParticleDrawSystemRect(const std::string& textureName) {
 	set_texture(textureName);
 }
 
 void ParticleDrawSystemRect::draw_command(size_t InstanceCount) const {
-	auto& commandList = DirectXCommand::GetCommandList();
+	auto& commandList = DxCommand::GetCommandList();
 	if (texture) {
 		commandList->IASetVertexBuffers(0, 1, &vertexBuffer.get_vbv());
 		commandList->SetGraphicsRootDescriptorTable(0, particleBuffer.get_handle_gpu());
@@ -49,5 +49,5 @@ void ParticleDrawSystemRect::create_rect(const Vector2& size, const Vector2& piv
 }
 
 void ParticleDrawSystemRect::set_texture(const std::string& textureName) {
-	texture = TextureManager::GetTexture(textureName);
+	texture = TextureLibrary::GetTexture(textureName);
 }

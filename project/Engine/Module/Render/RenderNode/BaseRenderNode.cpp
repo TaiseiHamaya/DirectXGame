@@ -2,17 +2,17 @@
 
 #include <d3d12.h>
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
 
 BaseRenderNode::BaseRenderNode() = default;
 
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
 void BaseRenderNode::begin() {
-	auto&& commandList = DirectXCommand::GetCommandList();
+	auto&& commandList = DxCommand::GetCommandList();
 	// RenderTargetの設定
 	renderTarget->begin(config, depthStencil);
 	// DepthのStateを変える

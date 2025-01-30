@@ -1,9 +1,9 @@
 #pragma once
 
+#include <chrono>
 #include <format>
 #include <source_location>
 #include <string_view>
-#include <chrono>
 
 using LocalTimeSeconds = std::chrono::time_point<std::chrono::local_t, std::chrono::seconds>;
 

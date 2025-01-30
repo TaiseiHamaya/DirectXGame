@@ -3,7 +3,7 @@
 #include "../WorldManager.h"
 
 #define TRANSFORM3D_SERIALIZER
-#include <Engine/Resources/Json/JsonSerializer.h>
+#include <Engine/Assets/Json/JsonSerializer.h>
 
 WorldInstance::WorldInstance() {
 	hierarchy.initialize(affine);
@@ -87,14 +87,14 @@ void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
 	worldManager = worldManager_;
 }
 
-void WorldInstance::from_json(const JsonResource& json_) {
+void WorldInstance::from_json(const JsonAsset& json_) {
 	const nlohmann::json& json = json_.cget();
 	if (json.contains("WorldInstance")) {
 		transform = json.at("WorldInstance").get<Transform3D>();
 	}
 }
 
-void WorldInstance::to_json(JsonResource& json) {
+void WorldInstance::to_json(JsonAsset& json) {
 	json.get()["WorldInstance"] = transform;
 }
 
@@ -112,7 +112,7 @@ void WorldInstance::debug_gui() {
 
 	//if (ImGui::Button("SaveJson")) {
 	//	constexpr const char* fileName = std::source_location::current().file_name();
-	//	JsonResource output{ "WorldInstance"s + fileName };
+	//	JsonAsset output{ "WorldInstance"s + fileName };
 	//	to_json(output);
 	//	output.save();
 	//}

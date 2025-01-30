@@ -2,7 +2,8 @@
 
 #include <ranges>
 
-#include "Engine/Utility/Tools/SmartPointer.h"
+#include <Library/Utility/Tools/SmartPointer.h>
+
 #include "Engine/Module/World/Collision/CollisionFunctions.h"
 
 CollisionManager::CollisionManager() {
@@ -108,7 +109,7 @@ void CollisionManager::debug_gui() {
 			if (colliderList.contains(name)) {
 				auto& list = colliderList.at(name);
 				ImGui::Text(
-					std::format("{} : {}", name, 
+					std::format("{} : {}", name,
 						list.aabbColliders.size() + list.sphereColliders.size()).c_str()
 				);
 			}

@@ -3,7 +3,7 @@
 #include "DebugValues.h"
 
 DebugValues::DebugValues() {
-	gridMesh = std::make_unique<MeshInstance>("Grid.obj");
+	gridMesh = std::make_unique<StaticMeshInstance>("Grid.obj");
 }
 
 DebugValues& DebugValues::GetInstance() {

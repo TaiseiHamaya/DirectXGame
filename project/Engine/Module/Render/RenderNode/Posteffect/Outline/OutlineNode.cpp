@@ -1,8 +1,8 @@
 #include "OutlineNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 OutlineNode::OutlineNode() = default;
 
@@ -14,7 +14,7 @@ void OutlineNode::initialize() {
 }
 
 void OutlineNode::draw() {
-	auto&& command = DirectXCommand::GetCommandList();
+	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootDescriptorTable(0, textureGPUHandle);
 	command->SetGraphicsRootDescriptorTable(1, depthGPUHandle);
 	command->DrawInstanced(3, 1, 0, 0);

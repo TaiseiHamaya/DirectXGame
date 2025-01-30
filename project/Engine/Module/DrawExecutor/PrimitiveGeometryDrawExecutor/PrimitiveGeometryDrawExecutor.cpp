@@ -2,16 +2,16 @@
 
 #include "PrimitiveGeometryDrawExecutor.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Resources/PrimitiveGeometry/PrimitiveGeometryManager.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void PrimitiveGeometryDrawExecutor::reinitialize(const std::string& primitiveGeometryName, uint32_t maxInstance) {
-	resource = PrimitiveGeometryManager::GetPrimitiveGeometry(primitiveGeometryName);
+	resource = PrimitiveGeometryLibrary::GetPrimitiveGeometry(primitiveGeometryName);
 	matrices.initialize(maxInstance);
 }
 
 void PrimitiveGeometryDrawExecutor::draw_command(uint32_t InstanceCount) const {
-	auto& commandList = DirectXCommand::GetCommandList();
+	auto& commandList = DxCommand::GetCommandList();
 	if (resource) {
 		commandList->IASetVertexBuffers(0, 1, &resource->get_vbv());
 		commandList->IASetIndexBuffer(resource->get_p_ibv());

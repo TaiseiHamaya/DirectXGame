@@ -2,11 +2,11 @@
 
 #include "Library/Math/Vector2.h"
 
+#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 #ifdef _DEBUG
-#include "Engine/Module/World/Mesh/MeshInstance.h"
+#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
 #endif // _DEBUG
 
@@ -80,7 +80,7 @@ private:
 	Affine debugViewAffine;
 	bool isValidDebugCamera;
 	bool useDebugCameraLighting;
-	std::unique_ptr<MeshInstance> debugCameraCenter;
+	std::unique_ptr<StaticMeshInstance> debugCameraCenter;
 	std::unique_ptr<WorldInstance> debugCamera;
 	std::unique_ptr<PrimitiveGeometryDrawExecutor> frustumExecutor;
 	Vector3 offset;

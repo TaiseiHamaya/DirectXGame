@@ -3,7 +3,7 @@
 //#include <d3d12.h>
 //
 //#include "Engine/Render/RenderTargetGroup/MultiRenderTarget.h"
-//#include "Engine/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
+//#include "Engine/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 //
 //MultiRenderTargetNode::MultiRenderTargetNode() = default;
 //

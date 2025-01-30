@@ -2,7 +2,7 @@
 
 #include "Engine/Module/Render/RenderNode/SingleRenderTargetNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 
 class GrayscaleNode : public SingleRenderTargetNode {
 public:

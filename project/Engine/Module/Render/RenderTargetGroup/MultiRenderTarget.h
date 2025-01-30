@@ -6,9 +6,9 @@
 
 #include <d3d12.h>
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 
 /// <summary>
 /// マルチレンダーターゲット
@@ -85,7 +85,7 @@ inline const std::array<OffscreenRender, NumRenderTarget>& MultiRenderTarget<Num
 
 template<uint32_t NumRenderTarget>
 inline void MultiRenderTarget<NumRenderTarget>::set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) {
-	auto&& commandList = DirectXCommand::GetCommandList();
+	auto&& commandList = DxCommand::GetCommandList();
 	commandList->OMSetRenderTargets(
 		static_cast<UINT>(renderTargetsHandles.size()), renderTargetsHandles.data(),
 		depthStencil ? 1 : 0,

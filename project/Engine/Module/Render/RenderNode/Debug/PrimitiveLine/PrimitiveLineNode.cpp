@@ -2,11 +2,10 @@
 
 #include "PrimitiveLineNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DXSwapChain/DXSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 PrimitiveLineNode::PrimitiveLineNode() = default;
 PrimitiveLineNode::~PrimitiveLineNode() noexcept = default;
@@ -16,7 +15,7 @@ void PrimitiveLineNode::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("PrimitiveLineNode");
 	primitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-	set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	set_render_target_SC(DxSwapChain::GetRenderTarget());
 	set_config(RenderNodeConfig::ContinueDrawAfter |
 		RenderNodeConfig::ContinueDrawBefore |
 		RenderNodeConfig::NoClearDepth

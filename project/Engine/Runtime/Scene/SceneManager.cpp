@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
+#include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Debug/Output.h"
-#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Runtime/Scene/BaseScene.h"
 #include "Engine/Runtime/Scene/BaseSceneFactory.h"
 
@@ -74,7 +74,7 @@ void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInit
 		isStopLoad
 	);
 	// シーンがDefault状態でないと遷移させない
-	if (instance.sceneStatus != SceneStatus::DEFAULT){
+	if (instance.sceneStatus != SceneStatus::DEFAULT) {
 		return;
 	}
 	// この時点でロード関数を呼び出し

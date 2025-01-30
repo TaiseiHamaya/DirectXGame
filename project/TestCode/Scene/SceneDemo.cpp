@@ -1,16 +1,16 @@
 #include "SceneDemo.h"
 
 #include "../CallbackManagerDemo.h"
-#include "Engine/Module/World/WorldManager.h"
-#include "Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h"
+#include "Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h"
+#include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
+#include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/Collider/AABBCollider.h"
+#include "Engine/Module/World/Collision/Collider/SphereCollider.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
-#include "Engine/Module/World/Mesh/MeshInstance.h"
-#include "Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h"
-#include "Engine/Resources/Animation/Skeleton/SkeletonManager.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
+#include "Engine/Module/World/Mesh/SkinningMeshInstance.h"
+#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
+#include "Engine/Module/World/WorldManager.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "Library/Math/Hierarchy.h"
 
@@ -19,24 +19,24 @@
 
 #include "Library/Math/Color4.h"
 
+#include "Engine/Assets/Audio/AudioLibrary.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Debug/DebugValues/DebugValues.h"
+#include "Engine/GraphicsAPI/DirectX/DXSwapChain/DXSwapChain.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
-#include "Engine/Resources/Audio/AudioManager.h"
-#include "Engine/Resources/Texture/TextureManager.h"
 
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Utility/Template/Behavior.h"
-#include "Engine/Utility/Tools/SmartPointer.h"
+#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "Library/Utility/Template/Behavior.h"
+#include "Library/Utility/Tools/SmartPointer.h"
 
-#include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
-#include "Engine/Module/Render/RenderNode/Deferred/SkinMesh/SkinMeshNodeDeferred.h"
+#include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
+#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/PointLightingNode.h"
-#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
-#include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
+#include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
+#include "Engine/Module/Render/RenderNode/Deferred/SkinMesh/SkinMeshNodeDeferred.h"
 
 #include "Engine/Debug/Output.h"
 
@@ -47,26 +47,26 @@
 #define VECTOR2_SERIALIZER
 #define COLOR3_SERIALIZER
 #define COLOR4_SERIALIZER
-#include <Engine/Resources/Json/JsonSerializer.h>
+#include <Engine/Assets/Json/JsonSerializer.h>
 
 SceneDemo::SceneDemo() = default;
 
 SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Bone/bone.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/gltf-test/Boss_RangedAttack.gltf");
-	AudioManager::RegisterLoadQue("./EngineResources/Alarm01.wav");
-	AudioManager::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Bone/bone.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/gltf-test/Boss_RangedAttack.gltf");
+	AudioLibrary::RegisterLoadQue("./EngineResources/Alarm01.wav");
+	AudioLibrary::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
-	AudioManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
-	PolygonMeshManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
-	TextureManager::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	AudioLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	PolygonMeshLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	TextureLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Player.gltf");
-	NodeAnimationManager::RegisterLoadQue("./EngineResources/Models/Player.gltf");
-	SkeletonManager::RegisterLoadQue("./EngineResources/Models/Player.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Player.gltf");
+	NodeAnimationLibrary::RegisterLoadQue("./EngineResources/Models/Player.gltf");
+	SkeletonLibrary::RegisterLoadQue("./EngineResources/Models/Player.gltf");
 }
 
 void SceneDemo::initialize() {
@@ -93,14 +93,14 @@ void SceneDemo::initialize() {
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
-	parent = worldManager->create<MeshInstance>(nullptr, "Player.gltf");
-	child = worldManager->create<MeshInstance>(parent, "Sphere.obj");
+	parent = worldManager->create<StaticMeshInstance>(nullptr, "Player.gltf");
+	child = worldManager->create<StaticMeshInstance>(parent, "Sphere.obj");
 
-	animatedMeshInstance = worldManager->create<AnimatedMeshInstance>(nullptr, "Player.gltf", "Idle", true);
+	animatedMeshInstance = worldManager->create<SkinningMeshInstance>(nullptr, "Player.gltf", "Idle", true);
 
 	parentCollider = worldManager->create<SphereCollider>(parent, 1.0f);
 
-	childCollider = worldManager->create<SphereCollider>(child ,1.0f);
+	childCollider = worldManager->create<SphereCollider>(child, 1.0f);
 
 	singleCollider = worldManager->create<SphereCollider>(nullptr, 1.0f);
 
@@ -144,16 +144,16 @@ void SceneDemo::initialize() {
 //	std::shared_ptr<Object3DNode> object3dNode;
 //	object3dNode = std::make_unique<Object3DNode>();
 //	object3dNode->initialize();
-//	object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 //	//object3dNode->set_render_target(renderTarget);
 //	object3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
-//	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	//object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 //
 //	/// ---------------------- SkinMesh ----------------------
 //	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
 //	skinningMeshNode = std::make_unique<SkinningMeshNode>();
 //	skinningMeshNode->initialize();
-//	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	skinningMeshNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 //	//skinningMeshNode->set_render_target(renderTarget);
 //	skinningMeshNode->set_config(
 //		RenderNodeConfig::ContinueDrawBefore |
@@ -161,7 +161,7 @@ void SceneDemo::initialize() {
 //		RenderNodeConfig::ContinueDrawAfter |
 //		RenderNodeConfig::ContinueUseDpehtAfter
 //	);
-//	//object3dNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	//object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 //
 //	// ---------------------- ParticleBillboard ----------------------
 //	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
@@ -169,14 +169,14 @@ void SceneDemo::initialize() {
 //	particleBillboardNode->initialize();
 //	particleBillboardNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
 //	//particleBillboardNode->set_render_target(renderTarget);
-//	particleBillboardNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	particleBillboardNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 //
 //	// ---------------------- Sprite ----------------------
 //	std::shared_ptr<SpriteNode> spriteNode;
 //	spriteNode = std::make_unique<SpriteNode>();
 //	spriteNode->initialize();
 //	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
-//	spriteNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+//	spriteNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 //
 //#ifdef _DEBUG
 //	// ---------------------- 線 ----------------------
@@ -210,13 +210,13 @@ void SceneDemo::initialize() {
 
 	auto directionalLightingNode = eps::CreateShared<DirectionalLightingNode>();
 	directionalLightingNode->initialize();
-	directionalLightingNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	directionalLightingNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
 	auto pointLightingNode = eps::CreateShared<PointLightingNode>();
 	pointLightingNode->initialize();
 	pointLightingNode->set_config(RenderNodeConfig::ContinueDrawAfter);
-	pointLightingNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	pointLightingNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 	pointLightingNode->set_gbuffers(deferredRenderTarget);
 
 #ifdef _DEBUG
@@ -232,8 +232,8 @@ void SceneDemo::initialize() {
 	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode });
 #endif // _DEBUG
 
-	//DirectXSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
-	//DirectXSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
+	//DxSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
+	//DxSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
 
 	Particle::lookAtDefault = camera3D.get();
 }
@@ -421,7 +421,7 @@ void SceneDemo::debug_update() {
 	sprite->debug_gui();
 	ImGui::End();
 
-	AudioManager::DebugGui();
+	AudioLibrary::DebugGui();
 
 	ImGui::Begin("WorldClock");
 	WorldClock::DebugGui();

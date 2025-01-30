@@ -22,7 +22,7 @@ public:
 	virtual void update() = 0;
 	virtual void begin_rendering();
 	virtual void late_update();
-	
+
 	virtual void draw() const = 0;
 
 #ifdef _DEBUG
