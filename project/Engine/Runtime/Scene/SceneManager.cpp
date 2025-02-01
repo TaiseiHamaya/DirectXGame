@@ -65,6 +65,10 @@ void SceneManager::Draw() {
 
 void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInitialScene, bool isStopLoad) {
 	SceneManager& instance = GetInstance();
+	// シーンがDefault状態でないと遷移させない
+	if (instance.sceneStatus != SceneStatus::DEFAULT) {
+		return;
+	}
 	auto nextScenePtr = instance.factory->create_scene(next);
 	Console("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
 		(void*)instance.sceneQue.back().get(),
@@ -73,10 +77,6 @@ void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInit
 		isStackInitialScene,
 		isStopLoad
 	);
-	// シーンがDefault状態でないと遷移させない
-	if (instance.sceneStatus != SceneStatus::DEFAULT) {
-		return;
-	}
 	// この時点でロード関数を呼び出し
 	nextScenePtr->load();
 	// 遷移状態にする

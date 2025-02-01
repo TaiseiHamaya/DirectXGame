@@ -3,7 +3,7 @@
 #include "PrimitiveLineNode.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include "Engine/GraphicsAPI/DirectX/DXSwapChain/DXSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 

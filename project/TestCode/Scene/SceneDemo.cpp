@@ -22,7 +22,7 @@
 #include "Engine/Assets/Audio/AudioLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Debug/DebugValues/DebugValues.h"
-#include "Engine/GraphicsAPI/DirectX/DXSwapChain/DXSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
@@ -35,8 +35,8 @@
 #include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
 #include "Engine/Module/Render/RenderNode/Deferred/Lighting/PointLightingNode.h"
-#include "Engine/Module/Render/RenderNode/Deferred/Mesh/MeshNodeDeferred.h"
-#include "Engine/Module/Render/RenderNode/Deferred/SkinMesh/SkinMeshNodeDeferred.h"
+#include "Engine/Module/Render/RenderNode/Deferred/Mesh/SkinningMeshNodeDeferred.h"
+#include "Engine/Module/Render/RenderNode/Deferred/Mesh/StaticMeshNodeDeferred.h"
 
 #include "Engine/Debug/Output.h"
 
@@ -48,6 +48,9 @@
 #define COLOR3_SERIALIZER
 #define COLOR4_SERIALIZER
 #include <Engine/Assets/Json/JsonSerializer.h>
+
+#define DEFERRED_RENDERING
+//#define FORWARD_RENDERING
 
 SceneDemo::SceneDemo() = default;
 
@@ -93,24 +96,24 @@ void SceneDemo::initialize() {
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
-	parent = worldManager->create<StaticMeshInstance>(nullptr, "Player.gltf");
-	child = worldManager->create<StaticMeshInstance>(parent, "Sphere.obj");
+	parent = worldManager->create<StaticMeshInstance>(nullptr, false, "Player.gltf");
+	child = worldManager->create<StaticMeshInstance>(parent, false, "Sphere.obj");
 
-	animatedMeshInstance = worldManager->create<SkinningMeshInstance>(nullptr, "Player.gltf", "Idle", true);
+	animatedMeshInstance = worldManager->create<SkinningMeshInstance>(nullptr, false, "Player.gltf", "Idle", true);
 
-	parentCollider = worldManager->create<SphereCollider>(parent, 1.0f);
+	parentCollider = worldManager->create<SphereCollider>(parent, false, 1.0f);
 
-	childCollider = worldManager->create<SphereCollider>(child, 1.0f);
+	childCollider = worldManager->create<SphereCollider>(child, false, 1.0f);
 
-	singleCollider = worldManager->create<SphereCollider>(nullptr, 1.0f);
+	singleCollider = worldManager->create<SphereCollider>(nullptr, false, 1.0f);
 
-	single2Collider = worldManager->create<AABBCollider>(nullptr, Vector3{ 3.0f, 2.0f, 1.5f });
+	single2Collider = worldManager->create<AABBCollider>(nullptr, false, Vector3{ 3.0f, 2.0f, 1.5f });
 	single2Collider->get_transform().set_translate_x(-3.0f);
 
-	single3Collider = worldManager->create<AABBCollider>(nullptr, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
+	single3Collider = worldManager->create<AABBCollider>(nullptr, false, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, "test.json", 128);
+	particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, false, "test.json", 128);
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
@@ -133,77 +136,80 @@ void SceneDemo::initialize() {
 	audioPlayer = std::make_unique<AudioPlayer>();
 	audioPlayer->initialize("Alarm01.wav");
 
+#ifdef FORWARD_RENDERING
 	///
 	/// ここはForward
 	/// 
-//		// ---------------------- RT設定 ----------------------
-//	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
-//	renderTarget->initialize();
-//
-//	// ---------------------- StaticMesh ----------------------
-//	std::shared_ptr<Object3DNode> object3dNode;
-//	object3dNode = std::make_unique<Object3DNode>();
-//	object3dNode->initialize();
-//	object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
-//	//object3dNode->set_render_target(renderTarget);
-//	object3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
-//	//object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
-//
-//	/// ---------------------- SkinMesh ----------------------
-//	std::shared_ptr<SkinningMeshNode> skinningMeshNode;
-//	skinningMeshNode = std::make_unique<SkinningMeshNode>();
-//	skinningMeshNode->initialize();
-//	skinningMeshNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
-//	//skinningMeshNode->set_render_target(renderTarget);
-//	skinningMeshNode->set_config(
-//		RenderNodeConfig::ContinueDrawBefore |
-//		RenderNodeConfig::ContinueUseDpehtBefore |
-//		RenderNodeConfig::ContinueDrawAfter |
-//		RenderNodeConfig::ContinueUseDpehtAfter
-//	);
-//	//object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
-//
-//	// ---------------------- ParticleBillboard ----------------------
-//	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
-//	particleBillboardNode = std::make_unique<ParticleMeshNode>();
-//	particleBillboardNode->initialize();
-//	particleBillboardNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
-//	//particleBillboardNode->set_render_target(renderTarget);
-//	particleBillboardNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
-//
-//	// ---------------------- Sprite ----------------------
-//	std::shared_ptr<SpriteNode> spriteNode;
-//	spriteNode = std::make_unique<SpriteNode>();
-//	spriteNode->initialize();
-//	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
-//	spriteNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
-//
-//#ifdef _DEBUG
-//	// ---------------------- 線 ----------------------
-//	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
-//	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
-//	primitiveLineNode->initialize();
-//#endif // _DEBUG
-//
-//	// ---------------------- 生成 ----------------------
-//	renderPath = eps::CreateUnique<RenderPath>();
-//#ifdef _DEBUG
-//	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode,primitiveLineNode });
-//#else
-//	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
-//#endif // _DEBUG
+	// ---------------------- RT設定 ----------------------
+	std::shared_ptr<SingleRenderTarget> renderTarget = eps::CreateShared<SingleRenderTarget>();
+	renderTarget->initialize();
 
+	// ---------------------- StaticMesh ----------------------
+	std::shared_ptr<StaticMeshNodeForward> object3dNode;
+	object3dNode = std::make_unique<StaticMeshNodeForward>();
+	object3dNode->initialize();
+	object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+	//object3dNode->set_render_target(renderTarget);
+	object3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
+	//object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
+	/// ---------------------- SkinMesh ----------------------
+	std::shared_ptr<SkinningMeshNodeForward> skinningMeshNode;
+	skinningMeshNode = std::make_unique<SkinningMeshNodeForward>();
+	skinningMeshNode->initialize();
+	skinningMeshNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+	//skinningMeshNode->set_render_target(renderTarget);
+	skinningMeshNode->set_config(
+		RenderNodeConfig::ContinueDrawBefore |
+		RenderNodeConfig::ContinueUseDpehtBefore |
+		RenderNodeConfig::ContinueDrawAfter |
+		RenderNodeConfig::ContinueUseDpehtAfter
+	);
+	//object3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
+	// ---------------------- ParticleBillboard ----------------------
+	std::shared_ptr<ParticleMeshNode> particleBillboardNode;
+	particleBillboardNode = std::make_unique<ParticleMeshNode>();
+	particleBillboardNode->initialize();
+	particleBillboardNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
+	//particleBillboardNode->set_render_target(renderTarget);
+	particleBillboardNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
+	// ---------------------- Sprite ----------------------
+	std::shared_ptr<SpriteNode> spriteNode;
+	spriteNode = std::make_unique<SpriteNode>();
+	spriteNode->initialize();
+	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
+	spriteNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
+#ifdef _DEBUG
+	// ---------------------- 線 ----------------------
+	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
+	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
+	primitiveLineNode->initialize();
+#endif // _DEBUG
+
+	// ---------------------- 生成 ----------------------
+	renderPath = eps::CreateUnique<RenderPath>();
+#ifdef _DEBUG
+	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode,primitiveLineNode });
+#else
+	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
+#endif // _DEBUG
+#endif // FORWARD_RENDERING
+
+#ifdef DEFERRED_RENDERING
 	///
 	/// Deferredテスト用
 	/// 
 	auto deferredRenderTarget = DeferredAdaptor::CreateGBufferRenderTarget();
 
-	auto deferredMeshNode = eps::CreateShared<MeshNodeDeferred>();
+	auto deferredMeshNode = eps::CreateShared<StaticMeshNodeDeferred>();
 	deferredMeshNode->initialize();
 	deferredMeshNode->set_render_target(deferredRenderTarget);
 	deferredMeshNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
 
-	auto skinMeshNodeDeferred = eps::CreateShared<SkinMeshNodeDeferred>();
+	auto skinMeshNodeDeferred = eps::CreateShared<SkinningMeshNodeDeferred>();
 	skinMeshNodeDeferred->initialize();
 	skinMeshNodeDeferred->set_render_target(deferredRenderTarget);
 	skinMeshNodeDeferred->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
@@ -231,6 +237,7 @@ void SceneDemo::initialize() {
 #else
 	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,pointLightingNode });
 #endif // _DEBUG
+#endif // DEFERRED_RENDERING
 
 	//DxSwapChain::GetRenderTarget()->set_depth_stencil(nullptr);
 	//DxSwapChain::SetClearColor(Color4{ 0.0f,0.0f,0.0f,0.0f });
@@ -294,45 +301,48 @@ void SceneDemo::late_update() {
 }
 
 void SceneDemo::draw() const {
+#ifdef FORWARD_RENDERING
 	///
 	/// Forward
 	/// 
-//	renderPath->begin();
-//	camera3D->register_world_projection(1);
-//	camera3D->register_world_lighting(4);
-//	directionalLight->register_world(5);
-//	parent->draw();
-//	child->draw();
-//#ifdef _DEBUG
-//	camera3D->debug_draw_axis();
-//	animatedMeshInstance->draw_skeleton();
-//	DebugValues::ShowGrid();
-//#endif // _DEBUG
-//
-//	renderPath->next();
-//	camera3D->register_world_projection(1);
-//	camera3D->register_world_lighting(5);
-//	directionalLight->register_world(6);
-//
-//	animatedMeshInstance->draw();
-//
-//	renderPath->next();
-//	camera3D->register_world_projection(1);
-//	particleEmitter->draw();
-//
-//	renderPath->next();
-//	sprite->draw();
-//
-//	renderPath->next();
-//
-//#ifdef _DEBUG
-//	camera3D->register_world_projection(1);
-//	collisionManager->debug_draw3d();
-//	camera3D->debug_draw_frustum();
-//
-//	renderPath->next();
-//#endif // _DEBUG
+	renderPath->begin();
+	camera3D->register_world_projection(1);
+	camera3D->register_world_lighting(4);
+	directionalLight->register_world(5);
+	parent->draw();
+	child->draw();
+#ifdef _DEBUG
+	camera3D->debug_draw_axis();
+	animatedMeshInstance->draw_skeleton();
+	DebugValues::ShowGrid();
+#endif // _DEBUG
 
+	renderPath->next();
+	camera3D->register_world_projection(1);
+	camera3D->register_world_lighting(5);
+	directionalLight->register_world(6);
+
+	animatedMeshInstance->draw();
+
+	renderPath->next();
+	camera3D->register_world_projection(1);
+	particleEmitter->draw();
+
+	renderPath->next();
+	sprite->draw();
+
+	renderPath->next();
+
+#ifdef _DEBUG
+	camera3D->register_world_projection(1);
+	collisionManager->debug_draw3d();
+	camera3D->debug_draw_frustum();
+
+	renderPath->next();
+#endif // _DEBUG
+#endif // FORWARD_RENDERING
+
+#ifdef DEFERRED_RENDERING
 	///
 	/// Deferred
 	/// 
@@ -367,7 +377,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 #endif // _DEBUG
-
+#endif // DEFERRED_RENDERING
 }
 
 void SceneDemo::on_collision([[maybe_unused]] const BaseCollider* const other, Color4* object) {

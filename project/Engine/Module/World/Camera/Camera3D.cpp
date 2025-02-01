@@ -25,7 +25,7 @@ void Camera3D::initialize() {
 #ifdef _DEBUG
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
-	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, "CameraAxis.obj");
+	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, false, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
 	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
 	frustumExecutor = std::make_unique<PrimitiveGeometryDrawExecutor>("Frustum", 1);

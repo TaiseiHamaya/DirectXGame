@@ -124,7 +124,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp" />
     <ClCompile Include="Engine\Application\Framework.cpp" />
@@ -150,7 +150,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAsset.cpp" />
     <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationLibrary.cpp" />
     <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonLibrary.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshBuilder.cpp" />
     <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAssetBuilder.cpp" />
     <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAssetBuilder.cpp" />
@@ -158,7 +158,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryLibrary.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
@@ -189,7 +189,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DXSwapChain\DXSwapChain.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp" />
@@ -220,7 +220,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
@@ -248,7 +248,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\DeferredAdaptor.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h" />
     <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h" />
     <ClInclude Include="Engine\Application\Framework.h" />
@@ -277,7 +277,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\Animation\Skeleton\SkeletonAsset.h" />
     <ClInclude Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationLibrary.h" />
     <ClInclude Include="Engine\Assets\Animation\Skeleton\SkeletonLibrary.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.h" />
     <ClInclude Include="Engine\Assets\PolygonMesh\PolygonMeshBuilder.h" />
     <ClInclude Include="Engine\Assets\Animation\Skeleton\SkeletonAssetBuilder.h" />
     <ClInclude Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAssetBuilder.h" />
@@ -286,7 +286,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryLibrary.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
@@ -325,7 +325,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredBuffer.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer\VertexBuffer.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DXSwapChain\DXSwapChain.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
@@ -365,7 +365,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h" />
@@ -396,7 +396,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMesh.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

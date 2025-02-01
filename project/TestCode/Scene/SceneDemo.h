@@ -20,8 +20,8 @@ class RenderPath;
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 
-#include "Engine/Module/Render/RenderNode/Forward/Object3DNode/Object3DNode.h"
-#include "Engine/Module/Render/RenderNode/Forward/SkinningMesh/SkinningMeshNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h"
+#include "Engine/Module/Render/RenderNode/Forward/Mesh/SkinningMeshNodeForward.h"
 #include "Engine/Module/Render/RenderNode/2D/Sprite/SpriteNode.h"
 #include "Engine/Module/Render/RenderNode/Forward/Particle/ParticleBillboardNode/ParticleBillboardNode.h"
 #include "Engine/Module/Render/RenderNode/Forward/Particle/ParticleMeshNode/ParticleMeshNode.h"

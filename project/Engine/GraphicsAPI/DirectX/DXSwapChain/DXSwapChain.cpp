@@ -1,4 +1,4 @@
-#include "DXSwapChain.h"
+#include "DxSwapChain.h"
 
 #include <cassert>
 #include <format>

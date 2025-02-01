@@ -1,23 +1,24 @@
-#include "SkinningMeshNode.h"
+#include "StaticMeshNodeForward.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
-SkinningMeshNode::SkinningMeshNode() = default;
-SkinningMeshNode::~SkinningMeshNode() noexcept = default;
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
-void SkinningMeshNode::initialize() {
+StaticMeshNodeForward::StaticMeshNodeForward() = default;
+StaticMeshNodeForward::~StaticMeshNodeForward() noexcept = default;
+
+void StaticMeshNodeForward::initialize() {
 	depthStencil = DepthStencilValue::depthStencil;
 	create_pipeline_state();
-	pipelineState->set_name("SkinningMeshNode");
+	pipelineState->set_name("StaticMeshNodeForward");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void SkinningMeshNode::set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_) {
+void StaticMeshNodeForward::set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_) {
 	if (renderTarget_) {
 		renderTarget = renderTarget_;
 		resultSvtHandle = renderTarget_->offscreen_render().texture_gpu_handle();
@@ -32,15 +33,14 @@ void SkinningMeshNode::set_render_target(const std::shared_ptr<SingleRenderTarge
 	}
 }
 
-void SkinningMeshNode::create_pipeline_state() {
+void StaticMeshNodeForward::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0); // 0 :  transform
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 1); // 1 : camera
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : material
-	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 3 : texture
-	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 1); // 4 : bone
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 5 : camera
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 6 : light
+	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL); // 3 : texture
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 4 : Camera
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 5 : light
 	rootSignatureBuilder.sampler( // sampler
 		D3D12_SHADER_VISIBILITY_PIXEL,
 		0,
@@ -48,16 +48,13 @@ void SkinningMeshNode::create_pipeline_state() {
 	);
 
 	InputLayoutBuilder inputLayoutBuilder;
-	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0);
-	inputLayoutBuilder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0);
-
-	inputLayoutBuilder.add_element("WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1);
-	inputLayoutBuilder.add_element("INDEX", 0, DXGI_FORMAT_R32G32B32A32_UINT, 1);
+	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
+	inputLayoutBuilder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Forward/AnimatedMesh/AnimatedMesh.VS.hlsl",
+		"EngineResources/HLSL/Forward/Mesh/StaticMesh.VS.hlsl",
 		"EngineResources/HLSL/Forward/Forward.PS.hlsl"
 	);
 

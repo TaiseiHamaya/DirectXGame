@@ -1,4 +1,4 @@
-#include "../../Misc/PrimitiveGeometry/PrimitiveGeometry.hlsli"
+#include "Misc/PrimitiveGeometry/PrimitiveGeometry.hlsli"
 #include "Tools/PackNormalV2.hlsli"
 #include "Tools/PackA2.hlsli"
 #include "Tools/ToLinearZBuffer.hlsli"

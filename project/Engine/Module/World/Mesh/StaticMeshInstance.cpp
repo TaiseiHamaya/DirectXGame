@@ -131,10 +131,10 @@ void StaticMeshInstance::debug_gui() {
 		std::string treeNodeName;
 		auto meshData = mesh->mesh_data(i);
 		if (meshData) {
-			treeNodeName = meshData->materialName;
+			treeNodeName = meshData->materialName + "##" + std::to_string(i);
 		}
 		if (treeNodeName.empty()) {
-			treeNodeName = "UnknownMaterialName" + std::to_string(i);
+			treeNodeName = "UnknownMaterialName##" + std::to_string(i);
 		}
 		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 			if (TextureLibrary::TextureListGui(meshMaterial.textureName)) {
