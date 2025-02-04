@@ -25,7 +25,7 @@ SamplerState gSampler : register(s0);
 
 float4 main(VertexShaderOutput input) : SV_Target0 {
 	float4 output;
-	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
+	float3 transformedUV = mul(float3(input.texcoord, 1.0f), (float3x3)gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	float3 baseColor = textureColor.rgb * gMaterial.color;
 	

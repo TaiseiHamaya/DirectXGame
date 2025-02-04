@@ -26,9 +26,12 @@ SamplerState gSampler : register(s0);
 PixelShaderOutput main(VertexShaderOutput input) {
 	PixelShaderOutput output;
 	// texture color
-	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
+	float3 transformedUV = mul(float3(input.texcoord, 1.0f), (float3x3)gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
-	// Dither抜き
+	
+	if (textureColor.a <= 0.05f) {
+		discard;
+	}
 	
 	// 出力
 	output.albedoShading.xyz = textureColor.rgb * gMaterial.color.rgb;

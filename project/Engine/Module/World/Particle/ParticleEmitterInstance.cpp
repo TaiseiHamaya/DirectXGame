@@ -13,7 +13,8 @@
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
 	WorldInstance(),
 	numMaxParticle(MaxParticle),
-	jsonResource("Particle" / jsonFile) {
+	jsonResource("Particle" / jsonFile),
+	timer(0) {
 	drawType = static_cast<ParticleDrawType>(jsonResource.try_emplace<int>("DrawType"));
 	useResourceName = jsonResource.try_emplace<std::string>("useResourceName");
 	switch (drawType) {
