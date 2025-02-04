@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Library/Math/Vector2.h"
+#include <Library/Math/Vector2.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"

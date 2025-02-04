@@ -79,9 +79,15 @@ bool CollisionManager::erase_expired(std::list<std::weak_ptr<ColliderType>>& col
 template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
 void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderType>>& lhs, const std::list<std::weak_ptr<RColliderType>>& rhs) {
 	for (const std::weak_ptr<LColliderType>& colliderL : lhs) {
+		auto lLocked = colliderL.lock();
+		if (!lLocked->is_active()) {
+			continue;
+		}
 		for (const std::weak_ptr<RColliderType>& colliderR : rhs) {
-			auto lLocked = colliderL.lock();
 			auto rLocked = colliderR.lock();
+			if (!rLocked->is_active()) {
+				continue;
+			}
 			if constexpr (std::is_same_v<LColliderType, RColliderType>) {
 				if (lLocked == rLocked) {
 					break;
