@@ -23,3 +23,17 @@ jobs:
           
       - name: Build
         run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Platform=x64,Configuration=${{env.CONFIGURATION}}
+
+  notification:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          title: Build Result(${{ needs.build.result }})
+          username: GitHub
+          avatar_url: https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png
+          status: ${{ needs.build.result  }}
