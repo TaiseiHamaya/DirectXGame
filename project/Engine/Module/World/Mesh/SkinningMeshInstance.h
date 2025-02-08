@@ -70,5 +70,7 @@ private:
 
 	SkeletonData skeletonData; // SkeletonのTransform関連
 
+#ifdef _DEBUG
 	std::vector<StaticMeshInstance> boneMeshTest; // デバッグ用
+#endif // _DEBUG
 };

@@ -225,6 +225,12 @@ void SceneDemo::initialize() {
 	pointLightingNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 	pointLightingNode->set_gbuffers(deferredRenderTarget);
 
+	std::shared_ptr<ParticleMeshNode> particleMeshNode;
+	particleMeshNode = std::make_unique<ParticleMeshNode>();
+	particleMeshNode->initialize();
+	particleMeshNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::NoClearDepth);
+	particleMeshNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
 #ifdef _DEBUG
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
 	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
@@ -233,9 +239,9 @@ void SceneDemo::initialize() {
 
 	renderPath = eps::CreateUnique<RenderPath>();
 #ifdef _DEBUG
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,pointLightingNode,primitiveLineNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode,pointLightingNode,particleMeshNode,primitiveLineNode });
 #else
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,pointLightingNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode,pointLightingNode,particleMeshNode });
 #endif // _DEBUG
 #endif // DEFERRED_RENDERING
 
@@ -254,6 +260,7 @@ void SceneDemo::finalize() {
 void SceneDemo::begin() {
 	collisionManager->begin();
 	animatedMeshInstance->begin();
+	particleEmitter->begin();
 }
 
 void SceneDemo::update() {
@@ -369,6 +376,10 @@ void SceneDemo::draw() const {
 	pointLightingExecutor->draw_command(1);
 
 	renderPath->next();
+	camera3D->register_world_projection(1);
+	particleEmitter->draw();
+
+	renderPath->next();
 
 #ifdef _DEBUG
 	camera3D->register_world_projection(1);
@@ -447,6 +458,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("PointLight");
 	pointLight->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("Particle");
+	particleEmitter->debug_gui();
 	ImGui::End();
 
 	ImGuiLoadManager::ShowGUI();

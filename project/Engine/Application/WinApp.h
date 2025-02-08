@@ -38,7 +38,7 @@ private:
 	static inline std::unique_ptr<WinApp> instance = nullptr;
 
 private:
-
+	bool isEndApp{ false };
 	HWND hWnd;
 	HINSTANCE hInstance;
 

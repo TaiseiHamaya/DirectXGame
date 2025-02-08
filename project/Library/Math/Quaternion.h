@@ -147,6 +147,10 @@ public: // グローバルメンバ関数
 	/// <param name="t">媒介変数</param>
 	/// <returns>変換後Quaternion</returns>
 	static const Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept;
+
+	static const Quaternion SlerpFar(const Quaternion& internal, const Quaternion& terminal, float t) noexcept;
+
+	static const Quaternion SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, float t, const Vector3& axis = CVector3::UP) noexcept;
 };
 
 namespace CQuaternion {

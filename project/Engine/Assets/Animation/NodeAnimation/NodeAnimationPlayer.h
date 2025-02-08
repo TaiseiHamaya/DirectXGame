@@ -18,7 +18,7 @@ public:
 	__NON_COPYABLE_CLASS(NodeAnimationPlayer)
 
 public:
-	void update();
+	void update() noexcept;
 
 	Vector3 calculate_scale(const std::string& nodeName) const;
 	Quaternion calculate_rotate(const std::string& nodeName) const;
@@ -26,15 +26,16 @@ public:
 
 	void reset_animation(const std::string& animationName);
 
-	void play();
-	void stop();
-	void pause();
-	void restart();
-	bool is_end() const;
-	float parametric() const;
+	void play() noexcept;
+	void stop() noexcept;
+	void pause() noexcept;
+	void restart() noexcept;
+	bool is_end() const noexcept;
+	float parametric() const noexcept;
 
-	void set_loop(bool isLoop);
-	void animation_speed(float speed = 1.0f);
+	void set_loop(bool isLoop) noexcept;
+	void set_time_force(float timer) noexcept;
+	void animation_speed(float speed = 1.0f) noexcept;
 
 #ifdef _DEBUG
 public:

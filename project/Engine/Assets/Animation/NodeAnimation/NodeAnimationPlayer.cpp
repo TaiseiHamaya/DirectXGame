@@ -17,7 +17,7 @@ NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std:
 	reset_animation(animationName_);
 }
 
-void NodeAnimationPlayer::update() {
+void NodeAnimationPlayer::update() noexcept {
 	if (!isActive || !animation) {
 		return;
 	}
@@ -58,40 +58,44 @@ void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
 	}
 }
 
-void NodeAnimationPlayer::play() {
+void NodeAnimationPlayer::play() noexcept {
 	isActive = true;
 }
 
-void NodeAnimationPlayer::stop() {
+void NodeAnimationPlayer::stop() noexcept {
 	isActive = false;
 	timer = 0;
 }
 
-void NodeAnimationPlayer::pause() {
+void NodeAnimationPlayer::pause() noexcept {
 	isActive = false;
 }
 
-void NodeAnimationPlayer::restart() {
+void NodeAnimationPlayer::restart() noexcept {
 	stop();
 	play();
 }
 
-bool NodeAnimationPlayer::is_end() const {
+bool NodeAnimationPlayer::is_end() const noexcept {
 	return parametric() >= 1.0f;
 }
 
-float NodeAnimationPlayer::parametric() const {
+float NodeAnimationPlayer::parametric() const noexcept {
 	if (animation) {
 		return timer / animation->duration;
 	}
 	return 1.0f;
 }
 
-void NodeAnimationPlayer::set_loop(bool isLoop_) {
+void NodeAnimationPlayer::set_loop(bool isLoop_) noexcept {
 	isLoop = isLoop_;
 }
 
-void NodeAnimationPlayer::animation_speed(float speed) {
+void NodeAnimationPlayer::set_time_force(float timer_) noexcept {
+	timer = timer_;
+}
+
+void NodeAnimationPlayer::animation_speed(float speed) noexcept {
 	animationSpeed = speed;
 }
 

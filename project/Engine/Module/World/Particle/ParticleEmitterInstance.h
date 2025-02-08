@@ -111,6 +111,7 @@ public: // Member function
 	virtual void restart();
 
 	void emit();
+	void end_force();
 
 protected:
 	void emit_once();
@@ -132,6 +133,7 @@ public:
 protected: // Member variable
 	float timer;
 	bool isLoop;
+	bool isParentEmitter;
 	float duration;
 
 	ParticleDrawType drawType;

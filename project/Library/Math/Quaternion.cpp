@@ -217,6 +217,70 @@ const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion&
 	return result;
 }
 
+const Quaternion Quaternion::SlerpFar(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
+	float dot = Vector3::DotProduct(internal.xyz, terminal.xyz) + internal.w * terminal.w;
+	Quaternion internal_;
+	if (dot >= 0) {
+		dot *= -1;
+		internal_ = internal * -1;
+	}
+	else {
+		internal_ = internal;
+	}
+
+	float theta = std::acos(dot);
+
+	float sint = std::sin(theta);
+	Quaternion rResult;
+	Quaternion lResult;
+	if (dot >= 1.0f - 0.005f) {
+		rResult = internal_ * (1.0f - t);
+		lResult = terminal * t;
+	}
+	else {
+		rResult = internal_ * (std::sin((1.0f - t) * theta) / sint);
+		lResult = terminal * (std::sin(t * theta) / sint);
+	}
+	Quaternion result;
+	result.xyz = rResult.xyz + lResult.xyz;
+	result.w = rResult.w + lResult.w;
+	return result;
+}
+
+const Quaternion Quaternion::SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, float t, const Vector3& axis) noexcept {
+	Vector3 internalV = CVector3::FORWARD * internal;
+	Vector3 terminalV = CVector3::FORWARD * terminal;
+	Vector3 cross = Vector3::CrossProduct(internalV, terminalV);
+
+	Quaternion internal_;
+	if (std::signbit(Vector3::DotProduct(cross, axis)) != std::signbit(internal.w)) {
+		internal_ = internal * -1;
+	}
+	else {
+		internal_ = internal;
+	}
+
+	float dot = Vector3::DotProduct(internal_.xyz, terminal.xyz) + internal_.w * terminal.w;
+
+	float theta = std::acos(dot);
+
+	float sint = std::sin(theta);
+	Quaternion rResult;
+	Quaternion lResult;
+	if (dot >= 1.0f - 0.005f) {
+		rResult = internal_ * (1.0f - t);
+		lResult = terminal * t;
+	}
+	else {
+		rResult = internal_ * (std::sin((1.0f - t) * theta) / sint);
+		lResult = terminal * (std::sin(t * theta) / sint);
+	}
+	Quaternion result;
+	result.xyz = rResult.xyz + lResult.xyz;
+	result.w = rResult.w + lResult.w;
+	return result;
+}
+
 const Vector3 operator*(const Vector3& vector, const Quaternion& quaternion) {
 	Quaternion vectorQuaternion = Quaternion{ vector, 0.0f };
 	return (quaternion * vectorQuaternion * quaternion.inverse()).xyz;

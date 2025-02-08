@@ -176,8 +176,8 @@ void WinApp::ShowAppWindow() {
 	Console("Show application window.\n");
 }
 
-bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
-	if (instance->msg.message == WM_QUIT) { // ×ボタンが押されたら終わる
+bool WinApp::IsEndApp() {
+	if (instance->isEndApp) { // ×ボタンが押されたら終わる
 		return true;
 	}
 	if (SceneManager::IsEndProgram()) {
@@ -187,7 +187,6 @@ bool WinApp::IsEndApp() {	// プロセスメッセージ取得用
 }
 
 void WinApp::ProcessMessage() {
-	// windowの×ボタンが押されるまでループ
 	while (true) {
 		// windowにメッセージが来たら最優先で処理
 		if (PeekMessage(&instance->msg, NULL, 0, 0, PM_REMOVE)) {
@@ -196,6 +195,11 @@ void WinApp::ProcessMessage() {
 		}
 		else {
 			return;
+		}
+		switch (instance->msg.message) {
+		case WM_QUIT: // windowの×ボタンが押されたら通知
+			instance->isEndApp = true;
+			break;
 		}
 	}
 }

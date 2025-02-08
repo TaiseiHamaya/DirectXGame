@@ -33,6 +33,7 @@ ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile,
 		break;
 	}
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(isLoop));
+	jsonResource.register_value(__JSON_RESOURCE_REGISTER(isParentEmitter));
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(duration));
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(emission));
 	jsonResource.register_value(__JSON_RESOURCE_REGISTER(particleInit));
@@ -206,8 +207,8 @@ void ParticleEmitterInstance::emit_once() {
 	// 生成
 	auto& newParticle = particles.emplace_back(
 		world_manager()->create<Particle>(
-			nullptr, false,
-			world_position() + offset,
+			isParentEmitter ? this : nullptr , false,
+			isParentEmitter ? offset : world_position() + offset,
 			std::lerp(particleInit.lifetime.min, particleInit.lifetime.max, RandomEngine::Random01Closed()),
 			direction * speed,
 			Vector3::LerpElement(particleInit.acceleration.min, particleInit.acceleration.max,
