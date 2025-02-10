@@ -1,8 +1,9 @@
 #pragma once
 
 #include <d3d12.h>
-#include <set>
 #include <wrl/client.h>
+
+#include <list>
 
 class DxDescriptorHeap {
 protected:
@@ -26,7 +27,7 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 	D3D12_CPU_DESCRIPTOR_HANDLE heapStartCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE heapStartGPU;
-	std::set<std::uint32_t> releasedHeap;
+	std::list<std::uint32_t> releasedHeap;
 	std::uint32_t nowHeapIndex;
 	UINT incrementSize;
 

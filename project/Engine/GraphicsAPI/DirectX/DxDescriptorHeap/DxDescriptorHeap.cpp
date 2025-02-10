@@ -21,14 +21,14 @@ const std::uint32_t DxDescriptorHeap::use_heap_index() noexcept {
 		return nowHeapIndex++;
 	}
 	else {
-		std::uint32_t next = *releasedHeap.begin();
-		releasedHeap.erase(releasedHeap.begin());
+		std::uint32_t next = releasedHeap.front();
+		releasedHeap.pop_front();
 		return next;
 	}
 }
 
 void DxDescriptorHeap::release_heap(std::uint32_t index) {
-	releasedHeap.emplace(index);
+	releasedHeap.emplace_front(index);
 }
 
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT heapSize, bool shaderVisible) {

@@ -41,14 +41,16 @@ void ShaderCompiler::initialize() {
 	LPCWSTR arguments[] = { // 追加パラメータ
 		filePath.c_str(),
 		L"-E", L"main",
-		L"/I", L"./EngineResources/HLSL/",
+		L"-I", L"./EngineResources/HLSL/",
 		L"-T", profile.c_str(),
 #ifdef _DEBUG
 		L"-Zi", L"-Qembed_debug",
 		L"-Od",
+#else
+		L"-O2",
 #endif // _DEBUG
-		L"-Zpr"
-		//L"/enable_unbounded_descriptor_tables"
+		L"-Zpr",
+		L"-WX"
 	};
 	Microsoft::WRL::ComPtr<IDxcResult> shaderResult = nullptr;
 	hr = dxcCompiler->Compile( // ここでコンパイル
