@@ -1,6 +1,7 @@
 #include "Misc/PrimitiveGeometry/PrimitiveGeometry.hlsli"
 #include "Tools/PackNormalV2.hlsli"
 #include "Tools/PackA2.hlsli"
+#include "Tools/PackShininess.hlsli"
 #include "Tools/ToLinearZBuffer.hlsli"
 
 struct PointLight {
@@ -18,7 +19,7 @@ struct Camera {
 };
 
 Texture2D<float4> gAlbedoShading : register(t0);
-Texture2D<float3> gNormal : register(t1);
+Texture2D<float4> gNormal : register(t1);
 Texture2D<float> gDepth : register(t2);
 SamplerState gSampler : register(s0);
 
@@ -32,16 +33,16 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	
 	// sampling
 	float4 albedoShading = gAlbedoShading.Sample(gSampler, texcoord.xy);
-	float3 normalViewShininess = gNormal.Sample(gSampler, texcoord.xy);
+	float4 normalViewShininess = gNormal.Sample(gSampler, texcoord.xy);
 	float ndcDepth = gDepth.Sample(gSampler, texcoord.xy);
 	
 	// unpack
 	float3 albedo = albedoShading.rgb;
 	uint shadingType = UnpackA2bit(albedoShading.a);
 	float3 normal = mul(UnpackingNormaV2(normalViewShininess.xy), (float3x3)gCamera.viewInv);
-	float shininess = normalViewShininess.z;
+	float shininess = UnpackShininess(normalViewShininess.zw);
 	//float3 normal = normalize(normalShininess.xyz);
-	float3 ndc = float3(texcoord * 2 - 1, ndcDepth);
+	float3 ndc = float3(texcoord.xy * 2 - 1, ndcDepth);
 	ndc.y *= -1;
 	float4 view = mul(float4(ndc, 1.0f), gCamera.projInv);
 	float4 worldH = mul(view, gCamera.viewInv);
