@@ -25,7 +25,7 @@ using GBuffersType = MultiRenderTarget<NUM_GBUFFER>;
 /// </summary>
 constexpr const std::array<DXGI_FORMAT, NUM_GBUFFER> DXGI_FORMAT_LIST = {
 	DXGI_FORMAT_R10G10B10A2_UNORM,
-	DXGI_FORMAT_R11G11B10_FLOAT
+	DXGI_FORMAT_R10G10B10A2_UNORM,
 };
 
 /// <summary>

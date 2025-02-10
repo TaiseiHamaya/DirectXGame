@@ -1,6 +1,7 @@
 #include "Deferred.hlsli"
 #include "Tools/PackNormalV2.hlsli"
 #include "Tools/PackA2.hlsli"
+#include "Tools/PackShininess.hlsli"
 
 struct Material {
 	float3 color;
@@ -11,7 +12,7 @@ struct Material {
 
 struct PixelShaderOutput {
 	float4 albedoShading : SV_Target0; // 10bit*3+2bit unorm(xyz : Albedo, w : ShadingType)
-	float3 normalShininess : SV_Target1; // 11bit*2+10bit float(xy : ViewNormalPacked, z : Shininess)
+	float4 normalShininess : SV_Target1; // 11bit*2+10bit float(xy : ViewNormalPacked, z : Shininess)
 };
 
 struct Camera {
@@ -37,6 +38,6 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	output.albedoShading.xyz = textureColor.rgb * gMaterial.color.rgb;
 	output.albedoShading.w = PackA2bit(gMaterial.lightingType); // packing
 	output.normalShininess.xy = PackingNormalV2(input.normal);
-	output.normalShininess.z = gMaterial.shininess;
+	output.normalShininess.zw = PackShininess(gMaterial.shininess);
 	return output;
 }
