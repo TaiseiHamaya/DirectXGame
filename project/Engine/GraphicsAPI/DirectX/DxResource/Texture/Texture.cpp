@@ -35,6 +35,10 @@ const std::uint32_t& Texture::get_texture_height() const noexcept {
 	return height;
 }
 
+const std::optional<std::uint32_t>& Texture::index() const {
+	return heapIndex;
+}
+
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load(const std::filesystem::path& filePath) {
 	Console("Start load texture. file-\'{}\'\n", filePath.string());
 	auto loadData = LoadTextureData(filePath); // ロード
@@ -70,7 +74,12 @@ void Texture::create_resource_view() {
 }
 
 void Texture::set_name(const std::string& fileName) {
-	resource->SetName(ConvertString(std::format("Texture-SRV{}({})", heapIndex.value(), fileName)).c_str());
+	name_ = fileName;
+	resource->SetName(ConvertString(std::format("Texture-SRV{}({})", heapIndex.value(), name_)).c_str());
+}
+
+const std::string& Texture::name() const {
+	return name_;
 }
 
 void Texture::create_texture_resource(const DirectX::TexMetadata& metadata) {

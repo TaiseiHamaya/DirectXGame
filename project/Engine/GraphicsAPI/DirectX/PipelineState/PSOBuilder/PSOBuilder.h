@@ -23,12 +23,13 @@ public:
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> build();
 
 public:
-	void add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister);
-	void add_structured(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1);
-	void add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1);
+	void add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRegister, UINT space = 0);
+	void add_structured(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1, UINT space = 0);
+	void add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1, UINT space = 0);
 	void sampler(
 		D3D12_SHADER_VISIBILITY visibility,
-		UINT shaderRegister,
+		UINT shaderRegister, 
+		UINT space = 0,
 		D3D12_FILTER filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
 		D3D12_TEXTURE_ADDRESS_MODE textureMore = D3D12_TEXTURE_ADDRESS_MODE_WRAP,
 		D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_NEVER

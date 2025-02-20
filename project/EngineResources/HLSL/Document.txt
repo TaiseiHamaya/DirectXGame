@@ -1,6 +1,6 @@
 Spaceメモ
 
-用途ごとにSpace理由を行う
+用途ごとにSpace割当を行う
 VS
 space0 : Mesh
 space1 : Camera

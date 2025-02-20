@@ -38,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name="name">登録名</param>
 	/// <param name="data">ロード済みデータ</param>
-	static void Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset>& data);
+	static void Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset> data);
 
 #ifdef _DEBUG
 	/// <summary>
@@ -46,7 +46,7 @@ public:
 	/// </summary>
 	/// <param name="current">現在選択中のAnimation名</param>
 	/// <returns>currentが変更されたかどうか</returns>
-	//static bool AnimationListGui(std::string& current);
+	static bool AnimationListGui(std::string& current);
 #endif // _DEBUG
 
 private:

@@ -100,7 +100,7 @@ void DxSwapChain::create_render_target() {
 
 void DxSwapChain::swap_screen() {
 #ifdef _DEBUG
-	if (WorldClock::IsUnlimitedFPS()) {
+	if (EngineSettings::isUnlimitedRefreshRate) {
 		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 	}
 	else {

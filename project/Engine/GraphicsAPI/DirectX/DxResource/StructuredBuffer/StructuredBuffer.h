@@ -1,19 +1,12 @@
 #pragma once
 
 #include "../DxResource.h"
+#include "./StructuredConcept.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 #include <optional>
 #include <span>
-#include <type_traits>
-
-template<typename T>
-concept StructuredBufferType =
-std::same_as<T, std::remove_cvref_t<T>> && // CV修飾、Reference修飾されていない
-// クラス、算術型
-(std::is_class_v<T> || std::is_arithmetic_v<T>);
-
 
 template<StructuredBufferType T>
 class StructuredBuffer : public  DxResource {
@@ -24,15 +17,16 @@ public:
 public:
 	StructuredBuffer(const StructuredBuffer&) = delete;
 	StructuredBuffer& operator=(const StructuredBuffer&) = delete;
-	StructuredBuffer(StructuredBuffer&& rhs) noexcept = default;
-	StructuredBuffer& operator=(StructuredBuffer&& rhs) noexcept = default;
+	StructuredBuffer(StructuredBuffer&&) noexcept = default;
+	StructuredBuffer& operator=(StructuredBuffer&&) noexcept = default;
 
 public:
 	void initialize(uint32_t arraySize_);
 
 public:
-	std::span<T>& get_array();
-	const std::span<T>& get_carray() const;
+	T& operator[](uint32_t i);
+	const T& operator[](uint32_t i) const;
+	const uint32_t& size() const { return arraySize; }
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_handle_gpu() const { return gpuHandle; };
 
 private:
@@ -47,8 +41,7 @@ private:
 	uint32_t arraySize{ 0 };
 	std::span<T> span;
 
-	std::optional<std::uint32_t> heapIndex;
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle{};
+	std::optional<uint32_t> heapIndex;
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 };
 
@@ -69,24 +62,24 @@ inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
 }
 
 template<StructuredBufferType T>
-inline std::span<T>& StructuredBuffer<T>::get_array() {
-	return span;
+inline T& StructuredBuffer<T>::operator[](uint32_t i) {
+	return span[i];
 }
 
 template<StructuredBufferType T>
-inline const std::span<T>& StructuredBuffer<T>::get_carray() const {
-	return span;
+inline const T& StructuredBuffer<T>::operator[](uint32_t i) const {
+	return span[i];
 }
 
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::create_resource() {
-	resource = CreateBufferResource(arraySize * sizeof(T));
+	resource = CreateBufferResource(sizeof(T) * arraySize);
 }
 
 template<StructuredBufferType T>
 inline void StructuredBuffer<T>::create_srv() {
 	heapIndex = SRVDescriptorHeap::UseHeapIndex();
-	cpuHandle = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());
 	gpuHandle = SRVDescriptorHeap::GetGPUHandle(heapIndex.value());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};

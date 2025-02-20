@@ -32,24 +32,30 @@ public: // -------------------- T, T*, unique<T>からの暗黙代入 ----------
 	};
 
 public: // -------------------- 型変換付きキャスト --------------------
-	template<std::convertible_to<T> U>
+	template<typename U>
+		requires std::convertible_to<U*, T*>
 	Reference(Reference<U> rhs) noexcept { reference = rhs.ptr(); };
-	template<std::convertible_to<T> U>
+	template<typename U>
+		requires std::convertible_to<U*, T*>
 	Reference(U* const rhs) noexcept { reference = rhs; };
-	template<std::convertible_to<T> U>
+	template<typename U>
+		requires std::convertible_to<U*, T*>
 	Reference(const std::unique_ptr<U>& rhs) noexcept { reference = rhs.get(); };
-	template<std::convertible_to<T> U>
 
+	template<typename U>
+		requires std::convertible_to<U*, T*>
 	Reference& operator=(Reference<U> rhs) noexcept {
 		reference = rhs.ptr();
 		return *this;
 	};
-	template<std::convertible_to<T> U>
-		Reference& operator=(U* const rhs) noexcept {
+	template<typename U>
+		requires std::convertible_to<U*, T*>
+	Reference& operator=(U* const rhs) noexcept {
 		reference = rhs;
 		return *this;
 	};
-	template<std::convertible_to<T> U>
+	template<typename U>
+		requires std::convertible_to<U*, T*>
 	Reference& operator=(const std::unique_ptr<U>& rhs) noexcept {
 		reference = rhs.get();
 		return *this;

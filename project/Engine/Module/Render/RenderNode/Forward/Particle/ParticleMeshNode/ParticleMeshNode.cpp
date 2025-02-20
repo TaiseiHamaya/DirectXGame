@@ -22,7 +22,7 @@ void ParticleMeshNode::create_pipeline_state() {
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : texture
 	rootSignatureBuilder.sampler( // sampler
 		D3D12_SHADER_VISIBILITY_PIXEL,
-		0,
+		0, 0,
 		D3D12_FILTER_ANISOTROPIC
 	);
 

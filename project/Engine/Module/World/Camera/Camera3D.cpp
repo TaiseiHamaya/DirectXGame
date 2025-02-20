@@ -7,7 +7,6 @@
 #include "../WorldManager.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/Material/Material.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -28,7 +27,10 @@ void Camera3D::initialize() {
 	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, false, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
 	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
-	frustumExecutor = std::make_unique<PrimitiveGeometryDrawExecutor>("Frustum", 1);
+	frustumExecutor = 
+		std::make_unique<PrimitiveGeometryDrawExecutor>(
+			PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 1
+		);
 #endif // _DEBUG
 
 	update_affine();
@@ -55,31 +57,34 @@ void Camera3D::transfer() {
 		// デバッグ表示に使用するモデルのWorldMatrixの更新
 		// ViewMatrixの更新
 		debugViewAffine = debugCamera->world_affine().inverse_fast();
-		vpBuffers.get_data()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
-	}
-	else {
-		vpBuffers.get_data()->viewProjection = vpMatrix;
 	}
 
 	if (isValidDebugCamera && useDebugCameraLighting) {
+		lightingBuffer.get_data()->viewInv = debugViewAffine.inverse_fast().to_matrix();
+		lightingBuffer.get_data()->position = debugCamera->world_position();
+		lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+	}
+	else {
+		lightingBuffer.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
+		lightingBuffer.get_data()->position = world_position();
+		lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+	}
+
+	if (isValidDebugCamera) {
 		vpBuffers.get_data()->view = debugViewAffine.to_matrix();
-		worldPosition.get_data()->viewInv = debugViewAffine.inverse_fast().to_matrix();
-		worldPosition.get_data()->position = debugCamera->world_position();
-		worldPosition.get_data()->projInv = projectionMatrix.inverse();
+		vpBuffers.get_data()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
 	}
 	else {
 		vpBuffers.get_data()->view = viewAffine.to_matrix();
-		worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
-		worldPosition.get_data()->position = world_position();
-		worldPosition.get_data()->projInv = projectionMatrix.inverse();
+		vpBuffers.get_data()->viewProjection = vpMatrix;
 	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
 	vpBuffers.get_data()->view = viewAffine.to_matrix();
 	vpBuffers.get_data()->viewProjection = viewAffine.to_matrix() * projectionMatrix;
-	worldPosition.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
-	worldPosition.get_data()->position = world_position();
-	worldPosition.get_data()->projInv = projectionMatrix.inverse();
+	lightingBuffer.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
+	lightingBuffer.get_data()->position = world_position();
+	lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
 #endif // _DEBUG
 }
 
@@ -93,7 +98,7 @@ void Camera3D::register_world_projection(uint32_t index) {
 void Camera3D::register_world_lighting(uint32_t index) {
 	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
-		index, worldPosition.get_resource()->GetGPUVirtualAddress()
+		index, lightingBuffer.get_resource()->GetGPUVirtualAddress()
 	);
 }
 
@@ -203,21 +208,24 @@ void Camera3D::debug_camera() {
 	}
 	// 位置更新
 	debugCamera->get_transform().set_translate(offset * debugCamera->get_transform().get_quaternion());
+
+
+	if (isValidDebugCamera && offset.z < -0.001) {
+		debugCameraCenter->set_draw(true);
+	}
+	else {
+		debugCameraCenter->set_draw(false);
+	}
 }
 
 void Camera3D::debug_draw_axis() {
-	if (isValidDebugCamera) {
-		if (offset.z < -0.001) {
-			debugCameraCenter->transfer();
-			debugCameraCenter->draw();
-		}
-	}
 }
 
 void Camera3D::debug_draw_frustum() const {
 	if (isValidDebugCamera && frustumExecutor) {
-		frustumExecutor->write_to_buffer(0, world_affine().to_matrix());
-		frustumExecutor->draw_command(1);
+		frustumExecutor->begin();
+		frustumExecutor->write_to_buffer(world_affine().to_matrix());
+		frustumExecutor->draw_command();
 	}
 }
 

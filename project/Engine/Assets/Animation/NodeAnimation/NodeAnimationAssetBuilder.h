@@ -7,6 +7,12 @@
 class NodeAnimationAsset;
 
 class NodeAnimationAssetBuilder final : public BaseAssetBuilder {
+private:
+	struct BuildData {
+		std::string name;
+		std::shared_ptr<NodeAnimationAsset> asset;
+	};
+
 public:
 	NodeAnimationAssetBuilder(const std::filesystem::path& filePath_);
 	~NodeAnimationAssetBuilder() = default;
@@ -21,6 +27,6 @@ public:
 	void transfer() override;
 
 private:
-	std::shared_ptr<NodeAnimationAsset> nodeAnimationData;
+	std::vector<BuildData> nodeAnimationData;
 };
 

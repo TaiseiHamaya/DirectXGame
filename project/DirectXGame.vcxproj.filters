@@ -318,12 +318,6 @@
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\Material\Material.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\TransformMatrix\TransformMatrix.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClCompile>
@@ -642,6 +636,27 @@
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -682,12 +697,6 @@
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\ConstantBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\Material\Material.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\TransformMatrix\TransformMatrix.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
@@ -1083,6 +1092,30 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TestCode\GameDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\MdStructuredBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredConcept.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Profiler\TimestampProfiler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Profiler\WorldClockProfiler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

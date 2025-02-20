@@ -18,7 +18,7 @@ public:
 	static DebugValues& GetInstance();
 
 public:
-	static void ShowGrid();
+	static Reference<const StaticMeshInstance> GetGridInstance();
 
 private:
 	std::unique_ptr<StaticMeshInstance> gridMesh = nullptr;

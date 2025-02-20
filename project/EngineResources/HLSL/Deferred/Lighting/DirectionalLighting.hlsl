@@ -24,6 +24,7 @@ SamplerState gSampler : register(s0);
 StructuredBuffer<DirectionalLight> gDirectionalLight : register(t3);
 ConstantBuffer<Camera> gCamera : register(b0);
 
+[earlydepthstencil]
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output;
 	

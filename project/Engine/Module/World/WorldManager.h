@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <Library/Utility/Template/Reference.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
@@ -15,6 +16,9 @@ public:
 	WorldManager();
 	~WorldManager();
 
+	__NON_COPYABLE_CLASS(WorldManager)
+
+public:
 	void update_matrix();
 
 	void reset_depth(Reference<WorldInstance> instance, uint32_t after);

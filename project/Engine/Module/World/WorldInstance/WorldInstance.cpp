@@ -15,9 +15,8 @@ WorldInstance::~WorldInstance() {
 	}
 }
 
-WorldInstance& WorldInstance::operator=(WorldInstance&&) = default;
-
-WorldInstance::WorldInstance(WorldInstance&&) = default;
+//WorldInstance& WorldInstance::operator=(WorldInstance&&) = default;
+//WorldInstance::WorldInstance(WorldInstance&&) = default;
 
 void WorldInstance::update_affine() {
 	if (!isActive) {

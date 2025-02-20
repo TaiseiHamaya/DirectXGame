@@ -8,35 +8,22 @@
 #include <Library/Math/Transform2D.h>
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
 class Material;
 class PolygonMesh;
 class Texture;
 class TransformMatrix;
-enum class LighingType;
 
 class StaticMeshInstance : public WorldInstance {
 	friend class SkinningMeshInstance;
 public:
-	struct PolygonMeshMaterial {
-		PolygonMeshMaterial();
-	public:
-		void write_buffer();
-		Reference<const Material> buffer() const;
-
-	private:
-		std::unique_ptr<Material> materialBuffer;
-
-	public:
+	struct Material {
 		std::shared_ptr<const Texture> texture;
 		Color3 color;
 		Transform2D uvTransform;
-		LighingType lightingType;
-		float shininess;
-
-#ifdef _DEBUG
-		std::string textureName;
-#endif // _DEBUG
+		LighingType lightingType{ LighingType::HalfLambert };
+		float shininess{ 50 };
 	};
 
 public:
@@ -52,9 +39,6 @@ private:
 	StaticMeshInstance& operator=(const StaticMeshInstance&) = delete;
 
 public:
-	virtual void transfer() noexcept;
-	virtual void draw() const;
-
 	void reset_mesh(const std::string& meshName_);
 
 	/// <summary>
@@ -62,11 +46,13 @@ public:
 	/// </summary>
 	void default_material();
 
-protected:
-	struct MaterialDataRef;
 
-public:
-	std::vector<PolygonMeshMaterial>& get_materials();
+	std::vector<Material>& get_materials();
+	const std::vector<Material>& get_materials() const;
+	const uint32_t& layer() const { return renderLayer; };
+	const std::string& mesh_id() const { return meshName; };
+	virtual bool is_draw() const;
+	void set_draw(bool flag) { isDraw = flag; }
 
 protected:
 	void set_texture(const std::string& name, int index = 0);
@@ -80,14 +66,16 @@ protected:
 	bool isDraw = true;
 
 private:
-	std::shared_ptr<const PolygonMesh> mesh;
+	std::vector<Material> materials;
 
-	std::unique_ptr<TransformMatrix> transformMatrix;
+	// Feature(RenderLayer)
+	uint32_t renderLayer{ 0 };
 
-	std::vector<PolygonMeshMaterial> meshMaterials;
+	// HOTFIX : stringだとメモリ量が多いので、識別ID形式にする
+	std::string meshName;
 
 #ifdef _DEBUG
 private:
-	std::string meshName;
+	std::shared_ptr<const PolygonMesh> mesh;
 #endif // _DEBUG
 };

@@ -33,12 +33,12 @@ public:
 	// ------------------operator------------------
 	inline constexpr Vector3& operator=(const Vector3& vec) noexcept = default;
 	inline constexpr Vector3& operator=(Vector3&& vec) noexcept = default;
-	inline constexpr const Vector3 operator+(void) const noexcept;
-	inline constexpr const Vector3 operator-(void) const noexcept;
-	inline constexpr const Vector3 operator+(const Vector3& opr) const noexcept;
-	inline constexpr const Vector3 operator-(const Vector3& opr) const noexcept;
-	inline constexpr const Vector3 operator*(float times) const noexcept;
-	inline constexpr const Vector3 operator/(float times) const noexcept;
+	inline constexpr Vector3 operator+(void) const noexcept;
+	inline constexpr Vector3 operator-(void) const noexcept;
+	inline constexpr Vector3 operator+(const Vector3& opr) const noexcept;
+	inline constexpr Vector3 operator-(const Vector3& opr) const noexcept;
+	inline constexpr Vector3 operator*(float times) const noexcept;
+	inline constexpr Vector3 operator/(float times) const noexcept;
 	inline constexpr Vector3& operator+=(const Vector3& opr) noexcept;
 	inline constexpr Vector3& operator-=(const Vector3& opr) noexcept;
 	inline constexpr Vector3& operator*=(float times) noexcept;
@@ -62,7 +62,7 @@ public:
 	/// ベクトルの正規化
 	/// </summary>
 	/// <returns></returns>
-	const Vector3 normalize(void) const noexcept(false);
+	Vector3 normalize(void) const noexcept(false);
 
 	/// <summary>
 	/// ベクトルの正規化
@@ -70,7 +70,7 @@ public:
 	/// <param name="tolerance">lengthの許容値</param>
 	/// <param name="disapproval">範囲外だった場合の戻り値</param>
 	/// <returns></returns>
-	const Vector3 normalize_safe(float tolerance = 0.0001f, const Vector3& disapproval = { 1,0,0 }) const noexcept;
+	Vector3 normalize_safe(float tolerance = 0.0001f, const Vector3& disapproval = { 1,0,0 }) const noexcept;
 
 public:
 	// ------------------static関数------------------
@@ -106,42 +106,42 @@ public:
 	/// ベクトルの正規化
 	/// <param name="vector1">終点の座標</param>
 	/// </summary>
-	static const Vector3 Normalize(const Vector3& vector);
+	static Vector3 Normalize(const Vector3& vector);
 
 	/// <summary>
 	/// ベクトルの正規化
 	/// <param name="vector1">始点の座標</param>
 	/// <param name="vector2">終点の座標</param>
 	/// </summary>
-	static const Vector3 Normalize(const Vector3& vectorFrom, const Vector3& vectorTo);
+	static Vector3 Normalize(const Vector3& vectorFrom, const Vector3& vectorTo);
 
 	/// <summary>
 	/// 2つのベクトルを加算
 	/// <param name="vector1">足されるベクトル</param>
 	/// <param name="vector2">足すベクトル</param>
 	/// </summary>
-	static constexpr const Vector3 Add(const Vector3& vector1, const Vector3& vector2) noexcept;
+	static constexpr Vector3 Add(const Vector3& vector1, const Vector3& vector2) noexcept;
 
 	/// <summary>
 	/// 2つのベクトルを減算
 	/// <param name="vector1">引かれるベクトル</param>
 	/// <param name="vector2">引くベクトル</param>
 	/// </summary>
-	static constexpr const Vector3 Subtract(const Vector3& vector1, const Vector3& vector2) noexcept;
+	static constexpr Vector3 Subtract(const Vector3& vector1, const Vector3& vector2) noexcept;
 
 	/// <summary>
 	/// ベクトルを定数倍
 	/// <param name="vector">乗算されるベクトル</param>
 	/// <param name="times">係数</param>
 	/// </summary>
-	static constexpr const Vector3 Multiply(const Vector3& vector, const float& times) noexcept;
+	static constexpr Vector3 Multiply(const Vector3& vector, const float& times) noexcept;
 
 	/// <summary>
 	/// ベクトルを定数倍
 	/// <param name="vector1">乗算されるベクトル</param>
 	/// <param name="times">係数</param>
 	/// </summary>
-	static constexpr const Vector3 Multiply(const Vector3& vector, const Vector3& times) noexcept;
+	static constexpr Vector3 Multiply(const Vector3& vector, const Vector3& times) noexcept;
 
 	/// <summary>
 	/// 2つの位置ベクトルの間の座標
@@ -149,9 +149,9 @@ public:
 	/// <param name="to">終点の位置ベクトル</param>
 	/// <param name="t">割合T</param>
 	/// </summary>
-	static constexpr const Vector3 Lerp(const Vector3& from, const Vector3& to, float t) noexcept;
+	static constexpr Vector3 Lerp(const Vector3& from, const Vector3& to, float t) noexcept;
 
-	static constexpr const Vector3 LerpElement(const Vector3& from, const Vector3& to, const Vector3& t) noexcept;
+	static constexpr Vector3 LerpElement(const Vector3& from, const Vector3& to, const Vector3& t) noexcept;
 
 	/// <summary>
 	/// 2次ベジエ曲線
@@ -168,7 +168,7 @@ public:
 	/// </summary>
 	/// <param name="vector">変化させるベクトル</param>
 	/// <returns></returns>
-	static const Vector3 Abs(const Vector3& vector) noexcept;
+	static Vector3 Abs(const Vector3& vector) noexcept;
 
 	/// <summary>
 	/// ベクトル射影
@@ -218,27 +218,27 @@ inline constexpr Vector3::Vector3(float x, float y, float z) noexcept :
 	z(z) {
 }
 
-inline constexpr const Vector3 Vector3::operator+() const noexcept {
+inline constexpr Vector3 Vector3::operator+() const noexcept {
 	return *this;
 }
 
-inline constexpr const Vector3 Vector3::operator-() const noexcept {
+inline constexpr Vector3 Vector3::operator-() const noexcept {
 	return { -x, -y, -z };
 }
 
-inline constexpr const Vector3 Vector3::operator+(const Vector3& opr) const noexcept {
+inline constexpr Vector3 Vector3::operator+(const Vector3& opr) const noexcept {
 	return { x + opr.x, y + opr.y, z + opr.z };
 }
 
-inline constexpr const Vector3 Vector3::operator-(const Vector3& opr) const noexcept {
+inline constexpr Vector3 Vector3::operator-(const Vector3& opr) const noexcept {
 	return { x - opr.x, y - opr.y, z - opr.z };
 }
 
-inline constexpr const Vector3 Vector3::operator*(float times) const noexcept {
+inline constexpr Vector3 Vector3::operator*(float times) const noexcept {
 	return { x * times, y * times, z * times };
 }
 
-inline constexpr const Vector3 Vector3::operator/(float times) const noexcept {
+inline constexpr Vector3 Vector3::operator/(float times) const noexcept {
 	return { x / times, y / times, z / times };
 }
 
@@ -298,27 +298,27 @@ constexpr Vector3 Vector3::CrossProduct(const Vector3& vector1, const Vector3& v
 	};
 }
 
-constexpr const Vector3 Vector3::Add(const Vector3& vector1, const Vector3& vector2) noexcept {
+constexpr Vector3 Vector3::Add(const Vector3& vector1, const Vector3& vector2) noexcept {
 	return vector1 + vector2;
 }
 
-constexpr const Vector3 Vector3::Subtract(const Vector3& vector1, const Vector3& vector2) noexcept {
+constexpr Vector3 Vector3::Subtract(const Vector3& vector1, const Vector3& vector2) noexcept {
 	return vector1 - vector2;
 }
 
-constexpr const Vector3 Vector3::Multiply(const Vector3& vector, const float& times) noexcept {
+constexpr Vector3 Vector3::Multiply(const Vector3& vector, const float& times) noexcept {
 	return vector * times;
 }
 
-constexpr const Vector3 Vector3::Multiply(const Vector3& vector, const Vector3& times) noexcept {
+constexpr Vector3 Vector3::Multiply(const Vector3& vector, const Vector3& times) noexcept {
 	return Vector3{ vector.x * times.x, vector.y * times.y, vector.z * times.z };
 }
 
-constexpr const Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, float t) noexcept {
+constexpr Vector3 Vector3::Lerp(const Vector3& from, const Vector3& to, float t) noexcept {
 	return from * (1 - t) + to * t;
 }
 
-inline constexpr const Vector3 Vector3::LerpElement(const Vector3& from, const Vector3& to, const Vector3& t) noexcept {
+inline constexpr Vector3 Vector3::LerpElement(const Vector3& from, const Vector3& to, const Vector3& t) noexcept {
 	return {
 		from.x * (1 - t.x) + to.x * t.x,
 		from.y * (1 - t.y) + to.y * t.y,

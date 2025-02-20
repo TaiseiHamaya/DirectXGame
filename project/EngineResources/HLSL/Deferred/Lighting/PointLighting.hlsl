@@ -25,7 +25,8 @@ SamplerState gSampler : register(s0);
 
 StructuredBuffer<PointLight> gPointLight : register(t3);
 ConstantBuffer<Camera> gCamera : register(b0);
-//const bool isFrontFace : SV_IsFrontFace
+
+[earlydepthstencil]
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output;
 	

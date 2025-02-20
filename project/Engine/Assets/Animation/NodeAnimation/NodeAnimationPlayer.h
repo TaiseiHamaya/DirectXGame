@@ -47,8 +47,6 @@ private:
 	bool isActive{ true };
 	float timer{ 0 };
 	float animationSpeed{ 1.0f };
-	const NodeAnimationAsset::Animation* animation{ nullptr };
-	const NodeAnimationAsset::Animation* nextAnimation{ nullptr };
 	std::shared_ptr<const NodeAnimationAsset> nodeAnimation;
 
 #ifdef _DEBUG

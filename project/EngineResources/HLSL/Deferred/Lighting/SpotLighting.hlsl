@@ -27,6 +27,7 @@ SamplerState gSampler : register(s0);
 ConstantBuffer<SpotLight> gSpotLight : register(b0);
 ConstantBuffer<Camera> gCamera : register(b1);
 
+[earlydepthstencil]
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output;
 	
