@@ -3,6 +3,8 @@
 #include <Library/Math/Affine.h>
 #include <Library/Math/Hierarchy.h>
 #include <Library/Math/Transform3D.h>
+#include <Library/Utility/Template/Reference.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include <Engine/Assets/Json/JsonAsset.h>
 
@@ -13,10 +15,7 @@ public:
 	WorldInstance();
 	virtual ~WorldInstance();
 
-	WorldInstance(const WorldInstance&) = delete;
-	WorldInstance& operator=(const WorldInstance&&) = delete;
-	WorldInstance(WorldInstance&&);
-	WorldInstance& operator=(WorldInstance&&);
+	__NON_COPYABLE_CLASS(WorldInstance)
 
 public:
 	/// <summary>

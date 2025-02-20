@@ -8,12 +8,12 @@ float Vector3::length() const noexcept {
 	return std::sqrt(DotProduct(*this, *this));
 }
 
-const Vector3 Vector3::normalize() const noexcept(false) {
+Vector3 Vector3::normalize() const noexcept(false) {
 	assert(length() != 0);
 	return *this / length();;
 }
 
-const Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
+Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
 	assert(tolerance >= 0);
 	float length_ = length();
 	if (length_ <= tolerance) {
@@ -32,15 +32,15 @@ float Vector3::Length(const Vector3& vector1, const Vector3& vector2) noexcept {
 	return Vector3::Length(vector1 - vector2);
 }
 
-const Vector3 Vector3::Normalize(const Vector3& vector) {
+Vector3 Vector3::Normalize(const Vector3& vector) {
 	return vector.normalize();
 }
 
-const Vector3 Vector3::Normalize(const Vector3& vectorFrom, const Vector3& vectorTo) {
+Vector3 Vector3::Normalize(const Vector3& vectorFrom, const Vector3& vectorTo) {
 	return Vector3::Normalize(vectorTo - vectorFrom);
 }
 
-const Vector3 Vector3::Abs(const Vector3& vector) noexcept {
+Vector3 Vector3::Abs(const Vector3& vector) noexcept {
 	return { std::abs(vector.x), std::abs(vector.y), std::abs(vector.z) };
 }
 

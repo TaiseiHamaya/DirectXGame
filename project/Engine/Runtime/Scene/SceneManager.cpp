@@ -8,6 +8,10 @@
 #include <algorithm>
 #include <cassert>
 
+#ifdef _DEBUG
+#include "Engine/Debug/Profiler/TimestampProfiler.h"
+#endif // _DEBUG
+
 SceneManager& SceneManager::GetInstance() noexcept {
 	static SceneManager instance{};
 	return instance;
@@ -45,13 +49,37 @@ void SceneManager::Begin() {
 }
 
 void SceneManager::Update() {
+#ifdef _DEBUG
+	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
+#endif // _DEBUG
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
+#ifdef _DEBUG
+	if (profiler) {
+		profiler->timestamp("Begin");
+	}
+#endif // _DEBUG
 	nowScene->begin();
 #ifdef _DEBUG
+	if (profiler) {
+		profiler->timestamp("ImGui");
+	}
 	nowScene->debug_update();
+	if (profiler) {
+		profiler->timestamp("Update");
+	}
 #endif // _DEBUG
 	nowScene->update();
+#ifdef _DEBUG
+	if (profiler) {
+		profiler->timestamp("BeginRendering");
+	}
+#endif // _DEBUG
 	nowScene->begin_rendering();
+#ifdef _DEBUG
+	if (profiler) {
+		profiler->timestamp("LateUpdate");
+	}
+#endif // _DEBUG
 	nowScene->late_update();
 }
 
@@ -159,6 +187,10 @@ void SceneManager::NextScene() {
 
 #include <imgui.h>
 #include <format>
+
+void SceneManager::SetProfiler(Reference<TimestampProfiler> profiler_) {
+	GetInstance().profiler = profiler_;
+}
 
 void SceneManager::DebugGui() {
 	auto& instance = GetInstance();

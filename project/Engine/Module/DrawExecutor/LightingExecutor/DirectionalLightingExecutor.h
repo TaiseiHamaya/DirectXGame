@@ -5,10 +5,10 @@
 
 struct DirectionalLightData;
 
-class DirectionalLightingExecutor {
+class DirectionalLightingExecutor final : public BaseDrawExecutor {
 public:
 	DirectionalLightingExecutor() = default;
-	virtual ~DirectionalLightingExecutor() = default;
+	~DirectionalLightingExecutor() = default;
 
 	DirectionalLightingExecutor(uint32_t maxInstance);
 
@@ -16,8 +16,8 @@ public:
 
 public:
 	void reinitialize(uint32_t maxInstance);
-	void draw_command(uint32_t InstanceCount) const;
-	void write_to_buffer(uint32_t index, const DirectionalLightData& lightData_);
+	void draw_command() const override;
+	void write_to_buffer(const DirectionalLightData& lightData_);
 
 private:
 	StructuredBuffer<DirectionalLightData> lightData;

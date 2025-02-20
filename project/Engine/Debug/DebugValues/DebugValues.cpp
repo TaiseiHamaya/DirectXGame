@@ -11,9 +11,8 @@ DebugValues& DebugValues::GetInstance() {
 	return instance;
 }
 
-void DebugValues::ShowGrid() {
+Reference<const StaticMeshInstance> DebugValues::GetGridInstance() {
 	auto& instance = GetInstance();
-	instance.gridMesh->transfer();
-	instance.gridMesh->draw();
+	return instance.gridMesh;
 }
 #endif // _DEBUG

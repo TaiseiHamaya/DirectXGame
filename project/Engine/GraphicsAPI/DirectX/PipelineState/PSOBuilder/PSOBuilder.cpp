@@ -22,7 +22,9 @@ const std::vector<D3D12_INPUT_ELEMENT_DESC>& InputLayoutBuilder::build() {
 Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignatureDesc{};
-	descriptionRootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT; // シリアライズしてバイナリにする
+	descriptionRootSignatureDesc.Flags = 
+		D3D12_ROOT_SIGNATURE_FLAG_CBV_SRV_UAV_HEAP_DIRECTLY_INDEXED | // Bindless化を許可する
+		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT; // シリアライズしてバイナリにする
 	descriptionRootSignatureDesc.pParameters = rootParameters.data(); // 設定した配列のポインタ
 	descriptionRootSignatureDesc.NumParameters = static_cast<UINT>(rootParameters.size()); // 配列のサイズ
 	descriptionRootSignatureDesc.pStaticSamplers = staticSamplers.data(); // サンプラーを設定
@@ -43,22 +45,19 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 	return rootSignature;
 }
 
-void RootSignatureBuilder::add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRagister) {
+void RootSignatureBuilder::add_cbv(D3D12_SHADER_VISIBILITY visibility, UINT shaderRegister, UINT space) {
 	D3D12_ROOT_PARAMETER& rootParameter = rootParameters.emplace_back();
 	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV; // ConstantBufferView
 	rootParameter.ShaderVisibility = visibility; // VertexShader
-	rootParameter.Descriptor.ShaderRegister = shaderRagister; // レジスタ番号0
+	rootParameter.Descriptor.ShaderRegister = shaderRegister; // レジスタ番号0
+	rootParameter.Descriptor.RegisterSpace = space;
 }
 
-void RootSignatureBuilder::add_structured(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors) {
-	// やることはtexutreと同じなのでラップ
-	add_texture(visibility, baseShaderRegister, numDescriptors);
-}
-
-void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors) {
+void RootSignatureBuilder::add_structured(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors, UINT space) {
 	D3D12_DESCRIPTOR_RANGE& descriptorRange = descriptorRanges.emplace_back();
 	descriptorRange.BaseShaderRegister = baseShaderRegister;
 	descriptorRange.NumDescriptors = numDescriptors;
+	descriptorRange.RegisterSpace = space;
 	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV; // SRVを使う
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND; // 自動計算する
 
@@ -69,7 +68,12 @@ void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT 
 	rootParameter.DescriptorTable.NumDescriptorRanges = descriptorRange.NumDescriptors; // Tableで使用する数
 }
 
-void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRegister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
+void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister, UINT numDescriptors, UINT space) {
+	// やることはStructuredと同じなのでラップ
+	add_structured(visibility, baseShaderRegister, numDescriptors, space);
+}
+
+void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRegister, UINT space, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
 	D3D12_STATIC_SAMPLER_DESC& staticSampler = staticSamplers.emplace_back();
 	staticSampler.MaxAnisotropy = 16; // 異方性の場合はx16にする
 	staticSampler.Filter = filter; // フィルタ

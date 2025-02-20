@@ -9,19 +9,23 @@
 
 struct PointLightData;
 
-class PointLightingExecutor final : BaseDrawExecutor<PrimitiveGeometryAsset> {
+class PointLightingExecutor final : public BaseDrawExecutor {
 public:
 	PointLightingExecutor() = default;
-	virtual ~PointLightingExecutor() = default;
+	~PointLightingExecutor() = default;
 
-	__DRAW_EXECUTOR_CLASS(PointLightingExecutor)
+	PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
+	
+	__NON_COPYABLE_CLASS(PointLightingExecutor)
 
 public:
-	void reinitialize(const std::string& primitiveGeometryName, uint32_t maxInstance) override;
-	void draw_command(uint32_t InstanceCount) const override;
-	void write_to_buffer(uint32_t index, const Matrix4x4& worldMatrix, const PointLightData& lightData_);
+	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
+	void draw_command() const override;
+	void write_to_buffer(const Matrix4x4& worldMatrix, const PointLightData& lightData_);
 
 private:
+	std::shared_ptr<const PrimitiveGeometryAsset> asset;
+
 	StructuredBuffer<Matrix4x4> matrices;
 	StructuredBuffer<PointLightData> lightData;
 };

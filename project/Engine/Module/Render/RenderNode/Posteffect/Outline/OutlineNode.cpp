@@ -38,7 +38,7 @@ void OutlineNode::create_pipeline_state() {
 	);
 	rootSignatureBuilder.sampler(
 		D3D12_SHADER_VISIBILITY_PIXEL,
-		1,
+		1, 0,
 		D3D12_FILTER_MIN_MAG_MIP_POINT,
 		D3D12_TEXTURE_ADDRESS_MODE_CLAMP
 	);

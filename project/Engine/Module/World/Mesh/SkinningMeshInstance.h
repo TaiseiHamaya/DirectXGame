@@ -4,27 +4,16 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
 class NodeAnimationPlayer;
 class SkeletonAsset;
 
 class SkinningMeshInstance : public StaticMeshInstance {
-private:
-	struct SkeletonMatrixPaletteWell {
-		Matrix4x4 skeletonSpaceMatrix;
-		Matrix4x4 skeletonSpaceInv;
-	};
-
+public:
 	struct SkeletonSpaceInstance {
 		Transform3D transform;
 		Affine affine;
-	};
-
-	struct SkeletonData {
-		std::vector<SkeletonSpaceInstance> jointInstance; // JointのTransformとMatrix
-		std::vector<StructuredBuffer<SkeletonMatrixPaletteWell>> matrixPalettes; // GPU用Matrix
 	};
 
 private:
@@ -46,12 +35,15 @@ public:
 
 public:
 	virtual void begin() override;
-	virtual void transfer() noexcept override;
-	virtual void draw() const override;
+
+	void update_animation();
 
 public:
 	void reset_animated_mesh(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
+	void reset_animation(const std::string& fileName, const std::string& animationName = "", bool isLoop = false);
 	NodeAnimationPlayer* const get_animation();
+	const std::vector<SkeletonSpaceInstance>& joints() const { return jointInstances; }
+	bool is_draw() const override;
 
 private:
 	void create_skeleton();
@@ -59,16 +51,14 @@ private:
 #ifdef _DEBUG
 public:
 	void debug_gui() override;
-	void draw_skeleton();
 #endif // _DEBUG
 
 protected:
 	std::unique_ptr<NodeAnimationPlayer> nodeAnimation; // NodeAnimation
 
 private:
+	std::vector<SkeletonSpaceInstance> jointInstances; // JointのTransformとMatrix
 	std::shared_ptr<const SkeletonAsset> skeletonResrouce; // Skeleton関連
-
-	SkeletonData skeletonData; // SkeletonのTransform関連
 
 #ifdef _DEBUG
 	std::vector<StaticMeshInstance> boneMeshTest; // デバッグ用

@@ -7,6 +7,9 @@ class BaseSceneFactory;
 #include <memory>
 
 #include <Library/Utility/Template/TimedCall.h>
+#include <Library/Utility/Template/Reference.h>
+
+class TimestampProfiler;
 
 /// <summary>
 /// シーン管理用クラス
@@ -52,6 +55,7 @@ private:
 
 #ifdef _DEBUG
 public:
+	static void SetProfiler(Reference<TimestampProfiler> profiler_);
 	static void DebugGui();
 #endif // _DEBUG
 
@@ -80,10 +84,14 @@ private:
 		bool isStopLoad;
 		TimedCall<void(void)> endCall;
 	} sceneChangeInfo;
+
+#ifdef _DEBUG
+	Reference<TimestampProfiler> profiler;
+#endif // _DEBUG
 };
 
 template<typename T>
 inline void SceneManager::SetFactory() {
 	auto& instance = GetInstance();
-	GetInstance().factory = std::make_unique<T>();
+	instance.factory = std::make_unique<T>();
 }

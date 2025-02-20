@@ -9,6 +9,7 @@
 #include "Library/Utility/Tools/SmartPointer.h"
 
 #ifdef _DEBUG
+#include <ranges>
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -39,11 +40,35 @@ bool NodeAnimationLibrary::IsRegistered(const std::string& name) {
 	return IsRegisteredNonlocking(name);
 }
 
-void NodeAnimationLibrary::Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset>& data) {
+void NodeAnimationLibrary::Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset> data) {
 	std::lock_guard<std::mutex> lock{ nodeAnimationMutex };
 	Console("Transfer new node animation. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
+
+#ifdef _DEBUG
+bool NodeAnimationLibrary::AnimationListGui(std::string& current) {
+	bool changed = false;
+
+	std::lock_guard<std::mutex> lock{ nodeAnimationMutex };
+	if (ImGui::BeginCombo("AnimationList", current.c_str())) {
+		auto&& list = GetInstance().instanceList;
+		for (const auto& name : list | std::views::keys) {
+			bool is_selected = (current == name);
+			if (ImGui::Selectable(name.c_str(), is_selected)) {
+				current = name;
+				changed = true;
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+
+	}
+	return changed;
+}
+#endif // _DEBUG
 
 bool NodeAnimationLibrary::IsRegisteredNonlocking(const std::string& name) {
 	return GetInstance().instanceList.contains(name);

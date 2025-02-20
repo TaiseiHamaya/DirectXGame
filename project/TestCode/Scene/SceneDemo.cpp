@@ -1,44 +1,44 @@
 #include "SceneDemo.h"
 
+#include <execution>
+
+#include <Library/Math/Color4.h>
+#include <Library/Math/Hierarchy.h>
+#include <Library/Utility/Template/Behavior.h>
+#include <Library/Utility/Tools/RandomEngine.h>
+#include <Library/Utility/Tools/SmartPointer.h>
+
 #include "../CallbackManagerDemo.h"
-#include "Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h"
-#include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
-#include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
-#include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/Collision/Collider/AABBCollider.h"
-#include "Engine/Module/World/Collision/Collider/SphereCollider.h"
-#include "Engine/Module/World/Collision/CollisionManager.h"
-#include "Engine/Module/World/Mesh/SkinningMeshInstance.h"
-#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
-#include "Engine/Module/World/WorldManager.h"
-#include "Engine/Runtime/Scene/SceneManager.h"
-#include "Library/Math/Hierarchy.h"
 
-#include "Engine/Module/World/Camera/Camera2D.h"
-#include "Engine/Module/World/Sprite/SpriteInstance.h"
-
-#include "Library/Math/Color4.h"
-
-#include "Engine/Assets/Audio/AudioLibrary.h"
-#include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Debug/DebugValues/DebugValues.h"
-#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
-#include "Engine/Module/Render/RenderPath/RenderPath.h"
-
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
-#include "Library/Utility/Template/Behavior.h"
-#include "Library/Utility/Tools/SmartPointer.h"
-
-#include "Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h"
-#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
-#include "Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h"
-#include "Engine/Module/Render/RenderNode/Deferred/Lighting/PointLightingNode.h"
-#include "Engine/Module/Render/RenderNode/Deferred/Mesh/SkinningMeshNodeDeferred.h"
-#include "Engine/Module/Render/RenderNode/Deferred/Mesh/StaticMeshNodeDeferred.h"
-
-#include "Engine/Debug/Output.h"
+#include <Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h>
+#include <Engine/Assets/Animation/Skeleton/SkeletonLibrary.h>
+#include <Engine/Assets/Audio/AudioLibrary.h>
+#include <Engine/Assets/PolygonMesh/PolygonMeshLibrary.h>
+#include <Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h>
+#include <Engine/Assets/Texture/TextureLibrary.h>
+#include <Engine/Debug/DebugValues/DebugValues.h>
+#include <Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h>
+#include <Engine/Debug/Output.h>
+#include <Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h>
+#include <Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h>
+#include <Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Lighting/PointLightingNode.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Mesh/SkinningMeshNodeDeferred.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Mesh/StaticMeshNodeDeferred.h>
+#include <Engine/Module/Render/RenderPath/RenderPath.h>
+#include <Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h>
+#include <Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h>
+#include <Engine/Module/World/Camera/Camera2D.h>
+#include <Engine/Module/World/Camera/Camera3D.h>
+#include <Engine/Module/World/Collision/Collider/AABBCollider.h>
+#include <Engine/Module/World/Collision/Collider/SphereCollider.h>
+#include <Engine/Module/World/Collision/CollisionManager.h>
+#include <Engine/Module/World/Mesh/SkinningMeshInstance.h>
+#include <Engine/Module/World/Mesh/StaticMeshInstance.h>
+#include <Engine/Module/World/Sprite/SpriteInstance.h>
+#include <Engine/Module/World/WorldManager.h>
+#include <Engine/Runtime/Scene/SceneManager.h>
 
 //#define QUATERNION_SERIALIZER
 #define TRANSFORM3D_SERIALIZER
@@ -57,9 +57,11 @@ SceneDemo::SceneDemo() = default;
 SceneDemo::~SceneDemo() = default;
 
 void SceneDemo::load() {
+	//PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Misc/bunny.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Misc/teapot.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Primitive/Triangle.obj");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Bone/bone.obj");
-	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/gltf-test/Boss_RangedAttack.gltf");
 	AudioLibrary::RegisterLoadQue("./EngineResources/Alarm01.wav");
 	AudioLibrary::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
@@ -67,9 +69,9 @@ void SceneDemo::load() {
 	PolygonMeshLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 	TextureLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
-	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Player.gltf");
-	NodeAnimationLibrary::RegisterLoadQue("./EngineResources/Models/Player.gltf");
-	SkeletonLibrary::RegisterLoadQue("./EngineResources/Models/Player.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Misc/simpleSkin.gltf");
+	NodeAnimationLibrary::RegisterLoadQue("./EngineResources/Models/Misc/simpleSkin.gltf");
+	SkeletonLibrary::RegisterLoadQue("./EngineResources/Models/Misc/simpleSkin.gltf");
 }
 
 void SceneDemo::initialize() {
@@ -117,10 +119,40 @@ void SceneDemo::initialize() {
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
+	uint32_t numPrimitive = 100;
+	for (uint32_t i = 0; i < 20; ++i) {
+		for (uint32_t j = 0; j < 20; ++j) {
+			auto& instance = primitives.emplace_back(worldManager->create<SkinningMeshInstance>(nullptr, false, "simpleSkin.gltf", "Anim_0", true));
+			instance->get_transform().set_translate({ (float)i, 1, (float)j });
+			instance->get_animation()->set_time_force(RandomEngine::Random01MOD() * 5);
+		}
+	}
+
 	directionalLight = worldManager->create<DirectionalLightInstance>();
 	pointLight = worldManager->create<PointLightInstance>();
 
-	pointLightingExecutor = eps::CreateUnique<PointLightingExecutor>("Ico3", 1);
+	skinningMeshDrawManager = eps::CreateUnique<SkinningMeshDrawManager>();
+	skinningMeshDrawManager->initialize(1);
+	skinningMeshDrawManager->make_instancing(0, "simpleSkin.gltf", numPrimitive * numPrimitive);
+
+	staticMeshDrawManager = eps::CreateUnique<StaticMeshDrawManager>();
+	staticMeshDrawManager->initialize(1);
+	staticMeshDrawManager->make_instancing(0, "Sphere.obj", numPrimitive * numPrimitive + 128);
+	staticMeshDrawManager->make_instancing(0, "bunny.obj", numPrimitive * numPrimitive);
+	staticMeshDrawManager->make_instancing(0, "Triangle.obj", numPrimitive * numPrimitive);
+	staticMeshDrawManager->make_instancing(0, "teapot.obj", numPrimitive * numPrimitive);
+#ifdef _DEBUG
+	staticMeshDrawManager->register_debug_instance(0, camera3D, true);
+#endif // _DEBUG
+	staticMeshDrawManager->register_instance(parent);
+	staticMeshDrawManager->register_instance(child);
+
+	for (auto& primitive : primitives) {
+		skinningMeshDrawManager->register_instance(primitive);
+	}
+	skinningMeshDrawManager->register_instance(animatedMeshInstance);
+
+	pointLightingExecutor = eps::CreateUnique<PointLightingExecutor>(PrimitiveGeometryLibrary::GetPrimitiveGeometry("Ico3"), 1);
 	directionalLightingExecutor = eps::CreateUnique<DirectionalLightingExecutor>(1);
 
 	collisionManager = std::make_unique<CollisionManager>();
@@ -261,6 +293,11 @@ void SceneDemo::begin() {
 	collisionManager->begin();
 	animatedMeshInstance->begin();
 	particleEmitter->begin();
+
+	std::for_each(
+		primitives.begin(), primitives.end(),
+		[](std::unique_ptr<SkinningMeshInstance>& instance) { instance->begin(); }
+	);
 }
 
 void SceneDemo::update() {
@@ -275,11 +312,16 @@ void SceneDemo::update() {
 	//	animationPlayer.calculate_translate()
 	//);
 
-	animatedMeshInstance->update();
+	animatedMeshInstance->update_animation();
 
 	particleEmitter->update();
 	directionalLight->update();
 	pointLight->update();
+
+	std::for_each(
+		std::execution::par, primitives.begin(), primitives.end(),
+		[](std::unique_ptr<SkinningMeshInstance>& instance) { instance->update_animation(); }
+	);
 }
 
 void SceneDemo::begin_rendering() {
@@ -287,17 +329,18 @@ void SceneDemo::begin_rendering() {
 
 	worldManager->update_matrix();
 
-	parent->transfer();
-	child->transfer();
 	sprite->transfer();
 	particleEmitter->transfer();
 	directionalLight->transfer();
 	pointLight->transfer();
-	animatedMeshInstance->transfer();
 	camera3D->transfer();
 
-	pointLightingExecutor->write_to_buffer(0, pointLight->transform_matrix(), pointLight->light_data());
-	directionalLightingExecutor->write_to_buffer(0, directionalLight->light_data());
+	pointLightingExecutor->begin();
+	directionalLightingExecutor->begin();
+	pointLightingExecutor->write_to_buffer(pointLight->transform_matrix(), pointLight->light_data());
+	directionalLightingExecutor->write_to_buffer(directionalLight->light_data());
+	staticMeshDrawManager->transfer();
+	skinningMeshDrawManager->transfer();
 }
 
 void SceneDemo::late_update() {
@@ -354,26 +397,21 @@ void SceneDemo::draw() const {
 	/// Deferred
 	/// 
 	renderPath->begin();
-	camera3D->register_world_projection(1);
-	parent->draw();
-	child->draw();
-#ifdef _DEBUG
-	camera3D->debug_draw_axis();
-	DebugValues::ShowGrid();
-#endif // _DEBUG
+	camera3D->register_world_projection(2);
+	staticMeshDrawManager->draw_layer(0);
 
 	renderPath->next();
-	camera3D->register_world_projection(1);
-	animatedMeshInstance->draw();
+	camera3D->register_world_projection(2);
+	skinningMeshDrawManager->draw_layer(0);
 
 	renderPath->next();
 	camera3D->register_world_lighting(1);
-	directionalLightingExecutor->draw_command(1);
+	directionalLightingExecutor->draw_command();
 
 	renderPath->next();
 	camera3D->register_world_projection(1);
 	camera3D->register_world_lighting(6);
-	pointLightingExecutor->draw_command(1);
+	pointLightingExecutor->draw_command();
 
 	renderPath->next();
 	camera3D->register_world_projection(1);
@@ -425,9 +463,6 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("AnimatedMesh");
 	animatedMeshInstance->debug_gui();
-	if (ImGui::Button("Restart")) {
-		animatedMeshInstance->get_animation()->restart();
-	}
 	ImGui::End();
 
 	ImGui::Begin("Parent");
@@ -462,6 +497,27 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("Particle");
 	particleEmitter->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("Audio");
+	audioPlayer->debug_gui();
+	if (ImGui::Button("Play")) {
+		audioPlayer->play();
+	}
+	if (ImGui::Button("Stop")) {
+		audioPlayer->stop();
+	}
+	if (ImGui::Button("Pause")) {
+		audioPlayer->pause();
+	}
+	ImGui::End();
+
+	ImGui::Begin("StaticMeshDrawManager");
+	staticMeshDrawManager->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("SkinningMeshDrawManager");
+	skinningMeshDrawManager->debug_gui();
 	ImGui::End();
 
 	ImGuiLoadManager::ShowGUI();

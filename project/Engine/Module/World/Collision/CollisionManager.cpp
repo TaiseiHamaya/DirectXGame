@@ -5,15 +5,16 @@
 #include <Library/Utility/Tools/SmartPointer.h>
 
 #include "Engine/Module/World/Collision/CollisionFunctions.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 
 CollisionManager::CollisionManager() {
 #ifdef _DEBUG
 
 	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
-		"SphereCollider", 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
 	);
 	aabbDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
-		"AABBCollider", 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("AABBCollider"), 1024
 	);
 
 #endif // _DEBUG
@@ -129,21 +130,20 @@ void CollisionManager::debug_draw3d() {
 		return;
 	}
 
-	uint32_t sphereIndex = 0;
-	uint32_t aabbIndex = 0;
+	sphereDebugDrawExecutor->begin();
+	aabbDebugDrawExecutor->begin();
+
 	for (const Colliders& colliders : colliderList | std::views::values) {
 		for (const std::weak_ptr<SphereCollider>& sphereCollider : colliders.sphereColliders) {
-			sphereDebugDrawExecutor->write_to_buffer(sphereIndex, sphereCollider.lock()->debug_matrix());
-			++sphereIndex;
+			sphereDebugDrawExecutor->write_to_buffer(sphereCollider.lock()->debug_matrix());
 		}
 
 		for (const std::weak_ptr<AABBCollider>& aabbCollider : colliders.aabbColliders) {
-			aabbDebugDrawExecutor->write_to_buffer(aabbIndex, aabbCollider.lock()->debug_matrix());
-			++aabbIndex;
+			aabbDebugDrawExecutor->write_to_buffer(aabbCollider.lock()->debug_matrix());
 		}
 	}
 
-	sphereDebugDrawExecutor->draw_command(sphereIndex);
-	aabbDebugDrawExecutor->draw_command(aabbIndex);
+	sphereDebugDrawExecutor->draw_command();
+	aabbDebugDrawExecutor->draw_command();
 }
 #endif // _DEBUG

@@ -1,51 +1,50 @@
 #include "NodeAnimationPlayer.h"
 
 #include <cmath>
-#include <functional>
 
 #include "NodeAnimationAsset.h"
 #include "NodeAnimationLibrary.h"
 
 #include "Engine/Runtime/WorldClock/WorldClock.h"
 
-template<typename T>
-T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time, std::function<T(const T&, const T&, float)> lerpFunc = std::lerp);
+template<typename T, T LerpFunction(const T&, const T&, float) = std::lerp>
+T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time);
 
 NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName_, bool isLoop_) :
 	isLoop(isLoop_),
-	nodeAnimation(NodeAnimationLibrary::GetAnimation(fileName)) {
+	nodeAnimation() {
 	reset_animation(animationName_);
 }
 
 void NodeAnimationPlayer::update() noexcept {
-	if (!isActive || !animation) {
+	if (!isActive || !nodeAnimation) {
 		return;
 	}
 	timer += WorldClock::DeltaSeconds() * animationSpeed;
 	if (isLoop && is_end()) {
-		timer = std::fmod(timer, animation->duration);
+		timer = std::fmod(timer, nodeAnimation->duration());
 	}
 }
 
 Vector3 NodeAnimationPlayer::calculate_scale(const std::string& nodeName) const {
-	if (animation && animation->nodeAnimations.contains(nodeName)) {
-		return CalculateValue<Vector3>(animation->nodeAnimations.at(nodeName).scale, timer, Vector3::Lerp);
+	if (!nodeAnimation || !nodeAnimation->contains(nodeName)) {
+		return CVector3::BASIS;
 	}
-	return CVector3::BASIS;
+	return CalculateValue<Vector3, Vector3::Lerp>(nodeAnimation->node(nodeName).scale, timer);
 }
 
 Quaternion NodeAnimationPlayer::calculate_rotate(const std::string& nodeName) const {
-	if (animation && animation->nodeAnimations.contains(nodeName)) {
-		return CalculateValue<Quaternion>(animation->nodeAnimations.at(nodeName).rotate, timer, Quaternion::Slerp);
+	if (!nodeAnimation || !nodeAnimation->contains(nodeName)) {
+		return CQuaternion::IDENTITY;
 	}
-	return CQuaternion::IDENTITY;
+	return CalculateValue<Quaternion, Quaternion::Slerp>(nodeAnimation->node(nodeName).rotate, timer);
 }
 
 Vector3 NodeAnimationPlayer::calculate_translate(const std::string& nodeName) const {
-	if (animation && animation->nodeAnimations.contains(nodeName)) {
-		return CalculateValue<Vector3>(animation->nodeAnimations.at(nodeName).translate, timer, Vector3::Lerp);
+	if (!nodeAnimation || !nodeAnimation->contains(nodeName)) {
+		return CVector3::ZERO;
 	}
-	return CVector3::ZERO;
+	return CalculateValue<Vector3, Vector3::Lerp>(nodeAnimation->node(nodeName).translate, timer);
 }
 
 void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
@@ -53,9 +52,7 @@ void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
 	animationName = animationName_.empty() ? "UnknownAnimation" : animationName_;
 #endif // _DEBUG
 
-	if (nodeAnimation) {
-		animation = nodeAnimation->animation(animationName_);
-	}
+	nodeAnimation = NodeAnimationLibrary::GetAnimation(animationName_);
 }
 
 void NodeAnimationPlayer::play() noexcept {
@@ -81,8 +78,8 @@ bool NodeAnimationPlayer::is_end() const noexcept {
 }
 
 float NodeAnimationPlayer::parametric() const noexcept {
-	if (animation) {
-		return timer / animation->duration;
+	if (nodeAnimation) {
+		return timer / nodeAnimation->duration();
 	}
 	return 1.0f;
 }
@@ -102,16 +99,15 @@ void NodeAnimationPlayer::animation_speed(float speed) noexcept {
 #ifdef _DEBUG
 #include <imgui.h>
 void NodeAnimationPlayer::debug_gui() {
-	if (nodeAnimation) {
-		if (nodeAnimation->animation_list_gui(animationName)) {
-			reset_animation(animationName);
-		}
+	if (NodeAnimationLibrary::AnimationListGui(animationName)) {
+		reset_animation(animationName);
 	}
+
 	if (ImGui::TreeNodeEx(animationName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::Checkbox("Active", &isActive);
 		ImGui::Checkbox("Loop", &isLoop);
-		if (animation) {
-			ImGui::SliderFloat("Timer", &timer, 0, animation->duration, "%.3fs");
+		if (nodeAnimation) {
+			ImGui::SliderFloat("Timer", &timer, 0, nodeAnimation->duration(), "%.3fs");
 		}
 		ImGui::DragFloat("AnimationSpeed", &animationSpeed, 0.1f);
 		ImGui::TreePop();
@@ -119,8 +115,8 @@ void NodeAnimationPlayer::debug_gui() {
 }
 #endif // _DEBUG
 
-template<typename T>
-T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time, std::function<T(const T&, const T&, float)> lerpFunc) {
+template<typename T, T LerpFunction(const T&, const T&, float)>
+T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time) {
 	const std::map<float, T>& keyframes = animationCurve.keyframes;
 	// キーフレームがない場合はTを初期値で返す
 	if (keyframes.empty()) {
@@ -140,5 +136,5 @@ T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, fl
 	// 1つ前のKeyframeを取得
 	auto beginKey = std::prev(endKey);
 	float parametric = (time - beginKey->first) / (endKey->first - beginKey->first);
-	return lerpFunc(beginKey->second, endKey->second, parametric);
+	return LerpFunction(beginKey->second, endKey->second, parametric);
 }

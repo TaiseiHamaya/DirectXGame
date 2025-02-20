@@ -17,14 +17,14 @@ Quaternion::Quaternion(float x, float y, float z, float w) noexcept :
 	w(w) {
 }
 
-const Quaternion Quaternion::AngleAxis(const Vector3& axis, float angleAxis) {
+Quaternion Quaternion::AngleAxis(const Vector3& axis, float angleAxis) {
 	Quaternion result;
 	result.xyz = axis.normalize_safe() * std::sin(angleAxis / 2);
 	result.w = std::cos(angleAxis / 2);
 	return result;
 }
 
-const Quaternion Quaternion::EulerRadian(float pitch, float yaw, float roll) noexcept {
+Quaternion Quaternion::EulerRadian(float pitch, float yaw, float roll) noexcept {
 	float cosPitch = std::cos(pitch / 2);
 	float cos_yaw = std::cos(yaw / 2);
 	float cos_roll = std::cos(roll / 2);
@@ -41,17 +41,17 @@ const Quaternion Quaternion::EulerRadian(float pitch, float yaw, float roll) noe
 	return result;
 }
 
-const Quaternion Quaternion::EulerRadian(const Vector3& rotate) noexcept {
+Quaternion Quaternion::EulerRadian(const Vector3& rotate) noexcept {
 	// 分解して定義
 	return EulerRadian(rotate.x, rotate.y, rotate.z);
 }
 
-const Quaternion Quaternion::EulerDegree(const Vector3& rotate) noexcept {
+Quaternion Quaternion::EulerDegree(const Vector3& rotate) noexcept {
 	// ラジアン変換して定義
 	return EulerRadian(rotate.x * ToRadian, rotate.y * ToRadian, rotate.z * ToRadian);
 }
 
-const Quaternion Quaternion::EulerDegree(float pitch, float yaw, float roll) noexcept {
+Quaternion Quaternion::EulerDegree(float pitch, float yaw, float roll) noexcept {
 	// ラジアン変換して定義
 	return EulerRadian(pitch * ToRadian, yaw * ToRadian, roll * ToRadian);
 }
@@ -85,7 +85,7 @@ Quaternion& Quaternion::operator*=(float times) noexcept {
 	return *this;
 }
 
-const Matrix4x4 Quaternion::to_matrix() const noexcept {
+Matrix4x4 Quaternion::to_matrix() const noexcept {
 	float xx = xyz.x * xyz.x;
 	float xy = xyz.x * xyz.y;
 	float xz = xyz.x * xyz.z;
@@ -124,16 +124,16 @@ Basis Quaternion::to_basis() const noexcept {
 	};
 }
 
-const float Quaternion::length() const noexcept {
+float Quaternion::length() const noexcept {
 	Vector3 v2 = Vector3::Multiply(xyz, xyz);
 	return std::sqrt(v2.x + v2.y + v2.z + w * w);
 }
 
-const Quaternion Quaternion::inverse() const noexcept {
+Quaternion Quaternion::inverse() const noexcept {
 	return { -xyz.x, -xyz.y, -xyz.z, w };
 }
 
-const Quaternion Quaternion::normalize() const noexcept {
+Quaternion Quaternion::normalize() const noexcept {
 	return *this * (1 / length());
 }
 
@@ -145,7 +145,7 @@ const float& Quaternion::real() const noexcept {
 	return w;
 }
 
-const Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
+Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
 	float cos = Vector3::DotProduct(from, to);
 	constexpr float PERMISSIBLE = 1e-6f;
 	// from == toの場合
@@ -177,7 +177,7 @@ const Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& 
 	return Quaternion::AngleAxis(axis, angle);
 }
 
-const Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upward) {
+Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upward) {
 	Quaternion lookRotation = FromToRotation(CVector3::BASIS_Z, forward);
 	Vector3 xAxisHorizontal = Vector3::CrossProduct(upward, forward).normalize_safe();
 	Vector3 yAxisAfterRotate = Vector3::CrossProduct(forward, xAxisHorizontal);
@@ -187,7 +187,7 @@ const Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& 
 	return modifyRotation * lookRotation;
 }
 
-const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
+Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
 	float dot = Vector3::DotProduct(internal.xyz, terminal.xyz) + internal.w * terminal.w;
 	Quaternion internal_;
 	if (dot < 0) {
@@ -217,7 +217,7 @@ const Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion&
 	return result;
 }
 
-const Quaternion Quaternion::SlerpFar(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
+Quaternion Quaternion::SlerpFar(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
 	float dot = Vector3::DotProduct(internal.xyz, terminal.xyz) + internal.w * terminal.w;
 	Quaternion internal_;
 	if (dot >= 0) {
@@ -247,7 +247,7 @@ const Quaternion Quaternion::SlerpFar(const Quaternion& internal, const Quaterni
 	return result;
 }
 
-const Quaternion Quaternion::SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, float t, const Vector3& axis) noexcept {
+Quaternion Quaternion::SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, float t, const Vector3& axis) noexcept {
 	Vector3 internalV = CVector3::FORWARD * internal;
 	Vector3 terminalV = CVector3::FORWARD * terminal;
 	Vector3 cross = Vector3::CrossProduct(internalV, terminalV);
@@ -281,7 +281,7 @@ const Quaternion Quaternion::SlerpClockwise(const Quaternion& internal, const Qu
 	return result;
 }
 
-const Vector3 operator*(const Vector3& vector, const Quaternion& quaternion) {
+Vector3 operator*(const Vector3& vector, const Quaternion& quaternion) {
 	Quaternion vectorQuaternion = Quaternion{ vector, 0.0f };
 	return (quaternion * vectorQuaternion * quaternion.inverse()).xyz;
 }

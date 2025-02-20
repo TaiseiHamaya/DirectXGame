@@ -25,11 +25,14 @@ public: // public function
 
 	[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> load(const std::filesystem::path& filePath);
 	void create_resource_view();
-	void set_name(const std::string& fileName);
 
+public: // getter
+	void set_name(const std::string& fileName);
+	const std::string& name() const;
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_gpu_handle() const;
 	const std::uint32_t& get_texture_width() const noexcept;
 	const std::uint32_t& get_texture_height() const noexcept;
+	const std::optional<std::uint32_t>& index() const;
 
 private: // private function
 	void create_texture_resource(const DirectX::TexMetadata& metadata);
@@ -42,9 +45,9 @@ private: // private value
 	std::uint32_t width = 0;
 	std::uint32_t height = 0;
 
+	std::string name_;
+
 private: // static function
 	static std::variant<HRESULT, DirectX::ScratchImage>  LoadTextureData(const std::filesystem::path& filePath);
-
-public: // getter
 };
 

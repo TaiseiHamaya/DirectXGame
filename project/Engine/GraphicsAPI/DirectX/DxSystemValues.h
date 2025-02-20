@@ -24,6 +24,6 @@ static constexpr UINT ANISOTROPY{ 16 };
 
 // ShaderVersion
 // 使い方がキモいので修正したほうが良いかも
-static constexpr std::wstring_view SHADER_VERSION{ L"6_1" };
+static constexpr std::wstring_view SHADER_VERSION{ L"6_6" };
 //#define SHADER_VERSION L"6_1"
 };

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <filesystem>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -10,8 +9,10 @@
 #include <Library/Math/Quaternion.h>
 #include <Library/Math/Vector3.h>
 
+struct aiAnimation;
+
 class NodeAnimationAsset final {
-private:
+public:
 	template<typename T>
 	struct AnimationCurve {
 		std::map<float, T> keyframes;
@@ -21,12 +22,6 @@ private:
 		AnimationCurve<Vector3> scale;
 		AnimationCurve<Quaternion> rotate;
 		AnimationCurve<Vector3> translate;
-	};
-
-public:
-	struct Animation {
-		float duration;
-		std::unordered_map<std::string, NodeAnimation> nodeAnimations;
 	};
 
 public:
@@ -41,19 +36,14 @@ public:
 	/// </summary>
 	/// <param name="filePath">ファイルパス</param>
 	/// <returns>成功値</returns>
-	bool load(const std::filesystem::path& filePath);
+	void load(aiAnimation* aiPAnimation);
 
-	const Animation* animation(const std::string& animationName) const;
-
-#ifdef _DEBUG
 public:
-	bool animation_list_gui(std::string& current) const;
-#endif // _DEBUG
+	const NodeAnimation& node(const std::string& nodeName) const;
+	float duration() const { return duration_; }
+	bool contains(const std::string& nodeName) const;
 
 private:
-#ifdef _DEBUG
-	std::map<std::string, Animation> animations;
-#else
-	std::unordered_map<std::string, Animation> animations;
-#endif // _DEBUG
+	float duration_;
+	std::unordered_map<std::string, NodeAnimation> nodeAnimations;
 };

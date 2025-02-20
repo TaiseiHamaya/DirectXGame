@@ -71,19 +71,19 @@ void SpriteInstance::create_local_vertices(const Vector2& pivot) {
 	Vector2 base = { static_cast<float>(texture->get_texture_width()), static_cast<float>(texture->get_texture_height()) };
 	std::vector<VertexBufferData> vertexData(4);
 	vertexData[0] = {
-		VertexBufferData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}), 0), 1},
+		Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}), 0),
 		CVector2::ZERO
 	};
 	vertexData[1] = {
-		VertexBufferData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, -pivot.y}), 0), 1},
+		Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, -pivot.y}), 0),
 		CVector2::BASIS_Y
 	};
 	vertexData[2] = {
-		VertexBufferData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}), 0), 1},
+		Converter::ToVector3(Vector2::Multiply(base, {1 - pivot.x, 1 - pivot.y}), 0),
 		CVector2::BASIS_X
 	};
 	vertexData[3] = {
-		VertexBufferData::Vector4{ Converter::ToVector3(Vector2::Multiply(base, {1 - pivot.x, -pivot.y}), 0), 1},
+		Converter::ToVector3(Vector2::Multiply(base, {1 - pivot.x, -pivot.y}), 0),
 		CVector2::BASIS
 	};
 

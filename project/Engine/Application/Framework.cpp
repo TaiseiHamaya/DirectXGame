@@ -25,11 +25,12 @@ void Framework::run() {
 
 void Framework::initialize() {
 	WinApp::Initialize();
-#ifdef _DEBUG
-	WorldClock::IsFixDeltaTime(false);
-#endif // _DEBUG
 	SceneManager::Initialize();
 	WinApp::ShowAppWindow();
+
+#ifdef _DEBUG
+	SceneManager::SetProfiler(profiler);
+#endif // _DEBUG
 }
 
 void Framework::finalize() {
@@ -37,6 +38,10 @@ void Framework::finalize() {
 }
 
 void Framework::begin_frame() {
+#ifdef _DEBUG
+	profiler.clear_timestamps();
+	profiler.timestamp("BeginFrame");
+#endif // _DEBUG
 	WinApp::BeginFrame();
 	SceneManager::Begin();
 	WinApp::ProcessMessage();
@@ -47,12 +52,20 @@ void Framework::update() {
 }
 
 void Framework::draw() const {
+#ifdef _DEBUG
+	profiler.timestamp("Draw");
+#endif // _DEBUG
 	SceneManager::Draw();
 }
 
 void Framework::end_frame() {
 #ifdef _DEBUG
+	profiler.timestamp("EndFrame");
 	SceneManager::DebugGui();
+	profiler.timestamp("End");
+	ImGui::Begin("Profiler");
+	profiler.debug_gui();
+	ImGui::End();
 #endif // _DEBUG
 	WinApp::EndFrame();
 }

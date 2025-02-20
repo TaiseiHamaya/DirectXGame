@@ -85,7 +85,7 @@ bool PolygonMesh::has_material(std::uint32_t index) const {
 }
 
 bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
-	std::vector<VertexBufferData::Vector4> vertex; // objファイルの頂点情報
+	std::vector<Vector3> vertex; // objファイルの頂点情報
 	std::vector<Vector2> texcoord; // objファイルのtexcoord情報
 	std::vector<Vector3> normal; // objファイルのnormal情報
 	std::string line; // 1行を保存するよう
@@ -115,22 +115,21 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 
 		// vertex
 		if (identifier == "v") {
-			vertex.push_back(VertexBufferData::Vector4{});
-			sstream >> vertex.back().position.x >> vertex.back().position.y >> vertex.back().position.z;
+			Vector3& write = vertex.emplace_back();
+			sstream >> write.x >> write.y >> write.z;
 			// 左手座標系から右手座標系へ
-			vertex.back().position.x *= -1;
-			vertex.back().w = 1.0f;
+			write.x *= -1;
 		}
 		// texCoord
 		else if (identifier == "vt") {
-			auto& newTexcoord = texcoord.emplace_back(Vector2{});
+			auto& newTexcoord = texcoord.emplace_back();
 			sstream >> newTexcoord.x >> newTexcoord.y;
 			// blenderとDirectXだとy軸の方向が逆
 			newTexcoord.y = 1.0f - newTexcoord.y;
 		}
 		// normal
 		else if (identifier == "vn") {
-			auto& newNormal = normal.emplace_back(Vector3{});
+			auto& newNormal = normal.emplace_back();
 			sstream >> newNormal.x >> newNormal.y >> newNormal.z;
 			// 左手座標系から右手座標系へ
 			newNormal.x *= -1;
@@ -165,7 +164,7 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 					if (vertex.size() <= elementIndexes[0]) {
 						elementIndexes[0] = 0;
 						if (vertex.empty()) {
-							vertex.emplace_back(VertexBufferData::Vector4{ CVector3::ZERO, 0 });
+							vertex.emplace_back(CVector3::ZERO);
 						}
 					}
 					if (texcoord.size() <= elementIndexes[1]) {
@@ -345,7 +344,7 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 			aiVector3D& normal = mesh->mNormals[vertexIndex];
 			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
 			VertexBufferData& vertex = vertices.emplace_back();
-			vertex.vertex = { { -position.x,position.y, position.z }, 1.0f };
+			vertex.position = { -position.x,position.y, position.z };
 			vertex.normal = { -normal.x, normal.y, normal.z };
 			vertex.texcoord = { texcoord.x, texcoord.y };
 		}

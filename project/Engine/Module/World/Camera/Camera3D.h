@@ -12,7 +12,7 @@
 
 class Camera3D : public WorldInstance {
 public:
-	struct CameraVPBuffers {
+	struct VpBuffers {
 		Matrix4x4 viewProjection;
 		Matrix4x4 view;
 	};
@@ -28,8 +28,7 @@ public:
 	Camera3D() = default;
 	virtual ~Camera3D() = default;
 
-	Camera3D(const Camera3D&) = delete;
-	Camera3D& operator=(const Camera3D&) = delete;
+	__NON_COPYABLE_CLASS(Camera3D)
 
 public:
 	virtual void initialize();
@@ -61,14 +60,15 @@ public:
 	void debug_draw_axis();
 	void debug_draw_frustum() const;
 	const Matrix4x4& vp_matrix_debug() const;
+	Reference<const StaticMeshInstance> camera_axis() const { return debugCameraCenter; }
 #endif // _DEBUG
 
 private:
 	Affine viewAffine;
 	Matrix4x4 projectionMatrix;
 
-	ConstantBuffer<CameraVPBuffers> vpBuffers;
-	ConstantBuffer<LightingPathBuffer> worldPosition;
+	ConstantBuffer<VpBuffers> vpBuffers;
+	ConstantBuffer<LightingPathBuffer> lightingBuffer;
 
 	float fovY;
 	float aspectRatio;

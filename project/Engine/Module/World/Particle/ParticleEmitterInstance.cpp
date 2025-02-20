@@ -192,7 +192,6 @@ void ParticleEmitterInstance::emit_once() {
 		float cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
 		float sin = std::sqrt(1.0f - cos * cos);
 		float phi = PI2 * RandomEngine::Random01MOD();
-		float radius = std::pow(RandomEngine::Random01MOD(), 1.0f / 3.0f);
 		Vector3 axis = { sin * std::cos(phi), sin * std::sin(phi), cos };
 		rotation = Particle::Random{
 			.axis = axis.normalize_safe(),

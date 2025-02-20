@@ -1,8 +1,8 @@
 #include "../Deferred.hlsli"
 
 struct TransformMatrix {
-	float4x4 world;
-	float4x4 worldIT;
+	float4x3 world;
+	float3x3 worldIT;
 };
 
 struct CameraInfomation {
@@ -12,11 +12,11 @@ struct CameraInfomation {
 
 struct SkeletonMatrixPalette {
 	float4x4 skeletonSpaceMatrix;
-	float4x4 skeletonSpaceInv;
+	float3x3 skeletonIT;
 };
 
 struct VertexShaderInput {
-	float4 position : POSITION0;
+	float3 position : POSITION0;
 	float2 texcoord : TEXCOORD0;
 	float3 normal : NORMAL0;
 	
@@ -24,37 +24,39 @@ struct VertexShaderInput {
 	uint4 index : INDEX0;
 };
 
-ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b1);
-StructuredBuffer<SkeletonMatrixPalette> gSkeletonMatrixPalette : register(t1);
-
-static const float4x4 wITv = mul(gTransformMatrix.worldIT, gCameraMatrix.view);
-
-static const float4x4 wvp = mul(gTransformMatrix.world, gCameraMatrix.viewProjection);
+StructuredBuffer<TransformMatrix> gTransformMatrix : register(t0, space0);
+ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0, space1);
+StructuredBuffer<SkeletonMatrixPalette> gSkeletonMatrixPalette : register(t1, space0);
+uint gPaletteSize : register(b0);
 
 struct SkinnedVertex {
-	float4 position;
+	float3 position;
 	float3 normal;
 };
 
-VertexShaderOutput main(VertexShaderInput input) {
+VertexShaderOutput main(VertexShaderInput input, uint instance : SV_InstanceID) {
 	SkinnedVertex skinned;
-	skinned.position = float4(0, 0, 0, 0);
+	skinned.position = float3(0, 0, 0);
 	skinned.normal = float3(0, 0, 0);
 	static const uint MaxJoint = 4;
 	for (uint i = 0; i < MaxJoint; ++i) {
-		uint index = input.index[i];
+		uint index = input.index[i] + gPaletteSize * instance;
 		float weight = input.weight[i];
-		skinned.position += mul(input.position, gSkeletonMatrixPalette[index].skeletonSpaceMatrix) * weight;
-		skinned.normal += mul(input.normal, (float3x3)transpose(gSkeletonMatrixPalette[index].skeletonSpaceInv)) * weight;
+		skinned.position += mul(float4(input.position, 1.0f), gSkeletonMatrixPalette[index].skeletonSpaceMatrix).xyz * weight;
+		skinned.normal += normalize(mul(input.normal, gSkeletonMatrixPalette[index].skeletonIT)) * weight;
 	}
-	skinned.position.w = 1.0f;
 	skinned.normal = normalize(skinned.normal);
+	
+	float3 world = mul(skinned.position, (float3x3)gTransformMatrix[instance].world)
+	+ gTransformMatrix[instance].world[3];
+	const float3x3 worldIT = gTransformMatrix[instance].worldIT;
 	
 	VertexShaderOutput output;
 
-	output.position = mul(skinned.position, wvp);
+	output.position = mul(float4(world, 1.0f), gCameraMatrix.viewProjection);
 	output.texcoord = input.texcoord;
-	output.normal = normalize(mul(skinned.normal, (float3x3)wITv));
+	float3 worldView = normalize(mul(skinned.normal, worldIT));
+	output.normal = normalize(mul(worldView, (float3x3)gCameraMatrix.view));
+	output.instance = instance;
 	return output;
 }
