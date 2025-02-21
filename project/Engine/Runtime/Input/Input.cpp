@@ -22,10 +22,6 @@ void Input::Initialize() {
 void Input::Update() {
 	HRESULT result;
 	Input& instance = GetInstance();
-	// preと今をswapすることで前状態を記録
-	std::swap(instance.joystate, instance.preJoystate);
-	std::swap(instance.mouseState, instance.preMouseState);
-	std::swap(instance.keyboardState, instance.preKeyboardState);
 
 	// ゲームパッド更新
 	XInputGetState(instance.dwUserIndex, instance.joystate.get());
@@ -70,42 +66,10 @@ bool Input::IsPressKey(KeyID id) {
 	return keyboardState[idInt];
 }
 
-bool Input::IsTriggerKey(KeyID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& keyboardState = instance.keyboardState;
-	auto& preKeyboardState = instance.preKeyboardState;
-	return keyboardState[idInt] && !preKeyboardState[idInt];
-}
-
-bool Input::IsReleaseKey(KeyID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& keyboardState = instance.keyboardState;
-	auto& preKeyboardState = instance.preKeyboardState;
-	return !keyboardState[idInt] && preKeyboardState[idInt];
-}
-
 bool Input::IsPressMouse(MouseID id) {
 	int idInt = static_cast<int>(id);
 	auto& rgbButtons = GetInstance().mouseState->rgbButtons;
 	return rgbButtons[idInt];
-}
-
-bool Input::IsTriggerMouse(MouseID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& rgbButtons = instance.mouseState->rgbButtons;
-	auto& preRgbButtons = instance.preMouseState->rgbButtons;
-	return rgbButtons[idInt] && !preRgbButtons[idInt];
-}
-
-bool Input::IsReleaseMouse(MouseID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& rgbButtons = instance.mouseState->rgbButtons;
-	auto& preRgbButtons = instance.preMouseState->rgbButtons;
-	return !rgbButtons[idInt] && preRgbButtons[idInt];
 }
 
 const Vector2& Input::MousePosition() {
@@ -130,22 +94,6 @@ bool Input::IsPressPad(PadID id) {
 	int idInt = static_cast<int>(id);
 	auto& buttons = GetInstance().joystate->Gamepad.wButtons;
 	return buttons & idInt;
-}
-
-bool Input::IsTriggerPad(PadID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& buttons = instance.joystate->Gamepad.wButtons;
-	auto& preButtons = instance.preJoystate->Gamepad.wButtons;
-	return (buttons & idInt) && !(preButtons & idInt);
-}
-
-bool Input::IsReleasePad(PadID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& buttons = instance.joystate->Gamepad.wButtons;
-	auto& preButtons = instance.preJoystate->Gamepad.wButtons;
-	return !(buttons & idInt) && (preButtons & idInt);
 }
 
 Vector2 Input::StickL() {
@@ -261,7 +209,6 @@ void Input::create_keybord_device() {
 
 	// stateの初期化
 	keyboardState.resize(256);
-	preKeyboardState.resize(256);
 }
 
 void Input::create_mouse_device() {
@@ -284,24 +231,22 @@ void Input::create_mouse_device() {
 
 	// stateの生成
 	mouseState = std::make_unique<DIMOUSESTATE2>();
-	preMouseState = std::make_unique<DIMOUSESTATE2>();
 }
 
 void Input::initialize_joystate() {
 	// stateの生成
 	joystate = std::make_unique<XINPUT_STATE>();
-	preJoystate = std::make_unique<XINPUT_STATE>();
 }
 
 Vector2 InputAdvanced::PressWASD() {
-	return PressCustum(KeyID::W, KeyID::S, KeyID::A, KeyID::D);
+	return PressCustom(KeyID::W, KeyID::S, KeyID::A, KeyID::D);
 }
 
 Vector2 InputAdvanced::PressArrow() {
-	return PressCustum(KeyID::Up, KeyID::Down, KeyID::Left, KeyID::Right);
+	return PressCustom(KeyID::Up, KeyID::Down, KeyID::Left, KeyID::Right);
 }
 
-Vector2 InputAdvanced::PressCustum(KeyID up, KeyID down, KeyID left, KeyID right) {
+Vector2 InputAdvanced::PressCustom(KeyID up, KeyID down, KeyID left, KeyID right) {
 	Vector2 result = CVector2::ZERO;
 	if (Input::IsPressKey(up)) {
 		result.y += 1.0f;

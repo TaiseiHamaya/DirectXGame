@@ -31,6 +31,7 @@ void Camera3D::initialize() {
 		std::make_unique<PrimitiveGeometryDrawExecutor>(
 			PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 1
 		);
+	debugMouseInputHandler.initialize({ MouseID::Middle, MouseID::Left });
 #endif // _DEBUG
 
 	update_affine();
@@ -154,12 +155,7 @@ using namespace std::literals::string_literals;
 void Camera3D::debug_gui() {
 	transform.debug_gui();
 
-	//if (ImGui::Button("SaveJson")) {
-	//	constexpr const char* fileName = "Camera3D";
-	//	JsonAsset output{ "WorldInstance/"s + fileName + ".json"};
-	//	to_json(output);
-	//	output.save();
-	//}
+	debug_camera();
 
 	ImGui::Separator();
 	ImGui::Checkbox("DebugCamera", &isValidDebugCamera);
@@ -170,10 +166,10 @@ void Camera3D::debug_gui() {
 		debugCameraCenter->get_transform().debug_gui();
 		debugCamera->get_transform().debug_gui();
 	}
-	debug_camera();
 }
 
 void Camera3D::debug_camera() {
+	debugMouseInputHandler.update();
 	// デバッグカメラ時のみ実行
 	// ImGUIとマウスが重なっているときは実行しない
 	if (isValidDebugCamera && !ImGui::GetIO().WantCaptureMouse) {
@@ -185,7 +181,7 @@ void Camera3D::debug_camera() {
 		offset.z = std::min(offset.z + wheel, 0.0f);
 
 		// 左クリック(回転)
-		if (Input::IsPressMouse(MouseID::Left)) {
+		if (debugMouseInputHandler.press(MouseID::Left)) {
 			// 倍率をかけて調整
 			Vector2 rotateAngle = mouseDelta / 200;
 			Quaternion rotation = debugCamera->get_transform().get_quaternion();
@@ -197,7 +193,7 @@ void Camera3D::debug_camera() {
 		}
 
 		// 中クリック(Translate)
-		else if (Input::IsPressMouse(MouseID::Middle)) {
+		else if (debugMouseInputHandler.press(MouseID::Middle)) {
 			// Vector3にし、倍率をかける
 			Vector3 move = Converter::ToVector3(mouseDelta / 100, 0);
 			// X軸は反転させる

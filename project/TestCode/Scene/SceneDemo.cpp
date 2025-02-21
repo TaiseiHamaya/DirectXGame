@@ -38,6 +38,7 @@
 #include <Engine/Module/World/Mesh/StaticMeshInstance.h>
 #include <Engine/Module/World/Sprite/SpriteInstance.h>
 #include <Engine/Module/World/WorldManager.h>
+#include <Engine/Runtime/Input/InputHandler.h>
 #include <Engine/Runtime/Scene/SceneManager.h>
 
 //#define QUATERNION_SERIALIZER

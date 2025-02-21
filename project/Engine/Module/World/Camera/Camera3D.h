@@ -6,6 +6,7 @@
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
 #ifdef _DEBUG
+#include "Engine/Runtime/Input/InputHandler.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
 #endif // _DEBUG
@@ -84,6 +85,6 @@ private:
 	std::unique_ptr<WorldInstance> debugCamera;
 	std::unique_ptr<PrimitiveGeometryDrawExecutor> frustumExecutor;
 	Vector3 offset;
-	Vector2 preMousePos;
+	InputHandler<MouseID> debugMouseInputHandler;
 #endif // _DEBUG
 };
