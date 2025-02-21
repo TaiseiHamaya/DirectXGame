@@ -137,6 +137,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.cpp" />
     <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp" />
+    <ClCompile Include="Engine\Runtime\Input\InputHandler.cpp" />
     <ClCompile Include="TestCode\GameDemo.cpp" />
     <ClCompile Include="TestCode\Scene\FactoryDemo.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
@@ -267,6 +268,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.h" />
     <ClInclude Include="Engine\Debug\Profiler\TimestampProfiler.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.h" />
+    <ClInclude Include="Engine\Runtime\Input\InputHandler.h" />
     <ClInclude Include="TestCode\GameDemo.h" />
     <ClInclude Include="TestCode\Scene\FactoryDemo.h" />
     <ClInclude Include="Library\Math\Affine.h" />
