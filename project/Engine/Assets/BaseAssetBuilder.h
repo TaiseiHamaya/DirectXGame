@@ -29,7 +29,7 @@ public:
 	virtual void postprocess() = 0;
 
 	/// <summary>
-	/// Transfer resource manager
+	/// Transfer asset library
 	/// </summary>
 	virtual void transfer() = 0;
 

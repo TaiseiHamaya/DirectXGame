@@ -30,8 +30,7 @@ public:
 	/// <summary>
 	/// ロードイベントの登録
 	/// </summary>
-	/// <param name="eventID">LoadEventID</param>
-	/// <param name="filePath">ファイルパス</param>
+	/// <param name="builder"></param>
 	static void RegisterLoadQue(std::unique_ptr<BaseAssetBuilder> builder) noexcept(false);
 
 	/// <summary>

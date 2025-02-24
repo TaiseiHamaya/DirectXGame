@@ -94,10 +94,6 @@ void DxSwapChain::create_render_target() {
 	renderTarget->initialize();
 }
 
-#ifdef _DEBUG
-#include "Engine/Runtime/WorldClock/WorldClock.h"
-#endif // _DEBUG
-
 void DxSwapChain::swap_screen() {
 #ifdef _DEBUG
 	if (EngineSettings::isUnlimitedRefreshRate) {
