@@ -87,10 +87,6 @@ void BackgroundLoader::load_manager() {
 			// 先頭要素を転送キューに追加(内部要素のmoveなので、listそのものはmutex必要なし)
 			waitTransferQue.emplace_back(std::move(*nowEvent));
 		}
-		// 失敗時は転送せずエラー出力
-		//else {
-		//	Console("Failed loading. File-\'{}\'\n", nowEvent->data->filepath().string());
-		//}
 
 		// mutexの再ロック
 		lock.lock();

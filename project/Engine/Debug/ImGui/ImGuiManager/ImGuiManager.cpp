@@ -36,6 +36,9 @@ void ImGuiManager::Initialize() {
 		SRVDescriptorHeap::GetCPUHandle(srvIndex),
 		SRVDescriptorHeap::GetGPUHandle(srvIndex)
 	);
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->AddFontFromFileTTF("./EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 }
 
 void ImGuiManager::Finalize() {
