@@ -6,8 +6,8 @@
 
 #include "./PolygonMesh.h"
 #include "./PolygonMeshBuilder.h"
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Debug/Output.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -42,7 +42,7 @@ std::shared_ptr<const PolygonMesh> PolygonMeshLibrary::GetPolygonMesh(const std:
 	}
 	else {
 		// 存在しないメッシュを呼び出したらエラー用メッシュを使用する
-		Console("Warning : Unknown polygon mesh. Name-\'{:}\'\n", meshName);
+		Warning("Unknown polygon mesh. Name-\'{:}\'", meshName);
 		return GetInstance().meshInstanceList.at("ErrorObject.obj");
 	}
 }
@@ -54,7 +54,7 @@ bool PolygonMeshLibrary::IsRegistered(const std::string& meshName) {
 
 void PolygonMeshLibrary::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	Console("Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Infomation("Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().meshInstanceList.emplace(name, data);
 }
 

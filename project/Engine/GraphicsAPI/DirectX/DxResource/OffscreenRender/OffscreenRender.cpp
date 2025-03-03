@@ -1,8 +1,8 @@
 #include "OffscreenRender.h"
 
-#include <cassert>
 #include <format>
 
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
@@ -48,7 +48,8 @@ void OffscreenRender::create_resource(UINT64 width, UINT height, DXGI_FORMAT for
 		nullptr,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
-	assert(SUCCEEDED(hr));
+	ErrorIf(FAILED(hr), "Failed create offscreen resource. Width-\'{}\', Height-\'{}\', Format-\'{}\'",
+		width, height, (int)format);
 }
 
 void OffscreenRender::change_resource_state() {

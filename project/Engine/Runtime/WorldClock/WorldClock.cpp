@@ -25,7 +25,7 @@ void WorldClock::Update() {
 	// duration算出
 	auto secDuration = chrono::duration_cast<second_f>(now - instance.startFrameTimePoint);
 	// deltaTimeとして記録
-	instance.deltaSeconds = EngineSettings::isFixDeltaTime ? std::min(EngineSettings::FixDeltaSeconds, secDuration.count()) : secDuration.count();
+	instance.deltaSeconds = EngineSettings::IsFixDeltaTime ? std::min(EngineSettings::FixDeltaSeconds, secDuration.count()) : secDuration.count();
 
 	// Startを更新
 	instance.startFrameTimePoint = now;
@@ -52,7 +52,7 @@ void WorldClock::DebugGui() {
 	uint32_t msDecimal = static_cast<uint32_t>((deltaMS - std::floor(deltaMS)) * 1e4f);
 	ImGui::Text(std::format("Delta : {:>5}.{:0>4}ms", msInteger, msDecimal).c_str());
 	instance.profiler.debug_gui();
-	ImGui::Checkbox("IsFixDeltaTime", &EngineSettings::isFixDeltaTime);
-	ImGui::Checkbox("IsUnlimitedFPS", &EngineSettings::isUnlimitedRefreshRate);
+	ImGui::Checkbox("IsFixDeltaTime", &EngineSettings::IsFixDeltaTime);
+	ImGui::Checkbox("IsUnlimitedFPS", &EngineSettings::IsUnlimitedFPS);
 }
 #endif // _DEBUG

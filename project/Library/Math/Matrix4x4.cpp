@@ -1,5 +1,7 @@
 #include "Matrix4x4.h"
 
+#include "Engine/Application/Output.h"
+
 const Matrix4x4 Matrix4x4::Inverse(const Matrix4x4& matrix) {
 	return matrix.inverse();
 }
@@ -27,10 +29,8 @@ const Matrix4x4 Matrix4x4::inverse() const {
 					break;
 				}
 			}
-			if (!found) {
-				// 交換できない場合は何かがおかしいので止める
-				assert(false);
-			}
+
+			WarningIf(!found, "Matrix4x4::inverse was called. But determinant is 0.");
 		}
 
 		// 単位行列にするため[i][i]を取得
@@ -60,19 +60,6 @@ const Matrix4x4 Matrix4x4::inverse() const {
 			inversed[i][j] = augmented[i][j + 4];
 		}
 	}
-
-	// 正しくinverseできたかチェック(デバッグのみ)
-#ifdef _DEBUG
-	bool isInversed = true;
-	for (size_t i = 0; i < 4; ++i) {
-		for (size_t j = 0; j < 4; ++j) {
-			if (!(i == j ? augmented[i][j] == 1 : augmented[i][j] == 0)) {
-				isInversed = false;
-			}
-		}
-	}
-	assert(isInversed);
-#endif // _DEBUG
 
 	return inversed;
 }

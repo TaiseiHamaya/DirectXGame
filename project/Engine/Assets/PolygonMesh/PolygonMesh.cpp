@@ -6,8 +6,8 @@
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Debug/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/IndexBuffer/IndexBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
@@ -21,7 +21,7 @@ PolygonMesh::~PolygonMesh() noexcept = default;
 
 bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	bool result = false;
-	Console("Start load file-\'{}\'\n", filePath.string());
+	Infomation("Start load file-\'{}\'", filePath.string());
 	//directory = filePath.parent_path();
 
 	std::string stem = filePath.extension().string();
@@ -43,7 +43,7 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 		++index;
 	}
 
-	Console("Succeeded\n");
+	Infomation("Succeeded.");
 	return true;
 }
 
@@ -102,7 +102,7 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 	// ファイルを開く
 	std::ifstream file(filePath);
 	if (!file.is_open()) {
-		Console("Warning : File \'{}\' is not found.\n", filePath.string());
+		Error("File \'{}\' is not found.", filePath.string());
 		return false;
 	}
 
@@ -232,7 +232,7 @@ bool PolygonMesh::load_mtl_file(const std::filesystem::path& mtlFilePath) {
 	// mtlファイルを開く
 	file.open(mtlFilePath);
 	if (!file.is_open()) {
-		Console("Warning : File \'{}\' is not found.\n", mtlFilePath.string());
+		Warning("File \'{}\' is not found.", mtlFilePath.string());
 		return false;
 	}
 
@@ -292,11 +292,11 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 		aiProcess_LimitBoneWeights
 	);
 	if (importer.GetException() || !scene) {
-		Console("Import error. {}\n", importer.GetErrorString());
+		Error("Failed to load mesh file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
 		return false;
 	}
 	if (!scene->HasMeshes()) {
-		Console("Warning : Can't find mesh. File-\'{}\'\n", filePath.string());
+		Error("Can't find mesh. File-\'{}\'", filePath.string());
 		return false;
 	}
 
@@ -334,7 +334,7 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		// normalが存在しない、texcoordが存在しない場合はメッシュとして使用しない
 		if (!mesh->HasNormals() || !mesh->HasTextureCoords(0)) {
-			Console("Warning : This mesh don't have normal or texcoord. File-\'{}\'\n", filePath.string());
+			Error("This mesh don't have normal or texcoord. File-\'{}\'", filePath.string());
 			continue;
 		}
 		vertices.reserve(mesh->mNumVertices);

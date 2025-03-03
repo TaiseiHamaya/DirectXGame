@@ -453,7 +453,7 @@
     <ClCompile Include="Library\Utility\Tools\ConvertString.cpp">
       <Filter>Engine\Utility\Tools\ConvertString</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Output.cpp">
+    <ClCompile Include="Engine\Application\Output.cpp">
       <Filter>Engine\Debug\Output</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp">
@@ -839,7 +839,7 @@
     <ClInclude Include="Engine\Module\World\WorldInstance\WorldInstance.h">
       <Filter>Engine\Module\World\WorldInstance</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Output.h">
+    <ClInclude Include="Engine\Application\Output.h">
       <Filter>Engine\Debug\Output</Filter>
     </ClInclude>
     <ClInclude Include="Library\Utility\Tools\ConvertString.h">

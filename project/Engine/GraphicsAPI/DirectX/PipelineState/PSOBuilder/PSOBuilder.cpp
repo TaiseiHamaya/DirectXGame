@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 
@@ -22,7 +22,7 @@ const std::vector<D3D12_INPUT_ELEMENT_DESC>& InputLayoutBuilder::build() {
 Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignatureDesc{};
-	descriptionRootSignatureDesc.Flags = 
+	descriptionRootSignatureDesc.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_CBV_SRV_UAV_HEAP_DIRECTLY_INDEXED | // Bindless化を許可する
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT; // シリアライズしてバイナリにする
 	descriptionRootSignatureDesc.pParameters = rootParameters.data(); // 設定した配列のポインタ
@@ -33,15 +33,14 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
 	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob;
 	HRESULT hr;
+
 	// バイナリに変換
 	hr = D3D12SerializeRootSignature(&descriptionRootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, signatureBlob.GetAddressOf(), errorBlob.GetAddressOf());
-	if (FAILED(hr)) {
-		Console("{}", reinterpret_cast<char*>(errorBlob->GetBufferPointer())); // 失敗したらログを出す
-		assert(false);
-	}
+	ErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+
 	// 変換したバイナリからRootSignatureを生成
 	hr = DxDevice::GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(rootSignature.GetAddressOf()));
-	assert(SUCCEEDED(hr));
+	ErrorIf(FAILED(hr), "Failed to create root signature.");
 	return rootSignature;
 }
 
@@ -95,7 +94,7 @@ Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 	HRESULT hr;
 	hr = DxDevice::GetDevice()
 		->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(graphicsPipelineState.GetAddressOf())); // PSOの生成
-	assert(SUCCEEDED(hr));
+	ErrorIf(FAILED(hr), "Failed to create PSO.");
 
 	return graphicsPipelineState;
 }

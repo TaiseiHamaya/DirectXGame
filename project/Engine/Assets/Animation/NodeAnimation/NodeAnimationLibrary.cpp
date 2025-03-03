@@ -2,11 +2,12 @@
 
 #include <mutex>
 
+#include <Library/Utility/Tools/SmartPointer.h>
+
 #include "./NodeAnimationAsset.h"
 #include "./NodeAnimationAssetBuilder.h"
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Debug/Output.h"
-#include "Library/Utility/Tools/SmartPointer.h"
 
 #ifdef _DEBUG
 #include <ranges>
@@ -30,7 +31,7 @@ std::shared_ptr<const NodeAnimationAsset> NodeAnimationLibrary::GetAnimation(con
 		return GetInstance().instanceList.at(name);
 	}
 	else {
-		//Console("Unloading . Name-\'{:}\'\n", name);
+		//Console("Unloading . Name-\'{:}\'", name);
 		return nullptr;
 	}
 }
@@ -42,7 +43,7 @@ bool NodeAnimationLibrary::IsRegistered(const std::string& name) {
 
 void NodeAnimationLibrary::Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset> data) {
 	std::lock_guard<std::mutex> lock{ nodeAnimationMutex };
-	Console("Transfer new node animation. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Infomation("Transfer new NodeAnimation. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 

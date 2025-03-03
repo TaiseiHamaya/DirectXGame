@@ -1,14 +1,14 @@
 #include "NodeAnimationAssetBuilder.h"
 
-#include "./NodeAnimationAsset.h"
-#include "./NodeAnimationLibrary.h"
-#include "Engine/Debug/Output.h"
-
-#include "Library/Utility/Tools/SmartPointer.h"
+#include <Library/Utility/Tools/SmartPointer.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+
+#include "./NodeAnimationAsset.h"
+#include "./NodeAnimationLibrary.h"
+#include "Engine/Application/Output.h"
 
 NodeAnimationAssetBuilder::NodeAnimationAssetBuilder(const std::filesystem::path& filePath_) {
 	filePath = filePath_;
@@ -29,12 +29,12 @@ bool NodeAnimationAssetBuilder::run() {
 	);
 	// ロード失敗時
 	if (importer.GetException() || !scene) {
-		Console("Import error. {}\n", importer.GetErrorString());
+		Error("Failed to load animation file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
 		return false;
 	}
 	// アニメーションが存在しない
 	if (!scene->HasAnimations()) {
-		Console("Can't find animation. File-\'{}\'\n", filePath.string());
+		Error("Can't find animation. File-\'{}\'", filePath.string());
 		return false;
 	}
 
@@ -49,7 +49,7 @@ bool NodeAnimationAssetBuilder::run() {
 		write.asset = eps::CreateShared<NodeAnimationAsset>();
 		write.asset->load(aiPAnimation);
 	}
-	
+
 	return true;
 }
 

@@ -3,7 +3,7 @@
 #include <array>
 #include <fstream>
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 
 bool IsEqualArrayChunkId(const std::array<char, 4>& read, std::string&& id) {
 	return std::strncmp(read.data(), id.c_str(), 4) == 0;
@@ -24,7 +24,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 		WAVEFORMATEXTENSIBLE format;
 	};
 
-	Console("Start load .wave file. file-\'{}\'\n", filePath.string());
+	Infomation("Start load .wave file. file-\'{}\'", filePath.string());
 
 	// ファイル読み込み
 	std::ifstream file;
@@ -32,7 +32,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 
 	// 失敗したら何もしない
 	if (!file.is_open()) {
-		Console("Failed open file. \'{}\'\n", filePath.filename().string());
+		Error("Failed open file. \'{}\'", filePath.filename().string());
 		return false;
 	}
 
@@ -42,13 +42,13 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 
 	// RIFFじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.header.id, "RIFF")) {
-		Console("Failed loading. File \'{}\' is not RIFF chunk.\n", filePath.filename().string());
+		Error("Failed loading. File \'{}\' don't have RIFF chunk.", filePath.filename().string());
 		return false;
 	}
 
 	// WAVEフォーマットじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.type, "WAVE")) {
-		Console("Failed loading. File \'{}\' is not .WAVE format_.\n", filePath.filename().string());
+		Error("Failed loading. File \'{}\' is not WAVE format.", filePath.filename().string());
 		return false;
 	}
 
@@ -70,6 +70,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 	}
 	// chunk.sizeよりformatが小さくないとread時にエラーになる
 	if (formatChunk.header.size > sizeof(formatChunk.format)) {
+		Error("This fmt chunk format is not support. Size-\'{}\'", formatChunk.header.size);
 		return false;
 	}
 
@@ -94,7 +95,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 
 	// dataチャンクがなかったらエラー
 	if (!IsEqualArrayChunkId(data.id, "data")) {
-		Console("Failed loading. \'data\' chunk is not found. File-\'{}\'\n", filePath.string());
+		Error("Failed loading. \'data\' chunk is not found. File-\'{}\'", filePath.string());
 		return false;
 	}
 
@@ -105,7 +106,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 	bufferSize_ = data.size;
 	file.close();
 
-	Console("Succeeded\n");
+	Infomation("Succeeded.");
 	return true;
 }
 

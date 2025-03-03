@@ -183,7 +183,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp" />
-    <ClCompile Include="Engine\Debug\Output.cpp" />
+    <ClCompile Include="Engine\Application\Output.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCore.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.cpp" />
@@ -322,7 +322,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\WorldClock\WorldClock.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.h" />
-    <ClInclude Include="Engine\Debug\Output.h" />
+    <ClInclude Include="Engine\Application\Output.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCore.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.h" />

@@ -10,7 +10,7 @@ void TimestampProfiler::debug_gui() {
 	auto flags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_NoHostExtendX;
 	if (ImGui::BeginTable("Timestamps", 2, flags)) {
 		ImGui::TableSetupColumn("Timestamps", ImGuiTableColumnFlags_WidthFixed, 100);
-		ImGui::TableSetupColumn("Duration", ImGuiTableColumnFlags_WidthFixed, 70);
+		ImGui::TableSetupColumn("Duration", ImGuiTableColumnFlags_WidthFixed, 60);
 		ImGui::TableHeadersRow();
 
 		for (auto& timestamp : timestamps) {
@@ -19,10 +19,10 @@ void TimestampProfiler::debug_gui() {
 			ImGui::Text(timestamp.name.c_str());
 			ImGui::TableSetColumnIndex(1);
 			if (timestamp.duration) {
-				ImGui::Text(std::format("{}", timestamp.duration.value()).c_str());
+				ImGui::Text(std::format("{: >9}", timestamp.duration.value()).c_str());
 			}
 			else {
-				ImGui::Text("N/A");
+				ImGui::Text("      N/A");
 			}
 		}
 

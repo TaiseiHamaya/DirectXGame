@@ -2,14 +2,16 @@
 
 #include <fstream>
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 
 JsonAsset::JsonAsset(const std::filesystem::path& file) {
 	load(file);
 }
 
 void JsonAsset::load(const std::filesystem::path& file) {
-	assert(file.extension() == ".json");
+	if (file.extension() != ".json") {
+		Warning("This file's extension is not .json. File\'{}\'", file.string());
+	}
 	const std::filesystem::path DEFAULT_DIRECTORY{ "./Resources/Json/" };
 
 	// 相対ディレクトリで始まる場合
@@ -24,7 +26,7 @@ void JsonAsset::load(const std::filesystem::path& file) {
 	std::ifstream ifstream{ filePath };
 
 	if (ifstream.fail()) {
-		Console("Warning : File-\'{}\' is not found.\n", filePath.stem().string());
+		Error("File-\'{}\' is not found.", filePath.stem().string());
 		return;
 	}
 

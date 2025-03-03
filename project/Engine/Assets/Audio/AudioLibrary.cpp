@@ -4,11 +4,12 @@
 
 #include <mutex>
 
+#include <Library/Utility/Tools/SmartPointer.h>
+
 #include "./AudioAsset.h"
 #include "./AudioAssetBuilder.h"
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
-#include "Library/Utility/Tools/SmartPointer.h"
-#include "Engine/Debug/Output.h"
 
 std::mutex audioMutex;
 
@@ -54,7 +55,7 @@ const std::unique_ptr<AudioAsset>& AudioLibrary::GetAudio(const std::string& aud
 		return GetInstance().audioResources.at(audioName);
 	}
 	else {
-		Console("Warning : Audio Name-\'{:}\' is not loading.\n", audioName);
+		Warning("Audio Name-\'{:}\' is not loading.", audioName);
 		return GetInstance().audioResources.at("NULL");
 	}
 }
@@ -74,10 +75,10 @@ void AudioLibrary::UnloadAudio(const std::string& audioName) {
 void AudioLibrary::Transfer(const std::string& name, std::unique_ptr<AudioAsset>&& data) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
 	if (IsRegisteredNonlocking(name)) {
-		Console("Warning : Transferring registered Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+		Warning("Transferring registered Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
-	Console("Transfer new Audio. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Infomation("Transfer new Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().audioResources.emplace(name, std::move(data));
 
 }

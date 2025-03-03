@@ -6,8 +6,8 @@
 #include <Library/Utility/Tools/SmartPointer.h>
 
 #include "./TextureAssetBuilder.h"
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Debug/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 #ifdef _DEBUG
@@ -53,7 +53,7 @@ std::shared_ptr<const Texture> TextureLibrary::GetTexture(const std::string& tex
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
-		Console("Warning : Texture Name-\'{:}\' is not loading.\n", textureName);
+		Warning("Texture Name-\'{:}\' is not loading.", textureName);
 		return GetInstance().textureInstanceList.at("Error.png");
 	}
 }
@@ -66,7 +66,7 @@ bool TextureLibrary::IsRegistered(const std::string& textureName) noexcept(false
 void TextureLibrary::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(textureName)) {
-		Console("Unload texture Name-\'{:}\'.\n", textureName);
+		Infomation("Unload texture Name-\'{:}\'.", textureName);
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		texture->release_srv_heap();
 		texture.reset();
@@ -78,10 +78,10 @@ void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<Texture>&
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(name)) {
 		data->release_srv_heap();
-		Console("Warning : Transferring registered texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+		Warning("Transferring registered texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
-	Console("Transfer new Texture. Name-\'{:}\', Address-\'{:}\'\n", name, (void*)data.get());
+	Infomation("Transfer new Texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 

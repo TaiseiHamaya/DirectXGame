@@ -171,12 +171,10 @@ constexpr Matrix3x3 Transform2D::MakeTranslateMatrix(const Vector2& translate) n
 
 constexpr Vector2 Transform2D::Homogeneous(const Vector2& vector, const Matrix3x3& matrix) {
 	float w = vector.x * matrix[0][2] + vector.y * matrix[1][2] + 1.0f * matrix[2][2];
-	assert(w != 0);
 	return { (vector.x * matrix[0][0] + vector.y * matrix[1][0] + 1.0f * matrix[2][0]) / w, (vector.x * matrix[0][1] + vector.y * matrix[1][1] + 1.0f * matrix[2][1]) / w };;
 }
 
 constexpr Vector2 Transform2D::HomogeneousVector(const Vector2& vector, const Matrix3x3& matrix) {
 	float w = vector.x * matrix[0][2] + vector.y * matrix[1][2] + 1.0f * matrix[2][2];
-	assert(w != 0);
 	return { (vector.x * matrix[0][0] + vector.y * matrix[1][0] + 1.0f * 0) / w, (vector.x * matrix[0][1] + vector.y * matrix[1][1] + 1.0f * 0) / w };
 }

@@ -1,14 +1,15 @@
 #include "WinApp.h"
 
-#include <cassert>
+#include <dbghelp.h>
+#include <timeapi.h>
 
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/Audio/AudioLibrary.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Debug/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
@@ -17,7 +18,11 @@
 
 #include "Library/Utility/Tools/RandomEngine.h"
 
-#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "Dbghelp.lib") // Symとか
+#pragma comment(lib, "Oleacc.lib") // GetProcessHandleFromHwnd
+#pragma comment(lib, "winmm.lib") // timeBeginPeriod
+
+extern "C" HANDLE WINAPI GetProcessHandleFromHwnd(_In_ HWND hwnd);
 
 #ifdef _DEBUG
 #include "Engine/Debug/ImGui/ImGuiManager/ImGuiManager.h"
@@ -61,14 +66,17 @@ void WinApp::Initialize(DWORD windowConfig) {
 	// chrono時間精度の設定
 	timeBeginPeriod(1);
 
-	assert(!instance);
+	ErrorIf(instance, "WinApp is already initialized.");
+
 	instance.reset(new WinApp{});
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
-
+	// Log出力システムの初期化
 	InitializeLog();
-
+	// アプリケーションの初期化
 	instance->initialize_application(windowConfig);
+	// シンボルハンドラーの初期化
+	SymInitialize(instance->hProcess, nullptr, true);
 	//DirectXの初期化
 	DxCore::Initialize();
 	// テクスチャマネージャの初期化
@@ -114,7 +122,7 @@ void WinApp::Initialize(DWORD windowConfig) {
 	// 待機
 	BackgroundLoader::WaitEndExecute();
 
-	Console("Complete initialize application.\n");
+	Infomation("Complete initialize application.");
 }
 
 void WinApp::BeginFrame() {
@@ -139,10 +147,10 @@ void WinApp::EndFrame() {
 
 void WinApp::Finalize() {
 	// 終了通知
-	Console("End Program.\n");
+	Infomation("End Program.");
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
-	Console("Closed Window.\n");
+	Infomation("Closed Window.");
 
 	// 各種終了処理
 	// Initializeと逆順でやる
@@ -158,22 +166,21 @@ void WinApp::Finalize() {
 	TextureLibrary::Finalize();
 	//DirectXを終了
 	DxCore::Finalize();
-
 	// COMの終了
 	CoUninitialize();
 	instance.reset();
 
 	// ログ
-	Console("Complete finalize application.\n");
+	Infomation("Complete finalize application.");
 
-	// chrono内のTZDBを削除
+	// chrono内のTZDBを削除(これ以降ログ出力はされない)
 	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
-	Console("Show application window.\n");
+	Infomation("Show application window.");
 }
 
 bool WinApp::IsEndApp() {
@@ -238,6 +245,8 @@ void WinApp::initialize_application(DWORD windowConfig) {
 	);
 
 	hInstance = windowClass.hInstance;
+
+	hProcess = GetProcessHandleFromHwnd(hWnd);
 }
 
 #include <thread>

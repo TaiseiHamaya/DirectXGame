@@ -5,6 +5,8 @@
 
 #include <json.hpp>
 
+#include "Engine/Application/Output.h"
+
 #ifdef _DEBUG
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 #endif // _DEBUG
@@ -71,7 +73,10 @@ inline void JsonAsset::write(const std::string& name, const T& value) {
 
 template<UseabelJson T, typename ...Args>
 inline void JsonAsset::register_value(const std::string& name, T* pValue, [[maybe_unused]] Args&& ...args) {
-	assert(pValue != nullptr);
+	if (pValue == nullptr) {
+		Warning("Registering value is nullptr");
+		return;
+	}
 	(*pValue) = std::move(this->try_emplace<T>(name));
 #ifdef _DEBUG
 	valueEditor.register_value(

@@ -1,8 +1,7 @@
 #include "Input.h"
 
-#include <cassert>
-
-#include <Engine/Application/WinApp.h>
+#include "Engine/Application/Output.h"
+#include "Engine/Application/WinApp.h"
 
 Input& Input::GetInstance() {
 	static Input instance;
@@ -14,7 +13,7 @@ void Input::Initialize() {
 
 	//各種初期化
 	instance.create_direct_input();
-	instance.create_keybord_device();
+	instance.create_keyboard_device();
 	instance.create_mouse_device();
 	instance.initialize_joystate();
 }
@@ -186,10 +185,10 @@ void Input::create_direct_input() {
 		reinterpret_cast<void**>(directInput.GetAddressOf()),
 		nullptr
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 }
 
-void Input::create_keybord_device() {
+void Input::create_keyboard_device() {
 	HRESULT result;
 	// 作成
 	result = directInput->CreateDevice(
@@ -197,15 +196,15 @@ void Input::create_keybord_device() {
 		keyboardDevice.GetAddressOf(),
 		nullptr
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// フォーマットの設定
 	result = keyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// その他コンフィグ
 	result = keyboardDevice->SetCooperativeLevel(
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 
 	// stateの初期化
 	keyboardState.resize(256);
@@ -219,15 +218,15 @@ void Input::create_mouse_device() {
 		mouseDevice.GetAddressOf(),
 		nullptr
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// フォーマットの設定
 	result = mouseDevice->SetDataFormat(&c_dfDIMouse2);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// その他コンフィグ
 	result = mouseDevice->SetCooperativeLevel(
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 
 	// stateの生成
 	mouseState = std::make_unique<DIMOUSESTATE2>();
