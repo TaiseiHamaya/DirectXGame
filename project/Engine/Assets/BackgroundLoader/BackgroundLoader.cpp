@@ -3,7 +3,7 @@
 #include <functional>
 #include <mutex>
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 std::mutex executeMutex;
@@ -95,7 +95,7 @@ void BackgroundLoader::load_manager() {
 
 		// 空だったら自動execute
 		if (loadEvents.empty()) {
-			Console("Notification : Load events is empty. Start uploading texture.\n");
+			Infomation("Load events is empty. Start uploading texture.");
 			// ----- GPUコマンドの実行 -----
 			// コマンド実行
 			DxCommand::ExecuteTextureCommand();
@@ -103,7 +103,7 @@ void BackgroundLoader::load_manager() {
 			DxCommand::WaitTextureCommand();
 			// リセット
 			DxCommand::ResetTextureCommand();
-			Console("Succeeded.\n");
+			Infomation("Succeeded.");
 
 			// ----- 実行済みを転送 -----
 			// 直前にやる

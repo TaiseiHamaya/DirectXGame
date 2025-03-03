@@ -1,6 +1,6 @@
 #include "SkeletonAsset.h"
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 
 #include <Library/Math/Quaternion.h>
 
@@ -88,12 +88,12 @@ bool SkeletonAsset::load(const std::filesystem::path& filePath) {
 	);
 	// ロード失敗時
 	if (importer.GetException() || !scene) {
-		Console("Import error. {}\n", importer.GetErrorString());
+		Error("Failed to load skeleton file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
 		return false;
 	}
 	// スケルトン存在しない
 	if (!scene->mRootNode || !scene->mNumMeshes) {
-		Console("Can't find skeletons. File-\'{}\'\n", filePath.string());
+		Error("Can't find skeletons. File-\'{}\'", filePath.string());
 		return false;
 	}
 

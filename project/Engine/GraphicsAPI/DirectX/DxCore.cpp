@@ -7,7 +7,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
@@ -47,7 +47,7 @@ void DxCore::Initialize() {
 	DepthStencilValue::depthStencil->initialize(DXGI_FORMAT_D32_FLOAT);
 
 	// オールコンプリート
-	Console("Complete create DirectXObjects\n");
+	Infomation("Complete create DirectXObjects");
 }
 
 void DxCore::BeginFrame() {

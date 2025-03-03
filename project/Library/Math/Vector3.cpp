@@ -4,17 +4,19 @@
 #include <cmath>
 #include <algorithm>
 
+#include "Engine/Application/Output.h"
+
 float Vector3::length() const noexcept {
 	return std::sqrt(DotProduct(*this, *this));
 }
 
 Vector3 Vector3::normalize() const noexcept(false) {
-	assert(length() != 0);
+	WarningIf(length() == 0, "Vector3::normalize was called. But length is 0.");
 	return *this / length();;
 }
 
 Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
-	assert(tolerance >= 0);
+	WarningIf(tolerance < 0, "First argument tolerance less 0.");
 	float length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;

@@ -1,7 +1,6 @@
 #include "DxDescriptorHeap.h"
 
-#include <cassert>
-
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 const D3D12_CPU_DESCRIPTOR_HANDLE DxDescriptorHeap::get_cpu_handle(uint32_t index) const noexcept {
@@ -42,6 +41,6 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DxDescriptorHeap::CreateDescriptorH
 	HRESULT hr;
 	// ここで生成
 	hr = DxDevice::GetDevice()->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(descriptorHeap.GetAddressOf()));
-	assert(SUCCEEDED(hr));
+	ErrorIf(FAILED(hr), "Failed creating descriptor heap. Type-\'{}\' Size-\'{}\'", (int)heapType, heapSize);
 	return descriptorHeap;
 }

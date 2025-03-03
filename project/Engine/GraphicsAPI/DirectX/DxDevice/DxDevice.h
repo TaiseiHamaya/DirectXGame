@@ -27,6 +27,7 @@ private:
 	void create_dxgiFactory();
 	void create_adapter();
 	void create_device();
+	void check_future();
 
 private:
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;

@@ -126,7 +126,7 @@ public:
 
 private:
 	void create_direct_input();
-	void create_keybord_device();
+	void create_keyboard_device();
 	void create_mouse_device();
 	void initialize_joystate();
 

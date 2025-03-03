@@ -1,10 +1,10 @@
 #include "DxSwapChain.h"
 
-#include <cassert>
 #include <format>
 #include <memory>
 
 #include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/Output.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
@@ -75,7 +75,7 @@ void DxSwapChain::create_swapchain() {
 	//hr = DxDevice::GetFactory()->CreateSwapChainForHwnd(DxCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, &fullscreenDesc, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	hr = DxDevice::GetFactory()->CreateSwapChainForHwnd(DxCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
-	assert(SUCCEEDED(hr));
+	CriticalIf(FAILED(hr), "Failed creating swap chain.");
 }
 
 void DxSwapChain::create_render_target() {
@@ -86,7 +86,7 @@ void DxSwapChain::create_render_target() {
 	for (uint32_t renderIndex = 0; renderIndex < RenderingSystemValues::NUM_BUFFERING; ++renderIndex) {
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(resource.GetAddressOf()));
-		assert(SUCCEEDED(hr));
+		CriticalIf(FAILED(hr), "Failed creating swapchain render targets.");
 		// view作成
 		renderTarget->set_resource(resource, renderIndex);
 		resource->SetName(std::format(L"SwapChain-RTV{}", renderIndex).c_str());
@@ -96,7 +96,7 @@ void DxSwapChain::create_render_target() {
 
 void DxSwapChain::swap_screen() {
 #ifdef _DEBUG
-	if (EngineSettings::isUnlimitedRefreshRate) {
+	if (EngineSettings::IsUnlimitedFPS) {
 		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 	}
 	else {

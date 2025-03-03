@@ -2,7 +2,6 @@
 
 #include "Matrix.h"
 
-#include <cassert>
 #include <initializer_list>
 
 // ------------------3x3の特殊行列を継承定義------------------
@@ -72,8 +71,6 @@ constexpr Matrix3x3::Matrix3x3(const Matrix<3, 3>&& rhs) noexcept {
 }
 
 constexpr Matrix3x3::Matrix3x3(const std::initializer_list<std::initializer_list<float>>& init) {
-	assert(init.size() == 3 && init.begin()->size() == 3);
-
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			__matrix[i][j] = *((init.begin() + i)->begin() + j);

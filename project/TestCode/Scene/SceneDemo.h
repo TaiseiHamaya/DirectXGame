@@ -102,7 +102,7 @@ private:
 	std::shared_ptr<AudioPlayer> audioPlayer;
 	//std::shared_ptr<OutlineNode> outlineNode;
 
-	JsonAsset jsonResource{ "./Test.json" };
+	//JsonAsset jsonResource{ "./Test.json" };
 	Transform2D testValue{};
 
 	MdStructuredBuffer<Matrix4x4> mdStructure;

@@ -27,9 +27,25 @@ static constexpr std::uint32_t  CLIENT_HEIGHT{ static_cast<std::uint32_t>(CLIENT
 	// FixDeltaSeconds
 static constexpr float FixDeltaSeconds{ 1.0f / 60.0f };
 
-#ifdef _DEBUG
-static inline bool isUnlimitedRefreshRate{ false };
-#endif // _DEBUG
-static inline bool isFixDeltaTime{ false };
+extern inline bool IsFixDeltaTime{ false };
+extern inline bool IsUnlimitedFPS{ false };
 
+// メモ
+// 上位ビットから6bitずつCritical,Error,Warning,Infomation
+// 各6bitの割り当ては上から
+//    コンソール出力
+//    ファイル出力
+//    Editor出力(未実装)
+//    ウィンドウ出力
+//    ブレークポイント命令
+//    Stacktrace出力
+//
+// つまり
+// [CriticalConfig6bit][ErrorConfig6bit][WarningConfig6bit][InfoConfig6bit]
+// の24bit
+#ifdef _DEBUG //                                  C     E     W     I    
+static constexpr uint32_t LogOutputConfigFlags{ 0b111111111111111000111000 };
+#else //                                          C     E     W     I    
+static constexpr uint32_t LogOutputConfigFlags{ 0b110111110111110000000000 };
+#endif // _DEBUG
 };

@@ -10,6 +10,7 @@
 
 #include "../CallbackManagerDemo.h"
 
+#include <Engine/Application/Output.h>
 #include <Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h>
 #include <Engine/Assets/Animation/Skeleton/SkeletonLibrary.h>
 #include <Engine/Assets/Audio/AudioLibrary.h>
@@ -18,7 +19,6 @@
 #include <Engine/Assets/Texture/TextureLibrary.h>
 #include <Engine/Debug/DebugValues/DebugValues.h>
 #include <Engine/Debug/ImGui/ImGuiLoadManager/ImGuiLoadManager.h>
-#include <Engine/Debug/Output.h>
 #include <Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h>
 #include <Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h>
 #include <Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h>
@@ -63,12 +63,12 @@ void SceneDemo::load() {
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Primitive/Triangle.obj");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Primitive/Sphere.obj");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Bone/bone.obj");
-	AudioLibrary::RegisterLoadQue("./EngineResources/Alarm01.wav");
-	AudioLibrary::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
+	//AudioLibrary::RegisterLoadQue("./EngineResources/Alarm01.wav");
+	//AudioLibrary::RegisterLoadQue("./EngineResources/Texture/CircularGaugeTexter.png");
 	// 存在しないファイルをロードしようとするとエラー出力が出る
-	AudioLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
-	PolygonMeshLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
-	TextureLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	//AudioLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	//PolygonMeshLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
+	//TextureLibrary::RegisterLoadQue("./Engine/Resources/SE_meteoEachOther.wav");
 
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Misc/simpleSkin.gltf");
 	NodeAnimationLibrary::RegisterLoadQue("./EngineResources/Models/Misc/simpleSkin.gltf");
@@ -97,7 +97,7 @@ void SceneDemo::initialize() {
 	}
 
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
+	//jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
 	parent = worldManager->create<StaticMeshInstance>(nullptr, false, "Player.gltf");
 	child = worldManager->create<StaticMeshInstance>(parent, false, "Sphere.obj");
@@ -116,7 +116,7 @@ void SceneDemo::initialize() {
 	single3Collider = worldManager->create<AABBCollider>(nullptr, false, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
 	single3Collider->get_transform().set_translate_x(3.0f);
 
-	particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, false, "test.json", 128);
+	//particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, false, "test.json", 128);
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
@@ -293,7 +293,7 @@ void SceneDemo::finalize() {
 void SceneDemo::begin() {
 	collisionManager->begin();
 	animatedMeshInstance->begin();
-	particleEmitter->begin();
+	//particleEmitter->begin();
 
 	std::for_each(
 		primitives.begin(), primitives.end(),
@@ -315,7 +315,7 @@ void SceneDemo::update() {
 
 	animatedMeshInstance->update_animation();
 
-	particleEmitter->update();
+	//particleEmitter->update();
 	directionalLight->update();
 	pointLight->update();
 
@@ -331,7 +331,7 @@ void SceneDemo::begin_rendering() {
 	worldManager->update_matrix();
 
 	sprite->transfer();
-	particleEmitter->transfer();
+	//particleEmitter->transfer();
 	directionalLight->transfer();
 	pointLight->transfer();
 	camera3D->transfer();
@@ -416,7 +416,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 	camera3D->register_world_projection(1);
-	particleEmitter->draw();
+	//particleEmitter->draw();
 
 	renderPath->next();
 
@@ -496,9 +496,9 @@ void SceneDemo::debug_update() {
 	pointLight->debug_gui();
 	ImGui::End();
 
-	ImGui::Begin("Particle");
-	particleEmitter->debug_gui();
-	ImGui::End();
+	//ImGui::Begin("Particle");
+	//particleEmitter->debug_gui();
+	//ImGui::End();
 
 	ImGui::Begin("Audio");
 	audioPlayer->debug_gui();

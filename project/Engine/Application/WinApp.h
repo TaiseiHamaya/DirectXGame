@@ -27,6 +27,7 @@ public:
 
 public:
 	static HWND& GetWndHandle() noexcept { return instance->hWnd; };
+	static HANDLE& GetProcessHandle() noexcept { return instance->hProcess; };
 	static const HINSTANCE& GetWindowHandle() noexcept { return instance->hInstance; };
 
 private:
@@ -41,6 +42,7 @@ private:
 	bool isEndApp{ false };
 	HWND hWnd;
 	HINSTANCE hInstance;
+	HANDLE hProcess;
 
 	MSG msg;
 };

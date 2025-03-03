@@ -1,18 +1,17 @@
 #include "RenderPath.h"
 
-#include <cassert>
-
+#include "Engine/Application/Output.h"
 #include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
 
 void RenderPath::initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める
-	assert(!list.empty());
+	ErrorIf(list.empty(), "The array size of RenderPath must be at least 1.");
 	renderNodeList = std::move(list);
 }
 
 void RenderPath::initialize(std::initializer_list<std::shared_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める
-	assert(list.size() >= 1);
+	ErrorIf(list.size() == 0, "The array size of RenderPath must be at least 1.");
 	// 全て転送
 	renderNodeList = std::move(list);
 }

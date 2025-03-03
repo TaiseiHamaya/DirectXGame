@@ -1,14 +1,12 @@
 #include "StaticMeshInstance.h"
 
-#include <Library/Utility/Tools/SmartPointer.h>
-
+#include "Engine/Application/Output.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Debug/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -49,7 +47,7 @@ void StaticMeshInstance::reset_mesh(const std::string& meshName_) {
 
 void StaticMeshInstance::default_material() {
 	std::shared_ptr<const PolygonMesh> mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
-	
+
 	materials.resize(mesh->material_count());
 
 	for (int i = 0; auto & meshMaterial : materials) {
@@ -64,7 +62,7 @@ void StaticMeshInstance::default_material() {
 		else {
 			meshMaterial.texture = TextureLibrary::GetTexture("Error.png");
 			meshMaterial.uvTransform.copy(Transform2D{});
-			Console("Warning : Material data is not found.\n");
+			Warning("Material data is not found.");
 		}
 		++i;
 	}

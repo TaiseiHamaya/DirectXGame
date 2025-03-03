@@ -1,8 +1,8 @@
 #include "DepthStencil.h"
 
-#include <cassert>
 #include <format>
 
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -94,7 +94,7 @@ void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, st
 		&depthClearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
-	assert(SUCCEEDED(hr));
+	ErrorIf(FAILED(hr), "Failed create depth stencil. Size-\'[{}, {}]\', Format-\'{}\'", width, height, (int)format);
 }
 
 void DepthStencil::create_dsv() {

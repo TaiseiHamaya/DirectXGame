@@ -1,10 +1,10 @@
 #include "ShaderBuilder.h"
 
-#include <cassert>
 #include <string>
 
 #include <Library/Utility/Tools/ConvertString.h>
 
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/GraphicsAPI/DirectX/ShaderCompiler/ShaderCompiler.h"
 
@@ -26,11 +26,11 @@ D3D12_SHADER_BYTECODE ShaderBuilder::get_ps_bytecode() const noexcept {
 void ShaderBuilder::create_vertex_shader(const std::string& filePath) {
 	// VSをコンパル
 	vertexShaderBlob = ShaderCompiler::GetInstance().compile_shader(ConvertString(filePath), L"vs_"s + DxSystemValues::SHADER_VERSION.data());
-	assert(vertexShaderBlob);
+	ErrorIf(!vertexShaderBlob, "Failed to create vertex shader. File-\'{}\'", filePath);
 }
 
 void ShaderBuilder::create_pixel_shader(const std::string& filePath) {
 	// PSをコンパイル
 	pixelShaderBlob = ShaderCompiler::GetInstance().compile_shader(ConvertString(filePath), L"ps_"s + DxSystemValues::SHADER_VERSION.data());
-	assert(pixelShaderBlob);
+	ErrorIf(!vertexShaderBlob, "Failed to create pixel shader. File-\'{}\'", filePath);
 }

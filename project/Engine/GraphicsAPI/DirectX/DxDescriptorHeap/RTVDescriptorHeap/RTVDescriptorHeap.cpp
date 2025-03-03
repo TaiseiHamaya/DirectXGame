@@ -1,6 +1,6 @@
 #include "RTVDescriptorHeap.h"
 
-#include "Engine/Debug/Output.h"
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
@@ -16,7 +16,7 @@ void RTVDescriptorHeap::Initialize() {
 
 std::uint32_t RTVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Console("Use RTV index. Index-\'{}\'\n", useIndex);
+	Infomation("Use RTV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
@@ -25,7 +25,7 @@ D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(std::uint32_t index)
 }
 
 void RTVDescriptorHeap::ReleaseIndex(std::uint32_t index) {
-	Console("Release RTV index. Index-\'{}\'\n", index);
+	Infomation("Release RTV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }
 
