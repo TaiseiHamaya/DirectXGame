@@ -1,7 +1,5 @@
 #include "Matrix3x3.h"
 
-#include <cassert>
-
 #include "Engine/Application/Output.h"
 
 Matrix3x3 Matrix3x3::Inverse(const Matrix3x3& matrix) {

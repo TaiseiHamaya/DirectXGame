@@ -7,7 +7,7 @@
 #include "Engine/Application/Output.h"
 
 float Vector3::length() const noexcept {
-	return std::sqrt(DotProduct(*this, *this));
+	return std::sqrt(Dot(*this, *this));
 }
 
 Vector3 Vector3::normalize() const noexcept(false) {
@@ -47,7 +47,7 @@ Vector3 Vector3::Abs(const Vector3& vector) noexcept {
 }
 
 Vector3 Vector3::Projection(const Vector3& vector, const Vector3& onto) {
-	return onto * Vector3::DotProduct(onto, vector);
+	return onto * Vector3::Dot(onto, vector);
 }
 
 Vector3 Vector3::Reflect(const Vector3& input, const Vector3& normal) {
@@ -59,7 +59,7 @@ Vector3 Vector3::Clamp(const Vector3& vector, const Vector3& min, const Vector3&
 }
 
 Vector3 Vector3::Slerp(const Vector3& from, const Vector3& to, const float& t) {
-	float dot = Vector3::DotProduct(from, to);
+	float dot = Vector3::Dot(from, to);
 	if (dot >= 0.9999f) {
 		return Lerp(from, to, t).normalize();
 	}

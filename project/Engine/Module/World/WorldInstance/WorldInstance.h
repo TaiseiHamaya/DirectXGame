@@ -15,7 +15,7 @@ public:
 	WorldInstance();
 	virtual ~WorldInstance();
 
-	__NON_COPYABLE_CLASS(WorldInstance)
+	__CLASS_NON_COPYABLE(WorldInstance)
 
 public:
 	/// <summary>

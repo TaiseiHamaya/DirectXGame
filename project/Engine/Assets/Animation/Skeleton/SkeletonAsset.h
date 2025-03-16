@@ -36,7 +36,7 @@ public:
 	SkeletonAsset() = default;
 	~SkeletonAsset() = default;
 
-	__NON_COPYMOVEABLE_CLASS(SkeletonAsset)
+	__CLASS_NON_COPYMOVEABLE(SkeletonAsset)
 
 public:
 	/// <summary>

@@ -9,7 +9,7 @@ public:
 	BaseAssetBuilder() = default;
 	virtual ~BaseAssetBuilder() = default;
 
-	__NON_COPYMOVEABLE_CLASS(BaseAssetBuilder)
+	__CLASS_NON_COPYMOVEABLE(BaseAssetBuilder)
 
 public:
 	/// <summary>

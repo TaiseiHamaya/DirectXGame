@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Library/Math/Matrix4x4.h"
-#include "Library/Math/Quaternion.h"
-#include "Library/Math/Vector3.h"
+#include "Matrix4x4.h"
+#include "Quaternion.h"
+#include "Vector3.h"
 
 class Transform3D final {
 public:

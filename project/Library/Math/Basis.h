@@ -80,9 +80,9 @@ inline constexpr Vector3 operator*(const Vector3& v, const Basis& basis) {
 	const Vector3 rColumn1 = basis.column(1);
 	const Vector3 rColumn2 = basis.column(2);
 	return {
-		Vector3::DotProduct(v, rColumn0),
-		Vector3::DotProduct(v, rColumn1),
-		Vector3::DotProduct(v, rColumn2)
+		Vector3::Dot(v, rColumn0),
+		Vector3::Dot(v, rColumn1),
+		Vector3::Dot(v, rColumn2)
 	};
 }
 

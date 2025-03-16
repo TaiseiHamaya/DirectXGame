@@ -12,7 +12,7 @@ public:
 
 	DirectionalLightingExecutor(uint32_t maxInstance);
 
-	__NON_COPYABLE_CLASS(DirectionalLightingExecutor)
+	__CLASS_NON_COPYABLE(DirectionalLightingExecutor)
 
 public:
 	void reinitialize(uint32_t maxInstance);

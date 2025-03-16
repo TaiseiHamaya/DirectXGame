@@ -21,7 +21,7 @@ public:
 
 	StaticMeshDrawExecutor(std::shared_ptr<const PolygonMesh> asset_, uint32_t maxInstance);
 
-	__NON_COPYABLE_CLASS(StaticMeshDrawExecutor)
+	__CLASS_NON_COPYABLE(StaticMeshDrawExecutor)
 
 public:
 	void reinitialize(std::shared_ptr<const PolygonMesh> asset_, uint32_t maxInstance);

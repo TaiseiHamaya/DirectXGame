@@ -80,14 +80,14 @@ public:
 	/// <param name="vector1">3次元ベクトル1</param>
 	/// <param name="vector2">3次元ベクトル2</param>
 	/// </summary>
-	static constexpr float DotProduct(const Vector3& vector1, const Vector3& vector2) noexcept;
+	static constexpr float Dot(const Vector3& vector1, const Vector3& vector2) noexcept;
 
 	/// <summary>
 	/// 2つのベクトルの外積を計算
 	/// <param name="vector1">3次元ベクトル1</param>
 	/// <param name="vector2">3次元ベクトル2</param>
 	/// </summary>
-	static constexpr Vector3 CrossProduct(const Vector3& vector1, const Vector3& vector2) noexcept;
+	static constexpr Vector3 Cross(const Vector3& vector1, const Vector3& vector2) noexcept;
 
 	/// <summary>
 	/// ベクトルの大きさを計算
@@ -286,11 +286,11 @@ inline constexpr float& Vector3::operator[](size_t i) {
 	return xyz[i];
 }
 
-constexpr float Vector3::DotProduct(const Vector3& input1, const Vector3& input2) noexcept {
+constexpr float Vector3::Dot(const Vector3& input1, const Vector3& input2) noexcept {
 	return input1.x * input2.x + input1.y * input2.y + input1.z * input2.z;
 }
 
-constexpr Vector3 Vector3::CrossProduct(const Vector3& vector1, const Vector3& vector2) noexcept {
+constexpr Vector3 Vector3::Cross(const Vector3& vector1, const Vector3& vector2) noexcept {
 	return Vector3{
 		vector1.y * vector2.z - vector1.z * vector2.y,
 		vector1.z * vector2.x - vector1.x * vector2.z,

@@ -28,7 +28,7 @@ public:
 	NodeAnimationAsset() = default;
 	~NodeAnimationAsset() = default;
 
-	__NON_COPYABLE_CLASS(NodeAnimationAsset)
+	__CLASS_NON_COPYABLE(NodeAnimationAsset)
 
 public:
 	/// <summary>

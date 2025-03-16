@@ -25,7 +25,7 @@ public:
 
 	SkinningMeshDrawExecutor(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, uint32_t maxInstance);
 	
-	__NON_COPYABLE_CLASS(SkinningMeshDrawExecutor)
+	__CLASS_NON_COPYABLE(SkinningMeshDrawExecutor)
 
 public:
 	void reinitialize(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, uint32_t maxInstance);

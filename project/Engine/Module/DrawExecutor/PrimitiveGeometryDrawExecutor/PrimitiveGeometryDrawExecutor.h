@@ -16,7 +16,7 @@ public:
 
 	PrimitiveGeometryDrawExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
 
-	__NON_COPYABLE_CLASS(PrimitiveGeometryDrawExecutor)
+	__CLASS_NON_COPYABLE(PrimitiveGeometryDrawExecutor)
 
 public:
 	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);

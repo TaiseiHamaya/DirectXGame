@@ -96,8 +96,8 @@ void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderTyp
 			}
 			bool result = Collision(*lLocked, *rLocked);
 			collisionCallbackManager->callback(
-				std::make_pair(lLocked->group(), lLocked.get()),
-				std::make_pair(rLocked->group(), rLocked.get()),
+				lLocked.get(),
+				rLocked.get(),
 				result
 			);
 		}

@@ -9,7 +9,7 @@ public:
 	BaseDrawExecutor() = default;
 	virtual ~BaseDrawExecutor() = default;
 
-	__NON_COPYABLE_CLASS(BaseDrawExecutor)
+	__CLASS_NON_COPYABLE(BaseDrawExecutor)
 
 public:
 	void begin();

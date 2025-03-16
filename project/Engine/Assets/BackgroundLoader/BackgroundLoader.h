@@ -28,6 +28,11 @@ public:
 	static void Initialize();
 
 	/// <summary>
+	/// 終了処理
+	/// </summary>
+	static void Finalize();
+
+	/// <summary>
 	/// ロードイベントの登録
 	/// </summary>
 	/// <param name="builder"></param>

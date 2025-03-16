@@ -15,7 +15,7 @@ public:
 	BaseParticleDrawSystem() = default;
 	virtual ~BaseParticleDrawSystem() = default;
 
-	__NON_COPYABLE_CLASS(BaseParticleDrawSystem)
+	__CLASS_NON_COPYABLE(BaseParticleDrawSystem)
 
 public:
 	virtual void draw_command(size_t InstanceCount) const = 0;

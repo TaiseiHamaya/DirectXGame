@@ -4,6 +4,7 @@
 
 #include "Quaternion.h"
 #include "Matrix3x3.h"
+#include "Matrix4x4.h"
 
 #define cofac(row1, col1, row2, col2) \
 	(rows[row1][col1] * rows[row2][col2] - rows[row1][col2] * rows[row2][col1])

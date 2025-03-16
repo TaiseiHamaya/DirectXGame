@@ -30,7 +30,7 @@ public:
 	SkinningMeshDrawManager() = default;
 	virtual ~SkinningMeshDrawManager() = default;
 
-	__NON_COPYABLE_CLASS(SkinningMeshDrawManager)
+	__CLASS_NON_COPYABLE(SkinningMeshDrawManager)
 
 public:
 	void initialize(uint32_t numLayer);

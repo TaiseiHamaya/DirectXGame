@@ -30,8 +30,7 @@ LocalTimeSeconds NowLocalSecond() {
 }
 
 static const std::string LogFile{
-	std::format("./Log/{:%F-%H%M%S}.log",
-		NowLocalSecond())
+	std::format("./Log/{:%F-%H%M%S}.log", NowLocalSecond())
 };
 
 constexpr std::array<const wchar_t*, 4> TypeStringW = {
@@ -71,9 +70,10 @@ static void LogOutputStacktrace() {
 	LogOutputFile("\nOutput stack trace.\n");
 	OutputDebugStringA("\nOutput stack trace.\n");
 
-	for (int i = 0; i < numberOfFrames; i++) {
+	constexpr int NumSkipTrace{ 4 };
+	for (int i = NumSkipTrace; i < numberOfFrames; i++) {
 		SymFromAddr(process, reinterpret_cast<DWORD64>(stacks[i]), 0, symbol);
-		std::string output = std::format("{: >2} | 0x{:016x} | {}\n", i, symbol->Address, symbol->Name);
+		std::string output = std::format("{: >2} | 0x{:016x} | {}\n", i - NumSkipTrace, symbol->Address, symbol->Name);
 		LogOutputFile(output);
 		OutputDebugStringA(output.c_str());
 	}
@@ -98,7 +98,7 @@ static void LogWindow(LogType type, const std::wstring& caption, const std::wstr
 		flag = MB_ICONERROR | MB_OK;
 		break;
 	}
-	MessageBoxW(WinApp::GetWndHandle(), msg.c_str(), caption.c_str(), flag);
+	MessageBoxW(nullptr, msg.c_str(), caption.c_str(), flag);
 }
 
 std::string_view ToFilenameA(const std::source_location& sourceLocation) {

@@ -31,7 +31,7 @@ public:
 	explicit SkinningMeshInstance(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
 	virtual ~SkinningMeshInstance() noexcept;
 
-	__NON_COPYABLE_CLASS(SkinningMeshInstance)
+	__CLASS_NON_COPYABLE(SkinningMeshInstance)
 
 public:
 	virtual void begin() override;

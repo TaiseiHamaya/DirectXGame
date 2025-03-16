@@ -16,7 +16,7 @@ public:
 
 	PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
 	
-	__NON_COPYABLE_CLASS(PointLightingExecutor)
+	__CLASS_NON_COPYABLE(PointLightingExecutor)
 
 public:
 	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);

@@ -59,5 +59,8 @@ const nlohmann::json& JsonAsset::cget() const {
 #ifdef _DEBUG
 void JsonAsset::show_imgui() {
 	valueEditor.show_imgui();
+	if (ImGui::Button("Save")) {
+		save();
+	}
 }
 #endif // _DEBUG

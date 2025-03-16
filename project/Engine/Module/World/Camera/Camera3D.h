@@ -29,7 +29,7 @@ public:
 	Camera3D() = default;
 	virtual ~Camera3D() = default;
 
-	__NON_COPYABLE_CLASS(Camera3D)
+	__CLASS_NON_COPYABLE(Camera3D)
 
 public:
 	virtual void initialize();

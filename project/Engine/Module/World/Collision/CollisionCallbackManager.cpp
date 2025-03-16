@@ -18,13 +18,13 @@ void CollisionCallbackManager::begin() {
 }
 
 void CollisionCallbackManager::callback(CallbackInfo lhs, CallbackInfo rhs, bool result) {
-	CallbackMapKey callbackKey = CallbackMapKey(lhs.first, rhs.first);
+	CallbackMapKey callbackKey = CallbackMapKey(lhs->group(), rhs->group());
 	if (!callbackFunctions.contains(callbackKey)) {
 		return;
 	}
 	const CallbackFunctions& callbackFunction = callbackFunctions.at(callbackKey);
 
-	CollisionRecentKeyType recentKey = CollisionRecentKeyType(lhs.second, rhs.second);
+	CollisionRecentKeyType recentKey = CollisionRecentKeyType(lhs, rhs);
 	if (!collisionRecent.contains(recentKey)) {
 		collisionRecent.emplace(recentKey, "00");
 	}
@@ -42,25 +42,25 @@ void CollisionCallbackManager::callback(CallbackInfo lhs, CallbackInfo rhs, bool
 		// 今はじめて衝突
 			// Enter判定
 		if (callbackFunction.onEnter) {
-			callbackFunction.onEnter(lhs.second, rhs.second);
+			callbackFunction.onEnter(lhs, rhs);
 		}
 		else if (callbackFunction.onContinue) {
-			callbackFunction.onContinue(lhs.second, rhs.second);
+			callbackFunction.onContinue(lhs, rhs);
 		}
 		break;
 	case 0b10:
 		// Exit
 		if (callbackFunction.onExit) {
-			callbackFunction.onExit(lhs.second, rhs.second);
+			callbackFunction.onExit(lhs, rhs);
 		}
 		else if (callbackFunction.onContinue) {
-			callbackFunction.onContinue(lhs.second, rhs.second);
+			callbackFunction.onContinue(lhs, rhs);
 		}
 		break;
 	case 0b11:
 		// 連続衝突
 		if (callbackFunction.onContinue) {
-			callbackFunction.onContinue(lhs.second, rhs.second);
+			callbackFunction.onContinue(lhs, rhs);
 		}
 		break;
 	default:

@@ -30,7 +30,7 @@ public:
 	StaticMeshDrawManager() = default;
 	virtual ~StaticMeshDrawManager() = default;
 
-	__NON_COPYABLE_CLASS(StaticMeshDrawManager)
+	__CLASS_NON_COPYABLE(StaticMeshDrawManager)
 
 public:
 	void initialize(uint32_t numLayer);

@@ -21,14 +21,14 @@ protected:
 	};
 
 private:
-	using CallbackInfo = std::pair<const std::string&, BaseCollider* const>;
+	using CallbackInfo = BaseCollider* const;
 	using CollisionRecentKeyType = SortedPair<BaseCollider* const>;
 
 public:
 	CollisionCallbackManager() = default;
 	virtual ~CollisionCallbackManager() = default;
 
-	__NON_COPYABLE_CLASS(CollisionCallbackManager)
+	__CLASS_NON_COPYABLE(CollisionCallbackManager)
 
 public:
 	void begin();

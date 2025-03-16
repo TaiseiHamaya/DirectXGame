@@ -12,14 +12,7 @@ std::condition_variable waitConditionVariable;
 std::condition_variable loadConditionVariable;
 
 BackgroundLoader::BackgroundLoader() noexcept = default;
-
-BackgroundLoader::~BackgroundLoader() noexcept {
-	isEndProgram = true;
-	if (loadFunc.joinable()) {
-		loadConditionVariable.notify_all();
-		loadFunc.join();
-	}
-}
+BackgroundLoader::~BackgroundLoader() noexcept = default;
 
 BackgroundLoader& BackgroundLoader::GetInstance() noexcept {
 	static BackgroundLoader instance{};
@@ -28,6 +21,15 @@ BackgroundLoader& BackgroundLoader::GetInstance() noexcept {
 
 void BackgroundLoader::Initialize() {
 	GetInstance().initialize();
+}
+
+void BackgroundLoader::Finalize() {
+	auto& instance = GetInstance();
+	instance.isEndProgram = true;
+	if (instance.loadFunc.joinable()) {
+		loadConditionVariable.notify_all();
+		instance.loadFunc.join();
+	}
 }
 
 void BackgroundLoader::RegisterLoadQue(std::unique_ptr<BaseAssetBuilder> builder) noexcept(false) {

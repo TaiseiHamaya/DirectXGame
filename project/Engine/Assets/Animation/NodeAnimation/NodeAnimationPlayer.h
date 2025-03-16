@@ -15,7 +15,7 @@ public:
 	NodeAnimationPlayer(const std::string& fileName, const std::string& animationName, bool isLoop);
 	~NodeAnimationPlayer() = default;
 
-	__NON_COPYABLE_CLASS(NodeAnimationPlayer)
+	__CLASS_NON_COPYABLE(NodeAnimationPlayer)
 
 public:
 	void update() noexcept;

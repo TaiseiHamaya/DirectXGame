@@ -2,8 +2,9 @@
 
 #include <cmath>
 
-#include "Definition.h"
 #include "Basis.h"
+#include "Definition.h"
+#include "Matrix4x4.h"
 
 Quaternion::Quaternion() noexcept : Quaternion{ 0,0,0,1 } {}
 
@@ -65,9 +66,9 @@ bool Quaternion::operator!=(const Quaternion& rhs) const noexcept {
 }
 
 Quaternion Quaternion::operator*(const Quaternion& rhs) const noexcept {
-	Vector3 resultV = rhs.xyz * w + xyz * rhs.w + Vector3::CrossProduct(xyz, rhs.xyz);
+	Vector3 resultV = rhs.xyz * w + xyz * rhs.w + Vector3::Cross(xyz, rhs.xyz);
 	return Quaternion{
-		resultV, w * rhs.w - Vector3::DotProduct(xyz, rhs.xyz)
+		resultV, w * rhs.w - Vector3::Dot(xyz, rhs.xyz)
 	};
 }
 
@@ -146,7 +147,7 @@ const float& Quaternion::real() const noexcept {
 }
 
 Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
-	float cos = Vector3::DotProduct(from, to);
+	float cos = Vector3::Dot(from, to);
 	constexpr float PERMISSIBLE = 1e-6f;
 	// from == toの場合
 	if (cos >= 1 - PERMISSIBLE) {
@@ -158,11 +159,11 @@ Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
 		if (std::abs(from.x) > 1 - PERMISSIBLE) {
 			orthogonal = CVector3::BASIS_Y;
 		}
-		Vector3 axis = Vector3::CrossProduct(from, orthogonal).normalize();
+		Vector3 axis = Vector3::Cross(from, orthogonal).normalize();
 		return Quaternion{ axis, 0 };
 	}
 
-	Vector3 axis = Vector3::CrossProduct(from, to);
+	Vector3 axis = Vector3::Cross(from, to);
 
 	float angle = std::acos(cos);
 
@@ -179,8 +180,8 @@ Quaternion Quaternion::FromToRotation(const Vector3& from, const Vector3& to) {
 
 Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upward) {
 	Quaternion lookRotation = FromToRotation(CVector3::BASIS_Z, forward);
-	Vector3 xAxisHorizontal = Vector3::CrossProduct(upward, forward).normalize_safe();
-	Vector3 yAxisAfterRotate = Vector3::CrossProduct(forward, xAxisHorizontal);
+	Vector3 xAxisHorizontal = Vector3::Cross(upward, forward).normalize_safe();
+	Vector3 yAxisAfterRotate = Vector3::Cross(forward, xAxisHorizontal);
 
 	Vector3 yAxisBeforeModify = CVector3::BASIS_Y * lookRotation;
 	Quaternion modifyRotation = FromToRotation(yAxisBeforeModify, yAxisAfterRotate);
@@ -188,7 +189,7 @@ Quaternion Quaternion::LookForward(const Vector3& forward, const Vector3& upward
 }
 
 Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
-	float dot = Vector3::DotProduct(internal.xyz, terminal.xyz) + internal.w * terminal.w;
+	float dot = Vector3::Dot(internal.xyz, terminal.xyz) + internal.w * terminal.w;
 	Quaternion internal_;
 	if (dot < 0) {
 		dot *= -1;
@@ -218,7 +219,7 @@ Quaternion Quaternion::Slerp(const Quaternion& internal, const Quaternion& termi
 }
 
 Quaternion Quaternion::SlerpFar(const Quaternion& internal, const Quaternion& terminal, float t) noexcept {
-	float dot = Vector3::DotProduct(internal.xyz, terminal.xyz) + internal.w * terminal.w;
+	float dot = Vector3::Dot(internal.xyz, terminal.xyz) + internal.w * terminal.w;
 	Quaternion internal_;
 	if (dot >= 0) {
 		dot *= -1;
@@ -250,17 +251,17 @@ Quaternion Quaternion::SlerpFar(const Quaternion& internal, const Quaternion& te
 Quaternion Quaternion::SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, float t, const Vector3& axis) noexcept {
 	Vector3 internalV = CVector3::FORWARD * internal;
 	Vector3 terminalV = CVector3::FORWARD * terminal;
-	Vector3 cross = Vector3::CrossProduct(internalV, terminalV);
+	Vector3 cross = Vector3::Cross(internalV, terminalV);
 
 	Quaternion internal_;
-	if (std::signbit(Vector3::DotProduct(cross, axis)) != std::signbit(internal.w)) {
+	if (std::signbit(Vector3::Dot(cross, axis)) != std::signbit(internal.w)) {
 		internal_ = internal * -1;
 	}
 	else {
 		internal_ = internal;
 	}
 
-	float dot = Vector3::DotProduct(internal_.xyz, terminal.xyz) + internal_.w * terminal.w;
+	float dot = Vector3::Dot(internal_.xyz, terminal.xyz) + internal_.w * terminal.w;
 
 	float theta = std::acos(dot);
 

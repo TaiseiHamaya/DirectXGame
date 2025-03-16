@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-#include "Library/Math/VectorConverter.h"
-#include "Library/Math/Transform3D.h"
+#include "VectorConverter.h"
+#include "Transform3D.h"
 
 Transform2D::Transform2D() noexcept {
 	scale = { 1, 1 };

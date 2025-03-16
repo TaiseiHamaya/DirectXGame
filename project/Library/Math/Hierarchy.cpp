@@ -1,6 +1,7 @@
 #include "Hierarchy.h"
 
-#include "Library/Math/Affine.h"
+#include "Affine.h"
+
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
 void Hierarchy::initialize(const Affine& worldMatrix) noexcept {

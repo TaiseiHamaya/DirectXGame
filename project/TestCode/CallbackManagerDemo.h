@@ -9,7 +9,7 @@ public:
 	CallbackManagerDemo();
 	~CallbackManagerDemo() = default;
 
-	__NON_COPYABLE_CLASS(CallbackManagerDemo)
+	__CLASS_NON_COPYABLE(CallbackManagerDemo)
 
 public:
 	static void SetColor(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs), Color3 color);

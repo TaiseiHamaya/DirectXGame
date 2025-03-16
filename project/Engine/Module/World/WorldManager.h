@@ -16,7 +16,7 @@ public:
 	WorldManager();
 	~WorldManager();
 
-	__NON_COPYABLE_CLASS(WorldManager)
+	__CLASS_NON_COPYABLE(WorldManager)
 
 public:
 	void update_matrix();
