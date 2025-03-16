@@ -1,7 +1,5 @@
 #include "AudioLibrary.h"
 
-#pragma comment(lib, "xaudio2.lib")
-
 #include <mutex>
 
 #include <Library/Utility/Tools/SmartPointer.h>
@@ -24,17 +22,12 @@ AudioLibrary& AudioLibrary::GetInstance() noexcept {
 
 void AudioLibrary::Initialize() {
 	auto&& instance = GetInstance();
-	HRESULT result;
-	result = XAudio2Create(instance.xAudio2.GetAddressOf(), 0, XAUDIO2_DEFAULT_PROCESSOR);
-	result = instance.xAudio2->CreateMasteringVoice(&instance.masteringVoice);
-	instance.masteringVoice->GetVolume(&instance.masterVolume);
 	// nullインスタンスの追加
 	Transfer("NULL", nullptr);
 }
 
 void AudioLibrary::Finalize() {
 	auto&& instance = GetInstance();
-	instance.xAudio2.Reset();
 	instance.audioResources.clear();
 }
 
@@ -82,28 +75,6 @@ void AudioLibrary::Transfer(const std::string& name, std::unique_ptr<AudioAsset>
 	GetInstance().audioResources.emplace(name, std::move(data));
 
 }
-
-float AudioLibrary::GetMasterVolume() {
-	return GetInstance().masterVolume;
-}
-
-void AudioLibrary::SetMasterVolume(float volume) {
-	auto&& instance = GetInstance();
-	instance.masterVolume = volume;
-	instance.masteringVoice->SetVolume(instance.masterVolume);
-}
-
-#ifdef _DEBUG
-
-#include <imgui.h>
-void AudioLibrary::DebugGui() {
-	ImGui::Begin("AudioLibrary");
-	if (ImGui::DragFloat("Volume", &GetInstance().masterVolume, 0.01f, 0.0f, 100.0f, "%.2f")) {
-		SetMasterVolume(GetInstance().masterVolume);
-	}
-	ImGui::End();
-}
-#endif // _DEBUG
 
 bool AudioLibrary::IsRegisteredNonlocking(const std::string& audioName) noexcept(false) {
 	return GetInstance().audioResources.contains(audioName);

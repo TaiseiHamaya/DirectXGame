@@ -10,7 +10,7 @@
 class SkeletonAsset;
 
 class SkeletonLibrary final : SingletonInterface<SkeletonLibrary> {
-	__SINGLETON_INTERFACE(SkeletonLibrary)
+	__CLASS_SINGLETON_INTERFACE(SkeletonLibrary)
 
 public:
 	/// <summary>

@@ -14,6 +14,7 @@
 #include <Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h>
 #include <Engine/Assets/Animation/Skeleton/SkeletonLibrary.h>
 #include <Engine/Assets/Audio/AudioLibrary.h>
+#include <Engine/Assets/Audio/AudioManager.h>
 #include <Engine/Assets/PolygonMesh/PolygonMeshLibrary.h>
 #include <Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h>
 #include <Engine/Assets/Texture/TextureLibrary.h>
@@ -478,7 +479,7 @@ void SceneDemo::debug_update() {
 	sprite->debug_gui();
 	ImGui::End();
 
-	AudioLibrary::DebugGui();
+	AudioManager::DebugGui();
 
 	ImGui::Begin("WorldClock");
 	WorldClock::DebugGui();

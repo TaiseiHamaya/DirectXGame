@@ -9,7 +9,7 @@
 #endif // _DEBUG
 
 class WorldClock final : public SingletonInterface<WorldClock> {
-	__SINGLETON_INTERFACE(WorldClock)
+	__CLASS_SINGLETON_INTERFACE(WorldClock)
 
 public:
 	static void Initialize();

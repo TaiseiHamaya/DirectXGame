@@ -10,7 +10,7 @@
 class NodeAnimationAsset;
 
 class NodeAnimationLibrary final : SingletonInterface<NodeAnimationLibrary> {
-	__SINGLETON_INTERFACE(NodeAnimationLibrary)
+	__CLASS_SINGLETON_INTERFACE(NodeAnimationLibrary)
 
 public:
 	/// <summary>

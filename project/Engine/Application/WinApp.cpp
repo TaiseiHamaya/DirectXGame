@@ -4,7 +4,7 @@
 #include <timeapi.h>
 
 #include "Engine/Application/Output.h"
-#include "Engine/Assets/Audio/AudioLibrary.h"
+#include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
@@ -81,7 +81,7 @@ void WinApp::Initialize(DWORD windowConfig) {
 	// テクスチャマネージャの初期化
 	TextureLibrary::Initialize();
 	// 音関連の初期化
-	AudioLibrary::Initialize();
+	AudioManager::Initialize();
 	// 入力の初期化
 	Input::Initialize();
 	// 乱数エンジンの初期化
@@ -162,7 +162,7 @@ void WinApp::Finalize() {
 
 	BackgroundLoader::Finalize();
 
-	AudioLibrary::Finalize();
+	AudioManager::Finalize();
 
 	TextureLibrary::Finalize();
 	//DirectXを終了
