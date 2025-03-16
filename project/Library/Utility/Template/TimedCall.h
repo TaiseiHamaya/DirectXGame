@@ -17,7 +17,7 @@ public:
 
 	void restart(float time);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // _DEBUG
@@ -54,7 +54,7 @@ inline void TimedCall<Type>::restart(float time_) {
 	isFinished = false;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <imgui.h>
 #include <format>

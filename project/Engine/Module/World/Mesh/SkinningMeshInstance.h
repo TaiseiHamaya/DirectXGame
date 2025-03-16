@@ -48,7 +48,7 @@ public:
 private:
 	void create_skeleton();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui() override;
 #endif // _DEBUG
@@ -60,7 +60,7 @@ private:
 	std::vector<SkeletonSpaceInstance> jointInstances; // JointのTransformとMatrix
 	std::shared_ptr<const SkeletonAsset> skeletonResrouce; // Skeleton関連
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	std::vector<StaticMeshInstance> boneMeshTest; // デバッグ用
 #endif // _DEBUG
 };

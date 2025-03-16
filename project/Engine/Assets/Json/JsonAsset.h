@@ -7,7 +7,7 @@
 
 #include "Engine/Application/Output.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 #endif // _DEBUG
 
@@ -42,7 +42,7 @@ public:
 	template<UseabelJson T, typename ...Args>
 	void register_value(const std::string& name, T* pValue, Args&& ...args);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	void show_imgui();
 #endif // _DEBUG
 
@@ -50,7 +50,7 @@ private:
 	nlohmann::json json;
 	std::filesystem::path filePath;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	ImGuiValueEditor valueEditor;
 #endif // _DEBUG
 };
@@ -78,7 +78,7 @@ inline void JsonAsset::register_value(const std::string& name, T* pValue, [[mayb
 		return;
 	}
 	(*pValue) = std::move(this->try_emplace<T>(name));
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	valueEditor.register_value(
 		[&, &rValue = *pValue, name]() { this->write(name, rValue); },
 		name, pValue, std::forward(args)...

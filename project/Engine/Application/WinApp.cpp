@@ -23,7 +23,7 @@
 
 extern "C" HANDLE WINAPI GetProcessHandleFromHwnd(_In_ HWND hwnd);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/ImGui/ImGuiManager/ImGuiManager.h"
 
 #include <imgui.h>
@@ -32,7 +32,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 // ウィンドウプロシージャ
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
 		return true;
 #endif // _DEBUG
@@ -53,7 +53,7 @@ WinApp::WinApp() noexcept :
 }
 
 void WinApp::Initialize(DWORD windowConfig) {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
@@ -91,7 +91,7 @@ void WinApp::Initialize(DWORD windowConfig) {
 	// バックグラウンドローダーの初期化
 	BackgroundLoader::Initialize();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::Initialize();
 #endif // _DEBUG
 	// システム使用のオブジェクトをロード
@@ -99,7 +99,7 @@ void WinApp::Initialize(DWORD windowConfig) {
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Camera/CameraAxis.obj");
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	PrimitiveGeometryLibrary::Transfer(
 		"SphereCollider",
 		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Collider/Sphere.json")
@@ -128,13 +128,13 @@ void WinApp::BeginFrame() {
 	WorldClock::Update();
 	Input::Update();
 	DxCore::BeginFrame();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::BeginFrame();
 #endif // _DEBUG
 }
 
 void WinApp::EndFrame() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	// 一番先にImGUIの処理
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
@@ -155,7 +155,7 @@ void WinApp::Finalize() {
 	// Initializeと逆順でやる
 	// シーン
 	SceneManager::Finalize();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	// ImGui
 	ImGuiManager::Finalize();
 #endif // _DEBUG

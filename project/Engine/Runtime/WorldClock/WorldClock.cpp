@@ -30,7 +30,7 @@ void WorldClock::Update() {
 	// Startを更新
 	instance.startFrameTimePoint = now;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	instance.profiler.update();
 #endif // _DEBUG
 }
@@ -43,7 +43,7 @@ const chrono::high_resolution_clock::time_point& WorldClock::BeginTime() {
 	return GetInstance().startFrameTimePoint;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void WorldClock::DebugGui() {
 	auto&& instance = GetInstance();

@@ -92,7 +92,7 @@ void SkinningMeshInstance::create_skeleton() {
 	// Jointの配列を作成
 	jointInstances.resize(jointSize);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	// ボーン描画用(削除予定)
 	const Skeleton skeleton = skeletonResrouce->skeleton();
 	boneMeshTest.resize(jointSize);
@@ -111,7 +111,7 @@ void SkinningMeshInstance::create_skeleton() {
 #endif // _DEBUG
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <Engine/Assets/Texture/TextureLibrary.h>
 void SkinningMeshInstance::debug_gui() {
 	if (PolygonMeshLibrary::MeshListGui(meshName)) {

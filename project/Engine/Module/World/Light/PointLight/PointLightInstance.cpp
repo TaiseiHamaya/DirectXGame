@@ -16,7 +16,7 @@ Matrix4x4 PointLightInstance::transform_matrix() const {
 	return world_affine().to_matrix();
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void PointLightInstance::debug_gui() {
 	// Transform

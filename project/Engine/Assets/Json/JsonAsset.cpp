@@ -34,7 +34,7 @@ void JsonAsset::load(const std::filesystem::path& file) {
 }
 
 void JsonAsset::save() const {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	valueEditor.save_all();
 #endif // _DEBUG
 
@@ -56,7 +56,7 @@ const nlohmann::json& JsonAsset::cget() const {
 	return json;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void JsonAsset::show_imgui() {
 	valueEditor.show_imgui();
 	if (ImGui::Button("Save")) {

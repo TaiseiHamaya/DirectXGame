@@ -10,7 +10,7 @@
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -85,7 +85,7 @@ void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<Texture>&
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 bool TextureLibrary::TextureListGui(std::string& current) {
 	bool changed = false;
 

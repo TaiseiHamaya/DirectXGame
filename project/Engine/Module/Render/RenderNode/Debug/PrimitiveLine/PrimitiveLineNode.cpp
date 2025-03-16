@@ -1,4 +1,4 @@
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include "PrimitiveLineNode.h"
 

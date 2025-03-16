@@ -8,7 +8,7 @@
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 
 CollisionManager::CollisionManager() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
 		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
@@ -35,7 +35,7 @@ void CollisionManager::update() {
 		isEraseList = erase_expired(itr->second.aabbColliders) && isEraseList;
 		// 要素が空の場合リストから名前を削除
 		if (isEraseList) {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 			keyList.erase(itr->first);
 #endif // _DEBUG
 			itr = colliderList.erase(itr);
@@ -104,7 +104,7 @@ void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderTyp
 	}
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <format>
 #include <imgui.h>

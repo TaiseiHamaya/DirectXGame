@@ -9,7 +9,7 @@
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -58,7 +58,7 @@ void PolygonMeshLibrary::Transfer(const std::string& name, std::shared_ptr<Polyg
 	GetInstance().meshInstanceList.emplace(name, data);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 bool PolygonMeshLibrary::MeshListGui(std::string& current) {
 	bool changed = false;
 

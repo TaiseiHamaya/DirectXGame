@@ -90,7 +90,7 @@ void AudioPlayer::set_loop(bool isLoop) {
 	result = sourceVoice->SubmitSourceBuffer(&buffer);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void AudioPlayer::debug_gui() {
 	if (!sourceVoice) {

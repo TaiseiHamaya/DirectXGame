@@ -18,7 +18,7 @@ protected:
 public:
 	void run();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 private:
 	mutable TimestampProfiler profiler;
 #endif // _DEBUG

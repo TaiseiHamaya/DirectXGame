@@ -1,6 +1,6 @@
 #include "WorldClockProfiler.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 

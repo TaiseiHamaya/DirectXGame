@@ -38,7 +38,7 @@ private:
 	/// </summary>
 	void create_pipeline_state();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // DEBUG

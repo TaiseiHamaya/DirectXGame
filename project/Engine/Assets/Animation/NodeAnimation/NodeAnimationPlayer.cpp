@@ -48,7 +48,7 @@ Vector3 NodeAnimationPlayer::calculate_translate(const std::string& nodeName) co
 }
 
 void NodeAnimationPlayer::reset_animation(const std::string& animationName_) {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	animationName = animationName_.empty() ? "UnknownAnimation" : animationName_;
 #endif // _DEBUG
 
@@ -96,7 +96,7 @@ void NodeAnimationPlayer::animation_speed(float speed) noexcept {
 	animationSpeed = speed;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void NodeAnimationPlayer::debug_gui() {
 	if (NodeAnimationLibrary::AnimationListGui(animationName)) {

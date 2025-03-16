@@ -4,7 +4,7 @@ void SpotLightInstance::transfer() {
 	lightData.position = world_position();
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
 void SpotLightInstance::debug_gui() {

@@ -32,7 +32,7 @@ void BaseScene::begin_rendering() {
 void BaseScene::late_update() {
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void BaseScene::debug_update() {
 }
 #endif // _DEBUG

@@ -40,7 +40,7 @@ public:
 	/// <param name="data">ロード済みデータ</param>
 	static void Transfer(const std::string& name, std::shared_ptr<SkeletonAsset>& data);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	/// <summary>
 	/// Skeleton一覧をComboBoxで表示するImGui(Debugビルドのみ)
 	/// </summary>

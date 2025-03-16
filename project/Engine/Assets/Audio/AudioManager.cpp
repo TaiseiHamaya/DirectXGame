@@ -20,7 +20,7 @@ void AudioManager::Finalize() {
 	instance.xAudio2.Reset();
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void AudioManager::DebugGui() {
 	ImGui::Begin("AudioLibrary");

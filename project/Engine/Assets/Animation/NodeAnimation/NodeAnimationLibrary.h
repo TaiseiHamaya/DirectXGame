@@ -40,7 +40,7 @@ public:
 	/// <param name="data">ロード済みデータ</param>
 	static void Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset> data);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	/// <summary>
 	/// Animation一覧をComboBoxで表示するImGui(Debugビルドのみ)
 	/// </summary>

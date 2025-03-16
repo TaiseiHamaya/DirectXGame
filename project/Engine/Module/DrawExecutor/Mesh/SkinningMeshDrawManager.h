@@ -11,7 +11,7 @@
 #include "./SkinningMeshDrawExecutor.h"
 #include "Engine/Module/World/Mesh/SkinningMeshInstance.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 class Camera3D;
 #endif // _DEBUG
 
@@ -39,7 +39,7 @@ public:
 	void transfer();
 	void draw_layer(uint32_t layer);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // _DEBUG
@@ -47,7 +47,7 @@ public:
 private:
 	std::vector<Data> drawData;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	uint32_t layer;
 	std::string selectMesh;
 	uint32_t maxInstance;

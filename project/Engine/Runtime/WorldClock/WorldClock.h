@@ -4,7 +4,7 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/Profiler/WorldClockProfiler.h"
 #endif // _DEBUG
 
@@ -19,7 +19,7 @@ public:
 	static float DeltaSeconds();
 	static const std::chrono::high_resolution_clock::time_point& BeginTime();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	static void DebugGui();
 #endif // _DEBUG
@@ -28,7 +28,7 @@ private:
 	float deltaSeconds;
 	std::chrono::high_resolution_clock::time_point startFrameTimePoint;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	WorldClockProfiler profiler;
 #endif // _DEBUG
 };

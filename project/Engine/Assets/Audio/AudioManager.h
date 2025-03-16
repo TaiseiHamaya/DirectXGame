@@ -21,7 +21,7 @@ public:
 
 	static const Microsoft::WRL::ComPtr<IXAudio2>& GetXAudio2() { return GetInstance().xAudio2; };
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	static void DebugGui();
 #endif // _DEBUG

@@ -5,7 +5,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Runtime/Input/InputHandler.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
@@ -54,7 +54,7 @@ private:
 public:
 	static Matrix4x4 MakeViewportMatrix(const Vector2& origin, const Vector2& size, float minDepth = 0.0f, float maxDepth = 1.0f);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	virtual void debug_gui();
 	void debug_camera();
@@ -76,7 +76,7 @@ private:
 	float nearClip;
 	float farClip;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	Matrix4x4 vpMatrix;
 	Affine debugViewAffine;
 	bool isValidDebugCamera;

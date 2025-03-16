@@ -11,7 +11,7 @@
 class SphereCollider;
 class AABBCollider;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <unordered_set>
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
 #endif // _DEBUG
@@ -50,7 +50,7 @@ private:
 public:
 	void set_callback_manager(std::unique_ptr<CollisionCallbackManager> manager) { collisionCallbackManager = std::move(manager); };
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 	void debug_draw3d();
@@ -61,7 +61,7 @@ private:
 	std::unordered_map<std::string, Colliders> colliderList;
 	//std::unordered_multimap<std::string, std::weak_ptr<BaseCollider>> colliderList;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	bool isShowDebugDraw = true;
 	std::unordered_set<std::string> keyList;
 
@@ -80,7 +80,7 @@ inline void CollisionManager::register_collider(const std::string& groupName, co
 		colliders.aabbColliders.emplace_back(collider);
 	}
 	collider->set_group_name(colliderList.find(groupName)->first);
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	keyList.insert(groupName);
 #endif // _DEBUG
 }

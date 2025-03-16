@@ -121,9 +121,10 @@ void SceneDemo::initialize() {
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
 
-	uint32_t numPrimitive = 100;
-	for (uint32_t i = 0; i < 20; ++i) {
-		for (uint32_t j = 0; j < 20; ++j) {
+	uint32_t numPrimitiveR = 20;
+	uint32_t numPrimitiveC = 20;
+	for (uint32_t i = 0; i < numPrimitiveR; ++i) {
+		for (uint32_t j = 0; j < numPrimitiveC; ++j) {
 			auto& instance = primitives.emplace_back(worldManager->create<SkinningMeshInstance>(nullptr, false, "simpleSkin.gltf", "Anim_0", true));
 			instance->get_transform().set_translate({ (float)i, 1, (float)j });
 			instance->get_animation()->set_time_force(RandomEngine::Random01MOD() * 5);
@@ -135,15 +136,16 @@ void SceneDemo::initialize() {
 
 	skinningMeshDrawManager = eps::CreateUnique<SkinningMeshDrawManager>();
 	skinningMeshDrawManager->initialize(1);
-	skinningMeshDrawManager->make_instancing(0, "simpleSkin.gltf", numPrimitive * numPrimitive);
+	skinningMeshDrawManager->make_instancing(0, "simpleSkin.gltf", numPrimitiveR * numPrimitiveC);
 
 	staticMeshDrawManager = eps::CreateUnique<StaticMeshDrawManager>();
 	staticMeshDrawManager->initialize(1);
-	staticMeshDrawManager->make_instancing(0, "Sphere.obj", numPrimitive * numPrimitive + 128);
-	staticMeshDrawManager->make_instancing(0, "bunny.obj", numPrimitive * numPrimitive);
-	staticMeshDrawManager->make_instancing(0, "Triangle.obj", numPrimitive * numPrimitive);
-	staticMeshDrawManager->make_instancing(0, "teapot.obj", numPrimitive * numPrimitive);
-#ifdef _DEBUG
+	staticMeshDrawManager->make_instancing(0, "Sphere.obj", numPrimitiveR * numPrimitiveC + 128);
+	staticMeshDrawManager->make_instancing(0, "bunny.obj", numPrimitiveR * numPrimitiveC);
+	staticMeshDrawManager->make_instancing(0, "simpleSkin.gltf", numPrimitiveR * numPrimitiveC);
+	staticMeshDrawManager->make_instancing(0, "Triangle.obj", numPrimitiveR * numPrimitiveC);
+	staticMeshDrawManager->make_instancing(0, "teapot.obj", numPrimitiveR * numPrimitiveC);
+#ifdef DEBUG_FEATURES_ENABLE
 	staticMeshDrawManager->register_debug_instance(0, camera3D, true);
 #endif // _DEBUG
 	staticMeshDrawManager->register_instance(parent);
@@ -216,7 +218,7 @@ void SceneDemo::initialize() {
 	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
 	spriteNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	// ---------------------- 線 ----------------------
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
 	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
@@ -225,7 +227,7 @@ void SceneDemo::initialize() {
 
 	// ---------------------- 生成 ----------------------
 	renderPath = eps::CreateUnique<RenderPath>();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode,primitiveLineNode });
 #else
 	renderPath->initialize({ object3dNode,skinningMeshNode,particleBillboardNode, spriteNode });
@@ -265,14 +267,14 @@ void SceneDemo::initialize() {
 	particleMeshNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::NoClearDepth);
 	particleMeshNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
 	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
 	primitiveLineNode->initialize();
 #endif // _DEBUG
 
 	renderPath = eps::CreateUnique<RenderPath>();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode,pointLightingNode,particleMeshNode,primitiveLineNode });
 #else
 	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode,pointLightingNode,particleMeshNode });
@@ -363,7 +365,7 @@ void SceneDemo::draw() const {
 	directionalLight->register_world(5);
 	parent->draw();
 	child->draw();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	camera3D->debug_draw_axis();
 	animatedMeshInstance->draw_skeleton();
 	DebugValues::ShowGrid();
@@ -385,7 +387,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	camera3D->register_world_projection(1);
 	collisionManager->debug_draw3d();
 	camera3D->debug_draw_frustum();
@@ -421,7 +423,7 @@ void SceneDemo::draw() const {
 
 	renderPath->next();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	camera3D->register_world_projection(1);
 	collisionManager->debug_draw3d();
 	camera3D->debug_draw_frustum();
@@ -443,7 +445,7 @@ void SceneDemo::on_collision_exit(const BaseCollider* const, Color4* object) {
 	*object = { 1.0f,1.0f,1.0f,1.0f };
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <imgui.h>
 void SceneDemo::debug_update() {

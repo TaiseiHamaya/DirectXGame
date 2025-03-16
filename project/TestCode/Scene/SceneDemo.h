@@ -61,7 +61,7 @@ public:
 	void on_collision_enter(const BaseCollider* const, Color4* object);
 	void on_collision_exit(const BaseCollider* const, Color4* object);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	void debug_update() override;
 #endif // _DEBUG
 

@@ -99,7 +99,7 @@ void WorldInstance::to_json(JsonAsset& json) {
 	json.get()["WorldInstance"] = transform;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 
 #include <string>

@@ -65,7 +65,7 @@ void StaticMeshDrawManager::draw_layer(uint32_t layer) {
 	}
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <Engine/Module/World/Camera/Camera3D.h>
 #include <Engine/Debug/DebugValues/DebugValues.h>
 

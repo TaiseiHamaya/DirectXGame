@@ -42,7 +42,7 @@ void ShaderCompiler::initialize() {
 		L"-E", L"main",
 		L"-I", L"./EngineResources/HLSL/",
 		L"-T", profile.c_str(),
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 		L"-Zi", L"-Qembed_debug",
 		L"-Od",
 #else

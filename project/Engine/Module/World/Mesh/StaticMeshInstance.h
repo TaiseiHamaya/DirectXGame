@@ -57,7 +57,7 @@ public:
 protected:
 	void set_texture(const std::string& name, int index = 0);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui() override;
 #endif // _DEBUG
@@ -74,7 +74,7 @@ private:
 	// HOTFIX : stringだとメモリ量が多いので、識別ID形式にする
 	std::string meshName;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 private:
 	std::shared_ptr<const PolygonMesh> mesh;
 #endif // _DEBUG

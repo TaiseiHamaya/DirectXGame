@@ -4,7 +4,7 @@
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include "Engine/Application/EngineSettings.h"
 #endif // _DEBUG
@@ -58,7 +58,7 @@ void ChromaticAberrationNode::create_pipeline_state() {
 
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void ChromaticAberrationNode::debug_gui() {
 	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / EngineSettings::CLIENT_WIDTH, -0.5f, 0.5f, "%.4f");
 	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / EngineSettings::CLIENT_HEIGHT, -0.5f, 0.5f, "%.4f");

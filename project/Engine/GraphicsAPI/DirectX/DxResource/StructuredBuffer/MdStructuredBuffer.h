@@ -8,7 +8,7 @@
 #include <optional>
 #include <span>
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <stdexcept>
 #endif // _DEBUG
 
@@ -72,7 +72,7 @@ inline void MdStructuredBuffer<T>::initialize(uint32_t numInstance_, uint32_t ar
 
 template<StructuredBufferType T>
 inline std::span<T> MdStructuredBuffer<T>::operator[](uint32_t i) const {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (i >= numInstance) {
 		throw std::out_of_range("index is out of range.");
 	}

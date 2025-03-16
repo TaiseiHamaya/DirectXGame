@@ -25,7 +25,7 @@ public:
 
 	virtual void draw() const = 0;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	virtual void debug_update();
 #endif // _DEBUG
 

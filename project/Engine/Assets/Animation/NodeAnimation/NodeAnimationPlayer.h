@@ -37,7 +37,7 @@ public:
 	void set_time_force(float timer) noexcept;
 	void animation_speed(float speed = 1.0f) noexcept;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // _DEBUG
@@ -49,7 +49,7 @@ private:
 	float animationSpeed{ 1.0f };
 	std::shared_ptr<const NodeAnimationAsset> nodeAnimation;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	std::string animationName;
 #endif // _DEBUG
 };
