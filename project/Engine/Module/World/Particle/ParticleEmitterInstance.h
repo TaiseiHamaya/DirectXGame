@@ -2,18 +2,18 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-#include <memory>
 #include <list>
+#include <memory>
 #include <variant>
 
-#include "Particle/Particle.h"
-#include "DrawSystem/BaseParticleDrawSystem.h"
+#include "./DrawSystem/BaseParticleDrawSystem.h"
+#include "./Particle/Particle.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER
 #define COLOR4_SERIALIZER
 #define QUATERNION_SERIALIZER
-#include "Engine/Resources/Json/JsonSerializer.h"
+#include "Engine/Assets/Json/JsonSerializer.h"
 
 class ParticleEmitterInstance : public WorldInstance {
 public:
@@ -104,13 +104,14 @@ public: // Constructor/Destructor
 
 public: // Member function
 	virtual void update();
-	virtual void begin_rendering();
+	virtual void transfer();
 	void draw() const;
 
 	virtual void on_emit(Particle* const particle) {};
 	virtual void restart();
 
 	void emit();
+	void end_force();
 
 protected:
 	void emit_once();
@@ -124,7 +125,7 @@ private:
 
 public: // Getter/Setter
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // _DEBUG
@@ -132,6 +133,7 @@ public:
 protected: // Member variable
 	float timer;
 	bool isLoop;
+	bool isParentEmitter;
 	float duration;
 
 	ParticleDrawType drawType;
@@ -146,7 +148,7 @@ protected: // Member variable
 	ParticleFinal particleFinal;
 	Emission emission;
 
-	JsonResource jsonResource;
+	JsonAsset jsonResource;
 
 private:
 	uint32_t numMaxParticle{ 0 };

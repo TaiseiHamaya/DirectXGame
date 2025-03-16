@@ -72,14 +72,14 @@ public:
 	/// <param name="input1">2次元ベクトル1</param>
 	/// <param name="input2">2次元ベクトル2</param>
 	/// </summary>
-	static constexpr float DotProduct(const Vector2& input1, const Vector2& input2) noexcept;
+	static constexpr float Dot(const Vector2& input1, const Vector2& input2) noexcept;
 
 	/// <summary>
 	/// 2つのベクトルの外積を計算
 	/// <param name="input1">2次元ベクトル1</param>
 	/// <param name="input2">2次元ベクトル2</param>
 	/// </summary>
-	static constexpr float CrossProduct(const Vector2& input1, const Vector2& input2) noexcept;
+	static constexpr float Cross(const Vector2& input1, const Vector2& input2) noexcept;
 
 	/// <summary>
 	/// ベクトルの大きさを計算
@@ -274,11 +274,11 @@ inline constexpr bool Vector2::operator!=(const Vector2& opr) const noexcept {
 	return !(*this == opr);
 }
 
-constexpr float Vector2::DotProduct(const Vector2& input1, const Vector2& input2) noexcept {
+constexpr float Vector2::Dot(const Vector2& input1, const Vector2& input2) noexcept {
 	return input1.x * input2.x + input1.y * input2.y;
 }
 
-constexpr float Vector2::CrossProduct(const Vector2& input1, const Vector2& input2) noexcept {
+constexpr float Vector2::Cross(const Vector2& input1, const Vector2& input2) noexcept {
 	return input1.x * input2.y - input1.y * input2.x;
 }
 
@@ -317,13 +317,13 @@ constexpr const Vector2 Vector2::Rotate(const Vector2& vector, const float sinTh
 /// </summary>
 namespace CVector2 {
 
-constexpr Vector2 BASIS_X = Vector2{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
-constexpr Vector2 BASIS_Y = Vector2{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
-constexpr Vector2 ZERO = Vector2{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
-constexpr Vector2 BASIS = Vector2{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
-constexpr Vector2 INFINTY = Vector2{ std::numeric_limits<float>::infinity(),std::numeric_limits<float>::infinity() };
-constexpr Vector2 INFINTY_X = Vector2{ std::numeric_limits<float>::infinity(),0 };
-constexpr Vector2 INFINTY_Y = Vector2{ 0, std::numeric_limits<float>::infinity() };
+constexpr Vector2 BASIS_X{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
+constexpr Vector2 BASIS_Y{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
+constexpr Vector2 ZERO{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
+constexpr Vector2 BASIS{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
+constexpr Vector2 INFINTY{ std::numeric_limits<float>::infinity(),std::numeric_limits<float>::infinity() };
+constexpr Vector2 INFINTY_X{ std::numeric_limits<float>::infinity(),0 };
+constexpr Vector2 INFINTY_Y{ 0, std::numeric_limits<float>::infinity() };
 
 constexpr Vector2 FORWARD{ BASIS_X };
 constexpr Vector2 BACKWARD{ -FORWARD };

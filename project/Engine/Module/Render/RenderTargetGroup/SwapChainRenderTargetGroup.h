@@ -1,11 +1,12 @@
 #pragma once
+
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 #include <array>
 #include <d3d12.h>
 
-#include "Engine/Rendering/RenderingSystemValues.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/RenderTarget/RenderTarget.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/RenderTarget/RenderTarget.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 class SwapChainRenderTargetGroup final : public BaseRenderTargetGroup {
 public:

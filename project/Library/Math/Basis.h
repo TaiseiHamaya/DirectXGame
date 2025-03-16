@@ -44,6 +44,10 @@ public:
 	constexpr Vector3 column(uint32_t index) const noexcept;
 
 	void scale_rotate(const Vector3& scale, const Quaternion& rotate);
+
+public:
+	Vector3 to_scale() const;
+	Quaternion to_quaternion() const;
 };
 
 inline constexpr Basis::Basis(const Vector3& rowX, const Vector3& rowY, const Vector3& rowZ) :
@@ -76,9 +80,9 @@ inline constexpr Vector3 operator*(const Vector3& v, const Basis& basis) {
 	const Vector3 rColumn1 = basis.column(1);
 	const Vector3 rColumn2 = basis.column(2);
 	return {
-		Vector3::DotProduct(v, rColumn0),
-		Vector3::DotProduct(v, rColumn1),
-		Vector3::DotProduct(v, rColumn2)
+		Vector3::Dot(v, rColumn0),
+		Vector3::Dot(v, rColumn1),
+		Vector3::Dot(v, rColumn2)
 	};
 }
 

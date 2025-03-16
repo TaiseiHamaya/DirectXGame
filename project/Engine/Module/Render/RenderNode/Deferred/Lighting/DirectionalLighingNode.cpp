@@ -1,10 +1,10 @@
 #include "DirectionalLighingNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-#include <Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h>
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
 DirectionalLightingNode::DirectionalLightingNode() = default;
 
@@ -18,7 +18,7 @@ void DirectionalLightingNode::initialize() {
 }
 
 void DirectionalLightingNode::preprocess() {
-	auto& command = DirectXCommand::GetCommandList();
+	auto& command = DxCommand::GetCommandList();
 	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		command->SetGraphicsRootDescriptorTable(2 + i, gBuffers[i]);
 	}
@@ -34,8 +34,8 @@ void DirectionalLightingNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuf
 
 void DirectionalLightingNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 0 : Light
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 1 : Camera
+	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_PIXEL, 3); // 0 : Light
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 1 : Camera
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 2 : Albedo
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 1); // 3 : Normal
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 4 : Depth

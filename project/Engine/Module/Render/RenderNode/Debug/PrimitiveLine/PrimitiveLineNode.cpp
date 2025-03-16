@@ -1,12 +1,11 @@
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include "PrimitiveLineNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/PipelineState/PipelineState.h"
-#include "Engine/Rendering/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
-
-#include "Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
 PrimitiveLineNode::PrimitiveLineNode() = default;
 PrimitiveLineNode::~PrimitiveLineNode() noexcept = default;
@@ -16,7 +15,7 @@ void PrimitiveLineNode::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("PrimitiveLineNode");
 	primitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-	set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	set_render_target_SC(DxSwapChain::GetRenderTarget());
 	set_config(RenderNodeConfig::ContinueDrawAfter |
 		RenderNodeConfig::ContinueDrawBefore |
 		RenderNodeConfig::NoClearDepth
@@ -33,8 +32,8 @@ void PrimitiveLineNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Debug/PrimitiveGeometry/PrimitiveLine.VS.hlsl",
-		"EngineResources/HLSL/Debug/PrimitiveGeometry/PrimitiveLine.PS.hlsl"
+		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
+		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

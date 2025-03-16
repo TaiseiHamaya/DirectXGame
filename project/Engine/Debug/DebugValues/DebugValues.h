@@ -1,10 +1,10 @@
 #pragma once
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <memory>
 
-#include <Engine/Module/World/Mesh/MeshInstance.h>
+#include <Engine/Module/World/Mesh/StaticMeshInstance.h>
 
 class DebugValues {
 private:
@@ -18,10 +18,10 @@ public:
 	static DebugValues& GetInstance();
 
 public:
-	static void ShowGrid();
+	static Reference<const StaticMeshInstance> GetGridInstance();
 
 private:
-	std::unique_ptr<MeshInstance> gridMesh = nullptr;
+	std::unique_ptr<StaticMeshInstance> gridMesh = nullptr;
 };
 
 #endif // _DEBUG

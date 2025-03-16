@@ -291,70 +291,64 @@
     <ClCompile Include="Engine\Application\WinApp.cpp">
       <Filter>Engine\Application\WinApp</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXDevice\DirectXDevice.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDevice\DxDevice.cpp">
       <Filter>Engine\Rendering\DirectX\Device</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXCommand\DirectXCommand.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.cpp">
       <Filter>Engine\Rendering\DirectX\Command</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXSwapChain\DirectXSwapChain.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp">
       <Filter>Engine\Rendering\DirectX\SwapChain</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXCore.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCore.cpp">
       <Filter>Engine\Rendering\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PipelineState.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.cpp">
       <Filter>Engine\Rendering\DirectX\PiplineState</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\DirectXResourceObject.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\RenderTarget</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\Texture\Texture.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DepthStencil\DepthStencil.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\DepthStencil</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\BackgroundLoader\BackgroundLoader.cpp">
+    <ClCompile Include="Engine\Assets\BackgroundLoader\BackgroundLoader.cpp">
       <Filter>Engine\Resources\BackgroundLoader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
       <Filter>Engine\Rendering\DirectX\PiplineState\PSOBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp">
       <Filter>Engine\Rendering\DirectX\PiplineState\ShaderBuilder</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.cpp">
       <Filter>Engine\Module\Render\RenderNode\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
@@ -390,7 +384,7 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="TestCode\SceneDemo.cpp">
+    <ClCompile Include="TestCode\Scene\SceneDemo.cpp">
       <Filter>TestProgram</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp">
@@ -411,10 +405,10 @@
     <ClCompile Include="Engine\Module\World\Collision\Collider\BaseCollider.cpp">
       <Filter>Engine\Module\World\Collision\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMesh.cpp">
+    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMesh.cpp">
       <Filter>Engine\Resources\PolygonMesh</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Texture\TextureManager.cpp">
+    <ClCompile Include="Engine\Assets\Texture\TextureLibrary.cpp">
       <Filter>Engine\Resources\TextureManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Runtime\Scene\BaseScene.cpp">
@@ -423,25 +417,25 @@
     <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.cpp">
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.cpp">
       <Filter>Engine\Rendering\DirectX\ShaderCompiler</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshManager.cpp">
+    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshLibrary.cpp">
       <Filter>Engine\Resources\PolygonMesh</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\Mesh\MeshInstance.cpp">
+    <ClCompile Include="Engine\Module\World\Mesh\StaticMeshInstance.cpp">
       <Filter>Engine\Module\World\Objects\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp">
       <Filter>Engine\Module\World\Objects\SpriteObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Audio\AudioManager.cpp">
+    <ClCompile Include="Engine\Assets\Audio\AudioLibrary.cpp">
       <Filter>Engine\Resources\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Audio\AudioPlayer.cpp">
+    <ClCompile Include="Engine\Assets\Audio\AudioPlayer.cpp">
       <Filter>Engine\Resources\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Audio\AudioResource.cpp">
+    <ClCompile Include="Engine\Assets\Audio\AudioAsset.cpp">
       <Filter>Engine\Resources\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp">
@@ -456,10 +450,10 @@
     <ClCompile Include="Engine\Module\World\WorldInstance\WorldInstance.cpp">
       <Filter>Engine\Module\World\WorldInstance</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Utility\Tools\ConvertString.cpp">
+    <ClCompile Include="Library\Utility\Tools\ConvertString.cpp">
       <Filter>Engine\Utility\Tools\ConvertString</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Output.cpp">
+    <ClCompile Include="Engine\Application\Output.cpp">
       <Filter>Engine\Debug\Output</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp">
@@ -504,7 +498,7 @@
     <ClCompile Include="Library\Math\Hierarchy.cpp">
       <Filter>Library\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Utility\Tools\RandomEngine.cpp">
+    <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp">
       <Filter>Engine\Utility\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp">
@@ -537,7 +531,7 @@
     <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Json\JsonResource.cpp">
+    <ClCompile Include="Engine\Assets\Json\JsonAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp">
@@ -555,40 +549,40 @@
     <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResource.cpp">
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationPlayer.cpp">
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationPlayer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResource.cpp">
+    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.cpp">
+    <ClCompile Include="Engine\Module\World\Mesh\SkinningMeshInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationManager.cpp">
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationLibrary.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonManager.cpp">
+    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonLibrary.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp">
+    <ClCompile Include="Engine\Assets\Texture\TextureAssetBuilder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.cpp">
+    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshBuilder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Audio\AudioResourceBuilder.cpp">
+    <ClCompile Include="Engine\Assets\Audio\AudioAssetBuilder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.cpp">
+    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAssetBuilder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.cpp">
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAssetBuilder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Library\Math\Basis.cpp">
@@ -597,7 +591,7 @@
     <ClCompile Include="Library\Math\Affine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp">
@@ -606,16 +600,16 @@
     <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.cpp">
+    <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryAsset.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\WorldInstanceManager.cpp">
+    <ClCompile Include="Engine\Module\World\WorldManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveLineDrawExecutor\PrimitiveLineDrawExecutor.cpp">
+    <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryManager.cpp">
+    <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryLibrary.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.cpp">
@@ -624,7 +618,49 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Framework.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\Scene\FactoryDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCode\GameDemo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Runtime\Input\InputHandler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -632,79 +668,73 @@
     <ClInclude Include="Engine\Application\WinApp.h">
       <Filter>Engine\Application\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXDevice\DirectXDevice.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDevice\DxDevice.h">
       <Filter>Engine\Rendering\DirectX\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXCommand\DirectXCommand.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.h">
       <Filter>Engine\Rendering\DirectX\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXSwapChain\DirectXSwapChain.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.h">
       <Filter>Engine\Rendering\DirectX\SwapChain</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\DirectXDescriptorHeap.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXCore.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCore.h">
       <Filter>Engine\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\PipelineState\PipelineState.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.h">
       <Filter>Engine\Rendering\DirectX\PiplineState</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\DirectXResourceObject.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\RenderTarget\RenderTarget.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\RenderTarget</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\VertexBuffer\VertexBuffer.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer\VertexBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\VertexBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\BufferObjects.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\BufferObjects.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\IndexBuffer\IndexBuffer.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\ConstantBuffer\ConstantBuffer.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\ConstantBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\ConstantBuffer\Material\Material.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\ConstantBuffer\TransformMatrix\TransformMatrix.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\ConstantBuffer\TransformMatrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\Texture\Texture.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\DepthStencil\DepthStencil.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DepthStencil\DepthStencil.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\BackgroundLoader\BackgroundLoader.h">
+    <ClInclude Include="Engine\Assets\BackgroundLoader\BackgroundLoader.h">
       <Filter>Engine\Resources\BackgroundLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\OffscreenRender\OffscreenRender.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
       <Filter>Engine\Rendering\DirectX\PiplineState\PSOBuilder</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h">
       <Filter>Engine\Rendering\DirectX\PiplineState\ShaderBuilder</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Object3DNode\Object3DNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.h">
       <Filter>Engine\Module\Render\RenderNode\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h">
@@ -740,7 +770,7 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="TestCode\SceneDemo.h">
+    <ClInclude Include="TestCode\Scene\SceneDemo.h">
       <Filter>TestProgram</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h">
@@ -764,10 +794,10 @@
     <ClInclude Include="Engine\Module\World\Collision\Collider\BaseCollider.h">
       <Filter>Engine\Module\World\Collision\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMesh.h">
+    <ClInclude Include="Engine\Assets\PolygonMesh\PolygonMesh.h">
       <Filter>Engine\Resources\PolygonMesh</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Texture\TextureManager.h">
+    <ClInclude Include="Engine\Assets\Texture\TextureLibrary.h">
       <Filter>Engine\Resources\TextureManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Runtime\Scene\SceneManager.h">
@@ -776,25 +806,25 @@
     <ClInclude Include="Engine\Runtime\Scene\BaseScene.h">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\ShaderCompiler\ShaderCompiler.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.h">
       <Filter>Engine\Rendering\DirectX\ShaderCompiler</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshManager.h">
+    <ClInclude Include="Engine\Assets\PolygonMesh\PolygonMeshLibrary.h">
       <Filter>Engine\Resources\PolygonMesh</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\Mesh\MeshInstance.h">
+    <ClInclude Include="Engine\Module\World\Mesh\StaticMeshInstance.h">
       <Filter>Engine\Module\World\Objects\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h">
       <Filter>Engine\Module\World\Objects\SpriteObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Audio\AudioManager.h">
+    <ClInclude Include="Engine\Assets\Audio\AudioLibrary.h">
       <Filter>Engine\Resources\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Audio\AudioPlayer.h">
+    <ClInclude Include="Engine\Assets\Audio\AudioPlayer.h">
       <Filter>Engine\Resources\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Audio\AudioResource.h">
+    <ClInclude Include="Engine\Assets\Audio\AudioAsset.h">
       <Filter>Engine\Resources\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.h">
@@ -812,16 +842,16 @@
     <ClInclude Include="Engine\Module\World\WorldInstance\WorldInstance.h">
       <Filter>Engine\Module\World\WorldInstance</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Output.h">
+    <ClInclude Include="Engine\Application\Output.h">
       <Filter>Engine\Debug\Output</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Tools\ConvertString.h">
+    <ClInclude Include="Library\Utility\Tools\ConvertString.h">
       <Filter>Engine\Utility\Tools\ConvertString</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Runtime\WorldClock\WorldClock.h">
       <Filter>Engine\Runtime\WorldClock</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXResourceObject\StructuredBuffer\StructuredBuffer.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\StructuredBuffer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Particle\Particle\Particle.h">
@@ -869,28 +899,28 @@
     <ClInclude Include="Library\Math\Transform3D.h">
       <Filter>Library\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\Array2D.h">
+    <ClInclude Include="Library\Utility\Template\Array2D.h">
       <Filter>Engine\Utility\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\Behavior.h">
+    <ClInclude Include="Library\Utility\Template\Behavior.h">
       <Filter>Engine\Utility\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\bitflag.h">
+    <ClInclude Include="Library\Utility\Template\bitflag.h">
       <Filter>Engine\Utility\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\TimedCall.h">
+    <ClInclude Include="Library\Utility\Template\TimedCall.h">
       <Filter>Engine\Utility\Template</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Tools\SmartPointer.h">
+    <ClInclude Include="Library\Utility\Tools\SmartPointer.h">
       <Filter>Engine\Utility\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Tools\RandomEngine.h">
+    <ClInclude Include="Library\Utility\Tools\RandomEngine.h">
       <Filter>Engine\Utility\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\RenderingSystemValues.h">
+    <ClInclude Include="Engine\GraphicsAPI\RenderingSystemValues.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Rendering\DirectX\DirectXSystemValues.h">
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSystemValues.h">
       <Filter>Engine\Rendering\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Particle\DrawSystem\ParticleBufferValue.h">
@@ -902,7 +932,7 @@
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h">
       <Filter>Engine\Module\World\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Tools\ConstructorMacro.h">
+    <ClInclude Include="Library\Utility\Tools\ConstructorMacro.h">
       <Filter>Engine\Utility\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h">
@@ -911,7 +941,7 @@
     <ClInclude Include="Engine\Application\EngineSettings.h">
       <Filter>Engine\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\SingletonInterface.h">
+    <ClInclude Include="Library\Utility\Template\SingletonInterface.h">
       <Filter>Engine\Utility\Template</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\VectorConverter.h">
@@ -920,10 +950,10 @@
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\SortedPair.h">
+    <ClInclude Include="Library\Utility\Template\SortedPair.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Tools\Hash.h">
+    <ClInclude Include="Library\Utility\Tools\Hash.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TestCode\CallbackManagerDemo.h">
@@ -944,13 +974,13 @@
     <ClInclude Include="Engine\Module\World\Light\PointLight\PointLightInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Json\JsonResource.h">
+    <ClInclude Include="Engine\Assets\Json\JsonAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Json\JsonSerializer.h">
+    <ClInclude Include="Engine\Assets\Json\JsonSerializer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h">
@@ -968,43 +998,43 @@
     <ClInclude Include="Engine\Module\World\Particle\ParticleEmitterInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResource.h">
+    <ClInclude Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationPlayer.h">
+    <ClInclude Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationPlayer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResource.h">
+    <ClInclude Include="Engine\Assets\Animation\Skeleton\SkeletonAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.h">
+    <ClInclude Include="Engine\Module\World\Mesh\SkinningMeshInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationManager.h">
+    <ClInclude Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonManager.h">
+    <ClInclude Include="Engine\Assets\Animation\Skeleton\SkeletonLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\SkinningMesh\SkinningMeshNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\BaseResourceBuilder.h">
+    <ClInclude Include="Engine\Assets\BaseAssetBuilder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Texture\TextureResourceBuilder.h">
+    <ClInclude Include="Engine\Assets\Texture\TextureAssetBuilder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.h">
+    <ClInclude Include="Engine\Assets\PolygonMesh\PolygonMeshBuilder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Audio\AudioResourceBuilder.h">
+    <ClInclude Include="Engine\Assets\Audio\AudioAssetBuilder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.h">
+    <ClInclude Include="Engine\Assets\Animation\Skeleton\SkeletonAssetBuilder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.h">
+    <ClInclude Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAssetBuilder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\Basis.h">
@@ -1013,10 +1043,10 @@
     <ClInclude Include="Library\Math\Affine.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utility\Template\Reference.h">
+    <ClInclude Include="Library\Utility\Template\Reference.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\MeshNodeDeferred.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h">
@@ -1028,16 +1058,16 @@
     <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryResource.h">
+    <ClInclude Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\WorldInstanceManager.h">
+    <ClInclude Include="Engine\Module\World\WorldManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveLineDrawExecutor\PrimitiveLineDrawExecutor.h">
+    <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Resources\PrimitiveGeometry\PrimitiveGeometryManager.h">
+    <ClInclude Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryLibrary.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.h">
@@ -1046,7 +1076,58 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\SkinMesh\SkinMeshNodeDeferred.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\BaseDrawExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Framework.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\Scene\FactoryDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCode\GameDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\MdStructuredBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredConcept.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Profiler\TimestampProfiler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Profiler\WorldClockProfiler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Runtime\Input\InputHandler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Audio\AudioManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1054,10 +1135,10 @@
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
       <Filter>EngineResources\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\3DObject\Object3d.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMesh.VS.hlsl">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
@@ -1104,7 +1185,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EngineResources\HLSL\Forward\3DObject\Object3d.hlsli">
+    <None Include="EngineResources\HLSL\Forward\Forward.hlsli">
       <Filter>EngineResources\HLSL\3DObject</Filter>
     </None>
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
@@ -1128,5 +1209,8 @@
     <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EngineResources\HLSL\Document.txt" />
   </ItemGroup>
 </Project>

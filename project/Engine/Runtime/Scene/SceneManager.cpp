@@ -1,28 +1,36 @@
 #include "SceneManager.h"
 
-#include "Engine/Debug/Output.h"
-#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Runtime/Scene/BaseScene.h"
-
 #include <algorithm>
-#include <cassert>
+
+#include "Engine/Application/Output.h"
+#include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Runtime/Scene/BaseScene.h"
+#include "Engine/Runtime/Scene/BaseSceneFactory.h"
+
+#ifdef DEBUG_FEATURES_ENABLE
+#include "Engine/Debug/Profiler/TimestampProfiler.h"
+#endif // _DEBUG
 
 SceneManager& SceneManager::GetInstance() noexcept {
 	static SceneManager instance{};
 	return instance;
 }
 
-void SceneManager::Initialize(std::unique_ptr<BaseScene>&& initScene) {
-	assert(initScene);
+void SceneManager::Initialize() {
+	SceneManager& instance = GetInstance();
+	CriticalIf(!instance.sceneQue.empty(), "Scene manager is already initalized.");
+
+	// 最初にnullptrをemplace_backする
+	instance.sceneQue.emplace_back(nullptr);
+	auto initScene = instance.factory->initialize_scene();
+	CriticalIf(!initScene, "The inital scene crated is nullptr.");
+
 	initScene->load();
 	BackgroundLoader::WaitEndExecute();
 	initScene->initialize();
 
-	SceneManager& instance = GetInstance();
-	assert(instance.sceneQue.empty());
-	Console("Initialize SceneManager. Address-\'{}\'.\n", (void*)initScene.get());
-	// 最初にnullptrをemplace_backする
-	instance.sceneQue.emplace_back(nullptr);
+	Infomation("Initialize SceneManager. Address-\'{}\'.", (void*)initScene.get());
+
 	instance.sceneQue.emplace_back(std::move(initScene));
 	instance.sceneStatus = SceneStatus::DEFAULT;
 	instance.sceneChangeInfo.endCall = {
@@ -43,13 +51,37 @@ void SceneManager::Begin() {
 }
 
 void SceneManager::Update() {
+#ifdef DEBUG_FEATURES_ENABLE
+	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
+#endif // _DEBUG
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
+#ifdef DEBUG_FEATURES_ENABLE
+	if (profiler) {
+		profiler->timestamp("Begin");
+	}
+#endif // _DEBUG
 	nowScene->begin();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
+	if (profiler) {
+		profiler->timestamp("ImGui");
+	}
 	nowScene->debug_update();
+	if (profiler) {
+		profiler->timestamp("Update");
+	}
 #endif // _DEBUG
 	nowScene->update();
+#ifdef DEBUG_FEATURES_ENABLE
+	if (profiler) {
+		profiler->timestamp("BeginRendering");
+	}
+#endif // _DEBUG
 	nowScene->begin_rendering();
+#ifdef DEBUG_FEATURES_ENABLE
+	if (profiler) {
+		profiler->timestamp("LateUpdate");
+	}
+#endif // _DEBUG
 	nowScene->late_update();
 }
 
@@ -61,20 +93,20 @@ void SceneManager::Draw() {
 //	sceneQue.back()->DebugDraw();
 //}
 
-void SceneManager::SetSceneChange(std::unique_ptr<BaseScene>&& nextScenePtr, float interval, bool isStackInitialScene, bool isStopLoad) {
-	assert(nextScenePtr);
+void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInitialScene, bool isStopLoad) {
 	SceneManager& instance = GetInstance();
-	Console("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},\n",
+	// シーンがDefault状態でないと遷移させない
+	if (instance.sceneStatus != SceneStatus::DEFAULT) {
+		return;
+	}
+	auto nextScenePtr = instance.factory->create_scene(next);
+	Infomation("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
 		interval,
 		isStackInitialScene,
 		isStopLoad
 	);
-	// シーンがDefault状態でないと遷移させない
-	if (instance.sceneStatus != SceneStatus::DEFAULT){
-		return;
-	}
 	// この時点でロード関数を呼び出し
 	nextScenePtr->load();
 	// 遷移状態にする
@@ -93,7 +125,7 @@ void SceneManager::PopScene(float interval) {
 		return;
 	}
 	// スタックしたシーン数が2未満の場合はおかしいので停止させる
-	assert(instance.sceneQue.size() >= 2);
+	//ErrorIf(instance.sceneQue.size() >= 2);
 	// 遷移状態にする
 	instance.sceneStatus = SceneStatus::CHANGE;
 	// Popするときはスタックさせない
@@ -106,7 +138,7 @@ void SceneManager::PopScene(float interval) {
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Console("Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},\n",
+	Infomation("Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},",
 		(void*)instance.sceneQue.back().get(),
 		(void*)instance.sceneChangeInfo.next.get(),
 		interval
@@ -153,16 +185,20 @@ void SceneManager::NextScene() {
 	instance.sceneStatus = SceneStatus::DEFAULT;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <imgui.h>
 #include <format>
+
+void SceneManager::SetProfiler(Reference<TimestampProfiler> profiler_) {
+	GetInstance().profiler = profiler_;
+}
 
 void SceneManager::DebugGui() {
 	auto& instance = GetInstance();
 
 	ImGui::Begin("SceneManager");
-	ImGui::Text(std::format("SceneAddress- \'{}\'", (void*)instance.sceneQue.back().get()).c_str());
+	ImGui::Text(std::format("SceneAddress- \'{:016}\'", (void*)instance.sceneQue.back().get()).c_str());
 	ImGui::Text(std::format("SceneCount :  {}", instance.sceneQue.size() - 1).c_str());
 	ImGui::Text(std::format("IsSceneChange : {:s}", instance.sceneChangeInfo.next != nullptr).c_str());
 	ImGui::End();

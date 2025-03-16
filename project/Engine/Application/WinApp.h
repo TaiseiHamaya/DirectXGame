@@ -1,7 +1,5 @@
 #pragma once
 
-#define NOMINMAX
-
 #include <memory>
 
 #include <windows.h>
@@ -28,8 +26,9 @@ public:
 	static void ProcessMessage();
 
 public:
-	static HWND& GetWndHandle() noexcept { return instance->hWnd; };
-	static const HINSTANCE& GetWindowHandle() noexcept { return instance->hInstance; };
+	static HWND GetWndHandle() noexcept { return instance->hWnd; };
+	static HANDLE GetProcessHandle() noexcept { return instance->hProcess; };
+	static HINSTANCE GetInstanceHandle() noexcept { return instance->hInstance; };
 
 private:
 	void initialize_application(DWORD windowConfig);
@@ -37,12 +36,13 @@ private:
 	void wait_frame();
 
 private:
-	static inline std::unique_ptr<WinApp> instance = nullptr;
+	static inline std::unique_ptr<WinApp> instance{ nullptr };
 
 private:
-
-	HWND hWnd;
-	HINSTANCE hInstance;
+	bool isEndApp{ false };
+	HWND hWnd{ nullptr };
+	HINSTANCE hInstance{ nullptr };
+	HANDLE hProcess{ nullptr };
 
 	MSG msg;
 };

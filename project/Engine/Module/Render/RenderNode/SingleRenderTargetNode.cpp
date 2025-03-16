@@ -1,10 +1,9 @@
 #include "SingleRenderTargetNode.h"
 
-#include <cassert>
-
+#include "Engine/Application/Output.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
 
 SingleRenderTargetNode::SingleRenderTargetNode() = default;
 
@@ -31,6 +30,6 @@ void SingleRenderTargetNode::set_render_target_SC(const std::shared_ptr<SwapChai
 }
 
 const D3D12_GPU_DESCRIPTOR_HANDLE& SingleRenderTargetNode::result_stv_handle() const {
-	assert(resultSvtHandle.has_value());
+	ErrorIf(!resultSvtHandle.has_value(), "SRVHandle not obtained.");
 	return resultSvtHandle.value();
 }

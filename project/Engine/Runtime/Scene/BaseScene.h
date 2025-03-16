@@ -22,10 +22,10 @@ public:
 	virtual void update() = 0;
 	virtual void begin_rendering();
 	virtual void late_update();
-	
+
 	virtual void draw() const = 0;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	virtual void debug_update();
 #endif // _DEBUG
 

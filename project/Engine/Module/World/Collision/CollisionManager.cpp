@@ -2,17 +2,19 @@
 
 #include <ranges>
 
-#include "Engine/Utility/Tools/SmartPointer.h"
+#include <Library/Utility/Tools/SmartPointer.h>
+
 #include "Engine/Module/World/Collision/CollisionFunctions.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 
 CollisionManager::CollisionManager() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
-	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveLineDrawExecutor>(
-		"SphereCollider", 1024
+	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
 	);
-	aabbDebugDrawExecutor = eps::CreateUnique<PrimitiveLineDrawExecutor>(
-		"AABBCollider", 1024
+	aabbDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("AABBCollider"), 1024
 	);
 
 #endif // _DEBUG
@@ -33,22 +35,13 @@ void CollisionManager::update() {
 		isEraseList = erase_expired(itr->second.aabbColliders) && isEraseList;
 		// 要素が空の場合リストから名前を削除
 		if (isEraseList) {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 			keyList.erase(itr->first);
 #endif // _DEBUG
 			itr = colliderList.erase(itr);
 		}
 		else {
 			++itr;
-		}
-	}
-	// 更新処理
-	for (Colliders& colliders : colliderList | std::views::values) {
-		for (std::weak_ptr<SphereCollider>& sphere : colliders.sphereColliders) {
-			sphere.lock()->update();
-		}
-		for (std::weak_ptr<AABBCollider>& aabb : colliders.aabbColliders) {
-			aabb.lock()->update();
 		}
 	}
 }
@@ -87,9 +80,15 @@ bool CollisionManager::erase_expired(std::list<std::weak_ptr<ColliderType>>& col
 template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
 void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderType>>& lhs, const std::list<std::weak_ptr<RColliderType>>& rhs) {
 	for (const std::weak_ptr<LColliderType>& colliderL : lhs) {
+		auto lLocked = colliderL.lock();
+		if (!lLocked->is_active()) {
+			continue;
+		}
 		for (const std::weak_ptr<RColliderType>& colliderR : rhs) {
-			auto lLocked = colliderL.lock();
 			auto rLocked = colliderR.lock();
+			if (!rLocked->is_active()) {
+				continue;
+			}
 			if constexpr (std::is_same_v<LColliderType, RColliderType>) {
 				if (lLocked == rLocked) {
 					break;
@@ -97,15 +96,15 @@ void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderTyp
 			}
 			bool result = Collision(*lLocked, *rLocked);
 			collisionCallbackManager->callback(
-				std::make_pair(lLocked->group(), lLocked.get()),
-				std::make_pair(rLocked->group(), rLocked.get()),
+				lLocked.get(),
+				rLocked.get(),
 				result
 			);
 		}
 	}
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <format>
 #include <imgui.h>
@@ -117,7 +116,7 @@ void CollisionManager::debug_gui() {
 			if (colliderList.contains(name)) {
 				auto& list = colliderList.at(name);
 				ImGui::Text(
-					std::format("{} : {}", name, 
+					std::format("{} : {}", name,
 						list.aabbColliders.size() + list.sphereColliders.size()).c_str()
 				);
 			}
@@ -131,21 +130,20 @@ void CollisionManager::debug_draw3d() {
 		return;
 	}
 
-	uint32_t sphereIndex = 0;
-	uint32_t aabbIndex = 0;
+	sphereDebugDrawExecutor->begin();
+	aabbDebugDrawExecutor->begin();
+
 	for (const Colliders& colliders : colliderList | std::views::values) {
 		for (const std::weak_ptr<SphereCollider>& sphereCollider : colliders.sphereColliders) {
-			sphereDebugDrawExecutor->write_to_buffer(sphereIndex, sphereCollider.lock()->debug_matrix());
-			++sphereIndex;
+			sphereDebugDrawExecutor->write_to_buffer(sphereCollider.lock()->debug_matrix());
 		}
 
 		for (const std::weak_ptr<AABBCollider>& aabbCollider : colliders.aabbColliders) {
-			aabbDebugDrawExecutor->write_to_buffer(aabbIndex, aabbCollider.lock()->debug_matrix());
-			++aabbIndex;
+			aabbDebugDrawExecutor->write_to_buffer(aabbCollider.lock()->debug_matrix());
 		}
 	}
 
-	sphereDebugDrawExecutor->draw_command(sphereIndex);
-	aabbDebugDrawExecutor->draw_command(aabbIndex);
+	sphereDebugDrawExecutor->draw_command();
+	aabbDebugDrawExecutor->draw_command();
 }
 #endif // _DEBUG

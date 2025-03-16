@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
 
 template<class T>
 class BaseLightInstance : public WorldInstance {
@@ -16,22 +16,11 @@ public:
 	BaseLightInstance& operator=(BaseLightInstance&&) = default;
 
 public:
-	virtual void update() {};
+	virtual void transfer() = 0;
 
-	virtual void begin_rendering() = 0;
-
-	virtual void draw_deferred() const = 0;
-
-	void register_world(uint32_t parameterIndex) const;
+public:
+	const T& light_data() const { return lightData; };
 
 protected:
-	ConstantBuffer<T> lightBuffer;
+	T lightData;
 };
-
-template<class T>
-inline void BaseLightInstance<T>::register_world(uint32_t parameterIndex) const {
-	DirectXCommand::GetCommandList()->SetGraphicsRootConstantBufferView(
-		parameterIndex,
-		lightBuffer.get_resource()->GetGPUVirtualAddress()
-	);
-}

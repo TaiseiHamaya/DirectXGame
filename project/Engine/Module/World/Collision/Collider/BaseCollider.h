@@ -10,15 +10,12 @@ public:
 	~BaseCollider() = default;
 
 public:
-	virtual void update();
-
-public:
 	const std::string& group() const noexcept;
 
 public:
 	void set_group_name(const std::string& name);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	Matrix4x4 debug_matrix() const;
 #endif // _DEBUG
 
@@ -26,7 +23,7 @@ public:
 private:
 	const std::string* groupName;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 protected:
 	Matrix4x4 debugMatrix;
 #endif // _DEBUG

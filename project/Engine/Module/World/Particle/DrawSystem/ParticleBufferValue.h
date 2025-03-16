@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Library/Math/Matrix4x4.h"
-#include "Library/Math/Color4.h"
+#include <Library/Math/Color4.h>
+#include <Library/Math/Matrix4x4.h>
 
 struct ParticleBuffer {
 	Matrix4x4 world{ CMatrix4x4::IDENTITY };

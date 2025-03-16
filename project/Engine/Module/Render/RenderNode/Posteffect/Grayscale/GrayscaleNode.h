@@ -2,7 +2,7 @@
 
 #include "Engine/Module/Render/RenderNode/SingleRenderTargetNode.h"
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 
 class GrayscaleNode : public SingleRenderTargetNode {
 public:
@@ -39,7 +39,7 @@ private:
 	/// </summary>
 	void create_pipeline_state();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // DEBUG

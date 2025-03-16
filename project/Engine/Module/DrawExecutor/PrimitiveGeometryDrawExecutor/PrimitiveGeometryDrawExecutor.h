@@ -1,0 +1,31 @@
+#pragma once
+
+#ifdef DEBUG_FEATURES_ENABLE
+
+#include "../BaseDrawExecutor.h"
+
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
+
+#include <Library/Math/Matrix4x4.h>
+
+class PrimitiveGeometryDrawExecutor final : public BaseDrawExecutor {
+public:
+	PrimitiveGeometryDrawExecutor() = default;
+	~PrimitiveGeometryDrawExecutor() = default;
+
+	PrimitiveGeometryDrawExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
+
+	__CLASS_NON_COPYABLE(PrimitiveGeometryDrawExecutor)
+
+public:
+	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
+	void draw_command() const override;
+	void write_to_buffer(const Matrix4x4& worldMatrix);
+
+private:
+	std::shared_ptr<const PrimitiveGeometryAsset> asset;
+	StructuredBuffer<Matrix4x4> matrices;
+};
+
+#endif // _DEBUG

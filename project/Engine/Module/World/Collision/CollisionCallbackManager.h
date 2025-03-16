@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <utility>
 
-#include "Engine/Utility/Template/SortedPair.h"
-#include "Engine/Utility/Tools/ConstructorMacro.h"
+#include <Library/Utility/Template/SortedPair.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Collider/BaseCollider.h"
 
@@ -21,14 +21,14 @@ protected:
 	};
 
 private:
-	using CallbackInfo = std::pair<const std::string&, BaseCollider* const>;
+	using CallbackInfo = BaseCollider* const;
 	using CollisionRecentKeyType = SortedPair<BaseCollider* const>;
 
 public:
 	CollisionCallbackManager() = default;
 	virtual ~CollisionCallbackManager() = default;
 
-	__NON_COPYABLE_CLASS(CollisionCallbackManager)
+	__CLASS_NON_COPYABLE(CollisionCallbackManager)
 
 public:
 	void begin();

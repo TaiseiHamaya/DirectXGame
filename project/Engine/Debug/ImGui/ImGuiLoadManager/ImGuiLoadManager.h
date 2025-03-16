@@ -1,10 +1,11 @@
 #pragma once
 
-#ifdef _DEBUG
-#include <string>
-#include <vector>
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <filesystem>
+#include <string>
 #include <unordered_set>
+#include <vector>
 
 class ImGuiLoadManager final {
 private:

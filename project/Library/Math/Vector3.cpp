@@ -4,17 +4,19 @@
 #include <cmath>
 #include <algorithm>
 
+#include "Engine/Application/Output.h"
+
 float Vector3::length() const noexcept {
-	return std::sqrt(DotProduct(*this, *this));
+	return std::sqrt(Dot(*this, *this));
 }
 
-const Vector3 Vector3::normalize() const noexcept(false) {
-	assert(length() != 0);
+Vector3 Vector3::normalize() const noexcept(false) {
+	WarningIf(length() == 0, "Vector3::normalize was called. But length is 0.");
 	return *this / length();;
 }
 
-const Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
-	assert(tolerance >= 0);
+Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
+	WarningIf(tolerance < 0, "First argument tolerance less 0.");
 	float length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;
@@ -32,20 +34,20 @@ float Vector3::Length(const Vector3& vector1, const Vector3& vector2) noexcept {
 	return Vector3::Length(vector1 - vector2);
 }
 
-const Vector3 Vector3::Normalize(const Vector3& vector) {
+Vector3 Vector3::Normalize(const Vector3& vector) {
 	return vector.normalize();
 }
 
-const Vector3 Vector3::Normalize(const Vector3& vectorFrom, const Vector3& vectorTo) {
+Vector3 Vector3::Normalize(const Vector3& vectorFrom, const Vector3& vectorTo) {
 	return Vector3::Normalize(vectorTo - vectorFrom);
 }
 
-const Vector3 Vector3::Abs(const Vector3& vector) noexcept {
+Vector3 Vector3::Abs(const Vector3& vector) noexcept {
 	return { std::abs(vector.x), std::abs(vector.y), std::abs(vector.z) };
 }
 
 Vector3 Vector3::Projection(const Vector3& vector, const Vector3& onto) {
-	return onto * Vector3::DotProduct(onto, vector);
+	return onto * Vector3::Dot(onto, vector);
 }
 
 Vector3 Vector3::Reflect(const Vector3& input, const Vector3& normal) {
@@ -57,7 +59,7 @@ Vector3 Vector3::Clamp(const Vector3& vector, const Vector3& min, const Vector3&
 }
 
 Vector3 Vector3::Slerp(const Vector3& from, const Vector3& to, const float& t) {
-	float dot = Vector3::DotProduct(from, to);
+	float dot = Vector3::Dot(from, to);
 	if (dot >= 0.9999f) {
 		return Lerp(from, to, t).normalize();
 	}

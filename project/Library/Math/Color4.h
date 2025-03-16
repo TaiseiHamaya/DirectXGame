@@ -39,7 +39,7 @@ public:
 	float blue{ 1.0f }; // 青[0, 1]
 	float alpha{ 1.0f }; // アルファ[0, 1]
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui(const char* tag = "Color4") noexcept(false);
 #endif // _DEBUG

@@ -2,7 +2,7 @@
 
 #include "../BaseLightInstance.h"
 
-#include "Library/Math/Color3.h"
+#include <Library/Math/Color3.h>
 
 struct PointLightData {
 	Color3 color; // 色
@@ -25,11 +25,13 @@ public:
 	PointLightInstance& operator=(PointLightInstance&&) = default;
 
 public:
-	void begin_rendering() override;
+	void update_affine() override;
+	void transfer() override;
 
-	void draw_deferred() const override;
+public:
+	Matrix4x4 transform_matrix() const;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui() override;
 #endif // _DEBUG

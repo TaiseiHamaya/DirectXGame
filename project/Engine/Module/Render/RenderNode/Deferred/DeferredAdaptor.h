@@ -2,10 +2,11 @@
 
 #include <memory>
 
+#include <Library/Utility/Tools/SmartPointer.h>
+
+#include "Engine/Application/EngineSettings.h"
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
-#include "Engine/Application/EngineSettings.h"
-#include <Engine/Utility/Tools/SmartPointer.h>
 
 namespace DeferredAdaptor {
 
@@ -24,7 +25,7 @@ using GBuffersType = MultiRenderTarget<NUM_GBUFFER>;
 /// </summary>
 constexpr const std::array<DXGI_FORMAT, NUM_GBUFFER> DXGI_FORMAT_LIST = {
 	DXGI_FORMAT_R10G10B10A2_UNORM,
-	DXGI_FORMAT_R11G11B10_FLOAT
+	DXGI_FORMAT_R10G10B10A2_UNORM,
 };
 
 /// <summary>

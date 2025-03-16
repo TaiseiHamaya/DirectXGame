@@ -1,16 +1,16 @@
 #include "ParticleDrawSystemMesh.h"
 
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Resources/Texture/TextureManager.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
+#include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 ParticleDrawSystemMesh::ParticleDrawSystemMesh(const std::string& meshName) {
 	set_mesh(meshName);
 }
 
 void ParticleDrawSystemMesh::draw_command(size_t InstanceCount) const {
-	auto& commandList = DirectXCommand::GetCommandList();
+	auto& commandList = DxCommand::GetCommandList();
 	if (mesh) {
 		commandList->IASetVertexBuffers(0, 1, &mesh->get_vbv(0));
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(0));
@@ -22,13 +22,13 @@ void ParticleDrawSystemMesh::draw_command(size_t InstanceCount) const {
 }
 
 void ParticleDrawSystemMesh::set_mesh(const std::string& meshName) {
-	mesh = PolygonMeshManager::GetPolygonMesh(meshName);
+	mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
 	if (mesh) {
 		if (mesh->material_count()) {
-			texture = TextureManager::GetTexture(mesh->material_data(0)->textureFileName);
+			texture = TextureLibrary::GetTexture(mesh->material_data(0)->textureFileName);
 		}
 		else {
-			texture = TextureManager::GetTexture("Error.png");
+			texture = TextureLibrary::GetTexture("Error.png");
 		}
 	}
 }

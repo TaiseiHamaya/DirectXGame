@@ -1,6 +1,7 @@
 #include "FullscreenShader.hlsli"
 #include "Tools/PackNormalV2.hlsli"
 #include "Tools/PackA2.hlsli"
+#include "Tools/PackShininess.hlsli"
 #include "Tools/ToLinearZBuffer.hlsli"
 
 struct DirectionalLight {
@@ -12,36 +13,43 @@ struct DirectionalLight {
 struct Camera {
 	float3 position;
 	float4x4 viewInv;
+	float4x4 projInv;
 };
 
 Texture2D<float4> gAlbedoShading : register(t0);
-Texture2D<float3> gNormal : register(t1);
+Texture2D<float4> gNormal : register(t1);
 Texture2D<float> gDepth : register(t2);
 SamplerState gSampler : register(s0);
 
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b0);
-ConstantBuffer<Camera> gCamera : register(b1);
+StructuredBuffer<DirectionalLight> gDirectionalLight : register(t3);
+ConstantBuffer<Camera> gCamera : register(b0);
 
+[earlydepthstencil]
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output;
 	
 	// sampling
 	float4 albedoShading = gAlbedoShading.Sample(gSampler, input.texcoord.xy);
-	float3 normalViewShininess = gNormal.Sample(gSampler, input.texcoord.xy);
+	float4 normalViewShininess = gNormal.Sample(gSampler, input.texcoord.xy);
 	float ndcDepth = gDepth.Sample(gSampler, input.texcoord.xy);
 	
 	// unpack
 	float3 albedo = albedoShading.rgb;
 	uint shadingType = UnpackA2bit(albedoShading.a);
 	float3 normal = mul(UnpackingNormaV2(normalViewShininess.xy), (float3x3)gCamera.viewInv);
-	float shininess = normalViewShininess.z;
+	float shininess = UnpackShininess(normalViewShininess.zw);
 	//float3 normal = normalize(normalShininess.xyz);
-	float3 ndc = float3(input.texcoord.xy * 2.0f - 1, ToLinearZBuffer(ndcDepth, 0.1f, 1000.0f));
-	float3 world = mul(float4(ndc, 1.0f), gCamera.viewInv).xyz;
+	float3 ndc = float3(input.texcoord.xy * 2 - 1, ndcDepth);
+	ndc.y *= -1;
+	float4 view = mul(float4(ndc, 1.0f), gCamera.projInv);
+	float4 worldH = mul(view, gCamera.viewInv);
+	float3 world = worldH.xyz / worldH.w;
+	
+	DirectionalLight directionalLight = gDirectionalLight[input.instance];
 	
 	// specular
 	float3 toCamera = normalize(gCamera.position - world);
-	float3 halfVector = normalize(-gDirectionalLight.directon + toCamera);
+	float3 halfVector = normalize(-directionalLight.directon + toCamera);
 	float dotNormal = dot(normal, halfVector);
 	float specularPow = pow(saturate(dotNormal), shininess);
 	if (isnan(specularPow)) {
@@ -50,7 +58,7 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	else {
 		specularPow *= 2.0f;
 	}
-	float3 specular = gDirectionalLight.color * gDirectionalLight.intensity * specularPow * albedo;
+	float3 specular = directionalLight.color * directionalLight.intensity * specularPow * albedo;
 
 	
 	// ライティングなし
@@ -60,19 +68,19 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	}
 	// Lambert
 	else if (shadingType == 1) {
-		float NdotL = dot(normal, -gDirectionalLight.directon);
+		float NdotL = dot(normal, -directionalLight.directon);
 		float cos = saturate(NdotL);
-		float3 baseColor = albedo * gDirectionalLight.color;
-		output.rgb = baseColor * cos * gDirectionalLight.intensity;
+		float3 baseColor = albedo * directionalLight.color;
+		output.rgb = baseColor * cos * directionalLight.intensity;
 		output.rgb += specular;
 		output.a = 1.0f;
 	}
 	// Half Lambert
 	else if (shadingType == 2) {
-		float NdotL = dot(normal, -gDirectionalLight.directon);
+		float NdotL = dot(normal, -directionalLight.directon);
 		float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-		float3 baseColor = albedo * gDirectionalLight.color;
-		output.rgb = baseColor * cos * gDirectionalLight.intensity;
+		float3 baseColor = albedo * directionalLight.color;
+		output.rgb = baseColor * cos * directionalLight.intensity;
 		output.rgb += specular;
 		output.a = 1.0f;
 	}

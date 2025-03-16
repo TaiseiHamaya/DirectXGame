@@ -4,6 +4,10 @@
 
 #include "../DeferredAdaptor.h"
 
+/// 既知の不具合一覧 
+/// ・ライト内にカメラがあった際に、正しくライティングされない。
+/// ・ライト位置に対して背面を向いている面でライティングされる場合がある。
+
 class PointLightingNode final : public SingleRenderTargetNode {
 public:
 	PointLightingNode();

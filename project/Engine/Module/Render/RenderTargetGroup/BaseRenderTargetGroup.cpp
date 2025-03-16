@@ -2,8 +2,8 @@
 
 #include <d3d12.h>
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
 
 BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
@@ -11,7 +11,7 @@ BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
 BaseRenderTargetGroup::~BaseRenderTargetGroup() noexcept = default;
 
 void BaseRenderTargetGroup::begin(const eps::bitflag<RenderNodeConfig>& config_, const std::shared_ptr<DepthStencil>& depthStencil) {
-	auto&& commandList = DirectXCommand::GetCommandList();
+	auto&& commandList = DxCommand::GetCommandList();
 	// RTのリソースバリアを変更
 	if (!(config_ & RenderNodeConfig::NoChangeStateBegin)) {
 		change_render_target_state();

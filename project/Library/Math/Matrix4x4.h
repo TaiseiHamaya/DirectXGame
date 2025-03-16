@@ -2,7 +2,6 @@
 
 #include "Matrix.h"
 
-#include <cassert>
 #include <initializer_list>
 
 class Matrix3x3;
@@ -97,7 +96,6 @@ constexpr Matrix4x4::Matrix4x4(const Matrix<4, 4>& rhs) {
 }
 
 constexpr Matrix4x4::Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init) {
-	assert(init.size() == ROW && init.begin()->size() == COLUMN);
 	for (int i = 0; i < ROW; ++i) {
 		for (int j = 0; j < COLUMN; ++j) {
 			_matrix[i][j] = *((init.begin() + i)->begin() + j);

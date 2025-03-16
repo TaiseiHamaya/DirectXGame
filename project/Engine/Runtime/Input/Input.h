@@ -1,7 +1,5 @@
 #pragma once
 
-#define NOMINMAX
-
 #include <memory>
 #include <vector>
 
@@ -15,14 +13,15 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment (lib, "xinput.lib")
 
-#include "InputEnum.h"
-#include "Library/Math/Vector2.h"
+#include <Library/Math/Vector2.h>
+
+#include "./InputEnum.h"
 
 class Input {
 private:
 	Input() = default;
 	~Input() = default;
-	
+
 	Input(const Input&) = delete;
 	Input& operator=(const Input&) = delete;
 
@@ -41,27 +40,13 @@ public:
 	static void Update();
 
 	// ----------キーボード----------
-	
+
 	/// <summary>
 	/// キーが押されている
 	/// </summary>
 	/// <param name="id">ID</param>
 	/// <returns></returns>
 	static bool IsPressKey(KeyID id);
-
-	/// <summary>
-	/// キーが押された瞬間
-	/// </summary>
-	/// <param name="id">ID</param>
-	/// <returns></returns>
-	static bool IsTriggerKey(KeyID id);
-
-	/// <summary>
-	/// キーが離された
-	/// </summary>
-	/// <param name="id">ID</param>
-	/// <returns></returns>
-	static bool IsReleaseKey(KeyID id);
 
 	// ----------マウス----------
 	/// <summary>
@@ -70,19 +55,6 @@ public:
 	/// <param name="id">ID</param>
 	/// <returns></returns>
 	static bool IsPressMouse(MouseID id);
-	/// <summary>
-	/// マウスボタンが押された瞬間
-	/// </summary>
-	/// <param name="id">ID</param>
-	/// <returns></returns>
-	static bool IsTriggerMouse(MouseID id);
-
-	/// <summary>
-	/// マウスボタンが離された
-	/// </summary>
-	/// <param name="id">ID</param>
-	/// <returns></returns>
-	static bool IsReleaseMouse(MouseID id);
 
 	/// <summary>
 	/// ウィンドウ基準でマウス位置を取得
@@ -109,20 +81,6 @@ public:
 	/// <param name="id">ID</param>
 	/// <returns></returns>
 	static bool IsPressPad(PadID id);
-	
-	/// <summary>
-	/// Padボタンがトリガーしたか
-	/// </summary>
-	/// <param name="id">ID</param>
-	/// <returns></returns>
-	static bool IsTriggerPad(PadID id);
-
-	/// <summary>
-	/// Padボタンが離されたか
-	/// </summary>
-	/// <param name="id">ID</param>
-	/// <returns></returns>
-	static bool IsReleasePad(PadID id);
 
 	/// <summary>
 	/// 左スティックの入力
@@ -153,7 +111,7 @@ public:
 	/// </summary>
 	/// <param name="deadZone">[0,1]で設定</param>
 	static void SetDeadZone(float deadZone) { GetInstance().deadZone = deadZone; };
-	
+
 	/// <summary>
 	/// 接続されたゲームパッド数を取得
 	/// </summary>
@@ -168,25 +126,22 @@ public:
 
 private:
 	void create_direct_input();
-	void create_keybord_device();
+	void create_keyboard_device();
 	void create_mouse_device();
 	void initialize_joystate();
 
 private:
 	Microsoft::WRL::ComPtr<IDirectInput8> directInput = nullptr;
-	
+
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> keyboardDevice;
 	std::vector<BYTE> keyboardState;
-	std::vector<BYTE> preKeyboardState;
 
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseDevice;
 	Vector2 mousePosition;
 	std::unique_ptr<DIMOUSESTATE2> mouseState;
-	std::unique_ptr<DIMOUSESTATE2> preMouseState;
-	
+
 	uint32_t dwUserIndex = 0;
 	std::unique_ptr<XINPUT_STATE> joystate;
-	std::unique_ptr<XINPUT_STATE> preJoystate;
 	float deadZone = 0.2f;
 };
 
@@ -221,7 +176,7 @@ public:
 	/// <param name="left">X-</param>
 	/// <param name="right">X+</param>
 	/// <returns></returns>
-	static Vector2 PressCustum(KeyID up, KeyID down, KeyID left, KeyID right);
+	static Vector2 PressCustom(KeyID up, KeyID down, KeyID left, KeyID right);
 
 private:
 	static void NormalizeOneOrOver(Vector2& vector);

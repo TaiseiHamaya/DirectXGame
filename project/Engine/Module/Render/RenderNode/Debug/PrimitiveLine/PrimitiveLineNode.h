@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include "Engine/Module/Render/RenderNode/SingleRenderTargetNode.h"
 

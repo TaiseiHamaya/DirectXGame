@@ -1,8 +1,7 @@
 #include "Input.h"
 
-#include <cassert>
-
-#include <Engine/Application/WinApp.h>
+#include "Engine/Application/Output.h"
+#include "Engine/Application/WinApp.h"
 
 Input& Input::GetInstance() {
 	static Input instance;
@@ -14,7 +13,7 @@ void Input::Initialize() {
 
 	//各種初期化
 	instance.create_direct_input();
-	instance.create_keybord_device();
+	instance.create_keyboard_device();
 	instance.create_mouse_device();
 	instance.initialize_joystate();
 }
@@ -22,10 +21,6 @@ void Input::Initialize() {
 void Input::Update() {
 	HRESULT result;
 	Input& instance = GetInstance();
-	// preと今をswapすることで前状態を記録
-	std::swap(instance.joystate, instance.preJoystate);
-	std::swap(instance.mouseState, instance.preMouseState);
-	std::swap(instance.keyboardState, instance.preKeyboardState);
 
 	// ゲームパッド更新
 	XInputGetState(instance.dwUserIndex, instance.joystate.get());
@@ -49,7 +44,7 @@ void Input::Update() {
 	);
 	if (FAILED(result)) {
 		// 失敗したら0埋め
-		*instance.mouseState= { 0 };
+		*instance.mouseState = { 0 };
 	}
 
 	// マウス位置更新
@@ -70,42 +65,10 @@ bool Input::IsPressKey(KeyID id) {
 	return keyboardState[idInt];
 }
 
-bool Input::IsTriggerKey(KeyID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& keyboardState = instance.keyboardState;
-	auto& preKeyboardState = instance.preKeyboardState;
-	return keyboardState[idInt] && !preKeyboardState[idInt];
-}
-
-bool Input::IsReleaseKey(KeyID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& keyboardState = instance.keyboardState;
-	auto& preKeyboardState = instance.preKeyboardState;
-	return !keyboardState[idInt] && preKeyboardState[idInt];
-}
-
 bool Input::IsPressMouse(MouseID id) {
 	int idInt = static_cast<int>(id);
 	auto& rgbButtons = GetInstance().mouseState->rgbButtons;
 	return rgbButtons[idInt];
-}
-
-bool Input::IsTriggerMouse(MouseID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& rgbButtons = instance.mouseState->rgbButtons;
-	auto& preRgbButtons = instance.preMouseState->rgbButtons;
-	return rgbButtons[idInt] && !preRgbButtons[idInt];
-}
-
-bool Input::IsReleaseMouse(MouseID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& rgbButtons = instance.mouseState->rgbButtons;
-	auto& preRgbButtons = instance.preMouseState->rgbButtons;
-	return !rgbButtons[idInt] && preRgbButtons[idInt];
 }
 
 const Vector2& Input::MousePosition() {
@@ -130,22 +93,6 @@ bool Input::IsPressPad(PadID id) {
 	int idInt = static_cast<int>(id);
 	auto& buttons = GetInstance().joystate->Gamepad.wButtons;
 	return buttons & idInt;
-}
-
-bool Input::IsTriggerPad(PadID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& buttons = instance.joystate->Gamepad.wButtons;
-	auto& preButtons = instance.preJoystate->Gamepad.wButtons;
-	return (buttons & idInt) && !(preButtons & idInt);
-}
-
-bool Input::IsReleasePad(PadID id) {
-	int idInt = static_cast<int>(id);
-	Input& instance = GetInstance();
-	auto& buttons = instance.joystate->Gamepad.wButtons;
-	auto& preButtons = instance.preJoystate->Gamepad.wButtons;
-	return !(buttons & idInt) && (preButtons & idInt);
 }
 
 Vector2 Input::StickL() {
@@ -232,16 +179,16 @@ void Input::create_direct_input() {
 
 	// 作成
 	result = DirectInput8Create(
-		WinApp::GetWindowHandle(),
+		WinApp::GetInstanceHandle(),
 		DIRECTINPUT_VERSION,
 		IID_IDirectInput8,
 		reinterpret_cast<void**>(directInput.GetAddressOf()),
 		nullptr
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 }
 
-void Input::create_keybord_device() {
+void Input::create_keyboard_device() {
 	HRESULT result;
 	// 作成
 	result = directInput->CreateDevice(
@@ -249,19 +196,18 @@ void Input::create_keybord_device() {
 		keyboardDevice.GetAddressOf(),
 		nullptr
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// フォーマットの設定
 	result = keyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// その他コンフィグ
 	result = keyboardDevice->SetCooperativeLevel(
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 
 	// stateの初期化
 	keyboardState.resize(256);
-	preKeyboardState.resize(256);
 }
 
 void Input::create_mouse_device() {
@@ -272,36 +218,34 @@ void Input::create_mouse_device() {
 		mouseDevice.GetAddressOf(),
 		nullptr
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// フォーマットの設定
 	result = mouseDevice->SetDataFormat(&c_dfDIMouse2);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 	// その他コンフィグ
 	result = mouseDevice->SetCooperativeLevel(
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
-	assert(SUCCEEDED(result));
+	ErrorIf(FAILED(result), "Failed initialize direct input.");
 
 	// stateの生成
 	mouseState = std::make_unique<DIMOUSESTATE2>();
-	preMouseState = std::make_unique<DIMOUSESTATE2>();
 }
 
 void Input::initialize_joystate() {
 	// stateの生成
 	joystate = std::make_unique<XINPUT_STATE>();
-	preJoystate = std::make_unique<XINPUT_STATE>();
 }
 
 Vector2 InputAdvanced::PressWASD() {
-	return PressCustum(KeyID::W, KeyID::S, KeyID::A, KeyID::D);
+	return PressCustom(KeyID::W, KeyID::S, KeyID::A, KeyID::D);
 }
 
 Vector2 InputAdvanced::PressArrow() {
-	return PressCustum(KeyID::Up, KeyID::Down, KeyID::Left, KeyID::Right);
+	return PressCustom(KeyID::Up, KeyID::Down, KeyID::Left, KeyID::Right);
 }
 
-Vector2 InputAdvanced::PressCustum(KeyID up, KeyID down, KeyID left, KeyID right) {
+Vector2 InputAdvanced::PressCustom(KeyID up, KeyID down, KeyID left, KeyID right) {
 	Vector2 result = CVector2::ZERO;
 	if (Input::IsPressKey(up)) {
 		result.y += 1.0f;

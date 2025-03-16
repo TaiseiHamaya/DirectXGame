@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/StructuredBuffer/StructuredBuffer.h"
-#include "ParticleBufferValue.h"
+#include "./ParticleBufferValue.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
-#include <Engine/Utility/Tools/ConstructorMacro.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 enum class ParticleDrawType {
 	Mesh,
@@ -15,7 +15,7 @@ public:
 	BaseParticleDrawSystem() = default;
 	virtual ~BaseParticleDrawSystem() = default;
 
-	__NON_COPYABLE_CLASS(BaseParticleDrawSystem)
+	__CLASS_NON_COPYABLE(BaseParticleDrawSystem)
 
 public:
 	virtual void draw_command(size_t InstanceCount) const = 0;

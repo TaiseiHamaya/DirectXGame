@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Library/Math/Matrix3x3.h"
-#include "Library/Math/Matrix4x4.h"
-#include "Library/Math/Vector2.h"
+#include "Matrix3x3.h"
+#include "Matrix4x4.h"
+#include "Vector2.h"
 
 class Transform2D final {
 public:
@@ -31,7 +31,7 @@ public:
 
 	void copy(const Transform2D& copy) noexcept;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui(const char* tag = "Transform2D");
 #endif // _DEBUG
@@ -171,12 +171,10 @@ constexpr Matrix3x3 Transform2D::MakeTranslateMatrix(const Vector2& translate) n
 
 constexpr Vector2 Transform2D::Homogeneous(const Vector2& vector, const Matrix3x3& matrix) {
 	float w = vector.x * matrix[0][2] + vector.y * matrix[1][2] + 1.0f * matrix[2][2];
-	assert(w != 0);
 	return { (vector.x * matrix[0][0] + vector.y * matrix[1][0] + 1.0f * matrix[2][0]) / w, (vector.x * matrix[0][1] + vector.y * matrix[1][1] + 1.0f * matrix[2][1]) / w };;
 }
 
 constexpr Vector2 Transform2D::HomogeneousVector(const Vector2& vector, const Matrix3x3& matrix) {
 	float w = vector.x * matrix[0][2] + vector.y * matrix[1][2] + 1.0f * matrix[2][2];
-	assert(w != 0);
 	return { (vector.x * matrix[0][0] + vector.y * matrix[1][0] + 1.0f * 0) / w, (vector.x * matrix[0][1] + vector.y * matrix[1][1] + 1.0f * 0) / w };
 }

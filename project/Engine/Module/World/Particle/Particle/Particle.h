@@ -4,8 +4,8 @@
 
 #include <variant>
 
-#include "Library/Math/Color4.h"
-#include "Library/Math/Transform2D.h"
+#include <Library/Math/Color4.h>
+#include <Library/Math/Transform2D.h>
 
 class Particle final : public WorldInstance {
 public:
@@ -41,7 +41,7 @@ public: // Constructor/Destructor
 	Particle& operator=(Particle&&) = delete;
 
 public: // Member function
-	void update();
+	void update() override;
 
 public: // Getter/Setter
 	const Color4& get_color() const { return color; };

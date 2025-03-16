@@ -1,11 +1,15 @@
 #pragma once
 
 class BaseScene;
+class BaseSceneFactory;
 
-#include <memory>
 #include <deque>
+#include <memory>
 
-#include "Engine/Utility/Template/TimedCall.h"
+#include <Library/Utility/Template/TimedCall.h>
+#include <Library/Utility/Template/Reference.h>
+
+class TimestampProfiler;
 
 /// <summary>
 /// シーン管理用クラス
@@ -23,7 +27,7 @@ public:
 	static SceneManager& GetInstance() noexcept;
 
 public:
-	static void Initialize(std::unique_ptr<BaseScene>&& initScene);
+	static void Initialize();
 	static void Finalize() noexcept;
 
 	static void Begin();
@@ -31,21 +35,27 @@ public:
 	static void Draw();
 	//static void Debug();
 	static void SetSceneChange(
-		std::unique_ptr<BaseScene>&& nextScenePtr,
+		int32_t next,
 		float interval,
 		bool isStackInitialScene_ = false,
 		bool isStopLoad = true
 	);
 	static void PopScene(float interval);
+
+public:
 	static bool IsEndProgram() noexcept;
 
 	static const std::deque<std::unique_ptr<BaseScene>>& GetSceneQue();
 
+	template<typename T>
+	static void SetFactory();
+
 private:
 	static void NextScene();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
+	static void SetProfiler(Reference<TimestampProfiler> profiler_);
 	static void DebugGui();
 #endif // _DEBUG
 
@@ -54,6 +64,7 @@ private:
 	/// シーンスタック
 	/// </summary>
 	std::deque<std::unique_ptr<BaseScene>> sceneQue;
+	std::unique_ptr<BaseSceneFactory> factory;
 
 	enum class SceneStatus {
 		NANE,
@@ -73,4 +84,14 @@ private:
 		bool isStopLoad;
 		TimedCall<void(void)> endCall;
 	} sceneChangeInfo;
+
+#ifdef DEBUG_FEATURES_ENABLE
+	Reference<TimestampProfiler> profiler;
+#endif // _DEBUG
 };
+
+template<typename T>
+inline void SceneManager::SetFactory() {
+	auto& instance = GetInstance();
+	instance.factory = std::make_unique<T>();
+}

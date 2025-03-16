@@ -3,12 +3,12 @@
 #include <memory>
 #include <string>
 
-#include "Library/Math/Color4.h"
-#include "Library/Math/Matrix4x4.h"
-#include "Library/Math/Vector2.h"
+#include <Library/Math/Color4.h>
+#include <Library/Math/Matrix4x4.h>
+#include <Library/Math/Vector2.h>
 
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/ConstantBuffer.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
 class Texture;
 class Transform2D;
@@ -30,10 +30,10 @@ private:
 public:
 	const Transform2D& get_transform() noexcept;
 	//void update();
-	void begin_rendering() noexcept;
+	void transfer() noexcept;
 	void draw() const;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	void debug_gui();
 #endif // _DEBUG
 

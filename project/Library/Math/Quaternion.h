@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Vector3.h"
-#include "Matrix4x4.h"
 
+class Matrix4x4;
 class Basis;
 
 class Quaternion final {
@@ -41,7 +41,7 @@ public:
 	/// </summary>
 	/// <param name="axis">回転軸(Vector3)</param>
 	/// <param name="angleAxis">回転量(Radian)</param>
-	static const Quaternion AngleAxis(const Vector3& axis, float angleAxis);
+	static Quaternion AngleAxis(const Vector3& axis, float angleAxis);
 
 	/// <summary>
 	/// オイラー角からクォータニオンを生成(ラジアン)
@@ -49,20 +49,20 @@ public:
 	/// <param name="pitch">X軸回転</param>
 	/// <param name="yaw">Y軸回転</param>
 	/// <param name="roll">Z軸回転</param>
-	static const Quaternion EulerRadian(float pitch, float yaw, float roll) noexcept;
+	static Quaternion EulerRadian(float pitch, float yaw, float roll) noexcept;
 
 	/// <summary>
 	/// オイラー角からクォータニオンを生成(ラジアン)
 	/// </summary>
 	/// <param name="rotate">XYZ軸回転</param>
-	static const Quaternion EulerRadian(const Vector3& rotate) noexcept;
+	static Quaternion EulerRadian(const Vector3& rotate) noexcept;
 
 	/// <summary>
 	/// オイラー角からクォータニオンを生成(度数法)
 	/// </summary>
 	/// <param name="rotate">XYZ軸回転</param>
 	/// <returns></returns>
-	static const Quaternion EulerDegree(const Vector3& rotate) noexcept;
+	static Quaternion EulerDegree(const Vector3& rotate) noexcept;
 
 	/// <summary>
 	/// オイラー角からクォータニオンを生成(度数法)
@@ -71,7 +71,7 @@ public:
 	/// <param name="yaw">Y軸回転</param>
 	/// <param name="roll">Z軸回転</param>
 	/// <returns></returns>
-	static const Quaternion EulerDegree(float pitch, float yaw, float roll) noexcept;
+	static Quaternion EulerDegree(float pitch, float yaw, float roll) noexcept;
 
 
 public:
@@ -81,14 +81,14 @@ public:
 	Quaternion& operator*=(const Quaternion& rhs) noexcept;
 	Quaternion operator*(float times) const noexcept;
 	Quaternion& operator*=(float times) noexcept;
-	friend const Vector3 operator*(const Vector3& vector, const Quaternion& quaternion);
+	friend Vector3 operator*(const Vector3& vector, const Quaternion& quaternion);
 
 public: // メンバ関数
 	/// <summary>
 	/// 回転行列に変換
 	/// </summary>
 	/// <returns>回転行列Matrix4x4</returns>
-	const Matrix4x4 to_matrix() const noexcept;
+	Matrix4x4 to_matrix() const noexcept;
 
 	Basis to_basis() const noexcept;
 
@@ -96,19 +96,19 @@ public: // メンバ関数
 	/// Quaternionベクトルの長さ[1]
 	/// </summary>
 	/// <returns>基本は1</returns>
-	const float length() const noexcept;
+	float length() const noexcept;
 
 	/// <summary>
 	/// 逆クォータニオンの取得
 	/// </summary>
 	/// <returns>逆Quaternion</returns>
-	const Quaternion inverse() const noexcept;
+	Quaternion inverse() const noexcept;
 
 	/// <summary>
 	/// クォータニオンの正規化
 	/// </summary>
 	/// <returns></returns>
-	const Quaternion normalize() const noexcept;
+	Quaternion normalize() const noexcept;
 
 	/// <summary>
 	/// ベクトル部の取得
@@ -129,7 +129,7 @@ public: // グローバルメンバ関数
 	/// <param name="from">開始視点</param>
 	/// <param name="to">終了視点</param>
 	/// <returns></returns>
-	static const Quaternion FromToRotation(const Vector3& from, const Vector3& to);
+	static Quaternion FromToRotation(const Vector3& from, const Vector3& to);
 
 	/// <summary>
 	/// forward方向を向くQuaternionを生成
@@ -137,7 +137,7 @@ public: // グローバルメンバ関数
 	/// <param name="forward">前方を表す正規化済みベクトル</param>
 	/// <param name="upward">上方を表す正規化済みベクトル</param>
 	/// <returns></returns>
-	static const Quaternion LookForward(const Vector3& forward, const Vector3& upward = CVector3::BASIS_Y);
+	static Quaternion LookForward(const Vector3& forward, const Vector3& upward = CVector3::BASIS_Y);
 
 	/// <summary>
 	/// 球面線形補間
@@ -146,7 +146,11 @@ public: // グローバルメンバ関数
 	/// <param name="terminal">終了Quaternion</param>
 	/// <param name="t">媒介変数</param>
 	/// <returns>変換後Quaternion</returns>
-	static const Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept;
+	static Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, float t) noexcept;
+
+	static Quaternion SlerpFar(const Quaternion& internal, const Quaternion& terminal, float t) noexcept;
+
+	static Quaternion SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, float t, const Vector3& axis = CVector3::UP) noexcept;
 };
 
 namespace CQuaternion {
@@ -162,4 +166,4 @@ namespace CQuaternion {
 /// <param name="vector">元のベクトル</param>
 /// <param name="quaternion">回転Quaternion</param>
 /// <returns></returns>
-const Vector3 operator*(const Vector3& vector, const Quaternion& quaternion);
+Vector3 operator*(const Vector3& vector, const Quaternion& quaternion);
