@@ -8,7 +8,7 @@
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <Engine/Runtime/Input/Input.h>
 #include <Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h>
@@ -21,7 +21,7 @@ void Camera3D::initialize() {
 		0.1f, 1000
 	);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
 	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, false, "CameraAxis.obj");
@@ -50,7 +50,7 @@ void Camera3D::update_affine() {
 }
 
 void Camera3D::transfer() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	// 外部参照用Matrix
 	vpMatrix = viewAffine.to_matrix() * projectionMatrix;
 	// 描画用
@@ -115,7 +115,7 @@ void Camera3D::set_perspective_fov_info(float fovY_, float aspectRatio_, float n
 }
 
 const Matrix4x4& Camera3D::vp_matrix() const {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	return vpMatrix;
 #else
 	return vpBuffers.get_data()->viewProjection;
@@ -145,7 +145,7 @@ Matrix4x4 Camera3D::MakeViewportMatrix(const Vector2& origin, const Vector2& siz
 	};
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <string>
 #include <source_location>

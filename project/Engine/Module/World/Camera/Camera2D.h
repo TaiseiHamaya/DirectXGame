@@ -40,7 +40,7 @@ private:
 	void make_view_matrix();
 	void make_ortho_matrix();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	static void DebugGUI();
 private:

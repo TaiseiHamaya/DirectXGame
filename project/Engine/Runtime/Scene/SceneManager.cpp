@@ -7,7 +7,7 @@
 #include "Engine/Runtime/Scene/BaseScene.h"
 #include "Engine/Runtime/Scene/BaseSceneFactory.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/Profiler/TimestampProfiler.h"
 #endif // _DEBUG
 
@@ -51,17 +51,17 @@ void SceneManager::Begin() {
 }
 
 void SceneManager::Update() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
 #endif // _DEBUG
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (profiler) {
 		profiler->timestamp("Begin");
 	}
 #endif // _DEBUG
 	nowScene->begin();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (profiler) {
 		profiler->timestamp("ImGui");
 	}
@@ -71,13 +71,13 @@ void SceneManager::Update() {
 	}
 #endif // _DEBUG
 	nowScene->update();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (profiler) {
 		profiler->timestamp("BeginRendering");
 	}
 #endif // _DEBUG
 	nowScene->begin_rendering();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (profiler) {
 		profiler->timestamp("LateUpdate");
 	}
@@ -185,7 +185,7 @@ void SceneManager::NextScene() {
 	instance.sceneStatus = SceneStatus::DEFAULT;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <imgui.h>
 #include <format>

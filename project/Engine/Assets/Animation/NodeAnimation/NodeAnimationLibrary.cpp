@@ -9,7 +9,7 @@
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <ranges>
 #include <imgui.h>
 #endif // _DEBUG
@@ -47,7 +47,7 @@ void NodeAnimationLibrary::Transfer(const std::string& name, std::shared_ptr<Nod
 	GetInstance().instanceList.emplace(name, data);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 bool NodeAnimationLibrary::AnimationListGui(std::string& current) {
 	bool changed = false;
 

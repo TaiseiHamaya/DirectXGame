@@ -78,7 +78,7 @@ void Transform2D::copy(const Transform2D& copy) noexcept {
 }
 
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
 

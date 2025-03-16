@@ -61,7 +61,7 @@ void DxSwapChain::create_swapchain() {
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
 	swapChainDesc.BufferCount = RenderingSystemValues::NUM_BUFFERING; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
 #endif // _DEBUG
 	//DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc{};
@@ -95,7 +95,7 @@ void DxSwapChain::create_render_target() {
 }
 
 void DxSwapChain::swap_screen() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	if (EngineSettings::IsUnlimitedFPS) {
 		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 	}

@@ -33,7 +33,7 @@ public:
 	void transfer() noexcept;
 	void draw() const;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	void debug_gui();
 #endif // _DEBUG
 

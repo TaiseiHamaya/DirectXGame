@@ -48,7 +48,7 @@ public:
 	/// <param name="data">ロード済みデータ</param>
 	static void Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	/// <summary>
 	/// メッシュ一覧をComboBoxで表示するImGui(Debugビルドのみ)
 	/// </summary>

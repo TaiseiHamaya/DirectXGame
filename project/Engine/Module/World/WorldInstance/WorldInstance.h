@@ -132,7 +132,7 @@ public:
 	void from_json(const JsonAsset& json);
 	void to_json(JsonAsset& json);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	virtual void debug_gui();
 #endif // _DEBUG

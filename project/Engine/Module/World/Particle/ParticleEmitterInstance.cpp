@@ -253,7 +253,7 @@ void ParticleEmitterInstance::create_draw_system() {
 	drawSystem->create_buffers(numMaxParticle);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void ParticleEmitterInstance::debug_gui() {
 	if (ImGui::CollapsingHeader("Emitter")) {

@@ -11,7 +11,7 @@
 #include "./StaticMeshDrawExecutor.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 class Camera3D;
 #endif // _DEBUG
 
@@ -39,7 +39,7 @@ public:
 	void transfer();
 	void draw_layer(uint32_t layer);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void register_debug_instance(uint32_t layer, Reference<const Camera3D> camera, bool isShowGrid);
 	void debug_gui();
@@ -48,7 +48,7 @@ public:
 private:
 	std::vector<Data> drawData;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	uint32_t layer;
 	std::string selectMesh;
 	uint32_t maxInstance;

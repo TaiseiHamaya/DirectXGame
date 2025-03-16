@@ -68,7 +68,7 @@ const Vector3& Transform3D::get_translate() const noexcept {
 	return translate;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
 void Transform3D::debug_gui(const char* tag) {
@@ -102,7 +102,7 @@ void Transform3D::debug_gui(const char* tag) {
 #endif // _DEBUG
 
 // void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
-// #ifdef _DEBUG
+// #ifdef DEBUG_FEATURES_ENABLE
 //	static constexpr float __axisLength = 50;
 //	Vector3 initial = Transform3D::Homogeneous(CVector3::kZero, debug_matrix);
 //	Vector3 terminalX = Transform3D::Homogeneous(CVector3::kBasisX * __axisLength, debug_matrix);

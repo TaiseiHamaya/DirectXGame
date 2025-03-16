@@ -34,7 +34,7 @@ public:
 	const Quaternion& get_quaternion() const noexcept;
 	const Vector3& get_translate() const noexcept;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	void debug_gui(const char* tag = "Transform3D");
 	//void debug_axis(const Matrix4x4& debug_matrix) const;
 #endif // _DEBUG

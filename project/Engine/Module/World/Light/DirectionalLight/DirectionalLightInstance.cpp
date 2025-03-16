@@ -3,7 +3,7 @@
 void DirectionalLightInstance::transfer() {
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
 void DirectionalLightInstance::debug_gui() {

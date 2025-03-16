@@ -31,7 +31,7 @@ public:
 
 	void copy(const Transform2D& copy) noexcept;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui(const char* tag = "Transform2D");
 #endif // _DEBUG

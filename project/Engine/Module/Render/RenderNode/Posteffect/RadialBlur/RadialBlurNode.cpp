@@ -4,7 +4,7 @@
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -64,7 +64,7 @@ void RadialBlurNode::create_pipeline_state() {
 
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void RadialBlurNode::debug_gui() {
 	ImGui::DragFloat2("Center", &blurInfo.get_data()->center.x, 0.01f, 0.0f, 1.0f, "%.4f");
 	ImGui::DragFloat("Weight", &blurInfo.get_data()->weight, 0.001f, 0.0f, 1.0f, "%.4f");

@@ -27,7 +27,7 @@ public:
 	void set_volume(float volume);
 	void set_loop(bool isLoop);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // _DEBUG

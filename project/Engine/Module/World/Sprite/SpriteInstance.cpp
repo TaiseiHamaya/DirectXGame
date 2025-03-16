@@ -10,7 +10,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 #include "Engine/Module/World/Camera/Camera2D.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -57,7 +57,7 @@ void SpriteInstance::draw() const {
 	commandList->DrawIndexedInstanced(indexes->index_size(), 1, 0, 0, 0); // 描画コマンド
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void SpriteInstance::debug_gui() {
 	transform->debug_gui();
 	ImGui::Separator();

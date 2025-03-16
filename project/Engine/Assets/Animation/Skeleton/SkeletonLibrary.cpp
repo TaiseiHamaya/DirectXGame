@@ -9,7 +9,7 @@
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 

@@ -68,7 +68,7 @@ void SkinningMeshDrawManager::draw_layer(uint32_t layer) {
 	}
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void SkinningMeshDrawManager::debug_gui() {
 	PolygonMeshLibrary::MeshListGui(selectMesh);
 

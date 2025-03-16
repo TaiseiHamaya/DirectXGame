@@ -65,7 +65,7 @@ public:
 	/// <param name="data">転送データ</param>
 	static void Transfer(const std::string& name, std::shared_ptr<Texture>& data);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	/// <summary>
 	/// 登録済みファイルをImGuiComboで取得
 	/// </summary>

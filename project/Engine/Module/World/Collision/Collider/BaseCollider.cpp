@@ -19,7 +19,7 @@ void BaseCollider::set_group_name(const std::string& name) {
 	groupName = &name;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 Matrix4x4 BaseCollider::debug_matrix() const {
 	return debugMatrix * Transform3D::MakeTranslateMatrix(world_position());

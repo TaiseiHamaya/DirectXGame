@@ -28,7 +28,7 @@ void Framework::initialize() {
 	SceneManager::Initialize();
 	WinApp::ShowAppWindow();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	SceneManager::SetProfiler(profiler);
 #endif // _DEBUG
 }
@@ -38,7 +38,7 @@ void Framework::finalize() {
 }
 
 void Framework::begin_frame() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	profiler.clear_timestamps();
 	profiler.timestamp("BeginFrame");
 #endif // _DEBUG
@@ -52,14 +52,14 @@ void Framework::update() {
 }
 
 void Framework::draw() const {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	profiler.timestamp("Draw");
 #endif // _DEBUG
 	SceneManager::Draw();
 }
 
 void Framework::end_frame() {
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	profiler.timestamp("EndFrame");
 	SceneManager::DebugGui();
 	profiler.timestamp("End");

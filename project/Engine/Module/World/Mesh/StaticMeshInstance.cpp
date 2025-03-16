@@ -8,7 +8,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -37,7 +37,7 @@ void StaticMeshInstance::reset_mesh(const std::string& meshName_) {
 		meshName = "ErrorObject.obj";
 	}
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
 #endif // _DEBUG
 
@@ -84,7 +84,7 @@ void StaticMeshInstance::set_texture(const std::string& name, int index) {
 	materials[index].texture = TextureLibrary::GetTexture(name);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void StaticMeshInstance::debug_gui() {
 	if (PolygonMeshLibrary::MeshListGui(meshName)) {
 		reset_mesh(meshName);

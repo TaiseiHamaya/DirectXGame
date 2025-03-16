@@ -4,11 +4,11 @@
 
 #include <cmath>
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void Color4::debug_gui(const char* tag) noexcept(false) {
 	ImGui::ColorEdit4(tag, &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
 }

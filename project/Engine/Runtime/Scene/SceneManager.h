@@ -53,7 +53,7 @@ public:
 private:
 	static void NextScene();
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	static void SetProfiler(Reference<TimestampProfiler> profiler_);
 	static void DebugGui();
@@ -85,7 +85,7 @@ private:
 		TimedCall<void(void)> endCall;
 	} sceneChangeInfo;
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	Reference<TimestampProfiler> profiler;
 #endif // _DEBUG
 };

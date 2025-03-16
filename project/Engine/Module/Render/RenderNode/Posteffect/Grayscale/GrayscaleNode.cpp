@@ -4,7 +4,7 @@
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #endif // _DEBUG
 
@@ -56,7 +56,7 @@ void GrayscaleNode::create_pipeline_state() {
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 void GrayscaleNode::debug_gui() {
 	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
 }

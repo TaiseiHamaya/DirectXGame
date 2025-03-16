@@ -11,7 +11,7 @@ void RandomEngine::Initialize() {
 	RandomEngine& instance = GetInstance();
 	std::random_device device{};
 	uint32_t seed = device();
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	Infomation("RandomEngine is initalized. Seed-\'{:#x}\'", seed);
 #else
 	Infomation("RandomEngine is initalized. SeedHash-\'{:#x}\'", std::hash<uint32_t>()(seed));

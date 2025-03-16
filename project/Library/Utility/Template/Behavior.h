@@ -37,7 +37,7 @@ public:
 		std::function<void(void)> updateFunction
 	);
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 public:
 	void debug_gui();
 #endif // _DEBUG
@@ -86,7 +86,7 @@ inline void Behavior<T>::add_list(const T& key, std::function<void(void)> initia
 	);
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 
 #include <imgui.h>
 #include <format>
