@@ -2,6 +2,7 @@
 
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/Audio/AudioAsset.h"
+#include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/Audio/AudioLibrary.h"
 
 AudioPlayer::~AudioPlayer() {
@@ -14,7 +15,7 @@ void AudioPlayer::initialize(const std::string& name, float volume, bool isLoop)
 		return;
 	}
 	HRESULT result;
-	result = AudioLibrary::GetXAudio2()->CreateSourceVoice(&sourceVoice, &audio->format());
+	result = AudioManager::GetXAudio2()->CreateSourceVoice(&sourceVoice, &audio->format());
 	ErrorIf(FAILED(result), "Failed crating source voice. File-\'{}\'", name);
 
 	buffer.pAudioData = audio->buffer_data().data();

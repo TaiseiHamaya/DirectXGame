@@ -10,7 +10,7 @@
 class PrimitiveGeometryAsset;
 
 class PrimitiveGeometryLibrary final : SingletonInterface<PrimitiveGeometryLibrary> {
-	__SINGLETON_INTERFACE(PrimitiveGeometryLibrary)
+	__CLASS_SINGLETON_INTERFACE(PrimitiveGeometryLibrary)
 
 public:
 	/// <summary>

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <wrl/client.h>
-#include <xaudio2.h>
-
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -34,8 +31,6 @@ public:
 	/// 終了処理
 	/// </summary>
 	static void Finalize();
-
-	static const Microsoft::WRL::ComPtr<IXAudio2>& GetXAudio2() { return GetInstance().xAudio2; };
 
 	/// <summary>
 	/// ロードキューにファイルを追加
@@ -70,15 +65,6 @@ public:
 	/// <param name="data">転送データ</param>
 	static void Transfer(const std::string& name, std::unique_ptr<AudioAsset>&& data);
 
-public:
-	static float GetMasterVolume();
-	static void SetMasterVolume(float volume);
-
-#ifdef _DEBUG
-public:
-	static void DebugGui();
-#endif // _DEBUG
-
 private:
 	/// <summary>
 	/// オーディオが登録済みか取得(mutexなし)
@@ -88,9 +74,5 @@ private:
 	static bool IsRegisteredNonlocking(const std::string& textureName) noexcept(false);
 
 private:
-	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
-	IXAudio2MasteringVoice* masteringVoice;
-	float masterVolume;
-
 	std::unordered_map<std::string, std::unique_ptr<AudioAsset>> audioResources;
 };
