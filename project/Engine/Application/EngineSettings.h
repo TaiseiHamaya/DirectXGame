@@ -43,9 +43,11 @@ extern inline bool IsUnlimitedFPS{ false };
 // つまり
 // [CriticalConfig6bit][ErrorConfig6bit][WarningConfig6bit][InfoConfig6bit]
 // の24bit
-#ifdef DEBUG_FEATURES_ENABLE //                                  C     E     W     I    
+#ifdef DEBUG_FEATURES_ENABLE
+//                                                C     E     W     I    
 static constexpr uint32_t LogOutputConfigFlags{ 0b111111111111111000111000 };
-#else //                                          C     E     W     I    
+#else
+//                                                C     E     W     I    
 static constexpr uint32_t LogOutputConfigFlags{ 0b110111110111110000000000 };
 #endif // _DEBUG
 };
