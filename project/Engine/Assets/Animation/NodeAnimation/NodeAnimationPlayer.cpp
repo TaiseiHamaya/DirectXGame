@@ -5,7 +5,7 @@
 #include "NodeAnimationAsset.h"
 #include "NodeAnimationLibrary.h"
 
-#include "Engine/Runtime/WorldClock/WorldClock.h"
+#include "Engine/Runtime/Clock/WorldClock.h"
 
 template<typename T, T LerpFunction(const T&, const T&, float) = std::lerp>
 T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time);

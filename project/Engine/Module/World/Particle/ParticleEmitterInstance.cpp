@@ -8,7 +8,7 @@
 #include "./DrawSystem/ParticleDrawSystemRect.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Runtime/WorldClock/WorldClock.h"
+#include "Engine/Runtime/Clock/WorldClock.h"
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
 	WorldInstance(),
