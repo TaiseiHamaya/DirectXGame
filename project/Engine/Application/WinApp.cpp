@@ -13,6 +13,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Runtime/Clock/WorldClock.h"
 #include "EngineSettings.h"
 
 #include "Library/Utility/Tools/RandomEngine.h"

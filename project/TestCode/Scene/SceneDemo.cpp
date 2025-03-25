@@ -41,6 +41,7 @@
 #include <Engine/Module/World/WorldManager.h>
 #include <Engine/Runtime/Input/InputHandler.h>
 #include <Engine/Runtime/Scene/SceneManager.h>
+#include <Engine/Runtime/Clock/WorldClock.h>
 
 //#define QUATERNION_SERIALIZER
 #define TRANSFORM3D_SERIALIZER
