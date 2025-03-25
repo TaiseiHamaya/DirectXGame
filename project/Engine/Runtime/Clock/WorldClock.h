@@ -25,11 +25,10 @@ public:
 #endif // _DEBUG
 
 private:
-	float deltaSeconds;
+	float deltaSeconds{ 0.0f };
 	std::chrono::high_resolution_clock::time_point startFrameTimePoint;
 
 #ifdef DEBUG_FEATURES_ENABLE
 	WorldClockProfiler profiler;
 #endif // _DEBUG
 };
-

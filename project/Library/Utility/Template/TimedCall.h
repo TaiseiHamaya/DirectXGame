@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "Engine/Runtime/WorldClock/WorldClock.h"
+#include "Engine/Runtime/Clock/WorldTimer.h"
 
 template<class Type>
 class TimedCall {
@@ -24,20 +24,20 @@ public:
 
 private:
 	std::function<Type> function;
-	float time;
+	WorldTimer timer;
 	bool isFinished = false;
 };
 
 template<class Type>
 inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, float time_) {
 	function = function_;
-	time = time_;
+	timer.set(time_);
 }
 
 template<class Type>
 inline void TimedCall<Type>::update() {
-	time -= WorldClock::DeltaSeconds();
-	if (time <= 0) {
+	timer.back();
+	if (timer.time() <= 0) {
 		isFinished = true;
 		function();
 	}
@@ -50,7 +50,7 @@ inline bool TimedCall<Type>::is_finished() const {
 
 template<class Type>
 inline void TimedCall<Type>::restart(float time_) {
-	time = time_;
+	timer.set(time_);
 	isFinished = false;
 }
 
@@ -63,7 +63,7 @@ template<class Type>
 inline void TimedCall<Type>::debug_gui() {
 	if (ImGui::CollapsingHeader(std::format("TimedCall##{}", (void*)this).c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::Text(std::format("Finished : {:s}", isFinished).c_str());
-		ImGui::Text(std::format("Timer : {}", time).c_str());
+		ImGui::Text(std::format("Timer : {}", timer.time()).c_str());
 	}
 }
 #endif // _DEBUG
