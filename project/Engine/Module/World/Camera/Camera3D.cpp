@@ -24,7 +24,7 @@ void Camera3D::initialize() {
 #ifdef DEBUG_FEATURES_ENABLE
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
-	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, false, "CameraAxis.obj");
+	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
 	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
 	frustumExecutor = 

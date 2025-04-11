@@ -101,21 +101,21 @@ void SceneDemo::initialize() {
 	//testValue = jsonResource.try_emplace<WorldInstance>("name");
 	//jsonResource.register_value(__JSON_RESOURCE_REGISTER(testValue));
 
-	parent = worldManager->create<StaticMeshInstance>(nullptr, false, "Player.gltf");
-	child = worldManager->create<StaticMeshInstance>(parent, false, "Sphere.obj");
+	parent = worldManager->create<StaticMeshInstance>(nullptr, "Player.gltf");
+	child = worldManager->create<StaticMeshInstance>(parent, "Sphere.obj");
 
-	animatedMeshInstance = worldManager->create<SkinningMeshInstance>(nullptr, false, "Player.gltf", "Idle", true);
+	animatedMeshInstance = worldManager->create<SkinningMeshInstance>(nullptr, "Player.gltf", "Idle", true);
 
-	parentCollider = worldManager->create<SphereCollider>(parent, false, 1.0f);
+	parentCollider = worldManager->create<SphereCollider>(parent, 1.0f);
 
-	childCollider = worldManager->create<SphereCollider>(child, false, 1.0f);
+	childCollider = worldManager->create<SphereCollider>(child, 1.0f);
 
-	singleCollider = worldManager->create<SphereCollider>(nullptr, false, 1.0f);
+	singleCollider = worldManager->create<SphereCollider>(nullptr, 1.0f);
 
-	single2Collider = worldManager->create<AABBCollider>(nullptr, false, Vector3{ 3.0f, 2.0f, 1.5f });
+	single2Collider = worldManager->create<AABBCollider>(nullptr, Vector3{ 3.0f, 2.0f, 1.5f });
 	single2Collider->get_transform().set_translate_x(-3.0f);
 
-	single3Collider = worldManager->create<AABBCollider>(nullptr, false, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
+	single3Collider = worldManager->create<AABBCollider>(nullptr, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
 	single3Collider->get_transform().set_translate_x(3.0f);
 
 	//particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, false, "test.json", 128);
@@ -126,7 +126,7 @@ void SceneDemo::initialize() {
 	uint32_t numPrimitiveC = 20;
 	for (uint32_t i = 0; i < numPrimitiveR; ++i) {
 		for (uint32_t j = 0; j < numPrimitiveC; ++j) {
-			auto& instance = primitives.emplace_back(worldManager->create<SkinningMeshInstance>(nullptr, false, "simpleSkin.gltf", "Anim_0", true));
+			auto& instance = primitives.emplace_back(worldManager->create<SkinningMeshInstance>(nullptr, "simpleSkin.gltf", "Anim_0", true));
 			instance->get_transform().set_translate({ (float)i, 1, (float)j });
 			instance->get_animation()->set_time_force(RandomEngine::Random01MOD() * 5);
 		}

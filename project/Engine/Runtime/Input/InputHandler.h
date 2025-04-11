@@ -143,7 +143,7 @@ inline float InputHandler<T, InputFunction>::press_timer(T id) {
 	if (press(id)) {
 		return data[id].timer.time();
 	}
-	return false;
+	return 0;
 }
 
 template<typename T, class InputFunction>
@@ -151,5 +151,5 @@ inline float InputHandler<T, InputFunction>::idle_timer(T id) {
 	if (idle(id)) {
 		return data[id].timer.time();
 	}
-	return false;
+	return 0;
 }

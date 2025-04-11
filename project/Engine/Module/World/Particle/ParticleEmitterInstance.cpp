@@ -206,7 +206,7 @@ void ParticleEmitterInstance::emit_once() {
 	// 生成
 	auto& newParticle = particles.emplace_back(
 		world_manager()->create<Particle>(
-			isParentEmitter ? this : nullptr , false,
+			isParentEmitter ? this : nullptr ,
 			isParentEmitter ? offset : world_position() + offset,
 			std::lerp(particleInit.lifetime.min, particleInit.lifetime.max, RandomEngine::Random01Closed()),
 			direction * speed,
