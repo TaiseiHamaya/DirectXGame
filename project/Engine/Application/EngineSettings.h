@@ -1,14 +1,17 @@
 #pragma once
 
 #include <cstdint>
+#include <filesystem>
+#include <format>
 #include <string_view>
 
 #include <Library/Math/Vector2.h>
+#include <Library/Utility/Tools/ChronoUtility.h>
 
 namespace EngineSettings {
 // Windowタイトル
 // Framework作ったらそっちに移行する？
-static constexpr std::wstring_view WINDOW_TITLE_W{ L"DirectXGame\0" };
+static constexpr std::wstring_view WINDOW_TITLE_W{ L"DirectXGame" };
 
 // DefaultWindowSetting
 //static constexpr DWORD WindowConfig
@@ -24,11 +27,19 @@ static constexpr std::uint32_t  CLIENT_HEIGHT{ static_cast<std::uint32_t>(CLIENT
 #define __USE_RENDERING_ENGINE_DIRECTX12
 //#define __USE_RENDERING_ENGINE_VULKAN
 
-	// FixDeltaSeconds
+// FixDeltaSeconds
 static constexpr float FixDeltaSeconds{ 1.0f / 60.0f };
 
 extern inline bool IsFixDeltaTime{ false };
 extern inline bool IsUnlimitedFPS{ false };
+
+extern inline const std::filesystem::path LogFileName{
+	std::format(L"{:%F-%H%M%S}.log", ChronoUtility::NowLocalSecond())
+};
+
+extern inline const std::filesystem::path LogFilePath{
+	std::format(L"./Log/{}", EngineSettings::LogFileName.native())
+};
 
 // メモ
 // 上位ビットから6bitずつCritical,Error,Warning,Infomation
@@ -48,6 +59,6 @@ extern inline bool IsUnlimitedFPS{ false };
 static constexpr uint32_t LogOutputConfigFlags{ 0b111111111111111000111000 };
 #else
 //                                                C     E     W     I    
-static constexpr uint32_t LogOutputConfigFlags{ 0b110111110111110000000000 };
-#endif // _DEBUG
+static constexpr uint32_t LogOutputConfigFlags{ 0b110111110101110000000000 };
+#endif // DEBUG_FEATURES_ENABLE
 };

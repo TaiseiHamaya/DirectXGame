@@ -12,6 +12,7 @@
 #include <mutex>
 #include <vector>
 
+#include <Library/Utility/Tools/ChronoUtility.h>
 #include <Library/Utility/Tools/ConvertString.h>
 
 #include "./WinApp.h"
@@ -21,18 +22,6 @@ namespace chrono = std::chrono;
 
 std::mutex OutputMutex;
 
-LocalTimeSeconds NowLocalSecond() {
-	static const chrono::time_zone* timezone{ chrono::current_zone() };
-	chrono::zoned_time nowZT{ timezone, chrono::system_clock::now() };
-	LocalTimeSeconds nowZtFloor
-		= chrono::floor<chrono::seconds>(nowZT.get_local_time());
-	return nowZtFloor;
-}
-
-static const std::string LogFile{
-	std::format("./Log/{:%F-%H%M%S}.log", NowLocalSecond())
-};
-
 constexpr std::array<const wchar_t*, 4> TypeStringW = {
 	L"Infomation",
 	L"Warning",
@@ -41,17 +30,25 @@ constexpr std::array<const wchar_t*, 4> TypeStringW = {
 };
 
 void InitializeLog() {
-	std::filesystem::path path{ LogFile };
-	std::filesystem::create_directory(path.parent_path());
+	std::filesystem::create_directory(EngineSettings::LogFilePath.parent_path());
 	std::ofstream file;
 	file.exceptions(std::ios_base::badbit | std::ios_base::failbit);
-	file.open(LogFile);
+	file.open(EngineSettings::LogFilePath);
 }
 
-static void LogOutputFile(const std::string& msg) {
-	std::ofstream outputFile{ LogFile, std::ios_base::app };
+void SyncErrorWindow() {
+	std::lock_guard<std::mutex> lock{ OutputMutex };
+}
+
+static void LogOutputFile(const std::wstring& msg) {
+	std::wofstream outputFile{ EngineSettings::LogFilePath, std::ios_base::app };
 	outputFile << msg;
 	outputFile.close();
+}
+
+void StacktraceOutputBody(std::wstring msg) {
+	LogOutputFile(msg);
+	OutputDebugStringW(msg.c_str());
 }
 
 static void LogOutputStacktrace() {
@@ -67,37 +64,41 @@ static void LogOutputStacktrace() {
 	symbol->MaxNameLen = 255;
 	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
 
-	LogOutputFile("\nOutput stack trace.\n");
-	OutputDebugStringA("\nOutput stack trace.\n");
+	StacktraceOutputBody(L"\nOutput stack trace.\n");
 
+#ifdef _DEBUG
 	constexpr int NumSkipTrace{ 4 };
+#else
+	constexpr int NumSkipTrace{ 2 };
+#endif // _DEBUG
+
 	for (int i = NumSkipTrace; i < numberOfFrames; i++) {
 		SymFromAddr(process, reinterpret_cast<DWORD64>(stacks[i]), 0, symbol);
-		std::string output = std::format("{: >2} | 0x{:016x} | {}\n", i - NumSkipTrace, symbol->Address, symbol->Name);
-		LogOutputFile(output);
-		OutputDebugStringA(output.c_str());
+		std::wstring output = std::format(L"{: >2} | 0x{:016x} | {}\n", i - NumSkipTrace, symbol->Address, ConvertString(symbol->Name));
+		StacktraceOutputBody(output);
 	}
 
-	LogOutputFile("\n");
-	OutputDebugStringA("\n");
+	StacktraceOutputBody(L"\n");
 }
 
 static void LogWindow(LogType type, const std::wstring& caption, const std::wstring& msg) {
 	UINT flag = 0;
 	switch (type) {
 	case LogType::Infomation:
-		flag = MB_ICONINFORMATION | MB_OK;
+		flag = MB_ICONINFORMATION;
 		break;
 	case LogType::Warning:
-		flag = MB_ICONWARNING | MB_OK;
+		flag = MB_ICONWARNING;
 		break;
 	case LogType::Error:
-		flag = MB_ICONERROR | MB_OK;
+		flag = MB_ICONERROR;
 		break;
 	case LogType::Critical:
-		flag = MB_ICONERROR | MB_OK;
+		flag = MB_ICONERROR;
 		break;
 	}
+
+	flag |= MB_OK | MB_SYSTEMMODAL;
 	MessageBoxW(nullptr, msg.c_str(), caption.c_str(), flag);
 }
 
@@ -109,18 +110,20 @@ std::string_view ToFilenameA(const std::source_location& sourceLocation) {
 }
 
 std::wstring ToFilenameW(const std::source_location& sourceLocation) {
-	std::wstring fullPath = ConvertString(sourceLocation.file_name());
+	std::string_view fullPath = sourceLocation.file_name();
 	size_t position = fullPath.find_last_of('\\') + 1;
 	size_t end = fullPath.find_last_of('.');
-	return fullPath.substr(position, end - position);
+	return ConvertString(fullPath.substr(position, end - position));
 }
 
 uint8_t GetConfigFlags(LogType type) {
 	return (EngineSettings::LogOutputConfigFlags >> (static_cast<uint8_t>(type) * 6)) & 0b111111;
 }
 
-static void LogOutputBody(const LocalTimeSeconds& time, const std::wstring& file, LogType type, const std::wstring& message) {
+static void LogOutputBody(const std::wstring& file, LogType type, const std::wstring& message) {
 	std::lock_guard<std::mutex> lock{ OutputMutex };
+
+	ChronoUtility::LocalTimeSeconds time = ChronoUtility::NowLocalSecond();
 
 	uint8_t config = GetConfigFlags(type);
 	std::wstring typeW = TypeStringW[static_cast<uint8_t>(type)];
@@ -133,7 +136,7 @@ static void LogOutputBody(const LocalTimeSeconds& time, const std::wstring& file
 	}
 	// ファイル出力
 	if (config & 0b010000) {
-		LogOutputFile(ConvertString(out));
+		LogOutputFile(out);
 	}
 	// Stacktraceの出力
 	if (config & 0b000001) {
@@ -149,14 +152,18 @@ static void LogOutputBody(const LocalTimeSeconds& time, const std::wstring& file
 	}
 	// ブレークポイントによって停止させる
 	if (config & 0b000010) {
+#ifdef DEBUG_FEATURES_ENABLE
 		__debugbreak();
+#else
+		throw std::runtime_error("致命的なエラーが発生したためアプリケーションを停止しました。");
+#endif // DEBUG_FEATURES_ENABLE
 	}
 }
 
-void LogOutputA(const LocalTimeSeconds& time, const std::wstring& file, LogType type, const std::string& message) {
-	LogOutputBody(time, file, type, ConvertString(message));
+void LogOutputA(const std::source_location& sourceLocation, LogType type, const std::string& message) {
+	LogOutputBody(ToFilenameW(sourceLocation), type, ConvertString(message));
 }
 
-void LogOutputW(const LocalTimeSeconds& time, const std::wstring& file, LogType type, const std::wstring& message) {
-	LogOutputBody(time, file, type, message);
+void LogOutputW(const std::source_location& sourceLocation, LogType type, const std::wstring& message) {
+	LogOutputBody(ToFilenameW(sourceLocation), type, message);
 }

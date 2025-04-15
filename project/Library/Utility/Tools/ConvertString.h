@@ -2,6 +2,6 @@
 
 #include <string>
 
-std::wstring ConvertString(const std::string& str);
+std::wstring ConvertString(const std::string_view& str);
 
-std::string ConvertString(const std::wstring& str);
+std::string ConvertString(const std::wstring_view& str);
