@@ -3,6 +3,7 @@
 #include <dbghelp.h>
 #include <timeapi.h>
 
+#include "Engine/Application/CrashHandler.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
@@ -11,6 +12,7 @@
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
+#include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "EngineSettings.h"
@@ -64,9 +66,14 @@ void WinApp::Initialize(DWORD windowConfig) {
 #endif // _DEBUG
 	// chrono時間精度の設定
 	timeBeginPeriod(1);
+	// アプリケーション内のwstring charsetをutf-8にする
+	std::locale::global(std::locale("ja_JP.Utf-8"));
 
 	ErrorIf(instance, "WinApp is already initialized.");
 
+	// クラッシュハンドラの設定
+	CrashHandler::InitializeSystem();
+	// WinAppのメモリ取得
 	instance.reset(new WinApp{});
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
@@ -94,6 +101,7 @@ void WinApp::Initialize(DWORD windowConfig) {
 #ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::Initialize();
 #endif // _DEBUG
+
 	// システム使用のオブジェクトをロード
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/ErrorObject/ErrorObject.obj");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
@@ -125,6 +133,8 @@ void WinApp::Initialize(DWORD windowConfig) {
 }
 
 void WinApp::BeginFrame() {
+	SyncErrorWindow();
+
 	WorldClock::Update();
 	Input::Update();
 	DxCore::BeginFrame();

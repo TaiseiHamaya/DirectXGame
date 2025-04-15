@@ -456,7 +456,7 @@
     <ClCompile Include="Engine\Application\Output.cpp">
       <Filter>Engine\Debug\Output</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp">
+    <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp">
       <Filter>Engine\Runtime\WorldClock</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Particle\Particle\Particle.cpp">
@@ -663,6 +663,15 @@
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\CrashHandler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -848,7 +857,7 @@
     <ClInclude Include="Library\Utility\Tools\ConvertString.h">
       <Filter>Engine\Utility\Tools\ConvertString</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Runtime\WorldClock\WorldClock.h">
+    <ClInclude Include="Engine\Runtime\Clock\WorldClock.h">
       <Filter>Engine\Runtime\WorldClock</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredBuffer.h">
@@ -1128,6 +1137,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Runtime\Clock\WorldTimer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\CrashHandler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Utility\Tools\ChronoUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

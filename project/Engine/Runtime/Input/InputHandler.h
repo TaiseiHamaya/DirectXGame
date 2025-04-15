@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <Engine/Runtime/Input/Input.h>
-#include <Engine/Runtime/WorldClock/WorldClock.h>
+#include <Engine/Runtime/Clock/WorldTimer.h>
 
 template<typename T>
 struct InputHandlerFunction;
@@ -35,7 +35,7 @@ template<typename T, class InputFunction = InputHandlerFunction<T>>
 class InputHandler {
 private:
 	struct Data {
-		float timer{ 0 };
+		WorldTimer timer;
 		std::bitset<2> flags;
 	};
 
@@ -91,7 +91,7 @@ inline void InputHandler<T, InputFunction>::initialize(std::vector<T> keys) {
 	data.clear();
 	data.reserve(keys.size());
 	for (T& key : keys) {
-		data.try_emplace(key, 0.0f, false);
+		data.try_emplace(key, WorldTimer{}, false);
 	}
 }
 
@@ -100,11 +100,11 @@ inline void InputHandler<T, InputFunction>::update() {
 	for (auto& [id, elem] : data) {
 		elem.flags <<= 1;
 		elem.flags.set(0, inputter(id));
-		if (elem.timer > 0 && elem.flags.count() == 1) {
-			elem.timer = 0;
+		if (elem.timer.time() > 0 && elem.flags.count() == 1) {
+			elem.timer.set(0);
 		}
 		else {
-			elem.timer += WorldClock::DeltaSeconds();
+			elem.timer.ahead();
 		}
 	}
 }
@@ -141,15 +141,15 @@ inline bool InputHandler<T, InputFunction>::idle(T id) {
 template<typename T, class InputFunction>
 inline float InputHandler<T, InputFunction>::press_timer(T id) {
 	if (press(id)) {
-		return data[id].timer;
+		return data[id].timer.time();
 	}
-	return false;
+	return 0;
 }
 
 template<typename T, class InputFunction>
 inline float InputHandler<T, InputFunction>::idle_timer(T id) {
 	if (idle(id)) {
-		return data[id].timer;
+		return data[id].timer.time();
 	}
-	return false;
+	return 0;
 }

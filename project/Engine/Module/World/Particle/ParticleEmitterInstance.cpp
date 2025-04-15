@@ -8,7 +8,7 @@
 #include "./DrawSystem/ParticleDrawSystemRect.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Runtime/WorldClock/WorldClock.h"
+#include "Engine/Runtime/Clock/WorldClock.h"
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
 	WorldInstance(),
@@ -206,7 +206,7 @@ void ParticleEmitterInstance::emit_once() {
 	// 生成
 	auto& newParticle = particles.emplace_back(
 		world_manager()->create<Particle>(
-			isParentEmitter ? this : nullptr , false,
+			isParentEmitter ? this : nullptr ,
 			isParentEmitter ? offset : world_position() + offset,
 			std::lerp(particleInit.lifetime.min, particleInit.lifetime.max, RandomEngine::Random01Closed()),
 			direction * speed,

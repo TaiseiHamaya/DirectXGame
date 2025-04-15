@@ -180,6 +180,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
+    <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
@@ -236,7 +238,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Input\Input.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
-    <ClCompile Include="Engine\Runtime\WorldClock\WorldClock.cpp" />
+    <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Application\Output.cpp" />
@@ -306,8 +308,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\Texture\TextureAssetBuilder.cpp" />
     <ClCompile Include="Engine\Module\World\WorldManager.cpp" />
     <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp" />
+    <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Utility\Tools\ChronoUtility.h" />
+    <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\MdStructuredBuffer.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredConcept.h" />
@@ -376,7 +381,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Input\InputEnum.h" />
     <ClInclude Include="Engine\Runtime\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager.h" />
-    <ClInclude Include="Engine\Runtime\WorldClock\WorldClock.h" />
+    <ClInclude Include="Engine\Runtime\Clock\WorldClock.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Engine\Application\Output.h" />
@@ -463,6 +468,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\Texture\TextureAssetBuilder.h" />
     <ClInclude Include="Engine\Module\World\WorldManager.h" />
     <ClInclude Include="Engine\Debug\Profiler\WorldClockProfiler.h" />
+    <ClInclude Include="Engine\Runtime\Clock\WorldTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
