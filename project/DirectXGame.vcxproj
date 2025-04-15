@@ -180,6 +180,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
+    <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
@@ -309,6 +311,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Utility\Tools\ChronoUtility.h" />
+    <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\MdStructuredBuffer.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredConcept.h" />

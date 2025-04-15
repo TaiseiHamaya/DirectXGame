@@ -1,6 +1,5 @@
 #pragma once
 
-#include <chrono>
 #include <cstdint>
 #include <format>
 #include <source_location>
@@ -12,40 +11,29 @@ enum class LogType : uint8_t {
 	Warning,
 	Error,
 	Critical,
+	// Assert,
+	// AssertDebug,
+	// 
 };
-
-using LocalTimeSeconds = std::chrono::time_point<std::chrono::local_t, std::chrono::seconds>;
-
-LocalTimeSeconds NowLocalSecond();
 
 void InitializeLog();
 
-std::string_view ToFilenameA(const std::source_location& sourceLocation);
+void SyncErrorWindow();
 
-std::wstring ToFilenameW(const std::source_location& sourceLocation);
+void LogOutputA(const std::source_location& sourceLocation, LogType type, const std::string& message);
 
-void LogOutputA(const LocalTimeSeconds& time, const std::wstring& file, LogType type, const std::string& message);
-
-void LogOutputW(const LocalTimeSeconds& time, const std::wstring& file, LogType type, const std::wstring& message);
+void LogOutputW(const std::source_location& sourceLocation, LogType type, const std::wstring& message);
 
 template<typename ...Args>
 inline void ConsoleFormattingSL(const std::source_location& sourceLocation, LogType type, std::format_string<Args...> msg, Args && ...args) {
-	std::wstring file = ToFilenameW(sourceLocation);
-
-	LocalTimeSeconds time = NowLocalSecond();
-
 	std::string message = std::format(msg, std::forward<Args>(args)...);
-	LogOutputA(time, file, type, message);
+	LogOutputA(sourceLocation, type, message);
 }
 
 template<typename ...Args>
 inline void ConsoleFormattingSL(const std::source_location& sourceLocation, LogType type, std::wformat_string<Args...> msg, Args && ...args) {
-	std::wstring file = ToFilenameW(sourceLocation);
-
-	LocalTimeSeconds time = NowLocalSecond();
-
 	std::wstring message = std::format(msg, std::forward<Args>(args)...);
-	LogOutputW(time, file, type, message);
+	LogOutputW(sourceLocation, type, message);
 }
 
 #define Infomation(msg, ...) ConsoleFormattingSL(std::source_location::current(), LogType::Infomation, msg, __VA_ARGS__)
