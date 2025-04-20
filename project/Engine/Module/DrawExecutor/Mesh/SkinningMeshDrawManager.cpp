@@ -3,12 +3,6 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 
-#include <execution>
-
-void SkinningMeshDrawManager::initialize(uint32_t numLayer) {
-	drawData.resize(numLayer);
-}
-
 void SkinningMeshDrawManager::make_instancing(uint32_t layer, const std::string& meshName, uint32_t maxInstance) {
 	if (layer >= drawData.size()) {
 		return;
@@ -27,50 +21,12 @@ void SkinningMeshDrawManager::make_instancing(uint32_t layer, const std::string&
 	);
 }
 
-void SkinningMeshDrawManager::register_instance(Reference<const SkinningMeshInstance> instance) {
-	if (!instance && instance->layer() >= drawData.size()) {
-		return;
-	}
-
-	drawData[instance->layer()].instances.emplace(instance);
-}
-
-void SkinningMeshDrawManager::transfer() {
-	for (Data& data : drawData) {
-		// 全てのExecutorをリセット
-		auto depthView = std::views::values(data.executors);
-		std::for_each(
-			std::execution::par, depthView.begin(), depthView.end(),
-			[](SkinningMeshDrawExecutor& executor) {
-			executor.begin();
-		});
-		std::for_each(
-			std::execution::par, data.instances.begin(), data.instances.end(),
-			[&executors = data.executors](const Reference<const SkinningMeshInstance>& instance) {
-			const std::string& id = instance->mesh_id();
-			if (!executors.contains(id)) {
-				// 選択したMeshIdがExecutorに存在しない
-				return;
-			}
-			executors.at(id).write_to_buffer(instance);
-		});
-	}
-}
-
-void SkinningMeshDrawManager::draw_layer(uint32_t layer) {
-	if (layer >= drawData.size()) {
-		// Layer外をDrawCallしようとした
-		return;
-	}
-
-	for (const SkinningMeshDrawExecutor& executor : drawData[layer].executors | std::views::values) {
-		executor.draw_command();
-	}
-}
-
 #ifdef DEBUG_FEATURES_ENABLE
+
+#include <imgui.h>
+
 void SkinningMeshDrawManager::debug_gui() {
-	PolygonMeshLibrary::MeshListGui(selectMesh);
+	PolygonMeshLibrary::MeshListGui(select);
 
 	int step = 1;
 	ImGui::PushItemWidth(80);
@@ -79,7 +35,7 @@ void SkinningMeshDrawManager::debug_gui() {
 	ImGui::PopItemWidth();
 
 	if (ImGui::Button("Apply") && maxInstance >= 1) {
-		make_instancing(layer, selectMesh, maxInstance);
+		make_instancing(layer, select, maxInstance);
 	}
 
 	for (uint32_t i = 0; auto & data : drawData) {

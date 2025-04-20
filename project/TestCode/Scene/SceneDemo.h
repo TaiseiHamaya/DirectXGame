@@ -21,6 +21,7 @@ class RenderPath;
 #include <Engine/Assets/Audio/AudioPlayer.h>
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
 #include <Engine/Module/World/Light/PointLight/PointLightInstance.h>
+#include <Engine/Module/World/Mesh/Primitive/Rect3d.h>
 #include <Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h>
 #include <Engine/Module/Render/RenderNode/Forward/Mesh/SkinningMeshNodeForward.h>
 #include <Engine/Module/Render/RenderNode/2D/Sprite/SpriteNode.h>
@@ -37,6 +38,7 @@ class RenderPath;
 #include <Engine/Module/DrawExecutor/LightingExecutor/PointLightingExecutor.h>
 #include <Engine/Module/DrawExecutor/Mesh/SkinningMeshDrawManager.h>
 #include <Engine/Module/DrawExecutor/Mesh/StaticMeshDrawManager.h>
+#include <Engine/Module/DrawExecutor/Mesh/Primitive/Rect3dDrawManager.h>
 #include <Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/MdStructuredBuffer.h>
 
 class SceneDemo : public BaseScene {
@@ -71,6 +73,7 @@ private:
 
 	std::unique_ptr<StaticMeshDrawManager> staticMeshDrawManager;
 	std::unique_ptr<SkinningMeshDrawManager> skinningMeshDrawManager;
+	std::unique_ptr<Rect3dDrawManager> rect3dDrawManager;
 	std::unique_ptr<DirectionalLightingExecutor> directionalLightingExecutor;
 	std::unique_ptr<PointLightingExecutor> pointLightingExecutor;
 
@@ -106,4 +109,6 @@ private:
 	Transform2D testValue{};
 
 	MdStructuredBuffer<Matrix4x4> mdStructure;
+
+	std::unique_ptr<Rect3d> rect;
 };

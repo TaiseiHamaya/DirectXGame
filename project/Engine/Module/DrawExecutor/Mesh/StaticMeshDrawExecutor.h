@@ -11,10 +11,10 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
 class StaticMeshInstance;
-struct TransformMatrixData;
-struct MaterialBufferData;
+struct TransformMatrixDataBuffer;
+struct MaterialDataBuffer3;
 
-class StaticMeshDrawExecutor final : public BaseDrawExecutor {
+class StaticMeshDrawExecutor final : public BaseDrawExecutor<StaticMeshInstance> {
 public:
 	StaticMeshDrawExecutor() noexcept = default;
 	 ~StaticMeshDrawExecutor() noexcept = default;
@@ -26,13 +26,13 @@ public:
 public:
 	void reinitialize(std::shared_ptr<const PolygonMesh> asset_, uint32_t maxInstance);
 	void draw_command() const override;
-	void write_to_buffer(Reference<const StaticMeshInstance> instance);
+	void write_to_buffer(Reference<const StaticMeshInstance> instance) override;
 
 private:
 	std::shared_ptr<const PolygonMesh> asset;
 
-	StructuredBuffer<TransformMatrixData> matrices;
-	std::vector<StructuredBuffer<MaterialBufferData>> materials;
+	StructuredBuffer<TransformMatrixDataBuffer> matrices;
+	std::vector<StructuredBuffer<MaterialDataBuffer3>> materials;
 
 	std::mutex writeBufferMutex;
 };

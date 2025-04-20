@@ -107,3 +107,19 @@ Quaternion Basis::to_quaternion() const {
 
 	return Quaternion{ xyz,w };
 }
+
+Basis Basis::FromScale(const Vector3& scale) {
+	Basis result;
+	result[0][0] *= scale.x;
+	result[1][1] *= scale.y;
+	result[2][2] *= scale.z;
+
+	return result;
+}
+
+Basis Basis::FromRotation(const Quaternion& rotation) {
+	Basis result;
+	result = rotation.to_basis();
+
+	return result;
+}

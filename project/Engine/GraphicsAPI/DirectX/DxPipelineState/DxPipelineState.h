@@ -5,16 +5,16 @@
 
 #include <string>
 
-class PipelineState final {
+class DxPipelineState final {
 public:
-	PipelineState() noexcept = default;
-	~PipelineState() noexcept = default;
+	DxPipelineState() noexcept = default;
+	~DxPipelineState() noexcept = default;
 
 private:
-	PipelineState(const PipelineState&) = delete;
-	PipelineState& operator=(const PipelineState&) = delete;
-	PipelineState(PipelineState&&) = default;
-	PipelineState& operator=(PipelineState&&) = default;
+	DxPipelineState(const DxPipelineState&) = delete;
+	DxPipelineState& operator=(const DxPipelineState&) = delete;
+	DxPipelineState(DxPipelineState&&) = default;
+	DxPipelineState& operator=(DxPipelineState&&) = default;
 
 public:
 	void initialize(

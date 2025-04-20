@@ -12,6 +12,7 @@
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
+#include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
@@ -123,7 +124,11 @@ void WinApp::Initialize(DWORD windowConfig) {
 #endif // _DEBUG
 	PrimitiveGeometryLibrary::Transfer(
 		"Ico3",
-		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Ico3.json")
+		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Lighting/Ico3.json")
+	);
+	PrimitiveGeometryLibrary::Transfer(
+		"Rect3D",
+		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Primitive/Rect3D.json")
 	);
 
 	// 待機

@@ -51,6 +51,8 @@
 #define COLOR3_SERIALIZER
 #define COLOR4_SERIALIZER
 #include <Engine/Assets/Json/JsonSerializer.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Lighting/NonLightingPixelNode.h>
+#include <Engine/Module/Render/RenderNode/Forward/Primitive/Rect3dNode .h>
 
 #define DEFERRED_RENDERING
 //#define FORWARD_RENDERING
@@ -118,6 +120,10 @@ void SceneDemo::initialize() {
 	single3Collider = worldManager->create<AABBCollider>(nullptr, CVector3::BASIS, Vector3{ 0.3f,0.3f,0.3f });
 	single3Collider->get_transform().set_translate_x(3.0f);
 
+	rect = worldManager->create<Rect3d>(nullptr);
+	//rect->get_material().texture = TextureLibrary::GetTexture("uvChecker.png");
+	rect->initialize(CVector2::BASIS, Vector2{ 0.5f, 0.5f });
+
 	//particleEmitter = worldManager->create<ParticleEmitterInstance>(nullptr, false, "test.json", 128);
 
 	sprite = std::make_unique<SpriteInstance>("uvChecker.png");
@@ -156,6 +162,11 @@ void SceneDemo::initialize() {
 		skinningMeshDrawManager->register_instance(primitive);
 	}
 	skinningMeshDrawManager->register_instance(animatedMeshInstance);
+
+	rect3dDrawManager = eps::CreateUnique<Rect3dDrawManager>();
+	rect3dDrawManager->initialize(1);
+	rect3dDrawManager->make_instancing(0, 100);
+	rect3dDrawManager->register_instance(rect);
 
 	pointLightingExecutor = eps::CreateUnique<PointLightingExecutor>(PrimitiveGeometryLibrary::GetPrimitiveGeometry("Ico3"), 1);
 	directionalLightingExecutor = eps::CreateUnique<DirectionalLightingExecutor>(1);
@@ -251,8 +262,14 @@ void SceneDemo::initialize() {
 	skinMeshNodeDeferred->set_render_target(deferredRenderTarget);
 	skinMeshNodeDeferred->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
 
+	auto nonLightingPixelNode = eps::CreateShared<NonLightingPixelNode>();
+	nonLightingPixelNode->initialize();
+	nonLightingPixelNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+	nonLightingPixelNode->set_gbuffers(deferredRenderTarget);
+
 	auto directionalLightingNode = eps::CreateShared<DirectionalLightingNode>();
 	directionalLightingNode->initialize();
+	directionalLightingNode->set_config(RenderNodeConfig::ContinueDrawAfter);
 	directionalLightingNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
@@ -261,6 +278,11 @@ void SceneDemo::initialize() {
 	pointLightingNode->set_config(RenderNodeConfig::ContinueDrawAfter);
 	pointLightingNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 	pointLightingNode->set_gbuffers(deferredRenderTarget);
+
+	auto rect3dNode = eps::CreateShared<Rect3dNode>();
+	rect3dNode->initialize();
+	rect3dNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+	rect3dNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::NoClearDepth);
 
 	std::shared_ptr<ParticleMeshNode> particleMeshNode;
 	particleMeshNode = std::make_unique<ParticleMeshNode>();
@@ -276,9 +298,9 @@ void SceneDemo::initialize() {
 
 	renderPath = eps::CreateUnique<RenderPath>();
 #ifdef DEBUG_FEATURES_ENABLE
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode,pointLightingNode,particleMeshNode,primitiveLineNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,nonLightingPixelNode,directionalLightingNode,pointLightingNode,particleMeshNode,rect3dNode,primitiveLineNode });
 #else
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,directionalLightingNode,pointLightingNode,particleMeshNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred,nonLightingPixelNode,directionalLightingNode,pointLightingNode,particleMeshNode,rect3dNode });
 #endif // _DEBUG
 #endif // DEFERRED_RENDERING
 
@@ -327,6 +349,8 @@ void SceneDemo::update() {
 		std::execution::par, primitives.begin(), primitives.end(),
 		[](std::unique_ptr<SkinningMeshInstance>& instance) { instance->update_animation(); }
 	);
+
+	rect->look_at(*camera3D);
 }
 
 void SceneDemo::begin_rendering() {
@@ -342,8 +366,9 @@ void SceneDemo::begin_rendering() {
 
 	pointLightingExecutor->begin();
 	directionalLightingExecutor->begin();
-	pointLightingExecutor->write_to_buffer(pointLight->transform_matrix(), pointLight->light_data());
-	directionalLightingExecutor->write_to_buffer(directionalLight->light_data());
+	pointLightingExecutor->write_to_buffer(pointLight);
+	directionalLightingExecutor->write_to_buffer(directionalLight);
+	rect3dDrawManager->transfer();
 	staticMeshDrawManager->transfer();
 	skinningMeshDrawManager->transfer();
 }
@@ -400,7 +425,7 @@ void SceneDemo::draw() const {
 #ifdef DEFERRED_RENDERING
 	///
 	/// Deferred
-	/// 
+	///
 	renderPath->begin();
 	camera3D->register_world_projection(2);
 	staticMeshDrawManager->draw_layer(0);
@@ -409,6 +434,7 @@ void SceneDemo::draw() const {
 	camera3D->register_world_projection(2);
 	skinningMeshDrawManager->draw_layer(0);
 
+	renderPath->next();
 	renderPath->next();
 	camera3D->register_world_lighting(1);
 	directionalLightingExecutor->draw_command();
@@ -421,6 +447,12 @@ void SceneDemo::draw() const {
 	renderPath->next();
 	camera3D->register_world_projection(1);
 	//particleEmitter->draw();
+
+	renderPath->next();
+	camera3D->register_world_projection(3);
+	camera3D->register_world_lighting(4);
+	directionalLightingExecutor->set_command(5);
+	rect3dDrawManager->draw_layer(0);
 
 	renderPath->next();
 
@@ -498,6 +530,10 @@ void SceneDemo::debug_update() {
 
 	ImGui::Begin("PointLight");
 	pointLight->debug_gui();
+	ImGui::End();
+
+	ImGui::Begin("Rect");
+	rect->debug_gui();
 	ImGui::End();
 
 	//ImGui::Begin("Particle");

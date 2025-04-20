@@ -1,10 +1,11 @@
 #include "PSOBuilder.h"
 
-#include <cassert>
-
 #include "Engine/Application/Output.h"
+#include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
+#include "Engine/GraphicsAPI/DirectX/DxCompiler/DxShaderReflection.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include <Engine/GraphicsAPI/DirectX/DxSystemValues.h>
 
 void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot) {
 	D3D12_INPUT_ELEMENT_DESC& inputElementDesc = inputElementDescs.emplace_back();
@@ -74,7 +75,7 @@ void RootSignatureBuilder::add_texture(D3D12_SHADER_VISIBILITY visibility, UINT 
 
 void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shaderRegister, UINT space, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE textureMore, D3D12_COMPARISON_FUNC func) {
 	D3D12_STATIC_SAMPLER_DESC& staticSampler = staticSamplers.emplace_back();
-	staticSampler.MaxAnisotropy = 16; // 異方性の場合はx16にする
+	staticSampler.MaxAnisotropy = DxSystemValues::ANISOTROPY; // 異方性の場合はx16にする
 	staticSampler.Filter = filter; // フィルタ
 	staticSampler.AddressU = textureMore; // 0-1範囲外はリピート
 	staticSampler.AddressV = textureMore;
@@ -101,6 +102,10 @@ Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 
 Microsoft::WRL::ComPtr<ID3D12RootSignature> PSOBuilder::get_rootsignature() {
 	return rootSignature;
+}
+
+void PSOBuilder::initialize_by_reflection(const DxShaderReflection& reflection) {
+
 }
 
 void PSOBuilder::rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_) {

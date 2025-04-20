@@ -3,9 +3,10 @@
 #include "../BaseDrawExecutor.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
+class DirectionalLightInstance;
 struct DirectionalLightData;
 
-class DirectionalLightingExecutor final : public BaseDrawExecutor {
+class DirectionalLightingExecutor final : public BaseDrawExecutor<DirectionalLightInstance> {
 public:
 	DirectionalLightingExecutor() = default;
 	~DirectionalLightingExecutor() = default;
@@ -17,7 +18,8 @@ public:
 public:
 	void reinitialize(uint32_t maxInstance);
 	void draw_command() const override;
-	void write_to_buffer(const DirectionalLightData& lightData_);
+	void set_command(uint32_t paramIndex) const;
+	void write_to_buffer(Reference<const DirectionalLightInstance> instance) override;
 
 private:
 	StructuredBuffer<DirectionalLightData> lightData;

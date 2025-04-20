@@ -20,17 +20,15 @@ void SkinningMeshDrawExecutor::reinitialize(std::shared_ptr<const PolygonMesh> m
 	maxInstance = maxInstance_;
 	// Matrix初期化
 	matrices.initialize(maxInstance);
-	matrices.get_resource()->SetName(L"Transform");
 	// Material初期化
 	materials.resize(mesh->material_count());
-	for (StructuredBuffer<MaterialBufferData>& material : materials) {
+	for (StructuredBuffer<MaterialDataBuffer3>& material : materials) {
 		material.initialize(maxInstance);
-		material.get_resource()->SetName(L"Materials");
 	}
 	// Palette初期化
 	matrixPalettes.resize(mesh->material_count());
 	paletteSize.resize(mesh->material_count());
-	for (uint32_t i = 0; MdStructuredBuffer<SkeletonMatrixPaletteWell>&matrixPalette : matrixPalettes) {
+	for (uint32_t i = 0; MdStructuredBuffer<SkeletonMatrixPaletteWellBuffer>&matrixPalette : matrixPalettes) {
 		const std::string& meshName = mesh->mesh_data(i)->meshName;
 		const std::vector<uint32_t>* useJointIndexes = skeletonData->use_joint_indexes(meshName);
 		if (!useJointIndexes) {
@@ -88,15 +86,17 @@ void SkinningMeshDrawExecutor::write_to_buffer(Reference<const SkinningMeshInsta
 		++instanceCounter;
 	}
 
-	const Affine& affine = instance->world_affine();
+	const Affine& local = instance->local_affine();
+	const Affine& world = instance->world_affine();
+	Affine transformAffine = local * world;
 	matrices[next] = {
-		.world = affine,
-		.itWorld = affine.inverse().get_basis().transposed()
+		.world = transformAffine,
+		.itWorld = transformAffine.inverse().get_basis().transposed()
 	};
-	const std::vector<StaticMeshInstance::Material>& instanceMaterials = instance->get_materials();
+	const std::vector<IMultiMeshInstance::Material>& instanceMaterials = instance->get_materials();
 	const size_t numMaterial = mesh->material_count();
 	for (uint32_t i = 0; i < numMaterial; ++i) {
-		const StaticMeshInstance::Material& source = instanceMaterials[i];
+		const IMultiMeshInstance::Material& source = instanceMaterials[i];
 		materials[i][next] = {
 			source.color,
 			source.lightingType,
@@ -109,14 +109,14 @@ void SkinningMeshDrawExecutor::write_to_buffer(Reference<const SkinningMeshInsta
 	const std::vector<SkinningMeshInstance::SkeletonSpaceInstance>& joints = instance->joints();
 	const Skeleton& skeleton = skeletonData->skeleton();
 	for (uint32_t i = 0; i < numMaterial; ++i) {
-		std::span<SkeletonMatrixPaletteWell> writeSpan = matrixPalettes[i][next];
+		std::span<SkeletonMatrixPaletteWellBuffer> writeSpan = matrixPalettes[i][next];
 		const std::string& meshName = mesh->mesh_data(i)->meshName;
 		const std::vector<uint32_t>* useJointIndexes = skeletonData->use_joint_indexes(meshName); // JointとPaletteをつなぐ配列
 		if (!useJointIndexes) {
 			continue;
 		}
 		for (uint32_t paletteIndex = 0; paletteIndex < writeSpan.size(); ++paletteIndex) {
-			SkeletonMatrixPaletteWell& paletteWell = writeSpan[paletteIndex]; // 編集するPalette
+			SkeletonMatrixPaletteWellBuffer& paletteWell = writeSpan[paletteIndex]; // 編集するPalette
 			uint32_t jointIndex = useJointIndexes->at(paletteIndex);
 			Affine skeletonSpaceAffine;
 			// Jointが存在する場合

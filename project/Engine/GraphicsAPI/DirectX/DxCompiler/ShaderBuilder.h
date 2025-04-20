@@ -3,7 +3,10 @@
 #include <d3d12.h>
 #include <dxcapi.h>
 #include <wrl/client.h>
-#include <string>
+
+#include <filesystem>
+
+#include "Engine/Assets/Shader/ShaderAsset.h"
 
 class ShaderBuilder {
 public:
@@ -16,18 +19,17 @@ private:
 
 public:
 	void initialize(
-		const std::string& vertexShaderFilePath,
-		const std::string& pixelShaderFilePath
+		const std::filesystem::path& vertexShaderFilePath,
+		const std::filesystem::path& pixelShaderFilePath
 	) noexcept(false);
 
 	D3D12_SHADER_BYTECODE get_vs_bytecode() const noexcept;
 	D3D12_SHADER_BYTECODE get_ps_bytecode() const noexcept;
 
-private:
-	void create_vertex_shader(const std::string& filePath);
-	void create_pixel_shader(const std::string& filePath);
+	DxcBuffer vs_buffer() const noexcept;
+	DxcBuffer ps_buffer() const noexcept;
 
 private:
-	Microsoft::WRL::ComPtr<IDxcBlob> vertexShaderBlob;
-	Microsoft::WRL::ComPtr<IDxcBlob> pixelShaderBlob;
+	std::shared_ptr<const ShaderAsset> vsBlob;
+	std::shared_ptr<const ShaderAsset> psBlob;
 };

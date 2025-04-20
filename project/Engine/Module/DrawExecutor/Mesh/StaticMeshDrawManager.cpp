@@ -4,10 +4,6 @@
 
 #include <execution>
 
-void StaticMeshDrawManager::initialize(uint32_t numLayer) {
-	drawData.resize(numLayer);
-}
-
 void StaticMeshDrawManager::make_instancing(uint32_t layer, const std::string& meshName_, uint32_t maxInstance) {
 	if (layer >= drawData.size()) {
 		return;
@@ -21,48 +17,6 @@ void StaticMeshDrawManager::make_instancing(uint32_t layer, const std::string& m
 		meshName_,
 		PolygonMeshLibrary::GetPolygonMesh(meshName_), maxInstance
 	);
-}
-
-void StaticMeshDrawManager::register_instance(Reference<const StaticMeshInstance> instance) {
-	if (!instance && instance->layer() >= drawData.size()) {
-		return;
-	}
-
-	drawData[instance->layer()].instances.emplace(instance);
-}
-
-void StaticMeshDrawManager::transfer() {
-	for (Data& data : drawData) {
-		// 全てのExecutorをリセット
-		auto depthView = std::views::values(data.executors);
-		std::for_each(
-			std::execution::par, depthView.begin(), depthView.end(),
-			[](StaticMeshDrawExecutor& executor) {
-			executor.begin();
-		});
-		std::for_each(
-			std::execution::par, data.instances.begin(), data.instances.end(),
-			[&executors = data.executors](const Reference<const StaticMeshInstance>& instance) {
-			const std::string& id = instance->mesh_id();
-			if (!executors.contains(id)) {
-				// 選択したMeshIdがExecutorに存在しない
-				return;
-			}
-			auto& executor = executors[id];
-			executor.write_to_buffer(instance);
-		});
-	}
-}
-
-void StaticMeshDrawManager::draw_layer(uint32_t layer) {
-	if (layer >= drawData.size()) {
-		// Layer外をDrawCallしようとした
-		return;
-	}
-
-	for (const StaticMeshDrawExecutor& executor : drawData[layer].executors | std::views::values) {
-		executor.draw_command();
-	}
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -96,7 +50,7 @@ void StaticMeshDrawManager::register_debug_instance(uint32_t layer, Reference<co
 
 #include <imgui.h>
 void StaticMeshDrawManager::debug_gui() {
-	PolygonMeshLibrary::MeshListGui(selectMesh);
+	PolygonMeshLibrary::MeshListGui(select);
 
 	int step = 1;
 	ImGui::PushItemWidth(80);
@@ -105,7 +59,7 @@ void StaticMeshDrawManager::debug_gui() {
 	ImGui::PopItemWidth();
 
 	if (ImGui::Button("Apply") && maxInstance >= 1) {
-		make_instancing(layer, selectMesh, maxInstance);
+		make_instancing(layer, select, maxInstance);
 	}
 
 	for (uint32_t i = 0; auto & data : drawData) {

@@ -11,7 +11,7 @@
 
 class NodeAnimationPlayer {
 public:
-	NodeAnimationPlayer() = default;
+	NodeAnimationPlayer() noexcept = default;
 	NodeAnimationPlayer(const std::string& fileName, const std::string& animationName, bool isLoop);
 	~NodeAnimationPlayer() = default;
 

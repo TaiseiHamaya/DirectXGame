@@ -7,16 +7,19 @@
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
-SkinningMeshInstance::SkinningMeshInstance() noexcept(false) :
-	StaticMeshInstance() {
+#include "./StaticMeshInstance.h"
+
+SkinningMeshInstance::SkinningMeshInstance() noexcept :
+	IMultiMeshInstance() {
 	nodeAnimation = eps::CreateUnique<NodeAnimationPlayer>();
 }
 
-SkinningMeshInstance::SkinningMeshInstance(const std::string& meshName, const std::string& animationName, bool isLoop) :
+SkinningMeshInstance::SkinningMeshInstance(const std::string& keyID, const std::string& animationName, bool isLoop) :
 	SkinningMeshInstance() {
-	reset_animated_mesh(meshName, animationName, isLoop);
+	reset_animated_mesh(keyID, animationName, isLoop);
 }
 
 SkinningMeshInstance::~SkinningMeshInstance() noexcept = default;
@@ -55,10 +58,23 @@ void SkinningMeshInstance::update_animation() {
 	}
 }
 
-void SkinningMeshInstance::reset_animated_mesh(const std::string& meshName, const std::string& animationName, bool isLoop) {
-	reset_mesh(meshName);
-	skeletonResrouce = SkeletonLibrary::GetSkeleton(meshName);
-	reset_animation(meshName, animationName, isLoop);
+void SkinningMeshInstance::reset_animated_mesh(const std::string& meshName_, const std::string& animationName, bool isLoop) {
+	// メッシュ情報の取得
+	if (PolygonMeshLibrary::IsRegistered(meshName_)) {
+		keyID = meshName_;
+	}
+	else {
+		keyID = "ErrorObject.obj";
+	}
+
+#ifdef DEBUG_FEATURES_ENABLE
+	mesh = PolygonMeshLibrary::GetPolygonMesh(keyID);
+#endif // _DEBUG
+
+
+	default_material();
+	skeletonResrouce = SkeletonLibrary::GetSkeleton(keyID);
+	reset_animation(keyID, animationName, isLoop);
 	create_skeleton();
 }
 
@@ -72,7 +88,30 @@ NodeAnimationPlayer* const SkinningMeshInstance::get_animation() {
 }
 
 bool SkinningMeshInstance::is_draw() const {
-	return StaticMeshInstance::is_draw() && skeletonResrouce;
+	return IMultiMeshInstance::is_draw() && skeletonResrouce;
+}
+
+void SkinningMeshInstance::default_material() {
+	std::shared_ptr<const PolygonMesh> mesh = PolygonMeshLibrary::GetPolygonMesh(keyID);
+
+	materials.resize(mesh->material_count());
+
+	for (int i = 0; auto & meshMaterial : materials) {
+		// 色情報のリセット
+		const auto* meshMaterialData = mesh->material_data(i);
+		if (meshMaterialData) {
+			// テクスチャ情報の取得
+			meshMaterial.texture = TextureLibrary::GetTexture(meshMaterialData->textureFileName);
+			// uv情報のリセット
+			meshMaterial.uvTransform.copy(meshMaterialData->defaultUV);
+		}
+		else {
+			meshMaterial.texture = TextureLibrary::GetTexture("Error.png");
+			meshMaterial.uvTransform.copy(Transform2D{});
+			Warning("Material data is not found.");
+		}
+		++i;
+	}
 }
 
 void SkinningMeshInstance::create_skeleton() {
@@ -114,8 +153,8 @@ void SkinningMeshInstance::create_skeleton() {
 #ifdef DEBUG_FEATURES_ENABLE
 #include <Engine/Assets/Texture/TextureLibrary.h>
 void SkinningMeshInstance::debug_gui() {
-	if (PolygonMeshLibrary::MeshListGui(meshName)) {
-		reset_animated_mesh(meshName);
+	if (PolygonMeshLibrary::MeshListGui(keyID)) {
+		reset_animated_mesh(keyID);
 	}
 	if (ImGui::Button("ResetMaterialData")) {
 		default_material();
@@ -134,11 +173,8 @@ void SkinningMeshInstance::debug_gui() {
 		if (treeNodeName.empty()) {
 			treeNodeName = "UnknownMaterialName" + std::to_string(i);
 		}
-		std::string textureName = meshMaterial.texture->name();
 		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-			if (TextureLibrary::TextureListGui(textureName)) {
-				set_texture(textureName, i);
-			}
+			TextureLibrary::TextureListGui(meshMaterial.texture);
 
 			meshMaterial.uvTransform.debug_gui();
 

@@ -48,6 +48,10 @@ public:
 public:
 	Vector3 to_scale() const;
 	Quaternion to_quaternion() const;
+
+public:
+	static Basis FromScale(const Vector3& scale);
+	static Basis FromRotation(const Quaternion& rotation);
 };
 
 inline constexpr Basis::Basis(const Vector3& rowX, const Vector3& rowY, const Vector3& rowZ) :

@@ -7,9 +7,10 @@
 
 #include <Library/Math/Matrix4x4.h>
 
+class PointLightInstance;
 struct PointLightData;
 
-class PointLightingExecutor final : public BaseDrawExecutor {
+class PointLightingExecutor final : public BaseDrawExecutor<PointLightInstance> {
 public:
 	PointLightingExecutor() = default;
 	~PointLightingExecutor() = default;
@@ -21,7 +22,7 @@ public:
 public:
 	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
 	void draw_command() const override;
-	void write_to_buffer(const Matrix4x4& worldMatrix, const PointLightData& lightData_);
+	void write_to_buffer(Reference<const PointLightInstance> instance) override;
 
 private:
 	std::shared_ptr<const PrimitiveGeometryAsset> asset;

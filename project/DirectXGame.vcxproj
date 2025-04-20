@@ -67,11 +67,13 @@
     <IncludePath>$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
+    <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -180,10 +182,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\IDrawInstance.cpp" />
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
     <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
@@ -196,6 +201,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp" />
     <ClCompile Include="Engine\Runtime\Input\InputHandler.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode .cpp" />
     <ClCompile Include="TestCode\GameDemo.cpp" />
     <ClCompile Include="TestCode\Scene\FactoryDemo.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
@@ -256,10 +268,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.cpp" />
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Library\Math\Matrix3x3.cpp" />
     <ClCompile Include="Library\Math\Matrix4x4.cpp" />
@@ -311,11 +323,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConceptCPUBuffer.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\BaseDrawManager.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\IMultiMeshInstance.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\IPrimitiveInstance.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\Rect3d.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\IDrawInstance.h" />
+    <ClInclude Include="Library\Math\fraction.h" />
     <ClInclude Include="Library\Utility\Tools\ChronoUtility.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\MdStructuredBuffer.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredConcept.h" />
     <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\BaseDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.h" />
@@ -331,6 +350,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Profiler\TimestampProfiler.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.h" />
     <ClInclude Include="Engine\Runtime\Input\InputHandler.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.h" />
+    <ClInclude Include="Engine\Assets\Shader\ShaderAsset.h" />
+    <ClInclude Include="Engine\Assets\Shader\ShaderLibrary.h" />
+    <ClInclude Include="Engine\Assets\Shader\ShaderAssetBuilder.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode .h" />
     <ClInclude Include="TestCode\GameDemo.h" />
     <ClInclude Include="TestCode\Scene\FactoryDemo.h" />
     <ClInclude Include="Library\Math\Affine.h" />
@@ -403,10 +429,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.h" />
     <ClInclude Include="Library\Utility\Template\SingletonInterface.h" />
     <ClInclude Include="Library\Utility\Template\SortedPair.h" />
     <ClInclude Include="Library\Utility\Tools\ConstructorMacro.h" />
@@ -471,22 +497,67 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Clock\WorldTimer.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-    </FxCompile>
+    <None Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl" />
+    <None Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl" />
+    <None Include="EngineResources\HLSL\Deferred\Deferred.hlsli" />
+    <None Include="EngineResources\HLSL\Deferred\Lighting\SpotLighting.PS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Lighting\DirectionalLighting.PS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Lighting\NonLighting.PS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Lighting\PointLighting.PS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Lighting\SpotLightVolume.VS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Mesh\SkinningMesh.VS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Mesh\StaticMesh.VS.hlsl" />
+    <None Include="EngineResources\HLSL\Deferred\Deferred.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+      </ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="EngineResources\HLSL\Forward\ForwardAlpha.PS.hlsl">
+      <FileType>Document</FileType>
+    </None>
     <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMesh.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <None Include="EngineResources\HLSL\FullscreenShader.VS.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+      </ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ShaderType>
+    </None>
+    <None Include="EngineResources\HLSL\Forward\Primitive\Rect3d.VS.hlsl">
+      <FileType>Document</FileType>
+    </None>
     <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -536,16 +607,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -556,12 +617,27 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <None Include="EngineResources\HLSL\FullscreenShader.hlsli" />
+    <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\CalcLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\DirectionalLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\PointLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\SpotLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\MathTool.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\PackA2.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\PackNormalV2.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\PackShininess.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\ToLinearZBuffer.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\UnormNormal.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineResources\HLSL\Forward\Forward.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+      </ExcludedFromBuild>
     </None>
     <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -589,11 +665,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>

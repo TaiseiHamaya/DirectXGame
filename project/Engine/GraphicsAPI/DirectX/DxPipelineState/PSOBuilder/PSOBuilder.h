@@ -1,13 +1,15 @@
 #pragma once
 
-#include <d3d12.h>
 #include <list>
 #include <vector>
+
+#include <d3d12.h>
 #include <wrl/client.h>
 
-#include "Engine/GraphicsAPI/DirectX/PipelineState/ShaderBuilder/ShaderBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxCompiler/ShaderBuilder.h"
 
 class DepthStencil;
+class DxShaderReflection;
 
 class InputLayoutBuilder {
 public:
@@ -28,7 +30,7 @@ public:
 	void add_texture(D3D12_SHADER_VISIBILITY visibility, UINT baseShaderRegister = 0, UINT numDescriptors = 1, UINT space = 0);
 	void sampler(
 		D3D12_SHADER_VISIBILITY visibility,
-		UINT shaderRegister, 
+		UINT shaderRegister,
 		UINT space = 0,
 		D3D12_FILTER filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
 		D3D12_TEXTURE_ADDRESS_MODE textureMore = D3D12_TEXTURE_ADDRESS_MODE_WRAP,
@@ -55,6 +57,9 @@ class PSOBuilder {
 public:
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> build();
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> get_rootsignature();
+
+public:
+	void initialize_by_reflection(const DxShaderReflection& reflection);
 
 public:
 	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_);
