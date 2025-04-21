@@ -18,11 +18,19 @@ void DirectionalLightingExecutor::draw_command() const {
 	command->DrawInstanced(3, instanceCounter, 0, 0);
 }
 
-void DirectionalLightingExecutor::write_to_buffer(const DirectionalLightData& lightData_) {
+void DirectionalLightingExecutor::set_command(uint32_t paramIndex) const {
+	auto&& command = DxCommand::GetCommandList();
+	command->SetGraphicsRootDescriptorTable(paramIndex, lightData.get_handle_gpu());
+}
+
+void DirectionalLightingExecutor::write_to_buffer(Reference<const DirectionalLightInstance> instance) {
+	if (!instance || !instance->is_active()) {
+		return;
+	}
 	if (instanceCounter >= maxInstance) {
 		return;
 	}
 
-	lightData[instanceCounter] = lightData_;
+	lightData[instanceCounter] = instance->light_data();
 	++instanceCounter;
 }

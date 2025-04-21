@@ -1,8 +1,8 @@
 #include "ParticleMeshNode.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 
 ParticleMeshNode::ParticleMeshNode() = default;
 
@@ -46,6 +46,6 @@ void ParticleMeshNode::create_pipeline_state() {
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 
-	pipelineState = std::make_unique<PipelineState>();
+	pipelineState = std::make_unique<DxPipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 }

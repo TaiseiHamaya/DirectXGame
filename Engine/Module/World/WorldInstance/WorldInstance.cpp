@@ -5,7 +5,7 @@
 #define TRANSFORM3D_SERIALIZER
 #include <Engine/Assets/Json/JsonSerializer.h>
 
-WorldInstance::WorldInstance() {
+WorldInstance::WorldInstance() noexcept {
 	hierarchy.initialize(affine);
 }
 

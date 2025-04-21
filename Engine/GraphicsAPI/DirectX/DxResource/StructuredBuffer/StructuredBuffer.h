@@ -1,14 +1,18 @@
 #pragma once
 
+#include <format>
+#include <optional>
+#include <span>
+#include <typeinfo>
+
+#include <Library/Utility/Tools/ConvertString.h>
+
+#include "../ConceptCPUBuffer.h"
 #include "../DxResource.h"
-#include "./StructuredConcept.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
-#include <optional>
-#include <span>
-
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 class StructuredBuffer : public  DxResource {
 public:
 	StructuredBuffer() noexcept = default;
@@ -45,13 +49,13 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 };
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline StructuredBuffer<T>::~StructuredBuffer() noexcept {
 	unmap();
 	release_index();
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
 	release_index();
 
@@ -61,22 +65,27 @@ inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
 	map();
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline T& StructuredBuffer<T>::operator[](uint32_t i) {
 	return span[i];
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline const T& StructuredBuffer<T>::operator[](uint32_t i) const {
 	return span[i];
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::create_resource() {
 	resource = CreateBufferResource(sizeof(T) * arraySize);
+	std::wstring typeName = ConvertString(typeid(T).name());
+	if constexpr (std::is_class_v<T> || std::is_enum_v<T>) {
+		typeName = (std::find(typeName.begin(), typeName.end(), ' ') + 1)._Ptr;
+	}
+	resource->SetName(std::format(L"StructuredBuffer-{}", typeName).c_str());
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::create_srv() {
 	heapIndex = SRVDescriptorHeap::UseHeapIndex();
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = SRVDescriptorHeap::GetCPUHandle(heapIndex.value());
@@ -94,20 +103,20 @@ inline void StructuredBuffer<T>::create_srv() {
 	DxDevice::GetDevice()->CreateShaderResourceView(resource.Get(), &srvDesc, cpuHandle);
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::release_index() {
 	if (heapIndex.has_value()) {
 		SRVDescriptorHeap::ReleaseHeapIndex(heapIndex.value());
 	}
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::map() {
 	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
 	span = std::span<T>{ data, arraySize };
 }
 
-template<StructuredBufferType T>
+template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::unmap() {
 	span = std::span<T, 0>();
 	if (data) {

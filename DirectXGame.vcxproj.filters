@@ -303,9 +303,6 @@
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCore.cpp">
       <Filter>Engine\Rendering\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.cpp">
-      <Filter>Engine\Rendering\DirectX\PiplineState</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
     </ClCompile>
@@ -335,12 +332,6 @@
     </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\OffscreenRender</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp">
-      <Filter>Engine\Rendering\DirectX\PiplineState\PSOBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp">
-      <Filter>Engine\Rendering\DirectX\PiplineState\ShaderBuilder</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Module\Render\RenderPath</Filter>
@@ -381,9 +372,6 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Game\SandBox\Scene\SceneDemo.cpp">
-      <Filter>TestProgram</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Outline</Filter>
     </ClCompile>
@@ -413,9 +401,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.cpp">
-      <Filter>Engine\Rendering\DirectX\ShaderCompiler</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshLibrary.cpp">
       <Filter>Engine\Resources\PolygonMesh</Filter>
@@ -508,9 +493,6 @@
       <Filter>Library\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\SandBox\CallbackManagerDemo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.cpp">
@@ -621,12 +603,6 @@
     <ClCompile Include="Engine\Application\Framework.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\SandBox\Scene\FactoryDemo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\SandBox\SandBox.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -648,9 +624,6 @@
     <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -667,6 +640,51 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Mesh\IDrawInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode .cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Shader\ShaderAsset.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Shader\ShaderAssetBuilder.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Shader\ShaderLibrary.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -688,9 +706,6 @@
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCore.h">
       <Filter>Engine\Rendering\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.h">
-      <Filter>Engine\Rendering\DirectX\PiplineState</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
@@ -731,12 +746,6 @@
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.h">
-      <Filter>Engine\Rendering\DirectX\PiplineState\PSOBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h">
-      <Filter>Engine\Rendering\DirectX\PiplineState\ShaderBuilder</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClInclude>
@@ -776,9 +785,6 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Game\SandBox\Scene\SceneDemo.h">
-      <Filter>TestProgram</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h">
       <Filter>Engine\Module\Render\RenderNode\Outline</Filter>
     </ClInclude>
@@ -811,9 +817,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Runtime\Scene\BaseScene.h">
       <Filter>Engine\Runtime\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.h">
-      <Filter>Engine\Rendering\DirectX\ShaderCompiler</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\PolygonMesh\PolygonMeshLibrary.h">
       <Filter>Engine\Resources\PolygonMesh</Filter>
@@ -962,9 +965,6 @@
     <ClInclude Include="Library\Utility\Tools\Hash.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\SandBox\CallbackManagerDemo.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1100,12 +1100,6 @@
     <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\SandBox\Scene\FactoryDemo.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\SandBox\SandBox.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1143,6 +1137,63 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Library\Utility\Tools\ChronoUtility.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\IPrimitiveInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\Rect3d.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Mesh\IDrawInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\World\Mesh\IMultiMeshInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode .h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Shader\ShaderLibrary.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Shader\ShaderAsset.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Shader\ShaderAssetBuilder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConceptCPUBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\DrawExecutor\BaseDrawManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Math\Fraction.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

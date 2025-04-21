@@ -69,7 +69,7 @@ void SpriteInstance::debug_gui() {
 
 void SpriteInstance::create_local_vertices(const Vector2& pivot) {
 	Vector2 base = { static_cast<float>(texture->get_texture_width()), static_cast<float>(texture->get_texture_height()) };
-	std::vector<VertexBufferData> vertexData(4);
+	std::vector<VertexDataBuffer> vertexData(4);
 	vertexData[0] = {
 		Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}), 0),
 		CVector2::ZERO

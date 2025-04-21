@@ -12,7 +12,7 @@ class WorldManager;
 
 class WorldInstance {
 public:
-	WorldInstance();
+	WorldInstance() noexcept;
 	virtual ~WorldInstance();
 
 	__CLASS_NON_COPYABLE(WorldInstance)

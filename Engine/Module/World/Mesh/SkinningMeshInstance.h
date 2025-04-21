@@ -4,23 +4,24 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
+#include "Engine/Module/World/Mesh/IMultiMeshInstance.h"
 
 class NodeAnimationPlayer;
 class SkeletonAsset;
 
-class SkinningMeshInstance : public StaticMeshInstance {
+#ifdef DEBUG_FEATURES_ENABLE
+class StaticMeshInstance;
+#endif // DEBUG_FEATURES_ENABLE
+
+class SkinningMeshInstance : public IMultiMeshInstance {
 public:
 	struct SkeletonSpaceInstance {
 		Transform3D transform;
 		Affine affine;
 	};
 
-private:
-	using StaticMeshInstance::reset_mesh;
-
 public:
-	SkinningMeshInstance() noexcept(false);
+	SkinningMeshInstance() noexcept;
 
 	/// <summary>
 	/// 引数付きコンストラクタ
@@ -44,6 +45,11 @@ public:
 	NodeAnimationPlayer* const get_animation();
 	const std::vector<SkeletonSpaceInstance>& joints() const { return jointInstances; }
 	bool is_draw() const override;
+
+	/// <summary>
+	/// Texture、Materialパラメータ、UVデータのリセットを行う
+	/// </summary>
+	void default_material();
 
 private:
 	void create_skeleton();

@@ -28,11 +28,14 @@ void PointLightingExecutor::draw_command() const {
 	commandList->DrawIndexedInstanced(asset->index_size(), instanceCounter, 0, 0, 0);
 }
 
-void PointLightingExecutor::write_to_buffer(const Matrix4x4& worldMatrix, const PointLightData& lightData_) {
+void PointLightingExecutor::write_to_buffer(Reference<const PointLightInstance> instance) {
+	if (!instance) {
+		return;
+	}
 	if (instanceCounter >= maxInstance) {
 		return;
 	}
-	matrices[instanceCounter] = worldMatrix;
-	lightData[instanceCounter] = lightData_;
+	matrices[instanceCounter] = instance->transform_matrix();
+	lightData[instanceCounter] = instance->light_data();
 	++instanceCounter;
 }

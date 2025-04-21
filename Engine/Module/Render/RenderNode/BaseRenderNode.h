@@ -7,7 +7,7 @@
 #include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
 
 class DepthStencil;
-class PipelineState;
+class DxPipelineState;
 enum D3D_PRIMITIVE_TOPOLOGY;
 
 enum class RenderNodeConfig : std::uint8_t {
@@ -70,7 +70,7 @@ public:
 protected:
 	std::shared_ptr<BaseRenderTargetGroup> renderTarget;
 	std::shared_ptr<DepthStencil> depthStencil;
-	std::unique_ptr<PipelineState> pipelineState;
+	std::unique_ptr<DxPipelineState> pipelineState;
 	D3D_PRIMITIVE_TOPOLOGY primitiveTopology{};
 
 	eps::bitflag<RenderNodeConfig> config;

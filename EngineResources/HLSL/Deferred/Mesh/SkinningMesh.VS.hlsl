@@ -1,5 +1,7 @@
 #include "../Deferred.hlsli"
 
+#include "Tools/MathTool.hlsli"
+
 struct TransformMatrix {
 	float4x3 world;
 	float3x3 worldIT;
@@ -46,9 +48,8 @@ VertexShaderOutput main(VertexShaderInput input, uint instance : SV_InstanceID) 
 		skinned.normal += normalize(mul(input.normal, gSkeletonMatrixPalette[index].skeletonIT)) * weight;
 	}
 	skinned.normal = normalize(skinned.normal);
-	
-	float3 world = mul(skinned.position, (float3x3)gTransformMatrix[instance].world)
-	+ gTransformMatrix[instance].world[3];
+
+	float3 world = transform(skinned.position, gTransformMatrix[instance].world);
 	const float3x3 worldIT = gTransformMatrix[instance].worldIT;
 	
 	VertexShaderOutput output;

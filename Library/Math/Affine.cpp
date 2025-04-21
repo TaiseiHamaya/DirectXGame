@@ -27,6 +27,27 @@ Affine Affine::FromSRT(const Vector3& scale, const Quaternion& rotation, const V
 	return result;
 }
 
+Affine Affine::FromScale(const Vector3& scale) {
+	Affine result;
+
+	result.basis = Basis::FromScale(scale);
+	return result;
+}
+
+Affine Affine::FromRotation(const Quaternion& rotation) {
+	Affine result;
+
+	result.basis = Basis::FromRotation(rotation);
+	return result;
+}
+
+Affine Affine::FromTranslate(const Vector3& translate) {
+	Affine result;
+
+	result.origin = translate;
+	return result;
+}
+
 void Affine::invert_fast() {
 	basis.transpose();
 	origin = -origin * basis;
