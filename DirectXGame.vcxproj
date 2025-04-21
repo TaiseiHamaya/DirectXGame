@@ -58,18 +58,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
     <MultiProcFXC>true</MultiProcFXC>
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -90,10 +87,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>game.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
@@ -128,10 +123,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>game.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
@@ -164,10 +157,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>game.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
@@ -180,7 +171,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <None Include="Game\__Template\main.cpp.template">
       <FileType>Document</FileType>
     </None>
@@ -206,8 +196,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp" />
     <ClCompile Include="Engine\Runtime\Input\InputHandler.cpp" />
-    <ClCompile Include="Game\SandBox\SandBox.cpp" />
-    <ClCompile Include="Game\SandBox\Scene\FactoryDemo.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
     <ClCompile Include="Library\Math\Basis.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioAssetBuilder.cpp" />
@@ -238,7 +226,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp" />
-    <ClCompile Include="Game\SandBox\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
     <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
@@ -313,7 +300,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Utility\Tools\ConvertString.cpp" />
     <ClCompile Include="Engine\Application\WinApp.cpp" />
     <ClCompile Include="Library\Math\VectorConverter.cpp" />
-    <ClCompile Include="Game\SandBox\Scene\SceneDemo.cpp" />
     <ClCompile Include="Engine\Assets\Texture\TextureAssetBuilder.cpp" />
     <ClCompile Include="Engine\Module\World\WorldManager.cpp" />
     <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp" />
@@ -346,8 +332,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Profiler\TimestampProfiler.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.h" />
     <ClInclude Include="Engine\Runtime\Input\InputHandler.h" />
-    <ClInclude Include="Game\SandBox\SandBox.h" />
-    <ClInclude Include="Game\SandBox\Scene\FactoryDemo.h" />
     <ClInclude Include="Library\Math\Affine.h" />
     <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioAssetBuilder.h" />
@@ -382,7 +366,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.h" />
-    <ClInclude Include="Game\SandBox\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />
@@ -479,7 +462,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\WinApp.h" />
     <ClInclude Include="Library\Math\VectorConverter.h" />
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
-    <ClInclude Include="Game\SandBox\Scene\SceneDemo.h" />
     <ClInclude Include="Engine\Assets\Texture\TextureAssetBuilder.h" />
     <ClInclude Include="Engine\Module\World\WorldManager.h" />
     <ClInclude Include="Engine\Debug\Profiler\WorldClockProfiler.h" />

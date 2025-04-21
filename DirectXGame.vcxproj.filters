@@ -669,9 +669,6 @@
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -1227,21 +1224,11 @@
     <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </None>
-    <None Include="Game\__Template\SandBox.cpp.template">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Game\__Template\main.cpp.template">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Game\__Template\Scene\FactoryDemo.cpp.template">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Game\__Template\Scene\FactoryDemo.h.template">
-      <Filter>ヘッダー ファイル</Filter>
-    </None>
-    <None Include="Game\__Template\SandBox.h.template">
-      <Filter>ヘッダー ファイル</Filter>
-    </None>
+    <None Include="Game\__Template\main.cpp.template" />
+    <None Include="Game\__Template\SandBox.cpp.template" />
+    <None Include="Game\__Template\Scene\FactoryDemo.cpp.template" />
+    <None Include="Game\__Template\SandBox.h.template" />
+    <None Include="Game\__Template\Scene\FactoryDemo.h.template" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
