@@ -1,0 +1,7 @@
+#include "FactoryDemo.h"
+
+std::unique_ptr<BaseScene> Factory{:1}::initialize_scene() {
+}
+
+std::unique_ptr<BaseScene> Factory{:1}::create_scene(int32_t next) {
+}

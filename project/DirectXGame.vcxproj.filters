@@ -285,9 +285,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Application\WinApp.cpp">
       <Filter>Engine\Application\WinApp</Filter>
     </ClCompile>
@@ -384,7 +381,7 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="TestCode\Scene\SceneDemo.cpp">
+    <ClCompile Include="Game\SandBox\Scene\SceneDemo.cpp">
       <Filter>TestProgram</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp">
@@ -513,7 +510,7 @@
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="TestCode\CallbackManagerDemo.cpp">
+    <ClCompile Include="Game\SandBox\CallbackManagerDemo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.cpp">
@@ -624,10 +621,10 @@
     <ClCompile Include="Engine\Application\Framework.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="TestCode\Scene\FactoryDemo.cpp">
+    <ClCompile Include="Game\SandBox\Scene\FactoryDemo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="TestCode\GameDemo.cpp">
+    <ClCompile Include="Game\SandBox\SandBox.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp">
@@ -670,6 +667,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -779,7 +779,7 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h">
       <Filter>Engine\Module\Render\RenderNode\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="TestCode\Scene\SceneDemo.h">
+    <ClInclude Include="Game\SandBox\Scene\SceneDemo.h">
       <Filter>TestProgram</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h">
@@ -965,7 +965,7 @@
     <ClInclude Include="Library\Utility\Tools\Hash.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="TestCode\CallbackManagerDemo.h">
+    <ClInclude Include="Game\SandBox\CallbackManagerDemo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.h">
@@ -1103,10 +1103,10 @@
     <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="TestCode\Scene\FactoryDemo.h">
+    <ClInclude Include="Game\SandBox\Scene\FactoryDemo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="TestCode\GameDemo.h">
+    <ClInclude Include="Game\SandBox\SandBox.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.h">
@@ -1226,6 +1226,21 @@
     </None>
     <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
+    </None>
+    <None Include="Game\__Template\SandBox.cpp.template">
+      <Filter>ソース ファイル</Filter>
+    </None>
+    <None Include="Game\__Template\main.cpp.template">
+      <Filter>ソース ファイル</Filter>
+    </None>
+    <None Include="Game\__Template\Scene\FactoryDemo.cpp.template">
+      <Filter>ソース ファイル</Filter>
+    </None>
+    <None Include="Game\__Template\Scene\FactoryDemo.h.template">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="Game\__Template\SandBox.h.template">
+      <Filter>ヘッダー ファイル</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

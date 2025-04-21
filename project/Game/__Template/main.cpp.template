@@ -2,11 +2,11 @@
 
 #include <memory>
 
-#include "Game/SandBox/SandBox.h"
+#include "{:1}.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<Framework> framework =
-		std::make_unique<SandBox>();
+		std::make_unique<{:1}>();
 
 	framework->run();
 
