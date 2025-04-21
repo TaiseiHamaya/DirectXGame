@@ -1,0 +1,11 @@
+#include "Factory__Template__.h"
+
+#include "Engine/Runtime/Scene/BaseScene.h"
+
+std::unique_ptr<BaseScene> Factory__Template__::initialize_scene() {
+	return nullptr;
+}
+
+std::unique_ptr<BaseScene> Factory__Template__::create_scene(int32_t next) {
+	return nullptr;
+}

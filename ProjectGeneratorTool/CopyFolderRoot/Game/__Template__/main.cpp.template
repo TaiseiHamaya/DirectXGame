@@ -2,11 +2,11 @@
 
 #include <memory>
 
-#include "{:1}.h"
+#include "__Template__/__Template__.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<Framework> framework =
-		std::make_unique<{:1}>();
+		std::make_unique<__Template__>();
 
 	framework->run();
 

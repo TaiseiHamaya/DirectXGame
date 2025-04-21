@@ -1,0 +1,11 @@
+#include "__Template__.h"
+
+#include "Engine/Runtime/Scene/SceneManager.h"
+
+#include "./Scene/Factory__Template__.h"
+
+void __Template__::initialize() {
+	SceneManager::SetFactory<Factory__Template__>();
+
+	Framework::initialize();
+}

@@ -2,7 +2,7 @@
 
 #include <Engine/Application/Framework.h>
 
-class {:1} final : public Framework {
+class __Template__ final : public Framework {
 public:
 	void initialize() override;
 };
