@@ -90,7 +90,7 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 	std::vector<Vector3> normal; // objファイルのnormal情報
 	std::string line; // 1行を保存するよう
 
-	std::vector<VertexBufferData> vertices; // vertexBuffer用
+	std::vector<VertexDataBuffer> vertices; // vertexBuffer用
 	std::vector<std::uint32_t> indexes; // indexBuffer用
 
 	std::string mtlFileName;
@@ -329,7 +329,7 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 	// メッシュ解析
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
 
-		std::vector<VertexBufferData> vertices; // vertexBuffer用
+		std::vector<VertexDataBuffer> vertices; // vertexBuffer用
 		std::vector<std::uint32_t> indexes; // indexBuffer用
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		// normalが存在しない、texcoordが存在しない場合はメッシュとして使用しない
@@ -343,7 +343,7 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 			aiVector3D& position = mesh->mVertices[vertexIndex];
 			aiVector3D& normal = mesh->mNormals[vertexIndex];
 			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-			VertexBufferData& vertex = vertices.emplace_back();
+			VertexDataBuffer& vertex = vertices.emplace_back();
 			vertex.position = { -position.x,position.y, position.z };
 			vertex.normal = { -normal.x, normal.y, normal.z };
 			vertex.texcoord = { texcoord.x, texcoord.y };

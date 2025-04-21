@@ -13,11 +13,9 @@ void StaticMeshDrawExecutor::reinitialize(std::shared_ptr<const PolygonMesh> ass
 	asset = asset_;
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);
-	matrices.get_resource()->SetName(L"Transform");
 	materials.resize(asset->material_count());
-	for (StructuredBuffer<MaterialBufferData>& material : materials) {
+	for (StructuredBuffer<MaterialDataBuffer3>& material : materials) {
 		material.initialize(maxInstance);
-		material.get_resource()->SetName(L"Materials");
 	}
 }
 
@@ -54,15 +52,17 @@ void StaticMeshDrawExecutor::write_to_buffer(Reference<const StaticMeshInstance>
 		++instanceCounter;
 	}
 
-	const Affine& affine = instance->world_affine();
+	const Affine& local = instance->local_affine();
+	const Affine& world = instance->world_affine();
+	Affine transformAffine = local * world;
 	matrices[next] = {
-		.world = affine,
-		.itWorld = affine.inverse().get_basis().transposed()
+		.world = transformAffine,
+		.itWorld = transformAffine.inverse().get_basis().transposed()
 	};
-	const std::vector<StaticMeshInstance::Material>& instanceMaterials = instance->get_materials();
+	const std::vector<IMultiMeshInstance::Material>& instanceMaterials = instance->get_materials();
 	const size_t numMaterial = asset->material_count();
 	for (uint32_t i = 0; i < numMaterial; ++i) {
-		const StaticMeshInstance::Material& source = instanceMaterials[i];
+		const IMultiMeshInstance::Material& source = instanceMaterials[i];
 		materials[i][next] = {
 			source.color,
 			source.lightingType,

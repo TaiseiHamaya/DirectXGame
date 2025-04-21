@@ -5,13 +5,10 @@
 
 #include <Library/Utility/Tools/ConvertString.h>
 
+#include "../ConceptCPUBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
-template<typename T>
-concept ConstantBufferConcept =
-(std::is_arithmetic_v<T> || std::is_class_v<T> || std::is_enum_v<T>);
-
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 class ConstantBuffer : public DxResource {
 public:
 	ConstantBuffer() noexcept(false);
@@ -32,7 +29,7 @@ protected:
 	UINT memorySize;
 };
 
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	memorySize = sizeof(T);
 	resource = CreateBufferResource(memorySize);
@@ -45,27 +42,27 @@ inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	resource->SetName(std::format(L"ConstantBuffer-{}", typeName).c_str());
 }
 
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 inline ConstantBuffer<T>::ConstantBuffer(const T& data_) noexcept(false) : ConstantBuffer<T>() {
 	*data = data_;
 }
 
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 inline ConstantBuffer<T>::~ConstantBuffer() noexcept {
 	unmap();
 }
 
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 inline const T* const ConstantBuffer<T>::get_data() const noexcept {
 	return data;
 }
 
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 inline T* const ConstantBuffer<T>::get_data() noexcept {
 	return data;
 }
 
-template<ConstantBufferConcept T>
+template<ConceptCPUBufferACE T>
 inline void ConstantBuffer<T>::unmap() {
 	if (data) {
 		resource->Unmap(0, nullptr);

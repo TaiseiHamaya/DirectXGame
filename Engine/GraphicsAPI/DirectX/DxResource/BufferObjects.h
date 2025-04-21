@@ -4,6 +4,7 @@
 
 #include <Library/Math/Affine.h>
 #include <Library/Math/Color3.h>
+#include <Library/Math/Color4.h>
 #include <Library/Math/Matrix3x3.h>
 #include <Library/Math/Matrix4x4.h>
 #include <Library/Math/Vector2.h>
@@ -18,7 +19,7 @@ enum class LighingType : uint32_t {
 /// <summary>
 /// VertexBuffer
 /// </summary>
-struct VertexBufferData {
+struct VertexDataBuffer {
 	Vector3 position = CVector3::ZERO;
 	Vector2 texcoord = CVector2::ZERO;
 	Vector3 normal = CVector3::ZERO;
@@ -27,27 +28,39 @@ struct VertexBufferData {
 /// <summary>
 /// InstanceTransformMatrix
 /// </summary>
-struct TransformMatrixData {
+struct TransformMatrixDataBuffer {
 	Affine world;
 	Basis itWorld;
 };
 
 /// <summary>
-/// Material用
+/// MaterialBuffer
+/// Color3バージョン
 /// </summary>
-struct MaterialBufferData {
+struct MaterialDataBuffer3 {
 	Color3 color;
 	LighingType lighting{ LighingType::HalfLambert };
 	float shininess = 50;
 	uint32_t textureIndex{ 0 };
-	//std::array<uint32_t, 2> padding;
+	Matrix3x3 uvTransformMatrix = CMatrix3x3::IDENTITY;
+};
+
+/// <summary>
+/// MaterialBuffer
+/// Color4バージョン
+/// </summary>
+struct MaterialDataBuffer4 {
+	Color4 color;
+	LighingType lighting{ LighingType::HalfLambert };
+	float shininess = 50;
+	uint32_t textureIndex{ 0 };
 	Matrix3x3 uvTransformMatrix = CMatrix3x3::IDENTITY;
 };
 
 /// <summary>
 /// MatrixPaletteWell
 /// </summary>
-struct SkeletonMatrixPaletteWell {
+struct SkeletonMatrixPaletteWellBuffer {
 	Matrix4x4 skeletonSpaceMatrix;
 	Basis skeletonSpaceIT;
 };

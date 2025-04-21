@@ -1,8 +1,8 @@
 #include "RadialBlurNode.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
@@ -47,7 +47,7 @@ void RadialBlurNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"EngineResources/HLSL/FullscreenShader.hlsl",
+		"EngineResources/HLSL/FullscreenShader.VS.hlsl",
 		"EngineResources/HLSL/RadialBlur/RadialBlur.PS.hlsl"
 	);
 
@@ -59,7 +59,7 @@ void RadialBlurNode::create_pipeline_state() {
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 
-	pipelineState = std::make_unique<PipelineState>();
+	pipelineState = std::make_unique<DxPipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 
 }

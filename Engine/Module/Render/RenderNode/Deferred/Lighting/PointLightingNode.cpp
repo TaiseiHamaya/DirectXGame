@@ -2,8 +2,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
 PointLightingNode::PointLightingNode() = default;
@@ -41,9 +41,6 @@ void PointLightingNode::create_pipeline_state() {
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 2); // 4 : Depth
 	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_PIXEL, 3); // 5 : Light
 	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 6 : Camera
-	rootSignatureBuilder.sampler( // sampler
-		D3D12_SHADER_VISIBILITY_PIXEL, 0
-	);
 
 	InputLayoutBuilder inputLayoutBuilder;
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
@@ -51,7 +48,7 @@ void PointLightingNode::create_pipeline_state() {
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
 		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
-		"EngineResources/HLSL/Deferred/Lighting/PointLighting.hlsl"
+		"EngineResources/HLSL/Deferred/Lighting/PointLighting.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
@@ -63,6 +60,6 @@ void PointLightingNode::create_pipeline_state() {
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 
-	pipelineState = std::make_unique<PipelineState>();
+	pipelineState = std::make_unique<DxPipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 }

@@ -4,7 +4,6 @@
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
@@ -12,9 +11,8 @@
 #include <imgui.h>
 #endif // _DEBUG
 
-StaticMeshInstance::StaticMeshInstance() noexcept(false) :
-	WorldInstance() {
-	materials.clear();
+StaticMeshInstance::StaticMeshInstance() noexcept :
+	IMultiMeshInstance() {
 }
 
 StaticMeshInstance::StaticMeshInstance(const std::string& meshName_) noexcept(false) :
@@ -24,21 +22,17 @@ StaticMeshInstance::StaticMeshInstance(const std::string& meshName_) noexcept(fa
 
 StaticMeshInstance::~StaticMeshInstance() noexcept = default;
 
-StaticMeshInstance::StaticMeshInstance(StaticMeshInstance&&) noexcept = default;
-
-StaticMeshInstance& StaticMeshInstance::operator=(StaticMeshInstance&&) noexcept = default;
-
 void StaticMeshInstance::reset_mesh(const std::string& meshName_) {
 	// メッシュ情報の取得
 	if (PolygonMeshLibrary::IsRegistered(meshName_)) {
-		meshName = meshName_;
+		keyID = meshName_;
 	}
 	else {
-		meshName = "ErrorObject.obj";
+		keyID = "ErrorObject.obj";
 	}
 
 #ifdef DEBUG_FEATURES_ENABLE
-	mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
+	mesh = PolygonMeshLibrary::GetPolygonMesh(keyID);
 #endif // _DEBUG
 
 
@@ -46,7 +40,7 @@ void StaticMeshInstance::reset_mesh(const std::string& meshName_) {
 }
 
 void StaticMeshInstance::default_material() {
-	std::shared_ptr<const PolygonMesh> mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
+	std::shared_ptr<const PolygonMesh> mesh = PolygonMeshLibrary::GetPolygonMesh(keyID);
 
 	materials.resize(mesh->material_count());
 
@@ -68,26 +62,10 @@ void StaticMeshInstance::default_material() {
 	}
 }
 
-std::vector<StaticMeshInstance::Material>& StaticMeshInstance::get_materials() {
-	return materials;
-}
-
-const std::vector<StaticMeshInstance::Material>& StaticMeshInstance::get_materials() const {
-	return materials;
-}
-
-bool StaticMeshInstance::is_draw() const {
-	return isDraw && isActive;
-}
-
-void StaticMeshInstance::set_texture(const std::string& name, int index) {
-	materials[index].texture = TextureLibrary::GetTexture(name);
-}
-
 #ifdef DEBUG_FEATURES_ENABLE
 void StaticMeshInstance::debug_gui() {
-	if (PolygonMeshLibrary::MeshListGui(meshName)) {
-		reset_mesh(meshName);
+	if (PolygonMeshLibrary::MeshListGui(keyID)) {
+		reset_mesh(keyID);
 	}
 	if (ImGui::Button("ResetMaterialData")) {
 		default_material();
@@ -106,11 +84,8 @@ void StaticMeshInstance::debug_gui() {
 		if (treeNodeName.empty()) {
 			treeNodeName = "UnknownMaterialName##" + std::to_string(i);
 		}
-		std::string textureName = meshMaterial.texture->name();
 		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-			if (TextureLibrary::TextureListGui(textureName)) {
-				set_texture(textureName, i);
-			}
+			TextureLibrary::TextureListGui(meshMaterial.texture);
 
 			meshMaterial.uvTransform.debug_gui();
 

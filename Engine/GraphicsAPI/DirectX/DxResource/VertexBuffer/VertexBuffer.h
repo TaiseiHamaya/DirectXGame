@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <type_traits>
 
+#include "../ConceptCPUBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
 template<class Array, typename T>
@@ -18,12 +19,7 @@ std::same_as<typename Array::value_type, T>&& // Arrayのtemplate型がTと等�
 		{ std::to_address(array.begin()) } -> std::convertible_to<const typename Array::value_type*>; // 先頭アドレス取得関数が存在し、それがconst T::value_type*に変換可能
 };
 
-template<typename T>
-concept VertexBufferConcept =
-// 算術型もしくはクラス型のみ許可
-(std::is_arithmetic_v<T> || std::is_class_v<T>);
-
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 class VertexBuffer final : public DxResource {
 public:
 	VertexBuffer() noexcept = default;
@@ -55,13 +51,13 @@ private:
 	static constexpr UINT VERTEX_DATA_SIZE = sizeof(T);
 };
 
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 template<WriteableVertexBuffer<T> Array>
 inline VertexBuffer<T>::VertexBuffer(const Array& vertices_array) noexcept(false) {
 	write(vertices_array);
 }
 
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 template<WriteableVertexBuffer<T> Array>
 inline void VertexBuffer<T>::write(const Array& vertices_array) {
 	std::uint32_t arraySize = static_cast<std::uint32_t>(vertices_array.size());
@@ -78,19 +74,19 @@ inline void VertexBuffer<T>::write(const Array& vertices_array) {
 	unmap();
 }
 
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 inline VertexBuffer<T>::VertexBuffer(std::uint32_t size_) noexcept(false) {
 	set_size(size_);
 	create_resource();
 }
 
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 inline void VertexBuffer<T>::set_size(std::uint32_t size_) {
 	size = size_;
 	memorySize = size * VERTEX_DATA_SIZE;
 }
 
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 inline void VertexBuffer<T>::create_resource() {
 	resource = CreateBufferResource(memorySize);
 	vertexBufferView.BufferLocation = resource->GetGPUVirtualAddress();
@@ -98,7 +94,7 @@ inline void VertexBuffer<T>::create_resource() {
 	vertexBufferView.StrideInBytes = VERTEX_DATA_SIZE;
 }
 
-template<VertexBufferConcept T>
+template<ConceptCPUBufferAC T>
 inline void VertexBuffer<T>::unmap() {
 	if (data) {
 		resource->Unmap(0, nullptr);
@@ -106,4 +102,4 @@ inline void VertexBuffer<T>::unmap() {
 	}
 }
 
-using Object3DVertexBuffer = VertexBuffer<VertexBufferData>;
+using Object3DVertexBuffer = VertexBuffer<VertexDataBuffer>;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <string_view>
 
 #include <dxgiformat.h>
 #include <minwindef.h>
@@ -23,7 +22,6 @@ static constexpr DXGI_FORMAT SCREEN_RTV_FORMAT = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB
 static constexpr UINT ANISOTROPY{ 16 };
 
 // ShaderVersion
-// 使い方がキモいので修正したほうが良いかも
-static constexpr std::wstring_view SHADER_VERSION{ L"6_6" };
+static constexpr std::pair<uint32_t, uint32_t> SHADER_VERSION{ 6, 6 };
 //#define SHADER_VERSION L"6_1"
 };

@@ -1,7 +1,7 @@
 #include "SpriteNode.h"
 
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PipelineState.h"
-#include "Engine/GraphicsAPI/DirectX/PipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
+#include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 
 SpriteNode::SpriteNode() = default;
 
@@ -42,7 +42,7 @@ void SpriteNode::create_pipeline_state() {
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 
-	pipelineState = std::make_unique<PipelineState>();
+	pipelineState = std::make_unique<DxPipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 
 }

@@ -27,12 +27,12 @@ void PrimitiveGeometryDrawExecutor::draw_command() const {
 	commandList->DrawIndexedInstanced(asset->index_size(), instanceCounter, 0, 0, 0);
 }
 
-void PrimitiveGeometryDrawExecutor::write_to_buffer(const Matrix4x4& worldMatrix) {
+void PrimitiveGeometryDrawExecutor::write_to_buffer(Reference<const Matrix4x4> worldMatrix) {
 	if (instanceCounter >= maxInstance) {
 		return;
 	}
 
-	matrices[instanceCounter] = worldMatrix;
+	matrices[instanceCounter] = *worldMatrix;
 	++instanceCounter;
 }
 
