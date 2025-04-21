@@ -279,7 +279,7 @@ void ParticleEmitterInstance::debug_gui() {
 		break;
 	case ParticleDrawType::Rect:
 	{
-		TextureLibrary::TextureListGui(useResourceName);
+		//TextureLibrary::TextureListGui(useResourceName);
 		auto& data = std::get<Rect>(drawSystemData);
 
 		ImGui::DragFloat2("Size", &data.rect.x, 0.1f, 0.0f, 1e10f);

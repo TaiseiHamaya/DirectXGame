@@ -14,11 +14,11 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/MdStructuredBuffer.h"
 
 class SkinningMeshInstance;
-struct TransformMatrixData;
-struct MaterialBufferData;
-struct SkeletonMatrixPaletteWell;
+struct TransformMatrixDataBuffer;
+struct MaterialDataBuffer3;
+struct SkeletonMatrixPaletteWellBuffer;
 
-class SkinningMeshDrawExecutor final : public BaseDrawExecutor {
+class SkinningMeshDrawExecutor final : public BaseDrawExecutor<SkinningMeshInstance> {
 public:
 	SkinningMeshDrawExecutor() noexcept = default;
 	~SkinningMeshDrawExecutor() noexcept = default;
@@ -30,15 +30,15 @@ public:
 public:
 	void reinitialize(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, uint32_t maxInstance);
 	void draw_command() const override;
-	void write_to_buffer(Reference<const SkinningMeshInstance> instance);
+	void write_to_buffer(Reference<const SkinningMeshInstance> instance) override;
 
 private:
 	std::shared_ptr<const PolygonMesh> mesh;
 	std::shared_ptr<const SkeletonAsset> skeletonData;
 	
-	StructuredBuffer<TransformMatrixData> matrices;
-	std::vector<StructuredBuffer<MaterialBufferData>> materials;
-	std::vector<MdStructuredBuffer<SkeletonMatrixPaletteWell>> matrixPalettes; // GPU用Matrix
+	StructuredBuffer<TransformMatrixDataBuffer> matrices;
+	std::vector<StructuredBuffer<MaterialDataBuffer3>> materials;
+	std::vector<MdStructuredBuffer<SkeletonMatrixPaletteWellBuffer>> matrixPalettes; // GPU用Matrix
 	std::vector<ConstantBuffer<uint32_t>> paletteSize;
 
 	std::mutex writeBufferMutex;

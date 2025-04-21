@@ -66,6 +66,7 @@ public: // -------------------- その他関数 --------------------
 	bool operator!() const noexcept { return !static_cast<bool>(*this); };
 	T* operator->() const noexcept { return reference; };
 	T* ptr() const noexcept { return reference; };
+	const T& operator*() const { return *reference; }
 
 	/// <summary>
 	/// 関連付けの削除

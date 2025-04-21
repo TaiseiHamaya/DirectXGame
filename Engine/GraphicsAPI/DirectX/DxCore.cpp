@@ -15,7 +15,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
-#include "Engine/GraphicsAPI/DirectX/ShaderCompiler/ShaderCompiler.h"
+#include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
 
 static HRESULT hr;
 
@@ -39,7 +39,7 @@ void DxCore::Initialize() {
 	// DSVHeapの初期化
 	DSVDescriptorHeap::Initialize();
 	// シェーダーコンパイラ初期化
-	ShaderCompiler::Initialize();
+	DxcManager::Initialize();
 	// Swapchain初期化
 	DxSwapChain::Initialize();
 	// DepthStencilの初期化

@@ -180,10 +180,24 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <None Include="Game\__Template\Scene\FactoryDemo.cpp.template">
       <FileType>Document</FileType>
     </None>
+    <ClCompile Include="Engine\Assets\Shader\ShaderAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderLibrary.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode .cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\IDrawInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp" />
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
     <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\BaseDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
@@ -253,10 +267,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.cpp" />
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Library\Math\Matrix3x3.cpp" />
     <ClCompile Include="Library\Math\Matrix4x4.cpp" />
@@ -312,6 +322,25 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <None Include="Game\__Template\Scene\FactoryDemo.h.template">
       <FileType>Document</FileType>
     </None>
+    <ClInclude Include="Engine\Assets\Shader\ShaderAsset.h" />
+    <ClInclude Include="Engine\Assets\Shader\ShaderAssetBuilder.h" />
+    <ClInclude Include="Engine\Assets\Shader\ShaderLibrary.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConceptCPUBuffer.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\BaseDrawManager.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode .h" />
+    <ClInclude Include="Engine\Module\World\Mesh\IDrawInstance.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\IMultiMeshInstance.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\IPrimitiveInstance.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\Rect3d.h" />
+    <ClInclude Include="Library\Math\Fraction.h" />
     <ClInclude Include="Library\Utility\Tools\ChronoUtility.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h" />
@@ -401,10 +430,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PipelineState.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\PSOBuilder\PSOBuilder.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\PipelineState\ShaderBuilder\ShaderBuilder.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\ShaderCompiler\ShaderCompiler.h" />
     <ClInclude Include="Library\Utility\Template\SingletonInterface.h" />
     <ClInclude Include="Library\Utility\Template\SortedPair.h" />
     <ClInclude Include="Library\Utility\Tools\ConstructorMacro.h" />

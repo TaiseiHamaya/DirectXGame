@@ -1,5 +1,7 @@
 #include "../Deferred.hlsli"
 
+#include "Tools/MathTool.hlsli"
+
 struct TransformMatrix {
 	float4x3 world;
 	float3x3 worldIT;
@@ -20,8 +22,7 @@ StructuredBuffer<TransformMatrix> gTransformMatrix : register(t0, space0);
 ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0, space1);
 
 VertexShaderOutput main(VertexShaderInput input, uint instance : SV_InstanceID) {
-	float3 world = mul(input.position, (float3x3)gTransformMatrix[instance].world)
-	+ gTransformMatrix[instance].world[3];
+	float3 world = transform(input.position, gTransformMatrix[instance].world);
 	const float3x3 worldIT = gTransformMatrix[instance].worldIT;
 	
 	VertexShaderOutput output;

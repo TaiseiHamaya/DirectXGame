@@ -9,7 +9,7 @@
 
 #include <Library/Math/Matrix4x4.h>
 
-class PrimitiveGeometryDrawExecutor final : public BaseDrawExecutor {
+class PrimitiveGeometryDrawExecutor final : public BaseDrawExecutor<Matrix4x4> {
 public:
 	PrimitiveGeometryDrawExecutor() = default;
 	~PrimitiveGeometryDrawExecutor() = default;
@@ -21,7 +21,7 @@ public:
 public:
 	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance);
 	void draw_command() const override;
-	void write_to_buffer(const Matrix4x4& worldMatrix);
+	void write_to_buffer(Reference<const Matrix4x4> worldMatrix) override;
 
 private:
 	std::shared_ptr<const PrimitiveGeometryAsset> asset;
