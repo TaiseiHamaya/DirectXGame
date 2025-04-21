@@ -1,10 +1,10 @@
-#include "GameDemo.h"
+#include "SandBox.h"
 
 #include "Engine/Runtime/Scene/SceneManager.h"
 
-#include "TestCode/Scene/FactoryDemo.h"
+#include "./Scene/FactoryDemo.h"
 
-void GameDemo::initialize() {
+void SandBox::initialize() {
 	SceneManager::SetFactory<FactoryDemo>();
 
 	Framework::initialize();

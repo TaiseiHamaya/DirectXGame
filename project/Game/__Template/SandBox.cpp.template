@@ -1,0 +1,11 @@
+#include "SandBox.h"
+
+#include "Engine/Runtime/Scene/SceneManager.h"
+
+#include "./Scene/Factory{:1}.h"
+
+void {:1}::initialize() {
+	SceneManager::SetFactory<FactoryDemo>();
+
+	Framework::initialize();
+}
