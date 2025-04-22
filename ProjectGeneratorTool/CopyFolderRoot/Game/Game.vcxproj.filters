@@ -4,12 +4,12 @@
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="SandBox\Scene\FactorySandBox.cpp" />
-    <ClCompile Include="SandBox\main.cpp" />
-    <ClCompile Include="SandBox\SandBox.cpp" />
+    <ClCompile Include="__Template__\Scene\Factory__Template__.cpp" />
+    <ClCompile Include="__Template__\main.cpp" />
+    <ClCompile Include="__Template__\__Template__.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SandBox\Scene\FactorySandBox.h" />
-    <ClInclude Include="SandBox\SandBox.h" />
+    <ClInclude Include="__Template__\Scene\Factory__Template__.h" />
+    <ClInclude Include="__Template__\__Template__.h" />
   </ItemGroup>
 </Project>

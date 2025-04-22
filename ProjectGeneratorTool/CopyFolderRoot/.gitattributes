@@ -2,8 +2,6 @@
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 * text=auto
-*.jpg *.png *.blend *.blend1 *.lib -text
-* text eol=crlf
 
 ###############################################################################
 # Set default behavior for command prompt diff.
