@@ -32,8 +32,8 @@ void ParticleBillboardNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"EngineResources/HLSL/Forward/Particle/ParticleBillboard/ParticleBillboard.VS.hlsl",
-		"EngineResources/HLSL/Forward/Particle/ParticleBillboard/ParticleBillboard.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleBillboard/ParticleBillboard.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleBillboard/ParticleBillboard.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

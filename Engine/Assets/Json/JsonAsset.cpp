@@ -15,7 +15,7 @@ void JsonAsset::load(const std::filesystem::path& file) {
 	const std::filesystem::path DEFAULT_DIRECTORY{ "./Resources/Json/" };
 
 	// 相対ディレクトリで始まる場合
-	if (file.string().starts_with("./")) {
+	if (file.string().starts_with(".\\")) {
 		filePath = file;
 	}
 	// ファイル名のみor一部ディレクトリの続きの場合

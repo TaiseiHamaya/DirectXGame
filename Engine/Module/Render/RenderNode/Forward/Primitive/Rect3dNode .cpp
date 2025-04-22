@@ -36,8 +36,8 @@ void Rect3dNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Forward/Primitive/Rect3d.VS.hlsl",
-		"EngineResources/HLSL/Forward/ForwardAlpha.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Forward/Primitive/Rect3d.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Forward/ForwardAlpha.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

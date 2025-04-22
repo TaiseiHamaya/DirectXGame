@@ -31,8 +31,8 @@ void NonLightingPixelNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"EngineResources/HLSL/Deferred/Lighting/NonLighting.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Deferred/Lighting/NonLighting.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

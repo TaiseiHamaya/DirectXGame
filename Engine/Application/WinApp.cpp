@@ -67,10 +67,11 @@ void WinApp::Initialize(DWORD windowConfig) {
 #endif // _DEBUG
 	// chrono時間精度の設定
 	timeBeginPeriod(1);
-	// アプリケーション内のwstring charsetをutf-8にする
-	std::locale::global(std::locale("ja_JP.Utf-8"));
 
 	ErrorIf(instance, "WinApp is already initialized.");
+
+	// アプリケーション内のwstring charsetをutf-8にする
+	std::locale::global(std::locale("ja_JP.Utf-8"));
 
 	// クラッシュハンドラの設定
 	CrashHandler::InitializeSystem();
@@ -104,31 +105,31 @@ void WinApp::Initialize(DWORD windowConfig) {
 #endif // _DEBUG
 
 	// システム使用のオブジェクトをロード
-	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/ErrorObject/ErrorObject.obj");
-	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
-	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Camera/CameraAxis.obj");
+	PolygonMeshLibrary::RegisterLoadQue(".\\DirectXGame\\EngineResources\\Models\\ErrorObject\\ErrorObject.obj");
+	PolygonMeshLibrary::RegisterLoadQue(".\\DirectXGame\\EngineResources\\Models\\Grid\\Grid.obj");
+	PolygonMeshLibrary::RegisterLoadQue(".\\DirectXGame\\EngineResources\\Models\\Camera\\CameraAxis.obj");
 
 #ifdef DEBUG_FEATURES_ENABLE
 	PrimitiveGeometryLibrary::Transfer(
 		"SphereCollider",
-		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Collider/Sphere.json")
+		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Collider\\Sphere.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"AABBCollider",
-		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Collider/AABB.json")
+		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Collider\\AABB.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"Frustum",
-		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Frustum.json")
+		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Frustum.json")
 	);
 #endif // _DEBUG
 	PrimitiveGeometryLibrary::Transfer(
 		"Ico3",
-		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Lighting/Ico3.json")
+		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Lighting\\Ico3.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"Rect3D",
-		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Primitive/Rect3D.json")
+		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Primitive\\Rect3D.json")
 	);
 
 	// 待機

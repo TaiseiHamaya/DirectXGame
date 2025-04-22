@@ -33,8 +33,8 @@ void StaticMeshNodeDeferred::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Deferred/Mesh/StaticMesh.VS.hlsl",
-		"EngineResources/HLSL/Deferred/Deferred.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Deferred/Mesh/StaticMesh.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Deferred/Deferred.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

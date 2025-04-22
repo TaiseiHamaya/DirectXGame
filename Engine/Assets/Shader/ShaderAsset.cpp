@@ -46,7 +46,7 @@ bool ShaderAsset::load(const std::filesystem::path& filePath) {
 	LPCWSTR arguments[] = { // 追加パラメータ
 		filePath.c_str(),
 		L"-E", L"main",
-		L"-I", L"./EngineResources/HLSL/",
+		L"-I", L"./DirectXGame/EngineResources/HLSL/",
 		L"-T", profile.data(),
 #ifdef DEBUG_FEATURES_ENABLE
 		L"-Zi", L"-Qembed_debug",

@@ -42,8 +42,8 @@ void DirectionalLightingNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"EngineResources/HLSL/Deferred/Lighting/DirectionalLighting.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Deferred/Lighting/DirectionalLighting.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
