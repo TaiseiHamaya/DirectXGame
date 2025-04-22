@@ -1,8 +1,10 @@
 name: DebugBuild
 
 env:
-  SOLUTION_FILE_PATH: project/DirectXGame.sln
   CONFIGURATION: Debug
+  SOLUTION_FILE_PATH: DirectXGame/project/DirectXGame.sln
+  SOLUTION_NAME: DirectXGame
+  BATCH_FILE_URL: https://raw.githubusercontent.com/TaiseiHamaya/DirectXGame/refs/heads/master/ProjectGeneratorTool/CreateSolution.ps1
   
 on:
   push:
@@ -13,19 +15,24 @@ jobs:
   build:
     runs-on: windows-2022
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        
+      - name: Download CreateSolution.ps1
+        run: |
+          curl -o CreateSolution.ps1 ${{ env.BATCH_FILE_URL }}
+
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
         with:
           msbuild-architecture: x64
-          
+
+      - name: Generate Solution File
+        run: .\CreateSolution.ps1 ${{ env.SOLUTION_NAME }}
+
       - name: Build
         run: msbuild ${{env.SOLUTION_FILE_PATH}} /p:Platform=x64,Configuration=${{env.CONFIGURATION}}
 
   notification:
     needs: build
+    if: ${{ always() }}
     runs-on: ubuntu-22.04
     steps:
       - name: Discord Notification
