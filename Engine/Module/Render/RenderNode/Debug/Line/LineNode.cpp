@@ -25,8 +25,8 @@ void LineNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Debug/Line/Line.VS.hlsl",
-		"EngineResources/HLSL/Debug/Line/Line.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Debug/Line/Line.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Debug/Line/Line.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

@@ -39,8 +39,8 @@ void SkinningMeshNodeDeferred::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Deferred/Mesh/SkinningMesh.VS.hlsl",
-		"EngineResources/HLSL/Deferred/Deferred.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Deferred/Mesh/SkinningMesh.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Deferred/Deferred.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
