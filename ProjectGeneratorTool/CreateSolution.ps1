@@ -1,5 +1,10 @@
 ﻿# --- ステップ0: プロジェクト名を取得 ---
-$ProjectName = Read-Host "プロジェクト名を入力してください"
+$ProjectName
+if ($args.Count -ge 1 -and -not [string]::IsNullOrWhiteSpace($args[0])) {
+    $ProjectName = $args[0]
+} else {
+    $ProjectName = Read-Host "プロジェクト名を入力してください"
+}
 
 # --- ステップ1: プロジェクト名のフォルダを作成 ---
 $projectRoot = Join-Path -Path "." -ChildPath $ProjectName
