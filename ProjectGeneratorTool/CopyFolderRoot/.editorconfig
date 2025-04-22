@@ -4,7 +4,6 @@ root = true
 charset = utf-8
 
 [*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
-
 charset = utf-8
 
 # Visual C++ コード スタイルの設定
