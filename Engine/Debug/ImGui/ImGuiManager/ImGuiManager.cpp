@@ -38,7 +38,7 @@ void ImGuiManager::Initialize() {
 	);
 
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("./EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 }
 
 void ImGuiManager::Finalize() {

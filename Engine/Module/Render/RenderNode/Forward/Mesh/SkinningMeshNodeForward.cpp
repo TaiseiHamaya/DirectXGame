@@ -56,8 +56,8 @@ void SkinningMeshNodeForward::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Forward/Mesh/SkinningMesh.VS.hlsl",
-		"EngineResources/HLSL/Forward/Forward.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Forward/Mesh/SkinningMesh.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Forward/Forward.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

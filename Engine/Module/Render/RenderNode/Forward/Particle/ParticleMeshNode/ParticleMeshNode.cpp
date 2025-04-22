@@ -32,8 +32,8 @@ void ParticleMeshNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"EngineResources/HLSL/Forward/Particle/ParticleMesh/ParticleMesh.VS.hlsl",
-		"EngineResources/HLSL/Forward/Particle/ParticleMesh/ParticleMesh.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleMesh/ParticleMesh.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleMesh/ParticleMesh.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

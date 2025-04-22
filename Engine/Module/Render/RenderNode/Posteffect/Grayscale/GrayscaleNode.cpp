@@ -40,8 +40,8 @@ void GrayscaleNode::create_pipeline_state() {
 
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
-		"EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"EngineResources/HLSL/Posteffect/Grayscale/Grayscale.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Posteffect/Grayscale/Grayscale.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

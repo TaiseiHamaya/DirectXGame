@@ -47,8 +47,8 @@ void PointLightingNode::create_pipeline_state() {
 
 	ShaderBuilder shaderBuilder;
 	shaderBuilder.initialize(
-		"EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
-		"EngineResources/HLSL/Deferred/Lighting/PointLighting.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
+		"DirectXGame/EngineResources/HLSL/Deferred/Lighting/PointLighting.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

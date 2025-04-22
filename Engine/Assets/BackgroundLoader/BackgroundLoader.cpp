@@ -63,6 +63,7 @@ void BackgroundLoader::initialize() noexcept(false) {
 }
 
 void BackgroundLoader::load_manager() {
+	SetThreadPreferredUILanguages(MUI_LANGUAGE_NAME, L"en-US", nullptr);
 	// プログラム自体の終了が行われない限りは続ける
 	while (!isEndProgram) {
 		// 条件変数用mutex
