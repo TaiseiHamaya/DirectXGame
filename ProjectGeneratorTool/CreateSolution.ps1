@@ -54,6 +54,8 @@ try {
     exit 1
 }
 
+$guid = [guid]::NewGuid().ToString().ToUpper()
+
 # --- ステップ6: __Template__.sln のファイル名と内容を置換 ---
 $templateSlnPath = Join-Path -Path $destinationPath -ChildPath "__Template__.sln"
 if (Test-Path $templateSlnPath) {
@@ -64,6 +66,9 @@ if (Test-Path $templateSlnPath) {
 
     # ファイル内容の置換
     (Get-Content -Path $newSlnPath -Raw -Encoding UTF8) -replace '__Template__', $ProjectName |
+        Set-Content -Path $newSlnPath -Encoding UTF8
+    # ファイル内容の置換
+    (Get-Content -Path $newSlnPath -Raw -Encoding UTF8) -replace '__GUID__', $guid |
         Set-Content -Path $newSlnPath -Encoding UTF8
 }
 
@@ -100,6 +105,8 @@ if (Test-Path $gameDir) {
         # ファイル内容の __Template__ を置換（.exe は除外）
         if ($file.Extension -ne ".exe") {
             (Get-Content -Path $file.FullName -Raw -Encoding UTF8) -replace '__Template__', $ProjectName |
+                Set-Content -Path $file.FullName -Encoding UTF8
+            (Get-Content -Path $file.FullName -Raw -Encoding UTF8) -replace '__GUID__', $guid |
                 Set-Content -Path $file.FullName -Encoding UTF8
         }
     }

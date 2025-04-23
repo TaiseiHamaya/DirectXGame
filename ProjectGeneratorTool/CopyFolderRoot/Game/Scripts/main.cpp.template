@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "__Template__/__Template__.h"
+#include "Scripts/__Template__.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<Framework> framework =
