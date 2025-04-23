@@ -15,20 +15,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="__Template__\main.cpp" />
-    <ClCompile Include="__Template__\Scene\Factory__Template__.cpp" />
-    <ClCompile Include="__Template__\__Template__.cpp" />
+    <ClCompile Include="Scripts\main.cpp" />
+    <ClCompile Include="Scripts\Scene\Factory__Template__.cpp" />
+    <ClCompile Include="Scripts\__Template__.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__Template__\Scene\Factory__Template__.h" />
-    <ClInclude Include="__Template__\__Template__.h" />
+    <ClInclude Include="Scripts\Scene\Factory__Template__.h" />
+    <ClInclude Include="Scripts\__Template__.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DirectXGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
-    <ProjectGuid>{B2F36EE5-142C-421B-B4D4-DB77B42C0528}</ProjectGuid>
+    <ProjectGuid>{__GUID__}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
