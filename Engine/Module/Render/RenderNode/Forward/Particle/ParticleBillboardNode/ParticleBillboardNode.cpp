@@ -37,8 +37,8 @@ void ParticleBillboardNode::create_pipeline_state() {
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate();
-	psoBuilder->depthstencilstate(*depthStencil);
+	psoBuilder->blendstate(BlendMode::Normal);
+	psoBuilder->depth_state(depthStencil->get_resource()->GetDesc().Format, D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

@@ -43,6 +43,8 @@ public:
 	void register_value(const std::string& name, T* pValue, Args&& ...args);
 
 #ifdef DEBUG_FEATURES_ENABLE
+	void editor_gui();
+
 	void show_imgui();
 #endif // _DEBUG
 

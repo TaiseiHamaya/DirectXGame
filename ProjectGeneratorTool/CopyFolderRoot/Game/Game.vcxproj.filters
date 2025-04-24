@@ -4,12 +4,12 @@
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="__Template__\Scene\Factory__Template__.cpp" />
-    <ClCompile Include="__Template__\main.cpp" />
-    <ClCompile Include="__Template__\__Template__.cpp" />
+    <ClCompile Include="Scripts\Scene\Factory__Template__.cpp" />
+    <ClCompile Include="Scripts\main.cpp" />
+    <ClCompile Include="Scripts\__Template__.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__Template__\Scene\Factory__Template__.h" />
-    <ClInclude Include="__Template__\__Template__.h" />
+    <ClInclude Include="Scripts\Scene\Factory__Template__.h" />
+    <ClInclude Include="Scripts\__Template__.h" />
   </ItemGroup>
 </Project>
