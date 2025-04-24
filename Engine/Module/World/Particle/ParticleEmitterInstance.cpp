@@ -9,6 +9,7 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
 	WorldInstance(),
@@ -67,7 +68,7 @@ void ParticleEmitterInstance::update() {
 }
 
 void ParticleEmitterInstance::transfer() {
-	if (!drawSystem) {
+	if (!isActive || !drawSystem || is_end()) {
 		return;
 	}
 	for (uint32_t index = 0; std::unique_ptr<Particle>&particle : particles) {
@@ -82,7 +83,7 @@ void ParticleEmitterInstance::transfer() {
 }
 
 void ParticleEmitterInstance::draw() const {
-	if (!isActive || !drawSystem) {
+	if (!isActive || !drawSystem || is_end()) {
 		return;
 	}
 
@@ -175,7 +176,7 @@ void ParticleEmitterInstance::emit_once() {
 		break;
 	}
 	// 回転
-	std::variant<Particle::Constant, std::monostate, Particle::Random> rotation{ std::monostate{} };
+	std::variant<Particle::Constant, std::monostate, Particle::Random, Particle::LookAtAngle> rotation{ std::monostate{} };
 	switch (particleInit.rotation.mode) {
 	case Particle::RotationType::Constant:
 	{
@@ -185,6 +186,18 @@ void ParticleEmitterInstance::emit_once() {
 	}
 	case Particle::RotationType::Velocity:
 	case Particle::RotationType::LookAt:
+		break;
+	case Particle::RotationType::LookAtAngle:
+	{
+		const auto& data = std::get<ParticleInit::Rotation::LookAtAngle>(particleInit.rotation.data);
+		float temp = std::lerp(data.angleParSec.min, data.angleParSec.max, RandomEngine::Random01Closed());
+		if (data.isRandomDirection && RandomEngine::Random01Bit<bool>()) {
+			temp *= -1;
+		}
+		rotation = Particle::LookAtAngle{
+			.angleParSec = temp
+		};
+	}
 		break;
 	case Particle::RotationType::Random:
 	{
@@ -237,11 +250,15 @@ void ParticleEmitterInstance::create_draw_system() {
 	drawSystem.reset();
 	switch (drawType) {
 	case ParticleDrawType::Mesh:
-		drawSystem = std::make_unique<ParticleDrawSystemMesh>(useResourceName);
+	{
+		auto& val = std::get<0>(useResourceName);
+		drawSystem = std::make_unique<ParticleDrawSystemMesh>(val);
 		break;
+	}
 	case ParticleDrawType::Rect:
 	{
-		auto rectSystem = std::make_unique<ParticleDrawSystemRect>(useResourceName);
+		auto& val = std::get<1>(useResourceName);
+		auto rectSystem = std::make_unique<ParticleDrawSystemRect>(val->name());
 		const auto& data = std::get<Rect>(drawSystemData);
 		rectSystem->create_rect(data.rect, data.pivot);
 		drawSystem = std::move(rectSystem);
@@ -272,14 +289,23 @@ void ParticleEmitterInstance::debug_gui() {
 		drawType = ParticleDrawType::Rect;
 		drawSystemData = Rect{};
 	}
-	ImGui::Text("Draw use : %s", useResourceName.c_str());
+	std::string_view resourceName;
 	switch (drawType) {
 	case ParticleDrawType::Mesh:
-		PolygonMeshLibrary::MeshListGui(useResourceName);
+	{
+		auto& val = std::get<0>(useResourceName);
+		resourceName = val;
+		ImGui::Text("Draw use : %s", val.c_str());
+		PolygonMeshLibrary::MeshListGui(val);
 		break;
+
+	}
 	case ParticleDrawType::Rect:
 	{
-		//TextureLibrary::TextureListGui(useResourceName);
+		auto& val = std::get<1>(useResourceName);
+		resourceName = val->name();
+		ImGui::Text("Draw use : %s", resourceName.data());
+		TextureLibrary::TextureListGui(val);
 		auto& data = std::get<Rect>(drawSystemData);
 
 		ImGui::DragFloat2("Size", &data.rect.x, 0.1f, 0.0f, 1e10f);
@@ -293,10 +319,10 @@ void ParticleEmitterInstance::debug_gui() {
 		create_draw_system();
 	}
 	ImGui::Separator();
-	jsonResource.show_imgui();
+	jsonResource.editor_gui();
 	if (ImGui::Button("Save")) {
 		jsonResource.write("DrawType", drawType);
-		jsonResource.write("useResourceName", useResourceName);
+		jsonResource.write("useResourceName", resourceName);
 		if (drawType == ParticleDrawType::Rect) {
 			const auto& data = std::get<Rect>(drawSystemData);
 			jsonResource.write("Size", data.rect);
@@ -374,6 +400,11 @@ void ParticleEmitterInstance::ParticleInit::debug_gui(const char* tag) {
 				rotation.data = std::monostate();
 			}
 			ImGui::SameLine();
+			if (ImGui::RadioButton("LookAtAngle", rotation.mode == Particle::RotationType::LookAtAngle)) {
+				rotation.mode = Particle::RotationType::LookAtAngle;
+				rotation.data = Rotation::LookAtAngle();
+			}
+			ImGui::SameLine();
 			if (ImGui::RadioButton("Random", rotation.mode == Particle::RotationType::Random)) {
 				rotation.mode = Particle::RotationType::Random;
 				rotation.data = Rotation::Random();
@@ -389,6 +420,13 @@ void ParticleEmitterInstance::ParticleInit::debug_gui(const char* tag) {
 			case Particle::RotationType::Velocity:
 			case Particle::RotationType::LookAt:
 				break;
+			case Particle::RotationType::LookAtAngle:
+			{
+				auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle>(rotation.data);
+				ImGui::DragFloatRange2("AngleParSec", &data.angleParSec.min, &data.angleParSec.max, 0.01f);
+				ImGui::Checkbox("IsRandomDirection", &data.isRandomDirection);
+				break;
+			}
 			case Particle::RotationType::Random:
 			{
 				auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Random>(rotation.data);

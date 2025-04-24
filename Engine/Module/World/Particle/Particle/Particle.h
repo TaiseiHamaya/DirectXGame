@@ -13,6 +13,7 @@ public:
 		Constant,
 		Velocity,
 		LookAt,
+		LookAtAngle,
 		Random,
 	};
 
@@ -23,6 +24,9 @@ public:
 		Vector3 axis;
 		float angle;
 	};
+	struct LookAtAngle {
+		float angleParSec;
+	};
 
 public: // Constructor/Destructor
 	Particle(
@@ -31,7 +35,7 @@ public: // Constructor/Destructor
 		const Vector3& velocity_, const Vector3& acceleration_,
 		const Color4& startColor_, const Color4& endColor_,
 		const Vector3& startSize_, const Vector3& endSize_,
-		RotationType rotationType, std::variant<Constant, std::monostate, Random> rotationData
+		RotationType rotationType, std::variant<Constant, std::monostate, Random, LookAtAngle> rotationData
 	);
 	~Particle() = default;
 
@@ -67,7 +71,7 @@ protected: // Member variable
 
 	RotationType rotationType;
 
-	std::variant<Constant, std::monostate, Random> rotationData;
+	std::variant<Constant, std::monostate, Random, LookAtAngle> rotationData;
 
 	Transform2D uvTransform;
 

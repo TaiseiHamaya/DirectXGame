@@ -79,7 +79,7 @@ void StaticMeshInstance::debug_gui() {
 		std::string treeNodeName;
 		auto meshData = mesh->mesh_data(i);
 		if (meshData) {
-			treeNodeName = meshData->materialName + "##" + std::to_string(i);
+			treeNodeName = std::format("{}##{}", meshData->materialName, i);
 		}
 		if (treeNodeName.empty()) {
 			treeNodeName = "UnknownMaterialName##" + std::to_string(i);

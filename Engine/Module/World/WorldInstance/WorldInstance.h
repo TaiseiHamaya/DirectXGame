@@ -66,6 +66,20 @@ public:
 	void look_at(const Vector3& point, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
+	/// Targetの方向を向く
+	/// </summary>
+	/// <param name="target">向く方向</param>
+	/// <param name="upward">上方向</param>
+	void look_at_angle(const WorldInstance& target, float angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+
+	/// <summary>
+	/// pointの方向を向く
+	/// </summary>
+	/// <param name="point">World座標系上の点</param>
+	/// <param name="upward">上方向</param>
+	void look_at_angle(const Vector3& point, float angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+
+	/// <summary>
 	/// アクティブフラグの設定
 	/// </summary>
 	/// <param name="isActive_"></param>

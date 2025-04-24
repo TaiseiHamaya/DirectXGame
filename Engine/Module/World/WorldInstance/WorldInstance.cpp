@@ -54,6 +54,26 @@ void WorldInstance::look_at(const Vector3& point, const Vector3& upward) noexcep
 	transform.set_quaternion(Quaternion::LookForward(localForward, localUpward));
 }
 
+void WorldInstance::look_at_angle(const WorldInstance& rhs, float angle, const Vector3& upward) noexcept {
+	look_at_angle(rhs.world_position(), angle, upward);
+}
+
+void WorldInstance::look_at_angle(const Vector3& point, float angle, const Vector3& upward) noexcept {
+	Vector3 localForward;
+	Vector3 localUpward;
+	if (hierarchy.has_parent()) {
+		Affine parentInversedWorldAffine = hierarchy.parent_affine().inverse_fast();
+		Vector3 rhsObjectCoordinatePosition = point * parentInversedWorldAffine;
+		localUpward = upward * parentInversedWorldAffine.get_basis();
+		localForward = (rhsObjectCoordinatePosition - transform.get_translate()).normalize_safe();
+	}
+	else {
+		localUpward = upward;
+		localForward = (point - transform.get_translate()).normalize_safe();
+	}
+	transform.set_quaternion(Quaternion::AngleAxis(localForward, angle) * Quaternion::LookForward(localForward, localUpward));
+}
+
 void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKeepPose) {
 	const Affine& worldAffine = this->world_affine();
 	if (isKeepPose) {
