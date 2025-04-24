@@ -15,6 +15,8 @@
 #define QUATERNION_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+class Texture;
+
 class ParticleEmitterInstance : public WorldInstance {
 public:
 	template<typename T>
@@ -49,10 +51,14 @@ public:
 				Vector3 radian;
 				Quaternion rotation;
 			};
+			struct LookAtAngle {
+				Randomize<float> angleParSec;
+				bool isRandomDirection;
+			};
 			struct Random {
 				Randomize<float> angularVelocity;
 			};
-			std::variant<Constant, std::monostate, Random> data;
+			std::variant<Constant, std::monostate, Random, LookAtAngle> data;
 		} rotation;
 		Randomize<Color4> color;
 
@@ -137,7 +143,7 @@ protected: // Member variable
 	float duration;
 
 	ParticleDrawType drawType;
-	std::string useResourceName;
+	std::variant<std::string, std::shared_ptr<const Texture>> useResourceName;
 	struct Rect {
 		Vector2 rect;
 		Vector2 pivot;
@@ -227,6 +233,15 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::to_json(json&
 	case Particle::RotationType::Velocity:
 	case Particle::RotationType::LookAt:
 		break;
+	case Particle::RotationType::LookAtAngle:
+	{
+		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle>(rhs.rotation.data);
+		j["Rotation"]["Data"] = nlohmann::json::object();
+		j["Rotation"]["Data"]["AngleParSec"]["Min"] = data.angleParSec.min;
+		j["Rotation"]["Data"]["AngleParSec"]["Max"] = data.angleParSec.max;
+		j["Rotation"]["Data"]["IsRandomDirection"] = data.isRandomDirection;
+		break;
+	}
 	case Particle::RotationType::Random:
 	{
 		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Random>(rhs.rotation.data);
@@ -313,6 +328,15 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(con
 			case Particle::RotationType::Velocity:
 			case Particle::RotationType::LookAt:
 				rhs.rotation.data = std::monostate();
+				break;
+			case Particle::RotationType::LookAtAngle:
+				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle{
+					ParticleEmitterInstance::Randomize<float>{
+					j["Rotation"]["Data"]["AngleParSec"]["Min"],
+					j["Rotation"]["Data"]["AngleParSec"]["Max"]
+				},
+				j["Rotation"]["Data"]["IsRandomDirection"]
+				};
 				break;
 			case Particle::RotationType::Random:
 			{

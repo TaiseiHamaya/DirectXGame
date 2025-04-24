@@ -10,8 +10,8 @@ Particle::Particle(
 	const Vector3& velocity_, const Vector3& acceleration_,
 	const Color4& startColor_, const Color4& endColor_,
 	const Vector3& startSize_, const Vector3& endSize_,
-	RotationType rotationType_, std::variant<Constant, std::monostate, Random> rotationData_
-) : 
+	RotationType rotationType_, std::variant<Constant, std::monostate, Random, LookAtAngle> rotationData_
+) :
 	WorldInstance(),
 	lifetime(lifetime_),
 	velocity(velocity_), acceleration(acceleration_),
@@ -35,6 +35,16 @@ Particle::Particle(
 	case Particle::RotationType::LookAt:
 		look_at(*lookAtDefault);
 		break;
+	case Particle::RotationType::LookAtAngle:
+	{
+		const auto& data = std::get<LookAtAngle>(rotationData);
+		look_at(*lookAtDefault);
+		Vector3 axis = CVector3::FORWARD * transform.get_quaternion();
+		transform.set_quaternion(
+			Quaternion::AngleAxis(axis, data.angleParSec * timer) * transform.get_quaternion()
+		);
+		break;
+	}
 	case Particle::RotationType::Random:
 	{
 		float cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
@@ -78,6 +88,12 @@ void Particle::update() {
 	case Particle::RotationType::LookAt:
 		look_at(*lookAtDefault);
 		break;
+	case Particle::RotationType::LookAtAngle:
+	{
+		const auto& data = std::get<LookAtAngle>(rotationData);
+		look_at_angle(*lookAtDefault, data.angleParSec * timer * WorldClock::DeltaSeconds());
+		break;
+	}
 	case Particle::RotationType::Random:
 	{
 		const auto& data = std::get<Random>(rotationData);

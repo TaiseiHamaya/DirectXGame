@@ -12,7 +12,7 @@ void JsonAsset::load(const std::filesystem::path& file) {
 	if (file.extension() != ".json") {
 		Warning("This file's extension is not .json. File\'{}\'", file.string());
 	}
-	const std::filesystem::path DEFAULT_DIRECTORY{ "./Resources/Json/" };
+	const std::filesystem::path DEFAULT_DIRECTORY{ "./Game/Resources/Json/" };
 
 	// 相対ディレクトリで始まる場合
 	if (file.string().starts_with(".\\")) {
@@ -57,10 +57,16 @@ const nlohmann::json& JsonAsset::cget() const {
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
+
+void JsonAsset::editor_gui() {
+	valueEditor.show_imgui();
+}
+
 void JsonAsset::show_imgui() {
 	valueEditor.show_imgui();
 	if (ImGui::Button("Save")) {
 		save();
 	}
 }
+
 #endif // _DEBUG

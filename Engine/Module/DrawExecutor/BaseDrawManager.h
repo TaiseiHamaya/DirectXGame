@@ -35,6 +35,7 @@ public:
 	void initialize(uint32_t numLayer);
 	virtual void make_instancing(uint32_t layer, const KeyType& meshName, uint32_t maxInstance) = 0;
 	void register_instance(Reference<const InstanceType> instance);
+	void unregister_instance(Reference<const InstanceType> instance);
 	void transfer();
 	void draw_layer(uint32_t layer);
 
@@ -67,6 +68,16 @@ inline void BaseDrawManager<Executor, KeyType, InstanceType>::register_instance(
 	}
 
 	drawData[instance->layer()].instances.emplace(instance);
+}
+
+template<class Executor, typename KeyType, typename InstanceType>
+	requires ConceptExecutor<Executor, InstanceType>
+inline void BaseDrawManager<Executor, KeyType, InstanceType>::unregister_instance(Reference<const InstanceType> instance) {
+	if (!instance || instance->layer() >= drawData.size()) {
+		return;
+	}
+
+	drawData[instance->layer()].instances.erase(instance);
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
