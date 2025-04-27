@@ -7,6 +7,9 @@ public:
 	void set(float time);
 	float time() const;
 
+public:
+	operator float() const noexcept { return timer; };
+
 private:
 	float timer{ 0 };
 };

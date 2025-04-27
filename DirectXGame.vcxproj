@@ -84,6 +84,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -118,6 +119,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,6 +154,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,6 +198,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Mesh\IDrawInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp" />
+    <ClCompile Include="Library\Utility\Tools\Easing.cpp" />
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
     <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
@@ -340,7 +344,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Mesh\IMultiMeshInstance.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\IPrimitiveInstance.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\Rect3d.h" />
+    <ClInclude Include="Library\Utility\Tools\Functions.h" />
+    <ClInclude Include="Library\Utility\Tools\Easing.h" />
     <ClInclude Include="Library\Math\Fraction.h" />
+    <ClInclude Include="Library\Utility\Tools\MathEPS.h" />
+    <ClInclude Include="Library\Utility\BuiltinTypes.h" />
     <ClInclude Include="Library\Utility\Tools\ChronoUtility.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h" />

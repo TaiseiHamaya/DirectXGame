@@ -17,7 +17,16 @@ ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile,
 	jsonResource("Particle" / jsonFile),
 	timer(0) {
 	drawType = static_cast<ParticleDrawType>(jsonResource.try_emplace<int>("DrawType"));
-	useResourceName = jsonResource.try_emplace<std::string>("useResourceName");
+	switch (drawType) {
+	case ParticleDrawType::Mesh:
+		useResourceName = jsonResource.try_emplace<std::string>("useResourceName");
+		break;
+	case ParticleDrawType::Rect:
+		useResourceName = TextureLibrary::GetTexture(jsonResource.try_emplace<std::string>("useResourceName"));
+		break;
+	default:
+		break;
+	}
 	switch (drawType) {
 	case ParticleDrawType::Mesh:
 		drawSystemData = std::monostate();
