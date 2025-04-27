@@ -7,7 +7,7 @@
 struct D3D12_VIEWPORT;
 struct tagRECT;
 class DepthStencil;
-enum class RenderNodeConfig : std::uint8_t;
+enum class RenderNodeConfig : u8;
 
 class BaseRenderTargetGroup {
 public:
@@ -56,7 +56,7 @@ protected:
 	/// </summary>
 	/// <param name="width">幅</param>
 	/// <param name="height">高さ</param>
-	void create_view_port(std::uint32_t width, std::uint32_t height);
+	void create_view_port(u32 width, u32 height);
 
 protected:
 	std::unique_ptr<D3D12_VIEWPORT> viewPort;

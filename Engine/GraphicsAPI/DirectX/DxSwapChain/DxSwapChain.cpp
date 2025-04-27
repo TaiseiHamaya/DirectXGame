@@ -83,7 +83,7 @@ void DxSwapChain::create_render_target() {
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
 	renderTarget = std::make_shared<SwapChainRenderTargetGroup>();
-	for (uint32_t renderIndex = 0; renderIndex < RenderingSystemValues::NUM_BUFFERING; ++renderIndex) {
+	for (u32 renderIndex = 0; renderIndex < RenderingSystemValues::NUM_BUFFERING; ++renderIndex) {
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(resource.GetAddressOf()));
 		CriticalIf(FAILED(hr), "Failed creating swapchain render targets.");

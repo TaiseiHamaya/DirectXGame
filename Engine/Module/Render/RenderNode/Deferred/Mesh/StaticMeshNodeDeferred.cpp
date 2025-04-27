@@ -45,7 +45,7 @@ void StaticMeshNodeDeferred::create_pipeline_state() {
 	psoBuilder->shaders(shaderBuilder);
 	psoBuilder->primitivetopologytype();
 	psoBuilder->blendstate_only_write();
-	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
+	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		psoBuilder->rendertarget(DeferredAdaptor::DXGI_FORMAT_LIST[i]);
 	}
 

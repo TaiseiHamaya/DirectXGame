@@ -11,7 +11,7 @@ void WorldClockProfiler::update() {
 	// リストに追加
 	auto& newFrameInfo = frameTimeInfomation.emplace_back(WorldClock::DeltaSeconds(), 0);
 	// 追加分だけ総和にも追加
-	timeSummation += WorldClock::DeltaSeconds();
+	timeSummation += newFrameInfo.first;
 	// 1以上の場合
 	while (timeSummation > 1.0f) {
 		auto& deleteValue = frameTimeInfomation.front();
@@ -35,7 +35,7 @@ void WorldClockProfiler::update() {
 	}
 }
 
-void WorldClockProfiler::debug_gui() {
+void WorldClockProfiler::debug_gui() const {
 	ImGui::Text("AverageFPS : %.1fFPS", averageFPS);
 }
 

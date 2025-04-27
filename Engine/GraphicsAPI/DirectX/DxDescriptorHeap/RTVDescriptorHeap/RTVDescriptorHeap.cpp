@@ -14,17 +14,17 @@ void RTVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-std::uint32_t RTVDescriptorHeap::UseHeapIndex() noexcept {
+u32 RTVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
 	Infomation("Use RTV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
-D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {
+D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(u32 index) noexcept {
 	return GetInstance().get_cpu_handle(index);
 }
 
-void RTVDescriptorHeap::ReleaseIndex(std::uint32_t index) {
+void RTVDescriptorHeap::ReleaseIndex(u32 index) {
 	Infomation("Release RTV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }

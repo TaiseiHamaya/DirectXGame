@@ -5,7 +5,7 @@
 
 bool Collision(const SphereCollider& lhs, const SphereCollider& rhs) {
 	Vector3 distance = lhs.world_position() - rhs.world_position();
-	float range = lhs.get_radius() + rhs.get_radius();
+	r32 range = lhs.get_radius() + rhs.get_radius();
 	return distance.length() <= range;
 }
 

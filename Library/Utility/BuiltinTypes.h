@@ -12,3 +12,6 @@ using u64 = unsigned long long;
 
 using r32 = float;
 using r64 = double;
+
+using string_literal = const char*;
+using wstring_literal = const wchar_t*;

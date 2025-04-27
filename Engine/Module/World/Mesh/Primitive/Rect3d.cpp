@@ -23,7 +23,7 @@ void Rect3d::initialize(const Vector3& size_, const Vector3& pivot_) {
 void Rect3d::debug_gui() {
 	IPrimitiveInstance<RectData>::debug_gui();
 
-	constexpr float FLOAT_MAX{ std::numeric_limits<float>::max() };
+	constexpr r32 FLOAT_MAX{ std::numeric_limits<r32>::max() };
 	ImGuiSliderFlags flag =
 		ImGuiSliderFlags_AlwaysClamp;
 	ImGui::Separator();

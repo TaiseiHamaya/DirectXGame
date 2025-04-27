@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -30,20 +29,20 @@ public: // getter
 	void set_name(const std::string& fileName);
 	const std::string& name() const;
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_gpu_handle() const;
-	const std::uint32_t& get_texture_width() const noexcept;
-	const std::uint32_t& get_texture_height() const noexcept;
-	const std::optional<std::uint32_t>& index() const;
+	const u32& get_texture_width() const noexcept;
+	const u32& get_texture_height() const noexcept;
+	const std::optional<u32>& index() const;
 
 private: // private function
 	void create_texture_resource(const DirectX::TexMetadata& metadata);
 	[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> upload_texture_data(const DirectX::ScratchImage& mipImages);
 
 private: // private value
-	std::optional<std::uint32_t> heapIndex;
+	std::optional<u32> heapIndex;
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	std::uint32_t width = 0;
-	std::uint32_t height = 0;
+	u32 width = 0;
+	u32 height = 0;
 
 	std::string name_;
 

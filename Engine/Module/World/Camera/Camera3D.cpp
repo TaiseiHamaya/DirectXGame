@@ -89,14 +89,14 @@ void Camera3D::transfer() {
 #endif // _DEBUG
 }
 
-void Camera3D::register_world_projection(uint32_t index) {
+void Camera3D::register_world_projection(u32 index) {
 	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, vpBuffers.get_resource()->GetGPUVirtualAddress()
 	);
 }
 
-void Camera3D::register_world_lighting(uint32_t index) {
+void Camera3D::register_world_lighting(u32 index) {
 	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, lightingBuffer.get_resource()->GetGPUVirtualAddress()
@@ -107,7 +107,7 @@ void Camera3D::set_transform(const Transform3D& transform_) noexcept {
 	transform.copy(transform_);
 }
 
-void Camera3D::set_perspective_fov_info(float fovY_, float aspectRatio_, float nearClip_, float farClip_) noexcept {
+void Camera3D::set_perspective_fov_info(r32 fovY_, r32 aspectRatio_, r32 nearClip_, r32 farClip_) noexcept {
 	fovY = fovY_;
 	aspectRatio = aspectRatio_;
 	nearClip = nearClip_;
@@ -127,7 +127,7 @@ void Camera3D::make_view_matrix() {
 }
 
 void Camera3D::make_perspectivefov_matrix() {
-	float cot = 1 / std::tan(fovY / 2);
+	r32 cot = 1 / std::tan(fovY / 2);
 	projectionMatrix = {
 		{{ cot / aspectRatio, 0, 0, 0 },
 		{ 0, cot, 0, 0 },
@@ -136,7 +136,7 @@ void Camera3D::make_perspectivefov_matrix() {
 	};
 }
 
-Matrix4x4 Camera3D::MakeViewportMatrix(const Vector2& origin, const Vector2& size, float minDepth, float maxDepth) {
+Matrix4x4 Camera3D::MakeViewportMatrix(const Vector2& origin, const Vector2& size, r32 minDepth, r32 maxDepth) {
 	return {
 		{{ size.x / 2, 0, 0, 0 },
 		{ 0, -size.y / 2, 0, 0 },
@@ -162,7 +162,7 @@ void Camera3D::debug_gui() {
 	if (isValidDebugCamera) {
 		ImGui::Checkbox("UseDebugCameraLighting", &useDebugCameraLighting);
 
-		ImGui::DragFloat("Offset", &offset.z, 0.1f, -std::numeric_limits<float>::infinity(), 0.0f);
+		ImGui::DragFloat("Offset", &offset.z, 0.1f, -std::numeric_limits<r32>::infinity(), 0.0f);
 		debugCameraCenter->get_transform().debug_gui();
 		debugCamera->get_transform().debug_gui();
 	}
@@ -177,7 +177,7 @@ void Camera3D::debug_camera() {
 		Vector2 mouseDelta = Input::MouseDelta();
 
 		// 注視距離設定
-		float wheel = static_cast<float>(Input::WheelDelta());
+		r32 wheel = static_cast<r32>(Input::WheelDelta());
 		offset.z = std::min(offset.z + wheel, 0.0f);
 
 		// 左クリック(回転)

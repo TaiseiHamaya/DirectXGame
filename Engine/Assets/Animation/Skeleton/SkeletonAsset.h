@@ -14,19 +14,19 @@
 struct Joint {
 	std::string name; // BoneName(== NodeName)
 	Affine inverseBindPoseAffine;
-	std::optional<uint32_t> parent;
-	std::vector<uint32_t> children;
+	std::optional<u32> parent;
+	std::vector<u32> children;
 };
 
 struct VertexInfluenceData {
-	inline static constexpr uint32_t NumMaxInfluence = 4;
-	std::array<float, NumMaxInfluence> weights;
-	std::array<uint32_t, NumMaxInfluence> jointIndex;
+	inline static constexpr u32 NumMaxInfluence = 4;
+	std::array<r32, NumMaxInfluence> weights;
+	std::array<u32, NumMaxInfluence> jointIndex;
 };
 
 struct Skeleton {
 	std::vector<Joint> joints;
-	std::unordered_map<std::string, std::vector<uint32_t>> useJointIndexesByMeshName;
+	std::unordered_map<std::string, std::vector<u32>> useJointIndexesByMeshName;
 };
 
 class SkeletonAsset {
@@ -48,8 +48,8 @@ public:
 
 	const Skeleton& skeleton() const;
 	const VertexBuffer<VertexInfluenceData>* weight_influence(const std::string& bindMeshName) const;
-	const std::vector<uint32_t>* use_joint_indexes(const std::string& bindMeshName) const;
-	uint32_t joint_size() const;
+	const std::vector<u32>* use_joint_indexes(const std::string& bindMeshName) const;
+	u32 joint_size() const;
 
 private:
 	Skeleton skeletonData;

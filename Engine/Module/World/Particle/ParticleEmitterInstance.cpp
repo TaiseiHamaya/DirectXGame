@@ -11,12 +11,12 @@
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
-ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle) :
+ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, u32 MaxParticle) :
 	WorldInstance(),
 	numMaxParticle(MaxParticle),
 	jsonResource("Particle" / jsonFile),
 	timer(0) {
-	drawType = static_cast<ParticleDrawType>(jsonResource.try_emplace<int>("DrawType"));
+	drawType = static_cast<ParticleDrawType>(jsonResource.try_emplace<i32>("DrawType"));
 	switch (drawType) {
 	case ParticleDrawType::Mesh:
 		useResourceName = jsonResource.try_emplace<std::string>("useResourceName");
@@ -80,7 +80,7 @@ void ParticleEmitterInstance::transfer() {
 	if (!isActive || !drawSystem || is_end()) {
 		return;
 	}
-	for (uint32_t index = 0; std::unique_ptr<Particle>&particle : particles) {
+	for (u32 index = 0; std::unique_ptr<Particle>&particle : particles) {
 		drawSystem->write_to_buffer(
 			index,
 			particle->world_affine().to_matrix(),
@@ -104,8 +104,8 @@ void ParticleEmitterInstance::restart() {
 }
 
 void ParticleEmitterInstance::emit() {
-	uint32_t numEmits = emission.Count;
-	for (uint32_t i = 0; i < numEmits; ++i) {
+	u32 numEmits = emission.Count;
+	for (u32 i = 0; i < numEmits; ++i) {
 		size_t numParticle = particles.size();
 		if (numParticle < numMaxParticle) {
 			emit_once();
@@ -123,10 +123,10 @@ void ParticleEmitterInstance::emit_once() {
 	case Emission::Shape::ShapeType::Sphere:
 	{
 		const auto& data = std::get<ParticleEmitterInstance::Emission::Shape::Sphere>(emission.shape.data);
-		float cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
-		float sin = std::sqrt(1.0f - cos * cos);
-		float phi = PI2 * RandomEngine::Random01MOD();
-		float radius = std::cbrt(RandomEngine::Random01MOD()) * data.radius;
+		r32 cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
+		r32 sin = std::sqrt(1.0f - cos * cos);
+		r32 phi = PI2 * RandomEngine::Random01MOD();
+		r32 radius = std::cbrt(RandomEngine::Random01MOD()) * data.radius;
 		offset = { sin * std::cos(phi), sin * std::sin(phi), cos };
 		offset *= radius;
 		break;
@@ -134,11 +134,11 @@ void ParticleEmitterInstance::emit_once() {
 	case Emission::Shape::ShapeType::Cone:
 	{
 		const auto& data = std::get<ParticleEmitterInstance::Emission::Shape::Cone>(emission.shape.data);
-		float maxCos = std::cos(data.angle);
-		float cos = maxCos + (1 - maxCos) * RandomEngine::Random01MOD();
-		float sin = std::sqrt(1.0f - cos * cos);
-		float phi = PI2 * RandomEngine::Random01MOD();
-		float radius = std::cbrt(RandomEngine::Random01MOD()) * data.radius;
+		r32 maxCos = std::cos(data.angle);
+		r32 cos = maxCos + (1 - maxCos) * RandomEngine::Random01MOD();
+		r32 sin = std::sqrt(1.0f - cos * cos);
+		r32 phi = PI2 * RandomEngine::Random01MOD();
+		r32 radius = std::cbrt(RandomEngine::Random01MOD()) * data.radius;
 		Vector3 base = { sin * std::cos(phi), sin * std::sin(phi), cos };
 		Quaternion rotation1 = Quaternion::FromToRotation(CVector3::FORWARD, base);
 		Quaternion rotation2 = Quaternion::FromToRotation(CVector3::FORWARD, data.direction);
@@ -160,7 +160,7 @@ void ParticleEmitterInstance::emit_once() {
 		break;
 	}
 	// 方向
-	float speed = std::lerp(particleInit.speed.min, particleInit.speed.max, RandomEngine::Random01Closed());
+	r32 speed = std::lerp(particleInit.speed.min, particleInit.speed.max, RandomEngine::Random01Closed());
 	Vector3 direction;
 	switch (particleInit.direction.mode) {
 	case ParticleInit::Direction::Mode::Constant:
@@ -175,8 +175,8 @@ void ParticleEmitterInstance::emit_once() {
 	case ParticleInit::Direction::Mode::AngleRange:
 	{
 		const auto& data = std::get<ParticleEmitterInstance::ParticleInit::Direction::AngleRange>(particleInit.direction.data);
-		float angle = std::lerp(0.0f, data.angle, RandomEngine::Random01Closed());
-		float phi = std::lerp(0.0f, PI2, RandomEngine::Random01Closed());
+		r32 angle = std::lerp(0.0f, data.angle, RandomEngine::Random01Closed());
+		r32 phi = std::lerp(0.0f, PI2, RandomEngine::Random01Closed());
 		direction = data.baseDirection *
 			Quaternion::AngleAxis(CVector3::UP, phi) * Quaternion::AngleAxis(CVector3::FORWARD, angle);
 	}
@@ -199,7 +199,7 @@ void ParticleEmitterInstance::emit_once() {
 	case Particle::RotationType::LookAtAngle:
 	{
 		const auto& data = std::get<ParticleInit::Rotation::LookAtAngle>(particleInit.rotation.data);
-		float temp = std::lerp(data.angleParSec.min, data.angleParSec.max, RandomEngine::Random01Closed());
+		r32 temp = std::lerp(data.angleParSec.min, data.angleParSec.max, RandomEngine::Random01Closed());
 		if (data.isRandomDirection && RandomEngine::Random01Bit<bool>()) {
 			temp *= -1;
 		}
@@ -211,9 +211,9 @@ void ParticleEmitterInstance::emit_once() {
 	case Particle::RotationType::Random:
 	{
 		const auto& data = std::get<ParticleInit::Rotation::Random>(particleInit.rotation.data);
-		float cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
-		float sin = std::sqrt(1.0f - cos * cos);
-		float phi = PI2 * RandomEngine::Random01MOD();
+		r32 cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
+		r32 sin = std::sqrt(1.0f - cos * cos);
+		r32 phi = PI2 * RandomEngine::Random01MOD();
 		Vector3 axis = { sin * std::cos(phi), sin * std::sin(phi), cos };
 		rotation = Particle::Random{
 			.axis = axis.normalize_safe(),
@@ -341,8 +341,8 @@ void ParticleEmitterInstance::debug_gui() {
 	}
 }
 
-void ParticleEmitterInstance::ParticleInit::debug_gui(const char* tag) {
-	constexpr float FLOAT_MAX = std::numeric_limits<float>::max();
+void ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
+	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloatRange2("Lifetime", &lifetime.min, &lifetime.max, 0.01f, 0.0f, FLOAT_MAX);
 		ImGui::DragFloatRange2("Speed", &speed.min, &speed.max, 0.1f, 0.0f, FLOAT_MAX);
@@ -455,7 +455,7 @@ void ParticleEmitterInstance::ParticleInit::debug_gui(const char* tag) {
 	}
 }
 
-void ParticleEmitterInstance::ParticleFinal::debug_gui(const char* tag) {
+void ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloat3("SizeMin", &size.min.x, 0.1f);
 		ImGui::DragFloat3("SizeMax", &size.max.x, 0.1f);
@@ -466,8 +466,8 @@ void ParticleEmitterInstance::ParticleFinal::debug_gui(const char* tag) {
 	}
 }
 
-void ParticleEmitterInstance::Emission::debug_gui(const char* tag) {
-	constexpr float FLOAT_MAX = std::numeric_limits<float>::max();
+void ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
+	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloat("Time", &Time, 0.1f, 0.0f, FLOAT_MAX);
 		ImGui::InputScalar("Count", ImGuiDataType_U32, &Count);

@@ -11,7 +11,7 @@ public:
 	~DepthStencil();
 
 public:
-	void initialize(DXGI_FORMAT format, std::uint32_t width = EngineSettings::CLIENT_WIDTH, std::uint32_t height = EngineSettings::CLIENT_HEIGHT);
+	void initialize(DXGI_FORMAT format, u32 width = EngineSettings::CLIENT_WIDTH, u32 height = EngineSettings::CLIENT_HEIGHT);
 
 	void change_resource_state();
 	void release_index();
@@ -23,7 +23,7 @@ public:
 	DXGI_FORMAT texture_format() const;
 
 private:
-	void create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height, DXGI_FORMAT format);
+	void create_depth_stencil_texture_resource(u32 width, u32 height, DXGI_FORMAT format);
 	void create_dsv();
 	void create_srv();
 
@@ -32,10 +32,10 @@ private:
 
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
 
-	std::optional<std::uint32_t> dsvHeapIndex;
+	std::optional<u32> dsvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvCPUHandle;
 
-	std::optional<std::uint32_t> srvHeapIndex;
+	std::optional<u32> srvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE srvCPUHandle{};
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGPUHandle{};
 };

@@ -15,7 +15,7 @@ public:
 	AudioPlayer& operator=(AudioPlayer&&) = default;
 
 public:
-	void initialize(const std::string& name, float volume = 1.0f, bool isLoop = false);
+	void initialize(const std::string& name, r32 volume = 1.0f, bool isLoop = false);
 	void destroy();
 
 	void play();
@@ -24,7 +24,7 @@ public:
 	void restart();
 	//bool is_play();
 
-	void set_volume(float volume);
+	void set_volume(r32 volume);
 	void set_loop(bool isLoop);
 
 #ifdef DEBUG_FEATURES_ENABLE

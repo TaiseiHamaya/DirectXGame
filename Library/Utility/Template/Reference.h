@@ -98,7 +98,7 @@ bool operator>=(const Reference<T>& lhs, const Reference<U>& rhs) noexcept { ret
 
 template<typename T>
 struct std::hash<Reference<T>> {
-	uint64_t operator()(const Reference<T>& val) const {
-		return std::hash<uint64_t>()(val);
+	u64 operator()(const Reference<T>& val) const {
+		return std::hash<u64>()(val);
 	}
 };

@@ -46,5 +46,5 @@ public:
 
 private:
 	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};
-	ConstantBuffer<std::uint32_t> isGray{};
+	ConstantBuffer<u32> isGray{};
 };

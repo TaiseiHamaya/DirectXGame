@@ -13,8 +13,8 @@ public:
 	__CLASS_NON_COPYABLE(Rect3dDrawManager)
 
 private:
-	void make_instancing(uint32_t layer, const PrimitiveType& primitive, uint32_t maxInstance) override;
+	void make_instancing(u32 layer, const PrimitiveType& primitive, u32 maxInstance) override;
 
 public:
-	void make_instancing(uint32_t layer, uint32_t maxInstance);
+	void make_instancing(u32 layer, u32 maxInstance);
 };

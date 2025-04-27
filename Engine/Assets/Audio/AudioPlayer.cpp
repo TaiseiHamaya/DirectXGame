@@ -9,7 +9,7 @@ AudioPlayer::~AudioPlayer() {
 	destroy();
 }
 
-void AudioPlayer::initialize(const std::string& name, float volume, bool isLoop) {
+void AudioPlayer::initialize(const std::string& name, r32 volume, bool isLoop) {
 	auto&& audio = AudioLibrary::GetAudio(name);
 	if (!audio) {
 		return;
@@ -72,7 +72,7 @@ void AudioPlayer::restart() {
 	play();
 }
 
-void AudioPlayer::set_volume(float volume) {
+void AudioPlayer::set_volume(r32 volume) {
 	if (!sourceVoice) {
 		Warning("Called \'set_volume\' function on not initialized audio player. Address-\'{}\'", (void*)this);
 		return;
@@ -100,7 +100,7 @@ void AudioPlayer::debug_gui() {
 	if (ImGui::Checkbox("Loop", &isLoop)) {
 		set_loop(isLoop);
 	}
-	float volume;
+	r32 volume;
 	sourceVoice->GetVolume(&volume);
 	if (ImGui::DragFloat("Volume", &volume, 0.01f, 0.0f, 100.0f)) {
 		set_volume(volume);

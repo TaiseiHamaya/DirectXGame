@@ -32,12 +32,12 @@ public:
 	__CLASS_NON_COPYABLE(BaseDrawManager)
 
 public:
-	void initialize(uint32_t numLayer);
-	virtual void make_instancing(uint32_t layer, const KeyType& meshName, uint32_t maxInstance) = 0;
+	void initialize(u32 numLayer);
+	virtual void make_instancing(u32 layer, const KeyType& meshName, u32 maxInstance) = 0;
 	void register_instance(Reference<const InstanceType> instance);
 	void unregister_instance(Reference<const InstanceType> instance);
 	void transfer();
-	void draw_layer(uint32_t layer);
+	void draw_layer(u32 layer);
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
@@ -48,15 +48,15 @@ protected:
 	std::vector<Data> drawData;
 
 #ifdef DEBUG_FEATURES_ENABLE
-	uint32_t layer{ 0 };
+	u32 layer{ 0 };
 	KeyType select;
-	uint32_t maxInstance{ 0 };
+	u32 maxInstance{ 0 };
 #endif // _DEBUG
 };
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
-inline void BaseDrawManager<Executor, KeyType, InstanceType>::initialize(uint32_t numLayer) {
+inline void BaseDrawManager<Executor, KeyType, InstanceType>::initialize(u32 numLayer) {
 	drawData.resize(numLayer);
 }
 
@@ -107,7 +107,7 @@ inline void BaseDrawManager<Executor, KeyType, InstanceType>::transfer() {
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
-inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(uint32_t layer) {
+inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 layer) {
 	if (layer >= drawData.size()) {
 		// Layer外をDrawCallしようとした
 		return;

@@ -27,15 +27,15 @@ const D3D12_GPU_DESCRIPTOR_HANDLE& Texture::get_gpu_handle() const {
 	return gpuHandle;
 }
 
-const std::uint32_t& Texture::get_texture_width() const noexcept {
+const u32& Texture::get_texture_width() const noexcept {
 	return width;
 }
 
-const std::uint32_t& Texture::get_texture_height() const noexcept {
+const u32& Texture::get_texture_height() const noexcept {
 	return height;
 }
 
-const std::optional<std::uint32_t>& Texture::index() const {
+const std::optional<u32>& Texture::index() const {
 	return heapIndex;
 }
 
@@ -48,8 +48,8 @@ Microsoft::WRL::ComPtr<ID3D12Resource> Texture::load(const std::filesystem::path
 	}
 	DirectX::ScratchImage& mipImages = std::get<1>(loadData);
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
-	width = static_cast<std::uint32_t>(metadata.width);
-	height = static_cast<std::uint32_t>(metadata.height);
+	width = static_cast<u32>(metadata.width);
+	height = static_cast<u32>(metadata.height);
 	create_texture_resource(metadata); // リソース生成
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource = upload_texture_data(mipImages); // Texに転送
 
@@ -97,13 +97,13 @@ void Texture::create_texture_resource(const DirectX::TexMetadata& metadata) {
 
 	hr = DxDevice::GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(resource.GetAddressOf()));
 	ErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Depth-\'{}\', MipLevel-\'{}\', Format-\'{}\'",
-		metadata.width, metadata.height, metadata.arraySize, metadata.mipLevels, (int)metadata.format);
+		metadata.width, metadata.height, metadata.arraySize, metadata.mipLevels, (i32)metadata.format);
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> Texture::upload_texture_data(const DirectX::ScratchImage& mipImages) {
 	std::vector<D3D12_SUBRESOURCE_DATA> subResources;
 	DirectX::PrepareUpload(DxDevice::GetDevice().Get(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subResources);
-	uint64_t intermediateSize = GetRequiredIntermediateSize(resource.Get(), 0, UINT(subResources.size()));
+	size_t intermediateSize = GetRequiredIntermediateSize(resource.Get(), 0, UINT(subResources.size()));
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource = DxResource::CreateBufferResource(intermediateSize);
 	DxCommand::SetTextureCommand(resource, intermediateResource, subResources);
 	return intermediateResource;

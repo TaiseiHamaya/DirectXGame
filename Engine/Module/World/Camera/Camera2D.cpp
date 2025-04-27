@@ -26,7 +26,7 @@ void Camera2D::SetCameraTransform(const Transform2D& transform) noexcept {
 	instance->camera.copy(transform);
 }
 
-void Camera2D::SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) noexcept {
+void Camera2D::SetNDCInfomation(r32 left, r32 right, r32 bottom, r32 top, r32 near, r32 far) noexcept {
 	instance->ndcLeftBottomNear = { left,bottom, near };
 	instance->ndcRightTopFar = { right, top, far };
 }
@@ -62,7 +62,7 @@ void Camera2D::DebugGUI() {
 	instance->debug_gui();
 }
 
-void Camera2D::debug_gui(const char* tag) {
+void Camera2D::debug_gui(string_literal tag) {
 	//ImGui::SetNextWindowSize(ImVec2{ 330,140 }, ImGuiCond_Once);
 	//ImGui::SetNextWindowPos(ImVec2{ 20, 20 }, ImGuiCond_Once);
 	ImGui::Begin(tag, nullptr);

@@ -18,7 +18,7 @@ public: // ------------------コンストラクタ------------------
 	constexpr Matrix<ROW, COLUMN>& operator=(Matrix<ROW, COLUMN>&& rhs) noexcept = default;
 
 private:// ------------------行列------------------
-	Array2D<float, ROW, COLUMN> _matrix;
+	Array2D<r32, ROW, COLUMN> _matrix;
 
 public: // ------------------アクセッサ------------------
 	constexpr const size_t row() const noexcept { return _matrix.row(); };
@@ -27,14 +27,14 @@ public: // ------------------アクセッサ------------------
 	constexpr size_t column() noexcept { return _matrix.column(); };
 
 public:
-	static constexpr Matrix<ROW, COLUMN> Multiply(const Matrix<ROW, COLUMN>& matrix, const float& times) noexcept(false);
+	static constexpr Matrix<ROW, COLUMN> Multiply(const Matrix<ROW, COLUMN>& matrix, const r32& times) noexcept(false);
 
 public:
 	constexpr Matrix<COLUMN, ROW> transpose() const noexcept(false);
 
 public: // ------------------演算子オーバーロード------------------
-	constexpr std::array<float, COLUMN>& operator[](size_t index) noexcept(false) { return _matrix[index]; }
-	constexpr const std::array<float, COLUMN>& operator[](size_t index) const noexcept(false) { return _matrix[index]; }
+	constexpr std::array<r32, COLUMN>& operator[](size_t index) noexcept(false) { return _matrix[index]; }
+	constexpr const std::array<r32, COLUMN>& operator[](size_t index) const noexcept(false) { return _matrix[index]; }
 	constexpr bool operator==(const Matrix<ROW, COLUMN>& rhs) const noexcept { return _matrix == rhs._matrix; }
 	constexpr bool operator!=(const Matrix<ROW, COLUMN>& rhs) const noexcept { return !(*this == rhs); }
 
@@ -48,10 +48,10 @@ public: // ------------------演算子オーバーロード------------------
 };
 
 template<size_t ROW, size_t COLUMN>
-inline constexpr Matrix<ROW, COLUMN> Matrix<ROW, COLUMN>::Multiply(const Matrix<ROW, COLUMN>& matrix, const float& times)  noexcept(false) {
+inline constexpr Matrix<ROW, COLUMN> Matrix<ROW, COLUMN>::Multiply(const Matrix<ROW, COLUMN>& matrix, const r32& times)  noexcept(false) {
 	Matrix<ROW, COLUMN> result;
-	for (int i = 0; i < ROW; ++i) {
-		for (int j = 0; j < COLUMN; ++j) {
+	for (i32 i = 0; i < ROW; ++i) {
+		for (i32 j = 0; j < COLUMN; ++j) {
 			result[i][j] = matrix[i][j] * times;
 		}
 	}
@@ -61,8 +61,8 @@ inline constexpr Matrix<ROW, COLUMN> Matrix<ROW, COLUMN>::Multiply(const Matrix<
 template<size_t ROW, size_t COLUMN>
 inline constexpr Matrix<COLUMN, ROW> Matrix<ROW, COLUMN>::transpose() const noexcept(false) {
 	Matrix<ROW, COLUMN> result;
-	for (int i = 0; i < ROW; ++i) {
-		for (int j = 0; j < COLUMN; ++j) {
+	for (i32 i = 0; i < ROW; ++i) {
+		for (i32 j = 0; j < COLUMN; ++j) {
 			result._matrix[i][j] = this->_matrix[j][i];
 		}
 	}

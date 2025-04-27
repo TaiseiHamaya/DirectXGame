@@ -50,7 +50,7 @@ constexpr void simplify(T& num, T& den) {
 /// https://qiita.com/gandalfr-KY/items/b0eed6727e873a313455
 /// </summary>
 /// <typeparam name="T></typeparam>
-template<std::signed_integral T = uint32_t>
+template<std::signed_integral T = i32>
 class Fraction {
 public: // using
 	using value_type = T;
@@ -86,7 +86,7 @@ public:
 
 public:
 	constexpr fraction_type inverse() const;
-	template<std::floating_point real = float>
+	template<std::floating_point real = r32>
 	constexpr real to_real() const;
 	constexpr fraction_type abs() const;
 	constexpr value_type lcm() const;

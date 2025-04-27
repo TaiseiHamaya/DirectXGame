@@ -24,7 +24,7 @@ public:
 	/// </summary>
 	/// <param name="resource_">設定するResource</param>
 	/// <param name="index">SwapChainIndex</param>
-	void set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, std::uint32_t index);
+	void set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, u32 index);
 
 	const std::array<RenderTarget, RenderingSystemValues::NUM_BUFFERING>& get_render_targets() const;
 	std::array<RenderTarget, RenderingSystemValues::NUM_BUFFERING>& get_render_targets();

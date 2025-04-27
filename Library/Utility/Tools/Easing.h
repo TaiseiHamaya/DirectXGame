@@ -4,46 +4,46 @@ namespace Easing {
 
 namespace In {
 
-static float Sine(float t) noexcept;
-static float Quad(float t) noexcept;
-static float Cubic(float t) noexcept;
-static float Quart(float t) noexcept;
-static float Quint(float t) noexcept;
-static float Expo(float t) noexcept;
-static float Circ(float t) noexcept;
-static float Back(float t) noexcept;
-static float Elastic(float t) noexcept;
-static float Bounce(float t) noexcept;
+static r32 Sine(r32 t) noexcept;
+static r32 Quad(r32 t) noexcept;
+static r32 Cubic(r32 t) noexcept;
+static r32 Quart(r32 t) noexcept;
+static r32 Quint(r32 t) noexcept;
+static r32 Expo(r32 t) noexcept;
+static r32 Circ(r32 t) noexcept;
+static r32 Back(r32 t) noexcept;
+static r32 Elastic(r32 t) noexcept;
+static r32 Bounce(r32 t) noexcept;
 
 };
 
 namespace Out {
 
-static float Sine(float t) noexcept;
-static float Quad(float t) noexcept;
-static float Cubic(float t) noexcept;
-static float Quart(float t) noexcept;
-static float Quint(float t) noexcept;
-static float Expo(float t) noexcept;
-static float Circ(float t) noexcept;
-static float Back(float t) noexcept;
-static float Elastic(float t) noexcept;
-static float Bounce(float t) noexcept;
+static r32 Sine(r32 t) noexcept;
+static r32 Quad(r32 t) noexcept;
+static r32 Cubic(r32 t) noexcept;
+static r32 Quart(r32 t) noexcept;
+static r32 Quint(r32 t) noexcept;
+static r32 Expo(r32 t) noexcept;
+static r32 Circ(r32 t) noexcept;
+static r32 Back(r32 t) noexcept;
+static r32 Elastic(r32 t) noexcept;
+static r32 Bounce(r32 t) noexcept;
 
 };
 
 namespace InOut {
 
-static float Sine(float t) noexcept;
-static float Quad(float t) noexcept;
-static float Cubic(float t) noexcept;
-static float Quart(float t) noexcept;
-static float Quint(float t) noexcept;
-static float Expo(float t) noexcept;
-static float Circ(float t) noexcept;
-static float Back(float t) noexcept;
-static float Elastic(float t) noexcept;
-static float Bounce(float t) noexcept;
+static r32 Sine(r32 t) noexcept;
+static r32 Quad(r32 t) noexcept;
+static r32 Cubic(r32 t) noexcept;
+static r32 Quart(r32 t) noexcept;
+static r32 Quint(r32 t) noexcept;
+static r32 Expo(r32 t) noexcept;
+static r32 Circ(r32 t) noexcept;
+static r32 Back(r32 t) noexcept;
+static r32 Elastic(r32 t) noexcept;
+static r32 Bounce(r32 t) noexcept;
 
 };
 

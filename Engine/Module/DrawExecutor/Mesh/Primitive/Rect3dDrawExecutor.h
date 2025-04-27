@@ -21,7 +21,7 @@ public:
 	__CLASS_NON_COPYABLE(Rect3dDrawExecutor)
 
 public:
-	void reinitialize(PrimitiveType type_, uint32_t maxInstance_);
+	void reinitialize(PrimitiveType type_, u32 maxInstance_);
 	void draw_command() const override;
 	void write_to_buffer(Reference<const Rect3d> instance) override;
 

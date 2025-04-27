@@ -56,17 +56,17 @@ void Input::Update() {
 	if (!ScreenToClient(WinApp::GetWndHandle(), &point)) {
 		error = GetLastError();
 	}
-	instance.mousePosition = { static_cast<float>(point.x), static_cast<float>(point.y) };
+	instance.mousePosition = { static_cast<r32>(point.x), static_cast<r32>(point.y) };
 }
 
 bool Input::IsPressKey(KeyID id) {
-	int idInt = static_cast<int>(id);
+	i32 idInt = static_cast<i32>(id);
 	auto& keyboardState = GetInstance().keyboardState;
 	return keyboardState[idInt];
 }
 
 bool Input::IsPressMouse(MouseID id) {
-	int idInt = static_cast<int>(id);
+	i32 idInt = static_cast<i32>(id);
 	auto& rgbButtons = GetInstance().mouseState->rgbButtons;
 	return rgbButtons[idInt];
 }
@@ -78,19 +78,19 @@ const Vector2& Input::MousePosition() {
 Vector2 Input::MouseDelta() {
 	Input& instance = GetInstance();
 	return Vector2{
-		static_cast<float>(instance.mouseState->lX),
-		static_cast<float>(instance.mouseState->lY),
+		static_cast<r32>(instance.mouseState->lX),
+		static_cast<r32>(instance.mouseState->lY),
 	};
 }
 
-float Input::WheelDelta() {
+r32 Input::WheelDelta() {
 	Input& instance = GetInstance();
 	// mouseLZは120区切りっぽい？
 	return (instance.mouseState->lZ) / 120.0f;
 }
 
 bool Input::IsPressPad(PadID id) {
-	int idInt = static_cast<int>(id);
+	i32 idInt = static_cast<i32>(id);
 	auto& buttons = GetInstance().joystate->Gamepad.wButtons;
 	return buttons & idInt;
 }
@@ -99,8 +99,8 @@ Vector2 Input::StickL() {
 	Input& instance = GetInstance();
 	auto& gamepad = instance.joystate->Gamepad;
 	Vector2 result{
-		static_cast<float>(gamepad.sThumbLX),
-		static_cast<float>(gamepad.sThumbLY)
+		static_cast<r32>(gamepad.sThumbLX),
+		static_cast<r32>(gamepad.sThumbLY)
 	};
 	// ShortMaxで割ることで[-1,1]にする
 	result /= std::numeric_limits<SHORT>::max();
@@ -117,8 +117,8 @@ Vector2 Input::StickR() {
 	Input& instance = GetInstance();
 	auto& gamepad = instance.joystate->Gamepad;
 	Vector2 result{
-		static_cast<float>(gamepad.sThumbRX),
-		static_cast<float>(gamepad.sThumbRY)
+		static_cast<r32>(gamepad.sThumbRX),
+		static_cast<r32>(gamepad.sThumbRY)
 	};
 	// ShortMaxで割ることで[-1,1]にする
 	result /= std::numeric_limits<SHORT>::max();
@@ -131,25 +131,25 @@ Vector2 Input::StickR() {
 	return result;
 }
 
-float Input::TriggerL() {
+r32 Input::TriggerL() {
 	Input& instance = GetInstance();
 	auto& gamepad = instance.joystate->Gamepad;
 	// ByteMaxで割ることで[0,1]にする
-	return (float)gamepad.bLeftTrigger / std::numeric_limits<BYTE>::max();
+	return (r32)gamepad.bLeftTrigger / std::numeric_limits<BYTE>::max();
 }
 
-float Input::TriggerR() {
+r32 Input::TriggerR() {
 	Input& instance = GetInstance();
 	auto& gamepad = instance.joystate->Gamepad;
-	return (float)gamepad.bRightTrigger / std::numeric_limits<BYTE>::max();
+	return (r32)gamepad.bRightTrigger / std::numeric_limits<BYTE>::max();
 }
 
-uint32_t Input::NumPad() {
+u32 Input::NumPad() {
 	XINPUT_STATE tester{ 0 };
 	HRESULT result{};
-	uint32_t numPad = 0;
+	u32 numPad = 0;
 	// 接続可能なPad数は4つまで
-	for (uint32_t i = 0; i < 4; ++i) {
+	for (u32 i = 0; i < 4; ++i) {
 		result = XInputGetState(i, &tester);
 		// S_OKだったら使用可能
 		if (result == S_OK) {
@@ -159,12 +159,12 @@ uint32_t Input::NumPad() {
 	return numPad;
 }
 
-uint8_t Input::ActivePad() {
+u8 Input::ActivePad() {
 	XINPUT_STATE tester{ 0 };
 	HRESULT result{};
-	uint8_t active = 0;
+	u8 active = 0;
 	// 接続可能なPad数は4つまで
-	for (int i = 0; i < 4; ++i) {
+	for (i32 i = 0; i < 4; ++i) {
 		result = XInputGetState(i, &tester);
 		// S_OKだったら使用可能
 		if (result == S_OK) {

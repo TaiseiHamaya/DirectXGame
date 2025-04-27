@@ -19,7 +19,7 @@ void DirectionalLightingNode::initialize() {
 
 void DirectionalLightingNode::preprocess() {
 	auto& command = DxCommand::GetCommandList();
-	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
+	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		command->SetGraphicsRootDescriptorTable(2 + i, gBuffers[i]);
 	}
 	command->SetGraphicsRootDescriptorTable(4, depthBuffer);
@@ -27,7 +27,7 @@ void DirectionalLightingNode::preprocess() {
 
 void DirectionalLightingNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT) {
 	auto& list = gBufferRT->offscreen_render_list();
-	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
+	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		gBuffers[i] = list[i].texture_gpu_handle();
 	}
 }

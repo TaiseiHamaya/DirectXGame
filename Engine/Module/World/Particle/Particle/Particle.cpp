@@ -6,7 +6,7 @@
 
 Particle::Particle(
 	const Vector3& translate,
-	float lifetime_,
+	r32 lifetime_,
 	const Vector3& velocity_, const Vector3& acceleration_,
 	const Color4& startColor_, const Color4& endColor_,
 	const Vector3& startSize_, const Vector3& endSize_,
@@ -47,12 +47,12 @@ Particle::Particle(
 	}
 	case Particle::RotationType::Random:
 	{
-		float cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
-		float sin = std::sqrt(1.0f - cos * cos);
-		float phi = PI2 * RandomEngine::Random01MOD();
-		float radius = std::pow(RandomEngine::Random01MOD(), 1.0f / 3.0f);
+		r32 cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
+		r32 sin = std::sqrt(1.0f - cos * cos);
+		r32 phi = PI2 * RandomEngine::Random01MOD();
+		r32 radius = std::pow(RandomEngine::Random01MOD(), 1.0f / 3.0f);
 		Vector3 axis = { sin * std::cos(phi), sin * std::sin(phi), cos };
-		float angle = PI2 * RandomEngine::Random01MOD();
+		r32 angle = PI2 * RandomEngine::Random01MOD();
 		transform.set_quaternion(Quaternion::AngleAxis(axis, angle));
 		break;
 	}
@@ -66,7 +66,7 @@ Particle::Particle(
 void Particle::update() {
 	timer += WorldClock::DeltaSeconds();
 
-	float parametric = std::min(1.0f, timer / lifetime);
+	r32 parametric = std::min(1.0f, timer / lifetime);
 
 	velocity += acceleration * WorldClock::DeltaSeconds();
 	transform.plus_translate(velocity * WorldClock::DeltaSeconds());

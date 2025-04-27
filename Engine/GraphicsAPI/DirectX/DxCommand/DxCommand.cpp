@@ -58,7 +58,7 @@ void DxCommand::ExecuteTextureCommand() {
 
 void DxCommand::WaitTextureCommand() {
 	// ----------シグナルの発行----------
-	const std::uint64_t& fenceIndex = ++GetInstance().textureFenceIndex;
+	const u64& fenceIndex = ++GetInstance().textureFenceIndex;
 	Microsoft::WRL::ComPtr<ID3D12Fence>& fence = GetInstance().textureFence;
 	HANDLE& fenceEvent = GetInstance().textureFenceEvent;
 	GetInstance().commandQueueTexture->Signal(fence.Get(), fenceIndex);
@@ -124,7 +124,7 @@ void DxCommand::create_command() {
 void DxCommand::create_fence() {
 	HRESULT hr;
 	// ----------フェンスの生成----------
-	uint64_t fenceValue = 0;
+	u64 fenceValue = 0;
 	hr = DxDevice::GetDevice()->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 	CriticalIf(FAILED(hr), "");
 

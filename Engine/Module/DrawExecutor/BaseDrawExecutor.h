@@ -19,12 +19,12 @@ public:
 	virtual void write_to_buffer(Reference<const InstanceType>) = 0;
 
 public:
-	uint32_t max_instance() const { return maxInstance; }
-	uint32_t count() const { return instanceCounter; }
+	u32 max_instance() const { return maxInstance; }
+	u32 count() const { return instanceCounter; }
 
 protected:
-	uint32_t maxInstance{ 0 };
-	uint32_t instanceCounter{ 0 };
+	u32 maxInstance{ 0 };
+	u32 instanceCounter{ 0 };
 };
 
 template<class InstanceType>

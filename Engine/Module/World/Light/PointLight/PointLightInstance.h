@@ -6,12 +6,12 @@
 
 struct PointLightData {
 	Color3 color; // 色
-	float intensity{ 1 }; // 輝度
+	r32 intensity{ 1 }; // 輝度
 	
 	Vector3 position; // 位置
-	float radius{ 1 }; // 範囲
+	r32 radius{ 1 }; // 範囲
 
-	float decay{ 0 }; // 減衰率
+	r32 decay{ 0 }; // 減衰率
 };
 
 class PointLightInstance : public BaseLightInstance<PointLightData> {

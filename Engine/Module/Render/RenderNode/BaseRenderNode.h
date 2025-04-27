@@ -10,7 +10,7 @@ class DepthStencil;
 class DxPipelineState;
 enum D3D_PRIMITIVE_TOPOLOGY;
 
-enum class RenderNodeConfig : std::uint8_t {
+enum class RenderNodeConfig : u8 {
 	Default = 0,
 	NoClearRenderTarget = 1 << 0,
 	NoChangeStateBegin = 1 << 1,

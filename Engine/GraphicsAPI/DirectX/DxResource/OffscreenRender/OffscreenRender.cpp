@@ -49,7 +49,7 @@ void OffscreenRender::create_resource(UINT64 width, UINT height, DXGI_FORMAT for
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 	ErrorIf(FAILED(hr), "Failed create offscreen resource. Width-\'{}\', Height-\'{}\', Format-\'{}\'",
-		width, height, (int)format);
+		width, height, (i32)format);
 }
 
 void OffscreenRender::change_resource_state() {

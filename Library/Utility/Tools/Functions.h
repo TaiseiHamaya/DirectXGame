@@ -12,12 +12,12 @@ namespace eps {
 /// value >= separate ? 1 : 0;
 /// </summary>
 /// <returns></returns>
-constexpr float step(float separate, float value) noexcept;
+constexpr r32 step(r32 separate, r32 value) noexcept;
 
 /// <summary>
 /// [off, off+on)間で1になるパルス関数
 /// </summary>
-constexpr float pulse_once(float off, float on, float param) noexcept;
+constexpr r32 pulse_once(r32 off, r32 on, r32 param) noexcept;
 
 /// <summary>
 /// 短径波
@@ -26,7 +26,7 @@ constexpr float pulse_once(float off, float on, float param) noexcept;
 /// <param name="on">1の区間長</param>
 /// <param name="param"></param>
 /// <returns></returns>
-constexpr float pulse(float off, float on, float param) noexcept;
+constexpr r32 pulse(r32 off, r32 on, r32 param) noexcept;
 
 /// <summary>
 /// のこぎり波[0-1)
@@ -34,7 +34,7 @@ constexpr float pulse(float off, float on, float param) noexcept;
 /// <param name="period">周期</param>
 /// <param name="param"></param>
 /// <returns></returns>
-constexpr float sawtooth(float period, float param) noexcept;
+constexpr r32 sawtooth(r32 period, r32 param) noexcept;
 
 /// <summary>
 /// 三角波
@@ -43,7 +43,7 @@ constexpr float sawtooth(float period, float param) noexcept;
 /// <param name="down">1->0になる区間長</param>
 /// <param name="param"></param>
 /// <returns></returns>
-constexpr float triangle(float up, float down, float param) noexcept;
+constexpr r32 triangle(r32 up, r32 down, r32 param) noexcept;
 
 /// <summary>
 /// Param == Start、End の時傾きが0
@@ -51,15 +51,15 @@ constexpr float triangle(float up, float down, float param) noexcept;
 /// となる 3x^2 - 2x^3
 /// </summary>
 /// <returns></returns>
-constexpr float smoothstep(float start, float end, float param) noexcept;
+constexpr r32 smoothstep(r32 start, r32 end, r32 param) noexcept;
 
 }
 
-constexpr float eps::step(float separate, float value) noexcept {
+constexpr r32 eps::step(r32 separate, r32 value) noexcept {
 	return value >= separate ? 1.0f : 0.0f;
 }
 
-constexpr float eps::pulse_once(float start, float end, float param) noexcept {
+constexpr r32 eps::pulse_once(r32 start, r32 end, r32 param) noexcept {
 	if (param >= start && param < end) {
 		return 1.0f;
 	}
@@ -68,21 +68,21 @@ constexpr float eps::pulse_once(float start, float end, float param) noexcept {
 	}
 }
 
-constexpr float eps::pulse(float off, float on, float param) noexcept {
-	float period = off + on;
-	float t = eps::sawtooth(period, param);
+constexpr r32 eps::pulse(r32 off, r32 on, r32 param) noexcept {
+	r32 period = off + on;
+	r32 t = eps::sawtooth(period, param);
 	return eps::pulse_once(off, period, t);
 }
 
 
-constexpr float eps::sawtooth(float period, float param) noexcept {
-	float t = eps::lerp_inv(0.0f, period, param);
+constexpr r32 eps::sawtooth(r32 period, r32 param) noexcept {
+	r32 t = eps::lerp_inv(0.0f, period, param);
 	return eps::fractional(t);
 }
 
-constexpr float eps::triangle(float up, float down, float param) noexcept {
-	float period = up + down;
-	float t = eps::sawtooth(period, param);
+constexpr r32 eps::triangle(r32 up, r32 down, r32 param) noexcept {
+	r32 period = up + down;
+	r32 t = eps::sawtooth(period, param);
 	if (t < up / period) {
 		return t * 2.0f / up;
 	}
@@ -91,7 +91,7 @@ constexpr float eps::triangle(float up, float down, float param) noexcept {
 	}
 }
 
-constexpr float eps::smoothstep(float start, float end, float param) noexcept {
-	float t = eps::saturate((param - start) / (end - start));
+constexpr r32 eps::smoothstep(r32 start, r32 end, r32 param) noexcept {
+	r32 t = eps::saturate((param - start) / (end - start));
 	return t * t * (3.0f - 2.0f * t);
 }

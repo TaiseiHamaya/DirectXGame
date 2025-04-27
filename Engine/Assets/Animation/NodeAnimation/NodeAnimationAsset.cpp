@@ -6,31 +6,31 @@
 #include <assimp/vector3.h>
 
 void NodeAnimationAsset::load(aiAnimation* aiPAnimation) {
-	float ticksPerSecond = static_cast<float>(aiPAnimation->mTicksPerSecond);
+	r32 ticksPerSecond = static_cast<r32>(aiPAnimation->mTicksPerSecond);
 	// duration算出
-	duration_ = float(aiPAnimation->mDuration) / ticksPerSecond;
-	for (uint32_t channelIndex = 0; channelIndex < aiPAnimation->mNumChannels; ++channelIndex) {
+	duration_ = r32(aiPAnimation->mDuration) / ticksPerSecond;
+	for (u32 channelIndex = 0; channelIndex < aiPAnimation->mNumChannels; ++channelIndex) {
 		aiNodeAnim* aiNodeAnimation = aiPAnimation->mChannels[channelIndex];
 		// Node追加
 		NodeAnimation& nodeAnimation = nodeAnimations[aiNodeAnimation->mNodeName.C_Str()];
 		// Scale
-		for (uint32_t keyIndex = 0; keyIndex < aiNodeAnimation->mNumScalingKeys; ++keyIndex) {
+		for (u32 keyIndex = 0; keyIndex < aiNodeAnimation->mNumScalingKeys; ++keyIndex) {
 			aiVectorKey& aiKey = aiNodeAnimation->mScalingKeys[keyIndex];
-			float time = float(aiKey.mTime) / ticksPerSecond;
+			r32 time = r32(aiKey.mTime) / ticksPerSecond;
 			Vector3 value = { aiKey.mValue.x,aiKey.mValue.y,aiKey.mValue.z };
 			nodeAnimation.scale.keyframes.emplace(time, value);
 		}
 		// Rotation
-		for (uint32_t keyIndex = 0; keyIndex < aiNodeAnimation->mNumRotationKeys; ++keyIndex) {
+		for (u32 keyIndex = 0; keyIndex < aiNodeAnimation->mNumRotationKeys; ++keyIndex) {
 			aiQuatKey& aiKey = aiNodeAnimation->mRotationKeys[keyIndex];
-			float time = float(aiKey.mTime) / ticksPerSecond;
+			r32 time = r32(aiKey.mTime) / ticksPerSecond;
 			Quaternion value = { aiKey.mValue.x, -aiKey.mValue.y, -aiKey.mValue.z, aiKey.mValue.w };
 			nodeAnimation.rotate.keyframes.emplace(time, value);
 		}
 		// Translate
-		for (uint32_t keyIndex = 0; keyIndex < aiNodeAnimation->mNumPositionKeys; ++keyIndex) {
+		for (u32 keyIndex = 0; keyIndex < aiNodeAnimation->mNumPositionKeys; ++keyIndex) {
 			aiVectorKey& aiKey = aiNodeAnimation->mPositionKeys[keyIndex];
-			float time = float(aiKey.mTime) / ticksPerSecond;
+			r32 time = r32(aiKey.mTime) / ticksPerSecond;
 			Vector3 value = { -aiKey.mValue.x,aiKey.mValue.y,aiKey.mValue.z };
 			nodeAnimation.translate.keyframes.emplace(time, value);
 		}

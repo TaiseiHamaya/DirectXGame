@@ -13,7 +13,7 @@ class Vector2 final { // 2次元ベクトル
 	/// </summary>
 public:
 	inline constexpr Vector2() noexcept;
-	inline constexpr Vector2(float x, float y) noexcept;
+	inline constexpr Vector2(r32 x, r32 y) noexcept;
 	inline constexpr Vector2(const Vector2& vec) noexcept = default;
 	inline constexpr Vector2(Vector2&& vec) noexcept = default;
 
@@ -21,8 +21,8 @@ public:
 
 public:
 	// ------------------基礎構造------------------
-	float x; // X座標
-	float y; // Y座標
+	r32 x; // X座標
+	r32 y; // Y座標
 
 public:
 	// ------------------operator------------------
@@ -32,12 +32,12 @@ public:
 	inline constexpr const Vector2 operator-(void) const noexcept;
 	inline constexpr const Vector2 operator+(const Vector2& opr) const noexcept;
 	inline constexpr const Vector2 operator-(const Vector2& opr) const noexcept;
-	inline constexpr const Vector2 operator*(float times) const noexcept;
-	inline constexpr const Vector2 operator/(float times) const noexcept;
+	inline constexpr const Vector2 operator*(r32 times) const noexcept;
+	inline constexpr const Vector2 operator/(r32 times) const noexcept;
 	inline constexpr Vector2& operator+=(const Vector2& opr) noexcept;
 	inline constexpr Vector2& operator-=(const Vector2& opr) noexcept;
-	inline constexpr Vector2& operator*=(float times) noexcept;
-	inline constexpr Vector2& operator/=(float times) noexcept;
+	inline constexpr Vector2& operator*=(r32 times) noexcept;
+	inline constexpr Vector2& operator/=(r32 times) noexcept;
 	inline constexpr bool operator==(const Vector2& opr) const noexcept;
 	inline constexpr bool operator!=(const Vector2& opr) const noexcept;
 
@@ -48,7 +48,7 @@ public:
 	/// ベクトルの長さを出す
 	/// </summary>
 	/// <returns></returns>
-	float length(void) const noexcept;
+	r32 length(void) const noexcept;
 
 	/// <summary>
 	/// ベクトルの正規化
@@ -62,7 +62,7 @@ public:
 	/// <param name="tolerance">lengthの許容値</param>
 	/// <param name="disapproval">範囲外だった場合の戻り値</param>
 	/// <returns></returns>
-	const Vector2 normalize_safe(float tolerance = 0.0001f, const Vector2& disapproval = { 1,0 }) const noexcept;
+	const Vector2 normalize_safe(r32 tolerance = 0.0001f, const Vector2& disapproval = { 1,0 }) const noexcept;
 
 public:
 	// ------------------static関数------------------
@@ -72,27 +72,27 @@ public:
 	/// <param name="input1">2次元ベクトル1</param>
 	/// <param name="input2">2次元ベクトル2</param>
 	/// </summary>
-	static constexpr float Dot(const Vector2& input1, const Vector2& input2) noexcept;
+	static constexpr r32 Dot(const Vector2& input1, const Vector2& input2) noexcept;
 
 	/// <summary>
 	/// 2つのベクトルの外積を計算
 	/// <param name="input1">2次元ベクトル1</param>
 	/// <param name="input2">2次元ベクトル2</param>
 	/// </summary>
-	static constexpr float Cross(const Vector2& input1, const Vector2& input2) noexcept;
+	static constexpr r32 Cross(const Vector2& input1, const Vector2& input2) noexcept;
 
 	/// <summary>
 	/// ベクトルの大きさを計算
 	/// <param name="vector">終点の座標</param>
 	/// </summary>
-	static float Length(const Vector2& vector) noexcept;
+	static r32 Length(const Vector2& vector) noexcept;
 
 	/// <summary>
 	/// ベクトルの大きさを計算
 	/// <param name="vector1">終点の座標</param>
 	/// <param name="vector2">始点の座標</param>
 	/// </summary>
-	static float Length(const Vector2& vector1, const Vector2& vector2) noexcept;
+	static r32 Length(const Vector2& vector1, const Vector2& vector2) noexcept;
 
 	/// <summary>
 	/// ベクトルの正規化
@@ -126,7 +126,7 @@ public:
 	/// <param name="vector1">乗算されるベクトル</param>
 	/// <param name="times">係数</param>
 	/// </summary>
-	static constexpr const Vector2 Multiply(const Vector2& vector, const float& times) noexcept;
+	static constexpr const Vector2 Multiply(const Vector2& vector, const r32& times) noexcept;
 
 	/// <summary>
 	/// ベクトルを定数倍
@@ -141,19 +141,19 @@ public:
 	/// <param name="to">終点の位置ベクトル</param>
 	/// <param name="t">割合T</param>
 	/// </summary>
-	static constexpr const Vector2 Lerp(const Vector2& from, const Vector2& to, const float& t) noexcept;
+	static constexpr const Vector2 Lerp(const Vector2& from, const Vector2& to, const r32& t) noexcept;
 
 	/// <summary>
 	/// <param name="vector">変換するベクトル</param>
 	/// <param name="radian">回転量(ラジアン)</param>
 	/// </summary>
-	static const Vector2 Rotate(const Vector2& vector, const float& radian) noexcept;
+	static const Vector2 Rotate(const Vector2& vector, const r32& radian) noexcept;
 
 	/// <summary>
 	/// <param name="vector">変換するベクトル</param>
 	/// <param name="radian">回転量(ラジアン)</param>
 	/// </summary>
-	static constexpr const Vector2 Rotate(const Vector2& vector, const float sinTheta, const float cosTheta) noexcept;
+	static constexpr const Vector2 Rotate(const Vector2& vector, const r32 sinTheta, const r32 cosTheta) noexcept;
 
 	/// <summary>
 	/// 2次ベジエ曲線
@@ -163,7 +163,7 @@ public:
 	/// <param name="terminal">終点</param>
 	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
-	static constexpr const Vector2 Bezier(const Vector2& initial, const Vector2& control, const Vector2& terminal, const float t) noexcept;
+	static constexpr const Vector2 Bezier(const Vector2& initial, const Vector2& control, const Vector2& terminal, const r32 t) noexcept;
 
 	/// <summary>
 	/// ベクトルの各要素の絶対値化
@@ -204,7 +204,7 @@ public:
 	/// <param name="to">t=1のベクトル</param>
 	/// <param name="t">媒介変数</param>
 	/// <returns></returns>
-	static Vector2 Slerp(const Vector2& from, const Vector2& to, const float& t);
+	static Vector2 Slerp(const Vector2& from, const Vector2& to, const r32& t);
 
 };
 
@@ -212,7 +212,7 @@ inline constexpr Vector2::Vector2() noexcept :
 	x(0.0f), y(0.0f) {
 }
 
-inline constexpr Vector2::Vector2(float x, float y) noexcept :
+inline constexpr Vector2::Vector2(r32 x, r32 y) noexcept :
 	x(x), y(y) {
 }
 
@@ -234,11 +234,11 @@ inline constexpr const Vector2 Vector2::operator-(const Vector2& opr) const noex
 	return { x - opr.x, y - opr.y };
 }
 
-inline constexpr const Vector2 Vector2::operator*(float times) const noexcept {
+inline constexpr const Vector2 Vector2::operator*(r32 times) const noexcept {
 	return { x * times, y * times };
 }
 
-inline constexpr const Vector2 Vector2::operator/(float times) const noexcept {
+inline constexpr const Vector2 Vector2::operator/(r32 times) const noexcept {
 	return { x / times, y / times };
 }
 
@@ -254,13 +254,13 @@ inline constexpr Vector2& Vector2::operator-=(const Vector2& opr) noexcept {
 	return *this;
 }
 
-inline constexpr Vector2& Vector2::operator*=(float times) noexcept {
+inline constexpr Vector2& Vector2::operator*=(r32 times) noexcept {
 	x *= times;
 	y *= times;
 	return *this;
 }
 
-inline constexpr Vector2& Vector2::operator/=(float times) noexcept {
+inline constexpr Vector2& Vector2::operator/=(r32 times) noexcept {
 	x /= times;
 	y /= times;
 	return *this;
@@ -274,11 +274,11 @@ inline constexpr bool Vector2::operator!=(const Vector2& opr) const noexcept {
 	return !(*this == opr);
 }
 
-constexpr float Vector2::Dot(const Vector2& input1, const Vector2& input2) noexcept {
+constexpr r32 Vector2::Dot(const Vector2& input1, const Vector2& input2) noexcept {
 	return input1.x * input2.x + input1.y * input2.y;
 }
 
-constexpr float Vector2::Cross(const Vector2& input1, const Vector2& input2) noexcept {
+constexpr r32 Vector2::Cross(const Vector2& input1, const Vector2& input2) noexcept {
 	return input1.x * input2.y - input1.y * input2.x;
 }
 
@@ -290,7 +290,7 @@ constexpr const Vector2 Vector2::Subtract(const Vector2& vector1, const Vector2&
 	return vector1 - vector2;
 }
 
-constexpr const Vector2 Vector2::Multiply(const Vector2& vector, const float& times) noexcept {
+constexpr const Vector2 Vector2::Multiply(const Vector2& vector, const r32& times) noexcept {
 	return Vector2{ vector.x * times, vector.y * times };
 }
 
@@ -298,15 +298,15 @@ constexpr const Vector2 Vector2::Multiply(const Vector2& vector, const Vector2& 
 	return Vector2{ vector.x * times.x, vector.y * times.y };
 }
 
-constexpr const Vector2 Vector2::Lerp(const Vector2& from, const Vector2& to, const float& t) noexcept {
+constexpr const Vector2 Vector2::Lerp(const Vector2& from, const Vector2& to, const r32& t) noexcept {
 	return from * (1 - t) + to * t;
 }
 
-constexpr const Vector2 Vector2::Bezier(const Vector2& initial, const Vector2& control, const Vector2& terminal, const float t) noexcept {
+constexpr const Vector2 Vector2::Bezier(const Vector2& initial, const Vector2& control, const Vector2& terminal, const r32 t) noexcept {
 	return Lerp(Lerp(initial, control, t), Lerp(control, terminal, t), t);
 }
 
-constexpr const Vector2 Vector2::Rotate(const Vector2& vector, const float sinTheta, const float cosTheta) noexcept {
+constexpr const Vector2 Vector2::Rotate(const Vector2& vector, const r32 sinTheta, const r32 cosTheta) noexcept {
 	return Vector2{
 		vector.x * cosTheta - vector.y * sinTheta,
 		vector.x * sinTheta + vector.y * cosTheta };
@@ -321,9 +321,9 @@ constexpr Vector2 BASIS_X{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
 constexpr Vector2 BASIS_Y{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
 constexpr Vector2 ZERO{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
 constexpr Vector2 BASIS{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
-constexpr Vector2 INFINTY{ std::numeric_limits<float>::infinity(),std::numeric_limits<float>::infinity() };
-constexpr Vector2 INFINTY_X{ std::numeric_limits<float>::infinity(),0 };
-constexpr Vector2 INFINTY_Y{ 0, std::numeric_limits<float>::infinity() };
+constexpr Vector2 INFINTY{ std::numeric_limits<r32>::infinity(),std::numeric_limits<r32>::infinity() };
+constexpr Vector2 INFINTY_X{ std::numeric_limits<r32>::infinity(),0 };
+constexpr Vector2 INFINTY_Y{ 0, std::numeric_limits<r32>::infinity() };
 
 constexpr Vector2 FORWARD{ BASIS_X };
 constexpr Vector2 BACKWARD{ -FORWARD };

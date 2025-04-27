@@ -13,7 +13,7 @@ namespace DeferredAdaptor {
 /// <summary>
 /// G-Bufferの数
 /// </summary>
-constexpr const uint32_t NUM_GBUFFER = 2;
+constexpr const u32 NUM_GBUFFER = 2;
 
 /// <summary>
 /// MRTの型
@@ -35,7 +35,7 @@ constexpr const std::array<DXGI_FORMAT, NUM_GBUFFER> DXGI_FORMAT_LIST = {
 /// <param name="height">高さ</param>
 /// <returns>initialize済みGBuffer</returns>
 inline std::shared_ptr<GBuffersType> CreateGBufferRenderTarget(
-	std::uint32_t width = EngineSettings::CLIENT_WIDTH, std::uint32_t height = EngineSettings::CLIENT_HEIGHT
+	u32 width = EngineSettings::CLIENT_WIDTH, u32 height = EngineSettings::CLIENT_HEIGHT
 ) {
 	auto result = eps::CreateShared<GBuffersType>();
 	result->initialize(
@@ -46,7 +46,7 @@ inline std::shared_ptr<GBuffersType> CreateGBufferRenderTarget(
 }
 
 inline std::shared_ptr<SingleRenderTarget> CreateLightingTargetTexture(
-	std::uint32_t width = EngineSettings::CLIENT_WIDTH, std::uint32_t height = EngineSettings::CLIENT_HEIGHT
+	u32 width = EngineSettings::CLIENT_WIDTH, u32 height = EngineSettings::CLIENT_HEIGHT
 ) {
 	auto result = eps::CreateShared<SingleRenderTarget>();
 	result->initialize(

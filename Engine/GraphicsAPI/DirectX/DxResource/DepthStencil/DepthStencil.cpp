@@ -14,7 +14,7 @@ DepthStencil::~DepthStencil() {
 	}
 }
 
-void DepthStencil::initialize(DXGI_FORMAT format, std::uint32_t width, std::uint32_t height) {
+void DepthStencil::initialize(DXGI_FORMAT format, u32 width, u32 height) {
 	create_depth_stencil_texture_resource(width, height, format);
 	create_dsv();
 	create_srv();
@@ -67,7 +67,7 @@ DXGI_FORMAT DepthStencil::texture_format() const {
 	return static_cast<DXGI_FORMAT>(resource->GetDesc().Format + 1);
 }
 
-void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, std::uint32_t height, DXGI_FORMAT format) {
+void DepthStencil::create_depth_stencil_texture_resource(u32 width, u32 height, DXGI_FORMAT format) {
 	HRESULT hr;
 	D3D12_RESOURCE_DESC resourceDesc{};
 	resourceDesc.Width = width;
@@ -94,7 +94,7 @@ void DepthStencil::create_depth_stencil_texture_resource(std::uint32_t width, st
 		&depthClearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
-	ErrorIf(FAILED(hr), "Failed create depth stencil. Size-\'[{}, {}]\', Format-\'{}\'", width, height, (int)format);
+	ErrorIf(FAILED(hr), "Failed create depth stencil. Size-\'[{}, {}]\', Format-\'{}\'", width, height, (i32)format);
 }
 
 void DepthStencil::create_dsv() {

@@ -269,7 +269,7 @@ void WinApp::initialize_application(DWORD windowConfig) {
 #include <thread>
 
 void WinApp::wait_frame() {
-	using millisecond_f = std::chrono::duration<float, std::milli>;
+	using millisecond_f = std::chrono::duration<r32, std::milli>;
 
 	//constexpr millisecond_f MinTime{ 1000.00000f / 60.0f };
 	constexpr millisecond_f MinCheckTime{ 1000.00000f / 65.0f }; // 少し短い時間を使用することで60FPSになるようにする

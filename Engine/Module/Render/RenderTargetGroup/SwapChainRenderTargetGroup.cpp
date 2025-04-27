@@ -7,13 +7,13 @@
 
 void SwapChainRenderTargetGroup::initialize() {
 	create_view_port(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
-	for (int i = 0; i < renderTargets.size(); ++i) {
+	for (i32 i = 0; i < renderTargets.size(); ++i) {
 		renderTargets[i].create_view(DxSystemValues::SCREEN_RTV_FORMAT);
 		renderTargetHandles[i] = renderTargets[i].get_cpu_handle();
 	}
 }
 
-void SwapChainRenderTargetGroup::set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, std::uint32_t index) {
+void SwapChainRenderTargetGroup::set_resource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource_, u32 index) {
 	renderTargets[index].get_resource() = resource_;
 }
 

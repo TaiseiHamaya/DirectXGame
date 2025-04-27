@@ -16,7 +16,7 @@ public:
 	static void Update();
 
 public:
-	static float DeltaSeconds();
+	static r32 DeltaSeconds();
 	static const std::chrono::high_resolution_clock::time_point& BeginTime();
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -25,7 +25,7 @@ public:
 #endif // _DEBUG
 
 private:
-	float deltaSeconds{ 0.0f };
+	r32 deltaSeconds{ 0.0f };
 	std::chrono::high_resolution_clock::time_point startFrameTimePoint;
 
 #ifdef DEBUG_FEATURES_ENABLE

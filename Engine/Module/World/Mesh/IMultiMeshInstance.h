@@ -20,7 +20,7 @@ public:
 		Color3 color;
 		Transform2D uvTransform;
 		LighingType lightingType{ LighingType::HalfLambert };
-		float shininess{ 50 };
+		r32 shininess{ 50 };
 	};
 
 public:
@@ -34,7 +34,7 @@ public:
 	const std::vector<Material>& get_materials() const;
 
 protected:
-	void set_texture(const std::string& name, int index = 0);
+	void set_texture(const std::string& name, i32 index = 0);
 
 protected:
 	std::vector<Material> materials;

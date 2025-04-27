@@ -46,7 +46,7 @@ void ImGuiLoadManager::show_gui() {
 	}
 	ImGui::SameLine();
 	ImGui::Text(std::format("Current-\'{:}\'", meshCurrentPath.string()).c_str());
-	for (int i = 0; i < meshFileList.size(); ++i) {
+	for (u32 i = 0; i < meshFileList.size(); ++i) {
 		if (ImGui::Button(meshFileList[i].c_str())) {
 			std::filesystem::path select = meshCurrentPath / meshFileList[i];
 			if (std::filesystem::is_directory(select)) {
@@ -79,7 +79,7 @@ void ImGuiLoadManager::show_gui() {
 	}
 	ImGui::SameLine();
 	ImGui::Text(std::format("Current-\'{:}\'", textureCurrentPath.string()).c_str());
-	for (int i = 0; i < textureFileList.size(); ++i) {
+	for (u32 i = 0; i < textureFileList.size(); ++i) {
 		if (ImGui::Button(textureFileList[i].c_str())) {
 			std::filesystem::path select = textureCurrentPath / textureFileList[i];
 			if (std::filesystem::is_directory(select)) {

@@ -8,14 +8,14 @@ template<class Type>
 class TimedCall {
 public:
 	TimedCall() = default;
-	TimedCall(std::function<Type>&& function_, float time_);
+	TimedCall(std::function<Type>&& function_, r32 time_);
 	~TimedCall() = default;
 
 	void update();
 
 	bool is_finished() const;
 
-	void restart(float time);
+	void restart(r32 time);
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
@@ -29,7 +29,7 @@ private:
 };
 
 template<class Type>
-inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, float time_) {
+inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, r32 time_) {
 	function = function_;
 	timer.set(time_);
 }
@@ -49,7 +49,7 @@ inline bool TimedCall<Type>::is_finished() const {
 }
 
 template<class Type>
-inline void TimedCall<Type>::restart(float time_) {
+inline void TimedCall<Type>::restart(r32 time_) {
 	timer.set(time_);
 	isFinished = false;
 }

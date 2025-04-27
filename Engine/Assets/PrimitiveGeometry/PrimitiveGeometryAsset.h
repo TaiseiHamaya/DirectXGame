@@ -17,7 +17,7 @@ public:
 
 	PrimitiveGeometryAsset(
 		std::vector<Vector3> vertices_,
-		std::vector<uint32_t> indices
+		std::vector<u32> indices
 	);
 
 public:

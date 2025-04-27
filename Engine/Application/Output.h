@@ -1,11 +1,10 @@
 #pragma once
 
-#include <cstdint>
 #include <format>
 #include <source_location>
-#include <string_view>
+#include <string>
 
-enum class LogType : uint8_t {
+enum class LogType : u8 {
 	//Trace,
 	Infomation,
 	Warning,

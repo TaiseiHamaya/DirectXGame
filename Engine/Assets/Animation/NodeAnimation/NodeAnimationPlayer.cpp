@@ -7,8 +7,8 @@
 
 #include "Engine/Runtime/Clock/WorldClock.h"
 
-template<typename T, T LerpFunction(const T&, const T&, float) = std::lerp>
-T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time);
+template<typename T, T LerpFunction(const T&, const T&, r32) = std::lerp>
+T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, r32 time);
 
 NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName_, bool isLoop_) :
 	isLoop(isLoop_),
@@ -77,7 +77,7 @@ bool NodeAnimationPlayer::is_end() const noexcept {
 	return parametric() >= 1.0f;
 }
 
-float NodeAnimationPlayer::parametric() const noexcept {
+r32 NodeAnimationPlayer::parametric() const noexcept {
 	if (nodeAnimation) {
 		return timer / nodeAnimation->duration();
 	}
@@ -88,11 +88,11 @@ void NodeAnimationPlayer::set_loop(bool isLoop_) noexcept {
 	isLoop = isLoop_;
 }
 
-void NodeAnimationPlayer::set_time_force(float timer_) noexcept {
+void NodeAnimationPlayer::set_time_force(r32 timer_) noexcept {
 	timer = timer_;
 }
 
-void NodeAnimationPlayer::animation_speed(float speed) noexcept {
+void NodeAnimationPlayer::animation_speed(r32 speed) noexcept {
 	animationSpeed = speed;
 }
 
@@ -115,9 +115,9 @@ void NodeAnimationPlayer::debug_gui() {
 }
 #endif // _DEBUG
 
-template<typename T, T LerpFunction(const T&, const T&, float)>
-T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, float time) {
-	const std::map<float, T>& keyframes = animationCurve.keyframes;
+template<typename T, T LerpFunction(const T&, const T&, r32)>
+T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, r32 time) {
+	const std::map<r32, T>& keyframes = animationCurve.keyframes;
 	// キーフレームがない場合はTを初期値で返す
 	if (keyframes.empty()) {
 		return T{};
@@ -135,6 +135,6 @@ T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, fl
 	}
 	// 1つ前のKeyframeを取得
 	auto beginKey = std::prev(endKey);
-	float parametric = (time - beginKey->first) / (endKey->first - beginKey->first);
+	r32 parametric = (time - beginKey->first) / (endKey->first - beginKey->first);
 	return LerpFunction(beginKey->second, endKey->second, parametric);
 }

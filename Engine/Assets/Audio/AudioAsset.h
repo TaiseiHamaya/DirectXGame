@@ -17,13 +17,13 @@ public:
 
 public:
 	bool load(const std::filesystem::path& filePath);
-	std::uint32_t size() const noexcept;
+	u32 size() const noexcept;
 	const std::basic_string<BYTE>& buffer_data() const noexcept;
 	const WAVEFORMATEX& format() const noexcept;
 
 private:
 	WAVEFORMATEXTENSIBLE format_;
 	std::basic_string<BYTE> buffer_;
-	std::uint32_t bufferSize_;
+	u32 bufferSize_;
 };
 

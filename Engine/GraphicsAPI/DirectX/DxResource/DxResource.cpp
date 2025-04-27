@@ -22,7 +22,7 @@ const Microsoft::WRL::ComPtr<ID3D12Resource>& DxResource::get_resource() const n
 	return resource;
 }
 
-[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> DxResource::CreateBufferResource(std::uint64_t sizeInByte) {
+[[nodiscard]] Microsoft::WRL::ComPtr<ID3D12Resource> DxResource::CreateBufferResource(size_t sizeInByte) {
 	Microsoft::WRL::ComPtr<ID3D12Resource> bufferResource;
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD; // UploadのHeap

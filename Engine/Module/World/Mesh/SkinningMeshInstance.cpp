@@ -38,7 +38,7 @@ void SkinningMeshInstance::update_animation() {
 
 	// Skeletonの行列計算
 	const Skeleton& skeleton = skeletonResrouce->skeleton();
-	for (uint32_t jointIndex = 0; jointIndex < jointInstances.size(); ++jointIndex) {
+	for (u32 jointIndex = 0; jointIndex < jointInstances.size(); ++jointIndex) {
 		SkeletonSpaceInstance& jointInstance = jointInstances[jointIndex];
 		const Joint& joint = skeleton.joints[jointIndex];
 
@@ -96,7 +96,7 @@ void SkinningMeshInstance::default_material() {
 
 	materials.resize(mesh->material_count());
 
-	for (int i = 0; auto & meshMaterial : materials) {
+	for (i32 i = 0; auto & meshMaterial : materials) {
 		// 色情報のリセット
 		const auto* meshMaterialData = mesh->material_data(i);
 		if (meshMaterialData) {
@@ -120,7 +120,7 @@ void SkinningMeshInstance::create_skeleton() {
 		return;
 	}
 
-	uint32_t jointSize = static_cast<uint32_t>(skeletonResrouce->joint_size());
+	u32 jointSize = static_cast<u32>(skeletonResrouce->joint_size());
 
 	// Jointがのサイズが0の場合おかしいので強制終了
 	if (jointSize == 0) {
@@ -135,7 +135,7 @@ void SkinningMeshInstance::create_skeleton() {
 	// ボーン描画用(削除予定)
 	const Skeleton skeleton = skeletonResrouce->skeleton();
 	boneMeshTest.resize(jointSize);
-	for (uint32_t i = 0; i < jointSize; ++i) {
+	for (u32 i = 0; i < jointSize; ++i) {
 		StaticMeshInstance& boneMesh = boneMeshTest[i];
 		const Joint& joint = skeleton.joints[i];
 		boneMesh.reset_mesh("bone.obj");
@@ -164,7 +164,7 @@ void SkinningMeshInstance::debug_gui() {
 	WorldInstance::debug_gui();
 	ImGui::Separator();
 	ImGui::Text("Materials");
-	for (int i = 0; auto & meshMaterial : materials) {
+	for (i32 i = 0; auto & meshMaterial : materials) {
 		std::string treeNodeName;
 		auto meshData = mesh->mesh_data(i);
 		if (meshData) {
@@ -192,7 +192,7 @@ void SkinningMeshInstance::debug_gui() {
 				meshMaterial.lightingType = LighingType::HalfLambert;
 			}
 
-			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<float>::max());
+			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
 
 			ImGui::TreePop();
 		}

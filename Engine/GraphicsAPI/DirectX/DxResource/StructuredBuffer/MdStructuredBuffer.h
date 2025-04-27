@@ -25,10 +25,10 @@ public:
 	MdStructuredBuffer& operator=(MdStructuredBuffer&&) noexcept = default;
 
 public:
-	void initialize(uint32_t numInstance, uint32_t arraySize_);
+	void initialize(u32 numInstance, u32 arraySize_);
 
 public:
-	std::span<T> operator[](uint32_t i) const;
+	std::span<T> operator[](u32 i) const;
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_handle_gpu() const { return gpuHandle; };
 
 private:
@@ -40,10 +40,10 @@ private:
 
 private:
 	T* data{ nullptr };
-	uint32_t numInstance{ 0 };
-	uint32_t arraySize{ 0 };
+	u32 numInstance{ 0 };
+	u32 arraySize{ 0 };
 
-	std::optional<uint32_t> heapIndex;
+	std::optional<u32> heapIndex;
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 };
 
@@ -54,7 +54,7 @@ inline MdStructuredBuffer<T>::~MdStructuredBuffer() noexcept {
 }
 
 template<ConceptCPUBufferACE T>
-inline void MdStructuredBuffer<T>::initialize(uint32_t numInstance_, uint32_t arraySize_) {
+inline void MdStructuredBuffer<T>::initialize(u32 numInstance_, u32 arraySize_) {
 	if (numInstance * arraySize == numInstance_ * arraySize_) {
 		arraySize = arraySize_;
 		numInstance = numInstance_;
@@ -71,7 +71,7 @@ inline void MdStructuredBuffer<T>::initialize(uint32_t numInstance_, uint32_t ar
 }
 
 template<ConceptCPUBufferACE T>
-inline std::span<T> MdStructuredBuffer<T>::operator[](uint32_t i) const {
+inline std::span<T> MdStructuredBuffer<T>::operator[](u32 i) const {
 #ifdef DEBUG_FEATURES_ENABLE
 	if (i >= numInstance) {
 		throw std::out_of_range("index is out of range.");

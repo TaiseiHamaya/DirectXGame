@@ -23,7 +23,7 @@ struct PrimitiveMaterial {
 	Color4 color;
 	Transform2D uvTransform;
 	LighingType lightingType{ LighingType::HalfLambert };
-	float shininess{ 50 };
+	r32 shininess{ 50 };
 };
 
 template<typename PrimitiveData>
@@ -78,6 +78,6 @@ inline void IPrimitiveInstance<PrimitiveData>::debug_gui() {
 		material.lightingType = LighingType::HalfLambert;
 	}
 
-	ImGui::DragFloat("Shininess", &material.shininess, 0.1f, 0.0f, std::numeric_limits<float>::max());
+	ImGui::DragFloat("Shininess", &material.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
 }
 #endif // DEBUG_FEATURES_ENABLE

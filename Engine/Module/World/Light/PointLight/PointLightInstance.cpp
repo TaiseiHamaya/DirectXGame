@@ -1,7 +1,7 @@
 #include "PointLightInstance.h"
 
 void PointLightInstance::update_affine() {
-	float scale = lightData.radius + 0.1f;
+	r32 scale = lightData.radius + 0.1f;
 	transform.set_scale(
 		{ scale, scale, scale }
 	);
@@ -24,7 +24,7 @@ void PointLightInstance::debug_gui() {
 	// 色
 	lightData.color.debug_gui();
 
-	constexpr float FLOAT_MAX = (std::numeric_limits<float>::max)(); // 定数
+	constexpr r32 FLOAT_MAX = (std::numeric_limits<r32>::max)(); // 定数
 	// 輝度
 	ImGui::DragFloat("Intensity", &lightData.intensity, 0.01f, 0.0f, FLOAT_MAX);
 	// 範囲

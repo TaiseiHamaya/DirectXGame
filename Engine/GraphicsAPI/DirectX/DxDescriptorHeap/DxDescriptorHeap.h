@@ -18,17 +18,17 @@ protected:
 
 protected:
 	virtual void create_descriptor_heap() = 0;
-	const D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(std::uint32_t index) const noexcept;
-	const D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(std::uint32_t index) const noexcept;
-	const std::uint32_t use_heap_index() noexcept;
-	void release_heap(std::uint32_t index);
+	const D3D12_CPU_DESCRIPTOR_HANDLE get_cpu_handle(u32 index) const noexcept;
+	const D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(u32 index) const noexcept;
+	const u32 use_heap_index() noexcept;
+	void release_heap(u32 index);
 
 protected:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap;
 	D3D12_CPU_DESCRIPTOR_HANDLE heapStartCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE heapStartGPU;
-	std::list<std::uint32_t> releasedHeap;
-	std::uint32_t nowHeapIndex;
+	std::list<u32> releasedHeap;
+	u32 nowHeapIndex;
 	UINT incrementSize;
 
 protected: // Heap共有関数

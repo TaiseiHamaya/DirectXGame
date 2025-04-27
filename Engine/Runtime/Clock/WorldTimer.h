@@ -4,12 +4,12 @@ class WorldTimer final {
 public:
 	void ahead();
 	void back();
-	void set(float time);
-	float time() const;
+	void set(r32 time);
+	r32 time() const;
 
 public:
-	operator float() const noexcept { return timer; };
+	operator r32() const noexcept { return timer; };
 
 private:
-	float timer{ 0 };
+	r32 timer{ 0 };
 };

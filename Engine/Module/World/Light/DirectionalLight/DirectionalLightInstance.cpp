@@ -10,7 +10,7 @@ void DirectionalLightInstance::debug_gui() {
 	// 色
 	lightData.color.debug_gui();
 	// 強度
-	ImGui::DragFloat("Intensity", &lightData.intensity, 0.01f, 0.0f, (std::numeric_limits<float>::max)());
+	ImGui::DragFloat("Intensity", &lightData.intensity, 0.01f, 0.0f, (std::numeric_limits<r32>::max)());
 	// 向き
 	Vector3 rotate = CVector3::ZERO;
 	ImGui::Text(std::format("X : {:.3}, Y : {:.3}, Z : {:.3}", lightData.direction.x, lightData.direction.y, lightData.direction.z).c_str());

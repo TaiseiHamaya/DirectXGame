@@ -35,7 +35,7 @@ void BaseRenderTargetGroup::end(const eps::bitflag<RenderNodeConfig>& config_) {
 	}
 }
 
-void BaseRenderTargetGroup::create_view_port(std::uint32_t width, std::uint32_t height) {
+void BaseRenderTargetGroup::create_view_port(u32 width, u32 height) {
 	viewPort = std::make_unique<D3D12_VIEWPORT>(
 		0.0f, 0.0f,
 		static_cast<FLOAT>(width),

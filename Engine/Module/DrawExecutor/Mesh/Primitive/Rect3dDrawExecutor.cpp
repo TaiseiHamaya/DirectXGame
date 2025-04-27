@@ -10,7 +10,7 @@
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 
-void Rect3dDrawExecutor::reinitialize(PrimitiveType type_, uint32_t maxInstance_) {
+void Rect3dDrawExecutor::reinitialize(PrimitiveType type_, u32 maxInstance_) {
 	type = type_;
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);
@@ -39,7 +39,7 @@ void Rect3dDrawExecutor::write_to_buffer(Reference<const Rect3d> instance) {
 		return;
 	}
 
-	uint32_t next;
+	u32 next;
 	{
 		std::lock_guard<std::mutex> lock{ writeBufferMutex };
 

@@ -27,7 +27,7 @@ SpriteInstance::SpriteInstance(const std::string& textureName, const Vector2& pi
 
 	texture = TextureLibrary::GetTexture(textureName);
 	create_local_vertices(pivot);
-	std::vector<std::uint32_t> indexData{ 0,1,2,1,3,2 };
+	std::vector<u32> indexData{ 0,1,2,1,3,2 };
 	indexes = std::make_unique<IndexBuffer>(indexData);
 }
 
@@ -68,7 +68,7 @@ void SpriteInstance::debug_gui() {
 #endif // _DEBUG
 
 void SpriteInstance::create_local_vertices(const Vector2& pivot) {
-	Vector2 base = { static_cast<float>(texture->get_texture_width()), static_cast<float>(texture->get_texture_height()) };
+	Vector2 base = { static_cast<r32>(texture->get_texture_width()), static_cast<r32>(texture->get_texture_height()) };
 	std::vector<VertexDataBuffer> vertexData(4);
 	vertexData[0] = {
 		Converter::ToVector3(Vector2::Multiply(base, {-pivot.x, 1 - pivot.y}), 0),

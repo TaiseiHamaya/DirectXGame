@@ -6,7 +6,7 @@
 
 #include "Engine/Application/Output.h"
 
-float Vector3::length() const noexcept {
+r32 Vector3::length() const noexcept {
 	return std::sqrt(Dot(*this, *this));
 }
 
@@ -15,9 +15,9 @@ Vector3 Vector3::normalize() const noexcept(false) {
 	return *this / length();;
 }
 
-Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) const noexcept {
+Vector3 Vector3::normalize_safe(r32 tolerance, const Vector3& disapproval) const noexcept {
 	WarningIf(tolerance < 0, "First argument tolerance less 0.");
-	float length_ = length();
+	r32 length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;
 	}
@@ -26,11 +26,11 @@ Vector3 Vector3::normalize_safe(float tolerance, const Vector3& disapproval) con
 	}
 }
 
-float Vector3::Length(const Vector3& vector) noexcept {
+r32 Vector3::Length(const Vector3& vector) noexcept {
 	return vector.length();
 }
 
-float Vector3::Length(const Vector3& vector1, const Vector3& vector2) noexcept {
+r32 Vector3::Length(const Vector3& vector1, const Vector3& vector2) noexcept {
 	return Vector3::Length(vector1 - vector2);
 }
 
@@ -58,17 +58,17 @@ Vector3 Vector3::Clamp(const Vector3& vector, const Vector3& min, const Vector3&
 	return { std::clamp(vector.x, min.x, max.x),std::clamp(vector.y, min.y, max.y) ,std::clamp(vector.z, min.z, max.z) };
 }
 
-Vector3 Vector3::Slerp(const Vector3& from, const Vector3& to, const float& t) {
-	float dot = Vector3::Dot(from, to);
+Vector3 Vector3::Slerp(const Vector3& from, const Vector3& to, const r32& t) {
+	r32 dot = Vector3::Dot(from, to);
 	if (dot >= 0.9999f) {
 		return Lerp(from, to, t).normalize();
 	}
 
-	float theta = std::acos(dot);
-	float sinT = std::sin(theta);
+	r32 theta = std::acos(dot);
+	r32 sinT = std::sin(theta);
 
-	float factor0 = std::sin((1 - t) * theta) / sinT;
-	float factor1 = std::sin(t * theta) / sinT;
+	r32 factor0 = std::sin((1 - t) * theta) / sinT;
+	r32 factor1 = std::sin(t * theta) / sinT;
 
 	return from * factor0 + to * factor1;
 }

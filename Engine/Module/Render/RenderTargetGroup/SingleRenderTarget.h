@@ -20,7 +20,7 @@ public:
 	/// </summary>
 	/// <param name="width">幅</param>
 	/// <param name="height">高さ</param>
-	void initialize(std::uint32_t width, std::uint32_t height);
+	void initialize(u32 width, u32 height);
 
 public:
 	/// <summary>

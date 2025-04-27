@@ -56,7 +56,7 @@ private:
 	void create_texture_view();
 
 private:
-	std::optional<std::uint32_t> srvHeapIndex;
+	std::optional<u32> srvHeapIndex;
 	D3D12_CPU_DESCRIPTOR_HANDLE srvCPUHandle{};
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGPUHandle{};
 };

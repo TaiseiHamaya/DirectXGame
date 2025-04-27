@@ -42,7 +42,7 @@ bool NodeAnimationAssetBuilder::run() {
 
 	std::string fileName = filePath.filename().string();
 
-	for (uint32_t i = 0; i < scene->mNumAnimations; ++i) {
+	for (u32 i = 0; i < scene->mNumAnimations; ++i) {
 		BuildData& write = nodeAnimationData[i];
 		aiAnimation* aiPAnimation = scene->mAnimations[i];
 		write.name = std::format("{}-{}", fileName, aiPAnimation->mName.C_Str());

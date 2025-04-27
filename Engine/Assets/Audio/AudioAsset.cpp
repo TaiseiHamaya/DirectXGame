@@ -5,19 +5,19 @@
 
 #include "Engine/Application/Output.h"
 
-bool IsEqualArrayChunkId(const std::array<char, 4>& read, std::string&& id) {
+bool IsEqualArrayChunkId(const std::array<i8, 4>& read, std::string&& id) {
 	return std::strncmp(read.data(), id.c_str(), 4) == 0;
 }
 
 bool AudioAsset::load(const std::filesystem::path& filePath) {
 	// ローカル変数定義
 	struct ChunkHeader {
-		std::array<char, 4> id;
-		std::int32_t size;
+		std::array<i8, 4> id;
+		i32 size;
 	};
 	struct RiffHeader {
 		ChunkHeader header;
-		std::array<char, 4> type;
+		std::array<i8, 4> type;
 	};
 	struct FormatChunk {
 		ChunkHeader header;
@@ -38,7 +38,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 
 	// riff読み込み
 	RiffHeader riff;
-	file.read((char*)&riff, sizeof(riff));
+	file.read((i8*)&riff, sizeof(riff));
 
 	// RIFFじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.header.id, "RIFF")) {
@@ -54,7 +54,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 
 	// chunk読み込み
 	FormatChunk formatChunk{};
-	while (file.read((char*)&formatChunk.header, sizeof(ChunkHeader))) {
+	while (file.read((i8*)&formatChunk.header, sizeof(ChunkHeader))) {
 		if (IsEqualArrayChunkId(formatChunk.header.id, "fmt ")) {
 			break;
 		}
@@ -75,10 +75,10 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 	}
 
 	// 読み込み
-	file.read((char*)&formatChunk.format, formatChunk.header.size);
+	file.read((i8*)&formatChunk.format, formatChunk.header.size);
 	// データ読み込み
 	ChunkHeader data;
-	while (file.read((char*)&data, sizeof(data))) {
+	while (file.read((i8*)&data, sizeof(data))) {
 		if (IsEqualArrayChunkId(data.id, "data")) {
 			break;
 		}
@@ -102,7 +102,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 	// 読み込んだデータをコピーして保持
 	format_ = formatChunk.format;
 	buffer_.resize(data.size);
-	file.read((char*)buffer_.data(), data.size);
+	file.read((i8*)buffer_.data(), data.size);
 	bufferSize_ = data.size;
 	file.close();
 
@@ -110,7 +110,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 	return true;
 }
 
-std::uint32_t AudioAsset::size() const noexcept {
+u32 AudioAsset::size() const noexcept {
 	return bufferSize_;
 }
 

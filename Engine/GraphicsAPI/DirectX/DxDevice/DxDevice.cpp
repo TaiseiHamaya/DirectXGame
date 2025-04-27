@@ -53,7 +53,7 @@ void DxDevice::create_device() {
 	D3D_FEATURE_LEVEL featureLevel[] = {
 		D3D_FEATURE_LEVEL_12_2,D3D_FEATURE_LEVEL_12_1,D3D_FEATURE_LEVEL_12_0
 	};
-	const char* featureLevelString[] = { "12.2","12.1" ,"12.0" };
+	string_literal featureLevelString[] = { "12.2","12.1" ,"12.0" };
 	// 高い順に試す
 	for (size_t i = 0; i < _countof(featureLevel); ++i) {
 		// デバイス生成を検証

@@ -26,8 +26,8 @@ public:
 	};
 
 	struct ParticleInit {
-		Randomize<float> lifetime;
-		Randomize<float> speed;
+		Randomize<r32> lifetime;
+		Randomize<r32> speed;
 		struct Direction {
 			enum class Mode {
 				Constant,
@@ -39,7 +39,7 @@ public:
 			};
 			struct AngleRange {
 				Vector3 baseDirection;
-				float angle;
+				r32 angle;
 			};
 			std::variant<Constant, std::monostate, AngleRange> data;
 		} direction;
@@ -52,31 +52,31 @@ public:
 				Quaternion rotation;
 			};
 			struct LookAtAngle {
-				Randomize<float> angleParSec;
+				Randomize<r32> angleParSec;
 				bool isRandomDirection;
 			};
 			struct Random {
-				Randomize<float> angularVelocity;
+				Randomize<r32> angularVelocity;
 			};
 			std::variant<Constant, std::monostate, Random, LookAtAngle> data;
 		} rotation;
 		Randomize<Color4> color;
 
-		void debug_gui(const char* tag);
+		void debug_gui(string_literal tag);
 	};
 
 	struct ParticleFinal {
 		Randomize<Vector3> size;
 		Randomize<Color4> color;
 
-		void debug_gui(const char* tag);
+		void debug_gui(string_literal tag);
 	};
 
 	struct Emission {
-		float Time;
-		uint32_t Count;
-		uint32_t Cycles;
-		float Interval;
+		r32 Time;
+		u32 Count;
+		u32 Cycles;
+		r32 Interval;
 
 		struct Shape {
 			enum class ShapeType {
@@ -87,12 +87,12 @@ public:
 				//Circle,
 			} shapeType{ ShapeType::Point };
 			struct Sphere {
-				float radius;
+				r32 radius;
 			};
 			struct Cone {
-				float radius;
+				r32 radius;
 				Vector3 direction;
-				float angle;
+				r32 angle;
 			};
 			struct Box {
 				Vector3 size;
@@ -101,11 +101,11 @@ public:
 			std::variant<std::monostate, Sphere, Cone, Box> data;
 		} shape;
 
-		void debug_gui(const char* tag);
+		void debug_gui(string_literal tag);
 	};
 
 public: // Constructor/Destructor
-	ParticleEmitterInstance(std::filesystem::path jsonFile, uint32_t MaxParticle);
+	ParticleEmitterInstance(std::filesystem::path jsonFile, u32 MaxParticle);
 	virtual ~ParticleEmitterInstance() = default;
 
 public: // Member function
@@ -137,10 +137,10 @@ public:
 #endif // _DEBUG
 
 protected: // Member variable
-	float timer;
+	r32 timer;
 	bool isLoop;
 	bool isParentEmitter;
-	float duration;
+	r32 duration;
 
 	ParticleDrawType drawType;
 	std::variant<std::string, std::shared_ptr<const Texture>> useResourceName;
@@ -157,7 +157,7 @@ protected: // Member variable
 	JsonAsset jsonResource;
 
 private:
-	uint32_t numMaxParticle{ 0 };
+	u32 numMaxParticle{ 0 };
 	std::list<std::unique_ptr<Particle>> particles;
 	std::unique_ptr<BaseParticleDrawSystem> drawSystem;
 };
@@ -331,7 +331,7 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(con
 				break;
 			case Particle::RotationType::LookAtAngle:
 				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle{
-					ParticleEmitterInstance::Randomize<float>{
+					ParticleEmitterInstance::Randomize<r32>{
 					j["Rotation"]["Data"]["AngleParSec"]["Min"],
 					j["Rotation"]["Data"]["AngleParSec"]["Max"]
 				},

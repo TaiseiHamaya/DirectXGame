@@ -10,10 +10,10 @@ void WorldTimer::back() {
 	timer -= WorldClock::DeltaSeconds();
 }
 
-void WorldTimer::set(float time) {
+void WorldTimer::set(r32 time) {
 	timer = 0;
 }
 
-float WorldTimer::time() const {
+r32 WorldTimer::time() const {
 	return timer;
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include <d3d12.h>
 #include <wrl/client.h>
 
@@ -26,5 +24,5 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 
 protected:
-	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(std::uint64_t sizeInByte);
+	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(size_t sizeInByte);
 };

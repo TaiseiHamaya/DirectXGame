@@ -4,7 +4,7 @@
 
 #include <execution>
 
-void StaticMeshDrawManager::make_instancing(uint32_t layer, const std::string& meshName_, uint32_t maxInstance) {
+void StaticMeshDrawManager::make_instancing(u32 layer, const std::string& meshName_, u32 maxInstance) {
 	if (layer >= drawData.size()) {
 		return;
 	}
@@ -23,7 +23,7 @@ void StaticMeshDrawManager::make_instancing(uint32_t layer, const std::string& m
 #include <Engine/Module/World/Camera/Camera3D.h>
 #include <Engine/Debug/DebugValues/DebugValues.h>
 
-void StaticMeshDrawManager::register_debug_instance(uint32_t layer, Reference<const Camera3D> camera, bool isShowGrid) {
+void StaticMeshDrawManager::register_debug_instance(u32 layer, Reference<const Camera3D> camera, bool isShowGrid) {
 	if (layer >= drawData.size()) {
 		return;
 	}
@@ -52,7 +52,7 @@ void StaticMeshDrawManager::register_debug_instance(uint32_t layer, Reference<co
 void StaticMeshDrawManager::debug_gui() {
 	PolygonMeshLibrary::MeshListGui(select);
 
-	int step = 1;
+	i32 step = 1;
 	ImGui::PushItemWidth(80);
 	ImGui::InputScalar("Layer", ImGuiDataType_U32, &layer, (void*)&step);  ImGui::SameLine();
 	ImGui::InputScalar("MaxInstance", ImGuiDataType_U32, &maxInstance, (void*)&step);
@@ -62,7 +62,7 @@ void StaticMeshDrawManager::debug_gui() {
 		make_instancing(layer, select, maxInstance);
 	}
 
-	for (uint32_t i = 0; auto & data : drawData) {
+	for (u32 i = 0; auto & data : drawData) {
 		if (ImGui::TreeNode(std::format("Layer{}", i).c_str())) {
 			ImGui::Text(std::format("RegisteredInstance : {}", data.instances.size()).c_str());
 			ImGui::Indent();

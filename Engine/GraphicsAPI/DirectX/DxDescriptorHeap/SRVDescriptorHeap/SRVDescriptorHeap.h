@@ -18,14 +18,14 @@ private:
 
 public:
 	static void Initialize();
-	static const std::uint32_t UseHeapIndex() noexcept;
-	static const D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(std::uint32_t index) noexcept;
-	static const D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(std::uint32_t index) noexcept;
+	static const u32 UseHeapIndex() noexcept;
+	static const D3D12_CPU_DESCRIPTOR_HANDLE GetCPUHandle(u32 index) noexcept;
+	static const D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(u32 index) noexcept;
 	static Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& GetDescriptorHeap() noexcept;
 
 	static void SetDescriptorHeaps();
 
-	static void ReleaseHeapIndex(std::uint32_t index);
+	static void ReleaseHeapIndex(u32 index);
 
 private:
 	void create_descriptor_heap() override;

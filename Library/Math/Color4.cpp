@@ -9,12 +9,12 @@
 #endif // _DEBUG
 
 #ifdef DEBUG_FEATURES_ENABLE
-void Color4::debug_gui(const char* tag) noexcept(false) {
+void Color4::debug_gui(string_literal tag) noexcept(false) {
 	ImGui::ColorEdit4(tag, &(this->red), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
 }
 #endif // _DEBUG
 
-Color4 Color4::Lerp(const Color4& color1, const Color4& color2, float t) {
+Color4 Color4::Lerp(const Color4& color1, const Color4& color2, r32 t) {
 	return Color4{
 		std::lerp(color1.red, color2.red, t),
 		std::lerp(color1.green, color2.green, t),

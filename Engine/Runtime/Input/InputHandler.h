@@ -67,14 +67,14 @@ public:
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns></returns>
-	float press_timer(T id);
+	r32 press_timer(T id);
 
 	/// <summary>
 	/// 離れている時間
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns></returns>
-	float idle_timer(T id);
+	r32 idle_timer(T id);
 
 private:
 	InputFunction inputter{};
@@ -139,7 +139,7 @@ inline bool InputHandler<T, InputFunction>::idle(T id) {
 }
 
 template<typename T, class InputFunction>
-inline float InputHandler<T, InputFunction>::press_timer(T id) {
+inline r32 InputHandler<T, InputFunction>::press_timer(T id) {
 	if (press(id)) {
 		return data[id].timer.time();
 	}
@@ -147,7 +147,7 @@ inline float InputHandler<T, InputFunction>::press_timer(T id) {
 }
 
 template<typename T, class InputFunction>
-inline float InputHandler<T, InputFunction>::idle_timer(T id) {
+inline r32 InputHandler<T, InputFunction>::idle_timer(T id) {
 	if (idle(id)) {
 		return data[id].timer.time();
 	}

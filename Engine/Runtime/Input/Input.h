@@ -72,7 +72,7 @@ public:
 	/// マウスホイールの移動量を取得
 	/// </summary>
 	/// <returns>[-1,1]</returns>
-	static float WheelDelta();
+	static r32 WheelDelta();
 
 	// ----------ゲームパッド----------
 	/// <summary>
@@ -98,31 +98,31 @@ public:
 	/// 左ショルダーの入力
 	/// </summary>
 	/// <returns>[0,1]の値</returns>
-	static float TriggerL();
+	static r32 TriggerL();
 
 	/// <summary>
 	/// 右ショルダーの入力
 	/// </summary>
 	/// <returns>[0,1]の値</returns>
-	static float TriggerR();
+	static r32 TriggerR();
 
 	/// <summary>
 	/// スティックのデッドゾーン設定
 	/// </summary>
 	/// <param name="deadZone">[0,1]で設定</param>
-	static void SetDeadZone(float deadZone) { GetInstance().deadZone = deadZone; };
+	static void SetDeadZone(r32 deadZone) { GetInstance().deadZone = deadZone; };
 
 	/// <summary>
 	/// 接続されたゲームパッド数を取得
 	/// </summary>
 	/// <returns>最大4(XInputの制約)</returns>
-	static uint32_t NumPad();
+	static u32 NumPad();
 
 	/// <summary>
 	/// 使用可能Padをビットフラグで取得(未デバッグ)
 	/// </summary>
 	/// <returns></returns>
-	static uint8_t ActivePad();
+	static u8 ActivePad();
 
 private:
 	void create_direct_input();
@@ -140,9 +140,9 @@ private:
 	Vector2 mousePosition;
 	std::unique_ptr<DIMOUSESTATE2> mouseState;
 
-	uint32_t dwUserIndex = 0;
+	u32 dwUserIndex = 0;
 	std::unique_ptr<XINPUT_STATE> joystate;
-	float deadZone = 0.2f;
+	r32 deadZone = 0.2f;
 };
 
 class InputAdvanced {

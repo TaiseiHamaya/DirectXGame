@@ -1,6 +1,6 @@
 #include "SphereCollider.h"
 
-SphereCollider::SphereCollider(float radius_) :
+SphereCollider::SphereCollider(r32 radius_) :
 	radius(radius_) {
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -8,7 +8,7 @@ SphereCollider::SphereCollider(float radius_) :
 #endif // _DEBUG
 }
 
-void SphereCollider::set_radius(float radius_) {
+void SphereCollider::set_radius(r32 radius_) {
 	radius = radius_;
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -16,6 +16,6 @@ void SphereCollider::set_radius(float radius_) {
 #endif // _DEBUG
 }
 
-float SphereCollider::get_radius() const {
+r32 SphereCollider::get_radius() const {
 	return radius;
 }

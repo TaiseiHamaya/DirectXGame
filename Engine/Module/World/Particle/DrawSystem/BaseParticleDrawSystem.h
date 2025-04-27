@@ -19,8 +19,8 @@ public:
 
 public:
 	virtual void draw_command(size_t InstanceCount) const = 0;
-	void create_buffers(uint32_t bufferSize);
-	void write_to_buffer(uint32_t index, const Matrix4x4& worldMatrix, const Matrix4x4& uvMatrix, const Color4& color);
+	void create_buffers(u32 bufferSize);
+	void write_to_buffer(u32 index, const Matrix4x4& worldMatrix, const Matrix4x4& uvMatrix, const Color4& color);
 
 protected:
 	StructuredBuffer<ParticleBuffer> particleBuffer;
