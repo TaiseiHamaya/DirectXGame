@@ -4,7 +4,10 @@
 #include "Engine/Runtime/Scene/SceneManager.h"
 
 void Framework::run() {
+	WinApp::Initialize();
 	initialize();
+
+	WinApp::ShowAppWindow();
 
 	while (true) {
 		begin_frame();
@@ -24,9 +27,7 @@ void Framework::run() {
 }
 
 void Framework::initialize() {
-	WinApp::Initialize();
 	SceneManager::Initialize();
-	WinApp::ShowAppWindow();
 
 #ifdef DEBUG_FEATURES_ENABLE
 	SceneManager::SetProfiler(profiler);

@@ -95,8 +95,6 @@ void WinApp::Initialize(DWORD windowConfig) {
 	Input::Initialize();
 	// 乱数エンジンの初期化
 	RandomEngine::Initialize();
-	// 時計初期化
-	WorldClock::Initialize();
 	// バックグラウンドローダーの初期化
 	BackgroundLoader::Initialize();
 
@@ -198,6 +196,9 @@ void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Infomation("Show application window.");
+
+	// 時計初期化
+	WorldClock::Initialize();
 }
 
 bool WinApp::IsEndApp() {
