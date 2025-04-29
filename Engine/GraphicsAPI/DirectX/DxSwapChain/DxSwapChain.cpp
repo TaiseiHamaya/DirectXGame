@@ -66,15 +66,8 @@ void DxSwapChain::create_swapchain() {
 #ifdef DEBUG_FEATURES_ENABLE
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
 #endif // _DEBUG
-	//DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc{};
-	//fullscreenDesc.RefreshRate.Denominator = 1;
-	//fullscreenDesc.RefreshRate.Numerator = 60;
-	//fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	//fullscreenDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	//fullscreenDesc.Windowed = true;
 
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成
-	//hr = DxDevice::GetFactory()->CreateSwapChainForHwnd(DxCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, &fullscreenDesc, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	hr = DxDevice::GetFactory()->CreateSwapChainForHwnd(DxCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
 	CriticalIf(FAILED(hr), "Failed creating swap chain.");
@@ -102,7 +95,7 @@ void DxSwapChain::swap_screen() {
 		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 	}
 	else {
-		swapChain->Present(0, 0);
+		swapChain->Present(1, 0);
 	}
 #else
 	swapChain->Present(1, 0);
