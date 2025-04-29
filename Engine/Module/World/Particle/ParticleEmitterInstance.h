@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Module/World/WorldInstance/WorldInstance.h"
+#include "../WorldInstance/WorldInstance.h"
 
 #include <list>
 #include <memory>
@@ -15,7 +15,7 @@
 #define QUATERNION_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
-class Texture;
+class TextureAsset;
 
 class ParticleEmitterInstance : public WorldInstance {
 public:
@@ -143,7 +143,7 @@ protected: // Member variable
 	r32 duration;
 
 	ParticleDrawType drawType;
-	std::variant<std::string, std::shared_ptr<const Texture>> useResourceName;
+	std::variant<std::string, std::shared_ptr<const TextureAsset>> useResourceName;
 	struct Rect {
 		Vector2 rect;
 		Vector2 pivot;

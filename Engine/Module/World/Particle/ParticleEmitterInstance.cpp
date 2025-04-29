@@ -7,9 +7,9 @@
 #include "./DrawSystem/ParticleDrawSystemMesh.h"
 #include "./DrawSystem/ParticleDrawSystemRect.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
+#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, u32 MaxParticle) :
 	WorldInstance(),
@@ -207,7 +207,7 @@ void ParticleEmitterInstance::emit_once() {
 			.angleParSec = temp
 		};
 	}
-		break;
+	break;
 	case Particle::RotationType::Random:
 	{
 		const auto& data = std::get<ParticleInit::Rotation::Random>(particleInit.rotation.data);
@@ -228,7 +228,7 @@ void ParticleEmitterInstance::emit_once() {
 	// 生成
 	auto& newParticle = particles.emplace_back(
 		world_manager()->create<Particle>(
-			isParentEmitter ? this : nullptr ,
+			isParentEmitter ? this : nullptr,
 			isParentEmitter ? offset : world_position() + offset,
 			std::lerp(particleInit.lifetime.min, particleInit.lifetime.max, RandomEngine::Random01Closed()),
 			direction * speed,
@@ -267,7 +267,7 @@ void ParticleEmitterInstance::create_draw_system() {
 	case ParticleDrawType::Rect:
 	{
 		auto& val = std::get<1>(useResourceName);
-		auto rectSystem = std::make_unique<ParticleDrawSystemRect>(val->name());
+		auto rectSystem = std::make_unique<ParticleDrawSystemRect>(val);
 		const auto& data = std::get<Rect>(drawSystemData);
 		rectSystem->create_rect(data.rect, data.pivot);
 		drawSystem = std::move(rectSystem);

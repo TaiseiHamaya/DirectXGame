@@ -1,14 +1,14 @@
 #include "Rect3dNode .h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 Rect3dNode::Rect3dNode() = default;
 Rect3dNode::~Rect3dNode() noexcept = default;
 
 void Rect3dNode::initialize() {
-	depthStencil = DepthStencilValue::depthStencil;
+	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state();
 	pipelineState->set_name("Rect3dNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -41,7 +41,7 @@ void Rect3dNode::create_pipeline_state() {
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->depth_state(depthStencil->get_resource()->GetDesc().Format, D3D12_DEPTH_WRITE_MASK_ZERO);
+	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

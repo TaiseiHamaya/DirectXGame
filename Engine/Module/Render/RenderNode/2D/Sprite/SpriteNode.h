@@ -29,5 +29,5 @@ private:
 	void create_pipeline_state();
 
 private:
-	std::optional<D3D12_GPU_DESCRIPTOR_HANDLE> backgroundTextureGPUHandle;
+	//std::optional<D3D12_GPU_DESCRIPTOR_HANDLE> backgroundTextureGPUHandle;
 };

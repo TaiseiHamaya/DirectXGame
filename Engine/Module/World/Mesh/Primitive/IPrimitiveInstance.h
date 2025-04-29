@@ -6,11 +6,9 @@
 #include <Library/Math/Transform2D.h>
 
 #include "../IDrawInstance.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
+#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-
-class Texture;
+#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
 enum class PrimitiveType {
 	Rect3D,
@@ -19,7 +17,7 @@ enum class PrimitiveType {
 };
 
 struct PrimitiveMaterial {
-	std::shared_ptr<const Texture> texture;
+	std::shared_ptr<const TextureAsset> texture;
 	Color4 color;
 	Transform2D uvTransform;
 	LighingType lightingType{ LighingType::HalfLambert };

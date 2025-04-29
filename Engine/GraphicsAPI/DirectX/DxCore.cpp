@@ -13,11 +13,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
-
-static HRESULT hr;
 
 DxCore::DxCore() = default;
 
@@ -43,8 +40,7 @@ void DxCore::Initialize() {
 	// Swapchain初期化
 	DxSwapChain::Initialize();
 	// DepthStencilの初期化
-	DepthStencilValue::depthStencil = std::make_unique<DepthStencil>();
-	DepthStencilValue::depthStencil->initialize(DXGI_FORMAT_D32_FLOAT);
+	RenderingSystemValues::Initialize();
 
 	// オールコンプリート
 	Infomation("Complete create DirectXObjects");
@@ -69,7 +65,7 @@ void DxCore::EndFrame() {
 
 void DxCore::Finalize() {
 	// DepthStencilInstanceを削除
-	DepthStencilValue::depthStencil.reset();
+	RenderingSystemValues::Finalize();
 
 	DxSwapChain::Finalize();
 }

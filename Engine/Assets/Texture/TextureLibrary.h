@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-class Texture;
+class TextureAsset;
 
 class TextureLibrary final {
 private:
@@ -43,8 +43,8 @@ public:
 	/// </summary>
 	/// <param name="textureName">拡張子付きファイル名</param>
 	/// <returns>Textureクラスのweak_ptr</returns>
-	static std::shared_ptr<const Texture> GetTexture(const std::string& textureName) noexcept(false);
-	
+	static std::shared_ptr<const TextureAsset> GetTexture(const std::string& textureName) noexcept(false);
+
 	/// <summary>
 	/// テクスチャが登録済みか取得
 	/// </summary>
@@ -63,7 +63,7 @@ public:
 	/// </summary>
 	/// <param name="name">転送時の名前</param>
 	/// <param name="data">転送データ</param>
-	static void Transfer(const std::string& name, std::shared_ptr<Texture>& data);
+	static void Transfer(const std::string& name, std::shared_ptr<TextureAsset>& data);
 
 #ifdef DEBUG_FEATURES_ENABLE
 	/// <summary>
@@ -71,7 +71,7 @@ public:
 	/// </summary>
 	/// <param name="current">現在選択中のテクスチャ名</param>
 	/// <returns>current変更フラグ</returns>
-	static bool TextureListGui(std::shared_ptr<const Texture>& current);
+	static bool TextureListGui(std::shared_ptr<const TextureAsset>& current);
 #endif // _DEBUG
 
 private:
@@ -83,6 +83,6 @@ private:
 	static bool IsRegisteredNonlocking(const std::string& textureName) noexcept(false);
 
 private: // メンバ変数
-	std::unordered_map<std::string, std::shared_ptr<Texture>> textureInstanceList; // テクスチャリスト
+	std::unordered_map<std::string, std::shared_ptr<TextureAsset>> textureInstanceList; // テクスチャリスト
 };
 

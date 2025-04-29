@@ -3,6 +3,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/DepthStencilTexture.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
 
 OutlineNode::OutlineNode() = default;
 
@@ -14,18 +16,19 @@ void OutlineNode::initialize() {
 }
 
 void OutlineNode::draw() {
+	// リード用に使用
+	baseTexture->start_read();
+	depthTexture->start_read();
+	// コマンド設定
+	baseTexture->get_as_srv()->use(0);
+	depthTexture->get_as_srv()->use(1);
 	auto&& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootDescriptorTable(0, textureGPUHandle);
-	command->SetGraphicsRootDescriptorTable(1, depthGPUHandle);
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
-void OutlineNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
-	textureGPUHandle = textureGPUHandle_;
-}
-
-void OutlineNode::set_depth_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& depthGPUHandle_) {
-	depthGPUHandle = depthGPUHandle_;
+void OutlineNode::set_shader_texture(Reference<RenderTexture> baseTexture_, Reference<DepthStencilTexture> depthTexture_) {
+	baseTexture = baseTexture_;
+	depthTexture = depthTexture_;
 }
 
 void OutlineNode::create_pipeline_state() {

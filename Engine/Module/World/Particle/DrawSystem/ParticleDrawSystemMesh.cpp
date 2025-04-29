@@ -1,9 +1,10 @@
 #include "ParticleDrawSystemMesh.h"
 
+#include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
+#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 ParticleDrawSystemMesh::ParticleDrawSystemMesh(const std::string& meshName) {
 	set_mesh(meshName);
@@ -15,7 +16,7 @@ void ParticleDrawSystemMesh::draw_command(size_t InstanceCount) const {
 		commandList->IASetVertexBuffers(0, 1, &mesh->get_vbv(0));
 		commandList->IASetIndexBuffer(mesh->get_p_ibv(0));
 		commandList->SetGraphicsRootDescriptorTable(0, particleBuffer.get_handle_gpu());
-		commandList->SetGraphicsRootDescriptorTable(2, texture->get_gpu_handle());
+		commandList->SetGraphicsRootDescriptorTable(2, texture->handle());
 
 		commandList->DrawIndexedInstanced(mesh->index_size(0), static_cast<UINT>(InstanceCount), 0, 0, 0);
 	}

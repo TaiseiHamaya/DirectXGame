@@ -2,12 +2,15 @@
 
 #include <memory>
 
+#include <Library/Math/Color4.h>
 #include <Library/Utility/Template/bitflag.h>
+#include <Library/Utility/Template/Reference.h>
 
 struct D3D12_VIEWPORT;
 struct tagRECT;
-class DepthStencil;
+class DepthStencilTexture;
 enum class RenderNodeConfig : u8;
+
 
 class BaseRenderTargetGroup {
 public:
@@ -28,28 +31,20 @@ public:
 	/// <summary>
 	/// 描画処理の開始
 	/// </summary>
-	virtual void begin(const eps::bitflag<RenderNodeConfig>& config_, const std::shared_ptr<DepthStencil>& depthStencil);
+	virtual void begin_write(const eps::bitflag<RenderNodeConfig>& config, Reference<DepthStencilTexture> depthStencil);
 
-	/// <summary>
-	/// 描画処理の終了
-	/// </summary>
-	virtual void end(const eps::bitflag<RenderNodeConfig>& config_);
+	void set_clear_color(const Color4& color) { clearColor = color; }
 
 protected:
 	/// <summary>
 	/// レンダーターゲットの設定
 	/// </summary>
-	virtual void set_render_target(const std::shared_ptr<DepthStencil>& depth) = 0;
+	virtual void start_render_target(Reference<DepthStencilTexture> depthStencil) = 0;
 
 	/// <summary>
 	/// レンダーターゲットのクリア
 	/// </summary>
 	virtual void clear_render_target() = 0;
-
-	/// <summary>
-	/// リソースバリアの状態を変更
-	/// </summary>
-	virtual void change_render_target_state() = 0;
 
 	/// <summary>
 	/// ViewPortの生成(基本はRTと同じ)
@@ -59,6 +54,7 @@ protected:
 	void create_view_port(u32 width, u32 height);
 
 protected:
+	Color4 clearColor{ CColor4::BLACK };
 	std::unique_ptr<D3D12_VIEWPORT> viewPort;
 	std::unique_ptr<tagRECT> scissorRect;
 };

@@ -1,10 +1,10 @@
 #pragma once
 
+#include "./IMultiMeshInstance.h"
+
 #include <memory>
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
-
-#include "Engine/Module/World/Mesh/IMultiMeshInstance.h"
 
 class NodeAnimationPlayer;
 class SkeletonAsset;

@@ -8,7 +8,6 @@
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 #include "./StaticMeshInstance.h"
 

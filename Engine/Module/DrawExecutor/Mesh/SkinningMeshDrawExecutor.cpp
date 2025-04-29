@@ -1,8 +1,8 @@
 #include "SkinningMeshDrawExecutor.h"
 
+#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 #include "Engine/Module/World/Mesh/SkinningMeshInstance.h"
 
 SkinningMeshDrawExecutor::SkinningMeshDrawExecutor(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, u32 maxInstance) {
@@ -101,7 +101,7 @@ void SkinningMeshDrawExecutor::write_to_buffer(Reference<const SkinningMeshInsta
 			source.color,
 			source.lightingType,
 			source.shininess,
-			source.texture->index().value(),
+			source.texture->index(),
 			source.uvTransform.get_matrix(),
 		};
 	}

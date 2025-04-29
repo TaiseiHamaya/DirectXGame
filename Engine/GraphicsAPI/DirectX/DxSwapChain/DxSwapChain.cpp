@@ -1,6 +1,5 @@
 #include "DxSwapChain.h"
 
-#include <format>
 #include <memory>
 
 #include "Engine/Application/EngineSettings.h"
@@ -8,13 +7,15 @@
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
-#include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 void DxSwapChain::Initialize() {
 	auto& instance = GetInstance();
+	instance.renderTargetGroup = std::make_unique<SwapChainRenderTargetGroup>();
+	instance.renderTargetGroup->initialize();
 	instance.create_swapchain();
 	instance.create_render_target();
 	SetClearColor(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
@@ -22,7 +23,10 @@ void DxSwapChain::Initialize() {
 
 void DxSwapChain::Finalize() {
 	auto& instance = GetInstance();
-	instance.renderTarget.reset();
+	for (std::unique_ptr<ScreenTexture>& texture : instance.textures) {
+		texture.reset();
+	}
+	instance.renderTargetGroup.reset();
 	instance.swapChain.Reset();
 }
 
@@ -30,19 +34,17 @@ void DxSwapChain::SwapScreen() {
 	GetInstance().swap_screen();
 }
 
-const std::shared_ptr<SwapChainRenderTargetGroup>& DxSwapChain::GetRenderTarget() {
-	return GetInstance().renderTarget;
+Reference<SwapChainRenderTargetGroup> DxSwapChain::GetRenderTarget() {
+	return GetInstance().renderTargetGroup;
 }
 
 void DxSwapChain::SetClearColor(const Color4& color_) noexcept {
-	for (RenderTarget& renderTargetItr : GetInstance().renderTarget->get_render_targets()) {
-		renderTargetItr.set_clear_color(color_);
-	}
+	GetInstance().renderTargetGroup->set_clear_color(color_);
 }
 
 void DxSwapChain::EndRenderTarget() {
 	auto& instance = GetInstance();
-	instance.renderTarget->end(RenderNodeConfig::Default);
+	instance.textures[RenderingSystemValues::NowBackbufferIndex()]->start_present();
 }
 
 DxSwapChain& DxSwapChain::GetInstance() noexcept {
@@ -82,16 +84,16 @@ void DxSwapChain::create_render_target() {
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
-	renderTarget = std::make_shared<SwapChainRenderTargetGroup>();
-	for (u32 renderIndex = 0; renderIndex < RenderingSystemValues::NUM_BUFFERING; ++renderIndex) {
+	for (u32 i = 0; i < RenderingSystemValues::NUM_BUFFERING; ++i) {
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
-		hr = swapChain->GetBuffer(renderIndex, IID_PPV_ARGS(resource.GetAddressOf()));
+		hr = swapChain->GetBuffer(i, IID_PPV_ARGS(resource.GetAddressOf()));
 		CriticalIf(FAILED(hr), "Failed creating swapchain render targets.");
-		// view作成
-		renderTarget->set_resource(resource, renderIndex);
-		resource->SetName(std::format(L"SwapChain-RTV{}", renderIndex).c_str());
+		// テクスチャとして落とし込み
+		textures[i] = std::make_unique<ScreenTexture>();
+		textures[i]->initialize(resource);
+		// RTGroupとして登録
+		renderTargetGroup->set_resource(textures[i], i);
 	}
-	renderTarget->initialize();
 }
 
 void DxSwapChain::swap_screen() {

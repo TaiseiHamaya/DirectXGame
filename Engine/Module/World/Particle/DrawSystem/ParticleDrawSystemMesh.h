@@ -1,9 +1,11 @@
 #pragma once
 
 #include "./BaseParticleDrawSystem.h"
-#include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 
 #include <string>
+
+class TextureAsset;
+class PolygonMesh;
 
 class ParticleDrawSystemMesh final : public BaseParticleDrawSystem {
 public:
@@ -17,5 +19,5 @@ public:
 
 private:
 	std::shared_ptr<const PolygonMesh> mesh;
-	std::shared_ptr<const Texture> texture;
+	std::shared_ptr<const TextureAsset> texture;
 };

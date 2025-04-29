@@ -5,7 +5,6 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
