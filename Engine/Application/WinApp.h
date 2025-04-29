@@ -4,6 +4,8 @@
 
 #include <windows.h>
 
+#include "Engine/Debug/Profiler/TimestampProfiler.h"
+
 class WinApp final {
 private:
 	WinApp() noexcept;
@@ -45,5 +47,15 @@ private:
 	HANDLE hProcess{ nullptr };
 
 	MSG msg;
+
+#ifdef DEBUG_FEATURES_ENABLE
+public:
+	static bool IsStopUpdate() { return instance->isStopUpdate && !instance->isPassedPause; }
+
+private:
+	bool isStopUpdate;
+	bool isPassedPause;
+	mutable TimestampProfiler profiler;
+#endif // _DEBUG
 };
 

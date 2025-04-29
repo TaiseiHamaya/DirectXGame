@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Engine/Debug/Profiler/TimestampProfiler.h"
-
 class Framework {
 public:
 	Framework() = default;
@@ -17,9 +15,4 @@ protected:
 
 public:
 	void run();
-
-#ifdef DEBUG_FEATURES_ENABLE
-private:
-	mutable TimestampProfiler profiler;
-#endif // _DEBUG
 };

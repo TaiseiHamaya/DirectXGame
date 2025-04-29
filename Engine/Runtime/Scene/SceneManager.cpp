@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "Engine/Application/Output.h"
+#include "Engine/Application/WinApp.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Runtime/Scene/BaseScene.h"
 #include "Engine/Runtime/Scene/BaseSceneFactory.h"
@@ -51,42 +52,34 @@ void SceneManager::Begin() {
 }
 
 void SceneManager::Update() {
-#ifdef DEBUG_FEATURES_ENABLE
-	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
-#endif // _DEBUG
+#ifndef DEBUG_FEATURES_ENABLE
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
-#ifdef DEBUG_FEATURES_ENABLE
-	if (profiler) {
-		profiler->timestamp("Begin");
-	}
-#endif // _DEBUG
 	nowScene->begin();
-#ifdef DEBUG_FEATURES_ENABLE
-	if (profiler) {
-		profiler->timestamp("ImGui");
-	}
-	nowScene->debug_update();
-	if (profiler) {
-		profiler->timestamp("Update");
-	}
-#endif // _DEBUG
 	nowScene->update();
-#ifdef DEBUG_FEATURES_ENABLE
-	if (profiler) {
-		profiler->timestamp("BeginRendering");
-	}
-#endif // _DEBUG
 	nowScene->begin_rendering();
-#ifdef DEBUG_FEATURES_ENABLE
-	if (profiler) {
-		profiler->timestamp("LateUpdate");
-	}
-#endif // _DEBUG
 	nowScene->late_update();
+#else
+	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
+	BaseScene* nowScene = GetInstance().sceneQue.back().get();
+	profiler->timestamp("Begin");
+	if(!WinApp::IsStopUpdate()) nowScene->begin();
+	profiler->timestamp("ImGui");
+	nowScene->debug_update();
+	profiler->timestamp("Update");
+	if (!WinApp::IsStopUpdate()) nowScene->update();
+	profiler->timestamp("BeginRendering");
+	nowScene->begin_rendering();
+	profiler->timestamp("LateUpdate");
+	if (!WinApp::IsStopUpdate()) nowScene->late_update();
+#endif // DEBUG_FEATURES_ENABLE
 }
 
 void SceneManager::Draw() {
-	GetInstance().sceneQue.back()->draw();
+	SceneManager& instance = GetInstance();
+#ifdef DEBUG_FEATURES_ENABLE
+	instance.profiler->timestamp("Draw");
+#endif // _DEBUG
+	instance.sceneQue.back()->draw();
 }
 
 //void SceneManager::Debug() {
