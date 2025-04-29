@@ -8,12 +8,12 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/ShaderBuilder.h"
 
-class DepthStencil;
+class DepthStencilView;
 class DxShaderReflection;
 
 class InputLayoutBuilder {
 public:
-	void add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot = 0);
+	void add_element(string_literal semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot = 0);
 	const std::vector<D3D12_INPUT_ELEMENT_DESC>& build();
 
 private:
@@ -65,11 +65,10 @@ public:
 	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_);
 	void inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout);
 	void shaders(const ShaderBuilder& shaders);
-	void blendstate(BlendMode blendMode = BlendMode::None, uint32_t renderTarget = 0);
+	void blendstate(BlendMode blendMode = BlendMode::None, u32 renderTarget = 0);
 	void blendstate_only_write();
-	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget = 0);
+	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, u32 renderTarget = 0);
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);
-	void depthstencilstate(const DepthStencil& depthStencil);
 	void depth_state(DXGI_FORMAT format, D3D12_DEPTH_WRITE_MASK mask = D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_LESS);
 	void stencil_state(UINT8 read, D3D12_DEPTH_WRITE_MASK write);
 	void front_face(D3D12_COMPARISON_FUNC func, D3D12_STENCIL_OP depthFail, D3D12_STENCIL_OP stencilFail, D3D12_STENCIL_OP stencilPass);

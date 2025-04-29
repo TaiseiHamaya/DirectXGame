@@ -140,7 +140,7 @@ struct adl_serializer<Quaternion> {
 
 	static void from_json(const json& j, Quaternion& rhs) {
 		Vector3 xyz{};
-		float w = 0;
+		r32 w = 0;
 		if (j.contains("XYZ") && j.at("XYZ").is_object()) {
 			xyz = j["XYZ"];
 		}
@@ -197,7 +197,7 @@ struct adl_serializer<Transform2D> {
 			rhs.set_scale(j["Scale"].get<Vector2>());
 		}
 		if (j.contains("Rotation")) {
-			rhs.set_rotate(j["Rotation"].get<float>());
+			rhs.set_rotate(j["Rotation"].get<r32>());
 		}
 		if (j.contains("Translate")) {
 			rhs.set_translate(j["Translate"].get<Vector2>());

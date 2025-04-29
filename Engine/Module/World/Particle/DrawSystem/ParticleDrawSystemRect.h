@@ -7,14 +7,14 @@
 
 #include <Library/Math/Vector2.h>
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
 class Camera3D;
+class TextureAsset;
 
 class ParticleDrawSystemRect final : public BaseParticleDrawSystem {
 public:
-	ParticleDrawSystemRect(const std::string& textureName);
+	ParticleDrawSystemRect(std::shared_ptr<const TextureAsset> texture);
 	~ParticleDrawSystemRect() = default;
 
 public:
@@ -31,7 +31,7 @@ public:
 	void set_texture(const std::string& textureName);
 
 private:
-	std::shared_ptr<const Texture> texture;
+	std::shared_ptr<const TextureAsset> texture;
 
 public:
 	VertexBuffer<BillboardBuffer> vertexBuffer;

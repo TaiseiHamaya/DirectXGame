@@ -5,6 +5,10 @@
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
+#include <mutex>
+
+std::mutex srvHeapMutex;
+
 SRVDescriptorHeap& SRVDescriptorHeap::GetInstance() noexcept {
 	static SRVDescriptorHeap instance{};
 	return instance;
@@ -15,17 +19,18 @@ void SRVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-const std::uint32_t SRVDescriptorHeap::UseHeapIndex() noexcept {
+const u32 SRVDescriptorHeap::UseHeapIndex() noexcept {
+	std::lock_guard<std::mutex> lock{ srvHeapMutex };
 	auto useIndex = GetInstance().use_heap_index();
 	Infomation("Use SRV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
-const D3D12_CPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {
+const D3D12_CPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetCPUHandle(u32 index) noexcept {
 	return GetInstance().get_cpu_handle(index);
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetGPUHandle(std::uint32_t index) noexcept {
+const D3D12_GPU_DESCRIPTOR_HANDLE SRVDescriptorHeap::GetGPUHandle(u32 index) noexcept {
 	return GetInstance().get_gpu_handle(index);
 }
 
@@ -38,7 +43,7 @@ void SRVDescriptorHeap::SetDescriptorHeaps() {
 	DxCommand::GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps); // SRVDescriptorHeap
 }
 
-void SRVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
+void SRVDescriptorHeap::ReleaseHeapIndex(u32 index) {
 	Infomation("Release SRV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }

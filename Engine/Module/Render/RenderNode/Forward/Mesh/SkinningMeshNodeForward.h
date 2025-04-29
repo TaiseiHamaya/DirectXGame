@@ -20,8 +20,6 @@ public:
 
 	void preprocess() override {};
 
-	void set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_ = nullptr) override;
-
 private:
 	void create_pipeline_state();
 

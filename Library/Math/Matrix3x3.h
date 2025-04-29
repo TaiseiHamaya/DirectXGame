@@ -11,15 +11,15 @@ public: // コンストラクタ
 	constexpr Matrix3x3(const Matrix3x3& rhs) noexcept = default;
 	constexpr Matrix3x3(Matrix3x3&& rhs) noexcept = default;
 	constexpr Matrix3x3(const Matrix<3, 3>&& rhs) noexcept;
-	constexpr Matrix3x3(const std::initializer_list<std::initializer_list<float>>& init);
+	constexpr Matrix3x3(const std::initializer_list<std::initializer_list<r32>>& init);
 
 public:
 	// ------------------演算子オーバーロード------------------
 	constexpr Matrix3x3& operator=(const Matrix3x3&) noexcept = default;
 	constexpr Matrix3x3& operator=(Matrix3x3&&) noexcept = default;
 
-	constexpr const std::array<float, 3>& operator[](std::size_t index) const;
-	constexpr std::array<float, 3>& operator[](std::size_t index);
+	constexpr const std::array<r32, 3>& operator[](std::size_t index) const;
+	constexpr std::array<r32, 3>& operator[](std::size_t index);
 
 	constexpr const Matrix3x3 operator+(const Matrix3x3& opr) const;
 	constexpr const Matrix3x3 operator*(const Matrix3x3& opr) const;
@@ -33,7 +33,7 @@ public: // static関数
 	/// <param name="matrix">元Matrix</param>
 	/// <param name="times">倍数</param>
 	/// <returns>計算値</returns>
-	static constexpr Matrix3x3 Multiply(const Matrix3x3& matrix, const float& times);
+	static constexpr Matrix3x3 Multiply(const Matrix3x3& matrix, const r32& times);
 
 	/// <summary>
 	/// 逆行列計算
@@ -70,19 +70,19 @@ constexpr Matrix3x3::Matrix3x3(const Matrix<3, 3>&& rhs) noexcept {
 	__matrix = rhs;
 }
 
-constexpr Matrix3x3::Matrix3x3(const std::initializer_list<std::initializer_list<float>>& init) {
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
+constexpr Matrix3x3::Matrix3x3(const std::initializer_list<std::initializer_list<r32>>& init) {
+	for (i32 i = 0; i < 3; ++i) {
+		for (i32 j = 0; j < 3; ++j) {
 			__matrix[i][j] = *((init.begin() + i)->begin() + j);
 		}
 	}
 }
 
-constexpr const std::array<float, 3>& Matrix3x3::operator[](std::size_t index) const {
+constexpr const std::array<r32, 3>& Matrix3x3::operator[](std::size_t index) const {
 	return __matrix[index];
 }
 
-constexpr std::array<float, 3>& Matrix3x3::operator[](std::size_t index) {
+constexpr std::array<r32, 3>& Matrix3x3::operator[](std::size_t index) {
 	return __matrix[index];
 }
 
@@ -104,7 +104,7 @@ constexpr Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& opr) {
 	return *this;
 }
 
-constexpr Matrix3x3 Matrix3x3::Multiply(const Matrix3x3& matrix, const float& times) {
+constexpr Matrix3x3 Matrix3x3::Multiply(const Matrix3x3& matrix, const r32& times) {
 	return Matrix<3, 3>::Multiply(matrix.__matrix, times);
 }
 

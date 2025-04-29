@@ -25,12 +25,12 @@ public:
 	StructuredBuffer& operator=(StructuredBuffer&&) noexcept = default;
 
 public:
-	void initialize(uint32_t arraySize_);
+	void initialize(u32 arraySize_);
 
 public:
-	T& operator[](uint32_t i);
-	const T& operator[](uint32_t i) const;
-	const uint32_t& size() const { return arraySize; }
+	T& operator[](u32 i);
+	const T& operator[](u32 i) const;
+	const u32& size() const { return arraySize; }
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_handle_gpu() const { return gpuHandle; };
 
 private:
@@ -42,10 +42,10 @@ private:
 
 private:
 	T* data{ nullptr };
-	uint32_t arraySize{ 0 };
+	u32 arraySize{ 0 };
 	std::span<T> span;
 
-	std::optional<uint32_t> heapIndex;
+	std::optional<u32> heapIndex;
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 };
 
@@ -56,7 +56,7 @@ inline StructuredBuffer<T>::~StructuredBuffer() noexcept {
 }
 
 template<ConceptCPUBufferACE T>
-inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
+inline void StructuredBuffer<T>::initialize(u32 arraySize_) {
 	release_index();
 
 	arraySize = arraySize_;
@@ -66,12 +66,12 @@ inline void StructuredBuffer<T>::initialize(uint32_t arraySize_) {
 }
 
 template<ConceptCPUBufferACE T>
-inline T& StructuredBuffer<T>::operator[](uint32_t i) {
+inline T& StructuredBuffer<T>::operator[](u32 i) {
 	return span[i];
 }
 
 template<ConceptCPUBufferACE T>
-inline const T& StructuredBuffer<T>::operator[](uint32_t i) const {
+inline const T& StructuredBuffer<T>::operator[](u32 i) const {
 	return span[i];
 }
 

@@ -14,17 +14,17 @@ void DSVDescriptorHeap::Initialize() {
 	GetInstance().initialize();
 }
 
-const std::uint32_t DSVDescriptorHeap::UseHeapIndex() noexcept {
+const u32 DSVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
 	Infomation("Use DSV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
-const D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetCPUHandle(std::uint32_t index) noexcept {
+const D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetCPUHandle(u32 index) noexcept {
 	return GetInstance().get_cpu_handle(index);
 }
 
-void DSVDescriptorHeap::ReleaseHeapIndex(std::uint32_t index) {
+void DSVDescriptorHeap::ReleaseHeapIndex(u32 index) {
 	Infomation("Release DSV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }

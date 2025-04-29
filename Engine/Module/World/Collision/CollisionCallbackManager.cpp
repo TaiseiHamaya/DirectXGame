@@ -32,7 +32,7 @@ void CollisionCallbackManager::callback(CallbackInfo lhs, CallbackInfo rhs, bool
 	auto& collisionObject = collisionRecent.at(recentKey);
 
 	collisionObject.set(0, result);
-	unsigned long state = collisionObject.to_ulong();
+	u32 state = collisionObject.to_ulong();
 	// このフレーム衝突しているか
 	switch (state) {
 	case 0b00:

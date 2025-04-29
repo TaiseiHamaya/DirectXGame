@@ -8,7 +8,7 @@
 PrimitiveGeometryAsset::PrimitiveGeometryAsset(std::filesystem::path fileName) {
 	JsonAsset json{ fileName };
 	std::vector<Vector3> vertices;
-	std::vector<uint32_t> indexes;
+	std::vector<u32> indexes;
 
 	if (json.cget().contains("Vertices")) {
 		const nlohmann::json& jsonVertices = json.cget().at("Vertices");
@@ -20,7 +20,7 @@ PrimitiveGeometryAsset::PrimitiveGeometryAsset(std::filesystem::path fileName) {
 	if (json.cget().contains("Indexes")) {
 		const nlohmann::json& jsonIndexes = json.cget().at("Indexes");
 		for (const auto& elem : jsonIndexes) {
-			indexes.emplace_back(elem.get<uint32_t>());
+			indexes.emplace_back(elem.get<u32>());
 		}
 	}
 
@@ -32,7 +32,7 @@ PrimitiveGeometryAsset::PrimitiveGeometryAsset(std::filesystem::path fileName) {
 	}
 }
 
-PrimitiveGeometryAsset::PrimitiveGeometryAsset(std::vector<Vector3> vertices_, std::vector<uint32_t> indices) :
+PrimitiveGeometryAsset::PrimitiveGeometryAsset(std::vector<Vector3> vertices_, std::vector<u32> indices) :
 	vertexBuffer(vertices_),
 	indexBuffer(indices) {
 }

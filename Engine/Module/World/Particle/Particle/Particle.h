@@ -22,16 +22,16 @@ public:
 	};
 	struct Random {
 		Vector3 axis;
-		float angle;
+		r32 angle;
 	};
 	struct LookAtAngle {
-		float angleParSec;
+		r32 angleParSec;
 	};
 
 public: // Constructor/Destructor
 	Particle(
 		const Vector3& translate,
-		float lifetime_,
+		r32 lifetime_,
 		const Vector3& velocity_, const Vector3& acceleration_,
 		const Color4& startColor_, const Color4& endColor_,
 		const Vector3& startSize_, const Vector3& endSize_,
@@ -56,8 +56,8 @@ public: // Getter/Setter
 protected: // Member variable
 	bool isDestroy = false;
 
-	float timer;
-	float lifetime;
+	r32 timer;
+	r32 lifetime;
 
 	Vector3 velocity;
 	Vector3 acceleration;

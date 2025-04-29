@@ -19,11 +19,11 @@ public:
 	__CLASS_NON_COPYABLE(StaticMeshDrawManager)
 
 public:
-	void make_instancing(uint32_t layer, const std::string& meshName, uint32_t maxInstance);
+	void make_instancing(u32 layer, const std::string& meshName, u32 maxInstance);
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
-	void register_debug_instance(uint32_t layer, Reference<const Camera3D> camera, bool isShowGrid);
+	void register_debug_instance(u32 layer, Reference<const Camera3D> camera, bool isShowGrid);
 	void debug_gui() override;
 #endif // _DEBUG
 };

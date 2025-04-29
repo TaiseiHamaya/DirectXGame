@@ -16,7 +16,7 @@ public:
 	virtual void update_affine() override;
 
 public:
-	const uint32_t& layer() const { return renderLayer; };
+	const u32& layer() const { return renderLayer; };
 	virtual bool is_draw() const;
 	void set_draw(bool flag) { isDraw = flag; }
 	const Affine& local_affine() const { return localAffine; }
@@ -27,7 +27,7 @@ protected:
 
 	KeyType keyID{};
 
-	uint32_t renderLayer{ 0 };
+	u32 renderLayer{ 0 };
 
 	Affine localAffine;
 	Transform3D localTransform{}; // Transform

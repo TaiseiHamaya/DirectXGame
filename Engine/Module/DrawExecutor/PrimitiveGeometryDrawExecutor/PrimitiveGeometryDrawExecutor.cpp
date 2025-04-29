@@ -4,11 +4,11 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
-PrimitiveGeometryDrawExecutor::PrimitiveGeometryDrawExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance) {
+PrimitiveGeometryDrawExecutor::PrimitiveGeometryDrawExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance) {
 	reinitialize(asset_, maxInstance);
 }
 
-void PrimitiveGeometryDrawExecutor::reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance_) {
+void PrimitiveGeometryDrawExecutor::reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance_) {
 	asset = asset_;
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);

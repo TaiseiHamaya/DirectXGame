@@ -2,6 +2,11 @@
 
 #include "Engine/Module/Render/RenderNode/SingleRenderTargetNode.h"
 
+#include <Library/Utility/Template/Reference.h>
+
+class RenderTexture;
+class DepthStencilTexture;
+
 class OutlineNode : public SingleRenderTargetNode {
 public:
 	OutlineNode();
@@ -29,9 +34,7 @@ public:
 	/// 描画時に使用するテクスチャリソースを設定
 	/// </summary>
 	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
-	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
-
-	void set_depth_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& depthGPUHandle_);
+	void set_shader_texture(Reference<RenderTexture> baseTexture_, Reference<DepthStencilTexture> depthTexture_);
 
 private:
 	/// <summary>
@@ -40,6 +43,6 @@ private:
 	void create_pipeline_state();
 
 private:
-	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};
-	D3D12_GPU_DESCRIPTOR_HANDLE depthGPUHandle{};
+	Reference<RenderTexture> baseTexture;
+	Reference<DepthStencilTexture> depthTexture;
 };

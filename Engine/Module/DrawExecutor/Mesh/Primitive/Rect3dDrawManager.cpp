@@ -1,6 +1,6 @@
 #include "Rect3dDrawManager.h"
 
-void Rect3dDrawManager::make_instancing(uint32_t layer, const PrimitiveType& primitive, uint32_t maxInstance) {
+void Rect3dDrawManager::make_instancing(u32 layer, const PrimitiveType& primitive, u32 maxInstance) {
 	if (layer >= drawData.size()) {
 		return;
 	}
@@ -12,7 +12,7 @@ void Rect3dDrawManager::make_instancing(uint32_t layer, const PrimitiveType& pri
 	);
 }
 
-void Rect3dDrawManager::make_instancing(uint32_t layer, uint32_t maxInstance) {
+void Rect3dDrawManager::make_instancing(u32 layer, u32 maxInstance) {
 	if (layer >= drawData.size()) {
 		return;
 	}

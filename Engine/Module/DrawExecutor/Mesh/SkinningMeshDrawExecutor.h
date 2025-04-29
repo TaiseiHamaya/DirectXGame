@@ -23,12 +23,12 @@ public:
 	SkinningMeshDrawExecutor() noexcept = default;
 	~SkinningMeshDrawExecutor() noexcept = default;
 
-	SkinningMeshDrawExecutor(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, uint32_t maxInstance);
+	SkinningMeshDrawExecutor(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, u32 maxInstance);
 	
 	__CLASS_NON_COPYABLE(SkinningMeshDrawExecutor)
 
 public:
-	void reinitialize(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, uint32_t maxInstance);
+	void reinitialize(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, u32 maxInstance);
 	void draw_command() const override;
 	void write_to_buffer(Reference<const SkinningMeshInstance> instance) override;
 
@@ -39,7 +39,7 @@ private:
 	StructuredBuffer<TransformMatrixDataBuffer> matrices;
 	std::vector<StructuredBuffer<MaterialDataBuffer3>> materials;
 	std::vector<MdStructuredBuffer<SkeletonMatrixPaletteWellBuffer>> matrixPalettes; // GPU用Matrix
-	std::vector<ConstantBuffer<uint32_t>> paletteSize;
+	std::vector<ConstantBuffer<u32>> paletteSize;
 
 	std::mutex writeBufferMutex;
 };

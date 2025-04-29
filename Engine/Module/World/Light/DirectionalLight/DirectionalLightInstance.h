@@ -6,7 +6,7 @@
 
 struct DirectionalLightData {
 	Color3 color; // 色
-	float intensity{ 1 }; // 輝度
+	r32 intensity{ 1 }; // 輝度
 	Vector3 direction{ -CVector3::BASIS_Y }; // 向き
 };
 

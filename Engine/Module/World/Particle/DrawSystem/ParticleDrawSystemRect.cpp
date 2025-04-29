@@ -1,11 +1,11 @@
 #include "ParticleDrawSystemRect.h"
 
+#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
-ParticleDrawSystemRect::ParticleDrawSystemRect(const std::string& textureName) {
-	set_texture(textureName);
+ParticleDrawSystemRect::ParticleDrawSystemRect(std::shared_ptr<const TextureAsset> texture_) {
+	texture = texture_;
 }
 
 void ParticleDrawSystemRect::draw_command(size_t InstanceCount) const {
@@ -13,7 +13,7 @@ void ParticleDrawSystemRect::draw_command(size_t InstanceCount) const {
 	if (texture) {
 		commandList->IASetVertexBuffers(0, 1, &vertexBuffer.get_vbv());
 		commandList->SetGraphicsRootDescriptorTable(0, particleBuffer.get_handle_gpu());
-		commandList->SetGraphicsRootDescriptorTable(2, texture->get_gpu_handle());
+		commandList->SetGraphicsRootDescriptorTable(2, texture->handle());
 
 		commandList->DrawInstanced(6, static_cast<UINT>(InstanceCount), 0, 0);
 	}

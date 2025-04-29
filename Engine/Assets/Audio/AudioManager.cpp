@@ -31,11 +31,11 @@ void AudioManager::DebugGui() {
 }
 #endif // _DEBUG
 
-float AudioManager::GetMasterVolume() {
+r32 AudioManager::GetMasterVolume() {
 	return GetInstance().masterVolume;
 }
 
-void AudioManager::SetMasterVolume(float volume) {
+void AudioManager::SetMasterVolume(r32 volume) {
 	auto&& instance = GetInstance();
 	instance.masterVolume = volume;
 	instance.masteringVoice->SetVolume(instance.masterVolume);

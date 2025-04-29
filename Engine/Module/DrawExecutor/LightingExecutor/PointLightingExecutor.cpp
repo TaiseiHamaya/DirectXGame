@@ -3,11 +3,11 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 
-PointLightingExecutor::PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance) {
+PointLightingExecutor::PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance) {
 	reinitialize(asset_, maxInstance);
 }
 
-void PointLightingExecutor::reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, uint32_t maxInstance_) {
+void PointLightingExecutor::reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance_) {
 	asset = asset_;
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);

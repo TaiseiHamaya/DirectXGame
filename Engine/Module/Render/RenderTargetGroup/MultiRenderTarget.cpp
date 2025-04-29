@@ -20,7 +20,7 @@
 //	}
 //}
 //
-//void MultiRenderTarget::initialize(std::uint32_t width, std::uint32_t hight, std::uint32_t size) {
+//void MultiRenderTarget::initialize(u32 width, u32 hight, u32 size) {
 //	renderTargets.resize(size);
 //	for (auto itr = renderTargets.begin(); itr < renderTargets.end(); ++itr) {
 //		itr->initialize(width, hight);
@@ -29,7 +29,7 @@
 //	create_view_port(width, hight);
 //}
 //
-//void MultiRenderTarget::initialize(std::uint32_t size) {
+//void MultiRenderTarget::initialize(u32 size) {
 //	initialize(WinApp::GetClientWidth(), WinApp::GetClientHight(), size);
 //}
 //

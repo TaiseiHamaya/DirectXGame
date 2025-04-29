@@ -1,6 +1,5 @@
 #include "NonLightingPixelNode.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
@@ -15,14 +14,14 @@ void NonLightingPixelNode::initialize() {
 }
 
 void NonLightingPixelNode::preprocess() {
+	gBufferColorTexture->start_read();
 	auto& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootDescriptorTable(0, gBuffer);
+	gBufferColorTexture->get_as_srv()->use(0);
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
-void NonLightingPixelNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT) {
-	auto& list = gBufferRT->offscreen_render_list();
-	gBuffer = list[0].texture_gpu_handle();
+void NonLightingPixelNode::set_gbuffers(Reference<RenderTexture> gBufferColorTexture_) {
+	gBufferColorTexture = gBufferColorTexture_;
 }
 
 void NonLightingPixelNode::create_pipeline_state() {

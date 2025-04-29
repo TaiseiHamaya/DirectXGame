@@ -16,7 +16,7 @@ void WorldClock::Initialize() {
 
 void WorldClock::Update() {
 	// 少数型秒のusing
-	using second_f = chrono::duration<float, std::ratio<1>>;
+	using second_f = chrono::duration<r32, std::ratio<1>>;
 
 	auto&& instance = GetInstance();
 
@@ -35,7 +35,7 @@ void WorldClock::Update() {
 #endif // _DEBUG
 }
 
-float WorldClock::DeltaSeconds() {
+r32 WorldClock::DeltaSeconds() {
 	return GetInstance().deltaSeconds;
 }
 
@@ -47,9 +47,9 @@ const chrono::high_resolution_clock::time_point& WorldClock::BeginTime() {
 #include <imgui.h>
 void WorldClock::DebugGui() {
 	auto&& instance = GetInstance();
-	float deltaMS = instance.deltaSeconds * 1000.0f;
-	uint32_t msInteger = static_cast<uint32_t>(deltaMS);
-	uint32_t msDecimal = static_cast<uint32_t>((deltaMS - std::floor(deltaMS)) * 1e4f);
+	r32 deltaMS = instance.deltaSeconds * 1000.0f;
+	u32 msInteger = static_cast<u32>(deltaMS);
+	u32 msDecimal = static_cast<u32>((deltaMS - std::floor(deltaMS)) * 1e4f);
 	ImGui::Text(std::format("Delta : {:>5}.{:0>4}ms", msInteger, msDecimal).c_str());
 	instance.profiler.debug_gui();
 	ImGui::Checkbox("IsFixDeltaTime", &EngineSettings::IsFixDeltaTime);

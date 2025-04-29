@@ -11,14 +11,14 @@ public:
 	DirectionalLightingExecutor() = default;
 	~DirectionalLightingExecutor() = default;
 
-	DirectionalLightingExecutor(uint32_t maxInstance);
+	DirectionalLightingExecutor(u32 maxInstance);
 
 	__CLASS_NON_COPYABLE(DirectionalLightingExecutor)
 
 public:
-	void reinitialize(uint32_t maxInstance);
+	void reinitialize(u32 maxInstance);
 	void draw_command() const override;
-	void set_command(uint32_t paramIndex) const;
+	void set_command(u32 paramIndex) const;
 	void write_to_buffer(Reference<const DirectionalLightInstance> instance) override;
 
 private:

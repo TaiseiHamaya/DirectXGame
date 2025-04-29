@@ -29,7 +29,7 @@ public:
 
 	static void SetCameraTransform(const Transform2D& transform) noexcept;
 
-	static void SetNDCInfomation(float left, float right, float bottom, float top, float near, float far) noexcept;
+	static void SetNDCInfomation(r32 left, r32 right, r32 bottom, r32 top, r32 near, r32 far) noexcept;
 
 	static void CameraUpdate();
 
@@ -44,7 +44,7 @@ private:
 public:
 	static void DebugGUI();
 private:
-	void debug_gui(const char* tag = "2DCamera");
+	void debug_gui(string_literal tag = "2DCamera");
 #endif // _DEBUG
 
 private:// 一つに絞る

@@ -1,15 +1,15 @@
 #include "ParticleMeshNode.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 ParticleMeshNode::ParticleMeshNode() = default;
 
 ParticleMeshNode::~ParticleMeshNode() noexcept = default;
 
 void ParticleMeshNode::initialize() {
-	depthStencil = DepthStencilValue::depthStencil;
+	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state();
 	pipelineState->set_name("ParticleMeshNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -38,7 +38,7 @@ void ParticleMeshNode::create_pipeline_state() {
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
-	psoBuilder->depthstencilstate(*depthStencil);
+	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format());
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

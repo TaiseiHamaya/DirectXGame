@@ -1,16 +1,13 @@
 #include "Rect3dDrawExecutor.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
-
-#include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
-
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
+#include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
-void Rect3dDrawExecutor::reinitialize(PrimitiveType type_, uint32_t maxInstance_) {
+void Rect3dDrawExecutor::reinitialize(PrimitiveType type_, u32 maxInstance_) {
 	type = type_;
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);
@@ -39,7 +36,7 @@ void Rect3dDrawExecutor::write_to_buffer(Reference<const Rect3d> instance) {
 		return;
 	}
 
-	uint32_t next;
+	u32 next;
 	{
 		std::lock_guard<std::mutex> lock{ writeBufferMutex };
 
@@ -68,13 +65,10 @@ void Rect3dDrawExecutor::write_to_buffer(Reference<const Rect3d> instance) {
 		source.uvTransform.get_matrix(),
 	};
 	if (!source.texture) {
-		material[next].textureIndex = TextureLibrary::GetTexture("Error.png")->index().value();
-	}
-	else if (source.texture->index().has_value()) {
-		material[next].textureIndex = source.texture->index().value();
+		material[next].textureIndex = TextureLibrary::GetTexture("Error.png")->index();
 	}
 	else {
-		material[next].textureIndex = TextureLibrary::GetTexture("Error.png")->index().value();
+		material[next].textureIndex = source.texture->index();
 	}
 }
 

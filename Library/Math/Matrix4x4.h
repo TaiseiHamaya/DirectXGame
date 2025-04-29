@@ -28,12 +28,12 @@ public: // その他コンストラクタ
 	/// initializer_listから生成
 	/// </summary>
 	/// <param name="init"></param>
-	constexpr Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init);
+	constexpr Matrix4x4(const std::initializer_list<std::initializer_list<r32>>& init);
 
 public:
 	// ------------------演算子オーバーロード------------------
-	constexpr const std::array<float, COLUMN>& operator[](std::size_t index) const;
-	constexpr std::array<float, COLUMN>& operator[](std::size_t index);
+	constexpr const std::array<r32, COLUMN>& operator[](std::size_t index) const;
+	constexpr std::array<r32, COLUMN>& operator[](std::size_t index);
 
 	constexpr const Matrix4x4 operator+(const Matrix4x4& opr) const;
 	constexpr const Matrix4x4 operator-(const Matrix4x4& opr) const;
@@ -51,7 +51,7 @@ public: // static関数
 	/// <param name="matrix">元Matrix</param>
 	/// <param name="times">倍数</param>
 	/// <returns>計算値</returns>
-	static constexpr Matrix4x4 Multiply(const Matrix4x4& matrix, const float& times);
+	static constexpr Matrix4x4 Multiply(const Matrix4x4& matrix, const r32& times);
 
 	/// <summary>
 	/// 逆行列計算
@@ -95,19 +95,19 @@ constexpr Matrix4x4::Matrix4x4(const Matrix<4, 4>& rhs) {
 	_matrix = rhs;
 }
 
-constexpr Matrix4x4::Matrix4x4(const std::initializer_list<std::initializer_list<float>>& init) {
-	for (int i = 0; i < ROW; ++i) {
-		for (int j = 0; j < COLUMN; ++j) {
+constexpr Matrix4x4::Matrix4x4(const std::initializer_list<std::initializer_list<r32>>& init) {
+	for (i32 i = 0; i < ROW; ++i) {
+		for (i32 j = 0; j < COLUMN; ++j) {
 			_matrix[i][j] = *((init.begin() + i)->begin() + j);
 		}
 	}
 }
 
-constexpr const std::array<float, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) const {
+constexpr const std::array<r32, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) const {
 	return _matrix[index];
 }
 
-constexpr std::array<float, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) {
+constexpr std::array<r32, Matrix4x4::COLUMN>& Matrix4x4::operator[](std::size_t index) {
 	return _matrix[index];
 }
 
@@ -141,7 +141,7 @@ constexpr bool Matrix4x4::operator!=(const Matrix4x4& rhs) const noexcept {
 	return !(*this == rhs);
 }
 
-constexpr Matrix4x4 Matrix4x4::Multiply(const Matrix4x4& matrix, const float& times) {
+constexpr Matrix4x4 Matrix4x4::Multiply(const Matrix4x4& matrix, const r32& times) {
 	return Matrix<4, 4>::Multiply(matrix._matrix, times);
 }
 
@@ -152,8 +152,8 @@ constexpr Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix) {
 #include "Matrix3x3.h"
 constexpr Matrix4x4 Matrix4x4::Convert3x3(const Matrix3x3& matrix) {
 	Matrix4x4 result{};
-	for (uint32_t r = 0; r < 3; ++r) {
-		for (uint32_t c = 0; c < 3; ++c) {
+	for (u32 r = 0; r < 3; ++r) {
+		for (u32 c = 0; c < 3; ++c) {
 			result[r][c] = matrix[r][c];
 		}
 	}

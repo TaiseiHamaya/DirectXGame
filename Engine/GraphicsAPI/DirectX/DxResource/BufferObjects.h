@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include <Library/Math/Affine.h>
 #include <Library/Math/Color3.h>
 #include <Library/Math/Color4.h>
@@ -10,7 +8,7 @@
 #include <Library/Math/Vector2.h>
 #include <Library/Math/Vector3.h>
 
-enum class LighingType : uint32_t {
+enum class LighingType : u32 {
 	None,
 	Lambert,
 	HalfLambert,
@@ -40,8 +38,8 @@ struct TransformMatrixDataBuffer {
 struct MaterialDataBuffer3 {
 	Color3 color;
 	LighingType lighting{ LighingType::HalfLambert };
-	float shininess = 50;
-	uint32_t textureIndex{ 0 };
+	r32 shininess = 50;
+	u32 textureIndex{ 0 };
 	Matrix3x3 uvTransformMatrix = CMatrix3x3::IDENTITY;
 };
 
@@ -52,8 +50,8 @@ struct MaterialDataBuffer3 {
 struct MaterialDataBuffer4 {
 	Color4 color;
 	LighingType lighting{ LighingType::HalfLambert };
-	float shininess = 50;
-	uint32_t textureIndex{ 0 };
+	r32 shininess = 50;
+	u32 textureIndex{ 0 };
 	Matrix3x3 uvTransformMatrix = CMatrix3x3::IDENTITY;
 };
 

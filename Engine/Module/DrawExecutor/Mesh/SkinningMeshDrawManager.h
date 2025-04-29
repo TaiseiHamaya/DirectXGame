@@ -13,7 +13,7 @@ public:
 	__CLASS_NON_COPYABLE(SkinningMeshDrawManager)
 
 public:
-	void make_instancing(uint32_t layer, const std::string& meshName, uint32_t maxInstance);
+	void make_instancing(u32 layer, const std::string& meshName, u32 maxInstance);
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:

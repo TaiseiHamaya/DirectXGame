@@ -2,11 +2,9 @@
 
 #include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
 
-#include <array>
-
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
-template<uint32_t NumRenderTarget>
+template<u32 NumRenderTarget>
 class MultiRenderTargetNode : public BaseRenderNode {
 	static_assert(NumRenderTarget >= 2);
 public:
@@ -23,30 +21,12 @@ public:
 	/// 描画先の指定
 	/// </summary>
 	/// <param name="renderTarget_">描画先レンダーターゲットグループ</param>
-	virtual void set_render_target(const std::shared_ptr<MultiRenderTarget<NumRenderTarget>>& renderTarget_);
-
-	/// <summary>
-	/// 描画結果のRTVHandleの配列
-	/// </summary>
-	/// <returns></returns>
-	const std::array<D3D12_GPU_DESCRIPTOR_HANDLE, NumRenderTarget>& result_stv_handle_list() const;
-
-protected:
-	std::array<D3D12_GPU_DESCRIPTOR_HANDLE, NumRenderTarget> resultSrvHandleList;
+	void set_render_target(Reference<MultiRenderTarget<NumRenderTarget>> renderTarget_);
 };
 
-template<uint32_t NumRenderTarget>
-void MultiRenderTargetNode<NumRenderTarget>::set_render_target(const std::shared_ptr<MultiRenderTarget<NumRenderTarget>>& renderTarget_) {
+template<u32 NumRenderTarget>
+void MultiRenderTargetNode<NumRenderTarget>::set_render_target(Reference<MultiRenderTarget<NumRenderTarget>> renderTarget_) {
 	renderTarget = renderTarget_;
-	auto&& list = renderTarget_->offscreen_render_list();
-	for (uint32_t i = 0; i < NumRenderTarget; ++i) {
-		resultSrvHandleList[i] = list[i].texture_gpu_handle();
-	}
-}
-
-template<uint32_t NumRenderTarget>
-const std::array<D3D12_GPU_DESCRIPTOR_HANDLE, NumRenderTarget>& MultiRenderTargetNode<NumRenderTarget>::result_stv_handle_list() const {
-	return resultSrvHandleList;
 }
 
 /// ----------------------------------

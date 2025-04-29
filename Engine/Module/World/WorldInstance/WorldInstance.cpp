@@ -54,11 +54,11 @@ void WorldInstance::look_at(const Vector3& point, const Vector3& upward) noexcep
 	transform.set_quaternion(Quaternion::LookForward(localForward, localUpward));
 }
 
-void WorldInstance::look_at_angle(const WorldInstance& rhs, float angle, const Vector3& upward) noexcept {
+void WorldInstance::look_at_angle(const WorldInstance& rhs, r32 angle, const Vector3& upward) noexcept {
 	look_at_angle(rhs.world_position(), angle, upward);
 }
 
-void WorldInstance::look_at_angle(const Vector3& point, float angle, const Vector3& upward) noexcept {
+void WorldInstance::look_at_angle(const Vector3& point, r32 angle, const Vector3& upward) noexcept {
 	Vector3 localForward;
 	Vector3 localUpward;
 	if (hierarchy.has_parent()) {
@@ -132,7 +132,7 @@ void WorldInstance::debug_gui() {
 	transform.debug_gui();
 
 	//if (ImGui::Button("SaveJson")) {
-	//	constexpr const char* fileName = std::source_location::current().file_name();
+	//	constexpr string_literal fileName = std::source_location::current().file_name();
 	//	JsonAsset output{ "WorldInstance"s + fileName };
 	//	to_json(output);
 	//	output.save();

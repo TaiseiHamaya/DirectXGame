@@ -93,7 +93,7 @@ void SceneManager::Draw() {
 //	sceneQue.back()->DebugDraw();
 //}
 
-void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInitialScene, bool isStopLoad) {
+void SceneManager::SetSceneChange(i32 next, r32 interval, bool isStackInitialScene, bool isStopLoad) {
 	SceneManager& instance = GetInstance();
 	// シーンがDefault状態でないと遷移させない
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {
@@ -118,7 +118,7 @@ void SceneManager::SetSceneChange(int32_t next, float interval, bool isStackInit
 	instance.sceneChangeInfo.endCall.restart(interval);
 }
 
-void SceneManager::PopScene(float interval) {
+void SceneManager::PopScene(r32 interval) {
 	SceneManager& instance = GetInstance();
 	// シーンがDefault状態でないと遷移させない
 	if (instance.sceneStatus != SceneStatus::DEFAULT) {

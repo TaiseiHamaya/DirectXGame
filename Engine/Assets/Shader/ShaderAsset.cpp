@@ -6,7 +6,7 @@
 
 using namespace std::literals::string_literals;
 
-constexpr const wchar_t* filetags[] = {
+constexpr wstring_literal filetags[] = {
 	L"VS.hlsl",
 	L"PS.hlsl",
 	L"CS.hlsl",
@@ -25,7 +25,7 @@ bool ShaderAsset::load(const std::filesystem::path& filePath) {
 	Infomation(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
 
 	std::wstring_view profile;
-	for (uint32_t i = 0; i < 4; ++i) {
+	for (u32 i = 0; i < 4; ++i) {
 		if (filePath.native().ends_with(filetags[i])) {
 			profile = profiles[i];
 			break;

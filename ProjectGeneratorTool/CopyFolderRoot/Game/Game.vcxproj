@@ -93,6 +93,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <FxCompile>
       <ShaderModel>6.6</ShaderModel>
@@ -117,6 +118,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <FxCompile>
       <ShaderModel>6.6</ShaderModel>
@@ -139,6 +141,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <FxCompile>
       <ShaderModel>6.6</ShaderModel>

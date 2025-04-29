@@ -1,35 +1,17 @@
 #include "SkinningMeshNodeForward.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 SkinningMeshNodeForward::SkinningMeshNodeForward() = default;
 SkinningMeshNodeForward::~SkinningMeshNodeForward() noexcept = default;
 
 void SkinningMeshNodeForward::initialize() {
-	depthStencil = DepthStencilValue::depthStencil;
+	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state();
 	pipelineState->set_name("SkinningMeshNodeForward");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-}
-
-void SkinningMeshNodeForward::set_render_target(const std::shared_ptr<SingleRenderTarget>& renderTarget_) {
-	if (renderTarget_) {
-		renderTarget = renderTarget_;
-		resultSvtHandle = renderTarget_->offscreen_render().texture_gpu_handle();
-		renderTarget_->offscreen_render().set_clear_color(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
-	}
-	else {
-		auto temp = std::make_shared<SingleRenderTarget>();
-		renderTarget = temp;
-		renderTarget->initialize();
-		resultSvtHandle = temp->offscreen_render().texture_gpu_handle();
-		temp->offscreen_render().set_clear_color(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
-	}
 }
 
 void SkinningMeshNodeForward::create_pipeline_state() {
@@ -62,7 +44,7 @@ void SkinningMeshNodeForward::create_pipeline_state() {
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
-	psoBuilder->depthstencilstate(*depthStencil);
+	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format());
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

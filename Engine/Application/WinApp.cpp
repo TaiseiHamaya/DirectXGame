@@ -3,6 +3,8 @@
 #include <dbghelp.h>
 #include <timeapi.h>
 
+#include <Library/Utility/Tools/RandomEngine.h>
+
 #include "Engine/Application/CrashHandler.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/Audio/AudioManager.h"
@@ -17,8 +19,6 @@
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "EngineSettings.h"
-
-#include "Library/Utility/Tools/RandomEngine.h"
 
 #pragma comment(lib, "Dbghelp.lib") // Symとか
 #pragma comment(lib, "Oleacc.lib") // GetProcessHandleFromHwnd
@@ -53,6 +53,13 @@ WinApp::WinApp() noexcept :
 	hWnd(nullptr),
 	hInstance(nullptr) {
 	msg = {};
+}
+
+WinApp::~WinApp() noexcept {
+	// ログ
+	Infomation("Complete finalize application.");
+	// chrono内のTZDBを削除(これ以降ログ出力はされない)
+	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
 void WinApp::Initialize(DWORD windowConfig) {
@@ -95,8 +102,6 @@ void WinApp::Initialize(DWORD windowConfig) {
 	Input::Initialize();
 	// 乱数エンジンの初期化
 	RandomEngine::Initialize();
-	// 時計初期化
-	WorldClock::Initialize();
 	// バックグラウンドローダーの初期化
 	BackgroundLoader::Initialize();
 
@@ -185,19 +190,15 @@ void WinApp::Finalize() {
 	DxCore::Finalize();
 	// COMの終了
 	CoUninitialize();
-	instance.reset();
-
-	// ログ
-	Infomation("Complete finalize application.");
-
-	// chrono内のTZDBを削除(これ以降ログ出力はされない)
-	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Infomation("Show application window.");
+
+	// 時計初期化
+	WorldClock::Initialize();
 }
 
 bool WinApp::IsEndApp() {
@@ -269,7 +270,7 @@ void WinApp::initialize_application(DWORD windowConfig) {
 #include <thread>
 
 void WinApp::wait_frame() {
-	using millisecond_f = std::chrono::duration<float, std::milli>;
+	using millisecond_f = std::chrono::duration<r32, std::milli>;
 
 	//constexpr millisecond_f MinTime{ 1000.00000f / 60.0f };
 	constexpr millisecond_f MinCheckTime{ 1000.00000f / 65.0f }; // 少し短い時間を使用することで60FPSになるようにする

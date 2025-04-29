@@ -84,6 +84,7 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -118,6 +119,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,6 +154,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <ForcedIncludeFiles>$(SolutionDir)DirectXGame\Library\Utility\BuiltinTypes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,6 +174,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\StaticTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\RenderTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.cpp" />
+    <ClCompile Include="Engine\Assets\Texture\TextureAsset.cpp" />
     <None Include="Game\__Template\main.cpp.template">
       <FileType>Document</FileType>
     </None>
@@ -180,6 +190,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <None Include="Game\__Template\Scene\FactoryDemo.cpp.template">
       <FileType>Document</FileType>
     </None>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\DepthStencilView.cpp" />
     <ClCompile Include="Engine\Assets\Shader\ShaderAsset.cpp" />
     <ClCompile Include="Engine\Assets\Shader\ShaderAssetBuilder.cpp" />
     <ClCompile Include="Engine\Assets\Shader\ShaderLibrary.cpp" />
@@ -188,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\ShaderBuilder.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\RenderingSystemValues.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp" />
@@ -195,6 +207,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Mesh\IDrawInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ITextureResource.cpp" />
+    <ClCompile Include="Library\Utility\Tools\Easing.cpp" />
     <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
     <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
@@ -260,12 +274,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDevice\DxDevice.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp" />
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Library\Math\Matrix3x3.cpp" />
@@ -316,12 +326,20 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\StaticTexture.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\RenderTexture.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.h" />
+    <ClInclude Include="Engine\Assets\Texture\TextureAsset.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>
     <None Include="Game\__Template\Scene\FactoryDemo.h.template">
       <FileType>Document</FileType>
     </None>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\DepthStencilView.h" />
     <ClInclude Include="Engine\Assets\Shader\ShaderAsset.h" />
     <ClInclude Include="Engine\Assets\Shader\ShaderAssetBuilder.h" />
     <ClInclude Include="Engine\Assets\Shader\ShaderLibrary.h" />
@@ -331,6 +349,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConceptCPUBuffer.h" />
+    <ClInclude Include="Engine\GraphicsAPI\RenderingSystemValues.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\BaseDrawManager.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.h" />
@@ -340,7 +359,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Mesh\IMultiMeshInstance.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\IPrimitiveInstance.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\Rect3d.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ITextureResource.h" />
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\IResourceView.h" />
+    <ClInclude Include="Library\Utility\Tools\Functions.h" />
+    <ClInclude Include="Library\Utility\Tools\Easing.h" />
     <ClInclude Include="Library\Math\Fraction.h" />
+    <ClInclude Include="Library\Utility\Tools\MathEPS.h" />
+    <ClInclude Include="Library\Utility\BuiltinTypes.h" />
     <ClInclude Include="Library\Utility\Tools\ChronoUtility.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioManager.h" />
@@ -400,7 +425,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\EngineSettings.h" />
     <ClInclude Include="Engine\Debug\DebugValues\DebugValues.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSystemValues.h" />
-    <ClInclude Include="Engine\GraphicsAPI\RenderingSystemValues.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioLibrary.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Assets\Audio\AudioAsset.h" />
@@ -421,13 +445,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDevice\DxDevice.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\BufferObjects.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer\ConstantBuffer.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer\StructuredBuffer.h" />
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer\VertexBuffer.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.h" />
     <ClInclude Include="Library\Utility\Template\SingletonInterface.h" />

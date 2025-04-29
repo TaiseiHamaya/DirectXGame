@@ -21,7 +21,7 @@ public:
 public:
 	void update_matrix();
 
-	void reset_depth(Reference<WorldInstance> instance, uint32_t after);
+	void reset_depth(Reference<WorldInstance> instance, u32 after);
 
 	void erase(Reference<WorldInstance> instance);
 

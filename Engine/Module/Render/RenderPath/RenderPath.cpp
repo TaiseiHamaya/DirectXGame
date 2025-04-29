@@ -39,8 +39,6 @@ bool RenderPath::begin() {
 }
 
 bool RenderPath::next() {
-	// 今の処理を終了
-	(*nowNode)->end();
 	// 次に進める
 	++nowNode;
 	// 末尾に行っていなければ次の処理を開始

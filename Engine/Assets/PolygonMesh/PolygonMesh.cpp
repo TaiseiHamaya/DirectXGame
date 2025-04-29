@@ -37,7 +37,7 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	}
 
 	std::wstring meshFileName = filePath.filename().wstring();
-	for (int index = 0; auto & meshData : meshData) {
+	for (i32 index = 0; auto & meshData : meshData) {
 		meshData.vertices->get_resource()->SetName(std::format(L"VertexBuffer-{}({})", index, meshFileName).c_str());
 		meshData.indexes->get_resource()->SetName(std::format(L"IndexBuffer-{}({})", index, meshFileName).c_str());
 		++index;
@@ -47,11 +47,11 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	return true;
 }
 
-const D3D12_VERTEX_BUFFER_VIEW& PolygonMesh::get_vbv(std::uint32_t index) const {
+const D3D12_VERTEX_BUFFER_VIEW& PolygonMesh::get_vbv(u32 index) const {
 	return meshData[index].vertices->get_vbv();
 }
 
-const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv(std::uint32_t index) const {
+const D3D12_INDEX_BUFFER_VIEW* const PolygonMesh::get_p_ibv(u32 index) const {
 	return meshData[index].indexes->get_p_ibv();
 }
 
@@ -59,18 +59,18 @@ const size_t PolygonMesh::material_count() const {
 	return meshData.size();
 }
 
-const UINT PolygonMesh::index_size(std::uint32_t index) const {
+const UINT PolygonMesh::index_size(u32 index) const {
 	return static_cast<const UINT>(meshData[index].indexes->index_size());
 }
 
-const PolygonMesh::MeshData* PolygonMesh::mesh_data(std::uint32_t index) const {
+const PolygonMesh::MeshData* PolygonMesh::mesh_data(u32 index) const {
 	if (index < material_count()) {
 		return &meshData[index];
 	}
 	return nullptr;
 }
 
-const PolygonMesh::MeshMaterialData* PolygonMesh::material_data(std::uint32_t index) const {
+const PolygonMesh::MeshMaterialData* PolygonMesh::material_data(u32 index) const {
 	if (index >= material_count()) {
 		return nullptr;
 	}
@@ -80,7 +80,7 @@ const PolygonMesh::MeshMaterialData* PolygonMesh::material_data(std::uint32_t in
 	return nullptr;
 }
 
-bool PolygonMesh::has_material(std::uint32_t index) const {
+bool PolygonMesh::has_material(u32 index) const {
 	return materialData.contains(meshData[index].materialName);
 }
 
@@ -91,11 +91,11 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 	std::string line; // 1行を保存するよう
 
 	std::vector<VertexDataBuffer> vertices; // vertexBuffer用
-	std::vector<std::uint32_t> indexes; // indexBuffer用
+	std::vector<u32> indexes; // indexBuffer用
 
 	std::string mtlFileName;
 
-	std::unordered_map<std::string, uint32_t> reverseMeshVertices; // 登録済み頂点情報とそのindex情報
+	std::unordered_map<std::string, u32> reverseMeshVertices; // 登録済み頂点情報とそのindex情報
 
 	std::vector<MeshData>::iterator current = meshData.begin();
 
@@ -136,7 +136,7 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 		}
 		// 面情報
 		else if (identifier == "f") {
-			for (uint32_t faceIndex = 0; faceIndex < 3; ++faceIndex) {
+			for (u32 faceIndex = 0; faceIndex < 3; ++faceIndex) {
 				std::string element;
 
 				std::getline(sstream, element, ' ');
@@ -148,17 +148,17 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 					indexes.emplace_back(reverseMeshVertices.at(element));
 				}
 				else {
-					std::array<uint32_t, 3> elementIndexes;
+					std::array<u32, 3> elementIndexes;
 					std::istringstream elementSstream(element);
 					std::string index;
 					// データを取り出す
-					for (int elementIndex = 0; elementIndex < elementIndexes.size(); ++elementIndex) {
+					for (i32 elementIndex = 0; elementIndex < elementIndexes.size(); ++elementIndex) {
 						std::getline(elementSstream, index, '/');
 						if (index.empty()) {
 							elementIndexes[elementIndex] = 0;
 						}
 						else {
-							elementIndexes[elementIndex] = static_cast<uint32_t>(std::stoi(index) - 1);
+							elementIndexes[elementIndex] = static_cast<u32>(std::stoi(index) - 1);
 						}
 					}
 					if (vertex.size() <= elementIndexes[0]) {
@@ -182,9 +182,9 @@ bool PolygonMesh::load_obj_file(const std::filesystem::path& filePath) {
 					// 頂点データを追加
 					vertices.emplace_back(vertex[elementIndexes[0]], texcoord[elementIndexes[1]], normal[elementIndexes[2]]);
 					// インデックスデータを追加
-					indexes.emplace_back(static_cast<uint32_t>(vertices.size()) - 1);
+					indexes.emplace_back(static_cast<u32>(vertices.size()) - 1);
 					// インデックスの登録ログを取る
-					reverseMeshVertices.emplace(element, static_cast<uint32_t>(vertices.size() - 1));
+					reverseMeshVertices.emplace(element, static_cast<u32>(vertices.size() - 1));
 				}
 			}
 			// indexをswapして左手座標系にする
@@ -301,10 +301,10 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 	}
 
 	// あとで逆参照する用
-	std::unordered_map<uint32_t, std::string> materialNameFromIndex;
+	std::unordered_map<u32, std::string> materialNameFromIndex;
 
 	// Material解析
-	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+	for (u32 materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
 		aiMaterial* material = scene->mMaterials[materialIndex];
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
@@ -327,10 +327,10 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 	}
 
 	// メッシュ解析
-	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
+	for (u32 meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
 
 		std::vector<VertexDataBuffer> vertices; // vertexBuffer用
-		std::vector<std::uint32_t> indexes; // indexBuffer用
+		std::vector<u32> indexes; // indexBuffer用
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		// normalが存在しない、texcoordが存在しない場合はメッシュとして使用しない
 		if (!mesh->HasNormals() || !mesh->HasTextureCoords(0)) {
@@ -339,7 +339,7 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 		}
 		vertices.reserve(mesh->mNumVertices);
 		// 頂点取得
-		for (uint32_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex) {
+		for (u32 vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex) {
 			aiVector3D& position = mesh->mVertices[vertexIndex];
 			aiVector3D& normal = mesh->mNormals[vertexIndex];
 			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
@@ -350,14 +350,14 @@ bool PolygonMesh::load_gltf_file(const std::filesystem::path& filePath) {
 		}
 		indexes.reserve(static_cast<size_t>(mesh->mNumFaces) * 3);
 		// Index取得
-		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
+		for (u32 faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
 			aiFace& face = mesh->mFaces[faceIndex];
 			if (face.mNumIndices != 3) {
 				continue;
 			}
 
-			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
-				uint32_t vertexIndex = face.mIndices[element];
+			for (u32 element = 0; element < face.mNumIndices; ++element) {
+				u32 vertexIndex = face.mIndices[element];
 				indexes.emplace_back(vertexIndex);
 			}
 		}

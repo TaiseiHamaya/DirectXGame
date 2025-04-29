@@ -3,30 +3,30 @@
 #include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
-const D3D12_CPU_DESCRIPTOR_HANDLE DxDescriptorHeap::get_cpu_handle(uint32_t index) const noexcept {
+const D3D12_CPU_DESCRIPTOR_HANDLE DxDescriptorHeap::get_cpu_handle(u32 index) const noexcept {
 	D3D12_CPU_DESCRIPTOR_HANDLE result = heapStartCPU; // スタートから
 	result.ptr += static_cast<SIZE_T>(incrementSize * index); // increment * index分ポインタを進める
 	return result;
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE DxDescriptorHeap::get_gpu_handle(std::uint32_t index) const noexcept {
+const D3D12_GPU_DESCRIPTOR_HANDLE DxDescriptorHeap::get_gpu_handle(u32 index) const noexcept {
 	D3D12_GPU_DESCRIPTOR_HANDLE result = heapStartGPU; // 上に同じ
 	result.ptr += incrementSize * static_cast<UINT64>(index);
 	return result;
 }
 
-const std::uint32_t DxDescriptorHeap::use_heap_index() noexcept {
+const u32 DxDescriptorHeap::use_heap_index() noexcept {
 	if (releasedHeap.empty()) {
 		return nowHeapIndex++;
 	}
 	else {
-		std::uint32_t next = releasedHeap.front();
+		u32 next = releasedHeap.front();
 		releasedHeap.pop_front();
 		return next;
 	}
 }
 
-void DxDescriptorHeap::release_heap(std::uint32_t index) {
+void DxDescriptorHeap::release_heap(u32 index) {
 	releasedHeap.emplace_front(index);
 }
 
@@ -41,6 +41,6 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DxDescriptorHeap::CreateDescriptorH
 	HRESULT hr;
 	// ここで生成
 	hr = DxDevice::GetDevice()->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(descriptorHeap.GetAddressOf()));
-	ErrorIf(FAILED(hr), "Failed creating descriptor heap. Type-\'{}\' Size-\'{}\'", (int)heapType, heapSize);
+	ErrorIf(FAILED(hr), "Failed creating descriptor heap. Type-\'{}\' Size-\'{}\'", (i32)heapType, heapSize);
 	return descriptorHeap;
 }

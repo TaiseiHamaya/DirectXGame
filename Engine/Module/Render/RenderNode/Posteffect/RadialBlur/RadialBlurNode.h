@@ -51,9 +51,9 @@ private:
 
 	struct BlurInfo {
 		Vector2 center;
-		float weight;
-		float length;
-		std::uint32_t sampleCount;
+		r32 weight;
+		r32 length;
+		u32 sampleCount;
 	};
 	ConstantBuffer<BlurInfo> blurInfo;
 };

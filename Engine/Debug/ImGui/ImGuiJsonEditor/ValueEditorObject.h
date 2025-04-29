@@ -35,10 +35,10 @@ private:
 	bool* value;
 };
 
-// float
+// r32
 template<>
-struct show_object<float> {
-	inline show_object(const std::string& name_, float* value_) :
+struct show_object<r32> {
+	inline show_object(const std::string& name_, r32* value_) :
 		name(name_),
 		value(value_) {
 	};
@@ -50,13 +50,13 @@ struct show_object<float> {
 
 private:
 	std::string name;
-	float* value;
+	r32* value;
 };
 
-// int
+// i32
 template<>
-struct show_object<int> {
-	inline show_object(const std::string& name_, int* value_) :
+struct show_object<i32> {
+	inline show_object(const std::string& name_, i32* value_) :
 		name(name_),
 		value(value_) {
 	};
@@ -68,13 +68,13 @@ struct show_object<int> {
 
 private:
 	std::string name;
-	int* value;
+	i32* value;
 };
 
-// uint32_t
+// u32
 template<>
-struct show_object<uint32_t> {
-	inline show_object(const std::string& name_, uint32_t* value_) :
+struct show_object<u32> {
+	inline show_object(const std::string& name_, u32* value_) :
 		name(name_),
 		value(value_) {
 	};
@@ -86,7 +86,7 @@ struct show_object<uint32_t> {
 
 private:
 	std::string name;
-	uint32_t* value;
+	u32* value;
 };
 
 // Vector2
@@ -99,7 +99,7 @@ struct show_object<Vector2> {
 	~show_object() = default;
 
 	inline void show_gui() {
-		ImGui::DragFloat2(name.c_str(), reinterpret_cast<float*>(value), 0.1f);
+		ImGui::DragFloat2(name.c_str(), reinterpret_cast<r32*>(value), 0.1f);
 	};
 
 private:
@@ -117,7 +117,7 @@ struct show_object<Vector3> {
 	~show_object() = default;
 
 	inline void show_gui() {
-		ImGui::DragFloat3(name.c_str(), reinterpret_cast<float*>(value), 0.1f);
+		ImGui::DragFloat3(name.c_str(), reinterpret_cast<r32*>(value), 0.1f);
 	};
 
 private:
@@ -127,7 +127,7 @@ private:
 
 // debug_gui()関数があるクラス
 template<typename T>
-concept HasDebugGui = requires(T t, const char* tag) {
+concept HasDebugGui = requires(T t, string_literal tag) {
 	{ t.debug_gui(tag) } -> std::same_as<void>;
 };
 

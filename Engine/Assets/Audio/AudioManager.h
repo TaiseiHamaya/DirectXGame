@@ -29,9 +29,9 @@ public:
 private:
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masteringVoice{ nullptr };
-	float masterVolume{ 1.0f };
+	r32 masterVolume{ 1.0f };
 
 public:
-	static float GetMasterVolume();
-	static void SetMasterVolume(float volume);
+	static r32 GetMasterVolume();
+	static void SetMasterVolume(r32 volume);
 };

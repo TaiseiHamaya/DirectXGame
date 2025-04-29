@@ -1,22 +1,16 @@
 #pragma once
 
-#include <cstdint>
-
 #include <d3d12.h>
 #include <wrl/client.h>
+
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 class DxResource {
 public:
 	DxResource() noexcept = default;
 	virtual ~DxResource() noexcept = default;
 
-public:
-	// コピーは禁止
-	DxResource(const DxResource&) = delete;
-	DxResource& operator=(const DxResource&) = delete;
-	// ムーブは許可
-	DxResource(DxResource&& rhs) noexcept;
-	DxResource& operator=(DxResource&& rhs) noexcept;
+	__CLASS_NON_COPYABLE(DxResource)
 
 public:
 	Microsoft::WRL::ComPtr<ID3D12Resource>& get_resource() noexcept;
@@ -25,6 +19,6 @@ public:
 protected:
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 
-protected:
-	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(std::uint64_t sizeInByte);
+public:
+	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(size_t sizeInByte);
 };

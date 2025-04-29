@@ -3,7 +3,6 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
-#include <cstdint>
 #include <vector>
 
 class DxCommand final {
@@ -48,13 +47,13 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> commandList;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
-	std::uint64_t fenceIndex;
+	u64 fenceIndex;
 	HANDLE fenceEvent;
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocatorTexture;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> commandListTexture;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueueTexture;
 	Microsoft::WRL::ComPtr<ID3D12Fence> textureFence;
-	std::uint64_t textureFenceIndex;
+	u64 textureFenceIndex;
 	HANDLE textureFenceEvent;
 };
 

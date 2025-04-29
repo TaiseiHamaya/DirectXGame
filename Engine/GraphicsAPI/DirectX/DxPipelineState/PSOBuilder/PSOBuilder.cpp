@@ -4,10 +4,9 @@
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxShaderReflection.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include <Engine/GraphicsAPI/DirectX/DxSystemValues.h>
+#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
-void InputLayoutBuilder::add_element(const char* semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot) {
+void InputLayoutBuilder::add_element(string_literal semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot) {
 	D3D12_INPUT_ELEMENT_DESC& inputElementDesc = inputElementDescs.emplace_back();
 	inputElementDesc.SemanticName = semanticName;
 	inputElementDesc.SemanticIndex = semanticIndex;
@@ -37,7 +36,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 
 	// バイナリに変換
 	hr = D3D12SerializeRootSignature(&descriptionRootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, signatureBlob.GetAddressOf(), errorBlob.GetAddressOf());
-	ErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+	ErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<string_literal>(errorBlob->GetBufferPointer()));
 
 	// 変換したバイナリからRootSignatureを生成
 	hr = DxDevice::GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(rootSignature.GetAddressOf()));
@@ -122,7 +121,7 @@ void PSOBuilder::shaders(const ShaderBuilder& shaders) {
 	graphicsPipelineStateDesc.PS = shaders.get_ps_bytecode();
 }
 
-void PSOBuilder::blendstate(BlendMode blendMode, uint32_t renderTarget) {
+void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 	D3D12_RENDER_TARGET_BLEND_DESC desc{};
 	desc.BlendEnable = true;
 	desc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
@@ -195,7 +194,7 @@ void PSOBuilder::blendstate_only_write() {
 	blendstate(desc, 0);
 }
 
-void PSOBuilder::blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t renderTarget) {
+void PSOBuilder::blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, u32 renderTarget) {
 	graphicsPipelineStateDesc.BlendState.RenderTarget[renderTarget] = blendDesc;
 	if (renderTarget > 0) {
 		graphicsPipelineStateDesc.BlendState.IndependentBlendEnable = true;
@@ -205,12 +204,6 @@ void PSOBuilder::blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, uint32_t r
 void PSOBuilder::rasterizerstate(D3D12_FILL_MODE fillMode, D3D12_CULL_MODE cullMode) {
 	graphicsPipelineStateDesc.RasterizerState.FillMode = fillMode;
 	graphicsPipelineStateDesc.RasterizerState.CullMode = cullMode;
-}
-
-void PSOBuilder::depthstencilstate(const DepthStencil& depthStencil) {
-	graphicsPipelineStateDesc.DepthStencilState.DepthEnable = true;
-	graphicsPipelineStateDesc.DepthStencilState = depthStencil.get_desc();
-	graphicsPipelineStateDesc.DSVFormat = depthStencil.get_resource()->GetDesc().Format;
 }
 
 void PSOBuilder::depth_state(DXGI_FORMAT format, D3D12_DEPTH_WRITE_MASK mask, D3D12_COMPARISON_FUNC func) {

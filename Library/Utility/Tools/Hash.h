@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bit>
 #include <initializer_list>
 #include <type_traits>
 
@@ -15,7 +16,7 @@ namespace eps {
 /// </summary>
 /// <param name="seed"></param>
 /// <param name="value"></param>
-inline size_t hash(size_t seed, size_t value) {
+inline u64 hash(u64 seed, u64 value) {
 	value = ((value >> 16) ^ value) * 0x45d9f3b;
 	value = ((value >> 16) ^ value) * 0x45d9f3b;
 	value = (value >> 16) ^ value;
@@ -24,12 +25,20 @@ inline size_t hash(size_t seed, size_t value) {
 }
 
 template<typename T>
-constexpr size_t _compression_64bit(const T& value) {
-	size_t result;
-	// sizeof(size_t)以下
-	if constexpr ((sizeof(T) <= sizeof(size_t))) {
-		// バイナリデータを強制的にsize_tに変換
-		result = *reinterpret_cast<const size_t*>(&value);
+constexpr u64 _compression_64bit(const T& value) {
+	u64 result;
+	if constexpr (sizeof(T) == sizeof(u64)) {
+		// バイナリデータを強制的に64bitに変換
+		result = std::bit_cast<u64, T>(value);
+	}
+	else if constexpr (sizeof(T) == sizeof(u32)) {
+		result = std::bit_cast<u32, T>(value);
+	}
+	else if constexpr (sizeof(T) == sizeof(u16)) {
+		result = std::bit_cast<u16, T>(value);
+	}
+	else if constexpr (sizeof(T) == sizeof(u8)) {
+		result = std::bit_cast<u8, T>(value);
 	}
 	else {
 		// 1度ハッシュ化して64bitに圧縮
@@ -40,9 +49,9 @@ constexpr size_t _compression_64bit(const T& value) {
 }
 
 template<typename Array>
-size_t hash_vector(const Array& array) {
-	size_t result = array.size();
-	size_t value;
+u64 hash_vector(const Array& array) {
+	u64 result = array.size();
+	u64 value;
 	for (auto itr = std::begin(array); itr != std::end(array); ++itr) {
 		value = _compression_64bit<typename Array::value_type>(*itr);
 		result = hash(result, value);
@@ -51,9 +60,9 @@ size_t hash_vector(const Array& array) {
 }
 
 template<typename T>
-size_t hash_vector(std::initializer_list<T>&& initializerList) {
-	size_t result = initializerList.size();
-	size_t value;
+u64 hash_vector(std::initializer_list<T>&& initializerList) {
+	u64 result = initializerList.size();
+	u64 value;
 	for (auto itr : initializerList) {
 		value = _compression_64bit<T>(itr);
 		result = hash(result, value);

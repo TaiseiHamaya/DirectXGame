@@ -34,7 +34,7 @@ const Matrix4x4 Matrix4x4::inverse() const {
 		}
 
 		// 単位行列にするため[i][i]を取得
-		float pivot = augmented[i][i];
+		r32 pivot = augmented[i][i];
 		for (size_t j = 0; j < AugmentedColumn; ++j) {
 			augmented[i][j] /= pivot;
 		}
@@ -42,7 +42,7 @@ const Matrix4x4 Matrix4x4::inverse() const {
 		for (size_t k = 0; k < ROW; ++k) {
 			if (k != i) {
 				// その他の行のi要素を0にする
-				float factor = augmented[k][i];
+				r32 factor = augmented[k][i];
 				if (factor != 0) {
 					// 定義より、k行のすべての列をi行目の定数倍する
 					for (size_t j = 0; j < AugmentedColumn; ++j) {

@@ -1,15 +1,15 @@
 #include "StaticMeshNodeDeferred.h"
 
 #include "../DeferredAdaptor.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 StaticMeshNodeDeferred::StaticMeshNodeDeferred() = default;
 StaticMeshNodeDeferred ::~StaticMeshNodeDeferred() noexcept = default;
 
 void StaticMeshNodeDeferred::initialize() {
-	depthStencil = DepthStencilValue::depthStencil;
+	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state();
 	pipelineState->set_name("StaticMeshNodeDeferred");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -38,14 +38,14 @@ void StaticMeshNodeDeferred::create_pipeline_state() {
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->depthstencilstate(*depthStencil);
+	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format());
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(shaderBuilder);
 	psoBuilder->primitivetopologytype();
 	psoBuilder->blendstate_only_write();
-	for (uint32_t i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
+	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		psoBuilder->rendertarget(DeferredAdaptor::DXGI_FORMAT_LIST[i]);
 	}
 

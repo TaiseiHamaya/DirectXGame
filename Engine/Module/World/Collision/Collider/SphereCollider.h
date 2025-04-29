@@ -5,13 +5,13 @@
 class SphereCollider : public BaseCollider {
 public:
 	SphereCollider() = default;
-	SphereCollider(float radius_);
+	SphereCollider(r32 radius_);
 	~SphereCollider() = default;
 
 public:
-	void set_radius(float radius_);
-	float get_radius() const;
+	void set_radius(r32 radius_);
+	r32 get_radius() const;
 
 private:
-	float radius{ 1 };
+	r32 radius{ 1 };
 };

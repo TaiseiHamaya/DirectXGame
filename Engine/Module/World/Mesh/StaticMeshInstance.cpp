@@ -5,7 +5,6 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
@@ -44,7 +43,7 @@ void StaticMeshInstance::default_material() {
 
 	materials.resize(mesh->material_count());
 
-	for (int i = 0; auto & meshMaterial : materials) {
+	for (i32 i = 0; auto & meshMaterial : materials) {
 		// 色情報のリセット
 		const auto* meshMaterialData = mesh->material_data(i);
 		if (meshMaterialData) {
@@ -75,7 +74,7 @@ void StaticMeshInstance::debug_gui() {
 	WorldInstance::debug_gui();
 	ImGui::Separator();
 	ImGui::Text("Materials");
-	for (int i = 0; auto & meshMaterial : materials) {
+	for (i32 i = 0; auto & meshMaterial : materials) {
 		std::string treeNodeName;
 		auto meshData = mesh->mesh_data(i);
 		if (meshData) {
@@ -103,7 +102,7 @@ void StaticMeshInstance::debug_gui() {
 				meshMaterial.lightingType = LighingType::HalfLambert;
 			}
 
-			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<float>::max());
+			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
 
 			ImGui::TreePop();
 		}

@@ -3,7 +3,7 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 
-void SkinningMeshDrawManager::make_instancing(uint32_t layer, const std::string& meshName, uint32_t maxInstance) {
+void SkinningMeshDrawManager::make_instancing(u32 layer, const std::string& meshName, u32 maxInstance) {
 	if (layer >= drawData.size()) {
 		return;
 	}
@@ -28,7 +28,7 @@ void SkinningMeshDrawManager::make_instancing(uint32_t layer, const std::string&
 void SkinningMeshDrawManager::debug_gui() {
 	PolygonMeshLibrary::MeshListGui(select);
 
-	int step = 1;
+	i32 step = 1;
 	ImGui::PushItemWidth(80);
 	ImGui::InputScalar("Layer", ImGuiDataType_U32, &layer, (void*)&step);  ImGui::SameLine();
 	ImGui::InputScalar("MaxInstance", ImGuiDataType_U32, &maxInstance, (void*)&step);
@@ -38,7 +38,7 @@ void SkinningMeshDrawManager::debug_gui() {
 		make_instancing(layer, select, maxInstance);
 	}
 
-	for (uint32_t i = 0; auto & data : drawData) {
+	for (u32 i = 0; auto & data : drawData) {
 		if (ImGui::TreeNode(std::format("Layer{}", i).c_str())) {
 			ImGui::Text(std::format("RegisteredInstance : {}", data.instances.size()).c_str());
 			ImGui::Indent();

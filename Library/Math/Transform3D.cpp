@@ -44,15 +44,15 @@ void Transform3D::set_translate(const Vector3& translate_) noexcept {
 	translate = translate_;
 }
 
-void Transform3D::set_translate_x(float x) noexcept {
+void Transform3D::set_translate_x(r32 x) noexcept {
 	translate.x = x;
 }
 
-void Transform3D::set_translate_y(float y) noexcept {
+void Transform3D::set_translate_y(r32 y) noexcept {
 	translate.y = y;
 }
 
-void Transform3D::set_translate_z(float z) noexcept {
+void Transform3D::set_translate_z(r32 z) noexcept {
 	translate.z = z;
 }
 
@@ -71,7 +71,7 @@ const Vector3& Transform3D::get_translate() const noexcept {
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
-void Transform3D::debug_gui(const char* tag) {
+void Transform3D::debug_gui(string_literal tag) {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
@@ -103,7 +103,7 @@ void Transform3D::debug_gui(const char* tag) {
 
 // void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
 // #ifdef DEBUG_FEATURES_ENABLE
-//	static constexpr float __axisLength = 50;
+//	static constexpr r32 __axisLength = 50;
 //	Vector3 initial = Transform3D::Homogeneous(CVector3::kZero, debug_matrix);
 //	Vector3 terminalX = Transform3D::Homogeneous(CVector3::kBasisX * __axisLength, debug_matrix);
 //	Vector3 terminalY = Transform3D::Homogeneous(CVector3::kBasisY * __axisLength, debug_matrix);
@@ -121,7 +121,7 @@ constexpr Matrix4x4 Transform3D::MakeIdentityMatrix() noexcept {
 	return CMatrix4x4::IDENTITY;
 }
 
-Matrix4x4 Transform3D::MakeRotateXMatrix(const float theta) noexcept {
+Matrix4x4 Transform3D::MakeRotateXMatrix(const r32 theta) noexcept {
 	return { {
 		{ 1, 0, 0, 0 },
 		{ 0, std::cos(theta), std::sin(theta), 0},
@@ -130,7 +130,7 @@ Matrix4x4 Transform3D::MakeRotateXMatrix(const float theta) noexcept {
 		} };
 }
 
-Matrix4x4 Transform3D::MakeRotateYMatrix(const float theta) noexcept {
+Matrix4x4 Transform3D::MakeRotateYMatrix(const r32 theta) noexcept {
 	return { {
 		{ std::cos(theta), 0, -std::sin(theta), 0 },
 		{ 0, 1, 0, 0},
@@ -139,7 +139,7 @@ Matrix4x4 Transform3D::MakeRotateYMatrix(const float theta) noexcept {
 		} };
 }
 
-Matrix4x4 Transform3D::MakeRotateZMatrix(const float theta) noexcept {
+Matrix4x4 Transform3D::MakeRotateZMatrix(const r32 theta) noexcept {
 	return { {
 		{ std::cos(theta), std::sin(theta), 0, 0},
 		{ -std::sin(theta), std::cos(theta), 0, 0 },
@@ -148,7 +148,7 @@ Matrix4x4 Transform3D::MakeRotateZMatrix(const float theta) noexcept {
 		} };
 }
 
-Matrix4x4 Transform3D::MakeRotateMatrix(const float x, const float y, const float z) noexcept {
+Matrix4x4 Transform3D::MakeRotateMatrix(const r32 x, const r32 y, const r32 z) noexcept {
 	return MakeRotateXMatrix(x) * MakeRotateYMatrix(y) * MakeRotateZMatrix(z);
 }
 
@@ -174,7 +174,7 @@ Matrix4x4 Transform3D::MakeAffineMatrix(const Vector3& scale, const Vector3& rot
 }
 
 Vector3 Transform3D::Homogeneous(const Vector3& vector, const Matrix4x4& matrix) {
-	float w = vector.x * matrix[0][3] + vector.y * matrix[1][3] + vector.z * matrix[2][3] + 1.0f * matrix[3][3];
+	r32 w = vector.x * matrix[0][3] + vector.y * matrix[1][3] + vector.z * matrix[2][3] + 1.0f * matrix[3][3];
 	return {
 		(vector.x * matrix[0][0] + vector.y * matrix[1][0] + vector.z * matrix[2][0] + 1.0f * matrix[3][0]) / w,
 		(vector.x * matrix[0][1] + vector.y * matrix[1][1] + vector.z * matrix[2][1] + 1.0f * matrix[3][1]) / w,
@@ -183,7 +183,7 @@ Vector3 Transform3D::Homogeneous(const Vector3& vector, const Matrix4x4& matrix)
 }
 
 Vector3 Transform3D::HomogeneousVector(const Vector3& vector, const Matrix4x4& matrix) {
-	float w = vector.x * matrix[0][3] + vector.y * matrix[1][3] + vector.z * matrix[2][3] + 1.0f * matrix[3][3];
+	r32 w = vector.x * matrix[0][3] + vector.y * matrix[1][3] + vector.z * matrix[2][3] + 1.0f * matrix[3][3];
 	return {
 		(vector.x * matrix[0][0] + vector.y * matrix[1][0] + vector.z * matrix[2][0] + 1.0f * 0) / w,
 		(vector.x * matrix[0][1] + vector.y * matrix[1][1] + vector.z * matrix[2][1] + 1.0f * 0) / w,

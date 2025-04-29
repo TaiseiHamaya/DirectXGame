@@ -69,6 +69,7 @@ void RadialBlurNode::debug_gui() {
 	ImGui::DragFloat2("Center", &blurInfo.get_data()->center.x, 0.01f, 0.0f, 1.0f, "%.4f");
 	ImGui::DragFloat("Weight", &blurInfo.get_data()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
 	ImGui::DragFloat("Length", &blurInfo.get_data()->length, 0.001f, 0.0f, 1.0f, "%.4f");
-	ImGui::DragInt("SampleCount", reinterpret_cast<int*>(&blurInfo.get_data()->sampleCount), 0.02f, 1, 16);
+	u32 min = 1, max = 16;
+	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, &blurInfo.get_data()->sampleCount, 0.02f, &min, &max);
 }
 #endif // _DEBUG

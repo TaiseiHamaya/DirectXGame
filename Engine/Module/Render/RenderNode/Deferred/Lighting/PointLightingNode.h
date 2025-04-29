@@ -19,15 +19,15 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT);
-
 	void preprocess() override;
+
+	void set_gbuffers(std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gBufferTextures_);
 
 private:
 	void create_pipeline_state();
 
 private:
-	std::array<D3D12_GPU_DESCRIPTOR_HANDLE, DeferredAdaptor::NUM_GBUFFER> gBuffers{ 0 };
-	D3D12_GPU_DESCRIPTOR_HANDLE depthBuffer{ 0 };
+	std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gBufferTextures;
+	Reference<DepthStencilTexture> depthTexture;
 };
 

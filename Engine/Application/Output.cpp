@@ -22,7 +22,7 @@ namespace chrono = std::chrono;
 
 std::mutex OutputMutex;
 
-constexpr std::array<const wchar_t*, 4> TypeStringW = {
+constexpr std::array<wstring_literal, 4> TypeStringW = {
 	L"Infomation",
 	L"Warning",
 	L"Error",
@@ -67,12 +67,12 @@ static void LogOutputStacktrace() {
 	StacktraceOutputBody(L"\nOutput stack trace.\n");
 
 #ifdef _DEBUG
-	constexpr int NumSkipTrace{ 4 };
+	constexpr u32 NumSkipTrace{ 4 };
 #else
-	constexpr int NumSkipTrace{ 2 };
+	constexpr u32 NumSkipTrace{ 2 };
 #endif // _DEBUG
 
-	for (int i = NumSkipTrace; i < numberOfFrames; i++) {
+	for (u32 i = NumSkipTrace; i < numberOfFrames; i++) {
 		SymFromAddr(process, reinterpret_cast<DWORD64>(stacks[i]), 0, symbol);
 		std::wstring output = std::format(L"{: >2} | 0x{:016x} | {}\n", i - NumSkipTrace, symbol->Address, ConvertString(symbol->Name));
 		StacktraceOutputBody(output);
@@ -102,22 +102,15 @@ static void LogWindow(LogType type, const std::wstring& caption, const std::wstr
 	MessageBoxW(nullptr, msg.c_str(), caption.c_str(), flag);
 }
 
-std::string_view ToFilenameA(const std::source_location& sourceLocation) {
-	std::string_view fullPath = sourceLocation.file_name();
-	size_t position = fullPath.find_last_of('\\') + 1;
-	size_t end = fullPath.find_last_of('.');
-	return fullPath.substr(position, end - position);
-}
-
-std::wstring ToFilenameW(const std::source_location& sourceLocation) {
+static std::wstring ToFilenameW(const std::source_location& sourceLocation) {
 	std::string_view fullPath = sourceLocation.file_name();
 	size_t position = fullPath.find_last_of('\\') + 1;
 	size_t end = fullPath.find_last_of('.');
 	return ConvertString(fullPath.substr(position, end - position));
 }
 
-uint8_t GetConfigFlags(LogType type) {
-	return (EngineSettings::LogOutputConfigFlags >> (static_cast<uint8_t>(type) * 6)) & 0b111111;
+static u8 GetConfigFlags(LogType type) {
+	return (EngineSettings::LogOutputConfigFlags >> (static_cast<u8>(type) * 6)) & 0b111111;
 }
 
 static void LogOutputBody(const std::wstring& file, LogType type, const std::wstring& message) {
@@ -125,8 +118,8 @@ static void LogOutputBody(const std::wstring& file, LogType type, const std::wst
 
 	ChronoUtility::LocalTimeSeconds time = ChronoUtility::NowLocalSecond();
 
-	uint8_t config = GetConfigFlags(type);
-	std::wstring typeW = TypeStringW[static_cast<uint8_t>(type)];
+	u8 config = GetConfigFlags(type);
+	std::wstring typeW = TypeStringW[static_cast<u8>(type)];
 	std::wstring out =
 		std::format(L"{:%H:%M:%S} | {: <10} | {} [{}]\n", time, typeW, message, file);
 

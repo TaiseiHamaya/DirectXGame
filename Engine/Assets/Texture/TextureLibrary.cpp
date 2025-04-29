@@ -5,10 +5,10 @@
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
+#include "./TextureAsset.h"
 #include "./TextureAssetBuilder.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
@@ -31,9 +31,7 @@ void TextureLibrary::Initialize() noexcept {
 
 void TextureLibrary::Finalize() {
 	auto&& list = GetInstance().textureInstanceList;
-	for (auto& texture : list | std::views::values) {
-		texture->release_srv_heap();
-	}
+	list.clear();
 }
 
 void TextureLibrary::RegisterLoadQue(const std::filesystem::path& filePath) {
@@ -46,7 +44,7 @@ void TextureLibrary::RegisterLoadQue(const std::filesystem::path& filePath) {
 	);
 }
 
-std::shared_ptr<const Texture> TextureLibrary::GetTexture(const std::string& textureName) noexcept(false) {
+std::shared_ptr<const TextureAsset> TextureLibrary::GetTexture(const std::string& textureName) noexcept(false) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	// 見つかったらそのデータのweak_ptrを返す
 	if (IsRegisteredNonlocking(textureName)) {
@@ -68,16 +66,13 @@ void TextureLibrary::UnloadTexture(const std::string& textureName) {
 	if (IsRegisteredNonlocking(textureName)) {
 		Infomation("Unload texture Name-\'{:}\'.", textureName);
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
-		texture->release_srv_heap();
-		texture.reset();
 		GetInstance().textureInstanceList.erase(textureName);
 	}
 }
 
-void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<Texture>& data) {
+void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<TextureAsset>& data) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(name)) {
-		data->release_srv_heap();
 		Warning("Transferring registered texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
@@ -86,12 +81,12 @@ void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<Texture>&
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
-bool TextureLibrary::TextureListGui(std::shared_ptr<const Texture>& current) {
+bool TextureLibrary::TextureListGui(std::shared_ptr<const TextureAsset>& current) {
 	bool changed = false;
 
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	const std::string& currentName = current ? current->name() : "Current texture is nullptr";
-	if (ImGui::BeginCombo("TextureList", currentName.c_str())) {
+	if (ImGui::BeginCombo("TextureList", currentName.data())) {
 		auto&& list = GetInstance().textureInstanceList;
 		for (const auto& name : list | std::views::keys) {
 			bool is_selected = (currentName == name);

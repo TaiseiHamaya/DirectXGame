@@ -20,7 +20,7 @@ public:
 
 	struct LightingPathBuffer {
 		Vector3 position;
-		uint32_t padding{ 0 };
+		u32 padding{ 0 };
 		Matrix4x4 viewInv;
 		Matrix4x4 projInv;
 	};
@@ -37,13 +37,13 @@ public:
 	void update_affine() override;
 	void transfer();
 
-	void register_world_projection(uint32_t index);
-	void register_world_lighting(uint32_t index);
+	void register_world_projection(u32 index);
+	void register_world_lighting(u32 index);
 
 public:
 	void set_transform(const Transform3D& transform) noexcept;
 
-	void set_perspective_fov_info(float fovY, float aspectRatio, float nearClip, float farClip) noexcept;
+	void set_perspective_fov_info(r32 fovY, r32 aspectRatio, r32 nearClip, r32 farClip) noexcept;
 
 	const Matrix4x4& vp_matrix() const;
 
@@ -52,7 +52,7 @@ private:
 	void make_perspectivefov_matrix();
 
 public:
-	static Matrix4x4 MakeViewportMatrix(const Vector2& origin, const Vector2& size, float minDepth = 0.0f, float maxDepth = 1.0f);
+	static Matrix4x4 MakeViewportMatrix(const Vector2& origin, const Vector2& size, r32 minDepth = 0.0f, r32 maxDepth = 1.0f);
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
@@ -71,10 +71,10 @@ private:
 	ConstantBuffer<VpBuffers> vpBuffers;
 	ConstantBuffer<LightingPathBuffer> lightingBuffer;
 
-	float fovY;
-	float aspectRatio;
-	float nearClip;
-	float farClip;
+	r32 fovY;
+	r32 aspectRatio;
+	r32 nearClip;
+	r32 farClip;
 
 #ifdef DEBUG_FEATURES_ENABLE
 	Matrix4x4 vpMatrix;

@@ -70,14 +70,14 @@ public:
 	/// </summary>
 	/// <param name="target">向く方向</param>
 	/// <param name="upward">上方向</param>
-	void look_at_angle(const WorldInstance& target, float angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at_angle(const WorldInstance& target, r32 angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
 	/// pointの方向を向く
 	/// </summary>
 	/// <param name="point">World座標系上の点</param>
 	/// <param name="upward">上方向</param>
-	void look_at_angle(const Vector3& point, float angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at_angle(const Vector3& point, r32 angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
 	/// アクティブフラグの設定
@@ -95,7 +95,7 @@ public:
 	/// 階層構造の震度
 	/// </summary>
 	/// <returns></returns>
-	uint32_t depth() const { return hierarchyDepth; };
+	u32 depth() const { return hierarchyDepth; };
 
 	const Reference<WorldManager>& world_manager() const { return worldManager; };
 
@@ -159,7 +159,7 @@ private:
 	Affine affine;
 
 	Reference<WorldManager> worldManager{ nullptr };
-	uint32_t hierarchyDepth{ 0 };
+	u32 hierarchyDepth{ 0 };
 
 protected:
 	bool isActive = true;

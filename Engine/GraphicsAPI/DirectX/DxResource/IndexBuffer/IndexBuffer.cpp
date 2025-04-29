@@ -1,8 +1,8 @@
 #include "IndexBuffer.h"
 
-constexpr UINT INDEX_DATA_SIZE = sizeof(std::uint32_t);
+constexpr UINT INDEX_DATA_SIZE = sizeof(u32);
 
-IndexBuffer::IndexBuffer(std::uint32_t size_) noexcept(false) {
+IndexBuffer::IndexBuffer(u32 size_) noexcept(false) {
 	set_size(size_);
 	create_resource();
 }
@@ -11,11 +11,11 @@ const D3D12_INDEX_BUFFER_VIEW* const IndexBuffer::get_p_ibv() const noexcept {
 	return &indexBufferView;
 }
 
-const std::uint32_t IndexBuffer::index_size() const noexcept {
+const u32 IndexBuffer::index_size() const noexcept {
 	return size;
 }
 
-void IndexBuffer::set_size(std::uint32_t size_) {
+void IndexBuffer::set_size(u32 size_) {
 	size = size_;
 	memorySize = size * INDEX_DATA_SIZE;
 }

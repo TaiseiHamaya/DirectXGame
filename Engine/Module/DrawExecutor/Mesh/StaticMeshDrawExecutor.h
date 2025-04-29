@@ -19,12 +19,12 @@ public:
 	StaticMeshDrawExecutor() noexcept = default;
 	 ~StaticMeshDrawExecutor() noexcept = default;
 
-	StaticMeshDrawExecutor(std::shared_ptr<const PolygonMesh> asset_, uint32_t maxInstance);
+	StaticMeshDrawExecutor(std::shared_ptr<const PolygonMesh> asset_, u32 maxInstance);
 
 	__CLASS_NON_COPYABLE(StaticMeshDrawExecutor)
 
 public:
-	void reinitialize(std::shared_ptr<const PolygonMesh> asset_, uint32_t maxInstance);
+	void reinitialize(std::shared_ptr<const PolygonMesh> asset_, u32 maxInstance);
 	void draw_command() const override;
 	void write_to_buffer(Reference<const StaticMeshInstance> instance) override;
 

@@ -35,12 +35,12 @@ public:
 	static void Draw();
 	//static void Debug();
 	static void SetSceneChange(
-		int32_t next,
-		float interval,
+		i32 next,
+		r32 interval,
 		bool isStackInitialScene_ = false,
 		bool isStopLoad = true
 	);
-	static void PopScene(float interval);
+	static void PopScene(r32 interval);
 
 public:
 	static bool IsEndProgram() noexcept;

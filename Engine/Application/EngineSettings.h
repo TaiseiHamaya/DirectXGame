@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <filesystem>
 #include <format>
 #include <string_view>
@@ -18,8 +17,8 @@ static constexpr std::wstring_view WINDOW_TITLE_W{ L"DirectXGame" };
 
 // WindowSize
 static constexpr Vector2 CLIENT_SIZE{ 1280, 720 };
-static constexpr std::uint32_t  CLIENT_WIDTH{ static_cast<std::uint32_t>(CLIENT_SIZE.x) };
-static constexpr std::uint32_t  CLIENT_HEIGHT{ static_cast<std::uint32_t>(CLIENT_SIZE.y) };
+static constexpr u32 CLIENT_WIDTH{ static_cast<u32>(CLIENT_SIZE.x) };
+static constexpr u32 CLIENT_HEIGHT{ static_cast<u32>(CLIENT_SIZE.y) };
 
 // ErrorOBJ/PNG VBVIBV/gpuHandle
 
@@ -28,7 +27,7 @@ static constexpr std::uint32_t  CLIENT_HEIGHT{ static_cast<std::uint32_t>(CLIENT
 //#define __USE_RENDERING_ENGINE_VULKAN
 
 // FixDeltaSeconds
-static constexpr float FixDeltaSeconds{ 1.0f / 60.0f };
+static constexpr r32 FixDeltaSeconds{ 1.0f / 60.0f };
 
 extern inline bool IsFixDeltaTime{ false };
 extern inline bool IsUnlimitedFPS{ false };
@@ -56,9 +55,9 @@ extern inline const std::filesystem::path LogFilePath{
 // の24bit
 #ifdef DEBUG_FEATURES_ENABLE
 //                                                C     E     W     I    
-static constexpr uint32_t LogOutputConfigFlags{ 0b111111111111111000111000 };
+static constexpr u32 LogOutputConfigFlags{ 0b111111111111111000111000 };
 #else
 //                                                C     E     W     I    
-static constexpr uint32_t LogOutputConfigFlags{ 0b110111110101110000000000 };
+static constexpr u32 LogOutputConfigFlags{ 0b110111110101110000000000 };
 #endif // DEBUG_FEATURES_ENABLE
 };

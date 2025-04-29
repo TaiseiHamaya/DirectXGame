@@ -15,7 +15,7 @@ class NodeAnimationAsset final {
 public:
 	template<typename T>
 	struct AnimationCurve {
-		std::map<float, T> keyframes;
+		std::map<r32, T> keyframes;
 	};
 
 	struct NodeAnimation {
@@ -40,10 +40,10 @@ public:
 
 public:
 	const NodeAnimation& node(const std::string& nodeName) const;
-	float duration() const { return duration_; }
+	r32 duration() const { return duration_; }
 	bool contains(const std::string& nodeName) const;
 
 private:
-	float duration_;
+	r32 duration_;
 	std::unordered_map<std::string, NodeAnimation> nodeAnimations;
 };

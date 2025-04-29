@@ -18,7 +18,7 @@ const std::vector<IMultiMeshInstance::Material>& IMultiMeshInstance::get_materia
 	return materials;
 }
 
-void IMultiMeshInstance::set_texture(const std::string& name, int index) {
+void IMultiMeshInstance::set_texture(const std::string& name, i32 index) {
 	WarningIf(index >= materials.size(), "Index({}) is out of range for material.", index);
 	materials[index].texture = TextureLibrary::GetTexture(name);
 }

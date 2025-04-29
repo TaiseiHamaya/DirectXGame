@@ -72,10 +72,10 @@ Affine Affine::inverse() const {
 
 Matrix4x4 Affine::to_matrix() const {
 	Matrix4x4 result;
-	for (int i = 0; i < 3; ++i) {
-		std::memcpy(result[i].data(), &basis[i], sizeof(float) * 3);
+	for (i32 i = 0; i < 3; ++i) {
+		std::memcpy(result[i].data(), &basis[i], sizeof(r32) * 3);
 	}
-	std::memcpy(result[3].data(), &origin, sizeof(float) * 3);
+	std::memcpy(result[3].data(), &origin, sizeof(r32) * 3);
 	result[3][3] = 1;
 	return result;
 }

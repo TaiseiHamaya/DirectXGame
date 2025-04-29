@@ -306,17 +306,11 @@
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\RenderTarget</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.cpp">
       <Filter>Engine\Rendering\DirectX\ResourceObject\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
@@ -324,14 +318,8 @@
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DepthStencil\DepthStencil.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\DepthStencil</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Assets\BackgroundLoader\BackgroundLoader.cpp">
       <Filter>Engine\Resources\BackgroundLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.cpp">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Module\Render\RenderPath</Filter>
@@ -687,6 +675,39 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Library\Utility\Tools\Easing.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ITextureResource.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\DepthStencilView.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\StaticTexture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\RenderTexture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Texture\TextureAsset.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GraphicsAPI\RenderingSystemValues.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -710,9 +731,6 @@
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\RenderTarget\RenderTarget.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\RenderTarget</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer\VertexBuffer.h">
       <Filter>Engine\Rendering\DirectX\ResourceObject\VertexBuffer</Filter>
     </ClInclude>
@@ -728,23 +746,14 @@
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\RTVDescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\Texture\Texture.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\SRVDescriptorHeap</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.h">
       <Filter>Engine\Rendering\DirectX\DescriptorHeap\DSVDescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\DepthStencil\DepthStencil.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\DepthStencil</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Assets\BackgroundLoader\BackgroundLoader.h">
       <Filter>Engine\Resources\BackgroundLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\OffscreenRender\OffscreenRender.h">
-      <Filter>Engine\Rendering\DirectX\ResourceObject\OffscreenRender</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Module\Render\RenderPath</Filter>
@@ -925,9 +934,6 @@
     </ClInclude>
     <ClInclude Include="Library\Utility\Tools\RandomEngine.h">
       <Filter>Engine\Utility\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsAPI\RenderingSystemValues.h">
-      <Filter>Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxSystemValues.h">
       <Filter>Engine\Rendering\DirectX</Filter>
@@ -1194,6 +1200,51 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\Fraction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Utility\Tools\Easing.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Utility\Tools\Functions.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Utility\Tools\MathEPS.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Utility\BuiltinTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ITextureResource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\IResourceView.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\DepthStencilView.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\StaticTexture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\RenderTexture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GraphicsAPI\RenderingSystemValues.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Texture\TextureAsset.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

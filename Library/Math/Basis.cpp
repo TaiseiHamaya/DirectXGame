@@ -10,13 +10,13 @@
 	(rows[row1][col1] * rows[row2][col2] - rows[row1][col2] * rows[row2][col1])
 
 void Basis::invert() {
-	float co[3] = {
+	r32 co[3] = {
 		cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1)
 	};
-	float det = rows[0][0] * co[0] +
+	r32 det = rows[0][0] * co[0] +
 		rows[0][1] * co[1] +
 		rows[0][2] * co[2];
-	float s = 1.0f / det;
+	r32 s = 1.0f / det;
 
 	*this = {
 		Vector3(co[0] * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s),
@@ -45,16 +45,16 @@ Basis Basis::transposed() const {
 
 Matrix3x3 Basis::to_matrix() const {
 	Matrix3x3 result;
-	for (int i = 0; i < 3; ++i) {
-		std::memcpy(result[i].data(), &rows[i], sizeof(float) * 3);
+	for (i32 i = 0; i < 3; ++i) {
+		std::memcpy(result[i].data(), &rows[i], sizeof(r32) * 3);
 	}
 	return result;
 }
 
 Matrix4x4 Basis::to_matrix4x4() const {
 	Matrix4x4 result;
-	for (int i = 0; i < 3; ++i) {
-		std::memcpy(result[i].data(), &rows[i], sizeof(float) * 3);
+	for (i32 i = 0; i < 3; ++i) {
+		std::memcpy(result[i].data(), &rows[i], sizeof(r32) * 3);
 	}
 	return result;
 }
@@ -79,10 +79,10 @@ Quaternion Basis::to_quaternion() const {
 	// Code : https://github.com/godotengine/godot/blob/master/core/math/basis.cpp (GodotEngine Basis::get_quaternion()関数より)
 
 	Vector3 xyz;
-	float w;
-	float trace = rows[0][0] + rows[1][1] + rows[2][2];
+	r32 w;
+	r32 trace = rows[0][0] + rows[1][1] + rows[2][2];
 	if (trace > 0.0f) {
-		float s = std::sqrt(trace + 1.0f);
+		r32 s = std::sqrt(trace + 1.0f);
 		w = s * 0.5f;
 		s = 0.5f / s;
 		xyz[0] = (rows[2][1] - rows[1][2]) * s;
@@ -90,13 +90,13 @@ Quaternion Basis::to_quaternion() const {
 		xyz[2] = (rows[1][0] - rows[0][1]) * s;
 	}
 	else {
-		int i = rows[0][0] < rows[1][1]
+		i32 i = rows[0][0] < rows[1][1]
 			? (rows[1][1] < rows[2][2] ? 2 : 1)
 			: (rows[0][0] < rows[2][2] ? 2 : 0);
-		int j = (i + 1) % 3;
-		int k = (i + 2) % 3;
+		i32 j = (i + 1) % 3;
+		i32 k = (i + 2) % 3;
 
-		float s = std::sqrt(rows[i][i] - rows[j][j] - rows[k][k] + 1.0f);
+		r32 s = std::sqrt(rows[i][i] - rows[j][j] - rows[k][k] + 1.0f);
 		xyz[i] = s * 0.5f;
 		s = 0.5f / s;
 

@@ -48,13 +48,13 @@ public:
 	/// VertexBufferViewを取得
 	/// </summary>
 	/// <returns>VertexBufferView Pointer</returns>
-	const D3D12_VERTEX_BUFFER_VIEW& get_vbv(std::uint32_t index) const;
+	const D3D12_VERTEX_BUFFER_VIEW& get_vbv(u32 index) const;
 
 	/// <summary>
 	/// IndexBufferViewを取得
 	/// </summary>
 	/// <returns>IndexBufferView Pointer</returns>
-	const D3D12_INDEX_BUFFER_VIEW* const get_p_ibv(std::uint32_t index) const;
+	const D3D12_INDEX_BUFFER_VIEW* const get_p_ibv(u32 index) const;
 
 	/// <summary>
 	/// 使用するマテリアル数の取得
@@ -67,14 +67,14 @@ public:
 	/// </summary>
 	/// <param name="index">指定するインデックス</param>
 	/// <returns>UINT型で返す</returns>
-	const UINT index_size(std::uint32_t index) const;
+	const UINT index_size(u32 index) const;
 
-	const MeshData* mesh_data(std::uint32_t index) const;
+	const MeshData* mesh_data(u32 index) const;
 
-	const MeshMaterialData* material_data(std::uint32_t index) const;
+	const MeshMaterialData* material_data(u32 index) const;
 
 private:
-	bool has_material(std::uint32_t index) const;
+	bool has_material(u32 index) const;
 
 private:
 	bool load_obj_file(const std::filesystem::path& filePath);

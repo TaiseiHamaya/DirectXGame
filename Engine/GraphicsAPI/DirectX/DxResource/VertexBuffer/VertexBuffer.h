@@ -3,7 +3,6 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
 #include <concepts>
-#include <cstdint>
 #include <type_traits>
 
 #include "../ConceptCPUBuffer.h"
@@ -15,7 +14,7 @@ concept WriteableVertexBuffer =
 (std::contiguous_iterator<typename Array::iterator> || std::same_as<Array, std::initializer_list<T>>) &&
 std::same_as<typename Array::value_type, T>&& // Arrayのtemplate型がTと等しい
 	requires(Array array) {
-		{ array.size() } -> std::convertible_to<std::size_t>; // size()が利用可能で、size_tに変換可能
+		{ array.size() } -> std::convertible_to<size_t>; // size()が利用可能で、size_tに変換可能
 		{ std::to_address(array.begin()) } -> std::convertible_to<const typename Array::value_type*>; // 先頭アドレス取得関数が存在し、それがconst T::value_type*に変換可能
 };
 
@@ -25,7 +24,7 @@ public:
 	VertexBuffer() noexcept = default;
 	template<WriteableVertexBuffer<T> Array>
 	VertexBuffer(const Array& vertices_array) noexcept(false);
-	VertexBuffer(std::uint32_t size_) noexcept(false);
+	VertexBuffer(u32 size_) noexcept(false);
 	~VertexBuffer() noexcept = default;
 
 	VertexBuffer(VertexBuffer&&) = default;
@@ -33,18 +32,18 @@ public:
 
 public:
 	const D3D12_VERTEX_BUFFER_VIEW& get_vbv() const noexcept { return vertexBufferView; };
-	const std::uint32_t vertex_size() const noexcept { return size; };
+	const u32 vertex_size() const noexcept { return size; };
 	template<WriteableVertexBuffer<T> Array>
 	void write(const Array& vertices_array);
 
 private:
-	void set_size(std::uint32_t size_);
+	void set_size(u32 size_);
 	void create_resource();
 	void unmap();
 
 private:
 	T* data;
-	std::uint32_t size;
+	u32 size;
 	UINT memorySize;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
 
@@ -60,7 +59,7 @@ inline VertexBuffer<T>::VertexBuffer(const Array& vertices_array) noexcept(false
 template<ConceptCPUBufferAC T>
 template<WriteableVertexBuffer<T> Array>
 inline void VertexBuffer<T>::write(const Array& vertices_array) {
-	std::uint32_t arraySize = static_cast<std::uint32_t>(vertices_array.size());
+	u32 arraySize = static_cast<u32>(vertices_array.size());
 	// リソースがnullptrなら作成
 	// すでに確保された容量と違う場合、再生成
 	if (!resource || size != arraySize) {
@@ -75,13 +74,13 @@ inline void VertexBuffer<T>::write(const Array& vertices_array) {
 }
 
 template<ConceptCPUBufferAC T>
-inline VertexBuffer<T>::VertexBuffer(std::uint32_t size_) noexcept(false) {
+inline VertexBuffer<T>::VertexBuffer(u32 size_) noexcept(false) {
 	set_size(size_);
 	create_resource();
 }
 
 template<ConceptCPUBufferAC T>
-inline void VertexBuffer<T>::set_size(std::uint32_t size_) {
+inline void VertexBuffer<T>::set_size(u32 size_) {
 	size = size_;
 	memorySize = size * VERTEX_DATA_SIZE;
 }
