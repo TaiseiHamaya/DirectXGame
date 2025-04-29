@@ -1,9 +1,9 @@
 #include "StaticMeshDrawExecutor.h"
 
-#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
+#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
+#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
 StaticMeshDrawExecutor::StaticMeshDrawExecutor(std::shared_ptr<const PolygonMesh> asset_, u32 maxInstance) {
 	reinitialize(asset_, maxInstance);
@@ -67,7 +67,7 @@ void StaticMeshDrawExecutor::write_to_buffer(Reference<const StaticMeshInstance>
 			source.color,
 			source.lightingType,
 			source.shininess,
-			source.texture->index().value(),
+			source.texture->index(),
 			source.uvTransform.get_matrix(),
 		};
 	}

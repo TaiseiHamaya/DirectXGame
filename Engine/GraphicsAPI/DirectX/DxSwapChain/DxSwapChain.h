@@ -1,13 +1,18 @@
 #pragma once
 
-#include <dxgi1_5.h>
+#include <array>
 #include <memory>
+
+#include <dxgi1_5.h>
 #include <wrl/client.h>
 
 #include <Library/Math/Color4.h>
 
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
+
 class SwapChainRenderTargetGroup;
 class PSOBuilder;
+class ScreenTexture;
 
 class DxSwapChain final {
 private:
@@ -29,7 +34,7 @@ public:
 
 public:
 	//static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
-	static const std::shared_ptr<SwapChainRenderTargetGroup>& GetRenderTarget();
+	static Reference<SwapChainRenderTargetGroup> GetRenderTarget();
 
 	static void SetClearColor(const Color4& color_) noexcept;
 	static void EndRenderTarget();
@@ -44,5 +49,6 @@ private:
 
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
-	std::shared_ptr<SwapChainRenderTargetGroup> renderTarget;
+	std::array<std::unique_ptr<ScreenTexture>, RenderingSystemValues::NUM_BUFFERING> textures;
+	std::unique_ptr<SwapChainRenderTargetGroup> renderTargetGroup;
 };

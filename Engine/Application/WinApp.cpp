@@ -3,6 +3,8 @@
 #include <dbghelp.h>
 #include <timeapi.h>
 
+#include <Library/Utility/Tools/RandomEngine.h>
+
 #include "Engine/Application/CrashHandler.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/Audio/AudioManager.h"
@@ -17,8 +19,6 @@
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "EngineSettings.h"
-
-#include "Library/Utility/Tools/RandomEngine.h"
 
 #pragma comment(lib, "Dbghelp.lib") // Symとか
 #pragma comment(lib, "Oleacc.lib") // GetProcessHandleFromHwnd
@@ -53,6 +53,13 @@ WinApp::WinApp() noexcept :
 	hWnd(nullptr),
 	hInstance(nullptr) {
 	msg = {};
+}
+
+WinApp::~WinApp() noexcept {
+	// ログ
+	Infomation("Complete finalize application.");
+	// chrono内のTZDBを削除(これ以降ログ出力はされない)
+	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
 void WinApp::Initialize(DWORD windowConfig) {
@@ -183,13 +190,6 @@ void WinApp::Finalize() {
 	DxCore::Finalize();
 	// COMの終了
 	CoUninitialize();
-	instance.reset();
-
-	// ログ
-	Infomation("Complete finalize application.");
-
-	// chrono内のTZDBを削除(これ以降ログ出力はされない)
-	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
 void WinApp::ShowAppWindow() {

@@ -1,15 +1,15 @@
 #include "ParticleBillboardNode.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 ParticleBillboardNode::ParticleBillboardNode() = default;
 
 ParticleBillboardNode::~ParticleBillboardNode() noexcept = default;
 
 void ParticleBillboardNode::initialize() {
-	depthStencil = DepthStencilValue::depthStencil;
+	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state();
 	pipelineState->set_name("ParticleBillboardNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -38,7 +38,7 @@ void ParticleBillboardNode::create_pipeline_state() {
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate(BlendMode::Normal);
-	psoBuilder->depth_state(depthStencil->get_resource()->GetDesc().Format, D3D12_DEPTH_WRITE_MASK_ZERO);
+	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

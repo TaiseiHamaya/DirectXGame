@@ -1,18 +1,7 @@
 #include "DxResource.h"
 
-#include <utility>
-
 #include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-
-DxResource::DxResource(DxResource&& rhs) noexcept {
-	resource = std::move(rhs.resource);
-}
-
-DxResource& DxResource::operator=(DxResource&& rhs) noexcept {
-	resource = std::move(rhs.resource);
-	return *this;
-}
 
 Microsoft::WRL::ComPtr<ID3D12Resource>& DxResource::get_resource() noexcept {
 	return resource;

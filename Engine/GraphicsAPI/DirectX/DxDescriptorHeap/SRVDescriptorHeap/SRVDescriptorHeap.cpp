@@ -5,6 +5,10 @@
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
+#include <mutex>
+
+std::mutex srvHeapMutex;
+
 SRVDescriptorHeap& SRVDescriptorHeap::GetInstance() noexcept {
 	static SRVDescriptorHeap instance{};
 	return instance;
@@ -16,6 +20,7 @@ void SRVDescriptorHeap::Initialize() {
 }
 
 const u32 SRVDescriptorHeap::UseHeapIndex() noexcept {
+	std::lock_guard<std::mutex> lock{ srvHeapMutex };
 	auto useIndex = GetInstance().use_heap_index();
 	Infomation("Use SRV index. Index-\'{}\'", useIndex);
 	return useIndex;

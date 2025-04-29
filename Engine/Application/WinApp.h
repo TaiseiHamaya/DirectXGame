@@ -9,7 +9,7 @@ private:
 	WinApp() noexcept;
 
 public:
-	~WinApp() noexcept = default;
+	~WinApp() noexcept;
 
 public:
 	WinApp(const WinApp&) = delete;

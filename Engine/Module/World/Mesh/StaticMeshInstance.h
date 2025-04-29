@@ -1,14 +1,8 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <vector>
-
-#include <Library/Math/Color3.h>
-#include <Library/Math/Transform2D.h>
-
 #include "./IMultiMeshInstance.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
+
+#include <string>
 
 class Material;
 class PolygonMesh;

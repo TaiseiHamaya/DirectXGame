@@ -17,11 +17,11 @@ public:
 
 	void preprocess() override;
 
-	void set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT);
+	void set_gbuffers(Reference<RenderTexture> gBufferColorTexture_);
 
 private:
 	void create_pipeline_state();
 
 private:
-	D3D12_GPU_DESCRIPTOR_HANDLE gBuffer{ 0 };
+	Reference<RenderTexture> gBufferColorTexture;
 };

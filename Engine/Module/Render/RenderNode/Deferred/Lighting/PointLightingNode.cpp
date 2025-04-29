@@ -1,9 +1,8 @@
 #include "PointLightingNode.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
 PointLightingNode::PointLightingNode() = default;
@@ -14,22 +13,21 @@ void PointLightingNode::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("PointLightingNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	depthBuffer = DepthStencilValue::depthStencil->texture_gpu_handle();
+	depthTexture = RenderingSystemValues::GetDepthStencilTexture();
 }
 
 void PointLightingNode::preprocess() {
 	auto& command = DxCommand::GetCommandList();
 	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
-		command->SetGraphicsRootDescriptorTable(2 + i, gBuffers[i]);
+		gBufferTextures[i]->start_read();
+		gBufferTextures[i]->get_as_srv()->use(i + 2);
 	}
-	command->SetGraphicsRootDescriptorTable(4, depthBuffer);
+	depthTexture->start_read();
+	depthTexture->get_as_srv()->use(4);
 }
 
-void PointLightingNode::set_gbuffers(std::shared_ptr<DeferredAdaptor::GBuffersType> gBufferRT) {
-	auto& list = gBufferRT->offscreen_render_list();
-	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
-		gBuffers[i] = list[i].texture_gpu_handle();
-	}
+void PointLightingNode::set_gbuffers(std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gBufferTextures_) {
+	gBufferTextures = gBufferTextures_;
 }
 
 void PointLightingNode::create_pipeline_state() {

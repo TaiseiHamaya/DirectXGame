@@ -4,8 +4,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxShaderReflection.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
-#include <Engine/GraphicsAPI/DirectX/DxSystemValues.h>
+#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
 void InputLayoutBuilder::add_element(string_literal semanticName, UINT semanticIndex, DXGI_FORMAT format, UINT slot) {
 	D3D12_INPUT_ELEMENT_DESC& inputElementDesc = inputElementDescs.emplace_back();
@@ -205,12 +204,6 @@ void PSOBuilder::blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, u32 render
 void PSOBuilder::rasterizerstate(D3D12_FILL_MODE fillMode, D3D12_CULL_MODE cullMode) {
 	graphicsPipelineStateDesc.RasterizerState.FillMode = fillMode;
 	graphicsPipelineStateDesc.RasterizerState.CullMode = cullMode;
-}
-
-void PSOBuilder::depthstencilstate(const DepthStencil& depthStencil) {
-	graphicsPipelineStateDesc.DepthStencilState.DepthEnable = true;
-	graphicsPipelineStateDesc.DepthStencilState = depthStencil.get_desc();
-	graphicsPipelineStateDesc.DSVFormat = depthStencil.get_resource()->GetDesc().Format;
 }
 
 void PSOBuilder::depth_state(DXGI_FORMAT format, D3D12_DEPTH_WRITE_MASK mask, D3D12_COMPARISON_FUNC func) {
