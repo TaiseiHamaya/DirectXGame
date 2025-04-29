@@ -7,9 +7,11 @@ class BaseSceneFactory;
 #include <memory>
 
 #include <Library/Utility/Template/TimedCall.h>
-#include <Library/Utility/Template/Reference.h>
 
+#ifdef DEBUG_FEATURES_ENABLE
+#include <Library/Utility/Template/Reference.h>
 class TimestampProfiler;
+#endif //DEBUG_FEATURES_ENABLE
 
 /// <summary>
 /// シーン管理用クラス
@@ -86,6 +88,7 @@ private:
 	} sceneChangeInfo;
 
 #ifdef DEBUG_FEATURES_ENABLE
+private:
 	Reference<TimestampProfiler> profiler;
 #endif // _DEBUG
 };

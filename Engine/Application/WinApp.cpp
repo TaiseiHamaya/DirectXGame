@@ -140,12 +140,20 @@ void WinApp::Initialize(DWORD windowConfig) {
 	// 待機
 	BackgroundLoader::WaitEndExecute();
 
+#ifdef DEBUG_FEATURES_ENABLE
+	SceneManager::SetProfiler(instance->profiler);
+#endif // _DEBUG
+
 	Infomation("Complete initialize application.");
 }
 
 void WinApp::BeginFrame() {
 	SyncErrorWindow();
 
+#ifdef DEBUG_FEATURES_ENABLE
+	instance->profiler.clear_timestamps();
+	instance->profiler.timestamp("BeginFrame");
+#endif // _DEBUG
 	WorldClock::Update();
 	Input::Update();
 	DxCore::BeginFrame();
@@ -156,6 +164,17 @@ void WinApp::BeginFrame() {
 
 void WinApp::EndFrame() {
 #ifdef DEBUG_FEATURES_ENABLE
+	instance->profiler.timestamp("EndFrame");
+	SceneManager::DebugGui();
+	instance->profiler.timestamp("End");
+	ImGui::Begin("Application");
+	ImGui::Checkbox("IsStopUpdate", &instance->isStopUpdate);
+	instance->isPassedPause = false;
+	if (ImGui::Button("NextFrame")) instance->isPassedPause = true;
+	ImGui::SeparatorText("Profiler");
+	instance->profiler.debug_gui();
+	ImGui::End();
+
 	// 一番先にImGUIの処理
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
