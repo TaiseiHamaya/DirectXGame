@@ -1,17 +1,13 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <array>
 
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <wrl/client.h>
 #include <dinput.h>
 #include <Xinput.h>
-
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib, "dxguid.lib")
-#pragma comment (lib, "xinput.lib")
 
 #include <Library/Math/Vector2.h>
 
@@ -134,7 +130,7 @@ private:
 	Microsoft::WRL::ComPtr<IDirectInput8> directInput = nullptr;
 
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> keyboardDevice;
-	std::vector<BYTE> keyboardState;
+	std::array<BYTE, 256> keyboardState;
 
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseDevice;
 	Vector2 mousePosition;

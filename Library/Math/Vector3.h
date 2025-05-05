@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <limits>
 
 /// <summary>
@@ -26,7 +27,7 @@ public:
 			r32 z; // Z座標
 		};
 
-		r32 xyz[3];
+		std::array<r32, 3> xyz;
 	};
 
 public:
@@ -67,10 +68,10 @@ public:
 	/// <summary>
 	/// ベクトルの正規化
 	/// </summary>
-	/// <param name="tolerance">lengthの許容値</param>
 	/// <param name="disapproval">範囲外だった場合の戻り値</param>
+	/// <param name="tolerance">lengthの許容値</param>
 	/// <returns></returns>
-	Vector3 normalize_safe(r32 tolerance = 0.0001f, const Vector3& disapproval = { 1,0,0 }) const noexcept;
+	Vector3 normalize_safe(const Vector3& disapproval = { 1,0,0 }, r32 tolerance = 1e-4f) const noexcept;
 
 public:
 	// ------------------static関数------------------
@@ -339,6 +340,7 @@ constexpr Vector3 BASIS{ 1.0f, 1.0f, 1.0f }; // x(1.0f), y(1.0f), z(1.0f)
 constexpr Vector3 BASIS_X{ 1.0f, 0.0f, 0.0f }; // x(1.0f), y(0.0f), z(0.0f)
 constexpr Vector3 BASIS_Y{ 0.0f, 1.0f, 0.0f }; // x(0.0f), y(1.0f), z(0.0f)
 constexpr Vector3 BASIS_Z{ 0.0f, 0.0f, 1.0f }; // x(0.0f), y(0.0f), z(1.0f)
+constexpr Vector3 ONE{ BASIS }; // x(0.0f), y(0.0f), z(0.0f)
 constexpr Vector3 ZERO{ 0.0f, 0.0f, 0.0f }; // x(0.0f), y(0.0f), z(0.0f)
 constexpr Vector3 INFINTY{ std::numeric_limits<r32>::infinity(), std::numeric_limits<r32>::infinity(), std::numeric_limits<r32>::infinity() };
 constexpr Vector3 INFINTY_X{ std::numeric_limits<r32>::infinity(), 0, 0 };

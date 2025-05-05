@@ -56,28 +56,17 @@ public:
 	/// </summary>
 	/// <param name="target">向く方向</param>
 	/// <param name="upward">上方向</param>
-	void look_at(const WorldInstance& target, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at(Reference<const WorldInstance> rhs, r32 angle = 0.0f, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
 	/// pointの方向を向く
 	/// </summary>
 	/// <param name="point">World座標系上の点</param>
 	/// <param name="upward">上方向</param>
-	void look_at(const Vector3& point, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at(const Vector3& point, r32 angle = 0.0f, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
-	/// <summary>
-	/// Targetの方向を向く
-	/// </summary>
-	/// <param name="target">向く方向</param>
-	/// <param name="upward">上方向</param>
-	void look_at_angle(const WorldInstance& target, r32 angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
-
-	/// <summary>
-	/// pointの方向を向く
-	/// </summary>
-	/// <param name="point">World座標系上の点</param>
-	/// <param name="upward">上方向</param>
-	void look_at_angle(const Vector3& point, r32 angle, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at_axis(Reference<const WorldInstance> target, const Vector3& axis = CVector3::BASIS_Y, r32 angle = 0.0f) noexcept;
+	void look_at_axis(const Vector3& point, const Vector3& axis = CVector3::BASIS_Y, r32 angle = 0.0f) noexcept;
 
 	/// <summary>
 	/// アクティブフラグの設定

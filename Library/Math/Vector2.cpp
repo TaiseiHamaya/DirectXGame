@@ -1,7 +1,7 @@
 #include "Vector2.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 
 #include "Engine/Application/Output.h"
 
@@ -14,8 +14,8 @@ const Vector2 Vector2::normalize() const noexcept(false) {
 	return *this / length();
 }
 
-const Vector2 Vector2::normalize_safe(r32 tolerance, const Vector2& disapproval) const noexcept {
-	WarningIf(tolerance < 0, "First argument tolerance less 0.");
+const Vector2 Vector2::normalize_safe(const Vector2& disapproval, r32 tolerance) const noexcept {
+	WarningIf(tolerance < 0, "Second argument tolerance less 0.");
 	r32 length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;
