@@ -11,7 +11,6 @@ struct tagRECT;
 class DepthStencilTexture;
 enum class RenderNodeConfig : u8;
 
-
 class BaseRenderTargetGroup {
 public:
 	BaseRenderTargetGroup();
@@ -23,11 +22,6 @@ public:
 	BaseRenderTargetGroup& operator=(BaseRenderTargetGroup&&) = default;
 
 public:
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	virtual void initialize() = 0;
-
 	/// <summary>
 	/// 描画処理の開始
 	/// </summary>

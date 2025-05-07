@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dinput.h>
+#include <Xinput.h>
 
 enum class KeyID {
 	Escape = DIK_ESCAPE,

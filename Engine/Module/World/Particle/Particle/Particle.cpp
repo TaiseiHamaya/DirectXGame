@@ -91,7 +91,7 @@ void Particle::update() {
 	case Particle::RotationType::LookAtAngle:
 	{
 		const auto& data = std::get<LookAtAngle>(rotationData);
-		look_at_angle(*lookAtDefault, data.angleParSec * timer * WorldClock::DeltaSeconds());
+		look_at(*lookAtDefault, data.angleParSec * timer * WorldClock::DeltaSeconds());
 		break;
 	}
 	case Particle::RotationType::Random:

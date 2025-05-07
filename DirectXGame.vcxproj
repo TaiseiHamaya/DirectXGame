@@ -174,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Utility\Template\call_once.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.cpp" />
@@ -326,6 +327,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Utility\Template\call_once.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.h" />

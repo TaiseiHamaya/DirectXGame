@@ -17,14 +17,9 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void initialize() override;
+	/// <param name="renderTexture"></param>
+	void initialize(Reference<RenderTexture> renderTexture);
 
-	/// <summary>
-	/// サイズ指定付き初期化
-	/// </summary>
-	/// <param name="width">幅</param>
-	/// <param name="height">高さ</param>
-	void initialize(u32 width, u32 height);
 
 public:
 	void set_texture(Reference<RenderTexture> texture_);

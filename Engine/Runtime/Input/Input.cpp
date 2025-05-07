@@ -1,5 +1,9 @@
 #include "Input.h"
 
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
+#pragma comment (lib, "xinput.lib")
+
 #include "Engine/Application/Output.h"
 #include "Engine/Application/WinApp.h"
 
@@ -205,9 +209,6 @@ void Input::create_keyboard_device() {
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
 	ErrorIf(FAILED(result), "Failed initialize direct input.");
-
-	// stateの初期化
-	keyboardState.resize(256);
 }
 
 void Input::create_mouse_device() {

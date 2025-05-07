@@ -59,10 +59,10 @@ public:
 	/// <summary>
 	/// ベクトルの正規化
 	/// </summary>
-	/// <param name="tolerance">lengthの許容値</param>
 	/// <param name="disapproval">範囲外だった場合の戻り値</param>
+	/// <param name="tolerance">lengthの許容値</param>
 	/// <returns></returns>
-	const Vector2 normalize_safe(r32 tolerance = 0.0001f, const Vector2& disapproval = { 1,0 }) const noexcept;
+	const Vector2 normalize_safe(const Vector2& disapproval = { 1,0 }, r32 tolerance = 1e-4f) const noexcept;
 
 public:
 	// ------------------static関数------------------
@@ -319,15 +319,18 @@ namespace CVector2 {
 
 constexpr Vector2 BASIS_X{ 1.0f, 0.0f }; // x(1.0f), y(0.0f)
 constexpr Vector2 BASIS_Y{ 0.0f, 1.0f }; // x(0.0f), y(1.0f)
-constexpr Vector2 ZERO{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
 constexpr Vector2 BASIS{ 1.0f, 1.0f }; // x(1.0f), y(1.0f)
+constexpr Vector2 ONE{ BASIS }; // x(0.0f), y(0.0f)
+constexpr Vector2 ZERO{ 0.0f, 0.0f }; // x(0.0f), y(0.0f)
 constexpr Vector2 INFINTY{ std::numeric_limits<r32>::infinity(),std::numeric_limits<r32>::infinity() };
 constexpr Vector2 INFINTY_X{ std::numeric_limits<r32>::infinity(),0 };
 constexpr Vector2 INFINTY_Y{ 0, std::numeric_limits<r32>::infinity() };
 
 constexpr Vector2 FORWARD{ BASIS_X };
 constexpr Vector2 BACKWARD{ -FORWARD };
+constexpr Vector2 RIGHT{ FORWARD };
+constexpr Vector2 LEFT{ -RIGHT };
 constexpr Vector2 UP{ BASIS_Y };
-constexpr Vector2 BACK{ -UP };
+constexpr Vector2 DOWN{ -UP };
 
 };

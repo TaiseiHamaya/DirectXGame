@@ -5,6 +5,14 @@
 #include <Library/Math/Vector2.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
+
+struct BlurInfo {
+	Vector2 center;
+	r32 weight;
+	r32 length;
+	u32 sampleCount;
+};
 
 class RadialBlurNode : public SingleRenderTargetNode {
 public:
@@ -33,7 +41,9 @@ public:
 	/// 描画時に使用するテクスチャリソースを設定
 	/// </summary>
 	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
-	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
+	void set_texture_resource(Reference<RenderTexture> baseTexture_);
+
+	BlurInfo& data() { return *blurInfo.get_data(); }
 
 private:
 	/// <summary>
@@ -47,13 +57,7 @@ public:
 #endif // DEBUG
 
 private:
-	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle;
+	Reference<RenderTexture> baseTexture;
 
-	struct BlurInfo {
-		Vector2 center;
-		r32 weight;
-		r32 length;
-		u32 sampleCount;
-	};
 	ConstantBuffer<BlurInfo> blurInfo;
 };

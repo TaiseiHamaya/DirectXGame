@@ -100,7 +100,7 @@ inline void InputHandler<T, InputFunction>::update() {
 	for (auto& [id, elem] : data) {
 		elem.flags <<= 1;
 		elem.flags.set(0, inputter(id));
-		if (elem.timer.time() > 0 && elem.flags.count() == 1) {
+		if (elem.timer > 0 && elem.flags.count() == 1) {
 			elem.timer.set(0);
 		}
 		else {
@@ -141,7 +141,7 @@ inline bool InputHandler<T, InputFunction>::idle(T id) {
 template<typename T, class InputFunction>
 inline r32 InputHandler<T, InputFunction>::press_timer(T id) {
 	if (press(id)) {
-		return data[id].timer.time();
+		return data[id].timer;
 	}
 	return 0;
 }
@@ -149,7 +149,7 @@ inline r32 InputHandler<T, InputFunction>::press_timer(T id) {
 template<typename T, class InputFunction>
 inline r32 InputHandler<T, InputFunction>::idle_timer(T id) {
 	if (idle(id)) {
-		return data[id].timer.time();
+		return data[id].timer;
 	}
 	return 0;
 }
