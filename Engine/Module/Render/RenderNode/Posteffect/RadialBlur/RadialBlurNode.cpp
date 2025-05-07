@@ -24,14 +24,16 @@ void RadialBlurNode::initialize() {
 }
 
 void RadialBlurNode::draw() {
+	baseTexture->start_read();
+
 	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootConstantBufferView(0, blurInfo.get_resource()->GetGPUVirtualAddress());
-	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
+	baseTexture->get_as_srv()->use(1);
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
-void RadialBlurNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
-	textureGPUHandle = textureGPUHandle_;
+void RadialBlurNode::set_texture_resource(Reference<RenderTexture> baseTexture_) {
+	baseTexture = baseTexture_;
 }
 
 void RadialBlurNode::create_pipeline_state() {
@@ -48,7 +50,7 @@ void RadialBlurNode::create_pipeline_state() {
 	ShaderBuilder shaderManager;
 	shaderManager.initialize(
 		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/RadialBlur/RadialBlur.PS.hlsl"
+		"DirectXGame/EngineResources/HLSL/Posteffect/RadialBlur/RadialBlur.PS.hlsl"
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();

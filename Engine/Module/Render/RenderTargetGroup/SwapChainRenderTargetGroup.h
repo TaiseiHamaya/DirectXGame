@@ -16,7 +16,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void initialize() override;
+	void initialize();
 
 	/// <summary>
 	/// resourceの設定

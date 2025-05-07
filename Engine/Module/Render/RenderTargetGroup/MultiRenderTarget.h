@@ -25,14 +25,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void initialize() override;
-
-	/// <summary>
-	/// サイズ指定付き初期化
-	/// </summary>
-	/// <param name="width">幅</param>
-	/// <param name="height">高さ</param>
-	/// <param name="size">レンダーターゲット数</param>
+	/// <param name="renderTextures_"></param>
 	void initialize(std::array<Reference<RenderTexture>, NumRenderTarget> renderTextures_);
 
 private:
@@ -47,11 +40,6 @@ private:
 	std::array<Reference<RenderTexture>, NumRenderTarget> renderTextures;
 	std::array<D3D12_CPU_DESCRIPTOR_HANDLE, NumRenderTarget> renderTargetsHandles;
 };
-
-template<u32 NumRenderTarget>
-inline void MultiRenderTarget<NumRenderTarget>::initialize() {
-
-}
 
 template<u32 NumRenderTarget>
 inline void MultiRenderTarget<NumRenderTarget>::initialize(std::array<Reference<RenderTexture>, NumRenderTarget> renderTextures_) {
