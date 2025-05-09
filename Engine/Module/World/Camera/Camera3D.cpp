@@ -8,6 +8,8 @@
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
+#include "Engine/Debug/Editor/EditorMain.h"
+
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <Engine/Runtime/Input/Input.h>
@@ -172,7 +174,7 @@ void Camera3D::debug_camera() {
 	debugMouseInputHandler.update();
 	// デバッグカメラ時のみ実行
 	// ImGUIとマウスが重なっているときは実行しない
-	if (isValidDebugCamera && !ImGui::GetIO().WantCaptureMouse) {
+	if (isValidDebugCamera && EditorMain::IsHoverEditorWindow()) {
 		// マウスの移動量を取得
 		Vector2 mouseDelta = Input::MouseDelta();
 

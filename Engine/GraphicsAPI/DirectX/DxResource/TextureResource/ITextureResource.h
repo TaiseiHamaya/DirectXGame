@@ -13,8 +13,10 @@ public:
 
 	__CLASS_NON_COPYABLE(ITextureResource)
 
-public:
+protected:
 	void change_resource_state(D3D12_RESOURCE_STATES next);
+
+public:
 	u32 get_width() const { return width; }
 	u32 get_height() const { return height; }
 

@@ -33,8 +33,8 @@ public:
 	static void SwapScreen();
 
 public:
-	//static const Microsoft::WRL::ComPtr<IDXGISwapChain4>& GetSwapChain() noexcept { return GetInstance().swapChain; }
 	static Reference<SwapChainRenderTargetGroup> GetRenderTarget();
+	static Reference<ScreenTexture> GetWriteBufferTexture();
 
 	static void SetClearColor(const Color4& color_) noexcept;
 	static void EndRenderTarget();
