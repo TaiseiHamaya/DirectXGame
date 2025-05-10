@@ -177,6 +177,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\EditorBaseSystem.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorSceneView.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\IEditorWindow.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp" />
@@ -331,6 +332,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\IEditorWindow.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorBaseSystem.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorSceneView.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorMain.h" />

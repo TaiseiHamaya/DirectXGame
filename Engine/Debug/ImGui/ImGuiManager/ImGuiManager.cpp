@@ -42,6 +42,7 @@ void ImGuiManager::Initialize() {
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 	ImGui::GetStyle().Colors[2] = ImVec4{0.1f,0.1f,0.1f,1};
+	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
 }
 
 void ImGuiManager::Finalize() {

@@ -38,6 +38,9 @@ void EditorSceneView::copy_screen() {
 }
 
 void EditorSceneView::set_imgui_command() {
+	if (!isActive) {
+		return;
+	}
 	if (isHoverMain && (ImGui::GetIO().MouseDown[1] || ImGui::GetIO().MouseDown[2])) {
 		ImGui::SetNextWindowFocus();
 	}
@@ -48,6 +51,8 @@ void EditorSceneView::set_imgui_command() {
 	isHoverMain = ImGui::IsWindowHovered();
 
 	ImVec2 winSize = ImGui::GetContentRegionAvail();
+	ImVec2 winPos = ImGui::GetWindowPos();
+
 	float aspectX = winSize.x / 16;
 	float aspectY = winSize.y / 9;
 
@@ -55,7 +60,10 @@ void EditorSceneView::set_imgui_command() {
 		ImVec2{ winSize.y / 9 * 16, winSize.y } :
 		ImVec2{ winSize.x, winSize.x / 16 * 9 };
 
-	ImVec2 cursorPos = { (winSize.x - size.x) * 0.5f, (winSize.y - size.y) * 0.5f };
+	ImVec2 cursorPos = { 
+		(winSize.x - size.x) * 0.5f + winPos.x + ImGui::GetCursorPosX(),
+		(winSize.y - size.y) * 0.5f + winPos.y + ImGui::GetCursorPosY()
+	};
 	ImGui::SetCursorScreenPos(cursorPos);
 	ImGui::Image(
 		static_cast<ImTextureID>(screenResultTexture.get_as_srv()->handle().ptr), size

@@ -2,11 +2,11 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include <Library/Utility/Tools/ConstructorMacro.h>
+#include "IEditorWindow.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
 
-class EditorSceneView final {
+class EditorSceneView final : public IEditorWindow {
 public:
 	EditorSceneView() = default;
 	~EditorSceneView() = default;
@@ -16,7 +16,7 @@ public:
 public:
 	void initialize(bool isActive_);
 
-	void draw();
+	void draw() override;
 
 	void finalize();
 
@@ -27,8 +27,6 @@ private:
 	void set_imgui_command();
 
 private:
-	bool isActive{ false };
-	bool isHoverMain{ false };
 	TempTexture screenResultTexture;
 };
 

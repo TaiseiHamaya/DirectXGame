@@ -41,12 +41,33 @@ bool EditorMain::IsHoverEditorWindow() {
 void EditorMain::set_imgui_command() {
 	EditorMain& instance = GetInstance();
 
+	i32 flags =
+		ImGuiWindowFlags_MenuBar | // メニューバーを表示
+		ImGuiWindowFlags_NoDocking | // ドッキングしない
+		ImGuiWindowFlags_NoTitleBar | // タイトルバーなし
+		ImGuiWindowFlags_NoResize | // リサイズしない
+		ImGuiWindowFlags_NoScrollbar | // スクロールバーなし
+		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
+
 	ImGui::SetNextWindowPos({ 0,0 });
 	ImGui::SetNextWindowSize({ EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y });
-	i32 flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
+
 	ImGui::Begin("EditorMain", nullptr, flags);
+	// メニューバーの表示
+	if (ImGui::BeginMenuBar()) {
+		// Windowメニュー
+		if (ImGui::BeginMenu("Window")) {
+			sceneView.draw_menu("Scene");
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+
+	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
-	ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::SetCursorScreenPos({ 0, 19 });
+	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
+	
 	ImGui::End();
 }
 
