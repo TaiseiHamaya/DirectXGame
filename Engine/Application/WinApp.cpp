@@ -164,6 +164,7 @@ void WinApp::BeginFrame() {
 	DxCore::BeginFrame();
 #ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::BeginFrame();
+	EditorMain::DrawBase();
 #endif // _DEBUG
 }
 
