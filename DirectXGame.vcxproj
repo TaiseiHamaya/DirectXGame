@@ -174,10 +174,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\EditorInspector.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneLoader.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorHierarchy.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorBaseSystem.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorSceneView.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp" />
     <ClCompile Include="Engine\Debug\Editor\IEditorWindow.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\FolderObject.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp" />
@@ -187,6 +191,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.cpp" />
     <ClCompile Include="Engine\Assets\Texture\TextureAsset.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\IRemoteObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldInstance.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\SceneLoader.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldRootObject.cpp" />
     <None Include="Game\__Template\main.cpp.template">
       <FileType>Document</FileType>
     </None>
@@ -332,10 +341,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\EditorInspector.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorHierarchy.h" />
     <ClInclude Include="Engine\Debug\Editor\IEditorWindow.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorBaseSystem.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorSceneView.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorMain.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\FolderObject.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiIcons.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiJapanese.h" />
     <ClInclude Include="Library\Utility\Template\call_once.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.h" />
@@ -345,6 +360,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.h" />
     <ClInclude Include="Engine\Assets\Texture\TextureAsset.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\IRemoteObject.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldInstance.h" />
+    <ClInclude Include="Engine\Runtime\Scene\SceneLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldRootObject.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>

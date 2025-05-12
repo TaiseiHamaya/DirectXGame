@@ -22,9 +22,4 @@ public:
 
 public:
 	void transfer() override;
-
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui() override;
-#endif // _DEBUG
 };

@@ -18,12 +18,9 @@ void EditorSceneView::draw() {
 	set_imgui_command();
 }
 
-void EditorSceneView::finalize() {
-}
-
 bool EditorSceneView::is_hovered_window() {
 	return
-		(isActive && isHoverMain) ||
+		(isActive && isHoverWindow) ||
 		!ImGui::GetIO().WantCaptureMouse;
 }
 
@@ -41,14 +38,14 @@ void EditorSceneView::set_imgui_command() {
 	if (!isActive) {
 		return;
 	}
-	if (isHoverMain && (ImGui::GetIO().MouseDown[1] || ImGui::GetIO().MouseDown[2])) {
+	if (isHoverWindow && (ImGui::GetIO().MouseDown[1] || ImGui::GetIO().MouseDown[2])) {
 		ImGui::SetNextWindowFocus();
 	}
 
 	screenResultTexture.start_read();
 	ImGui::Begin("Scene", &isActive, ImGuiWindowFlags_NoScrollbar);
 
-	isHoverMain = ImGui::IsWindowHovered();
+	isHoverWindow = ImGui::IsWindowHovered();
 
 	ImVec2 winSize = ImGui::GetContentRegionAvail();
 	ImVec2 winPos = ImGui::GetWindowPos();

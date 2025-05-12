@@ -7,9 +7,9 @@ class BaseSceneFactory;
 #include <memory>
 
 #include <Library/Utility/Template/TimedCall.h>
+#include <Library/Utility/Template/Reference.h>
 
 #ifdef DEBUG_FEATURES_ENABLE
-#include <Library/Utility/Template/Reference.h>
 class TimestampProfiler;
 #endif //DEBUG_FEATURES_ENABLE
 
@@ -47,6 +47,7 @@ public:
 public:
 	static bool IsEndProgram() noexcept;
 
+	static Reference<BaseScene> GetCurrentScene();
 	static const std::deque<std::unique_ptr<BaseScene>>& GetSceneQue();
 
 	template<typename T>

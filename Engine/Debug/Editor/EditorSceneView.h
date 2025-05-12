@@ -18,8 +18,6 @@ public:
 
 	void draw() override;
 
-	void finalize();
-
 	bool is_hovered_window();
 
 private:
@@ -27,6 +25,7 @@ private:
 	void set_imgui_command();
 
 private:
+	bool isHoverWindow{ false };
 	TempTexture screenResultTexture;
 };
 

@@ -10,6 +10,13 @@ void EditorMain::Initialize() {
 	EditorMain& instance = GetInstance();
 	instance.isActiveEditor = true;
 	instance.sceneView.initialize(true);
+	instance.inspector.initialize();
+}
+
+void EditorMain::Start() {
+	EditorMain& instance = GetInstance();
+	instance.hierarchy.load("");
+	instance.inspector.start(instance.hierarchy);
 }
 
 void EditorMain::DrawBase() {
@@ -28,6 +35,8 @@ void EditorMain::Draw() {
 	}
 
 	instance.sceneView.draw();
+	instance.hierarchy.draw();
+	instance.inspector.draw();
 }
 
 void EditorMain::Finalize() {
@@ -58,6 +67,8 @@ void EditorMain::set_imgui_command() {
 		// Windowメニュー
 		if (ImGui::BeginMenu("Window")) {
 			sceneView.draw_menu("Scene");
+			hierarchy.draw_menu("Hierarchy");
+			inspector.draw_menu("Inspector");
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();

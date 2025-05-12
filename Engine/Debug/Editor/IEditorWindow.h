@@ -18,7 +18,6 @@ public:
 
 protected:
 	bool isActive{ false };
-	bool isHoverMain{ false };
 };
 
 #endif // DEBUG_FEATURES_ENABLE

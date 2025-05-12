@@ -4,6 +4,7 @@
 #include "./Rect3dDrawExecutor.h"
 
 #include "Engine/Module/World/Mesh/Primitive/IPrimitiveInstance.h"
+#include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
 class Rect3dDrawManager : public BaseDrawManager<Rect3dDrawExecutor, PrimitiveType> {
 public:

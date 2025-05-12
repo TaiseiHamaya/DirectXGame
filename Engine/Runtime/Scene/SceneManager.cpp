@@ -62,7 +62,7 @@ void SceneManager::Update() {
 	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
 	profiler->timestamp("Begin");
-	if(!WinApp::IsStopUpdate()) nowScene->begin();
+	if (!WinApp::IsStopUpdate()) nowScene->begin();
 	profiler->timestamp("ImGui");
 	nowScene->debug_update();
 	profiler->timestamp("Update");
@@ -140,6 +140,10 @@ void SceneManager::PopScene(r32 interval) {
 
 bool SceneManager::IsEndProgram() noexcept {
 	return GetInstance().sceneQue.back() == nullptr;
+}
+
+Reference<BaseScene> SceneManager::GetCurrentScene() {
+	return GetInstance().sceneQue.back();
 }
 
 const std::deque<std::unique_ptr<BaseScene>>& SceneManager::GetSceneQue() {
