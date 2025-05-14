@@ -30,9 +30,4 @@ public:
 
 public:
 	Matrix4x4 transform_matrix() const;
-
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui() override;
-#endif // _DEBUG
 };

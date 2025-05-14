@@ -36,3 +36,15 @@ void BaseScene::late_update() {
 void BaseScene::debug_update() {
 }
 #endif // _DEBUG
+
+u64 BaseScene::world_size() const {
+	return worlds.size();
+}
+
+Reference<WorldManager> BaseScene::get_world(u64 index) {
+#ifdef DEBUG_FEATURES_ENABLE
+	ErrorIf(index >= worlds.size(), "Out of range.");
+#endif // DEBUG_FEATURES_ENABLE
+
+	return worlds[index];
+}

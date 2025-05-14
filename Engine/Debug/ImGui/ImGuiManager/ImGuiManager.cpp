@@ -2,6 +2,8 @@
 
 #include "ImGuiManager.h"
 
+#include "./ImGuiJapanese.h"
+#include "./ImGuiIcons.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -39,9 +41,14 @@ void ImGuiManager::Initialize() {
 		SRVDescriptorHeap::GetGPUHandle(srvIndex)
 	);
 
+	ImFontConfig config{};
+	config.MergeMode = true;
+	config.GlyphRanges = IconsGlyphRanges;
+
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-	ImGui::GetStyle().Colors[2] = ImVec4{0.1f,0.1f,0.1f,1};
+	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, glyphRangesJapanese);
+	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 13.f, &config, IconsGlyphRanges);
+	ImGui::GetStyle().Colors[2] = ImVec4{ 0.1f,0.1f,0.1f,1 };
 	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
 }
 

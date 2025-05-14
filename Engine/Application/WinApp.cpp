@@ -225,6 +225,10 @@ void WinApp::ShowAppWindow() {
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Infomation("Show application window.");
 
+#ifdef DEBUG_FEATURES_ENABLE
+	EditorMain::Start();
+#endif // _DEBUG
+
 	// 時計初期化
 	WorldClock::Initialize();
 }

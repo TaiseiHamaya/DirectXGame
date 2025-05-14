@@ -2,10 +2,16 @@
 
 #include "IEditorWindow.h"
 
+#include <string>
+
 #include <imgui.h>
 
 void IEditorWindow::draw_menu(string_literal name) {
-	if(ImGui::MenuItem(name)) {
+	std::string itemName = name;
+	if (isActive) {
+		itemName += "\ue5ca";
+	}
+	if (ImGui::MenuItem(itemName.c_str())) {
 		isActive = true;
 	}
 }

@@ -28,6 +28,10 @@ public:
 	template<std::derived_from<WorldInstance> T, typename ...Args>
 	[[nodiscard]] std::unique_ptr<T> create(Reference<const WorldInstance> parent = nullptr, Args&&... args);
 
+
+	std::vector<std::unordered_set<Reference<WorldInstance>>>& get_world_instances();
+	const std::vector<std::unordered_set<Reference<WorldInstance>>>& get_world_instances() const;
+
 private:
 	std::vector<std::unordered_set<Reference<WorldInstance>>> worldInstances;
 };

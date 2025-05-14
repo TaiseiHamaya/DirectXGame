@@ -2,9 +2,6 @@
 
 #include "../WorldManager.h"
 
-#define TRANSFORM3D_SERIALIZER
-#include <Engine/Assets/Json/JsonSerializer.h>
-
 WorldInstance::WorldInstance() noexcept {
 	hierarchy.initialize(affine);
 }
@@ -104,34 +101,13 @@ void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
 	worldManager = worldManager_;
 }
 
-void WorldInstance::from_json(const JsonAsset& json_) {
-	const nlohmann::json& json = json_.cget();
-	if (json.contains("WorldInstance")) {
-		transform = json.at("WorldInstance").get<Transform3D>();
-	}
-}
-
-void WorldInstance::to_json(JsonAsset& json) {
-	json.get()["WorldInstance"] = transform;
-}
-
-#ifdef DEBUG_FEATURES_ENABLE
-#include <imgui.h>
-
-#include <string>
-#include <source_location>
-
-using namespace std::literals::string_literals;
-
-void WorldInstance::debug_gui() {
-	ImGui::Checkbox("Active", &isActive);
-	transform.debug_gui();
-
-	//if (ImGui::Button("SaveJson")) {
-	//	constexpr string_literal fileName = std::source_location::current().file_name();
-	//	JsonAsset output{ "WorldInstance"s + fileName };
-	//	to_json(output);
-	//	output.save();
-	//}
-}
-#endif // _DEBUG
+//void WorldInstance::from_json(const JsonAsset& json_) {
+//	const nlohmann::json& json = json_.cget();
+//	if (json.contains("WorldInstance")) {
+//		transform = json.at("WorldInstance").get<Transform3D>();
+//	}
+//}
+//
+//void WorldInstance::to_json(JsonAsset& json) {
+//	json.get()["WorldInstance"] = transform;
+//}

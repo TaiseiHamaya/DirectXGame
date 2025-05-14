@@ -24,9 +24,4 @@ public:
 	/// Texture、Materialパラメータ、UVデータのリセットを行う
 	/// </summary>
 	void default_material();
-
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui() override;
-#endif // _DEBUG
 };

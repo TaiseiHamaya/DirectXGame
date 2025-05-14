@@ -4,6 +4,7 @@
 
 #include "../BaseDrawManager.h"
 #include "./SkinningMeshDrawExecutor.h"
+#include "Engine/Module/World/Mesh/SkinningMeshInstance.h"
 
 class SkinningMeshDrawManager final : public BaseDrawManager<SkinningMeshDrawExecutor> {
 public:

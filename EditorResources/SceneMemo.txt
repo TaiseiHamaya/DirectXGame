@@ -1,0 +1,34 @@
+最上位桁
+0: WorldInstance
+1: Mesh/Primitive
+2: Camera
+3: Collision
+4: Light
+
+WorldInstance
+
+Mesh/Primitive
+0: StaticMesh
+1: SkinningMesh
+2: Rect3D
+3: Skybox
+
+Camera:
+0: 3DCamera
+1: 2DCamera
+
+Collision
+0: Sphere
+1: AABB
+
+2: Capcel
+3: Line
+4: OBB
+5: Plane
+
+Light
+0: Directional
+1: Point
+2: Spot
+
+3: Area
