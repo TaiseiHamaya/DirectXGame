@@ -3,6 +3,7 @@
 #include "EditorMain.h"
 
 #include "Engine/Application/EngineSettings.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 #include <imgui.h>
 
@@ -15,6 +16,8 @@ void EditorMain::Initialize() {
 
 void EditorMain::Start() {
 	EditorMain& instance = GetInstance();
+	JsonAsset json;
+	json.load("./Game/DebugData/Editor.json");
 	instance.hierarchy.load("");
 	instance.inspector.start(instance.hierarchy);
 }
@@ -78,7 +81,7 @@ void EditorMain::set_imgui_command() {
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
 	ImGui::SetCursorScreenPos({ 0, 19 });
 	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
-	
+
 	ImGui::End();
 }
 

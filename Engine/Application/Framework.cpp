@@ -27,7 +27,6 @@ void Framework::run() {
 }
 
 void Framework::initialize() {
-	SceneManager::Initialize();
 }
 
 void Framework::finalize() {

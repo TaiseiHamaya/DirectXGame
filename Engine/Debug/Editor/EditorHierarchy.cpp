@@ -13,7 +13,7 @@ void EditorHierarchy::load(std::filesystem::path file) {
 
 	Reference<BaseScene> currentScene = SceneManager::GetCurrentScene();
 
-	scene.initialize(currentScene);
+	//scene.initialize(file);
 }
 
 void EditorHierarchy::draw() {

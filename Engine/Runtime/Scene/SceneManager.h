@@ -30,6 +30,7 @@ public:
 
 public:
 	static void Initialize();
+	static void Setup(std::unique_ptr<BaseSceneFactory> factory_);
 	static void Finalize() noexcept;
 
 	static void Begin();
@@ -49,9 +50,6 @@ public:
 
 	static Reference<BaseScene> GetCurrentScene();
 	static const std::deque<std::unique_ptr<BaseScene>>& GetSceneQue();
-
-	template<typename T>
-	static void SetFactory();
 
 private:
 	static void NextScene();
@@ -93,9 +91,3 @@ private:
 	Reference<TimestampProfiler> profiler;
 #endif // _DEBUG
 };
-
-template<typename T>
-inline void SceneManager::SetFactory() {
-	auto& instance = GetInstance();
-	instance.factory = std::make_unique<T>();
-}

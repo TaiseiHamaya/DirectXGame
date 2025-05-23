@@ -2,10 +2,14 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
+#include <string>
+
+#include <json.hpp>
+
 #include <Library/Utility/Tools/ConstructorMacro.h>
 #include <Library/Utility/Template/Reference.h>
 
-#include <string>
+class EditorSceneSerializer;
 
 class IRemoteObject {
 public:
@@ -15,6 +19,8 @@ public:
 	__CLASS_DEFAULT_ALL(IRemoteObject)
 
 public:
+	//virtual void initialize(const nlohmann::json json, Reference<EditorSceneSerializer> serializer) = 0;
+
 	virtual void draw_inspector() = 0;
 
 	virtual void draw_hierarchy(Reference<IRemoteObject>& select) = 0;

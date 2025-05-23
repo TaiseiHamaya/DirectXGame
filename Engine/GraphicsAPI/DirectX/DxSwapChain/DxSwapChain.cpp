@@ -78,6 +78,7 @@ void DxSwapChain::create_swapchain() {
 }
 
 void DxSwapChain::create_render_target() {
+	textures.resize(RenderingSystemValues::NUM_BUFFERING);
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る

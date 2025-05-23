@@ -14,17 +14,12 @@
 RemoteWorldRootObject::RemoteWorldRootObject() = default;
 RemoteWorldRootObject::~RemoteWorldRootObject() = default;
 
-RemoteWorldRootObject::RemoteWorldRootObject(const RemoteWorldRootObject&) = default;
-RemoteWorldRootObject& RemoteWorldRootObject::operator=(const RemoteWorldRootObject&) = default;
-RemoteWorldRootObject::RemoteWorldRootObject(RemoteWorldRootObject&&) noexcept = default;
-RemoteWorldRootObject& RemoteWorldRootObject::operator=(RemoteWorldRootObject&&) noexcept = default;
-
 void RemoteWorldRootObject::initialize(Reference<WorldManager> self_) {
 	self = self_;
-	for (auto& instance : self->get_world_instances()[0]) {
-		auto& remoteObject = childrenInstances.emplace_back();
-		remoteObject.initialize(instance);
-	}
+	//for (auto& instance : self->get_world_instances()[0]) {
+	//	auto& remoteObject = children.emplace_back();
+	//	remoteObject->initialize(instance);
+	//}
 }
 
 void RemoteWorldRootObject::draw_inspector() {
@@ -51,11 +46,8 @@ void RemoteWorldRootObject::draw_hierarchy(Reference<IRemoteObject>& select) {
 	}
 
 	if (isOpen) {
-		for (auto& child : childrenFolders) {
-			child.draw_hierarchy(select);
-		}
-		for (auto& child : childrenInstances) {
-			child.draw_hierarchy(select);
+		for (auto& child : children) {
+			child->draw_hierarchy(select);
 		}
 		ImGui::TreePop();
 	}

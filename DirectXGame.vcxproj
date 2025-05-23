@@ -174,8 +174,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorInspector.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorHierarchy.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorBaseSystem.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorSceneView.cpp" />
@@ -196,6 +196,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldRootObject.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
+    <ClCompile Include="Engine\Runtime\ProjectManager\ProjectManager.cpp" />
     <None Include="Game\__Template\main.cpp.template">
       <FileType>Document</FileType>
     </None>
@@ -341,8 +343,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorInspector.h" />
-    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorHierarchy.h" />
     <ClInclude Include="Engine\Debug\Editor\IEditorWindow.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorBaseSystem.h" />
@@ -365,6 +367,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldRootObject.h" />
+    <ClInclude Include="Engine\Runtime\Scene\Scene.h" />
+    <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>

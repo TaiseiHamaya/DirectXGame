@@ -4,6 +4,7 @@
 
 #include "IRemoteObject.h"
 
+#include <memory>
 #include <vector>
 
 class WorldManager;
@@ -15,11 +16,7 @@ public:
 	RemoteWorldRootObject();
 	~RemoteWorldRootObject();
 
-public:
-	RemoteWorldRootObject(const RemoteWorldRootObject&);
-	RemoteWorldRootObject& operator=(const RemoteWorldRootObject&);
-	RemoteWorldRootObject(RemoteWorldRootObject&&) noexcept;
-	RemoteWorldRootObject& operator=(RemoteWorldRootObject&&) noexcept;
+	__CLASS_NON_COPYABLE(RemoteWorldRootObject)
 
 public:
 	void initialize(Reference<WorldManager> self_);
@@ -31,8 +28,7 @@ public:
 private:
 	Reference<WorldManager> self;
 
-	std::vector<FolderObject> childrenFolders;
-	std::vector<RemoteWorldInstance> childrenInstances;
+	std::vector<std::unique_ptr<IRemoteObject>> children;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

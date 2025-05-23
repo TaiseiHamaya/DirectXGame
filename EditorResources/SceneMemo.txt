@@ -4,6 +4,7 @@
 2: Camera
 3: Collision
 4: Light
+9: DebugTool
 
 WorldInstance
 
@@ -32,3 +33,6 @@ Light
 2: Spot
 
 3: Area
+
+DebugTool
+0: Folder

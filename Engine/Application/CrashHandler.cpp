@@ -5,7 +5,7 @@
 
 #include "Engine/Application/EngineSettings.h"
 
-void CrashHandler::InitializeSystem() {
+void CrashHandler::Initialize() {
 	SetUnhandledExceptionFilter(CrashHandler::ExportDump);
 }
 

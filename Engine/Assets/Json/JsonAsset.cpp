@@ -10,12 +10,12 @@ JsonAsset::JsonAsset(const std::filesystem::path& file) {
 
 void JsonAsset::load(const std::filesystem::path& file) {
 	if (file.extension() != ".json") {
-		Warning("This file's extension is not .json. File\'{}\'", file.string());
+		Warning(L"This file's extension is not .json. File\'{}\'", file.native());
 	}
 	const std::filesystem::path DEFAULT_DIRECTORY{ "./Game/Resources/Json/" };
 
 	// 相対ディレクトリで始まる場合
-	if (file.string().starts_with(".\\")) {
+	if (file.native().starts_with(L".\\") || file.native().starts_with(L"./")) {
 		filePath = file;
 	}
 	// ファイル名のみor一部ディレクトリの続きの場合
@@ -26,7 +26,7 @@ void JsonAsset::load(const std::filesystem::path& file) {
 	std::ifstream ifstream{ filePath };
 
 	if (ifstream.fail()) {
-		Error("File-\'{}\' is not found.", filePath.stem().string());
+		Error(L"File-\'{}\' is not found.", filePath.stem().native());
 		return;
 	}
 

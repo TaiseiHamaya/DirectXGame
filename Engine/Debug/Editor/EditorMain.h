@@ -27,6 +27,7 @@ private:
 
 private:
 	bool isActiveEditor{};
+
 	EditorSceneView sceneView;
 	EditorHierarchy hierarchy;
 	EditorInspector inspector;
