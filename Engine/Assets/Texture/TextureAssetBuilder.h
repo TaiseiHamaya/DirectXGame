@@ -34,4 +34,6 @@ private:
 	std::shared_ptr<TextureAsset> textureData; // 実データ
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource; // リソースデータ
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource; // 一時リソース
+
+	bool isCubemap{ false };
 };

@@ -32,6 +32,27 @@ void ShaderResourceView::create(Reference<ITextureResource> resource, DXGI_FORMA
 	DxDevice::GetDevice()->CreateShaderResourceView(gpuResource.Get(), &srvDesc, handleCPU);
 }
 
+void ShaderResourceView::create_dds(Reference<ITextureResource> resource, DXGI_FORMAT format) {
+	auto& gpuResource = resource->get_resource();
+	// 使用するディスクリプタヒープを取得
+	index = SRVDescriptorHeap::UseHeapIndex();
+	Infomation("SRV-{}", index.value());
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = SRVDescriptorHeap::GetCPUHandle(index.value());
+	_handle = SRVDescriptorHeap::GetGPUHandle(index.value());
+
+	D3D12_RESOURCE_DESC desc = gpuResource->GetDesc();
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE; // 2Dテクスチャ
+	srvDesc.TextureCube.MostDetailedMip = 0;
+	srvDesc.TextureCube.MipLevels = UINT_MAX;
+	srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
+
+	// textureResourceに転送
+	DxDevice::GetDevice()->CreateShaderResourceView(gpuResource.Get(), &srvDesc, handleCPU);
+}
+
 void ShaderResourceView::use(u32 index) const {
 	auto&& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootDescriptorTable(index, _handle);

@@ -89,14 +89,14 @@ void Camera3D::transfer() {
 #endif // _DEBUG
 }
 
-void Camera3D::register_world_projection(u32 index) {
+void Camera3D::register_world_projection(u32 index) const {
 	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, vpBuffers.get_resource()->GetGPUVirtualAddress()
 	);
 }
 
-void Camera3D::register_world_lighting(u32 index) {
+void Camera3D::register_world_lighting(u32 index) const {
 	auto& commandList = DxCommand::GetCommandList();
 	commandList->SetGraphicsRootConstantBufferView(
 		index, lightingBuffer.get_resource()->GetGPUVirtualAddress()
