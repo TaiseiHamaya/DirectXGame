@@ -12,7 +12,7 @@ public:
 	__CLASS_NON_COPYABLE(StaticTexture)
 
 public:
-	void initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource_);
+	void initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource_, bool isCubemap = false);
 
 	Reference<const ShaderResourceView> get_srv() const { return srv; }
 

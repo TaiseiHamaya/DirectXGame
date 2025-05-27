@@ -14,6 +14,7 @@ public:
 public:
 	void release() override;
 	void create(Reference<ITextureResource> resource, DXGI_FORMAT format) override;
+	void create_dds(Reference<ITextureResource> resource, DXGI_FORMAT format);
 	D3D12_RESOURCE_STATES use_state() const  override { return D3D12_RESOURCE_STATE_GENERIC_READ; };
 
 public:

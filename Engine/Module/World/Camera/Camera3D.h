@@ -37,8 +37,8 @@ public:
 	void update_affine() override;
 	void transfer();
 
-	void register_world_projection(u32 index);
-	void register_world_lighting(u32 index);
+	void register_world_projection(u32 index) const;
+	void register_world_lighting(u32 index) const;
 
 public:
 	void set_transform(const Transform3D& transform) noexcept;

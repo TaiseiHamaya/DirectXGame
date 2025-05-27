@@ -2,8 +2,8 @@
 
 #include <Library/Utility/Tools/ConvertString.h>
 
-void TextureAsset::initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource) {
-	texture.initialize(resource);
+void TextureAsset::initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource, bool isCubemap) {
+	texture.initialize(resource, isCubemap);
 	if (texture.get_srv()->get_index().has_value()) {
 		gpuIndex = texture.get_srv()->get_index().value();
 	}

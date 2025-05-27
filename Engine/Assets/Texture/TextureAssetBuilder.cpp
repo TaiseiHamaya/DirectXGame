@@ -39,11 +39,13 @@ bool TextureAssetBuilder::run() {
 
 	DxCommand::SetTextureCommand(resource, intermediateResource, subResources);
 
+	isCubemap = metadata.IsCubemap();
+
 	return true;
 }
 
 void TextureAssetBuilder::postprocess() {
-	textureData->initialize(resource);
+	textureData->initialize(resource, isCubemap);
 #ifdef DEBUG_FEATURES_ENABLE
 	textureData->set_name(filePath.filename().native());
 #endif // DEBUG_FEATURES_ENABLE
@@ -56,14 +58,24 @@ void TextureAssetBuilder::transfer() {
 std::variant<HRESULT, DirectX::ScratchImage> TextureAssetBuilder::LoadTextureData(const std::filesystem::path& filePath) {
 	HRESULT hr;
 	DirectX::ScratchImage image{};
-	hr = DirectX::LoadFromWICFile(filePath.wstring().c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image); // ロード
+	if (filePath.native().ends_with(L".dds")) {
+		hr = DirectX::LoadFromDDSFile(filePath.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
+	}
+	else {
+		hr = DirectX::LoadFromWICFile(filePath.wstring().c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image); // ロード
+	}
 	if (FAILED(hr)) {
 		return hr;
 	}
 
 	DirectX::ScratchImage mipImage{};
 	// Mipmapに変換
-	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImage);
+	if (DirectX::IsCompressed(image.GetMetadata().format)) {
+		mipImage = std::move(image);
+	}
+	else {
+		hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 4, mipImage);
+	}
 	if (FAILED(hr)) {
 		return hr;
 	}
