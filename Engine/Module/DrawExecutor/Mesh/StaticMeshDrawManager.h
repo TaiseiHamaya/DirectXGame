@@ -6,11 +6,12 @@
 
 #include "../BaseDrawManager.h"
 #include "./StaticMeshDrawExecutor.h"
+#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 class Camera3D;
 #endif // _DEBUG
-\
+
 class StaticMeshDrawManager final : public BaseDrawManager<StaticMeshDrawExecutor> {
 public:
 	StaticMeshDrawManager() = default;

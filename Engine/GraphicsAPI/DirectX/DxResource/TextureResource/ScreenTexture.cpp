@@ -25,3 +25,9 @@ void ScreenTexture::start_write() {
 void ScreenTexture::start_present() {
 	change_resource_state(D3D12_RESOURCE_STATE_PRESENT);
 }
+
+#ifdef DEBUG_FEATURES_ENABLE
+void ScreenTexture::start_read() {
+	change_resource_state(D3D12_RESOURCE_STATE_GENERIC_READ);
+}
+#endif // DEBUG_FEATURES_ENABLE

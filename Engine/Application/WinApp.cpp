@@ -3,6 +3,7 @@
 #include <dbghelp.h>
 #include <timeapi.h>
 
+#include <Library/Utility/Tools/ConvertString.h>
 #include <Library/Utility/Tools/RandomEngine.h>
 
 #include "Engine/Application/CrashHandler.h"
@@ -17,6 +18,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
+#include "Engine/Runtime/ProjectManager/ProjectManager.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "EngineSettings.h"
 
@@ -62,7 +64,8 @@ WinApp::~WinApp() noexcept {
 	std::chrono::get_tzdb_list().~tzdb_list();
 }
 
-void WinApp::Initialize(DWORD windowConfig) {
+void WinApp::Initialize() {
+	// ---------- ライブラリ、APIの初期化 ----------
 #ifdef DEBUG_FEATURES_ENABLE
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
@@ -81,17 +84,24 @@ void WinApp::Initialize(DWORD windowConfig) {
 	std::locale::global(std::locale("ja_JP.Utf-8"));
 
 	// クラッシュハンドラの設定
-	CrashHandler::InitializeSystem();
+	CrashHandler::Initialize();
 	// WinAppのメモリ取得
 	instance.reset(new WinApp{});
 	// COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 	// Log出力システムの初期化
 	InitializeLog();
+
+	// ---------- Projectのロード ----------
+	ProjectManager::Initialize();
+
+	// ---------- WindowsApplicationの起動 ----------
 	// アプリケーションの初期化
-	instance->initialize_application(windowConfig);
+	instance->initialize_application();
 	// シンボルハンドラーの初期化
 	SymInitialize(instance->hProcess, nullptr, true);
+
+	// ---------- エンジン機能の初期化 ----------
 	//DirectXの初期化
 	DxCore::Initialize();
 	// テクスチャマネージャの初期化
@@ -139,6 +149,8 @@ void WinApp::Initialize(DWORD windowConfig) {
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();
+
+	SceneManager::Initialize();
 
 #ifdef DEBUG_FEATURES_ENABLE
 	SceneManager::SetProfiler(instance->profiler);
@@ -248,12 +260,13 @@ void WinApp::ProcessMessage() {
 	}
 }
 
-void WinApp::initialize_application(DWORD windowConfig) {
-	// ウィンドウの設定
+void WinApp::initialize_application() {
+	std::wstring windowTitleW = ConvertString(ProjectManager::GetProjectName());
 
+	// ウィンドウの設定
 	WNDCLASS windowClass{};
 	windowClass.lpfnWndProc = WindowProc;// ウィンドウプロシージャ
-	windowClass.lpszClassName = EngineSettings::WINDOW_TITLE_W.data();
+	windowClass.lpszClassName = windowTitleW.data();
 	windowClass.hInstance = GetModuleHandle(nullptr); // インスタンスハンドル
 	windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -264,13 +277,13 @@ void WinApp::initialize_application(DWORD windowConfig) {
 	RECT wrc = { 0,0,
 		EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT };
 	// 実際にwrcを変更
-	AdjustWindowRect(&wrc, windowConfig, false);
+	AdjustWindowRect(&wrc, ProjectManager::WindowConfig(), false);
 
 	// ウィンドウの生成
 	hWnd = CreateWindowW(
 		windowClass.lpszClassName,
-		EngineSettings::WINDOW_TITLE_W.data(),
-		windowConfig,
+		windowTitleW.data(),
+		ProjectManager::WindowConfig(),
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		wrc.right - wrc.left,

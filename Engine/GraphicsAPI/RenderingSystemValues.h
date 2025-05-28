@@ -10,7 +10,7 @@
 class RenderingSystemValues {
 public:
 	// バッファリング数
-	static constexpr u32 NUM_BUFFERING{ 2 };
+	static inline u32 NUM_BUFFERING{ 0 };
 
 	// DefaultClearColor
 	//static constexpr Color4 DEFAULT_CLEAR_COLOR{ .1f, 0.25f, 0.5f, 1.0f };

@@ -11,6 +11,10 @@
 class WorldManager;
 
 class WorldInstance {
+#ifdef DEBUG_FEATURES_ENABLE
+	friend class RemoteWorldInstance;
+#endif // DEBUG_FEATURES_ENABLE
+
 public:
 	WorldInstance() noexcept;
 	virtual ~WorldInstance();
@@ -130,10 +134,6 @@ public:
 	void reparent(Reference<const WorldInstance> instance, bool isKeepPose = true);
 
 	void set_world_manager(Reference<WorldManager> worldManager_);
-
-public:
-	void from_json(const JsonAsset& json);
-	void to_json(JsonAsset& json);
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:

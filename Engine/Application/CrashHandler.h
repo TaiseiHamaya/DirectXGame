@@ -4,7 +4,7 @@
 
 class CrashHandler {
 public:
-	static void InitializeSystem();
+	static void Initialize();
 
 	static LONG __stdcall ExportDump(EXCEPTION_POINTERS* exception) noexcept;
 };

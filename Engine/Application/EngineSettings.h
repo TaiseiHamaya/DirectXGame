@@ -2,19 +2,11 @@
 
 #include <filesystem>
 #include <format>
-#include <string_view>
 
 #include <Library/Math/Vector2.h>
 #include <Library/Utility/Tools/ChronoUtility.h>
 
 namespace EngineSettings {
-// Windowタイトル
-// Framework作ったらそっちに移行する？
-static constexpr std::wstring_view WINDOW_TITLE_W{ L"DirectXGame" };
-
-// DefaultWindowSetting
-//static constexpr DWORD WindowConfig
-
 // WindowSize
 static constexpr Vector2 CLIENT_SIZE{ 1280, 720 };
 static constexpr u32 CLIENT_WIDTH{ static_cast<u32>(CLIENT_SIZE.x) };

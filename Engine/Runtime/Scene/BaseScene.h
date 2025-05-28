@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+
+#include "Engine/Module/World/WorldManager.h"
+
 /// <summary>
 /// シーンの基底クラス
 /// </summary>
@@ -29,5 +33,10 @@ public:
 	virtual void debug_update();
 #endif // _DEBUG
 
-private:
+public:
+	u64 world_size() const;
+	Reference<WorldManager> get_world(u64 index);
+
+protected:
+	std::vector<WorldManager> worlds;
 };
