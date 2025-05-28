@@ -4,11 +4,9 @@
 
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
+#include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 
 #include <Library/Math/Matrix4x4.h>
-
-class PointLightInstance;
-struct PointLightData;
 
 class PointLightingExecutor final : public BaseDrawExecutor<PointLightInstance> {
 public:

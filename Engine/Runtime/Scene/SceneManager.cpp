@@ -23,6 +23,15 @@ void SceneManager::Initialize() {
 
 	// 最初にnullptrをemplace_backする
 	instance.sceneQue.emplace_back(nullptr);
+	instance.sceneStatus = SceneStatus::DEFAULT;
+	instance.sceneChangeInfo.endCall = {
+		&SceneManager::NextScene ,0
+	};
+}
+
+void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
+	SceneManager& instance = GetInstance();
+	instance.factory = std::move(factory_);
 	auto initScene = instance.factory->initialize_scene();
 	CriticalIf(!initScene, "The inital scene crated is nullptr.");
 
@@ -33,10 +42,6 @@ void SceneManager::Initialize() {
 	Infomation("Initialize SceneManager. Address-\'{}\'.", (void*)initScene.get());
 
 	instance.sceneQue.emplace_back(std::move(initScene));
-	instance.sceneStatus = SceneStatus::DEFAULT;
-	instance.sceneChangeInfo.endCall = {
-		&SceneManager::NextScene ,0
-	};
 }
 
 void SceneManager::Finalize() noexcept {
@@ -62,7 +67,7 @@ void SceneManager::Update() {
 	Reference<TimestampProfiler>& profiler = GetInstance().profiler;
 	BaseScene* nowScene = GetInstance().sceneQue.back().get();
 	profiler->timestamp("Begin");
-	if(!WinApp::IsStopUpdate()) nowScene->begin();
+	if (!WinApp::IsStopUpdate()) nowScene->begin();
 	profiler->timestamp("ImGui");
 	nowScene->debug_update();
 	profiler->timestamp("Update");
@@ -140,6 +145,10 @@ void SceneManager::PopScene(r32 interval) {
 
 bool SceneManager::IsEndProgram() noexcept {
 	return GetInstance().sceneQue.back() == nullptr;
+}
+
+Reference<BaseScene> SceneManager::GetCurrentScene() {
+	return GetInstance().sceneQue.back();
 }
 
 const std::deque<std::unique_ptr<BaseScene>>& SceneManager::GetSceneQue() {
