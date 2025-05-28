@@ -17,3 +17,7 @@ void WorldTimer::set(r32 time) {
 r32 WorldTimer::time() const {
 	return timer;
 }
+
+bool WorldTimer::just_crossed(r32 time) const noexcept {
+	return timer >= time && timer - time <= WorldClock::DeltaSeconds();
+}
