@@ -53,8 +53,8 @@ public:
 	static bool IsStopUpdate() { return instance->isStopUpdate && !instance->isPassedPause; }
 
 private:
-	bool isStopUpdate;
-	bool isPassedPause;
+	bool isStopUpdate{ false };
+	bool isPassedPause{ false };
 	mutable TimestampProfiler profiler;
 #endif // _DEBUG
 };

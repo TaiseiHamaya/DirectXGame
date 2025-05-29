@@ -4,10 +4,10 @@
 
 #include <json.hpp>
 
-#include "Engine/Application/Output.h"
 #include "Engine/Application/EngineSettings.h"
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
+#include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 void ProjectManager::Initialize() {
 	ProjectManager& instance = GetInstance();
@@ -60,7 +60,7 @@ void ProjectManager::Initialize() {
 	}
 
 	RenderingSystemValues::NUM_BUFFERING = instance.graphicsSettings.numBuffering;
-	
+
 	DxSystemValues::HEAP_SIZE_SRV = instance.graphicsSettings.srvHeapSize;
 	DxSystemValues::HEAP_SIZE_RTV = instance.graphicsSettings.rtvHeapSize;
 	DxSystemValues::HEAP_SIZE_DSV = instance.graphicsSettings.dsvHeapSize;
