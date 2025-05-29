@@ -5,7 +5,5 @@
 #include "./Scene/Factory__Template__.h"
 
 void __Template__::initialize() {
-	SceneManager::SetFactory<Factory__Template__>();
-
-	Framework::initialize();
+	SceneManager::Setup(std::make_unique<Factory__Template__>());
 }

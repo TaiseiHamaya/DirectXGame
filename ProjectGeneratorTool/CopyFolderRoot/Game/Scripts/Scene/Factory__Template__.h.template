@@ -8,5 +8,5 @@ enum SceneList__Template__ {
 class Factory__Template__ final : public BaseSceneFactory {
 public:
 	std::unique_ptr<BaseScene> initialize_scene();
-	std::unique_ptr<BaseScene> create_scene(int32_t next);
+	std::unique_ptr<BaseScene> create_scene(i32 next);
 };

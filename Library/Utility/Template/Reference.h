@@ -67,6 +67,7 @@ public: // -------------------- その他関数 --------------------
 	T* operator->() const noexcept { return reference; };
 	T* ptr() const noexcept { return reference; };
 	const T& operator*() const { return *reference; }
+	T& operator*() { return *reference; }
 
 	/// <summary>
 	/// 関連付けの削除

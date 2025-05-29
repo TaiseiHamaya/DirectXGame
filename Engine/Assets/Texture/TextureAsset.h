@@ -4,7 +4,7 @@
 
 class TextureAsset {
 public:
-	void initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource);
+	void initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource, bool isCubemap);
 
 public:
 	u32 index() const { return gpuIndex; }

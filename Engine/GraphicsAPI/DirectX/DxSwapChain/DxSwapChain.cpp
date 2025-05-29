@@ -38,6 +38,10 @@ Reference<SwapChainRenderTargetGroup> DxSwapChain::GetRenderTarget() {
 	return GetInstance().renderTargetGroup;
 }
 
+Reference<ScreenTexture> DxSwapChain::GetWriteBufferTexture() {
+	return GetInstance().textures[RenderingSystemValues::NowBackbufferIndex()];
+}
+
 void DxSwapChain::SetClearColor(const Color4& color_) noexcept {
 	GetInstance().renderTargetGroup->set_clear_color(color_);
 }
@@ -74,6 +78,7 @@ void DxSwapChain::create_swapchain() {
 }
 
 void DxSwapChain::create_render_target() {
+	textures.resize(RenderingSystemValues::NUM_BUFFERING);
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る

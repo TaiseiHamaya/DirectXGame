@@ -9,7 +9,7 @@ namespace eps {
 /// 線形補間
 /// </summary>
 /// <returns></returns>
-template<typename T, T one = 1>
+template<typename T, T one = 1.0f>
 constexpr T lerp(const T& from, const T& to, r32 t) noexcept;
 
 /// <summary>

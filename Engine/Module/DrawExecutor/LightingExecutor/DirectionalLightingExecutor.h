@@ -2,9 +2,7 @@
 
 #include "../BaseDrawExecutor.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
-
-class DirectionalLightInstance;
-struct DirectionalLightData;
+#include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
 class DirectionalLightingExecutor final : public BaseDrawExecutor<DirectionalLightInstance> {
 public:

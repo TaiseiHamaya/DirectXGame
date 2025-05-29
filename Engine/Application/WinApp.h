@@ -18,7 +18,7 @@ public:
 	WinApp& operator=(const WinApp&) = delete;
 
 public:
-	static void Initialize(DWORD windowConfig = WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME);
+	static void Initialize();
 	static void BeginFrame();
 	static void EndFrame();
 	static void Finalize();
@@ -33,7 +33,7 @@ public:
 	static HINSTANCE GetInstanceHandle() noexcept { return instance->hInstance; };
 
 private:
-	void initialize_application(DWORD windowConfig);
+	void initialize_application();
 
 	void wait_frame();
 
@@ -53,8 +53,8 @@ public:
 	static bool IsStopUpdate() { return instance->isStopUpdate && !instance->isPassedPause; }
 
 private:
-	bool isStopUpdate;
-	bool isPassedPause;
+	bool isStopUpdate{ false };
+	bool isPassedPause{ false };
 	mutable TimestampProfiler profiler;
 #endif // _DEBUG
 };

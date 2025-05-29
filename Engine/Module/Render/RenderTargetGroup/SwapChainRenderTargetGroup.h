@@ -34,5 +34,5 @@ private:
 	void clear_render_target() override;
 
 private:
-	std::array<Reference<ScreenTexture>, RenderingSystemValues::NUM_BUFFERING> textures;
+	std::vector<Reference<ScreenTexture>> textures;
 };
