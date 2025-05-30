@@ -1,13 +1,13 @@
 #include "../Deferred.hlsli"
 
-#include "Tools/MathTool.hlsli"
+#include <Tools/MathTool.hlsli>
 
 struct TransformMatrix {
 	float4x3 world;
 	float3x3 worldIT;
 };
 
-struct CameraInfomation {
+struct CameraInformation {
 	float4x4 viewProjection;
 	float4x4 view;
 };
@@ -19,7 +19,7 @@ struct VertexShaderInput {
 };
 
 StructuredBuffer<TransformMatrix> gTransformMatrix : register(t0, space0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0, space1);
+ConstantBuffer<CameraInformation> gCameraMatrix : register(b0, space1);
 
 VertexShaderOutput main(VertexShaderInput input, uint instance : SV_InstanceID) {
 	float3 world = transform(input.position, gTransformMatrix[instance].world);

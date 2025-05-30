@@ -9,29 +9,29 @@
 void WorldClockProfiler::update() {
 	// 平均フレーム秒を算出
 	// リストに追加
-	auto& newFrameInfo = frameTimeInfomation.emplace_back(WorldClock::DeltaSeconds(), 0);
+	auto& newFrameInfo = frameTimeInformation.emplace_back(WorldClock::DeltaSeconds(), 0);
 	// 追加分だけ総和にも追加
 	timeSummation += newFrameInfo.first;
 	// 1以上の場合
 	while (timeSummation > 1.0f) {
-		auto& deleteValue = frameTimeInfomation.front();
+		auto& deleteValue = frameTimeInformation.front();
 		// 1未満になるように減算し、リストからも削除
 		timeSummation -= deleteValue.first;
 		// fpsSumも減らす
 		fpsSummation -= deleteValue.second;
-		frameTimeInfomation.pop_front();
+		frameTimeInformation.pop_front();
 	}
-	if (frameTimeInfomation.empty()) {
+	if (frameTimeInformation.empty()) {
 		averageFPS = 0;
 	}
 	else {
 		// 今の容量を算出
-		newFrameInfo.second = frameTimeInfomation.size();
+		newFrameInfo.second = frameTimeInformation.size();
 		// その分だけSumを増やす
 		fpsSummation += newFrameInfo.second;
 
 		// 平均フレームレートを算出
-		averageFPS = fpsSummation / frameTimeInfomation.size();
+		averageFPS = fpsSummation / frameTimeInformation.size();
 	}
 }
 

@@ -22,7 +22,7 @@ const std::wstring profiles[] = {
 
 bool ShaderAsset::load(const std::filesystem::path& filePath) {
 	HRESULT hr;
-	Infomation(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
+	Information(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
 
 	std::wstring_view profile;
 	for (u32 i = 0; i < 4; ++i) {
@@ -77,7 +77,7 @@ bool ShaderAsset::load(const std::filesystem::path& filePath) {
 	Microsoft::WRL::ComPtr<IDxcBlob>  shaderBlob = nullptr;
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(shaderBlob.GetAddressOf()), nullptr); // 成功したので書き込み
 	ErrorIf(FAILED(hr), "Shader compilation succeeded, but writing failed.");
-	Infomation(L"Compile succeeded."); // 成功ログ
+	Information(L"Compile succeeded."); // 成功ログ
 
 	blob = shaderBlob;
 

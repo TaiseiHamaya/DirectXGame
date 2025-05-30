@@ -22,7 +22,7 @@ void SRVDescriptorHeap::Initialize() {
 const u32 SRVDescriptorHeap::UseHeapIndex() noexcept {
 	std::lock_guard<std::mutex> lock{ srvHeapMutex };
 	auto useIndex = GetInstance().use_heap_index();
-	Infomation("Use SRV index. Index-\'{}\'", useIndex);
+	Information("Use SRV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
@@ -44,7 +44,7 @@ void SRVDescriptorHeap::SetDescriptorHeaps() {
 }
 
 void SRVDescriptorHeap::ReleaseHeapIndex(u32 index) {
-	Infomation("Release SRV index. Index-\'{}\'", index);
+	Information("Release SRV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }
 

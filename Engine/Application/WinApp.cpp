@@ -59,7 +59,7 @@ WinApp::WinApp() noexcept :
 
 WinApp::~WinApp() noexcept {
 	// ログ
-	Infomation("Complete finalize application.");
+	Information("Complete finalize application.");
 	// chrono内のTZDBを削除(これ以降ログ出力はされない)
 	std::chrono::get_tzdb_list().~tzdb_list();
 }
@@ -156,7 +156,7 @@ void WinApp::Initialize() {
 	SceneManager::SetProfiler(instance->profiler);
 #endif // _DEBUG
 
-	Infomation("Complete initialize application.");
+	Information("Complete initialize application.");
 }
 
 void WinApp::BeginFrame() {
@@ -198,10 +198,10 @@ void WinApp::EndFrame() {
 
 void WinApp::Finalize() {
 	// 終了通知
-	Infomation("End Program.");
+	Information("End Program.");
 	//windowを閉じる
 	CloseWindow(instance->hWnd);
-	Infomation("Closed Window.");
+	Information("Closed Window.");
 
 	// 各種終了処理
 	// Initializeと逆順でやる
@@ -226,7 +226,7 @@ void WinApp::Finalize() {
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
-	Infomation("Show application window.");
+	Information("Show application window.");
 
 	// 時計初期化
 	WorldClock::Initialize();

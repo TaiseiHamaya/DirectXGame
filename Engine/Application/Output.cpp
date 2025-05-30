@@ -23,7 +23,7 @@ namespace chrono = std::chrono;
 std::mutex OutputMutex;
 
 constexpr std::array<wstring_literal, 4> TypeStringW = {
-	L"Infomation",
+	L"Information",
 	L"Warning",
 	L"Error",
 	L"Critical",
@@ -84,7 +84,7 @@ static void LogOutputStacktrace() {
 static void LogWindow(LogType type, const std::wstring& caption, const std::wstring& msg) {
 	UINT flag = 0;
 	switch (type) {
-	case LogType::Infomation:
+	case LogType::Information:
 		flag = MB_ICONINFORMATION;
 		break;
 	case LogType::Warning:

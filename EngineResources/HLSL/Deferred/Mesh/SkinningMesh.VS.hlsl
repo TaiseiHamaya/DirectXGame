@@ -7,7 +7,7 @@ struct TransformMatrix {
 	float3x3 worldIT;
 };
 
-struct CameraInfomation {
+struct CameraInformation {
 	float4x4 viewProjection;
 	float4x4 view;
 };
@@ -27,7 +27,7 @@ struct VertexShaderInput {
 };
 
 StructuredBuffer<TransformMatrix> gTransformMatrix : register(t0, space0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0, space1);
+ConstantBuffer<CameraInformation> gCameraMatrix : register(b0, space1);
 StructuredBuffer<SkeletonMatrixPalette> gSkeletonMatrixPalette : register(t1, space0);
 uint gPaletteSize : register(b0);
 

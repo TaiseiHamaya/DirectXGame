@@ -19,7 +19,7 @@ void TextureAssetBuilder::preprocess() {
 }
 
 bool TextureAssetBuilder::run() {
-	Infomation("Start load texture. file-\'{}\'", filePath.string());
+	Information("Start load texture. file-\'{}\'", filePath.string());
 	auto loadData = LoadTextureData(filePath); // ロード
 	// 失敗時
 	if (loadData.index() == 0) {

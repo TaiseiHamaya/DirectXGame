@@ -14,7 +14,7 @@ private:
 	r32 timeSummation{ 0 };
 	r32 fpsSummation{ 0 };
 	r32 averageFPS{ 0 };
-	std::list<std::pair<r32, u64>> frameTimeInfomation;
+	std::list<std::pair<r32, u64>> frameTimeInformation;
 };
 
 #endif // _DEBUG

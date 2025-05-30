@@ -6,7 +6,7 @@ struct ParticleData {
 	float4 color;
 };
 
-struct CameraInfomation {
+struct CameraInformation {
 	float4x4 viewProjection;
 };
 
@@ -16,7 +16,7 @@ struct VertexShaderInput {
 };
 
 StructuredBuffer<ParticleData> gParticleData : register(t0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0);
+ConstantBuffer<CameraInformation> gCameraMatrix : register(b0);
 
 VertexShaderOutput main(VertexShaderInput input, uint instanceID : SV_InstanceID) {
 	VertexShaderOutput output;

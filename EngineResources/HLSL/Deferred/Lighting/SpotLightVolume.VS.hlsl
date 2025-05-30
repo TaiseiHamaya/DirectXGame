@@ -2,7 +2,7 @@ struct TransformMatrix {
 	float4x4 world;
 };
 
-struct CameraInfomation {
+struct CameraInformation {
 	float4x4 viewProjection;
 };
 
@@ -11,7 +11,7 @@ struct VertexShaderInput {
 };
 
 ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b1);
+ConstantBuffer<CameraInformation> gCameraMatrix : register(b1);
 
 static const float4x4 wvp = mul(gTransformMatrix.world, gCameraMatrix.viewProjection);
 

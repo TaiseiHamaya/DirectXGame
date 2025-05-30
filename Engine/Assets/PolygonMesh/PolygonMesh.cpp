@@ -21,7 +21,7 @@ PolygonMesh::~PolygonMesh() noexcept = default;
 
 bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	bool result = false;
-	Infomation("Start load file-\'{}\'", filePath.string());
+	Information("Start load file-\'{}\'", filePath.string());
 	//directory = filePath.parent_path();
 
 	std::string stem = filePath.extension().string();
@@ -43,7 +43,7 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 		++index;
 	}
 
-	Infomation("Succeeded.");
+	Information("Succeeded.");
 	return true;
 }
 

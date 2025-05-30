@@ -1267,44 +1267,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">
-      <Filter>EngineResources\HLSL</Filter>
-    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
       <Filter>EngineResources\HLSL\3DObject</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMesh.VS.hlsl">
-      <Filter>EngineResources\HLSL\3DObject</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
-      <Filter>EngineResources\HLSL\NormalColor</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
-      <Filter>EngineResources\HLSL\NormalColor</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
-      <Filter>EngineResources\HLSL\Wireframe</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
-      <Filter>EngineResources\HLSL\Wireframe</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
-      <Filter>EngineResources\HLSL\Texture</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
-      <Filter>EngineResources\HLSL\Texture</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
-      <Filter>EngineResources\HLSL\PostEffect\ChromaticAberration</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
-      <Filter>EngineResources\HLSL\PostEffect\Grayscale</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
-      <Filter>EngineResources\HLSL\PostEffect\Outline</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
-      <Filter>EngineResources\HLSL\PostEffect\RadialBlur</Filter>
     </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
       <Filter>EngineResources\HLSL\Particle\ParticleMesh</Filter>
@@ -1318,25 +1282,35 @@
     <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
       <Filter>EngineResources\HLSL\Particle\ParticleBillboard</Filter>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\FullscreenShader.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Forward\ForwardAlpha.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMesh.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\SkinningMesh.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Deferred.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\StaticMesh.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\SkinningMesh.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLightVolume.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\PointLighting.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLighting.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\NonLighting.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\DirectionalLighting.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineResources\HLSL\Forward\Forward.hlsli">
       <Filter>EngineResources\HLSL\3DObject</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
-      <Filter>EngineResources\HLSL\NormalColor</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli">
-      <Filter>EngineResources\HLSL\Texture</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
-      <Filter>EngineResources\HLSL\PostEffect\ChromaticAberration</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
-      <Filter>EngineResources\HLSL\PostEffect\Grayscale</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
-      <Filter>EngineResources\HLSL\PostEffect\RadialBlur</Filter>
     </None>
     <None Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.hlsli">
       <Filter>EngineResources\HLSL\Particle\ParticleMesh</Filter>
@@ -1349,6 +1323,24 @@
     <None Include="Game\__Template\Scene\FactoryDemo.cpp.template" />
     <None Include="Game\__Template\SandBox.h.template" />
     <None Include="Game\__Template\Scene\FactoryDemo.h.template" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\CalcLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\DirectionalLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\PointLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\Lighing\SpotLighting.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\MathTool.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\PackA2.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\PackNormalV2.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\PackShininess.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\ToLinearZBuffer.hlsli" />
+    <None Include="EngineResources\HLSL\Tools\UnormNormal.hlsli" />
+    <None Include="EngineResources\HLSL\FullscreenShader.hlsli" />
+    <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli" />
+    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli" />
+    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli" />
+    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli" />
+    <None Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.hlsli" />
+    <None Include="EngineResources\HLSL\Deferred\Deferred.hlsli" />
+    <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />

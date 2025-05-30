@@ -54,7 +54,7 @@ bool PolygonMeshLibrary::IsRegistered(const std::string& meshName) {
 
 void PolygonMeshLibrary::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	Infomation("Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().meshInstanceList.emplace(name, data);
 }
 

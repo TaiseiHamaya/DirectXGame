@@ -24,7 +24,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 		WAVEFORMATEXTENSIBLE format;
 	};
 
-	Infomation("Start load .wave file. file-\'{}\'", filePath.string());
+	Information("Start load .wave file. file-\'{}\'", filePath.string());
 
 	// ファイル読み込み
 	std::ifstream file;
@@ -106,7 +106,7 @@ bool AudioAsset::load(const std::filesystem::path& filePath) {
 	bufferSize_ = data.size;
 	file.close();
 
-	Infomation("Succeeded.");
+	Information("Succeeded.");
 	return true;
 }
 

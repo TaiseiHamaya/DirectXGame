@@ -64,7 +64,7 @@ bool TextureLibrary::IsRegistered(const std::string& textureName) noexcept(false
 void TextureLibrary::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(textureName)) {
-		Infomation("Unload texture Name-\'{:}\'.", textureName);
+		Information("Unload texture Name-\'{:}\'.", textureName);
 		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		GetInstance().textureInstanceList.erase(textureName);
 	}
@@ -76,7 +76,7 @@ void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<TextureAs
 		Warning("Transferring registered texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
-	Infomation("Transfer new Texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new Texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 

@@ -22,7 +22,7 @@ void ProjectManager::Initialize() {
 
 	nlohmann::json json{};
 
-	std::ifstream ifstream{ "./Game/Assets/Core/Core.json" };
+	std::ifstream ifstream{ "./Game/Core/Core.json" };
 
 	if (ifstream.fail()) {
 		Error("Project is not found.");

@@ -17,7 +17,7 @@ void ShaderResourceView::create(Reference<ITextureResource> resource, DXGI_FORMA
 	auto& gpuResource = resource->get_resource();
 	// 使用するディスクリプタヒープを取得
 	index = SRVDescriptorHeap::UseHeapIndex();
-	Infomation("SRV-{}", index.value());
+	Information("SRV-{}", index.value());
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = SRVDescriptorHeap::GetCPUHandle(index.value());
 	_handle = SRVDescriptorHeap::GetGPUHandle(index.value());
 
@@ -36,7 +36,7 @@ void ShaderResourceView::create_dds(Reference<ITextureResource> resource, DXGI_F
 	auto& gpuResource = resource->get_resource();
 	// 使用するディスクリプタヒープを取得
 	index = SRVDescriptorHeap::UseHeapIndex();
-	Infomation("SRV-{}", index.value());
+	Information("SRV-{}", index.value());
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = SRVDescriptorHeap::GetCPUHandle(index.value());
 	_handle = SRVDescriptorHeap::GetGPUHandle(index.value());
 

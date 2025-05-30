@@ -14,7 +14,7 @@ std::unique_ptr<Camera2D> Camera2D::instance;
 void Camera2D::Initialize() {
 	instance.reset(new Camera2D{});
 	SetCameraTransform(Transform2D{ CVector2::BASIS, 0, CVector2::ZERO });
-	instance->SetNDCInfomation(0, EngineSettings::CLIENT_SIZE.x, 0, EngineSettings::CLIENT_SIZE.y, 0, 1000);
+	instance->SetNDCInformation(0, EngineSettings::CLIENT_SIZE.x, 0, EngineSettings::CLIENT_SIZE.y, 0, 1000);
 	instance->camera_update();
 }
 
@@ -26,7 +26,7 @@ void Camera2D::SetCameraTransform(const Transform2D& transform) noexcept {
 	instance->camera.copy(transform);
 }
 
-void Camera2D::SetNDCInfomation(r32 left, r32 right, r32 bottom, r32 top, r32 near, r32 far) noexcept {
+void Camera2D::SetNDCInformation(r32 left, r32 right, r32 bottom, r32 top, r32 near, r32 far) noexcept {
 	instance->ndcLeftBottomNear = { left,bottom, near };
 	instance->ndcRightTopFar = { right, top, far };
 }

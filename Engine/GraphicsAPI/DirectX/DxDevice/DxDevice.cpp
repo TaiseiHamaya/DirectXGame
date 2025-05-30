@@ -18,7 +18,7 @@ void DxDevice::Initialize() {
 	// 機能チェック
 	instance.check_future();
 
-	Infomation("Complete create D3D12Device");
+	Information("Complete create D3D12Device");
 }
 
 void DxDevice::create_dxgiFactory() {
@@ -37,7 +37,7 @@ void DxDevice::create_adapter() {
 		// ソフトウェアアダプターでなければ採用する
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			// ログ出力
-			Infomation(L"Use Adapter : {}", adapterDesc.Description);
+			Information(L"Use Adapter : {}", adapterDesc.Description);
 			break;
 		}
 		// ソフトウェアアダプタの場合は無視
@@ -60,7 +60,7 @@ void DxDevice::create_device() {
 		HRESULT hr = D3D12CreateDevice(useAdapter.Get(), featureLevel[i], IID_PPV_ARGS(&device));
 		if (SUCCEEDED(hr)) {
 			// device生成完了通知
-			Infomation("FeatureLevel : {}", featureLevelString[i]);
+			Information("FeatureLevel : {}", featureLevelString[i]);
 			break;
 		}
 	}
