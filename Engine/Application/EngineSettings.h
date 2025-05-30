@@ -33,7 +33,7 @@ extern inline const std::filesystem::path LogFilePath{
 };
 
 // メモ
-// 上位ビットから6bitずつCritical,Error,Warning,Infomation
+// 上位ビットから6bitずつCritical,Error,Warning,Information
 // 各6bitの割り当ては上から
 //    コンソール出力
 //    ファイル出力

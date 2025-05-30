@@ -43,7 +43,7 @@ bool NodeAnimationLibrary::IsRegistered(const std::string& name) {
 
 void NodeAnimationLibrary::Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset> data) {
 	std::lock_guard<std::mutex> lock{ nodeAnimationMutex };
-	Infomation("Transfer new NodeAnimation. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new NodeAnimation. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 

@@ -4,7 +4,7 @@ struct TransformMatrix {
 	float4x4 world;
 };
 
-struct CameraInfomation {
+struct CameraInformation {
 	float4x4 viewProjection;
 };
 
@@ -15,7 +15,7 @@ struct VertexShaderInput {
 };
 
 ConstantBuffer<TransformMatrix> gTransformMatrix : register(b0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b1);
+ConstantBuffer<CameraInformation> gCameraMatrix : register(b1);
 
 VertexShaderOutput main(VertexShaderInput input) {
 	VertexShaderOutput output;

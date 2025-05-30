@@ -98,7 +98,7 @@ void BackgroundLoader::load_manager() {
 
 		// 空だったら自動execute
 		if (loadEvents.empty()) {
-			Infomation("Load events is empty. Start uploading texture.");
+			Information("Load events is empty. Start uploading texture.");
 			// ----- GPUコマンドの実行 -----
 			// コマンド実行
 			DxCommand::ExecuteTextureCommand();
@@ -106,7 +106,7 @@ void BackgroundLoader::load_manager() {
 			DxCommand::WaitTextureCommand();
 			// リセット
 			DxCommand::ResetTextureCommand();
-			Infomation("Succeeded.");
+			Information("Succeeded.");
 
 			// ----- 実行済みを転送 -----
 			// 直前にやる

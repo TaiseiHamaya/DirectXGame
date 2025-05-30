@@ -71,7 +71,7 @@ void AudioLibrary::Transfer(const std::string& name, std::unique_ptr<AudioAsset>
 		Warning("Transferring registered Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
-	Infomation("Transfer new Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().audioResources.emplace(name, std::move(data));
 
 }

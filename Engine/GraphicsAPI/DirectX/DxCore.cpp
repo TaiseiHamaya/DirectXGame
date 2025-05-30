@@ -43,7 +43,7 @@ void DxCore::Initialize() {
 	RenderingSystemValues::Initialize();
 
 	// オールコンプリート
-	Infomation("Complete create DirectXObjects");
+	Information("Complete create DirectXObjects");
 }
 
 void DxCore::BeginFrame() {

@@ -6,7 +6,7 @@
 
 enum class LogType : u8 {
 	//Trace,
-	Infomation,
+	Information,
 	Warning,
 	Error,
 	Critical,
@@ -35,7 +35,7 @@ inline void ConsoleFormattingSL(const std::source_location& sourceLocation, LogT
 	LogOutputW(sourceLocation, type, message);
 }
 
-#define Infomation(msg, ...) ConsoleFormattingSL(std::source_location::current(), LogType::Infomation, msg, __VA_ARGS__)
+#define Information(msg, ...) ConsoleFormattingSL(std::source_location::current(), LogType::Information, msg, __VA_ARGS__)
 #define Warning(msg, ...) ConsoleFormattingSL(std::source_location::current(), LogType::Warning, msg, __VA_ARGS__)
 #define Error(msg, ...) ConsoleFormattingSL(std::source_location::current(), LogType::Error, msg, __VA_ARGS__)
 #define Critical(msg, ...) ConsoleFormattingSL(std::source_location::current(), LogType::Critical, msg, __VA_ARGS__)
@@ -48,7 +48,7 @@ inline void ConsoleFormattingSL(const std::source_location& sourceLocation, LogT
 
 # エラー区分メモ
 
-## Infomation
+## information
 通常の出力
 
 ## Warning

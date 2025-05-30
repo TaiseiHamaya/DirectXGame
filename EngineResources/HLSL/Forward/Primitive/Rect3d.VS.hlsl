@@ -13,7 +13,7 @@ struct RectData {
 	bool isFlipY;
 };
 
-struct CameraInfomation {
+struct CameraInformation {
 	float4x4 viewProjection;
 };
 
@@ -38,7 +38,7 @@ static const float2 Texcoords[] = {
 
 StructuredBuffer<TransformMatrix> gTransformMatrix : register(t0, space0);
 StructuredBuffer<RectData> gRectData : register(t1, space0);
-ConstantBuffer<CameraInfomation> gCameraMatrix : register(b0, space1);
+ConstantBuffer<CameraInformation> gCameraMatrix : register(b0, space1);
 
 static const float3 Normal = float3(0.0f, 0.0f, 1.0f);
 

@@ -32,7 +32,7 @@ bool PrimitiveGeometryLibrary::IsRegistered(const std::string& name) {
 
 void PrimitiveGeometryLibrary::Transfer(const std::string& name, std::shared_ptr<PrimitiveGeometryAsset> data) {
 	std::lock_guard<std::mutex> lock{ primitiveGeometryMutex };
-	Infomation("Transfer new LineGroup. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new LineGroup. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().primitiveGeometryList.emplace(name, data);
 }
 

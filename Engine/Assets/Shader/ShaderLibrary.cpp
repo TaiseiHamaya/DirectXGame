@@ -40,7 +40,7 @@ bool ShaderLibrary::IsRegistered(const std::string& meshName) {
 
 void ShaderLibrary::Transfer(const std::string& name, std::shared_ptr<ShaderAsset>& data) {
 	std::lock_guard<std::mutex> lock{ shaderLibraryMutex };
-	Infomation("Transfer new shader. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new shader. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().assets.emplace(name, data);
 }
 

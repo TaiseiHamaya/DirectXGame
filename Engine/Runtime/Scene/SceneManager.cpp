@@ -39,7 +39,7 @@ void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	BackgroundLoader::WaitEndExecute();
 	initScene->initialize();
 
-	Infomation("Initialize SceneManager. Address-\'{}\'.", (void*)initScene.get());
+	Information("Initialize SceneManager. Address-\'{}\'.", (void*)initScene.get());
 
 	instance.sceneQue.emplace_back(std::move(initScene));
 }
@@ -98,7 +98,7 @@ void SceneManager::SetSceneChange(i32 next, r32 interval, bool isStackInitialSce
 		return;
 	}
 	auto nextScenePtr = instance.factory->create_scene(next);
-	Infomation("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},",
+	Information("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
 		interval,
@@ -136,7 +136,7 @@ void SceneManager::PopScene(r32 interval) {
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Infomation("Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},",
+	Information("Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},",
 		(void*)instance.sceneQue.back().get(),
 		(void*)instance.sceneChangeInfo.next.get(),
 		interval

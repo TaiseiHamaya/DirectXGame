@@ -43,7 +43,7 @@ bool SkeletonLibrary::IsRegistered(const std::string& name) {
 
 void SkeletonLibrary::Transfer(const std::string& name, std::shared_ptr<SkeletonAsset>& data) {
 	std::lock_guard<std::mutex> lock{ skeletonMutex };
-	Infomation("Transfer new Skeleton. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	Information("Transfer new Skeleton. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 
