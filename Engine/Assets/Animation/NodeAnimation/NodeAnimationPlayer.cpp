@@ -5,14 +5,11 @@
 #include "NodeAnimationAsset.h"
 #include "NodeAnimationLibrary.h"
 
-#include "Engine/Runtime/Clock/WorldClock.h"
-
 template<typename T, T LerpFunction(const T&, const T&, r32) = std::lerp>
 T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, r32 time);
 
 NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName_, bool isLoop_) :
-	isLoop(isLoop_),
-	nodeAnimation() {
+	isLoop(isLoop_) {
 	reset_animation(animationName_);
 }
 
@@ -20,7 +17,7 @@ void NodeAnimationPlayer::update() noexcept {
 	if (!isActive || !nodeAnimation) {
 		return;
 	}
-	timer.ahead();
+	timer.ahead(animationSpeed);
 	if (isLoop && is_end()) {
 		timer.set(std::fmod(timer, nodeAnimation->duration()));
 	}
@@ -61,7 +58,7 @@ void NodeAnimationPlayer::play() noexcept {
 
 void NodeAnimationPlayer::stop() noexcept {
 	isActive = false;
-	timer = 0;
+	timer.set(0);
 }
 
 void NodeAnimationPlayer::pause() noexcept {
@@ -89,7 +86,7 @@ void NodeAnimationPlayer::set_loop(bool isLoop_) noexcept {
 }
 
 void NodeAnimationPlayer::set_time_force(r32 timer_) noexcept {
-	timer = timer_;
+	timer.set(timer_);
 }
 
 void NodeAnimationPlayer::animation_speed(r32 speed) noexcept {
@@ -107,7 +104,7 @@ void NodeAnimationPlayer::debug_gui() {
 		ImGui::Checkbox("Active", &isActive);
 		ImGui::Checkbox("Loop", &isLoop);
 		if (nodeAnimation) {
-			ImGui::SliderFloat("Timer", &timer, 0, nodeAnimation->duration(), "%.3fs");
+			ImGui::SliderFloat("Timer", reinterpret_cast<float*>(&timer), 0, nodeAnimation->duration(), "%.3fs");
 		}
 		ImGui::DragFloat("AnimationSpeed", &animationSpeed, 0.1f);
 		ImGui::TreePop();

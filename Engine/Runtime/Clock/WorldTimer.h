@@ -2,8 +2,8 @@
 
 class WorldTimer final {
 public:
-	void ahead();
-	void back();
+	void ahead(r32 scale = 1.0f);
+	void back(r32 scale = 1.0f);
 	void set(r32 time);
 	r32 time() const;
 
