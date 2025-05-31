@@ -9,6 +9,8 @@
 #include <Library/Math/Quaternion.h>
 #include <Library/Math/Vector3.h>
 
+#include "Engine/Runtime/Clock/WorldTimer.h"
+
 class NodeAnimationPlayer {
 public:
 	NodeAnimationPlayer() noexcept = default;
@@ -45,7 +47,7 @@ public:
 private:
 	bool isLoop{ false };
 	bool isActive{ true };
-	r32 timer{ 0 };
+	WorldTimer timer;
 	r32 animationSpeed{ 1.0f };
 	std::shared_ptr<const NodeAnimationAsset> nodeAnimation;
 

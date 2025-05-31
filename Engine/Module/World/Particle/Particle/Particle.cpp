@@ -19,7 +19,7 @@ Particle::Particle(
 	startSize(startSize_), endSize(endSize_),
 	rotationType(rotationType_), rotationData(rotationData_) {
 	isDestroy = false;
-	timer = 0;
+	timer.set(0.0f);
 	transform.set_translate(translate);
 	transform.set_scale(startSize_);
 	switch (rotationType) {
@@ -64,7 +64,7 @@ Particle::Particle(
 }
 
 void Particle::update() {
-	timer += WorldClock::DeltaSeconds();
+	timer.ahead();
 
 	r32 parametric = std::min(1.0f, timer / lifetime);
 

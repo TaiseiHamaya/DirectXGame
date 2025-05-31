@@ -28,17 +28,12 @@ void NonLightingPixelNode::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 0 : Albedo
 
-	ShaderBuilder shaderBuilder;
-	shaderBuilder.initialize(
-		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Deferred/Lighting/NonLighting.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate(BlendMode::None);
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderBuilder);
+	psoBuilder->shaders(ShaderType::Vertex, "FullscreenShader.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "NonLighting.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

@@ -26,19 +26,14 @@ void PrimitiveLineNode::create_pipeline_state() {
 	InputLayoutBuilder inputLayoutBuilder;
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
-	ShaderBuilder shaderBuilder;
-	shaderBuilder.initialize(
-		"DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->rasterizerstate();
 	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderBuilder);
+	psoBuilder->shaders(ShaderType::Vertex, "PrimitiveGeometry.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "PrimitiveGeometry.PS.hlsl");
 	psoBuilder->primitivetopologytype(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
 	psoBuilder->rendertarget();
 

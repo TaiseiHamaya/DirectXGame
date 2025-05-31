@@ -4,8 +4,6 @@
 #include <dxcapi.h>
 #include <wrl/client.h>
 
-#include <filesystem>
-
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 class ShaderAsset final {
@@ -16,7 +14,7 @@ public:
 	__CLASS_NON_COPYABLE(ShaderAsset)
 
 public:
-	bool load(const std::filesystem::path& filePath);
+	void initialize(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;
 
 	D3D12_SHADER_BYTECODE blob_bytecode() const noexcept;
 	DxcBuffer blob_buffer() const noexcept;

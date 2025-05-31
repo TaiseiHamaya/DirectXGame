@@ -43,18 +43,13 @@ void PointLightingNode::create_pipeline_state() {
 	InputLayoutBuilder inputLayoutBuilder;
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
-	ShaderBuilder shaderBuilder;
-	shaderBuilder.initialize(
-		"DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Deferred/Lighting/PointLighting.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate(BlendMode::LightingPath);
 	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_FRONT);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderBuilder);
+	psoBuilder->shaders(ShaderType::Vertex, "PrimitiveGeometry.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "PointLighting.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

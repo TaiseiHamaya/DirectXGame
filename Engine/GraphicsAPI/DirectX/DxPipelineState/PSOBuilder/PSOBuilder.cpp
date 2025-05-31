@@ -1,7 +1,8 @@
 #include "PSOBuilder.h"
 
 #include "Engine/Application/Output.h"
-#include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
+#include "Engine/Assets/Shader/ShaderAsset.h"
+#include "Engine/Assets/Shader/ShaderLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxShaderReflection.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
@@ -116,9 +117,23 @@ void PSOBuilder::inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout
 	graphicsPipelineStateDesc.InputLayout = { layout.data(), static_cast<UINT>(layout.size()) };
 }
 
-void PSOBuilder::shaders(const ShaderBuilder& shaders) {
-	graphicsPipelineStateDesc.VS = shaders.get_vs_bytecode();
-	graphicsPipelineStateDesc.PS = shaders.get_ps_bytecode();
+void PSOBuilder::shaders(ShaderType type, const std::string& shaderFilename) {
+	auto shader = ShaderLibrary::GetShader(shaderFilename);
+	if (!shader) {
+		Error("Shader file is not loading. File-\'{}\'", shaderFilename);
+		return;
+	}
+	if (!shader) {
+		return;
+	}
+	switch (type) {
+	case ShaderType::Vertex:
+		graphicsPipelineStateDesc.VS = shader->blob_bytecode();
+		break;
+	case ShaderType::Pixel:
+		graphicsPipelineStateDesc.PS = shader->blob_bytecode();
+		break;
+	}
 }
 
 void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
@@ -134,7 +149,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Normal:
+	case BlendMode::Alpha:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;

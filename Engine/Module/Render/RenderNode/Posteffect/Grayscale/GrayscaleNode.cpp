@@ -38,17 +38,12 @@ void GrayscaleNode::create_pipeline_state() {
 		0
 	);
 
-	ShaderBuilder shaderManager;
-	shaderManager.initialize(
-		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Posteffect/Grayscale/Grayscale.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
+	psoBuilder->shaders(ShaderType::Vertex, "FullscreenShader.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "Grayscale.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

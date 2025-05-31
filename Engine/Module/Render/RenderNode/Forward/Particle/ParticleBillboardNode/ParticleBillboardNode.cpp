@@ -30,19 +30,14 @@ void ParticleBillboardNode::create_pipeline_state() {
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32_FLOAT);
 	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
 
-	ShaderBuilder shaderManager;
-	shaderManager.initialize(
-		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleBillboard/ParticleBillboard.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleBillboard/ParticleBillboard.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate(BlendMode::Normal);
+	psoBuilder->blendstate(BlendMode::Alpha);
 	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
+	psoBuilder->shaders(ShaderType::Vertex, "ParticleBillboard.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "ParticleBillboard.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

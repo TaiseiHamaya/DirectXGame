@@ -7,6 +7,8 @@
 #include <Library/Math/Color4.h>
 #include <Library/Math/Transform2D.h>
 
+#include "Engine/Runtime/Clock/WorldTimer.h"
+
 class Particle final : public WorldInstance {
 public:
 	enum class RotationType {
@@ -56,7 +58,7 @@ public: // Getter/Setter
 protected: // Member variable
 	bool isDestroy = false;
 
-	r32 timer;
+	WorldTimer timer;
 	r32 lifetime;
 
 	Vector3 velocity;

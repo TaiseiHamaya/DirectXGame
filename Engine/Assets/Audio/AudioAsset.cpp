@@ -1,6 +1,7 @@
 #include "AudioAsset.h"
 
 #include <array>
+#include <cstring>
 #include <fstream>
 
 #include "Engine/Application/Output.h"

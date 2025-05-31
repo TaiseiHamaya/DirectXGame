@@ -30,19 +30,14 @@ void ParticleMeshNode::create_pipeline_state() {
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
 
-	ShaderBuilder shaderManager;
-	shaderManager.initialize(
-		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleMesh/ParticleMesh.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Forward/Particle/ParticleMesh/ParticleMesh.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format());
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
+	psoBuilder->shaders(ShaderType::Vertex, "ParticleMesh.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "ParticleMesh.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

@@ -13,6 +13,7 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
+#include "Engine/Assets/Shader/ShaderLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -119,33 +120,40 @@ void WinApp::Initialize() {
 	ImGuiManager::Initialize();
 #endif // _DEBUG
 
-	// システム使用のオブジェクトをロード
-	PolygonMeshLibrary::RegisterLoadQue(".\\DirectXGame\\EngineResources\\Models\\ErrorObject\\ErrorObject.obj");
-	PolygonMeshLibrary::RegisterLoadQue(".\\DirectXGame\\EngineResources\\Models\\Grid\\Grid.obj");
-	PolygonMeshLibrary::RegisterLoadQue(".\\DirectXGame\\EngineResources\\Models\\Camera\\CameraAxis.obj");
-
-#ifdef DEBUG_FEATURES_ENABLE
-	PrimitiveGeometryLibrary::Transfer(
-		"SphereCollider",
-		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Collider\\Sphere.json")
-	);
-	PrimitiveGeometryLibrary::Transfer(
-		"AABBCollider",
-		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Collider\\AABB.json")
-	);
-	PrimitiveGeometryLibrary::Transfer(
-		"Frustum",
-		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Frustum.json")
-	);
-#endif // _DEBUG
+	// システム使用のアセットをロード
+	// メッシュ
+	PolygonMeshLibrary::RegisterLoadQue("./DirectXGame/EngineResources/Models/ErrorObject/ErrorObject.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./DirectXGame/EngineResources/Models/Grid/Grid.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./DirectXGame/EngineResources/Models/Camera/CameraAxis.obj");
+	// Primitive
 	PrimitiveGeometryLibrary::Transfer(
 		"Ico3",
-		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Lighting\\Ico3.json")
+		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Lighting/Ico3.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"Rect3D",
-		std::make_shared<PrimitiveGeometryAsset>(".\\DirectXGame\\EngineResources\\Json\\PrimitiveGeometry\\Primitive\\Rect3D.json")
+		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Primitive/Rect3D.json")
 	);
+
+#ifdef DEBUG_FEATURES_ENABLE
+	// デバッグ用アセットのロード
+	// Shader
+	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
+
+	PrimitiveGeometryLibrary::Transfer(
+		"SphereCollider",
+		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Collider/Sphere.json")
+	);
+	PrimitiveGeometryLibrary::Transfer(
+		"AABBCollider",
+		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Collider/AABB.json")
+	);
+	PrimitiveGeometryLibrary::Transfer(
+		"Frustum",
+		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Frustum.json")
+	);
+#endif // _DEBUG
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();
