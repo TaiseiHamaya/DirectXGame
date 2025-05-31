@@ -1,39 +1,38 @@
 #include "DxShaderReflection.h"
 
 #include "./DxcManager.h"
-#include "./ShaderBuilder.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 
-void DxShaderReflection::initialize(const ShaderBuilder& shader) {
-	DxcBuffer vsBuffer = shader.vs_buffer();
-	DxcManager::GetUtils().CreateReflection(
-		&vsBuffer,
-		IID_PPV_ARGS(&vsReflector)
-	);
-
-	DxcBuffer psBuffer = shader.ps_buffer();
-	DxcManager::GetUtils().CreateReflection(
-		&psBuffer,
-		IID_PPV_ARGS(&psReflector)
-	);
-
-	D3D12_SHADER_DESC shaderDesc;
-	vsReflector->GetDesc(&shaderDesc);
-
-	// ---------- InputLayout構築 ----------
-	InputLayoutBuilder inputLayout{};
-	for (UINT i = 0; i < shaderDesc.InputParameters; ++i) {
-		D3D12_SIGNATURE_PARAMETER_DESC paramDesc;
-		vsReflector->GetInputParameterDesc(i, &paramDesc);
-
-		inputLayout.add_element(
-			paramDesc.SemanticName,
-			paramDesc.SemanticIndex,
-			guess_format(paramDesc)
-		);
-	}
-	inputElementDescs = inputLayout.build();
-}
+//void DxShaderReflection::initialize(const ShaderBuilder& shader) {
+//	DxcBuffer vsBuffer = shader.vs_buffer();
+//	DxcManager::GetUtils().CreateReflection(
+//		&vsBuffer,
+//		IID_PPV_ARGS(&vsReflector)
+//	);
+//
+//	DxcBuffer psBuffer = shader.ps_buffer();
+//	DxcManager::GetUtils().CreateReflection(
+//		&psBuffer,
+//		IID_PPV_ARGS(&psReflector)
+//	);
+//
+//	D3D12_SHADER_DESC shaderDesc;
+//	vsReflector->GetDesc(&shaderDesc);
+//
+//	// ---------- InputLayout構築 ----------
+//	InputLayoutBuilder inputLayout{};
+//	for (UINT i = 0; i < shaderDesc.InputParameters; ++i) {
+//		D3D12_SIGNATURE_PARAMETER_DESC paramDesc;
+//		vsReflector->GetInputParameterDesc(i, &paramDesc);
+//
+//		inputLayout.add_element(
+//			paramDesc.SemanticName,
+//			paramDesc.SemanticIndex,
+//			guess_format(paramDesc)
+//		);
+//	}
+//	inputElementDescs = inputLayout.build();
+//}
 
 Microsoft::WRL::ComPtr<ID3D12RootSignature> DxShaderReflection::build_root_signature(std::vector<SamplerDesc> descs) {
 	RootSignatureBuilder rootSignatureBuilder;

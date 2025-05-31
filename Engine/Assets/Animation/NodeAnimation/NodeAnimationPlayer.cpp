@@ -20,9 +20,9 @@ void NodeAnimationPlayer::update() noexcept {
 	if (!isActive || !nodeAnimation) {
 		return;
 	}
-	timer += WorldClock::DeltaSeconds() * animationSpeed;
+	timer.ahead();
 	if (isLoop && is_end()) {
-		timer = std::fmod(timer, nodeAnimation->duration());
+		timer.set(std::fmod(timer, nodeAnimation->duration()));
 	}
 }
 

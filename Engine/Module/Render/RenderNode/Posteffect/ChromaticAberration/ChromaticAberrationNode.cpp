@@ -39,17 +39,12 @@ void ChromaticAberrationNode::create_pipeline_state() {
 		0
 	);
 
-	ShaderBuilder shaderManager;
-	shaderManager.initialize(
-		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Posteffect/ChromaticAberration/ChromaticAberration.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
+	psoBuilder->shaders(ShaderType::Vertex, "FullscreenShader.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "ChromaticAberration.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

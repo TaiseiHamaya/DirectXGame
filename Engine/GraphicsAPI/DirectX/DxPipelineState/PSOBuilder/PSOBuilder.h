@@ -1,12 +1,11 @@
 #pragma once
 
 #include <list>
+#include <string>
 #include <vector>
 
 #include <d3d12.h>
 #include <wrl/client.h>
-
-#include "Engine/GraphicsAPI/DirectX/DxCompiler/ShaderBuilder.h"
 
 class DepthStencilView;
 class DxShaderReflection;
@@ -45,12 +44,17 @@ private:
 
 enum class BlendMode {
 	None,
-	Normal,
+	Alpha,
 	Add,
 	Subtract,
 	Multily,
 	Screen,
 	LightingPath,
+};
+
+enum class ShaderType {
+	Vertex,
+	Pixel,
 };
 
 class PSOBuilder {
@@ -64,7 +68,7 @@ public:
 public:
 	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_);
 	void inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout);
-	void shaders(const ShaderBuilder& shaders);
+	void shaders(ShaderType type, const std::string& shaderFilename);
 	void blendstate(BlendMode blendMode = BlendMode::None, u32 renderTarget = 0);
 	void blendstate_only_write();
 	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, u32 renderTarget = 0);

@@ -11,7 +11,7 @@ void WorldTimer::back() {
 }
 
 void WorldTimer::set(r32 time) {
-	timer = 0;
+	timer = time;
 }
 
 r32 WorldTimer::time() const {

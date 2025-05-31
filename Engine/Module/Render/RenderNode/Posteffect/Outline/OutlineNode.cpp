@@ -46,17 +46,12 @@ void OutlineNode::create_pipeline_state() {
 		D3D12_TEXTURE_ADDRESS_MODE_CLAMP
 	);
 
-	ShaderBuilder shaderManager;
-	shaderManager.initialize(
-		"DirectXGame/EngineResources/HLSL/FullscreenShader.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Posteffect/Outline/Outline.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderManager);
+	psoBuilder->shaders(ShaderType::Vertex, "FullscreenShader.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "Outline.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

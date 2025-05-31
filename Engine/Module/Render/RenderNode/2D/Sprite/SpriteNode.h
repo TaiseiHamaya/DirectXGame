@@ -2,8 +2,6 @@
 
 #include "Engine/Module/Render/RenderNode/SingleRenderTargetNode.h"
 
-#include <optional>
-
 class SpriteNode : public SingleRenderTargetNode {
 public:
 	SpriteNode();
@@ -27,7 +25,4 @@ private:
 	/// PSO生成
 	/// </summary>
 	void create_pipeline_state();
-
-private:
-	//std::optional<D3D12_GPU_DESCRIPTOR_HANDLE> backgroundTextureGPUHandle;
 };

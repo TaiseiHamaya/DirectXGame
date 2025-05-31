@@ -1,4 +1,4 @@
-#include "Rect3dNode .h"
+#include "Rect3dNode.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
@@ -34,21 +34,15 @@ void Rect3dNode::create_pipeline_state() {
 	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
 	inputLayoutBuilder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
-	ShaderBuilder shaderBuilder;
-	shaderBuilder.initialize(
-		"DirectXGame/EngineResources/HLSL/Forward/Primitive/Rect3d.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Forward/ForwardAlpha.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderBuilder);
+	psoBuilder->shaders(ShaderType::Vertex, "Rect3d.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "ForwardAlpha.PS.hlsl");
 	psoBuilder->primitivetopologytype();
-	psoBuilder->blendstate(BlendMode::Normal);
-	//psoBuilder->blendstate();
+	psoBuilder->blendstate(BlendMode::Alpha);
 	psoBuilder->rendertarget();
 
 	pipelineState = std::make_unique<DxPipelineState>();
