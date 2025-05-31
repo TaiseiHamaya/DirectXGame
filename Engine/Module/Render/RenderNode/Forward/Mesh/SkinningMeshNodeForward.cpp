@@ -36,19 +36,14 @@ void SkinningMeshNodeForward::create_pipeline_state() {
 	inputLayoutBuilder.add_element("WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1);
 	inputLayoutBuilder.add_element("INDEX", 0, DXGI_FORMAT_R32G32B32A32_UINT, 1);
 
-	ShaderBuilder shaderBuilder;
-	shaderBuilder.initialize(
-		"DirectXGame/EngineResources/HLSL/Forward/Mesh/SkinningMesh.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Forward/Forward.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format());
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderBuilder);
+	psoBuilder->shaders(ShaderType::Vertex, "SkinningMesh.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "Forward.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

@@ -27,18 +27,13 @@ void SpriteNode::create_pipeline_state() {
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
 
-	ShaderBuilder shaderBuilder;
-	shaderBuilder.initialize(
-		"DirectXGame/EngineResources/HLSL/Sprite/Sprite.VS.hlsl",
-		"DirectXGame/EngineResources/HLSL/Sprite/Sprite.PS.hlsl"
-	);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate(BlendMode::Normal);
+	psoBuilder->blendstate(BlendMode::Alpha);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_NONE);
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(shaderBuilder);
+	psoBuilder->shaders(ShaderType::Vertex, "Sprite.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "Sprite.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();
 

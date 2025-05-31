@@ -8,6 +8,7 @@
 
 #include "./DrawSystem/BaseParticleDrawSystem.h"
 #include "./Particle/Particle.h"
+#include "Engine/Runtime/Clock/WorldTimer.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER
@@ -73,10 +74,10 @@ public:
 	};
 
 	struct Emission {
-		r32 Time;
-		u32 Count;
-		u32 Cycles;
-		r32 Interval;
+		r32 delay;
+		u32 count;
+		u32 cycles;
+		r32 interval;
 
 		struct Shape {
 			enum class ShapeType {
@@ -137,7 +138,9 @@ public:
 #endif // _DEBUG
 
 protected: // Member variable
-	r32 timer;
+	WorldTimer timer;
+	WorldTimer cycleTimer;
+	u32 emittedCycle{ 0 };
 	bool isLoop;
 	bool isParentEmitter;
 	r32 duration;
@@ -391,10 +394,10 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleFinal>::from_json(co
 }
 
 inline void adl_serializer<ParticleEmitterInstance::Emission>::to_json(json& j, const ParticleEmitterInstance::Emission& rhs) {
-	j["Time"] = rhs.Time;
-	j["Count"] = rhs.Count;
-	j["Cycles"] = rhs.Cycles;
-	j["Interval"] = rhs.Interval;
+	j["Delay"] = rhs.delay;
+	j["Count"] = rhs.count;
+	j["Cycles"] = rhs.cycles;
+	j["Interval"] = rhs.interval;
 	j["Shape"] = nlohmann::json::object();
 	j["Shape"]["Type"] = rhs.shape.shapeType;
 	j["Shape"]["Data"] = nlohmann::json::object();
@@ -428,17 +431,17 @@ inline void adl_serializer<ParticleEmitterInstance::Emission>::to_json(json& j, 
 }
 
 inline void adl_serializer<ParticleEmitterInstance::Emission>::from_json(const json& j, ParticleEmitterInstance::Emission& rhs) {
-	if (j.contains("Time")) {
-		rhs.Time = j["Time"];
+	if (j.contains("Delay")) {
+		rhs.delay = j["Delay"];
 	}
 	if (j.contains("Count")) {
-		rhs.Count = j["Count"];
+		rhs.count = j["Count"];
 	}
 	if (j.contains("Cycles")) {
-		rhs.Cycles = j["Cycles"];
+		rhs.cycles = j["Cycles"];
 	}
 	if (j.contains("Interval")) {
-		rhs.Interval = j["Interval"];
+		rhs.interval = j["Interval"];
 	}
 	if (j.contains("Shape")) {
 		if (j["Shape"].contains("Type")) {

@@ -18,7 +18,7 @@ public:
 	};
 
 public:
-	void initialize(const ShaderBuilder& shader);
+	//void initialize(const ShaderBuilder& shader);
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> build_root_signature(std::vector<SamplerDesc> descs);
 
 private:

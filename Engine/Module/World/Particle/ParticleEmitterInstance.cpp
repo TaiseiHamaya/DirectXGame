@@ -9,13 +9,12 @@
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
-#include "Engine/Runtime/Clock/WorldClock.h"
 
 ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile, u32 MaxParticle) :
 	WorldInstance(),
 	numMaxParticle(MaxParticle),
-	jsonResource("Particle" / jsonFile),
-	timer(0) {
+	jsonResource("Particle" / jsonFile) {
+	timer.set(0);
 	drawType = static_cast<ParticleDrawType>(jsonResource.try_emplace<i32>("DrawType"));
 	switch (drawType) {
 	case ParticleDrawType::Mesh:
@@ -52,7 +51,15 @@ ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile,
 }
 
 void ParticleEmitterInstance::update() {
-	timer += WorldClock::DeltaSeconds();
+	if (!isActive) {
+		return;
+	}
+
+	timer.ahead();
+	if (timer > emission.delay) {
+		cycleTimer.ahead();
+	}
+
 	if (isLoop && is_end()) {
 		restart();
 	}
@@ -71,16 +78,16 @@ void ParticleEmitterInstance::update() {
 		return false;
 	});
 	// 生成
-	if (is_active() && !is_end()) {
+	if (!is_end() && cycleTimer.just_crossed(emission.interval) && emittedCycle < emission.cycles) {
 		emit();
 	}
 }
 
 void ParticleEmitterInstance::transfer() {
-	if (!isActive || !drawSystem || is_end()) {
+	if (!isActive || !drawSystem || is_end_all()) {
 		return;
 	}
-	for (u32 index = 0; std::unique_ptr<Particle>&particle : particles) {
+	for (u32 index = 0; std::unique_ptr<Particle>& particle : particles) {
 		drawSystem->write_to_buffer(
 			index,
 			particle->world_affine().to_matrix(),
@@ -92,7 +99,7 @@ void ParticleEmitterInstance::transfer() {
 }
 
 void ParticleEmitterInstance::draw() const {
-	if (!isActive || !drawSystem || is_end()) {
+	if (!isActive || !drawSystem || is_end_all()) {
 		return;
 	}
 
@@ -100,12 +107,15 @@ void ParticleEmitterInstance::draw() const {
 }
 
 void ParticleEmitterInstance::restart() {
-	timer = 0;
+	timer.set(0);
+	cycleTimer.set(0);
+	emittedCycle = 0;
 }
 
 void ParticleEmitterInstance::emit() {
-	u32 numEmits = emission.Count;
-	for (u32 i = 0; i < numEmits; ++i) {
+	cycleTimer.set(0);
+	++emittedCycle;
+	for (u32 i = 0; i < emission.count; ++i) {
 		size_t numParticle = particles.size();
 		if (numParticle < numMaxParticle) {
 			emit_once();
@@ -292,11 +302,13 @@ void ParticleEmitterInstance::debug_gui() {
 	if (ImGui::RadioButton("Mesh", drawType == ParticleDrawType::Mesh)) {
 		drawType = ParticleDrawType::Mesh;
 		drawSystemData = std::monostate();
+		useResourceName = "";
 	}
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Rect", drawType == ParticleDrawType::Rect)) {
 		drawType = ParticleDrawType::Rect;
 		drawSystemData = Rect{};
+		useResourceName = TextureLibrary::GetTexture("");
 	}
 	std::string_view resourceName;
 	switch (drawType) {
@@ -469,10 +481,10 @@ void ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
 void ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
 	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
-		ImGui::DragFloat("Time", &Time, 0.1f, 0.0f, FLOAT_MAX);
-		ImGui::InputScalar("Count", ImGuiDataType_U32, &Count);
-		ImGui::InputScalar("Cycles", ImGuiDataType_U32, &Cycles);
-		ImGui::DragFloat("Interval", &Interval, 0.1f, 0.0f, FLOAT_MAX);
+		ImGui::DragFloat("Delay", &delay, 0.1f, 0.0f, FLOAT_MAX);
+		ImGui::InputScalar("Count", ImGuiDataType_U32, &count);
+		ImGui::InputScalar("Cycles", ImGuiDataType_U32, &cycles);
+		ImGui::DragFloat("Interval", &interval, 0.1f, 0.0f, FLOAT_MAX);
 		ImGui::Separator();
 		if (ImGui::TreeNode("Shape")) {
 			if (ImGui::RadioButton("Point", shape.shapeType == Shape::ShapeType::Point)) {
