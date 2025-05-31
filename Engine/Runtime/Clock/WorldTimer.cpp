@@ -2,12 +2,12 @@
 
 #include "./WorldClock.h"
 
-void WorldTimer::ahead() {
-	timer += WorldClock::DeltaSeconds();
+void WorldTimer::ahead(r32 scale) {
+	timer += WorldClock::DeltaSeconds() * scale;
 }
 
-void WorldTimer::back() {
-	timer -= WorldClock::DeltaSeconds();
+void WorldTimer::back(r32 scale) {
+	timer -= WorldClock::DeltaSeconds() * scale;
 }
 
 void WorldTimer::set(r32 time) {
