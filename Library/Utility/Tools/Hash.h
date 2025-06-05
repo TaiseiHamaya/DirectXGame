@@ -3,6 +3,7 @@
 #include <bit>
 #include <initializer_list>
 #include <type_traits>
+#include <vector>
 
 namespace eps {
 
@@ -16,7 +17,7 @@ namespace eps {
 /// </summary>
 /// <param name="seed"></param>
 /// <param name="value"></param>
-inline u64 hash(u64 seed, u64 value) {
+constexpr u64 hash(u64 seed, u64 value) noexcept {
 	value = ((value >> 16) ^ value) * 0x45d9f3b;
 	value = ((value >> 16) ^ value) * 0x45d9f3b;
 	value = (value >> 16) ^ value;
@@ -49,24 +50,44 @@ constexpr u64 _compression_64bit(const T& value) {
 }
 
 template<typename Array>
-u64 hash_vector(const Array& array) {
+constexpr u64 hash_vector(const Array& array) {
 	u64 result = array.size();
-	u64 value;
 	for (auto itr = std::begin(array); itr != std::end(array); ++itr) {
-		value = _compression_64bit<typename Array::value_type>(*itr);
+		u64 value = _compression_64bit<typename Array::value_type>(*itr);
 		result = hash(result, value);
 	}
 	return result;
 }
 
 template<typename T>
-u64 hash_vector(std::initializer_list<T>&& initializerList) {
+constexpr u64 hash_vector(std::initializer_list<T>&& initializerList) {
 	u64 result = initializerList.size();
-	u64 value;
-	for (auto itr : initializerList) {
-		value = _compression_64bit<T>(itr);
+	for (auto& itr : initializerList) {
+		u64 value = _compression_64bit<T>(itr);
 		result = hash(result, value);
 	}
+	return result;
+}
+
+constexpr u64 string_hash(std::string_view str) noexcept {
+	constexpr u64 u8BitSize = sizeof(u8) * 8;
+
+	std::vector<u64> values;
+	u64 value{ 0 };
+	for (i32 i = 0; auto& c : str) {
+		value |= static_cast<u64>(c) << (i * u8BitSize);
+		++i;
+		if (sizeof(u64) * 8 / u8BitSize == i) {
+			values.emplace_back(value);
+			value = 0;
+		}
+	}
+
+	u64 result = 0;
+	for(auto& elem : values) {
+		result = hash(result, elem);
+	}
+
 	return result;
 }
 
