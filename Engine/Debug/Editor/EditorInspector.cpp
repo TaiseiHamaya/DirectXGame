@@ -16,6 +16,10 @@ void EditorInspector::start(Reference<EditorHierarchy> hierarchyRoot_) {
 }
 
 void EditorInspector::draw() {
+	if (!isActive) {
+		return;
+	}
+
 	int flags = 0;
 	ImGui::Begin("Inspector", &isActive, flags);
 
