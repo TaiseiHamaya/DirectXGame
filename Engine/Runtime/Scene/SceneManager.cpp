@@ -19,7 +19,7 @@ SceneManager& SceneManager::GetInstance() noexcept {
 
 void SceneManager::Initialize() {
 	SceneManager& instance = GetInstance();
-	CriticalIf(!instance.sceneQue.empty(), "Scene manager is already initalized.");
+	CriticalIf(!instance.sceneQue.empty(), "Scene manager is already initialized.");
 
 	// 最初にnullptrをemplace_backする
 	instance.sceneQue.emplace_back(nullptr);
@@ -33,7 +33,7 @@ void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	SceneManager& instance = GetInstance();
 	instance.factory = std::move(factory_);
 	auto initScene = instance.factory->initialize_scene();
-	CriticalIf(!initScene, "The inital scene crated is nullptr.");
+	CriticalIf(!initScene, "The initial scene crated is nullptr.");
 
 	initScene->load();
 	BackgroundLoader::WaitEndExecute();
