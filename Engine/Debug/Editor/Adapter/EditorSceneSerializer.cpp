@@ -1,11 +1,17 @@
 #include "EditorSceneSerializer.h"
 
-#include "../RemoteObject/RemoteSceneObject.h"
-#include "../RemoteObject/RemoteWorldInstance.h"
-#include "../RemoteObject/RemoteWorldObject.h"
 #include "../RemoteObject/FolderObject.h"
+#include "../RemoteObject/RemoteErrorObject.h"
+#include "../RemoteObject/RemoteSceneObject.h"
+#include "../RemoteObject/RemoteWorldObject.h"
+#include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
+
+#include "Engine/Application/Output.h"
 
 #include <Library/Utility/Template/string_hashed.h>
+
+#define TRANSFORM3D_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
 
 std::unique_ptr<RemoteSceneObject> EditorSceneSerializer::CreateRemoteScene(const nlohmann::json& json) {
 	std::unique_ptr<RemoteSceneObject> scene = std::make_unique<RemoteSceneObject>();
@@ -46,25 +52,45 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 	u64 type = eps::string_hash(std::to_string(json.at("Type").get<i32>()));
 	switch (type) {
-	case eps::string_hash("10"):
+	case eps::string_hash("0"):
 	{
 		return CreateRemoteInstance(json);
 	}
-	case eps::string_hash("20"):
+	case eps::string_hash("10"): // Mesh
 	{
-		return nullptr;
+		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("30"):
+	case eps::string_hash("11"): // SkinMesh
 	{
-		return nullptr;
+		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("40"):
+	case eps::string_hash("12"): // Rect3D
 	{
-		return nullptr;
+		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("50"):
+	case eps::string_hash("13"): // Skybox
 	{
-		return nullptr;
+		return std::make_unique<RemoteErrorObject>();
+	}
+	case eps::string_hash("20"): // Camera3D
+	{
+		return std::make_unique<RemoteErrorObject>();
+	}
+	case eps::string_hash("21"): // Camera2D
+	{
+		return std::make_unique<RemoteErrorObject>();
+	}
+	case eps::string_hash("30"): // SphereCollider
+	{
+		return std::make_unique<RemoteErrorObject>();
+	}
+	case eps::string_hash("31"): // AABB Collider
+	{
+		return std::make_unique<RemoteErrorObject>();
+	}
+	case eps::string_hash("40"): // DirectionalLight
+	{
+		return std::make_unique<RemoteErrorObject>();
 	}
 	case eps::string_hash("90"):
 	{
@@ -73,7 +99,7 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	default:
 	{
 		Warning("Unknown remote object type.");
-		return nullptr;
+		return std::make_unique<RemoteErrorObject>();
 	}
 	}
 }
@@ -97,6 +123,9 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteInstance(const
 			result->children.emplace_back(CreateRemoteObject(instance));
 		}
 	}
-	result->
+	if (json.contains("Transform")) {
+		result->transform = json["Transform"];
+	}
+
 	return result;
 }

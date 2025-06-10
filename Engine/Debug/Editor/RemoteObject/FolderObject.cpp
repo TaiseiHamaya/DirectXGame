@@ -31,6 +31,9 @@ void FolderObject::draw_hierarchy(Reference<IRemoteObject>& select) {
 
 	if (isOpen) {
 		for (auto& child : children) {
+			if (!child) {
+				continue;
+			}
 			child->draw_hierarchy(select);
 		}
 	}

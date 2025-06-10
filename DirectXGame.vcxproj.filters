@@ -729,7 +729,7 @@
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldInstance.cpp">
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp">
@@ -751,6 +751,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\IEditorWindow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1316,7 +1322,7 @@
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldInstance.h">
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.h">
@@ -1335,6 +1341,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\EditorSceneView.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

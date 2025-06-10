@@ -2,15 +2,11 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include "IRemoteObject.h"
-
-#include <vector>
+#include "./IRemoteInstance.h"
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-class RemoteWorldInstance;
-
-class RemoteWorldInstance : public IRemoteObject {
+class RemoteWorldInstance : public IRemoteInstance<WorldInstance> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -26,9 +22,6 @@ public:
 	void draw_hierarchy(Reference<IRemoteObject>& select) override;
 
 private:
-	Reference<WorldInstance> self;
-
-	std::vector<std::unique_ptr<IRemoteObject>> children;
 };
 
 #endif // DEBUG_FEATURES_ENABLE
