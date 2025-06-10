@@ -23,6 +23,10 @@
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "EngineSettings.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+#include "Engine/Debug/Editor/EditorMain.h"
+#endif // DEBUG_FEATURES_ENABLE
+
 #pragma comment(lib, "Dbghelp.lib") // Symとか
 #pragma comment(lib, "Oleacc.lib") // GetProcessHandleFromHwnd
 #pragma comment(lib, "winmm.lib") // timeBeginPeriod
@@ -161,6 +165,7 @@ void WinApp::Initialize() {
 	SceneManager::Initialize();
 
 #ifdef DEBUG_FEATURES_ENABLE
+	EditorMain::Initialize();
 	SceneManager::SetProfiler(instance->profiler);
 #endif // _DEBUG
 
@@ -179,6 +184,7 @@ void WinApp::BeginFrame() {
 	DxCore::BeginFrame();
 #ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::BeginFrame();
+	EditorMain::DrawBase();
 #endif // _DEBUG
 }
 
@@ -194,6 +200,8 @@ void WinApp::EndFrame() {
 	ImGui::SeparatorText("Profiler");
 	instance->profiler.debug_gui();
 	ImGui::End();
+
+	EditorMain::Draw();
 
 	// 一番先にImGUIの処理
 	ImGuiManager::EndFrame();
@@ -217,6 +225,7 @@ void WinApp::Finalize() {
 	SceneManager::Finalize();
 #ifdef DEBUG_FEATURES_ENABLE
 	// ImGui
+	EditorMain::Finalize();
 	ImGuiManager::Finalize();
 #endif // _DEBUG
 
@@ -235,6 +244,10 @@ void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	ShowWindow(instance->hWnd, SW_SHOW);
 	Information("Show application window.");
+
+#ifdef DEBUG_FEATURES_ENABLE
+	EditorMain::Start();
+#endif // _DEBUG
 
 	// 時計初期化
 	WorldClock::Initialize();

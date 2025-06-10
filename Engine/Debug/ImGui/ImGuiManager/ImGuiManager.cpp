@@ -2,12 +2,16 @@
 
 #include "ImGuiManager.h"
 
+#include "./ImGuiJapanese.h"
+#include "./ImGuiIcons.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
-#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 #include "imgui.h"
 #include "imgui_impl_dx12.h"
@@ -37,8 +41,15 @@ void ImGuiManager::Initialize() {
 		SRVDescriptorHeap::GetGPUHandle(srvIndex)
 	);
 
+	ImFontConfig config{};
+	config.MergeMode = true;
+	config.GlyphRanges = IconsGlyphRanges;
+
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, glyphRangesJapanese);
+	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 13.f, &config, IconsGlyphRanges);
+	ImGui::GetStyle().Colors[2] = ImVec4{ 0.1f,0.1f,0.1f,1 };
+	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
 }
 
 void ImGuiManager::Finalize() {
@@ -59,6 +70,9 @@ void ImGuiManager::BeginFrame() {
 }
 
 void ImGuiManager::EndFrame() {
+	Reference<ScreenTexture> screen = DxSwapChain::GetWriteBufferTexture();
+	screen->start_write();
+
 	ImGui::Render();
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DxCommand::GetCommandList().Get());
 }

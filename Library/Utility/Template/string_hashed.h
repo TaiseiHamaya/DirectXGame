@@ -84,7 +84,7 @@ struct hash<eps::string_hashed> {
 };
 
 // string_hashedの文字列リテラル
-eps::string_hashed operator"" _sh(string_literal str) {
+inline eps::string_hashed operator"" _sh(string_literal str, std::size_t len) {
 	return str;
 }
 
@@ -132,7 +132,7 @@ struct hash<eps::string_hashed> {
 
 };
 
-constexpr eps::string_hashed operator"" _sh(string_literal str) {
+constexpr eps::string_hashed operator"" sh(string_literal str, std::size_t len) {
 	return str;
 }
 

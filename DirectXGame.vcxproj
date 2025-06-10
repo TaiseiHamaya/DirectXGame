@@ -181,6 +181,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorBaseSystem.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorHierarchy.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorInspector.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorSceneView.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\IEditorWindow.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\FolderObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\IRemoteObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
     <ClCompile Include="Engine\Runtime\ProjectManager\ProjectManager.cpp" />
     <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
@@ -441,6 +453,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorBaseSystem.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorHierarchy.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorInspector.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorMain.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorSceneView.h" />
+    <ClInclude Include="Engine\Debug\Editor\IEditorWindow.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\FolderObject.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\IRemoteObject.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h" />
     <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h" />
     <ClInclude Include="Library\Utility\Template\string_hashed.h" />

@@ -149,67 +149,67 @@ void SkinningMeshInstance::create_skeleton() {
 #endif // _DEBUG
 }
 
-#ifdef DEBUG_FEATURES_ENABLE
-#include <Engine/Assets/Texture/TextureLibrary.h>
-void SkinningMeshInstance::debug_gui() {
-	if (PolygonMeshLibrary::MeshListGui(keyID)) {
-		reset_animated_mesh(keyID);
-	}
-	if (ImGui::Button("ResetMaterialData")) {
-		default_material();
-	}
-	ImGui::Checkbox("Draw", &isDraw);
-	ImGui::Separator();
-	WorldInstance::debug_gui();
-	ImGui::Separator();
-	ImGui::Text("Materials");
-	for (i32 i = 0; auto & meshMaterial : materials) {
-		std::string treeNodeName;
-		auto meshData = mesh->mesh_data(i);
-		if (meshData) {
-			treeNodeName = std::format("{}##{}", meshData->materialName, i);
-		}
-		if (treeNodeName.empty()) {
-			treeNodeName = "UnknownMaterialName" + std::to_string(i);
-		}
-		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-			TextureLibrary::TextureListGui(meshMaterial.texture);
-
-			meshMaterial.uvTransform.debug_gui();
-
-			meshMaterial.color.debug_gui();
-
-			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
-				meshMaterial.lightingType = LighingType::None;
-			}
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
-				meshMaterial.lightingType = LighingType::Lambert;
-			}
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
-				meshMaterial.lightingType = LighingType::HalfLambert;
-			}
-
-			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
-
-			ImGui::TreePop();
-		}
-		++i;
-	}
-	//ここからAnimation専用処理
-	ImGui::Separator();
-	nodeAnimation->debug_gui();
-	ImGui::Separator();
-	if (skeletonResrouce) {
-		ImGui::Text("NumSkeleton : %d", skeletonResrouce->joint_size());
-	}
-	else {
-		ImGui::Text("Skeleton is not bind.");
-	}
-	if (ImGui::Button("Restart")) {
-		get_animation()->restart();
-	}
-}
-
-#endif // _DEBUG
+//#ifdef DEBUG_FEATURES_ENABLE
+//#include <Engine/Assets/Texture/TextureLibrary.h>
+//void SkinningMeshInstance::debug_gui() {
+//	if (PolygonMeshLibrary::MeshListGui(keyID)) {
+//		reset_animated_mesh(keyID);
+//	}
+//	if (ImGui::Button("ResetMaterialData")) {
+//		default_material();
+//	}
+//	ImGui::Checkbox("Draw", &isDraw);
+//	ImGui::Separator();
+//	WorldInstance::debug_gui();
+//	ImGui::Separator();
+//	ImGui::Text("Materials");
+//	for (i32 i = 0; auto & meshMaterial : materials) {
+//		std::string treeNodeName;
+//		auto meshData = mesh->mesh_data(i);
+//		if (meshData) {
+//			treeNodeName = std::format("{}##{}", meshData->materialName, i);
+//		}
+//		if (treeNodeName.empty()) {
+//			treeNodeName = "UnknownMaterialName" + std::to_string(i);
+//		}
+//		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+//			TextureLibrary::TextureListGui(meshMaterial.texture);
+//
+//			meshMaterial.uvTransform.debug_gui();
+//
+//			meshMaterial.color.debug_gui();
+//
+//			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
+//				meshMaterial.lightingType = LighingType::None;
+//			}
+//			ImGui::SameLine();
+//			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
+//				meshMaterial.lightingType = LighingType::Lambert;
+//			}
+//			ImGui::SameLine();
+//			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
+//				meshMaterial.lightingType = LighingType::HalfLambert;
+//			}
+//
+//			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
+//
+//			ImGui::TreePop();
+//		}
+//		++i;
+//	}
+//	//ここからAnimation専用処理
+//	ImGui::Separator();
+//	nodeAnimation->debug_gui();
+//	ImGui::Separator();
+//	if (skeletonResrouce) {
+//		ImGui::Text("NumSkeleton : %d", skeletonResrouce->joint_size());
+//	}
+//	else {
+//		ImGui::Text("Skeleton is not bind.");
+//	}
+//	if (ImGui::Button("Restart")) {
+//		get_animation()->restart();
+//	}
+//}
+//
+//#endif // _DEBUG

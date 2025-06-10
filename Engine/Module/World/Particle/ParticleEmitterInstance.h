@@ -132,10 +132,10 @@ private:
 
 public: // Getter/Setter
 
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui();
-#endif // _DEBUG
+//#ifdef DEBUG_FEATURES_ENABLE
+//public:
+//	void debug_gui();
+//#endif // _DEBUG
 
 protected: // Member variable
 	WorldTimer timer;

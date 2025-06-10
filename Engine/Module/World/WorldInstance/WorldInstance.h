@@ -135,11 +135,6 @@ public:
 
 	void set_world_manager(Reference<WorldManager> worldManager_);
 
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	virtual void debug_gui();
-#endif // _DEBUG
-
 protected:
 	Transform3D transform{}; // Transform
 	Hierarchy hierarchy{}; // Hierarchy

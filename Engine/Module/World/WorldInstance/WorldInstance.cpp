@@ -111,24 +111,3 @@ void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
 //void WorldInstance::to_json(JsonAsset& json) {
 //	json.get()["WorldInstance"] = transform;
 //}
-
-#ifdef DEBUG_FEATURES_ENABLE
-#include <imgui.h>
-
-#include <string>
-#include <source_location>
-
-using namespace std::literals::string_literals;
-
-void WorldInstance::debug_gui() {
-	ImGui::Checkbox("Active", &isActive);
-	transform.debug_gui();
-
-	//if (ImGui::Button("SaveJson")) {
-	//	constexpr string_literal fileName = std::source_location::current().file_name();
-	//	JsonAsset output{ "WorldInstance"s + fileName };
-	//	to_json(output);
-	//	output.save();
-	//}
-}
-#endif // _DEBUG
