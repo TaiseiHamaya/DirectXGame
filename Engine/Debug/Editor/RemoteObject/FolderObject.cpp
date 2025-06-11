@@ -18,6 +18,7 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
 
 	int flags =
+		ImGuiTreeNodeFlags_DrawLinesToNodes |
 		ImGuiTreeNodeFlags_SpanFullWidth |
 		ImGuiTreeNodeFlags_NoTreePushOnOpen |
 		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
@@ -45,6 +46,28 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 		}
 		ImGui::Separator();
 	}
+}
+
+std::unique_ptr<IRemoteObject> FolderObject::move_force(Reference<const IRemoteObject> child) {
+	auto itr = std::find_if(children.begin(), children.end(),
+	[&](const std::unique_ptr<IRemoteObject>& lhs) {
+		return lhs.get() == child.ptr();
+	});
+	if (itr != children.end()) {
+		std::unique_ptr<IRemoteObject> childObject = std::move(*itr);
+		children.erase(itr);
+		return childObject;
+	}
+	return nullptr;
+}
+
+void FolderObject::reparent(Reference<IRemoteObject> remoteObject) {
+	parent = remoteObject;
+}
+
+void FolderObject::add_child(std::unique_ptr<IRemoteObject> child) {
+	child->reparent(this);
+	children.emplace_back(std::move(child));
 }
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -4,6 +4,8 @@
 
 #include "Command/EditorCommandInvoker.h"
 #include "Command/EditorSelectCommand.h"
+#include "Command/EditorDeleteObjectCommand.h"
+#include "Command/EditorCreateObjectCommand.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
 
@@ -28,6 +30,8 @@ void EditorMain::Setup() {
 	instance.inspector.setup(instance.selectObject);
 	instance.sceneView.setup(instance.gizmo);
 
+	EditorCreateObjectCommand::Setup(instance.deletedPool);
+	EditorDeleteObjectCommand::Setup(instance.deletedPool);
 	EditorSelectCommand::Setup(instance.selectObject);
 }
 
@@ -53,6 +57,8 @@ void EditorMain::DrawBase() {
 			EditorCommandInvoker::Undo();
 		}
 	}
+
+	instance.deletedPool.solution_sequence();
 }
 
 void EditorMain::Draw() {

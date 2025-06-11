@@ -4,6 +4,8 @@
 
 #include <imgui.h>
 
+#include "Engine/Application/Output.h"
+
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
 
@@ -21,4 +23,16 @@ void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 			std::make_unique<EditorSelectCommand>(this)
 		);
 	}
+}
+
+std::unique_ptr<IRemoteObject> RemoteErrorObject::move_force([[maybe_unused]] Reference<const IRemoteObject> child) {
+	return nullptr;
+}
+
+void RemoteErrorObject::reparent(Reference<IRemoteObject> remoteObject) {
+	parent = remoteObject;
+}
+
+void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject> child) {
+	Warning("RemoteErrorObject cannot have children.");
 }

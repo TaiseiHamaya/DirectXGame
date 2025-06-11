@@ -21,6 +21,7 @@ void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 	bool isSelected = select->is_selected(this);
 
 	int flags =
+		ImGuiTreeNodeFlags_DrawLinesToNodes |
 		ImGuiTreeNodeFlags_SpanFullWidth |
 		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
 		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
@@ -47,6 +48,28 @@ void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 		}
 		ImGui::TreePop();
 	}
+}
+
+std::unique_ptr<IRemoteObject> RemoteWorldObject::move_force(Reference<const IRemoteObject> child) {
+	auto itr = std::find_if(children.begin(), children.end(), 
+		[&](const std::unique_ptr<IRemoteObject>& lhs) {
+		return lhs.get() == child.ptr();
+	});
+	if (itr != children.end()) {
+		std::unique_ptr<IRemoteObject> childObject = std::move(*itr);
+		children.erase(itr);
+		return childObject;
+	}
+	return nullptr;
+}
+
+void RemoteWorldObject::reparent(Reference<IRemoteObject> remoteObject) {
+	parent = remoteObject;
+}
+
+void RemoteWorldObject::add_child(std::unique_ptr<IRemoteObject> child) {
+	child->reparent(this);
+	children.emplace_back(std::move(child));
 }
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -1,9 +1,6 @@
 #include "EditorObjectMoveCommand.h"
 
-#include "Engine/Application/Output.h"
-
 EditorObjectMoveCommand::EditorObjectMoveCommand(Reference<Transform3D> transform) {
-	ErrorIf(!transform, "");
 	target = transform;
 	prev.copy(*target);
 }

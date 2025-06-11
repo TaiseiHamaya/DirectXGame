@@ -6,6 +6,12 @@
 #include <imgui_stdlib.h>
 
 #include "Adapter/EditorSceneSerializer.h"
+#include "Command/EditorCommandInvoker.h"
+#include "Command/EditorCreateObjectCommand.h"
+#include "Command/EditorDeleteObjectCommand.h"
+#include "RemoteObject/FolderObject.h"
+#include "RemoteObject/WorldInstance/RemoteWorldInstance.h"
+
 #include "Engine/Runtime/Scene/SceneManager.h"
 
 #include <Engine/Assets/Json/JsonAsset.h>
@@ -59,22 +65,53 @@ void EditorHierarchy::draw() {
 
 	if (ImGui::BeginPopup("HierarchyMenu")) {
 		// Instance作成
-		if (ImGui::BeginMenu("CreateInstance")) {
-			ImGui::InputText("##MenuSearch", &menuString); ImGui::SameLine();
-			if (ImGui::Button("\ue5cd")) {
-				menuString.clear();
+		//if (ImGui::BeginMenu("CreateInstance")) {
+		//	ImGui::InputText("##MenuSearch", &menuString); ImGui::SameLine();
+		//	if (ImGui::Button("\ue5cd")) {
+		//		menuString.clear();
+		//	}
+		//	ImGui::EndMenu();
+		//}
+		if (ImGui::MenuItem("CreateInstance")) {
+			if (select->get_item().object) {
+				EditorCommandInvoker::Execute(
+					std::make_unique<EditorCreateObjectCommand>(
+						select->get_item().object,
+						std::make_unique<RemoteWorldInstance>()
+					)
+				);
 			}
-			ImGui::EndMenu();
 		}
 
 		if (ImGui::MenuItem("CreateWorld")) {
-
+			EditorCommandInvoker::Execute(
+				std::make_unique<EditorCreateObjectCommand>(
+					scene,
+					std::make_unique<RemoteWorldObject>()
+				)
+			);
 		}
 
 		// Folder作成
 		if (ImGui::MenuItem("CreateFolder")) {
-			if (select) {
-				//select->add_hierarchy();
+			if (select->get_item().object) {
+				EditorCommandInvoker::Execute(
+					std::make_unique<EditorCreateObjectCommand>(
+						select->get_item().object,
+						std::make_unique<FolderObject>()
+					)
+				);
+			}
+		}
+
+		if (ImGui::MenuItem("Delete")) {
+			if (select->get_item().object && select->get_item().object.ptr() != scene.get()) {
+				EditorCommandInvoker::Execute(
+					std::make_unique<EditorDeleteObjectCommand>(
+						select->get_item().object
+					)
+				);
+				select->set_item(nullptr);
 			}
 		}
 

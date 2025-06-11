@@ -21,7 +21,14 @@ public:
 	static std::unique_ptr<RemoteWorldObject> CreateRemoteWorld(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteObject(const nlohmann::json& json);
 
+	static void SaveToJson(Reference<const RemoteSceneObject> scene);
+
 private:
 	static std::unique_ptr<IRemoteObject> CreateRemoteFolder(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteInstance(const nlohmann::json& json);
+
+	static nlohmann::json SaveRemoteScene(Reference<const RemoteSceneObject> scene);
+	static nlohmann::json SaveRemoteWorld(Reference<const RemoteWorldObject> world);
+	static nlohmann::json SaveRemoteFolder(Reference<const FolderObject> folder);
+	static nlohmann::json SaveRemoteInstance(Reference<const RemoteWorldInstance> instance);
 };

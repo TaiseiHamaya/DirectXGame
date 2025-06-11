@@ -181,6 +181,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorObjectMoveCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp" />
@@ -460,6 +463,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.h" />
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.h" />
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorObjectMoveCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorSelectCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandInvoker.h" />

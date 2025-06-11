@@ -23,7 +23,7 @@ std::unique_ptr<RemoteSceneObject> EditorSceneSerializer::CreateRemoteScene(cons
 	}
 	if (json.contains("Worlds") && json["Worlds"].is_array()) {
 		for (const nlohmann::json& world : json["Worlds"]) {
-			scene->remoteWorlds.emplace_back(EditorSceneSerializer::CreateRemoteWorld(world));
+			scene->add_child(EditorSceneSerializer::CreateRemoteWorld(world));
 		}
 	}
 	return scene;
@@ -39,7 +39,7 @@ std::unique_ptr<RemoteWorldObject> EditorSceneSerializer::CreateRemoteWorld(cons
 	}
 	if (json.contains("Instances") && json["Instances"].is_array()) {
 		for (const nlohmann::json& instance : json["Instances"]) {
-			world->children.emplace_back(CreateRemoteObject(instance));
+			world->add_child(CreateRemoteObject(instance));
 		}
 	}
 	return world;
@@ -50,49 +50,49 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 		Warning("Remote object type is not found.");
 		return nullptr;
 	}
-	u64 type = eps::string_hash(std::to_string(json.at("Type").get<i32>()));
+	u64 type = json.at("Type").get<u64>();
 	switch (type) {
-	case eps::string_hash("0"):
+	case 0:
 	{
 		return CreateRemoteInstance(json);
 	}
-	case eps::string_hash("10"): // Mesh
+	case 10: // Mesh
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("11"): // SkinMesh
+	case 11: // SkinMesh
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("12"): // Rect3D
+	case 12: // Rect3D
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("13"): // Skybox
+	case 13: // Skybox
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("20"): // Camera3D
+	case 20: // Camera3D
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("21"): // Camera2D
+	case 21: // Camera2D
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("30"): // SphereCollider
+	case 30: // SphereCollider
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("31"): // AABB Collider
+	case 31: // AABB Collider
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("40"): // DirectionalLight
+	case 40: // DirectionalLight
 	{
 		return std::make_unique<RemoteErrorObject>();
 	}
-	case eps::string_hash("90"):
+	case 90:
 	{
 		return CreateRemoteFolder(json);
 	}
@@ -104,12 +104,17 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 }
 
+void EditorSceneSerializer::SaveToJson(Reference<const RemoteSceneObject> scene) {
+	nlohmann::json root;
+	root = SaveRemoteScene(scene);
+}
+
 std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteFolder(const nlohmann::json& json) {
 	std::unique_ptr<FolderObject> folder = std::make_unique<FolderObject>();
 	folder->hierarchyName = json["Name"];
 	if (json.contains("Children") && json["Children"].is_array()) {
 		for (const nlohmann::json& instance : json["Children"]) {
-			folder->children.emplace_back(CreateRemoteObject(instance));
+			folder->add_child(CreateRemoteObject(instance));
 		}
 	}
 	return folder;
@@ -120,12 +125,42 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteInstance(const
 	result->hierarchyName = json["Name"];
 	if (json.contains("Children") && json["Children"].is_array()) {
 		for (const nlohmann::json& instance : json["Children"]) {
-			result->children.emplace_back(CreateRemoteObject(instance));
+			result->add_child(CreateRemoteObject(instance));
 		}
 	}
 	if (json.contains("Transform")) {
 		result->transform = json["Transform"];
 	}
 
+	return result;
+}
+
+nlohmann::json EditorSceneSerializer::SaveRemoteScene(Reference<const RemoteSceneObject> scene) {
+	nlohmann::json result;
+	result["Name"] = scene->hierarchyName;
+	result["Worlds"] = nlohmann::json::array();
+	for (const auto& world : scene->remoteWorlds) {
+		result["Worlds"].emplace_back(SaveRemoteWorld(world));
+	}
+	return result;
+}
+
+nlohmann::json EditorSceneSerializer::SaveRemoteWorld(Reference<const RemoteWorldObject> world) {
+	nlohmann::json result;
+	result["Name"] = world->hierarchyName;
+	result["Instances"] = nlohmann::json::array();
+	for (const auto& instance : world->children) {
+		//result["Instances"].emplace_back((instance));
+	}
+	return result;
+}
+
+nlohmann::json EditorSceneSerializer::SaveRemoteFolder(Reference<const FolderObject> folder) {
+	nlohmann::json result;
+	return result;
+}
+
+nlohmann::json EditorSceneSerializer::SaveRemoteInstance(Reference<const RemoteWorldInstance> instance) {
+	nlohmann::json result;
 	return result;
 }

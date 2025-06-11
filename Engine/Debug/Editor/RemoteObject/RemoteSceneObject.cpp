@@ -7,6 +7,8 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
+#include "Engine/Application/Output.h"
+
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
 #include "IRemoteObject.h"
@@ -23,6 +25,7 @@ void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 	bool isSelected = select->is_selected(this);
 
 	int flags =
+		ImGuiTreeNodeFlags_DrawLinesToNodes |
 		ImGuiTreeNodeFlags_SpanFullWidth |
 		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
 		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
@@ -46,6 +49,34 @@ void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 		}
 		ImGui::TreePop();
 	}
+}
+
+std::unique_ptr<IRemoteObject> RemoteSceneObject::move_force(Reference<const IRemoteObject> child) {
+	auto itr = std::find_if(remoteWorlds.begin(), remoteWorlds.end(),
+	[&](const std::unique_ptr<RemoteWorldObject>& lhs) {
+		return lhs.get() == child.ptr();
+	});
+	if (itr != remoteWorlds.end()) {
+		std::unique_ptr<IRemoteObject> world = std::move(*itr);
+		remoteWorlds.erase(itr);
+		return world;
+	}
+	return nullptr;
+}
+
+void RemoteSceneObject::reparent(Reference<IRemoteObject> remoteObject) {
+	Warning("RemoteSceneObject is must be root object.");
+}
+
+void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
+	auto tmp = dynamic_cast<RemoteWorldObject*>(child.release());
+	auto childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
+	if(!childPtr) {
+		Warning("RemoteSceneObject can only add RemoteWorldObject as child.");
+		return;
+	}
+	childPtr->reparent(this);
+	remoteWorlds.emplace_back(std::move(childPtr));
 }
 
 #endif // DEBUG_FEATURES_ENABLE

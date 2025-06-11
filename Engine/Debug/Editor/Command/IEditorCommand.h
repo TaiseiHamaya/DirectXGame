@@ -5,7 +5,7 @@
 class IEditorCommand {
 public:
 	IEditorCommand() = default;
-	~IEditorCommand() = default;
+	virtual ~IEditorCommand() = default;
 
 	__CLASS_NON_COPYABLE(IEditorCommand)
 

@@ -6,11 +6,12 @@
 
 #include <Engine/Runtime/Input/InputHandler.h>
 
-#include "EditorSceneView.h"
+#include "EditorGizmo.h"
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
-#include "EditorGizmo.h"
+#include "EditorSceneView.h"
 #include "EditorSelectObject.h"
+#include "RemoteObject/EditorDeletedObjectPool.h"
 
 class EditorMain final : public SingletonInterface<EditorMain> {
 	__CLASS_SINGLETON_INTERFACE(EditorMain)
@@ -41,6 +42,7 @@ private:
 	EditorInspector inspector;
 	EditorGizmo gizmo;
 	EditorSelectObject selectObject;
+	EditorDeletedObjectPool deletedPool;
 };
 
 #endif // DEBUG_FEATURES_ENABLE
