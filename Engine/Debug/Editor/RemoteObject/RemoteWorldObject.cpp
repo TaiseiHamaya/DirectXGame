@@ -72,4 +72,19 @@ void RemoteWorldObject::add_child(std::unique_ptr<IRemoteObject> child) {
 	children.emplace_back(std::move(child));
 }
 
+nlohmann::json RemoteWorldObject::serialize() const {
+	nlohmann::json result;
+
+	result["Name"] = hierarchyName;
+
+	result["Instances"] = nlohmann::json::array();
+	for (const auto& child : children) {
+		if (child) {
+			result["Instances"].emplace_back(child->serialize());
+		}
+	}
+
+	return result;
+}
+
 #endif // DEBUG_FEATURES_ENABLE

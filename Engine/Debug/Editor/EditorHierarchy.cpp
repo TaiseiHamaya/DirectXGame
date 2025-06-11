@@ -20,6 +20,11 @@ void EditorHierarchy::setup(Reference<EditorSelectObject> select_) {
 	select = select_;
 }
 
+void EditorHierarchy::finalize() {
+	JsonAsset json{ "./Game/DebugData/Editor.json" };
+	json.get()["LastLoadedScene"] = scene->name();
+}
+
 void EditorHierarchy::load(std::filesystem::path file) {
 	savedTrigger = false;
 	isActive = true;
@@ -28,6 +33,10 @@ void EditorHierarchy::load(std::filesystem::path file) {
 	scene = EditorSceneSerializer::CreateRemoteScene(json.try_emplace<nlohmann::json>("Scene"));
 
 	Reference<BaseScene> currentScene = SceneManager::GetCurrentScene();
+}
+
+nlohmann::json EditorHierarchy::save() const {
+	return scene->serialize();
 }
 
 void EditorHierarchy::draw() {
@@ -124,6 +133,10 @@ void EditorHierarchy::draw() {
 	}
 
 	ImGui::End();
+}
+
+const std::string& EditorHierarchy::current_scene_name() {
+	return scene->name();
 }
 
 #endif // DEBUG_FEATURES_ENABLE

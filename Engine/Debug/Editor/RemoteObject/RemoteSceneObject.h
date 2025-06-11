@@ -30,6 +30,11 @@ public:
 
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
+	nlohmann::json serialize() const override;
+
+public:
+	const std::string& name() const;
+
 private:
 	Reference<BaseScene> self;
 

@@ -70,4 +70,17 @@ void FolderObject::add_child(std::unique_ptr<IRemoteObject> child) {
 	children.emplace_back(std::move(child));
 }
 
+nlohmann::json FolderObject::serialize() const {
+	nlohmann::json result;
+
+	result["Type"] = 90;
+	result["Name"] = hierarchyName;
+	result["Children"] = nlohmann::json::array();
+	for (const auto& child : children) {
+		result["Children"].emplace_back(child->serialize());
+	}
+
+	return result;
+}
+
 #endif // DEBUG_FEATURES_ENABLE
