@@ -17,6 +17,7 @@ class EditorSelectObject;
 class EditorHierarchy : public IEditorWindow {
 public:
 	void setup(Reference<EditorSelectObject> select_);
+	void finalize();
 
 	void load(std::filesystem::path file);
 	nlohmann::json save() const;

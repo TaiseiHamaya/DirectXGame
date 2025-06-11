@@ -20,6 +20,11 @@ void EditorHierarchy::setup(Reference<EditorSelectObject> select_) {
 	select = select_;
 }
 
+void EditorHierarchy::finalize() {
+	JsonAsset json{ "./Game/DebugData/Editor.json" };
+	json.get()["LastLoadedScene"] = scene->name();
+}
+
 void EditorHierarchy::load(std::filesystem::path file) {
 	savedTrigger = false;
 	isActive = true;

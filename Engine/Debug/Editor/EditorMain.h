@@ -11,6 +11,7 @@
 #include "EditorInspector.h"
 #include "EditorSceneView.h"
 #include "EditorSelectObject.h"
+#include "EditorSceneList.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
 
 class EditorMain final : public SingletonInterface<EditorMain> {
@@ -43,6 +44,7 @@ private:
 	EditorGizmo gizmo;
 	EditorSelectObject selectObject;
 	EditorDeletedObjectPool deletedPool;
+	EditorSceneList sceneList;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

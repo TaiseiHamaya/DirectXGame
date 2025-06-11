@@ -181,6 +181,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.cpp" />
@@ -463,6 +464,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\EditorSceneList.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.h" />
