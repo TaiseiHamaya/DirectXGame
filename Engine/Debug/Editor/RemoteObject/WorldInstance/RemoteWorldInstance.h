@@ -25,6 +25,8 @@ public:
 
 	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
 
+	nlohmann::json serialize() const override;
+
 private:
 	std::unique_ptr<EditorObjectMoveCommand> moveCommand;
 };

@@ -30,6 +30,10 @@ void EditorHierarchy::load(std::filesystem::path file) {
 	Reference<BaseScene> currentScene = SceneManager::GetCurrentScene();
 }
 
+nlohmann::json EditorHierarchy::save() const {
+	return scene->serialize();
+}
+
 void EditorHierarchy::draw() {
 	if (!isActive) {
 		return;
@@ -124,6 +128,10 @@ void EditorHierarchy::draw() {
 	}
 
 	ImGui::End();
+}
+
+const std::string& EditorHierarchy::current_scene_name() {
+	return scene->name();
 }
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -2,14 +2,16 @@
 
 #include "EditorMain.h"
 
-#include "Command/EditorCommandInvoker.h"
-#include "Command/EditorSelectCommand.h"
-#include "Command/EditorDeleteObjectCommand.h"
-#include "Command/EditorCreateObjectCommand.h"
-#include "Engine/Application/EngineSettings.h"
-#include "Engine/Assets/Json/JsonAsset.h"
+#include <fstream>
 
 #include <imgui.h>
+
+#include "Command/EditorCommandInvoker.h"
+#include "Command/EditorCreateObjectCommand.h"
+#include "Command/EditorDeleteObjectCommand.h"
+#include "Command/EditorSelectCommand.h"
+#include "Engine/Application/EngineSettings.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 void EditorMain::Initialize() {
 	EditorMain& instance = GetInstance();
@@ -17,7 +19,7 @@ void EditorMain::Initialize() {
 	instance.sceneView.initialize(true);
 	instance.inspector.initialize();
 
-	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z });
+	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 }
 
 void EditorMain::Setup() {
@@ -56,6 +58,19 @@ void EditorMain::DrawBase() {
 		else {
 			EditorCommandInvoker::Undo();
 		}
+	}
+	if (instance.input.trigger(KeyID::S) && instance.input.press(KeyID::LControl)) {
+		nlohmann::json json = instance.hierarchy.save();
+
+		std::filesystem::path filePath = std::format("./Game/Core/Scene/{}.json", instance.hierarchy.current_scene_name());
+		auto parentPath = filePath.parent_path();
+		if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
+			std::filesystem::create_directories(parentPath);
+		}
+
+		std::ofstream ofstream{ filePath, std::ios_base::out };
+		ofstream << std::setw(1) << std::setfill('\t') << json;
+		ofstream.close();
 	}
 
 	instance.deletedPool.solution_sequence();

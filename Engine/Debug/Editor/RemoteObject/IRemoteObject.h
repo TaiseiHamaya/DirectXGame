@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#include <json.hpp>
+
 #include <Library/Utility/Tools/ConstructorMacro.h>
 #include <Library/Utility/Template/Reference.h>
 
@@ -29,6 +31,8 @@ public:
 	virtual void reparent(Reference<IRemoteObject> remoteObject);
 
 	virtual void add_child(std::unique_ptr<IRemoteObject> child) = 0;
+
+	virtual nlohmann::json serialize() const = 0;
 
 public:
 	Reference<IRemoteObject> get_parent() const;

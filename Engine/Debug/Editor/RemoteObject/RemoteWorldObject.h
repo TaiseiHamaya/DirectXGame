@@ -32,6 +32,8 @@ public:
 
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
+	nlohmann::json serialize() const override;
+
 private:
 	Reference<WorldManager> self;
 

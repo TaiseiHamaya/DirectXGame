@@ -36,3 +36,12 @@ void RemoteErrorObject::reparent(Reference<IRemoteObject> remoteObject) {
 void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject> child) {
 	Warning("RemoteErrorObject cannot have children.");
 }
+
+nlohmann::json RemoteErrorObject::serialize() const {
+	nlohmann::json result;
+
+	result["Type"] = 99;
+	result["Name"] = hierarchyName;
+
+	return result;
+}

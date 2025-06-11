@@ -17,9 +17,14 @@ class EditorSelectObject;
 class EditorHierarchy : public IEditorWindow {
 public:
 	void setup(Reference<EditorSelectObject> select_);
+
 	void load(std::filesystem::path file);
+	nlohmann::json save() const;
 
 	void draw() override;
+
+public:
+	const std::string& current_scene_name();
 
 private:
 	std::unique_ptr<RemoteSceneObject> scene;
