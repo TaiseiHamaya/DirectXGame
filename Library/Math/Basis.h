@@ -37,6 +37,8 @@ public:
 	Basis inverse() const;
 	Basis transposed() const;
 
+	Basis orthonormalize() const;
+
 	Matrix3x3 to_matrix() const;
 	Matrix4x4 to_matrix4x4() const;
 

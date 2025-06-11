@@ -2,8 +2,8 @@
 
 #include "ImGuiManager.h"
 
-#include "./ImGuiJapanese.h"
 #include "./ImGuiIcons.h"
+#include "./ImGuiJapanese.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -13,9 +13,13 @@
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
-#include "imgui.h"
-#include "imgui_impl_dx12.h"
-#include "imgui_impl_win32.h"
+#include <imgui.h>
+#include <imgui_impl_dx12.h>
+#include <imgui_impl_win32.h>
+#include <ImGuizmo.h>
+
+
+#include <Engine/Runtime/Input/InputHandler.h>
 
 ImGuiManager& ImGuiManager::GetInstance() noexcept {
 	static ImGuiManager instance{};
@@ -50,6 +54,8 @@ void ImGuiManager::Initialize() {
 	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 13.f, &config, IconsGlyphRanges);
 	ImGui::GetStyle().Colors[2] = ImVec4{ 0.1f,0.1f,0.1f,1 };
 	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
+
+	ImGuizmo::Enable(true);
 }
 
 void ImGuiManager::Finalize() {
@@ -67,6 +73,18 @@ void ImGuiManager::BeginFrame() {
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	static InputHandler<KeyID> input;
+	static std::once_flag flag;
+	std::call_once(flag, [&]() {input.initialize({ KeyID::F6 }); });
+	static bool isActiveGizmo{ true };
+	input.update();
+	if (input.trigger(KeyID::F6)) {
+		isActiveGizmo ^= 1;
+	}
+	if (isActiveGizmo) {
+		ImGuizmo::BeginFrame();
+	}
 }
 
 void ImGuiManager::EndFrame() {

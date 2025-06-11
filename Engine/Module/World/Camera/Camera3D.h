@@ -61,6 +61,8 @@ public:
 	void debug_draw_axis();
 	void debug_draw_frustum() const;
 	const Matrix4x4& vp_matrix_debug() const;
+	const Affine& debug_view_affine() const;
+	const Matrix4x4& debug_proj_matrix() const;
 	Reference<const StaticMeshInstance> camera_axis() const { return debugCameraCenter; }
 #endif // _DEBUG
 
@@ -79,8 +81,8 @@ private:
 #ifdef DEBUG_FEATURES_ENABLE
 	Matrix4x4 vpMatrix;
 	Affine debugViewAffine;
-	bool isValidDebugCamera;
-	bool useDebugCameraLighting;
+	bool isValidDebugCamera{ true };
+	bool useDebugCameraLighting{ true };
 	std::unique_ptr<StaticMeshInstance> debugCameraCenter;
 	std::unique_ptr<WorldInstance> debugCamera;
 	std::unique_ptr<PrimitiveGeometryDrawExecutor> frustumExecutor;

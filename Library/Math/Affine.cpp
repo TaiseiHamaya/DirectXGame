@@ -48,6 +48,16 @@ Affine Affine::FromTranslate(const Vector3& translate) {
 	return result;
 }
 
+Affine Affine::FromMatrix(const Matrix4x4& matrix) {
+	Affine result;
+	result.basis[0] = Vector3{ matrix[0][0], matrix[0][1], matrix[0][2] };
+	result.basis[1] = Vector3{ matrix[1][0], matrix[1][1], matrix[1][2] };
+	result.basis[2] = Vector3{ matrix[2][0], matrix[2][1], matrix[2][2] };
+	result.origin = Vector3{ matrix[3][0], matrix[3][1], matrix[3][2] };
+
+	return result;
+}
+
 void Affine::invert_fast() {
 	basis.transpose();
 	origin = -origin * basis;

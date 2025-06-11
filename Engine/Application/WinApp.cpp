@@ -246,7 +246,7 @@ void WinApp::ShowAppWindow() {
 	Information("Show application window.");
 
 #ifdef DEBUG_FEATURES_ENABLE
-	EditorMain::Start();
+	EditorMain::Setup();
 #endif // _DEBUG
 
 	// 時計初期化

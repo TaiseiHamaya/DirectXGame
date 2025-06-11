@@ -6,17 +6,17 @@
 
 #include <Library/Utility/Template/Reference.h>
 
-class EditorHierarchy;
+class EditorSelectObject;
 
 class EditorInspector : public IEditorWindow {
 public:
 	void initialize();
-	void start(Reference<EditorHierarchy> hierarchyRoot_);
+	void setup(Reference<EditorSelectObject> selectObject_);
 
 	void draw() override;
 
 private:
-	Reference<EditorHierarchy> hierarchyRoot;
+	Reference<EditorSelectObject> selectObject;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

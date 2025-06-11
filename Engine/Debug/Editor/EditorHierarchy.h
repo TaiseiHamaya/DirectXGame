@@ -12,14 +12,14 @@
 #include "RemoteObject/RemoteSceneObject.h"
 
 class IRemoteObject;
+class EditorSelectObject;
 
 class EditorHierarchy : public IEditorWindow {
 public:
+	void setup(Reference<EditorSelectObject> select_);
 	void load(std::filesystem::path file);
 
 	void draw() override;
-
-	Reference<IRemoteObject> get_select() const;
 
 private:
 	std::unique_ptr<RemoteSceneObject> scene;
@@ -27,7 +27,7 @@ private:
 	std::string searchString;
 	std::string menuString;
 
-	Reference<IRemoteObject> select{ nullptr };
+	Reference<EditorSelectObject> select{ nullptr };
 
 	bool savedTrigger;
 };

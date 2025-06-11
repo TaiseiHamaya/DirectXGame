@@ -22,7 +22,7 @@ public:
 public:
 	void draw_inspector() override;
 
-	void draw_hierarchy(Reference<IRemoteObject>& select) override;
+	void draw_hierarchy(Reference<EditorSelectObject> select) override;
 
 private:
 	Reference<BaseScene> self;

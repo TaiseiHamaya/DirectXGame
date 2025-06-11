@@ -16,8 +16,8 @@ void RemoteWorldInstance::draw_inspector() {
 	transform.debug_gui("Local transform");
 }
 
-void RemoteWorldInstance::draw_hierarchy(Reference<IRemoteObject>& select) {
-	bool isSelected = this == select.ptr();
+void RemoteWorldInstance::draw_hierarchy(Reference<EditorSelectObject> select) {
+	bool isSelected = select->is_selected(this);
 	// 子がいる場合
 	if (!children.empty()) {
 		int flags =
@@ -34,7 +34,8 @@ void RemoteWorldInstance::draw_hierarchy(Reference<IRemoteObject>& select) {
 
 		// こうすると選択できるらしい
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-			select = this;
+			select->set_item(this, transform);
+			//select = this;
 		}
 
 		if (isOpen) {
@@ -47,7 +48,7 @@ void RemoteWorldInstance::draw_hierarchy(Reference<IRemoteObject>& select) {
 	// 子がいない場合
 	else {
 		if (ImGui::Selectable(std::format("{}##{}", hierarchyName, (void*)this).c_str(), isSelected)) {
-			select = this;
+			select->set_item(this, transform);
 		}
 	}
 }

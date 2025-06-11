@@ -14,8 +14,8 @@ void RemoteWorldObject::draw_inspector() {
 	ImGui::InputText("World", &hierarchyName);
 }
 
-void RemoteWorldObject::draw_hierarchy(Reference<IRemoteObject>& select) {
-	bool isSelected = this == select.ptr();
+void RemoteWorldObject::draw_hierarchy(Reference<EditorSelectObject> select) {
+	bool isSelected = select->is_selected(this);
 
 	int flags =
 		ImGuiTreeNodeFlags_SpanFullWidth |
@@ -30,7 +30,8 @@ void RemoteWorldObject::draw_hierarchy(Reference<IRemoteObject>& select) {
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-		select = this;
+		//select = this;
+		select->set_item(this);
 	}
 
 	if (isOpen) {

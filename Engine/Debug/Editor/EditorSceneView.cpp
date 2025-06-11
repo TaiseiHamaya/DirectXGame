@@ -4,6 +4,8 @@
 
 #include <imgui.h>
 
+#include "EditorGizmo.h"
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
@@ -11,6 +13,10 @@
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
 	screenResultTexture.initialize();
+}
+
+void EditorSceneView::setup(Reference<EditorGizmo> gizmo_) {
+	gizmo = gizmo_;
 }
 
 void EditorSceneView::draw() {
@@ -22,6 +28,18 @@ bool EditorSceneView::is_hovered_window() {
 	return
 		(isActive && isHoverWindow) ||
 		!ImGui::GetIO().WantCaptureMouse;
+}
+
+const Vector2& EditorSceneView::view_origin() const {
+	return origin;
+}
+
+const Vector2& EditorSceneView::view_size() const {
+	return size;
+}
+
+Reference<ImDrawList> EditorSceneView::draw_list() const {
+	return drawList;
 }
 
 void EditorSceneView::copy_screen() {
@@ -45,6 +63,12 @@ void EditorSceneView::set_imgui_command() {
 	screenResultTexture.start_read();
 	ImGui::Begin("Scene", &isActive, ImGuiWindowFlags_NoScrollbar);
 
+	gizmo->scene_header();
+
+	ImGui::Separator();
+
+	drawList = ImGui::GetWindowDrawList();
+
 	isHoverWindow = ImGui::IsWindowHovered();
 
 	ImVec2 winSize = ImGui::GetContentRegionAvail();
@@ -53,19 +77,22 @@ void EditorSceneView::set_imgui_command() {
 	float aspectX = winSize.x / 16;
 	float aspectY = winSize.y / 9;
 
-	ImVec2 size = aspectX > aspectY ?
+	ImVec2 imgSize = aspectX > aspectY ?
 		ImVec2{ winSize.y / 9 * 16, winSize.y } :
 		ImVec2{ winSize.x, winSize.x / 16 * 9 };
 
 	ImVec2 cursorPos = { 
-		(winSize.x - size.x) * 0.5f + winPos.x + ImGui::GetCursorPosX(),
-		(winSize.y - size.y) * 0.5f + winPos.y + ImGui::GetCursorPosY()
+		(winSize.x - imgSize.x) * 0.5f + winPos.x + ImGui::GetCursorPosX(),
+		(winSize.y - imgSize.y) * 0.5f + winPos.y + ImGui::GetCursorPosY()
 	};
 	ImGui::SetCursorScreenPos(cursorPos);
 	ImGui::Image(
-		static_cast<ImTextureID>(screenResultTexture.get_as_srv()->handle().ptr), size
+		static_cast<ImTextureID>(screenResultTexture.get_as_srv()->handle().ptr), imgSize
 	);
 	ImGui::End();
+
+	origin = { cursorPos.x, cursorPos.y };
+	size = { imgSize.x, imgSize.y };
 }
 
 #endif // DEBUG_FEATURES_ENABLE

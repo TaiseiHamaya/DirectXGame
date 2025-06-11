@@ -229,4 +229,12 @@ const Matrix4x4& Camera3D::vp_matrix_debug() const {
 	return vpBuffers.get_data()->viewProjection;
 }
 
+const Affine& Camera3D::debug_view_affine() const {
+	return debugViewAffine;
+}
+
+const Matrix4x4& Camera3D::debug_proj_matrix() const {
+	return projectionMatrix;
+}
+
 #endif // _DEBUG
