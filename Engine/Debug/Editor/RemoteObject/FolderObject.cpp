@@ -2,6 +2,8 @@
 
 #include "FolderObject.h"
 
+#include <format>
+
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
@@ -9,8 +11,8 @@ void FolderObject::draw_inspector() {
 	ImGui::InputText("FolderName", &hierarchyName);
 }
 
-void FolderObject::draw_hierarchy(Reference<IRemoteObject>& select) {
-	bool isSelected = this == select.ptr();
+void FolderObject::draw_hierarchy(Reference<EditorSelectObject> select) {
+	bool isSelected = select->is_selected(this);
 
 	int flags =
 		ImGuiTreeNodeFlags_SpanFullWidth |
@@ -26,7 +28,7 @@ void FolderObject::draw_hierarchy(Reference<IRemoteObject>& select) {
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-		select = this;
+		//select = this;
 	}
 
 	if (isOpen) {
@@ -36,6 +38,7 @@ void FolderObject::draw_hierarchy(Reference<IRemoteObject>& select) {
 			}
 			child->draw_hierarchy(select);
 		}
+		ImGui::Separator();
 	}
 }
 

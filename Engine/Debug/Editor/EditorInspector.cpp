@@ -4,15 +4,15 @@
 
 #include <imgui.h>
 
-#include "EditorHierarchy.h"
+#include "EditorSelectObject.h"
 #include "RemoteObject/IRemoteObject.h"
 
 void EditorInspector::initialize() {
 	isActive = true;
 }
 
-void EditorInspector::start(Reference<EditorHierarchy> hierarchyRoot_) {
-	hierarchyRoot = hierarchyRoot_;
+void EditorInspector::setup(Reference<EditorSelectObject> selectObject_) {
+	selectObject = selectObject_;
 }
 
 void EditorInspector::draw() {
@@ -23,7 +23,7 @@ void EditorInspector::draw() {
 	int flags = 0;
 	ImGui::Begin("Inspector", &isActive, flags);
 
-	Reference<IRemoteObject> select = hierarchyRoot->get_select();
+	Reference<IRemoteObject> select = selectObject->get_item().object;
 
 	if (select) {
 		select->draw_inspector();

@@ -9,6 +9,7 @@
 #include "./RemoteObject/IRemoteObject.h"
 
 class Camera3D;
+class EditorSelectObject;
 
 class EditorGizmo {
 public:
@@ -19,11 +20,13 @@ public:
 
 public:
 	void begin_frame(Reference<Camera3D> camera, const Vector2& origin, const Vector2& size);
-	void draw_gizmo(Reference<IRemoteObject> object);
+	void draw_gizmo(Reference<EditorSelectObject> object);
+	void scene_header();
 
 private:
 	Matrix4x4 view;
 	Matrix4x4 proj;
 
+	ImGuizmo::MODE mode{ ImGuizmo::MODE::WORLD };
 	ImGuizmo::OPERATION operation{ ImGuizmo::OPERATION::TRANSLATE };
 };

@@ -11,7 +11,7 @@
 
 void Basis::invert() {
 	r32 co[3] = {
-		cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1)
+		cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1 )
 	};
 	r32 det = rows[0][0] * co[0] +
 		rows[0][1] * co[1] +
@@ -43,6 +43,15 @@ Basis Basis::transposed() const {
 	return tr;
 }
 
+Basis Basis::orthonormalize() const {
+	Basis result;
+	result.rows[0] = rows[0].normalize_safe();
+	result.rows[1] = rows[1].normalize_safe();
+	result.rows[2] = rows[2].normalize_safe();
+
+	return result;
+}
+
 Matrix3x3 Basis::to_matrix() const {
 	Matrix3x3 result;
 	for (i32 i = 0; i < 3; ++i) {
@@ -68,41 +77,42 @@ void Basis::scale_rotate(const Vector3& scale, const Quaternion& rotate) {
 
 Vector3 Basis::to_scale() const {
 	return {
-		column(0).length(),
-		column(1).length(),
-		column(2).length()
+		rows[0].length(),
+		rows[1].length(),
+		rows[2].length()
 	};
 }
 
 Quaternion Basis::to_quaternion() const {
 	// 理論 : https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 	// Code : https://github.com/godotengine/godot/blob/master/core/math/basis.cpp (GodotEngine Basis::get_quaternion()関数より)
+	
+	Basis norm = orthonormalize();
 
 	Vector3 xyz;
 	r32 w;
-	r32 trace = rows[0][0] + rows[1][1] + rows[2][2];
+	r32 trace = norm[0][0] + norm[1][1] + norm[2][2];
 	if (trace > 0.0f) {
-		r32 s = std::sqrt(trace + 1.0f);
-		w = s * 0.5f;
-		s = 0.5f / s;
-		xyz[0] = (rows[2][1] - rows[1][2]) * s;
-		xyz[1] = (rows[0][2] - rows[2][0]) * s;
-		xyz[2] = (rows[1][0] - rows[0][1]) * s;
+		r32 inv4w = 0.5f / std::sqrt(trace + 1.0f);
+		xyz[0] = (norm[1][2] - norm[2][1]) * inv4w;
+		xyz[1] = (norm[2][0] - norm[0][2]) * inv4w;
+		xyz[2] = (norm[0][1] - norm[1][0]) * inv4w;
+		w = (trace + 1.0f) * inv4w;
 	}
 	else {
-		i32 i = rows[0][0] < rows[1][1]
-			? (rows[1][1] < rows[2][2] ? 2 : 1)
-			: (rows[0][0] < rows[2][2] ? 2 : 0);
+		i32 i = norm[0][0] < norm[1][1]
+			? (norm[1][1] < norm[2][2] ? 2 : 1)
+			: (norm[0][0] < norm[2][2] ? 2 : 0);
 		i32 j = (i + 1) % 3;
 		i32 k = (i + 2) % 3;
 
-		r32 s = std::sqrt(rows[i][i] - rows[j][j] - rows[k][k] + 1.0f);
-		xyz[i] = s * 0.5f;
-		s = 0.5f / s;
+		r32 fourSqr = norm[i][i] - norm[j][j] - norm[k][k] + 1.0f;
+		r32 inv4 = 0.5f / std::sqrt(fourSqr);
 
-		w = (rows[k][j] - rows[j][k]) * s;
-		xyz[j] = (rows[j][i] + rows[i][j]) * s;
-		xyz[k] = (rows[k][i] + rows[i][k]) * s;
+		xyz[i] = inv4 * fourSqr;
+		xyz[j] = (norm[i][j] + norm[j][i]) * inv4;
+		xyz[k] = (norm[i][k] + norm[k][i]) * inv4;
+		w = (norm[j][k] - norm[k][j]) * inv4;
 	}
 
 	return Quaternion{ xyz,w };

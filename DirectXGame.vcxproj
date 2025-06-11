@@ -181,9 +181,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorSelectObject.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorGizmo.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\EditorBaseSystem.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorHierarchy.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorInspector.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp" />
@@ -197,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
     <ClCompile Include="Engine\Runtime\ProjectManager\ProjectManager.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\IEditorCommand.cpp" />
     <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
@@ -456,9 +459,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorSelectCommand.h" />
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandInvoker.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorSelectObject.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorGizmo.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.h" />
-    <ClInclude Include="Engine\Debug\Editor\EditorBaseSystem.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorHierarchy.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorInspector.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorMain.h" />
@@ -472,6 +477,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h" />
     <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\Command\IEditorCommand.h" />
     <ClInclude Include="Library\Utility\Template\string_hashed.h" />
     <ClInclude Include="Library\Utility\Template\call_once.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.h" />

@@ -4,10 +4,10 @@
 
 #include <string>
 
-#include <json.hpp>
-
 #include <Library/Utility/Tools/ConstructorMacro.h>
 #include <Library/Utility/Template/Reference.h>
+
+#include "../EditorSelectObject.h"
 
 class IRemoteObject {
 public:
@@ -19,11 +19,9 @@ public:
 public:
 	virtual void draw_inspector() = 0;
 
-	virtual void draw_hierarchy(Reference<IRemoteObject>& select) = 0;
+	virtual void draw_hierarchy(Reference<EditorSelectObject> select) = 0;
 
 	virtual void delete_hierarchy() {};
-
-	virtual void draw_gizmo() const {};
 
 protected:
 	bool isOpen{ false };

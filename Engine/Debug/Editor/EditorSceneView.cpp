@@ -4,6 +4,8 @@
 
 #include <imgui.h>
 
+#include "EditorGizmo.h"
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
@@ -11,6 +13,10 @@
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
 	screenResultTexture.initialize();
+}
+
+void EditorSceneView::setup(Reference<EditorGizmo> gizmo_) {
+	gizmo = gizmo_;
 }
 
 void EditorSceneView::draw() {
@@ -30,6 +36,10 @@ const Vector2& EditorSceneView::view_origin() const {
 
 const Vector2& EditorSceneView::view_size() const {
 	return size;
+}
+
+Reference<ImDrawList> EditorSceneView::draw_list() const {
+	return drawList;
 }
 
 void EditorSceneView::copy_screen() {
@@ -52,6 +62,12 @@ void EditorSceneView::set_imgui_command() {
 
 	screenResultTexture.start_read();
 	ImGui::Begin("Scene", &isActive, ImGuiWindowFlags_NoScrollbar);
+
+	gizmo->scene_header();
+
+	ImGui::Separator();
+
+	drawList = ImGui::GetWindowDrawList();
 
 	isHoverWindow = ImGui::IsWindowHovered();
 

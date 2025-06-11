@@ -1,11 +1,13 @@
 #include "EditorGizmo.h"
 
 #include <imgui.h>
+#include <imgui_internal.h>
+
+#include "./EditorSelectObject.h"
 
 #include <Library/Math/Affine.h>
 
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include <imgui_internal.h>
 
 void EditorGizmo::begin_frame(Reference<Camera3D> camera, const Vector2& origin, const Vector2& size) {
 	ImGuizmo::SetRect(origin.x, origin.y, size.x, size.y);
@@ -15,27 +17,80 @@ void EditorGizmo::begin_frame(Reference<Camera3D> camera, const Vector2& origin,
 	}
 }
 
-void EditorGizmo::draw_gizmo(Reference<IRemoteObject> object) {
-	if (!object) {
+void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select) {
+	if (!select) {
 		return;
 	}
-	ImGuiContext& g = *ImGui::GetCurrentContext();
-	ImGuiWindow* window = ImGui::FindWindowByName("gizmo");
-	if (g.HoveredWindow == window)   // Mouse hovering drawlist window
-		Information("g.HoveredWindow == window");
-	//if (gContext.mAlternativeWindow != nullptr && g.HoveredWindow == gContext.mAlternativeWindow)
-	//	Information("g.HoveredWindow == window");
-	if (g.HoveredWindow != NULL)     // Any other window is hovered
-		Information("g.HoveredWindow != NULL");
-	if (ImGui::IsMouseHoveringRect(window->InnerRect.Min, window->InnerRect.Max, false))   // Hovering drawlist window rect, while no other window is hovered (for _NoInputs windows)
-		Information("ImGui::IsMouseHoveringRect(window->InnerRect.Min, window->InnerRect.Max, false)");
-	object->draw_gizmo();
 
-	Matrix4x4 mat = CMatrix4x4::IDENTITY;
-	
-	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, ImGuizmo::WORLD, &mat[0][0]);
+	// get select
+	auto& item = select->get_item();
 
-	mat = mat;
-	Affine affine = Affine::FromMatrix(mat);
-	Information("{}", ImGuizmo::IsOver());
+	// null check
+	if (!item.object || !item.transform) {
+		return;
+	}
+
+	// to matrix
+	Matrix4x4 matrix = Affine::FromTransform3D(*item.transform).to_matrix();
+
+	// manipulate
+	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
+
+	// to affine
+	Affine affine = Affine::FromMatrix(matrix);
+
+	// decompose
+	item.transform->set_scale(affine.get_basis().to_scale());
+	item.transform->set_quaternion(affine.get_basis().to_quaternion());
+	item.transform->set_translate(affine.get_origin());
+}
+
+void EditorGizmo::scene_header() {
+	ImGui::SetNextItemWidth(100);
+	std::string modeComboLabel = mode == ImGuizmo::MODE::WORLD ? "World" : "Local";
+	if (ImGui::BeginCombo(std::format("##Mode{}", (void*)this).c_str(), modeComboLabel.c_str())) {
+		if (ImGui::Selectable("Local", mode == ImGuizmo::MODE::LOCAL)) {
+			mode = ImGuizmo::MODE::LOCAL;
+		}
+		if (ImGui::Selectable("World", mode == ImGuizmo::MODE::WORLD)) {
+			mode = ImGuizmo::MODE::WORLD;
+		}
+
+		ImGui::EndCombo();
+	}
+
+	ImGui::SameLine();
+
+	ImGui::SetNextItemWidth(100);
+	std::string operationComboLabel;
+	switch (operation) {
+	case ImGuizmo::OPERATION::SCALEU:
+		operationComboLabel = "Scale";
+		break;
+	case ImGuizmo::OPERATION::ROTATE:
+		operationComboLabel = "Rotate";
+		break;
+	case ImGuizmo::OPERATION::TRANSLATE:
+		operationComboLabel = "Translate";
+		break;
+	case ImGuizmo::OPERATION::UNIVERSAL:
+		operationComboLabel = "Universal";
+		break;
+	}
+	if (ImGui::BeginCombo(std::format("##Operation{}", (void*)this).c_str(), operationComboLabel.c_str())) {
+		if (ImGui::Selectable("Scale", operation == ImGuizmo::OPERATION::SCALEU)) {
+			operation = ImGuizmo::OPERATION::SCALEU;
+		}
+		if (ImGui::Selectable("Rotate", operation == ImGuizmo::OPERATION::ROTATE)) {
+			operation = ImGuizmo::OPERATION::ROTATE;
+		}
+		if (ImGui::Selectable("Translate", operation == ImGuizmo::OPERATION::TRANSLATE)) {
+			operation = ImGuizmo::OPERATION::TRANSLATE;
+		}
+		if (ImGui::Selectable("Universal", operation == ImGuizmo::OPERATION::UNIVERSAL)) {
+			operation = ImGuizmo::OPERATION::UNIVERSAL;
+		}
+
+		ImGui::EndCombo();
+	}
 }

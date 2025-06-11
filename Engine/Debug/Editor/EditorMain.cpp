@@ -16,13 +16,15 @@ void EditorMain::Initialize() {
 	instance.input.initialize({ KeyID::F5 });
 }
 
-void EditorMain::Start() {
+void EditorMain::Setup() {
 	EditorMain& instance = GetInstance();
 	JsonAsset json;
 	json.load("./Game/DebugData/Editor.json");
 	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
 	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
-	instance.inspector.start(instance.hierarchy);
+	instance.hierarchy.setup(instance.selectObject);
+	instance.inspector.setup(instance.selectObject);
+	instance.sceneView.setup(instance.gizmo);
 }
 
 void EditorMain::DrawBase() {
@@ -50,7 +52,8 @@ void EditorMain::Draw() {
 	instance.hierarchy.draw();
 	instance.inspector.draw();
 	if (instance.sceneView.is_active()) {
-		instance.gizmo.draw_gizmo(instance.hierarchy.get_select());
+		ImGuizmo::SetDrawlist(instance.sceneView.draw_list().ptr());
+		instance.gizmo.draw_gizmo(instance.selectObject);
 	}
 }
 

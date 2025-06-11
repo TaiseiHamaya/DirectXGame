@@ -10,13 +10,14 @@
 #include "EditorHierarchy.h"
 #include "EditorInspector.h"
 #include "EditorGizmo.h"
+#include "EditorSelectObject.h"
 
 class EditorMain final : public SingletonInterface<EditorMain> {
 	__CLASS_SINGLETON_INTERFACE(EditorMain)
 
 public:
 	static void Initialize();
-	static void Start();
+	static void Setup();
 
 	static void DrawBase();
 	static void Draw();
@@ -39,6 +40,7 @@ private:
 	EditorHierarchy hierarchy;
 	EditorInspector inspector;
 	EditorGizmo gizmo;
+	EditorSelectObject selectObject;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

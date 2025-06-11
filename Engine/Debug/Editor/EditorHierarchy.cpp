@@ -10,6 +10,10 @@
 
 #include <Engine/Assets/Json/JsonAsset.h>
 
+void EditorHierarchy::setup(Reference<EditorSelectObject> select_) {
+	select = select_;
+}
+
 void EditorHierarchy::load(std::filesystem::path file) {
 	savedTrigger = false;
 	isActive = true;
@@ -83,10 +87,6 @@ void EditorHierarchy::draw() {
 	}
 
 	ImGui::End();
-}
-
-Reference<IRemoteObject> EditorHierarchy::get_select() const {
-	return select;
 }
 
 #endif // DEBUG_FEATURES_ENABLE
