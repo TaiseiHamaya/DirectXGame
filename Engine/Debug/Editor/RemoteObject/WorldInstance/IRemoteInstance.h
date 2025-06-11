@@ -13,7 +13,7 @@ public:
 	__CLASS_DEFAULT_ALL(IRemoteInstance)
 
 public:
-
+	void draw_gizmo() const override;
 
 protected:
 	Reference<RuntimeType> self;
@@ -21,3 +21,7 @@ protected:
 	std::vector<std::unique_ptr<IRemoteObject>> children;
 	Transform3D transform;
 };
+
+template<typename RuntimeType>
+inline void IRemoteInstance<RuntimeType>::draw_gizmo() const {
+}

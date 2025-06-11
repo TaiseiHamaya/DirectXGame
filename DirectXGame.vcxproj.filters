@@ -759,6 +759,9 @@
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\EditorGizmo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -1347,6 +1350,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\EditorGizmo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

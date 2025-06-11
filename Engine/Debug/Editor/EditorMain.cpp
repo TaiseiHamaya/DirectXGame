@@ -12,6 +12,8 @@ void EditorMain::Initialize() {
 	instance.isActiveEditor = true;
 	instance.sceneView.initialize(true);
 	instance.inspector.initialize();
+
+	instance.input.initialize({ KeyID::F5 });
 }
 
 void EditorMain::Start() {
@@ -25,6 +27,12 @@ void EditorMain::Start() {
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
+
+	instance.input.update();
+	if (instance.input.trigger(KeyID::F5)) {
+		instance.isActiveEditor ^= 1;
+	}
+
 	if (!instance.isActiveEditor) {
 		return;
 	}
@@ -41,6 +49,9 @@ void EditorMain::Draw() {
 	instance.sceneView.draw();
 	instance.hierarchy.draw();
 	instance.inspector.draw();
+	if (instance.sceneView.is_active()) {
+		instance.gizmo.draw_gizmo(instance.hierarchy.get_select());
+	}
 }
 
 void EditorMain::Finalize() {
@@ -49,6 +60,12 @@ void EditorMain::Finalize() {
 bool EditorMain::IsHoverEditorWindow() {
 	EditorMain& instance = GetInstance();
 	return instance.sceneView.is_hovered_window();
+}
+
+void EditorMain::SetCamera(Reference<Camera3D> camera) {
+	EditorMain& instance = GetInstance();
+
+	instance.gizmo.begin_frame(camera, instance.sceneView.view_origin(), instance.sceneView.view_size());
 }
 
 void EditorMain::set_imgui_command() {

@@ -16,6 +16,8 @@ public:
 
 	void draw_menu(string_literal name);
 
+	bool is_active() const;
+
 protected:
 	bool isActive{ false };
 };

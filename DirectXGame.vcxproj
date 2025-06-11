@@ -181,6 +181,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\EditorGizmo.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorBaseSystem.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorHierarchy.cpp" />
@@ -455,6 +456,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\EditorGizmo.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorBaseSystem.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorHierarchy.h" />

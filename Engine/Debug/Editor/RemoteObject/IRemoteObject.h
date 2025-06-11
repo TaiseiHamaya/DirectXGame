@@ -23,6 +23,8 @@ public:
 
 	virtual void delete_hierarchy() {};
 
+	virtual void draw_gizmo() const {};
+
 protected:
 	bool isOpen{ false };
 	std::string hierarchyName;

@@ -16,4 +16,8 @@ void IEditorWindow::draw_menu(string_literal name) {
 	}
 }
 
+bool IEditorWindow::is_active() const {
+	return isActive;
+}
+
 #endif // DEBUG_FEATURES_ENABLE

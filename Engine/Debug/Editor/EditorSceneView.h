@@ -6,6 +6,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
 
+#include <Library/Math/Vector2.h>
+
 class EditorSceneView final : public IEditorWindow {
 public:
 	EditorSceneView() = default;
@@ -20,6 +22,9 @@ public:
 
 	bool is_hovered_window();
 
+	const Vector2& view_origin() const;
+	const Vector2& view_size() const;
+
 private:
 	void copy_screen();
 	void set_imgui_command();
@@ -27,6 +32,9 @@ private:
 private:
 	bool isHoverWindow{ false };
 	TempTexture screenResultTexture;
+
+	Vector2 origin;
+	Vector2 size;
 };
 
 #endif // DEBUG_FEATURES_ENABLE
