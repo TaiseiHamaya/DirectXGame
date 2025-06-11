@@ -5,6 +5,7 @@
 #include <imgui_stdlib.h>
 
 #include "../../Command/EditorCommandInvoker.h"
+#include "../../Command/EditorObjectMoveCommand.h"
 #include "../../Command/EditorSelectCommand.h"
 
 RemoteWorldInstance::RemoteWorldInstance() = default;
@@ -16,7 +17,14 @@ void RemoteWorldInstance::draw_inspector() {
 	ImGui::InputText("Name", &hierarchyName);
 	ImGui::Separator();
 
-	transform.debug_gui("Local transform");
+	bool isMove = transform.debug_gui("Local transform");
+	if (isMove && !moveCommand) {
+		moveCommand = std::make_unique<EditorObjectMoveCommand>(transform);
+	}
+	else if (!isMove && moveCommand) {
+		moveCommand->preprocess();
+		EditorCommandInvoker::Execute(std::move(moveCommand));
+	}
 }
 
 void RemoteWorldInstance::draw_hierarchy(Reference<const EditorSelectObject> select) {

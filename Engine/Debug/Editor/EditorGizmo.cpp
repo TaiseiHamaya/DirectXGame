@@ -1,13 +1,17 @@
 #include "EditorGizmo.h"
 
 #include <imgui.h>
-#include <imgui_internal.h>
 
 #include "./EditorSelectObject.h"
 
 #include <Library/Math/Affine.h>
 
+#include "Command/EditorCommandInvoker.h"
+#include "Command/EditorObjectMoveCommand.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
+
+EditorGizmo::EditorGizmo() = default;
+EditorGizmo::~EditorGizmo() = default;
 
 void EditorGizmo::begin_frame(Reference<Camera3D> camera, const Vector2& origin, const Vector2& size) {
 	ImGuizmo::SetRect(origin.x, origin.y, size.x, size.y);
@@ -34,7 +38,14 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select) {
 	Matrix4x4 matrix = Affine::FromTransform3D(*item.transform).to_matrix();
 
 	// manipulate
-	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
+	bool isMove = ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
+	if (ImGuizmo::IsUsing() && !moveCommand) {
+		moveCommand = std::make_unique<EditorObjectMoveCommand>(item.transform);
+	}
+	else if (!ImGuizmo::IsUsing() && moveCommand) {
+		moveCommand->preprocess();
+		EditorCommandInvoker::Execute(std::move(moveCommand));
+	}
 
 	// to affine
 	Affine affine = Affine::FromMatrix(matrix);

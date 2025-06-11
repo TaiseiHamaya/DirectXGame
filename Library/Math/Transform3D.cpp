@@ -71,33 +71,42 @@ const Vector3& Transform3D::get_translate() const noexcept {
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
-void Transform3D::debug_gui(string_literal tag) {
+bool Transform3D::debug_gui(string_literal tag) {
+	bool result = false;
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
 		if (ImGui::Button("ResetScale")) {
 			scale = CVector3::BASIS;
 		}
+		result |= ImGui::IsItemActive();
 		ImGui::SameLine();
 		if (ImGui::Button("ResetRotate")) {
 			rotate = CQuaternion::IDENTITY;
 		}
+		result |= ImGui::IsItemActive();
 		ImGui::SameLine();
 		if (ImGui::Button("ResetTranslate")) {
 			translate = CVector3::ZERO;
 		}
+		result |= ImGui::IsItemActive();
 		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+		result |= ImGui::IsItemActive();
 		Vector3 rotationL = CVector3::ZERO;
-		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f)) {
+		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f, "")) {
 			rotate = (rotate * Quaternion::EulerDegree(rotationL)).normalize();
 		}
+		result |= ImGui::IsItemActive();
 		Vector3 rotationW = CVector3::ZERO;
-		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f)) {
+		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f, "")) {
 			rotate *= Quaternion::EulerDegree(rotationW);
 			rotate = rotate.normalize();
 		}
+		result |= ImGui::IsItemActive();
 		ImGui::DragFloat3("Translate", &translate.x, 0.1f);
+		result |= ImGui::IsItemActive();
 		ImGui::TreePop();
 	}
+	return result;
 }
 #endif // _DEBUG
 

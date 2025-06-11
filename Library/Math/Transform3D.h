@@ -35,7 +35,7 @@ public:
 	const Vector3& get_translate() const noexcept;
 
 #ifdef DEBUG_FEATURES_ENABLE
-	void debug_gui(string_literal tag = "Transform3D");
+	bool debug_gui(string_literal tag = "Transform3D");
 	//void debug_axis(const Matrix4x4& debug_matrix) const;
 #endif // _DEBUG
 
