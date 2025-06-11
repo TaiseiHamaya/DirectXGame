@@ -2,6 +2,8 @@
 
 #include "EditorMain.h"
 
+#include "Command/EditorCommandInvoker.h"
+#include "Command/EditorSelectCommand.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
 
@@ -13,7 +15,7 @@ void EditorMain::Initialize() {
 	instance.sceneView.initialize(true);
 	instance.inspector.initialize();
 
-	instance.input.initialize({ KeyID::F5 });
+	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z });
 }
 
 void EditorMain::Setup() {
@@ -25,13 +27,15 @@ void EditorMain::Setup() {
 	instance.hierarchy.setup(instance.selectObject);
 	instance.inspector.setup(instance.selectObject);
 	instance.sceneView.setup(instance.gizmo);
+
+	EditorSelectCommand::Setup(instance.selectObject);
 }
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
 
 	instance.input.update();
-	if (instance.input.trigger(KeyID::F5)) {
+	if (instance.input.trigger(KeyID::F6)) {
 		instance.isActiveEditor ^= 1;
 	}
 
@@ -40,6 +44,15 @@ void EditorMain::DrawBase() {
 	}
 
 	instance.set_imgui_command();
+
+	if (instance.input.trigger(KeyID::Z) && instance.input.press(KeyID::LControl)) {
+		if (instance.input.press(KeyID::LShift)) {
+			EditorCommandInvoker::Redo();
+		}
+		else {
+			EditorCommandInvoker::Undo();
+		}
+	}
 }
 
 void EditorMain::Draw() {

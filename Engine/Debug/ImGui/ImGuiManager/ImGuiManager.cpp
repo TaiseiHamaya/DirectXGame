@@ -73,18 +73,7 @@ void ImGuiManager::BeginFrame() {
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-	static InputHandler<KeyID> input;
-	static std::once_flag flag;
-	std::call_once(flag, [&]() {input.initialize({ KeyID::F6 }); });
-	static bool isActiveGizmo{ true };
-	input.update();
-	if (input.trigger(KeyID::F6)) {
-		isActiveGizmo ^= 1;
-	}
-	if (isActiveGizmo) {
-		ImGuizmo::BeginFrame();
-	}
+	ImGuizmo::BeginFrame();
 }
 
 void ImGuiManager::EndFrame() {

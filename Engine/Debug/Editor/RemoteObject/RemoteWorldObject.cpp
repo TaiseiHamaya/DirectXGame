@@ -7,6 +7,9 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
+#include "../Command/EditorCommandInvoker.h"
+#include "../Command/EditorSelectCommand.h"
+
 RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
 
@@ -14,7 +17,7 @@ void RemoteWorldObject::draw_inspector() {
 	ImGui::InputText("World", &hierarchyName);
 }
 
-void RemoteWorldObject::draw_hierarchy(Reference<EditorSelectObject> select) {
+void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
 
 	int flags =
@@ -30,8 +33,9 @@ void RemoteWorldObject::draw_hierarchy(Reference<EditorSelectObject> select) {
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-		//select = this;
-		select->set_item(this);
+		EditorCommandInvoker::Execute(
+			std::make_unique<EditorSelectCommand>(this)
+		);
 	}
 
 	if (isOpen) {

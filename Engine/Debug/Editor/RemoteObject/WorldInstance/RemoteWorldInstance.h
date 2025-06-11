@@ -19,7 +19,7 @@ public:
 public:
 	void draw_inspector() override;
 
-	void draw_hierarchy(Reference<EditorSelectObject> select) override;
+	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
 
 private:
 };

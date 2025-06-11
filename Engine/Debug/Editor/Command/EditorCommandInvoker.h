@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
+#include <Library/Utility/Template/SingletonInterface.h>
 
 #include <deque>
 #include <optional>
@@ -8,17 +9,13 @@
 
 class IEditorCommand;
 
-class EditorCommandInvoker {
-public:
-	EditorCommandInvoker() = default;
-	~EditorCommandInvoker() = default;
-
-	__CLASS_NON_COPYABLE(EditorCommandInvoker)
+class EditorCommandInvoker final : public SingletonInterface<EditorCommandInvoker> {
+	__CLASS_SINGLETON_INTERFACE(EditorCommandInvoker)
 
 public:
-	void execute(std::unique_ptr<IEditorCommand> command);
-	void redo();
-	void undo();
+	static void Execute(std::unique_ptr<IEditorCommand> command);
+	static void Redo();
+	static void Undo();
 
 private:
 	std::optional<u64> recent;

@@ -19,7 +19,7 @@ public:
 public:
 	virtual void draw_inspector() = 0;
 
-	virtual void draw_hierarchy(Reference<EditorSelectObject> select) = 0;
+	virtual void draw_hierarchy(Reference<const EditorSelectObject> select) = 0;
 
 	virtual void delete_hierarchy() {};
 

@@ -7,7 +7,7 @@ void EditorSelectObject::set_item(Reference<IRemoteObject> object_, Reference<Tr
 	select.transform = transform_;
 }
 
-const EditorSelectObject::SelectObject& EditorSelectObject::get_item() {
+const EditorSelectObjectBody& EditorSelectObject::get_item() {
 	return select;
 }
 

@@ -4,6 +4,9 @@
 
 #include <imgui_stdlib.h>
 
+#include "../../Command/EditorCommandInvoker.h"
+#include "../../Command/EditorSelectCommand.h"
+
 RemoteWorldInstance::RemoteWorldInstance() = default;
 RemoteWorldInstance::~RemoteWorldInstance() = default;
 
@@ -16,7 +19,7 @@ void RemoteWorldInstance::draw_inspector() {
 	transform.debug_gui("Local transform");
 }
 
-void RemoteWorldInstance::draw_hierarchy(Reference<EditorSelectObject> select) {
+void RemoteWorldInstance::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
 	// 子がいる場合
 	if (!children.empty()) {
@@ -34,8 +37,9 @@ void RemoteWorldInstance::draw_hierarchy(Reference<EditorSelectObject> select) {
 
 		// こうすると選択できるらしい
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-			select->set_item(this, transform);
-			//select = this;
+			EditorCommandInvoker::Execute(
+				std::make_unique<EditorSelectCommand>(this, transform)
+			);
 		}
 
 		if (isOpen) {
@@ -48,7 +52,9 @@ void RemoteWorldInstance::draw_hierarchy(Reference<EditorSelectObject> select) {
 	// 子がいない場合
 	else {
 		if (ImGui::Selectable(std::format("{}##{}", hierarchyName, (void*)this).c_str(), isSelected)) {
-			select->set_item(this, transform);
+			EditorCommandInvoker::Execute(
+				std::make_unique<EditorSelectCommand>(this, transform)
+			);
 		}
 	}
 }

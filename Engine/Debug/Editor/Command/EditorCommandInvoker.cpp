@@ -2,42 +2,53 @@
 
 #include "IEditorCommand.h"
 
-void EditorCommandInvoker::execute(std::unique_ptr<IEditorCommand> command) {
+void EditorCommandInvoker::Execute(std::unique_ptr<IEditorCommand> command) {
 	command->execute(); // 実行
-	if (recent.has_value()) {
+	auto& instance = GetInstance();
+	if (instance.recent.has_value()) {
 		// undoした部分の履歴を削除
-		while (recent.value() + 1 < history.size()) {
-			history.pop_back();
+		while (instance.recent.value() + 1 < instance.history.size()) {
+			instance.history.pop_back();
 		}
 	}
+	else {
+		instance.history.clear();
+	}
 	// 追加
-	history.emplace_back(std::move(command));
+	instance.history.emplace_back(std::move(command));
 	// Index調整
-	if (recent.has_value()) {
-		++recent.value();
+	if (instance.recent.has_value()) {
+		++instance.recent.value();
 	}
 	else {
-		recent = 0;
+		instance.recent = 0;
 	}
 }
 
-void EditorCommandInvoker::redo() {
-	if (!recent.has_value() || recent.value() + 1 == history.size()) {
+void EditorCommandInvoker::Redo() {
+	auto& instance = GetInstance();
+	if (instance.history.empty() || (instance.recent.has_value() && instance.recent.value() + 1 == instance.history.size())) {
 		return; // 履歴がない or 先頭
 	}
-	++recent.value();
-	history[recent.value()]->execute();
-}
-
-void EditorCommandInvoker::undo() {
-	if (!recent.has_value()) {
-		return;
-	}
-	history[recent.value()]->undo();
-	if (recent.value() == 0) {
-		recent = std::nullopt;
+	if (instance.recent.has_value()) {
+		++instance.recent.value();
 	}
 	else {
-		--recent.value();
+		instance.recent = 0;
+	}
+	instance.history[instance.recent.value()]->execute();
+}
+
+void EditorCommandInvoker::Undo() {
+	auto& instance = GetInstance();
+	if (!instance.recent.has_value()) {
+		return;
+	}
+	instance.history[instance.recent.value()]->undo();
+	if (instance.recent.value() == 0) {
+		instance.recent = std::nullopt;
+	}
+	else {
+		--instance.recent.value();
 	}
 }

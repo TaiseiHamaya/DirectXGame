@@ -6,12 +6,13 @@
 
 class IRemoteObject;
 
+struct EditorSelectObjectBody {
+	Reference<IRemoteObject> object;
+	Reference<Transform3D> transform;
+};
+
 class EditorSelectObject {
 public:
-	struct SelectObject {
-		Reference<IRemoteObject> object;
-		Reference<Transform3D> transform;
-	};
 
 public:
 	EditorSelectObject() = default;
@@ -21,10 +22,10 @@ public:
 
 public:
 	void set_item(Reference<IRemoteObject> object_, Reference<Transform3D> transform_ = nullptr);
-	const SelectObject& get_item();
+	const EditorSelectObjectBody& get_item();
 
 	bool is_selected(Reference<const IRemoteObject> rhs) const;
 
 private:
-	SelectObject select;
+	EditorSelectObjectBody select;
 };

@@ -2,11 +2,11 @@
 
 #include "IEditorCommand.h"
 
-#include "../RemoteObject/IRemoteObject.h"
+#include "../EditorSelectObject.h"
 
 class EditorSelectCommand final : public IEditorCommand {
 public:
-	EditorSelectCommand() = default;
+	EditorSelectCommand(Reference<IRemoteObject> object, Reference<Transform3D> transform = nullptr);
 	~EditorSelectCommand() = default;
 
 	__CLASS_NON_COPYABLE(EditorSelectCommand)
@@ -16,6 +16,12 @@ public:
 	void undo() override;
 
 private:
-	Reference<IRemoteObject> next;
-	Reference<IRemoteObject> prev;
+	EditorSelectObjectBody next;
+	EditorSelectObjectBody prev;
+
+public:
+	static void Setup(Reference<EditorSelectObject> selectObject_);
+
+private:
+	static inline Reference<EditorSelectObject> selectObject{};
 };

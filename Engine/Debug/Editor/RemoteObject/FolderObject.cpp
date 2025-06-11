@@ -7,11 +7,14 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
+#include "../Command/EditorCommandInvoker.h"
+#include "../Command/EditorSelectCommand.h"
+
 void FolderObject::draw_inspector() {
 	ImGui::InputText("FolderName", &hierarchyName);
 }
 
-void FolderObject::draw_hierarchy(Reference<EditorSelectObject> select) {
+void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
 
 	int flags =
@@ -28,7 +31,9 @@ void FolderObject::draw_hierarchy(Reference<EditorSelectObject> select) {
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-		//select = this;
+		EditorCommandInvoker::Execute(
+			std::make_unique<EditorSelectCommand>(this)
+		);
 	}
 
 	if (isOpen) {
