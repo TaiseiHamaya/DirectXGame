@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Library/Utility/Tools/ConstructorMacro.h>
 #include <Library/Utility/Template/SingletonInterface.h>
 
 #include <deque>

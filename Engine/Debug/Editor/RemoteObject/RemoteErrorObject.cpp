@@ -18,7 +18,14 @@ void RemoteErrorObject::draw_inspector() {
 void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
 
-	if (ImGui::Selectable(std::format("Missing RemoteObject.##{}", (void*)this).c_str(), isSelected)) {
+	int flags =
+		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_SpanAllColumns |
+		ImGuiTreeNodeFlags_Leaf;
+	if (isSelected) {
+		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
+	}
+	if (ImGui::TreeNodeEx(std::format("Missing RemoteObject.##{}", (void*)this).c_str(), flags)) {
 		EditorCommandInvoker::Execute(
 			std::make_unique<EditorSelectCommand>(this)
 		);

@@ -6,8 +6,8 @@
 
 #include <Library/Math/Affine.h>
 
-#include "Command/EditorCommandInvoker.h"
-#include "Command/EditorObjectMoveCommand.h"
+#include "./RemoteObject/IRemoteObject.h"
+#include "Command/EditorValueChangeCommandHandler.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 
 EditorGizmo::EditorGizmo() = default;
@@ -38,13 +38,14 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select) {
 	Matrix4x4 matrix = Affine::FromTransform3D(*item.transform).to_matrix();
 
 	// manipulate
-	bool isMove = ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
-	if (ImGuizmo::IsUsing() && !moveCommand) {
-		moveCommand = std::make_unique<EditorObjectMoveCommand>(item.transform);
+	gizmoState <<= 1;
+	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
+	gizmoState.set(0, ImGuizmo::IsUsing());
+	if (gizmoState == 0b01) {
+		EditorValueChangeCommandHandler::GenCommand<Transform3D, &Transform3D::copy>(item.transform);
 	}
-	else if (!ImGuizmo::IsUsing() && moveCommand) {
-		moveCommand->preprocess();
-		EditorCommandInvoker::Execute(std::move(moveCommand));
+	else if (gizmoState == 0b10) {
+		EditorValueChangeCommandHandler::End();
 	}
 
 	// to affine

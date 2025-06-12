@@ -8,8 +8,6 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-class EditorObjectMoveCommand;
-
 class RemoteWorldInstance : public IRemoteInstance<WorldInstance> {
 public:
 	friend class EditorSceneSerializer;
@@ -26,9 +24,6 @@ public:
 	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
 
 	nlohmann::json serialize() const override;
-
-private:
-	std::unique_ptr<EditorObjectMoveCommand> moveCommand;
 };
 
 #endif // DEBUG_FEATURES_ENABLE
