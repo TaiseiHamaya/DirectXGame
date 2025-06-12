@@ -71,39 +71,64 @@ const Vector3& Transform3D::get_translate() const noexcept {
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
-bool Transform3D::debug_gui(string_literal tag) {
-	bool result = false;
+u32 Transform3D::debug_gui(string_literal tag) {
+	u32 result = false;
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
-		if (ImGui::Button("ResetScale")) {
+		// ---------- Scale ----------
+		// リセットボタン
+		if (ImGui::Button("R##Scale")) {
 			scale = CVector3::BASIS;
 		}
-		result |= ImGui::IsItemActive();
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
 		ImGui::SameLine();
-		if (ImGui::Button("ResetRotate")) {
+		ImGui::SetNextItemWidth(150);
+		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
+		
+		// ---------- Rotate ----------
+		// リセットボタン
+		if (ImGui::Button("R##Rotate")) {
 			rotate = CQuaternion::IDENTITY;
 		}
-		result |= ImGui::IsItemActive();
-		ImGui::SameLine();
-		if (ImGui::Button("ResetTranslate")) {
-			translate = CVector3::ZERO;
-		}
-		result |= ImGui::IsItemActive();
-		ImGui::DragFloat3("Scale", &scale.x, 0.01f);
-		result |= ImGui::IsItemActive();
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
+
 		Vector3 rotationL = CVector3::ZERO;
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(150);
 		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f, "")) {
 			rotate = (rotate * Quaternion::EulerDegree(rotationL)).normalize();
 		}
-		result |= ImGui::IsItemActive();
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
+		
 		Vector3 rotationW = CVector3::ZERO;
+		ImGui::Indent(23.2f);
+		ImGui::SetNextItemWidth(150);
 		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f, "")) {
 			rotate *= Quaternion::EulerDegree(rotationW);
 			rotate = rotate.normalize();
 		}
-		result |= ImGui::IsItemActive();
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
+
+		ImGui::Unindent(23.2f);
+		// ---------- Translate ----------
+		// リセットボタン
+		if (ImGui::Button("R##Translate")) {
+			translate = CVector3::ZERO;
+		}
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(150);
 		ImGui::DragFloat3("Translate", &translate.x, 0.1f);
-		result |= ImGui::IsItemActive();
+		result |= ImGui::IsItemDeactivated() << 1;
+		result |= ImGui::IsItemActivated() << 0;
+
 		ImGui::TreePop();
 	}
 	return result;

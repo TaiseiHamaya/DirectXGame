@@ -26,7 +26,7 @@ void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
-		ImGuiTreeNodeFlags_SpanFullWidth |
+		ImGuiTreeNodeFlags_SpanAllColumns |
 		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
 		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
 	if (isSelected) {

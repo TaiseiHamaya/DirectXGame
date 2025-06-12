@@ -5,8 +5,8 @@
 #include <imgui_stdlib.h>
 
 #include "../../Command/EditorCommandInvoker.h"
-#include "../../Command/EditorObjectMoveCommand.h"
 #include "../../Command/EditorSelectCommand.h"
+#include "../../Command/EditorValueChangeCommandHandler.h"
 
 #define TRANSFORM3D_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
@@ -20,54 +20,45 @@ void RemoteWorldInstance::draw_inspector() {
 	ImGui::InputText("Name", &hierarchyName);
 	ImGui::Separator();
 
-	bool isMove = transform.debug_gui("Local transform");
-	if (isMove && !moveCommand) {
-		moveCommand = std::make_unique<EditorObjectMoveCommand>(transform);
+	u32 isMove = transform.debug_gui("Local transform");
+	if (isMove == 0b01) {
+		EditorValueChangeCommandHandler::GenCommand<Transform3D, &Transform3D::copy>(transform);
 	}
-	else if (!isMove && moveCommand) {
-		moveCommand->preprocess();
-		EditorCommandInvoker::Execute(std::move(moveCommand));
+	else if (isMove == 0b10) {
+		EditorValueChangeCommandHandler::End();
 	}
 }
 
 void RemoteWorldInstance::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
-	// 子がいる場合
-	if (!children.empty()) {
-		int flags =
-			ImGuiTreeNodeFlags_DrawLinesToNodes |
-			ImGuiTreeNodeFlags_SpanFullWidth |
-			ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-			ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
-		if (isSelected) {
-			flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
-		}
-		if (isOpen) {
-			flags |= ImGuiTreeNodeFlags_DefaultOpen;
-		}
-		isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
-
-		// こうすると選択できるらしい
-		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-			EditorCommandInvoker::Execute(
-				std::make_unique<EditorSelectCommand>(this, transform)
-			);
-		}
-
-		if (isOpen) {
-			for (auto& child : children) {
-				child->draw_hierarchy(select);
-			}
-			ImGui::TreePop();
-		}
+	int flags =
+		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_SpanAllColumns |
+		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
+		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+	if (isSelected) {
+		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}
-	// 子がいない場合
-	else {
-		if (ImGui::Selectable(std::format("{}##{}", hierarchyName, (void*)this).c_str(), isSelected)) {
-			EditorCommandInvoker::Execute(
-				std::make_unique<EditorSelectCommand>(this, transform)
-			);
+	if (isOpen) {
+		flags |= ImGuiTreeNodeFlags_DefaultOpen;
+	}
+	if (children.empty()) {
+		flags |= ImGuiTreeNodeFlags_Leaf;
+	}
+	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
+
+	// こうすると選択できるらしい
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+		EditorCommandInvoker::Execute(
+			std::make_unique<EditorSelectCommand>(this, transform)
+		);
+	}
+
+	if (isOpen) {
+		for (auto& child : children) {
+			child->draw_hierarchy(select);
 		}
+		ImGui::TreePop();
 	}
 }
 

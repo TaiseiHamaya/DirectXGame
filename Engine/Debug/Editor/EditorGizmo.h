@@ -1,14 +1,13 @@
 #pragma once
 
-#include <memory>
-
 #include <ImGuizmo.h>
+
+#include <bitset>
 
 #include <Library/Math/Matrix4x4.h>
 #include <Library/Math/Vector2.h>
+#include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
-
-#include "./RemoteObject/IRemoteObject.h"
 
 class Camera3D;
 class EditorObjectMoveCommand;
@@ -27,7 +26,7 @@ public:
 	void scene_header();
 
 private:
-	std::unique_ptr<EditorObjectMoveCommand> moveCommand;
+	std::bitset<2> gizmoState;
 
 	Matrix4x4 view;
 	Matrix4x4 proj;

@@ -19,7 +19,6 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
-		ImGuiTreeNodeFlags_SpanFullWidth |
 		ImGuiTreeNodeFlags_NoTreePushOnOpen |
 		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
 		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く

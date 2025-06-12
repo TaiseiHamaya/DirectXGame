@@ -771,9 +771,6 @@
     <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorObjectMoveCommand.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -784,6 +781,18 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteMeshInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommand.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1388,9 +1397,6 @@
     <ClInclude Include="Engine\Debug\Editor\Command\EditorSelectCommand.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\Command\EditorObjectMoveCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1401,6 +1407,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\EditorSceneList.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteMeshInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorValueChangeCommand.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
