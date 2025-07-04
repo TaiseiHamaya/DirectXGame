@@ -5,7 +5,6 @@
 #include <format>
 
 #include <imgui.h>
-#include <imgui_stdlib.h>
 
 #include "Engine/Application/Output.h"
 
@@ -18,7 +17,7 @@ RemoteSceneObject::RemoteSceneObject() = default;
 RemoteSceneObject::~RemoteSceneObject() = default;
 
 void RemoteSceneObject::draw_inspector() {
-	ImGui::InputText("SceneName", &hierarchyName);
+	hierarchyName.show_gui();
 }
 
 void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -35,7 +34,7 @@ void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 	if (isOpen) {
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
-	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
+	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName.get(), (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 		EditorCommandInvoker::Execute(
@@ -82,7 +81,7 @@ void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
 nlohmann::json RemoteSceneObject::serialize() const {
 	nlohmann::json result;
 
-	result["Name"] = hierarchyName;
+	result = hierarchyName;
 	result["Worlds"] = nlohmann::json::array();
 	for (const auto& world : remoteWorlds) {
 		result["Worlds"].emplace_back(world->serialize());
@@ -91,8 +90,8 @@ nlohmann::json RemoteSceneObject::serialize() const {
 	return result;
 }
 
-const std::string& RemoteSceneObject::name() const {
-	return hierarchyName;
+std::string RemoteSceneObject::name() const {
+	return hierarchyName.copy();
 }
 
 #endif // DEBUG_FEATURES_ENABLE

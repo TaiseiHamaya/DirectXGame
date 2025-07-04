@@ -39,9 +39,4 @@ protected:
 
 protected:
 	std::vector<Material> materials;
-
-#ifdef DEBUG_FEATURES_ENABLE
-protected:
-	std::shared_ptr<const PolygonMesh> mesh;
-#endif // _DEBUG
 };

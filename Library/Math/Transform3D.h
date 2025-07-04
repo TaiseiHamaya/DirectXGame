@@ -33,6 +33,9 @@ public:
 	const Vector3& get_scale() const noexcept;
 	const Quaternion& get_quaternion() const noexcept;
 	const Vector3& get_translate() const noexcept;
+	Vector3& get_scale() noexcept;
+	Quaternion& get_quaternion() noexcept;
+	Vector3& get_translate() noexcept;
 
 #ifdef DEBUG_FEATURES_ENABLE
 	u32 debug_gui(string_literal tag = "Transform3D");

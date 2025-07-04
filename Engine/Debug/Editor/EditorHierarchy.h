@@ -25,7 +25,7 @@ public:
 	void draw() override;
 
 public:
-	const std::string& current_scene_name();
+	std::string current_scene_name();
 
 private:
 	std::unique_ptr<RemoteSceneObject> scene;

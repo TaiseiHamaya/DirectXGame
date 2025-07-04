@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorDeletedObjectPool.h"
 
 void EditorDeletedObjectPool::delete_sequence(Reference<IRemoteObject> parent, Reference<IRemoteObject> object) {
@@ -22,3 +24,5 @@ std::unique_ptr<IRemoteObject> EditorDeletedObjectPool::get_deleted_force(Refere
 	}
 	return nullptr;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

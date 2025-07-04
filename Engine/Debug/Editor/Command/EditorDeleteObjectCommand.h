@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IEditorCommand.h"
 
 #include <Library/Utility/Template/Reference.h>
@@ -27,3 +29,5 @@ public:
 private:
 	static inline Reference<EditorDeletedObjectPool> deletedPool{};
 };
+
+#endif // DEBUG_FEATURES_ENABLE

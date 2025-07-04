@@ -11,6 +11,9 @@ class TransformMatrix;
 
 class StaticMeshInstance : public IMultiMeshInstance {
 public:
+	friend class RemoteStaticMeshInstance;
+
+public:
 	StaticMeshInstance() noexcept;
 	explicit StaticMeshInstance(const std::string& meshName_) noexcept(false);
 	virtual ~StaticMeshInstance() noexcept;

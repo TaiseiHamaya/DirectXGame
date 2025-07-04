@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorCommandInvoker.h"
 
 #include "IEditorCommand.h"
@@ -52,3 +54,5 @@ void EditorCommandInvoker::Undo() {
 		--instance.recent.value();
 	}
 }
+
+#endif // DEBUG_FEATURES_ENABLE

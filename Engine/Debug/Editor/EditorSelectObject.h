@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <Library/Math/Transform3D.h>
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
@@ -29,3 +31,5 @@ public:
 private:
 	EditorSelectObjectBody select;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

@@ -1,10 +1,12 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IRemoteObject.h"
 
 class RemoteErrorObject final : public IRemoteObject {
 public:
-	RemoteErrorObject() = default;
+	RemoteErrorObject(const std::string& msg);
 	~RemoteErrorObject() = default;
 
 	__CLASS_DEFAULT_ALL(RemoteErrorObject)
@@ -21,4 +23,9 @@ public:
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
 	nlohmann::json serialize() const override;
+
+private:
+	std::string errorMessage;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

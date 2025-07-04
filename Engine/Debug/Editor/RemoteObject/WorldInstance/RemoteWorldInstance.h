@@ -2,13 +2,11 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include <memory>
-
 #include "./IRemoteInstance.h"
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-class RemoteWorldInstance : public IRemoteInstance<WorldInstance> {
+class RemoteWorldInstance final : public IRemoteInstance<WorldInstance> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -20,8 +18,6 @@ public:
 
 public:
 	void draw_inspector() override;
-
-	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
 
 	nlohmann::json serialize() const override;
 };

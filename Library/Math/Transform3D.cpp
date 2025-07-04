@@ -68,6 +68,18 @@ const Vector3& Transform3D::get_translate() const noexcept {
 	return translate;
 }
 
+Vector3& Transform3D::get_scale() noexcept {
+	return scale;
+}
+
+Quaternion& Transform3D::get_quaternion() noexcept {
+	return rotate;
+}
+
+Vector3& Transform3D::get_translate() noexcept {
+	return translate;
+}
+
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>

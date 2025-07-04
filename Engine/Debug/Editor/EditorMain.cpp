@@ -113,21 +113,8 @@ void EditorMain::SetCamera(Reference<Camera3D> camera) {
 
 void EditorMain::set_imgui_command() {
 	EditorMain& instance = GetInstance();
-
-	i32 flags =
-		ImGuiWindowFlags_MenuBar | // メニューバーを表示
-		ImGuiWindowFlags_NoDocking | // ドッキングしない
-		ImGuiWindowFlags_NoTitleBar | // タイトルバーなし
-		ImGuiWindowFlags_NoResize | // リサイズしない
-		ImGuiWindowFlags_NoScrollbar | // スクロールバーなし
-		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
-
-	ImGui::SetNextWindowPos({ 0,0 });
-	ImGui::SetNextWindowSize({ EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y });
-
-	ImGui::Begin("EditorMain", nullptr, flags);
 	// メニューバーの表示
-	if (ImGui::BeginMenuBar()) {
+	if (ImGui::BeginMainMenuBar()) {
 		// Windowメニュー
 		if (ImGui::BeginMenu("Window")) {
 			sceneView.draw_menu("Scene");
@@ -146,13 +133,27 @@ void EditorMain::set_imgui_command() {
 			}
 			ImGui::EndMenu();
 		}
-		ImGui::EndMenuBar();
+		ImGui::EndMainMenuBar();
 	}
+
+	i32 flags =
+		ImGuiWindowFlags_MenuBar | // メニューバーを表示
+		ImGuiWindowFlags_NoDocking | // ドッキングしない
+		ImGuiWindowFlags_NoTitleBar | // タイトルバーなし
+		ImGuiWindowFlags_NoMove | 
+		ImGuiWindowFlags_NoResize | // リサイズしない
+		ImGuiWindowFlags_NoScrollbar | // スクロールバーなし
+		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
+
+	ImGui::SetNextWindowPos({ 0, 0 });
+	ImGui::SetNextWindowSize({ EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y });
+
+	ImGui::Begin("EditorMain", nullptr, flags);
 
 	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
 	ImGui::SetCursorScreenPos({ 0, 19 });
-	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y), ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
 }

@@ -353,7 +353,7 @@ void ParticleEmitterInstance::create_draw_system() {
 //	}
 //}
 
-void ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
+u32 ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
 	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloatRange2("Lifetime", &lifetime.min, &lifetime.max, 0.01f, 0.0f, FLOAT_MAX);
@@ -465,9 +465,11 @@ void ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
 
 		ImGui::TreePop();
 	}
+
+	return 0;
 }
 
-void ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
+u32 ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloat3("SizeMin", &size.min.x, 0.1f);
 		ImGui::DragFloat3("SizeMax", &size.max.x, 0.1f);
@@ -476,9 +478,10 @@ void ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
 		color.max.debug_gui("ColorMax");
 		ImGui::TreePop();
 	}
+	return 0;
 }
 
-void ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
+u32 ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
 	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloat("Delay", &delay, 0.1f, 0.0f, FLOAT_MAX);
@@ -537,5 +540,6 @@ void ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
 		}
 		ImGui::TreePop();
 	}
+	return 0;
 }
 #endif // _DEBUG

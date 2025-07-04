@@ -66,11 +66,6 @@ void SkinningMeshInstance::reset_animated_mesh(const std::string& meshName_, con
 		keyID = "ErrorObject.obj";
 	}
 
-#ifdef DEBUG_FEATURES_ENABLE
-	mesh = PolygonMeshLibrary::GetPolygonMesh(keyID);
-#endif // _DEBUG
-
-
 	default_material();
 	skeletonResrouce = SkeletonLibrary::GetSkeleton(keyID);
 	reset_animation(keyID, animationName, isLoop);

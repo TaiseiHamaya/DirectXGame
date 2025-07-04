@@ -18,7 +18,6 @@
 #include <imgui_impl_win32.h>
 #include <ImGuizmo.h>
 
-
 #include <Engine/Runtime/Input/InputHandler.h>
 
 ImGuiManager& ImGuiManager::GetInstance() noexcept {

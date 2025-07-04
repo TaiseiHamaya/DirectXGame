@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorSelectObject.h"
 
 #include "RemoteObject/IRemoteObject.h"
@@ -14,3 +16,5 @@ const EditorSelectObjectBody& EditorSelectObject::get_item() {
 bool EditorSelectObject::is_selected(Reference<const IRemoteObject> rhs) const {
 	return select.object == rhs;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

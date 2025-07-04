@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <Library/Utility/Template/SingletonInterface.h>
 
 #include <deque>
@@ -20,3 +22,5 @@ private:
 	std::optional<u64> recent;
 	std::deque<std::unique_ptr<IEditorCommand>> history;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

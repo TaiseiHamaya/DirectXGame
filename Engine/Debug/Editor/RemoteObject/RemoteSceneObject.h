@@ -33,7 +33,7 @@ public:
 	nlohmann::json serialize() const override;
 
 public:
-	const std::string& name() const;
+	std::string name() const;
 
 private:
 	Reference<BaseScene> self;

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <memory>
 
 #include <json.hpp>
@@ -32,3 +34,5 @@ private:
 	static nlohmann::json SaveRemoteFolder(Reference<const FolderObject> folder);
 	static nlohmann::json SaveRemoteInstance(Reference<const RemoteWorldInstance> instance);
 };
+
+#endif // DEBUG_FEATURES_ENABLE

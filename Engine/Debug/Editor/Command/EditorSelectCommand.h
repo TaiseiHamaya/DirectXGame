@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IEditorCommand.h"
 
 #include "../EditorSelectObject.h"
@@ -25,3 +27,5 @@ public:
 private:
 	static inline Reference<EditorSelectObject> selectObject{};
 };
+
+#endif // DEBUG_FEATURES_ENABLE

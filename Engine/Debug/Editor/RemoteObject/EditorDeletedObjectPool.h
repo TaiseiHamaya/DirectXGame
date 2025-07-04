@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -24,3 +26,5 @@ private:
 	std::vector<SequenceObject> sequences;
 	std::unordered_map<Reference<IRemoteObject>, std::unique_ptr<IRemoteObject>> deletedInstances;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

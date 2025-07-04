@@ -750,9 +750,6 @@
     <ClCompile Include="Engine\Debug\Editor\IEditorWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -763,9 +760,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\Command\IEditorCommand.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp">
@@ -783,16 +777,16 @@
     <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteMeshInstance.cpp">
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommand.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp">
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1409,7 +1403,7 @@
     <ClInclude Include="Engine\Debug\Editor\EditorSceneList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteMeshInstance.h">
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.h">
@@ -1419,6 +1413,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorValueField.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

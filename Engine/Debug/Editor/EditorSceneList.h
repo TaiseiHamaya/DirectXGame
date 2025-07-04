@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <string>
 #include <unordered_set>
 
@@ -16,3 +18,5 @@ public:
 private:
 	std::unordered_set<std::string> sceneList;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

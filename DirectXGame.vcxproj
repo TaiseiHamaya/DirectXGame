@@ -182,7 +182,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.cpp" />
@@ -204,8 +203,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
     <ClCompile Include="Engine\Runtime\ProjectManager\ProjectManager.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\IEditorCommand.cpp" />
     <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
@@ -216,8 +213,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.cpp" />
     <ClCompile Include="Engine\Assets\Texture\TextureAsset.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteMeshInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -502,8 +500,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.h" />
     <ClInclude Include="Engine\Assets\Texture\TextureAsset.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.h" />
-    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteMeshInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorValueField.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>

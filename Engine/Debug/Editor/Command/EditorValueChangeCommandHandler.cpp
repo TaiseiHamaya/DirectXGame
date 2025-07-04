@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorValueChangeCommandHandler.h"
 
 #include <Engine/Application/Output.h>
@@ -21,3 +23,5 @@ void EditorValueChangeCommandHandler::End() {
 bool EditorValueChangeCommandHandler::IsActive() {
 	return bool(GetInstance().endCallFunc);
 }
+
+#endif // DEBUG_FEATURES_ENABLE
