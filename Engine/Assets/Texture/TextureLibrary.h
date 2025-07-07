@@ -71,7 +71,7 @@ public:
 	/// </summary>
 	/// <param name="current">現在選択中のテクスチャ名</param>
 	/// <returns>current変更フラグ</returns>
-	static bool TextureListGui(std::shared_ptr<const TextureAsset>& current);
+	static bool TextureListGui(std::string& current);
 #endif // _DEBUG
 
 private:

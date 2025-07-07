@@ -10,6 +10,8 @@
 
 class Vector2;
 class Vector3;
+class Color3;
+class Color4;
 
 #include <Library/Math/Quaternion.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
@@ -266,6 +268,62 @@ public:
 private:
 	std::string name;
 	std::string* value;
+};
+
+template<>
+struct show_object<Color3> {
+	inline show_object(const std::string& name_, Color3* value_) :
+		name(name_),
+		value(value_) {
+	};
+	~show_object() = default;
+
+	__CLASS_DEFAULT_ALL(show_object<Color3>)
+
+public:
+	inline std::bitset<2> show_gui() {
+		ImGui::ColorEdit3(name.c_str(), reinterpret_cast<r32*>(value), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_InputRGB);
+		std::bitset<2> result = 0;
+		result.set(ImGui::IsItemDeactivated(), 1);
+		result.set(ImGui::IsItemActivated(), 0);
+		return result;
+	};
+
+	std::string_view get_name() const {
+		return name;
+	}
+
+private:
+	std::string name;
+	Color3* value;
+};
+
+template<>
+struct show_object<Color4> {
+	inline show_object(const std::string& name_, Color4* value_) :
+		name(name_),
+		value(value_) {
+	};
+	~show_object() = default;
+
+	__CLASS_DEFAULT_ALL(show_object<Color4>)
+
+public:
+	inline std::bitset<2> show_gui() {
+		ImGui::ColorEdit4(name.c_str(), reinterpret_cast<r32*>(value), ImGuiColorEditFlags_Float | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_InputRGB);
+		std::bitset<2> result = 0;
+		result.set(ImGui::IsItemDeactivated(), 1);
+		result.set(ImGui::IsItemActivated(), 0);
+		return result;
+	};
+
+	std::string_view get_name() const {
+		return name;
+	}
+
+private:
+	std::string name;
+	Color4* value;
 };
 
 // debug_gui()関数があるクラス

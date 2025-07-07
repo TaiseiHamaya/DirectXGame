@@ -5,7 +5,6 @@
 #include "IEditorCommand.h"
 
 void EditorCommandInvoker::Execute(std::unique_ptr<IEditorCommand> command) {
-	command->execute(); // 実行
 	auto& instance = GetInstance();
 	if (instance.recent.has_value()) {
 		// undoした部分の履歴を削除
@@ -17,7 +16,7 @@ void EditorCommandInvoker::Execute(std::unique_ptr<IEditorCommand> command) {
 		instance.history.clear();
 	}
 	// 追加
-	instance.history.emplace_back(std::move(command));
+	auto& emplacedCommand = instance.history.emplace_back(std::move(command));
 	// Index調整
 	if (instance.recent.has_value()) {
 		++instance.recent.value();
@@ -25,6 +24,7 @@ void EditorCommandInvoker::Execute(std::unique_ptr<IEditorCommand> command) {
 	else {
 		instance.recent = 0;
 	}
+	emplacedCommand->execute();
 }
 
 void EditorCommandInvoker::Redo() {
@@ -46,13 +46,14 @@ void EditorCommandInvoker::Undo() {
 	if (!instance.recent.has_value()) {
 		return;
 	}
-	instance.history[instance.recent.value()]->undo();
+	u64 value = instance.recent.value();
 	if (instance.recent.value() == 0) {
 		instance.recent = std::nullopt;
 	}
 	else {
 		--instance.recent.value();
 	}
+	instance.history[value]->undo();
 }
 
 #endif // DEBUG_FEATURES_ENABLE

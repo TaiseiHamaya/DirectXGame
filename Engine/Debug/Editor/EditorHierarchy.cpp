@@ -14,6 +14,7 @@
 #include "RemoteObject/WorldInstance/RemoteWorldInstance.h"
 #include "RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager.h"
 
@@ -108,6 +109,16 @@ void EditorHierarchy::draw() {
 						std::make_unique<EditorCreateObjectCommand>(
 							select->get_item().object,
 							std::make_unique<RemoteSkinningMeshInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("Camera3D")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteCamera3dInstance>()
 						)
 					);
 				}

@@ -6,6 +6,9 @@
 #include "../RemoteObject/RemoteErrorObject.h"
 #include "../RemoteObject/RemoteSceneObject.h"
 #include "../RemoteObject/RemoteWorldObject.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Application/Output.h"
@@ -49,11 +52,11 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 	case 10: // Mesh
 	{
-		return std::make_unique<RemoteErrorObject>("RemoteStaticMeshInstance is not defined.");
+		return CreateRemoteStaticMeshInstance(json);
 	}
 	case 11: // SkinMesh
 	{
-		return std::make_unique<RemoteErrorObject>("RemoteSkinMesh is not defined.");
+		return CreateRemoteSkinningMeshInstance(json);
 	}
 	case 12: // Rect3D
 	{
@@ -65,7 +68,7 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 	case 20: // Camera3D
 	{
-		return std::make_unique<RemoteErrorObject>("RemoteCamera3D is not defined.");
+		return CreateRemoteCamera3DInstance(json);
 	}
 	case 21: // Camera2D
 	{
@@ -94,11 +97,6 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 }
 
-void EditorSceneSerializer::SaveToJson(Reference<const RemoteSceneObject> scene) {
-	nlohmann::json root;
-	root = SaveRemoteScene(scene);
-}
-
 std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteFolder(const nlohmann::json& json) {
 	std::unique_ptr<FolderObject> folder = std::make_unique<FolderObject>();
 	json.get_to(folder->hierarchyName);
@@ -123,33 +121,88 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteInstance(const
 	return result;
 }
 
-nlohmann::json EditorSceneSerializer::SaveRemoteScene(Reference<const RemoteSceneObject> scene) {
-	nlohmann::json result;
-	result = scene->hierarchyName;
-	result["Worlds"] = nlohmann::json::array();
-	for (const auto& world : scene->remoteWorlds) {
-		result["Worlds"].emplace_back(SaveRemoteWorld(world));
+std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteStaticMeshInstance(const nlohmann::json& json) {
+	std::unique_ptr<RemoteStaticMeshInstance> result = std::make_unique<RemoteStaticMeshInstance>();
+	json.get_to(result->hierarchyName);
+	if (json.contains("Children") && json["Children"].is_array()) {
+		for (const nlohmann::json& instance : json["Children"]) {
+			result->add_child(CreateRemoteObject(instance));
+		}
 	}
-	return result;
-}
-
-nlohmann::json EditorSceneSerializer::SaveRemoteWorld(Reference<const RemoteWorldObject> world) {
-	nlohmann::json result;
-	result = world->hierarchyName;
-	result["Instances"] = nlohmann::json::array();
-	for (const auto& instance : world->children) {
-		//result["Instances"].emplace_back((instance));
+	json.get_to(result->transform);
+	json.get_to(result->isDraw);
+	if (json.contains("MeshName")) {
+		json["MeshName"].get_to(result->meshName);
 	}
+	json.get_to(result->layer);
+	if (json.contains("Materials") && json["Materials"].is_array()) {
+		for (const nlohmann::json& jMaterial : json["Materials"]) {
+			RemoteStaticMeshInstance::Material& material = result->materials.emplace_back();
+			if (jMaterial.contains("Texture")) {
+				material.texture = jMaterial.at("Texture").get<std::string>();
+			}
+			jMaterial.get_to(material.color);
+			jMaterial.get_to(material.uvTransform);
+			if (jMaterial.contains("LightingType")) {
+				material.lightingType = static_cast<LighingType>(jMaterial.at("LightingType").get<std::underlying_type_t<LighingType>>());
+			}
+			jMaterial.get_to(material.shininess);
+		}
+	}
+
 	return result;
 }
 
-nlohmann::json EditorSceneSerializer::SaveRemoteFolder(Reference<const FolderObject> folder) {
-	nlohmann::json result;
+std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteSkinningMeshInstance(const nlohmann::json& json) {
+	std::unique_ptr<RemoteSkinningMeshInstance> result = std::make_unique<RemoteSkinningMeshInstance>();
+	json.get_to(result->hierarchyName);
+	if (json.contains("Children") && json["Children"].is_array()) {
+		for (const nlohmann::json& instance : json["Children"]) {
+			result->add_child(CreateRemoteObject(instance));
+		}
+	}
+	json.get_to(result->transform);
+	json.get_to(result->isDraw);
+	if (json.contains("MeshName")) {
+		json["MeshName"].get_to(result->meshName);
+	}
+	json.get_to(result->layer);
+	if (json.contains("Materials") && json["Materials"].is_array()) {
+		for (const nlohmann::json& jMaterial : json["Materials"]) {
+			RemoteSkinningMeshInstance::Material& material = result->materials.emplace_back();
+			if (jMaterial.contains("Texture")) {
+				material.texture = jMaterial.at("Texture").get<std::string>();
+			}
+			jMaterial.get_to(material.color);
+			jMaterial.get_to(material.uvTransform);
+			if (jMaterial.contains("LightingType")) {
+				material.lightingType = static_cast<LighingType>(jMaterial.at("LightingType").get<std::underlying_type_t<LighingType>>());
+			}
+			jMaterial.get_to(material.shininess);
+		}
+	}
+	if(json.contains("AnimationName")) {
+		json["AnimationName"].get_to(result->animationName);
+	}
+	json.get_to(result->isLoop);
+
 	return result;
 }
 
-nlohmann::json EditorSceneSerializer::SaveRemoteInstance(Reference<const RemoteWorldInstance> instance) {
-	nlohmann::json result;
+std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteCamera3DInstance(const nlohmann::json& json) {
+	std::unique_ptr<RemoteCamera3dInstance> result = std::make_unique<RemoteCamera3dInstance>();
+	json.get_to(result->hierarchyName);
+	if (json.contains("Children") && json["Children"].is_array()) {
+		for (const nlohmann::json& instance : json["Children"]) {
+			result->add_child(CreateRemoteObject(instance));
+		}
+	}
+	json.get_to(result->transform);
+	json.get_to(result->fovY);
+	json.get_to(result->aspectRatio);
+	json.get_to(result->nearClip);
+	json.get_to(result->farClip);
+	
 	return result;
 }
 

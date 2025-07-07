@@ -4,18 +4,18 @@
 
 #include "../IRemoteInstance.h"
 
-#include <memory>
 #include <string>
-#include <vector>
+#include <deque>
 
 #include <Library/Math/Color3.h>
 #include <Library/Math/Transform2D.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
-class StaticMeshInstance;
+#define COLOR3_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
 
-class TextureAsset;
+class StaticMeshInstance;
 
 class RemoteStaticMeshInstance final : public IRemoteInstance<StaticMeshInstance> {
 public:
@@ -23,11 +23,11 @@ public:
 
 public:
 	struct Material {
-		std::shared_ptr<const TextureAsset> texture;
-		Color3 color;
-		Transform2D uvTransform;
+		std::string texture;
+		EditorValueField<Color3> color{ "Color" };
+		EditorValueField<Transform2D> uvTransform{ "UV Transform" };
 		LighingType lightingType{ LighingType::HalfLambert };
-		r32 shininess{ 50 };
+		EditorValueField<r32> shininess{ "Shininess" };
 	};
 
 public:
@@ -43,11 +43,11 @@ private:
 	void default_material();
 
 private:
-	bool isDraw;
-	u32 layer;
+	EditorValueField<bool> isDraw{ "IsDraw" };
+	EditorValueField<u32> layer{ "Layer" };
 
 	std::string meshName;
-	std::vector<Material> materials;
+	std::deque<Material> materials;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

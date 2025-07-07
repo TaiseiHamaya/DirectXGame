@@ -67,6 +67,18 @@ const Vector2& Transform2D::get_translate() const noexcept {
 	return translate;
 }
 
+Vector2& Transform2D::get_scale() noexcept {
+	return scale;
+}
+
+r32& Transform2D::get_rotate() noexcept {
+	return rotate;
+}
+
+Vector2& Transform2D::get_translate() noexcept {
+	return translate;
+}
+
 void Transform2D::plus_translate(const Vector2& plus) noexcept {
 	translate += plus;
 }

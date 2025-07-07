@@ -3,12 +3,13 @@
 #include "RemoteSkinningMeshInstance.h"
 
 #include "Engine/Application/Output.h"
+#include "Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonAsset.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
-#include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
+#include "Engine/Debug/Editor/Command/EditorCommandResizeContainer.h"
 #include "Engine/Debug/Editor/Command/EditorValueChangeCommandHandler.h"
 
 void RemoteSkinningMeshInstance::draw_inspector() {
@@ -20,15 +21,30 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 	transform.show_gui();
 	ImGui::Separator();
 
-	ImGui::Checkbox("Draw", &isDraw);
-	if (PolygonMeshLibrary::MeshListGui(meshName)) {
-		default_material();
-		animationName = "UnknownAnimation";
+	isDraw.show_gui();
+	layer.show_gui();
+	{
+		std::string cache = meshName;
+		if (PolygonMeshLibrary::MeshListGui(meshName)) {
+			EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
+
+			std::swap(cache, meshName);
+			EditorValueChangeCommandHandler::GenCommand<std::string>(meshName);
+			std::swap(cache, meshName);
+			EditorValueChangeCommandHandler::End();
+
+			default_material();
+
+			EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
+		}
 	}
 	if (ImGui::Button("ResetMaterialData")) {
+		EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
 		default_material();
+		EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
 	}
 
+	ImGui::Separator();
 	// Material
 	ImGui::Text("Materials");
 	for (i32 i = 0; auto& meshMaterial : materials) {
@@ -38,28 +54,44 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 			treeNodeName = std::format("{}##{}", meshData->materialName, i);
 		}
 		if (treeNodeName.empty()) {
-			treeNodeName = std::format("UnknownMaterialName##{}", i);
+			treeNodeName = "UnknownMaterialName##" + std::to_string(i);
 		}
 		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-			TextureLibrary::TextureListGui(meshMaterial.texture);
+			{
+				std::string cache = meshMaterial.texture;
+				auto result = TextureLibrary::TextureListGui(meshMaterial.texture);
 
-			meshMaterial.uvTransform.debug_gui();
+				if (result) {
+					std::swap(cache, meshMaterial.texture);
+					EditorValueChangeCommandHandler::GenCommand<std::string>(meshMaterial.texture);
+					std::swap(cache, meshMaterial.texture);
+					EditorValueChangeCommandHandler::End();
+				}
+			}
 
-			meshMaterial.color.debug_gui();
+			meshMaterial.uvTransform.show_gui();
+
+			meshMaterial.color.show_gui();
 
 			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
+				EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
 				meshMaterial.lightingType = LighingType::None;
+				EditorValueChangeCommandHandler::End();
 			}
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
+				EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
 				meshMaterial.lightingType = LighingType::Lambert;
+				EditorValueChangeCommandHandler::End();
 			}
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
+				EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
 				meshMaterial.lightingType = LighingType::HalfLambert;
+				EditorValueChangeCommandHandler::End();
 			}
 
-			ImGui::DragFloat("Shininess", &meshMaterial.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
+			meshMaterial.shininess.show_gui();
 
 			ImGui::TreePop();
 		}
@@ -68,8 +100,18 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 	ImGui::Separator();
 
 	//ここからAnimation専用処理
-	ImGui::InputText("Animation Name", &animationName);
-	ImGui::Checkbox("Loop", &isLoop);
+	{
+		std::string cache = animationName;
+		auto result = NodeAnimationLibrary::AnimationListGui(animationName);
+
+		if (result) {
+			std::swap(cache, animationName);
+			EditorValueChangeCommandHandler::GenCommand<std::string>(animationName);
+			std::swap(cache, animationName);
+			EditorValueChangeCommandHandler::End();
+		}
+	}
+	isLoop.show_gui();
 	ImGui::Separator();
 
 	// Skeleton
@@ -83,30 +125,66 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 }
 
 nlohmann::json RemoteSkinningMeshInstance::serialize() const {
-	return nlohmann::json();
+	nlohmann::json json;
+
+	json.update(hierarchyName);
+	json.update(transform);
+	json["Type"] = 11;
+	json.update(isDraw);
+	json.update(layer);
+	json["MeshName"] = meshName;
+	json["Materials"] = nlohmann::json::array();
+	for (const auto& material : materials) {
+		nlohmann::json jMaterial;
+		jMaterial["Texture"] = material.texture;
+		jMaterial.update(material.color);
+		jMaterial.update(material.uvTransform);
+		jMaterial["LightingType"] = static_cast<std::underlying_type_t<LighingType>>(material.lightingType);
+		jMaterial.update(material.shininess);
+		json["Materials"].emplace_back(std::move(jMaterial));
+	}
+
+	json["AnimationName"] = animationName;
+	json.update(isLoop);
+
+	return json;
 }
 
 void RemoteSkinningMeshInstance::default_material() {
 	std::shared_ptr<const PolygonMesh> mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
 
-	materials.resize(mesh->material_count());
+	EditorCommandInvoker::Execute(std::make_unique<EditorCommandResizeContainer<std::deque<Material>>>(
+		materials, mesh->material_count()
+	));
 
 	for (i32 i = 0; auto& meshMaterial : materials) {
 		// 色情報のリセット
 		const auto* meshMaterialData = mesh->material_data(i);
 		if (meshMaterialData) {
-			// テクスチャ情報の取得
-			meshMaterial.texture = TextureLibrary::GetTexture(meshMaterialData->textureFileName);
-			// uv情報のリセット
-			meshMaterial.uvTransform.copy(meshMaterialData->defaultUV);
+			{
+				EditorValueChangeCommandHandler::GenCommand<std::string>(meshMaterial.texture);
+				meshMaterial.texture = meshMaterialData->textureFileName;
+				EditorValueChangeCommandHandler::End();
+			}
+			meshMaterial.uvTransform.set(meshMaterialData->defaultUV);
+
 		}
 		else {
-			meshMaterial.texture = TextureLibrary::GetTexture("Error.png");
-			meshMaterial.uvTransform.copy(Transform2D{});
+			meshMaterial.texture = "Error.png";
+			meshMaterial.uvTransform.set(Transform2D{});
 			Warning("Material data is not found.");
 		}
+		{
+			EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+			meshMaterial.lightingType = LighingType::HalfLambert;
+			EditorValueChangeCommandHandler::End();
+		}
+		meshMaterial.color.set(CColor3::WHITE);
+		meshMaterial.shininess.set(50);
+
 		++i;
 	}
+
 }
 
 #endif // DEBUG_FEATURES_ENABLE
