@@ -11,7 +11,7 @@
 #include "../Command/EditorSelectCommand.h"
 
 void FolderObject::draw_inspector() {
-	ImGui::InputText("FolderName", &hierarchyName);
+	hierarchyName.show_gui();
 }
 
 void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -19,6 +19,7 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_SpanAllColumns |
 		ImGuiTreeNodeFlags_NoTreePushOnOpen |
 		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
 		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
@@ -28,7 +29,7 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	if (isOpen) {
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
-	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
+	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName.get(), (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 		EditorCommandInvoker::Execute(
@@ -73,7 +74,7 @@ nlohmann::json FolderObject::serialize() const {
 	nlohmann::json result;
 
 	result["Type"] = 90;
-	result["Name"] = hierarchyName;
+	result.update(hierarchyName);
 	result["Children"] = nlohmann::json::array();
 	for (const auto& child : children) {
 		result["Children"].emplace_back(child->serialize());

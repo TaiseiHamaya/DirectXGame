@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorSceneList.h"
 
 #include <fstream>
@@ -48,3 +50,5 @@ bool EditorSceneList::scene_list_gui(std::string& current) {
 void EditorSceneList::add_scene(const std::string& sceneName) {
 	sceneList.emplace(sceneName);
 }
+
+#endif // DEBUG_FEATURES_ENABLE

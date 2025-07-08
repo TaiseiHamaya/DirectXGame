@@ -4,7 +4,7 @@
 
 #include <imgui.h>
 
-#include "EditorGizmo.h"
+#include "../EditorGizmo.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"

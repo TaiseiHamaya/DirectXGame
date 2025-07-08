@@ -48,6 +48,12 @@ void SRVDescriptorHeap::ReleaseHeapIndex(u32 index) {
 	GetInstance().release_heap(index);
 }
 
+void SRVDescriptorHeap::ReleaseHeapHandle(D3D12_GPU_DESCRIPTOR_HANDLE handle) {
+	auto& instance = GetInstance();
+	u32 index = u32(instance.heapStartGPU.ptr - handle.ptr) / instance.incrementSize;
+	ReleaseHeapIndex(index);
+}
+
 void SRVDescriptorHeap::create_descriptor_heap() {
 	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, DxSystemValues::HEAP_SIZE_SRV, true);
 }

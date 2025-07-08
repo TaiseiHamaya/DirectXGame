@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorDeleteObjectCommand.h"
 
 #include "../RemoteObject/EditorDeletedObjectPool.h"
@@ -18,3 +20,5 @@ void EditorDeleteObjectCommand::undo() {
 void EditorDeleteObjectCommand::Setup(Reference<EditorDeletedObjectPool> deletedPool_) {
 	deletedPool = deletedPool_;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

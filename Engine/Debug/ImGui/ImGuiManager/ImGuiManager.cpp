@@ -18,7 +18,6 @@
 #include <imgui_impl_win32.h>
 #include <ImGuizmo.h>
 
-
 #include <Engine/Runtime/Input/InputHandler.h>
 
 ImGuiManager& ImGuiManager::GetInstance() noexcept {
@@ -27,8 +26,6 @@ ImGuiManager& ImGuiManager::GetInstance() noexcept {
 }
 
 void ImGuiManager::Initialize() {
-	auto& srvIndex = GetInstance().srvIndex;
-	srvIndex = SRVDescriptorHeap::UseHeapIndex();
 	// ----------ImGui初期化----------
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -36,14 +33,22 @@ void ImGuiManager::Initialize() {
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	//ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 	ImGui_ImplWin32_Init(WinApp::GetWndHandle());
-	ImGui_ImplDX12_Init(
-		DxDevice::GetDevice().Get(),
-		RenderingSystemValues::NUM_BUFFERING,
-		DxSystemValues::SCREEN_RTV_FORMAT,
-		SRVDescriptorHeap::GetDescriptorHeap().Get(),
-		SRVDescriptorHeap::GetCPUHandle(srvIndex),
-		SRVDescriptorHeap::GetGPUHandle(srvIndex)
-	);
+
+	ImGui_ImplDX12_InitInfo initInfo{};
+	initInfo.Device = DxDevice::GetDevice().Get();
+	initInfo.CommandQueue = DxCommand::GetCommandQueue().Get();
+	initInfo.NumFramesInFlight = RenderingSystemValues::NUM_BUFFERING;
+	initInfo.RTVFormat = DxSystemValues::SCREEN_RTV_FORMAT;
+	initInfo.SrvDescriptorHeap = SRVDescriptorHeap::GetDescriptorHeap().Get();
+	initInfo.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* outHandleCpu, D3D12_GPU_DESCRIPTOR_HANDLE* outHandleGpu) {
+		auto srvIndex = SRVDescriptorHeap::UseHeapIndex();
+		*outHandleCpu = SRVDescriptorHeap::GetCPUHandle(srvIndex);
+		*outHandleGpu = SRVDescriptorHeap::GetGPUHandle(srvIndex);
+	};
+	initInfo.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle) {
+		SRVDescriptorHeap::ReleaseHeapHandle(gpuHandle);
+	};
+	ImGui_ImplDX12_Init(&initInfo);
 
 	ImFontConfig config{};
 	config.MergeMode = true;
@@ -59,14 +64,10 @@ void ImGuiManager::Initialize() {
 }
 
 void ImGuiManager::Finalize() {
-	auto& srvIndex = GetInstance().srvIndex;
-
 	// ImGui終了処理
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
-
-	SRVDescriptorHeap::ReleaseHeapIndex(srvIndex);
 }
 
 void ImGuiManager::BeginFrame() {

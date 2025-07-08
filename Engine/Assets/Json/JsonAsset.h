@@ -40,7 +40,7 @@ public:
 
 public:
 	template<UseabelJson T, typename ...Args>
-	void register_value(const std::string& name, T* pValue, Args&& ...args);
+	void register_value(const std::string& name, T& value, Args&& ...args);
 
 #ifdef DEBUG_FEATURES_ENABLE
 	void editor_gui();
@@ -74,18 +74,14 @@ inline void JsonAsset::write(const std::string& name, const T& value) {
 }
 
 template<UseabelJson T, typename ...Args>
-inline void JsonAsset::register_value(const std::string& name, T* pValue, [[maybe_unused]] Args&& ...args) {
-	if (pValue == nullptr) {
-		Warning("Registering value is nullptr. Name\'{}\'", name);
-		return;
-	}
-	(*pValue) = std::move(this->try_emplace<T>(name));
+inline void JsonAsset::register_value(const std::string& name, T& value, [[maybe_unused]] Args&& ...args) {
+	value = std::move(this->try_emplace<T>(name));
 #ifdef DEBUG_FEATURES_ENABLE
 	valueEditor.register_value(
-		[&, &rValue = *pValue, name]() { this->write(name, rValue); },
-		name, pValue, std::forward(args)...
+		[&, name]() { this->write(name, value); },
+		name, value, std::forward(args)...
 	);
 #endif // _DEBUG
 }
 
-#define __JSON_RESOURCE_REGISTER(variable) std::string{ #variable }, &variable
+#define __JSON_RESOURCE_REGISTER(variable) std::string{ #variable }, variable

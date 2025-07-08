@@ -12,6 +12,8 @@
 #endif // _DEBUG
 
 class Camera3D : public WorldInstance {
+	friend class RemoteCamera3dInstance;
+
 public:
 	struct VpBuffers {
 		Matrix4x4 viewProjection;

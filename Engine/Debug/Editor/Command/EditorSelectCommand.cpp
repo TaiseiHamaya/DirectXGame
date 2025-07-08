@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorSelectCommand.h"
 
 EditorSelectCommand::EditorSelectCommand(Reference<IRemoteObject> object, Reference<Transform3D> transform) {
@@ -17,3 +19,5 @@ void EditorSelectCommand::undo() {
 void EditorSelectCommand::Setup(Reference<EditorSelectObject> selectObject_) {
 	selectObject = selectObject_;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

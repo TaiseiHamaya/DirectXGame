@@ -42,6 +42,9 @@
 //
 // -------------------------------------------------------------------------------------------
 // Example
+
+#ifndef IMGUI_DISABLE
+
 #if 0
 void EditTransform(const Camera& camera, matrix_t& matrix)
 {
@@ -306,3 +309,5 @@ namespace IMGUIZMO_NAMESPACE
 
    IMGUI_API Style& GetStyle();
 }
+
+#endif // !IMGUI_DISABLE

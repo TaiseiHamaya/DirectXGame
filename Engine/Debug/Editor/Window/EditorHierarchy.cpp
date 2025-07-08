@@ -5,12 +5,16 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
-#include "Adapter/EditorSceneSerializer.h"
-#include "Command/EditorCommandInvoker.h"
-#include "Command/EditorCreateObjectCommand.h"
-#include "Command/EditorDeleteObjectCommand.h"
-#include "RemoteObject/FolderObject.h"
-#include "RemoteObject/WorldInstance/RemoteWorldInstance.h"
+#include "../Adapter/EditorSceneSerializer.h"
+#include "../Command/EditorCommandInvoker.h"
+#include "../Command/EditorCreateObjectCommand.h"
+#include "../Command/EditorDeleteObjectCommand.h"
+#include "../RemoteObject/FolderObject.h"
+
+#include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager.h"
 
@@ -73,23 +77,53 @@ void EditorHierarchy::draw() {
 	}
 
 	if (ImGui::BeginPopup("HierarchyMenu")) {
-		// Instance作成
-		//if (ImGui::BeginMenu("CreateInstance")) {
-		//	ImGui::InputText("##MenuSearch", &menuString); ImGui::SameLine();
-		//	if (ImGui::Button("\ue5cd")) {
-		//		menuString.clear();
-		//	}
-		//	ImGui::EndMenu();
-		//}
-		if (ImGui::MenuItem("CreateInstance")) {
-			if (select->get_item().object) {
-				EditorCommandInvoker::Execute(
-					std::make_unique<EditorCreateObjectCommand>(
-						select->get_item().object,
-						std::make_unique<RemoteWorldInstance>()
-					)
-				);
+		//Instance作成
+		if (ImGui::BeginMenu("CreateInstance")) {
+			ImGui::InputText("##MenuSearch", &menuString); ImGui::SameLine();
+			if (ImGui::Button("\ue5cd")) {
+				menuString.clear();
 			}
+			if (ImGui::MenuItem("WorldInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteWorldInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("StaticMeshInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteStaticMeshInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("SkinningMeshInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteSkinningMeshInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("Camera3D")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteCamera3dInstance>()
+						)
+					);
+				}
+			}
+			ImGui::EndMenu();
 		}
 
 		if (ImGui::MenuItem("CreateWorld")) {
@@ -135,7 +169,7 @@ void EditorHierarchy::draw() {
 	ImGui::End();
 }
 
-const std::string& EditorHierarchy::current_scene_name() {
+std::string EditorHierarchy::current_scene_name() {
 	return scene->name();
 }
 

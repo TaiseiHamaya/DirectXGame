@@ -68,6 +68,18 @@ const Vector3& Transform3D::get_translate() const noexcept {
 	return translate;
 }
 
+Vector3& Transform3D::get_scale() noexcept {
+	return scale;
+}
+
+Quaternion& Transform3D::get_quaternion() noexcept {
+	return rotate;
+}
+
+Vector3& Transform3D::get_translate() noexcept {
+	return translate;
+}
+
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 #include <format>
@@ -77,7 +89,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
 		// ---------- Scale ----------
 		// リセットボタン
-		if (ImGui::Button("R##Scale")) {
+		if (ImGui::Button("\ue5d5##Scale")) {
 			scale = CVector3::BASIS;
 		}
 		result |= ImGui::IsItemDeactivated() << 1;
@@ -90,7 +102,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		
 		// ---------- Rotate ----------
 		// リセットボタン
-		if (ImGui::Button("R##Rotate")) {
+		if (ImGui::Button("\ue5d5##Rotate")) {
 			rotate = CQuaternion::IDENTITY;
 		}
 		result |= ImGui::IsItemDeactivated() << 1;
@@ -106,7 +118,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		result |= ImGui::IsItemActivated() << 0;
 		
 		Vector3 rotationW = CVector3::ZERO;
-		ImGui::Indent(23.2f);
+		ImGui::Indent(27);
 		ImGui::SetNextItemWidth(150);
 		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f, "")) {
 			rotate *= Quaternion::EulerDegree(rotationW);
@@ -115,10 +127,10 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		result |= ImGui::IsItemDeactivated() << 1;
 		result |= ImGui::IsItemActivated() << 0;
 
-		ImGui::Unindent(23.2f);
+		ImGui::Unindent(27);
 		// ---------- Translate ----------
 		// リセットボタン
-		if (ImGui::Button("R##Translate")) {
+		if (ImGui::Button("\ue5d5##Translate")) {
 			translate = CVector3::ZERO;
 		}
 		result |= ImGui::IsItemDeactivated() << 1;

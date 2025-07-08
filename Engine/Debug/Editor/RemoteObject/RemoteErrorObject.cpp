@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "RemoteErrorObject.h"
 
 #include <format>
@@ -9,10 +11,16 @@
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
 
+RemoteErrorObject::RemoteErrorObject(const std::string& msg) :
+	errorMessage(msg) {
+	Warning("RemoteErrorObject created. Error: %s", errorMessage.c_str());
+}
+
 void RemoteErrorObject::draw_inspector() {
 	ImGui::Text("Missing RemoteObject");
 	ImGui::NewLine();
 	ImGui::Separator();
+	ImGui::Text("Error Message: %s", errorMessage.c_str());
 }
 
 void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -25,7 +33,11 @@ void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}
-	if (ImGui::TreeNodeEx(std::format("Missing RemoteObject.##{}", (void*)this).c_str(), flags)) {
+	ImGui::TreeNodeEx(std::format("Missing RemoteObject##{}", (void*)this).c_str(), flags);
+	ImGui::TreePop();
+	
+	// こうすると選択できるらしい
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 		EditorCommandInvoker::Execute(
 			std::make_unique<EditorSelectCommand>(this)
 		);
@@ -48,7 +60,9 @@ nlohmann::json RemoteErrorObject::serialize() const {
 	nlohmann::json result;
 
 	result["Type"] = 99;
-	result["Name"] = hierarchyName;
+	result.update(hierarchyName);
 
 	return result;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

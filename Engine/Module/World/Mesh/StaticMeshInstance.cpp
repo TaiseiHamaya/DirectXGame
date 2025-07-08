@@ -30,11 +30,6 @@ void StaticMeshInstance::reset_mesh(const std::string& meshName_) {
 		keyID = "ErrorObject.obj";
 	}
 
-#ifdef DEBUG_FEATURES_ENABLE
-	mesh = PolygonMeshLibrary::GetPolygonMesh(keyID);
-#endif // _DEBUG
-
-
 	default_material();
 }
 

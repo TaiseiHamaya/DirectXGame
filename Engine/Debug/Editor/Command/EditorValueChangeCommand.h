@@ -1,10 +1,12 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IEditorCommand.h"
 
 #include <Library/Utility/Template/Reference.h>
 
-template<typename T, void (T::* CopyFunc)(const T&) = T::operator=()>
+template<typename T>
 class EditorValueChangeCommand final : public IEditorCommand {
 public:
 	EditorValueChangeCommand(Reference<T> target_);
@@ -21,23 +23,63 @@ private:
 	T changed;
 };
 
-template<typename T, void (T:: *CopyFunc)(const T&)>
-EditorValueChangeCommand<T, CopyFunc>::EditorValueChangeCommand(Reference<T> target_) {
+template<typename T>
+EditorValueChangeCommand<T>::EditorValueChangeCommand(Reference<T> target_) {
 	target = target_;
-	(recent.*CopyFunc)(*target);
+	recent = *target;
 }
 
-template<typename T, void (T::* CopyFunc)(const T&)>
-void EditorValueChangeCommand<T, CopyFunc>::prepare() {
-	(changed.*CopyFunc)(*target);
+template<typename T>
+void EditorValueChangeCommand<T>::prepare() {
+	changed = *target;
 }
 
-template<typename T, void (T::* CopyFunc)(const T&)>
-void EditorValueChangeCommand<T, CopyFunc>::execute() {
-	((target.ptr())->*CopyFunc)(changed);
+template<typename T>
+void EditorValueChangeCommand<T>::execute() {
+	*target = changed;
 }
 
-template<typename T, void (T::* CopyFunc)(const T&)>
-void EditorValueChangeCommand<T, CopyFunc>::undo() {
-	((target.ptr())->*CopyFunc)(recent);
+template<typename T>
+void EditorValueChangeCommand<T>::undo() {
+	*target = recent;
 }
+
+template<typename T>
+class EditorValueChangeCommandLambda final : public IEditorCommand {
+public:
+	EditorValueChangeCommandLambda(std::function<T&()> function_);
+	~EditorValueChangeCommandLambda() = default;
+
+public:
+	void prepare();
+	void execute() override;
+	void undo() override;
+
+private:
+	std::function<T& ()> valueFunc;
+	T recent;
+	T changed;
+};
+
+template<typename T>
+EditorValueChangeCommandLambda<T>::EditorValueChangeCommandLambda(std::function<T& ()> function_) {
+	valueFunc = function_;
+	recent = valueFunc();
+}
+
+template<typename T>
+void EditorValueChangeCommandLambda<T>::prepare() {
+	changed = valueFunc();
+}
+
+template<typename T>
+void EditorValueChangeCommandLambda<T>::execute() {
+	valueFunc() = changed;
+}
+
+template<typename T>
+void EditorValueChangeCommandLambda<T>::undo() {
+	valueFunc() = recent;
+}
+
+#endif // DEBUG_FEATURES_ENABLE

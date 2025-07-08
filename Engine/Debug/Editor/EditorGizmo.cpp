@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorGizmo.h"
 
 #include <imgui.h>
@@ -42,7 +44,19 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select) {
 	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
 	gizmoState.set(0, ImGuizmo::IsUsing());
 	if (gizmoState == 0b01) {
-		EditorValueChangeCommandHandler::GenCommand<Transform3D, &Transform3D::copy>(item.transform);
+		switch (operation) {
+		case ImGuizmo::OPERATION::SCALEU:
+			EditorValueChangeCommandHandler::GenCommand<Vector3>(item.transform->get_scale());
+			break;
+		case ImGuizmo::OPERATION::ROTATE:
+			EditorValueChangeCommandHandler::GenCommand<Quaternion>(item.transform->get_quaternion());
+			break;
+		case ImGuizmo::OPERATION::TRANSLATE:
+			EditorValueChangeCommandHandler::GenCommand<Vector3>(item.transform->get_translate());
+			break;
+		default:
+			break;
+		}
 	}
 	else if (gizmoState == 0b10) {
 		EditorValueChangeCommandHandler::End();
@@ -85,9 +99,6 @@ void EditorGizmo::scene_header() {
 	case ImGuizmo::OPERATION::TRANSLATE:
 		operationComboLabel = "Translate";
 		break;
-	case ImGuizmo::OPERATION::UNIVERSAL:
-		operationComboLabel = "Universal";
-		break;
 	}
 	if (ImGui::BeginCombo(std::format("##Operation{}", (void*)this).c_str(), operationComboLabel.c_str())) {
 		if (ImGui::Selectable("Scale", operation == ImGuizmo::OPERATION::SCALEU)) {
@@ -99,10 +110,9 @@ void EditorGizmo::scene_header() {
 		if (ImGui::Selectable("Translate", operation == ImGuizmo::OPERATION::TRANSLATE)) {
 			operation = ImGuizmo::OPERATION::TRANSLATE;
 		}
-		if (ImGui::Selectable("Universal", operation == ImGuizmo::OPERATION::UNIVERSAL)) {
-			operation = ImGuizmo::OPERATION::UNIVERSAL;
-		}
 
 		ImGui::EndCombo();
 	}
 }
+
+#endif // DEBUG_FEATURES_ENABLE

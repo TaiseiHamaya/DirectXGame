@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <ImGuizmo.h>
 
 #include <bitset>
@@ -34,3 +36,5 @@ private:
 	ImGuizmo::MODE mode{ ImGuizmo::MODE::WORLD };
 	ImGuizmo::OPERATION operation{ ImGuizmo::OPERATION::TRANSLATE };
 };
+
+#endif // DEBUG_FEATURES_ENABLE

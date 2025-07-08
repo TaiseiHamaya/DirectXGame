@@ -4,8 +4,8 @@
 
 #include <imgui.h>
 
-#include "EditorSelectObject.h"
-#include "RemoteObject/IRemoteObject.h"
+#include "../EditorSelectObject.h"
+#include "../RemoteObject/IRemoteObject.h"
 
 void EditorInspector::initialize() {
 	isActive = true;

@@ -5,7 +5,6 @@
 #include <format>
 
 #include <imgui.h>
-#include <imgui_stdlib.h>
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
@@ -14,7 +13,7 @@ RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
 
 void RemoteWorldObject::draw_inspector() {
-	ImGui::InputText("World", &hierarchyName);
+	hierarchyName.show_gui();
 }
 
 void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -31,7 +30,7 @@ void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 	if (isOpen) {
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
-	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName, (void*)this).c_str(), flags);
+	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName.get(), (void*)this).c_str(), flags);
 
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 		EditorCommandInvoker::Execute(
@@ -75,7 +74,7 @@ void RemoteWorldObject::add_child(std::unique_ptr<IRemoteObject> child) {
 nlohmann::json RemoteWorldObject::serialize() const {
 	nlohmann::json result;
 
-	result["Name"] = hierarchyName;
+	result.update(hierarchyName);
 
 	result["Instances"] = nlohmann::json::array();
 	for (const auto& child : children) {

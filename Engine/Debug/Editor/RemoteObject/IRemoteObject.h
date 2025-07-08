@@ -2,15 +2,16 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include <json.hpp>
 
-#include <Library/Utility/Tools/ConstructorMacro.h>
 #include <Library/Utility/Template/Reference.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "../EditorSelectObject.h"
+#include "Engine/Debug/Editor/Adapter/EditorValueField.h"
 
 class IRemoteObject {
 	friend class EditorSceneSerializer;
@@ -39,7 +40,7 @@ public:
 
 protected:
 	bool isOpen{ false };
-	std::string hierarchyName;
+	EditorValueField<std::string> hierarchyName{ "Name" };
 
 	Reference<IRemoteObject> parent;
 };
