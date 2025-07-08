@@ -29,7 +29,7 @@ public:
 	static bool IsHoverEditorWindow();
 
 	static void SetCamera(Reference<Camera3D> camera);
-
+	
 private:
 	void set_imgui_command();
 

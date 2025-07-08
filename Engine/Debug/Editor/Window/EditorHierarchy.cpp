@@ -27,6 +27,7 @@ void EditorHierarchy::setup(Reference<EditorSelectObject> select_) {
 void EditorHierarchy::finalize() {
 	JsonAsset json{ "./Game/DebugData/Editor.json" };
 	json.get()["LastLoadedScene"] = scene->name();
+	scene.reset();
 }
 
 void EditorHierarchy::load(std::filesystem::path file) {

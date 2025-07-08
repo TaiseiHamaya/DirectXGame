@@ -39,6 +39,7 @@ extern "C" HANDLE WINAPI GetProcessHandleFromHwnd(_In_ HWND hwnd);
 #include <imgui.h>
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif // _DEBUG
+#include <Engine/Debug/Editor/Window/EditorLogWindow.h>
 
 // ウィンドウプロシージャ
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -56,13 +57,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp::WinApp() noexcept :
-	hWnd(nullptr),
-	hInstance(nullptr) {
-	msg = {};
-}
-
 WinApp::~WinApp() noexcept {
+	// COMの終了
+	CoUninitialize();
 	// ログ
 	Information("Complete finalize application.");
 	// chrono内のTZDBを削除(これ以降ログ出力はされない)
@@ -83,28 +80,32 @@ void WinApp::Initialize() {
 	// chrono時間精度の設定
 	timeBeginPeriod(1);
 
-	ErrorIf(instance, "WinApp is already initialized.");
+	ErrorIf(isInitialized, "WinApp is already initialized.");
+	isInitialized = true;
 
 	// アプリケーション内のwstring charsetをutf-8にする
 	std::locale::global(std::locale("ja_JP.Utf-8"));
 
 	// クラッシュハンドラの設定
 	CrashHandler::Initialize();
-	// WinAppのメモリ取得
-	instance.reset(new WinApp{});
-	// COMの初期化
-	CoInitializeEx(0, COINIT_MULTITHREADED);
 	// Log出力システムの初期化
 	InitializeLog();
+#ifdef DEBUG_FEATURES_ENABLE
+	EditorLogWindow::Allocate();
+#endif // DEBUG_FEATURES_ENABLE
+
+	// COMの初期化
+	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// ---------- Projectのロード ----------
 	ProjectManager::Initialize();
 
 	// ---------- WindowsApplicationの起動 ----------
 	// アプリケーションの初期化
-	instance->initialize_application();
+	auto& instance = GetInstance();
+	instance.initialize_application();
 	// シンボルハンドラーの初期化
-	SymInitialize(instance->hProcess, nullptr, true);
+	SymInitialize(instance.hProcess, nullptr, true);
 
 	// ---------- エンジン機能の初期化 ----------
 	//DirectXの初期化
@@ -166,7 +167,7 @@ void WinApp::Initialize() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorMain::Initialize();
-	SceneManager::SetProfiler(instance->profiler);
+	SceneManager::SetProfiler(instance.profiler);
 #endif // _DEBUG
 
 	Information("Complete initialize application.");
@@ -176,8 +177,9 @@ void WinApp::BeginFrame() {
 	SyncErrorWindow();
 
 #ifdef DEBUG_FEATURES_ENABLE
-	instance->profiler.clear_timestamps();
-	instance->profiler.timestamp("BeginFrame");
+	auto& instance = GetInstance();
+	instance.profiler.clear_timestamps();
+	instance.profiler.timestamp("BeginFrame");
 #endif // _DEBUG
 	WorldClock::Update();
 	Input::Update();
@@ -190,15 +192,16 @@ void WinApp::BeginFrame() {
 
 void WinApp::EndFrame() {
 #ifdef DEBUG_FEATURES_ENABLE
-	instance->profiler.timestamp("EndFrame");
+	auto& instance = GetInstance();
+	instance.profiler.timestamp("EndFrame");
 	SceneManager::DebugGui();
-	instance->profiler.timestamp("End");
+	instance.profiler.timestamp("End");
 	ImGui::Begin("Application");
-	ImGui::Checkbox("IsStopUpdate", &instance->isStopUpdate);
-	instance->isPassedPause = false;
-	if (ImGui::Button("NextFrame")) instance->isPassedPause = true;
+	ImGui::Checkbox("IsStopUpdate", &instance.isStopUpdate);
+	instance.isPassedPause = false;
+	if (ImGui::Button("NextFrame")) instance.isPassedPause = true;
 	ImGui::SeparatorText("Profiler");
-	instance->profiler.debug_gui();
+	instance.profiler.debug_gui();
 	ImGui::End();
 
 	EditorMain::Draw();
@@ -216,7 +219,7 @@ void WinApp::Finalize() {
 	// 終了通知
 	Information("End Program.");
 	//windowを閉じる
-	CloseWindow(instance->hWnd);
+	CloseWindow(GetInstance().hWnd);
 	Information("Closed Window.");
 
 	// 各種終了処理
@@ -236,13 +239,11 @@ void WinApp::Finalize() {
 	TextureLibrary::Finalize();
 	//DirectXを終了
 	DxCore::Finalize();
-	// COMの終了
-	CoUninitialize();
 }
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
-	ShowWindow(instance->hWnd, SW_SHOW);
+	ShowWindow(GetInstance().hWnd, SW_SHOW);
 	Information("Show application window.");
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -254,7 +255,7 @@ void WinApp::ShowAppWindow() {
 }
 
 bool WinApp::IsEndApp() {
-	if (instance->isEndApp) { // ×ボタンが押されたら終わる
+	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
 		return true;
 	}
 	if (SceneManager::IsEndProgram()) {
@@ -264,18 +265,19 @@ bool WinApp::IsEndApp() {
 }
 
 void WinApp::ProcessMessage() {
+	auto& instance = GetInstance();
 	while (true) {
 		// windowにメッセージが来たら最優先で処理
-		if (PeekMessage(&instance->msg, NULL, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&instance->msg);
-			DispatchMessage(&instance->msg);
+		if (PeekMessage(&instance.msg, NULL, 0, 0, PM_REMOVE)) {
+			TranslateMessage(&instance.msg);
+			DispatchMessage(&instance.msg);
 		}
 		else {
 			return;
 		}
-		switch (instance->msg.message) {
+		switch (instance.msg.message) {
 		case WM_QUIT: // windowの×ボタンが押されたら通知
-			instance->isEndApp = true;
+			instance.isEndApp = true;
 			break;
 		}
 	}
@@ -340,4 +342,9 @@ void WinApp::wait_frame() {
 		// 止める
 		std::this_thread::sleep_for(std::chrono::duration_cast<std::chrono::microseconds>(sleepMilliSec));
 	}
+}
+
+bool WinApp::IsStopUpdate() {
+	auto& instance = GetInstance();
+	return instance.isStopUpdate && !instance.isPassedPause;
 }

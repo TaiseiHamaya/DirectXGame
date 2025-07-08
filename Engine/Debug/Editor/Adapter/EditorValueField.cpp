@@ -41,9 +41,9 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			result.set(ImGui::IsItemActivated(), 0);
 
 			ImGui::SameLine();
-			ImGui::Indent(27.f);
+			ImGui::Indent(29.f);
 			result |= rotateObj.show_gui(rotate);
-			ImGui::Unindent(27.f);
+			ImGui::Unindent(29.f);
 			if (result == 0b01) {
 				EditorValueChangeCommandHandler::GenCommand<Quaternion>(rotate);
 			}

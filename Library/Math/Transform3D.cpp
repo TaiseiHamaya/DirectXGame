@@ -118,7 +118,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		result |= ImGui::IsItemActivated() << 0;
 		
 		Vector3 rotationW = CVector3::ZERO;
-		ImGui::Indent(27);
+		ImGui::Indent(29.f);
 		ImGui::SetNextItemWidth(150);
 		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f, "")) {
 			rotate *= Quaternion::EulerDegree(rotationW);
@@ -127,7 +127,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		result |= ImGui::IsItemDeactivated() << 1;
 		result |= ImGui::IsItemActivated() << 0;
 
-		ImGui::Unindent(27);
+		ImGui::Unindent(29.f);
 		// ---------- Translate ----------
 		// リセットボタン
 		if (ImGui::Button("\ue5d5##Translate")) {
