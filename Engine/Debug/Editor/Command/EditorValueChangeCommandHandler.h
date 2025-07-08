@@ -14,8 +14,10 @@
 class EditorValueChangeCommandHandler final : public SingletonInterface<EditorValueChangeCommandHandler> {
 	__CLASS_SINGLETON_INTERFACE(EditorValueChangeCommandHandler)
 
-public:
+private:
 	static void Start(std::function<void(void)> endCallFunc);
+
+public:
 	static void End();
 
 	static bool IsActive();

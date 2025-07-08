@@ -34,11 +34,13 @@ public:
 
 public:
 	void show_gui() {
-		std::bitset<2> result = showObject.show_gui(value);
+		T temp = value;
+		std::bitset<2> result = showObject.show_gui(temp);
 		if (result == 0b01) {
 			EditorValueChangeCommandHandler::GenCommand<T>(value);
 		}
-		else if (result == 0b10) {
+		value = temp;
+		if (result == 0b10) {
 			EditorValueChangeCommandHandler::End();
 		}
 	}

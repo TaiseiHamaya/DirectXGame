@@ -60,7 +60,7 @@ nlohmann::json RemoteErrorObject::serialize() const {
 	nlohmann::json result;
 
 	result["Type"] = 99;
-	result = hierarchyName;
+	result.update(hierarchyName);
 
 	return result;
 }

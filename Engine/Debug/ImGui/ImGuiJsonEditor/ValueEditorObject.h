@@ -87,7 +87,9 @@ struct show_object<i32> {
 
 public:
 	inline std::bitset<2> show_gui(i32& value) const {
-		ImGui::DragInt(name.c_str(), &value);
+		constexpr i32 step = 1;
+		constexpr i32 fastStep = 10;
+		ImGui::InputScalar(name.c_str(), ImGuiDataType_S32, &value, &step, &fastStep);
 		std::bitset<2> result = 0;
 		result.set(ImGui::IsItemDeactivated(), 1);
 		result.set(ImGui::IsItemActivated(), 0);
@@ -114,7 +116,9 @@ struct show_object<u32> {
 
 public:
 	inline std::bitset<2> show_gui(u32& value) const {
-		ImGui::DragScalar(name.c_str(), ImGuiDataType_U32, &value);
+		constexpr i32 step = 1;
+		constexpr i32 fastStep = 10;
+		ImGui::InputScalar(name.c_str(), ImGuiDataType_U32, &value, &step, &fastStep);
 		std::bitset<2> result = 0;
 		result.set(ImGui::IsItemDeactivated(), 1);
 		result.set(ImGui::IsItemActivated(), 0);

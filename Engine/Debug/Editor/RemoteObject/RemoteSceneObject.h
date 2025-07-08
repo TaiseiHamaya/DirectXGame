@@ -39,6 +39,8 @@ private:
 	Reference<BaseScene> self;
 
 	std::vector<std::unique_ptr<RemoteWorldObject>> remoteWorlds;
+
+	EditorValueField<u32> numLayer{ "NumLayer", 1 };
 };
 
 #endif // DEBUG_FEATURES_ENABLE
