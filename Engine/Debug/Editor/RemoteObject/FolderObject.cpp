@@ -5,10 +5,10 @@
 #include <format>
 
 #include <imgui.h>
-#include <imgui_stdlib.h>
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
+#include "../EditorHierarchyDandD.h"
 
 void FolderObject::draw_inspector() {
 	hierarchyName.show_gui();
@@ -30,8 +30,9 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName.get(), (void*)this).c_str(), flags);
+	EditorHierarchyDandD::CheckDandD(this, parent);
 
-	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen() && !isSelected) {
 		EditorCommandInvoker::Execute(
 			std::make_unique<EditorSelectCommand>(this)
 		);

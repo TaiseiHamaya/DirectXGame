@@ -14,6 +14,7 @@
 
 #include "Engine/Debug/Editor/Command/EditorCommandInvoker.h"
 #include "Engine/Debug/Editor/Command/EditorSelectCommand.h"
+#include "../../EditorHierarchyDandD.h"
 
 template<typename RuntimeType>
 class IRemoteInstance : public IRemoteObject {
@@ -57,9 +58,10 @@ inline void IRemoteInstance<RuntimeType>::draw_hierarchy(Reference<const EditorS
 		flags |= ImGuiTreeNodeFlags_Leaf;
 	}
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName.get(), (void*)this).c_str(), flags);
+	EditorHierarchyDandD::CheckDandD(this, parent);
 
 	// こうすると選択できるらしい
-	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen() && !isSelected) {
 		EditorCommandInvoker::Execute(
 			std::make_unique<EditorSelectCommand>(this, transform.get())
 		);
@@ -75,8 +77,7 @@ inline void IRemoteInstance<RuntimeType>::draw_hierarchy(Reference<const EditorS
 
 template<typename RuntimeType>
 std::unique_ptr<IRemoteObject> IRemoteInstance<RuntimeType>::move_force(Reference<const IRemoteObject> child) {
-	auto itr = std::find_if(children.begin(), children.end(),
-[&](const std::unique_ptr<IRemoteObject>& lhs) {
+	auto itr = std::find_if(children.begin(), children.end(), [&](const std::unique_ptr<IRemoteObject>& lhs) {
 		return lhs.get() == child.ptr();
 	});
 	if (itr != children.end()) {
