@@ -17,6 +17,7 @@
 
 #include "./WinApp.h"
 #include "Engine/Application/EngineSettings.h"
+#include "Engine/Debug/Editor/Window/EditorLogWindow.h"
 
 namespace chrono = std::chrono;
 
@@ -121,7 +122,7 @@ static void LogOutputBody(const std::wstring& file, LogType type, const std::wst
 	u8 config = GetConfigFlags(type);
 	std::wstring typeW = TypeStringW[static_cast<u8>(type)];
 	std::wstring out =
-		std::format(L"{:%H:%M:%S} | {: <10} | {} [{}]\n", time, typeW, message, file);
+		std::format(L"{:%H:%M:%S} | {: <11} | {} [{}]\n", time, typeW, message, file);
 
 	// コンソール出力
 	if (config & 0b100000) {
@@ -136,8 +137,8 @@ static void LogOutputBody(const std::wstring& file, LogType type, const std::wst
 		LogOutputStacktrace();
 	}
 	// Editor出力
-	if (config & 0b00100) {
-
+	if (config & 0b001000) {
+		EditorLogWindow::AppendLogEntry(type, ConvertString(std::format(L"{:%H:%M:%S} | {}\n", time, message)));
 	}
 	// ウィンドウ出力
 	if (config & 0b000100) {

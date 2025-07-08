@@ -4,18 +4,22 @@
 
 #include <windows.h>
 
+#include <Library/Utility/Template/SingletonInterface.h>
+
 #include "Engine/Debug/Profiler/TimestampProfiler.h"
 
-class WinApp final {
-private:
-	WinApp() noexcept;
+class WinApp final : public SingletonInterface<WinApp> {
+	friend class SingletonInterface<WinApp>;
 
-public:
-	~WinApp() noexcept;
+private:
+	WinApp() = default;
+	~WinApp();
 
 public:
 	WinApp(const WinApp&) = delete;
 	WinApp& operator=(const WinApp&) = delete;
+	WinApp(WinApp&&) = delete;
+	WinApp& operator=(WinApp&&) = delete;
 
 public:
 	static void Initialize();
@@ -28,9 +32,9 @@ public:
 	static void ProcessMessage();
 
 public:
-	static HWND GetWndHandle() noexcept { return instance->hWnd; };
-	static HANDLE GetProcessHandle() noexcept { return instance->hProcess; };
-	static HINSTANCE GetInstanceHandle() noexcept { return instance->hInstance; };
+	static HWND GetWndHandle() noexcept { return GetInstance().hWnd; };
+	static HANDLE GetProcessHandle() noexcept { return GetInstance().hProcess; };
+	static HINSTANCE GetInstanceHandle() noexcept { return GetInstance().hInstance; };
 
 private:
 	void initialize_application();
@@ -38,7 +42,7 @@ private:
 	void wait_frame();
 
 private:
-	static inline std::unique_ptr<WinApp> instance{ nullptr };
+	static inline bool isInitialized{ false };
 
 private:
 	bool isEndApp{ false };
@@ -46,11 +50,11 @@ private:
 	HINSTANCE hInstance{ nullptr };
 	HANDLE hProcess{ nullptr };
 
-	MSG msg;
+	MSG msg{};
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
-	static bool IsStopUpdate() { return instance->isStopUpdate && !instance->isPassedPause; }
+	static bool IsStopUpdate();
 
 private:
 	bool isStopUpdate;

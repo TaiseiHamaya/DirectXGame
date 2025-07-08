@@ -13,12 +13,15 @@
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
 
+#include "./Window/EditorLogWindow.h"
+
 void EditorMain::Initialize() {
 	EditorMain& instance = GetInstance();
 	instance.isActiveEditor = true;
 	instance.sceneView.initialize(true);
 	instance.inspector.initialize();
 	instance.sceneList.initialize();
+	EditorLogWindow::Initialize(true);
 
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 }
@@ -74,6 +77,12 @@ void EditorMain::DrawBase() {
 
 		std::ofstream ofstream{ filePath, std::ios_base::out };
 		ofstream << std::setw(1) << std::setfill('\t') << root;
+		if (ofstream.fail()) {
+			Warning("Failed to save scene file. ({})", filePath.string());
+		}
+		else {
+			Information("Scene file saved. ({})", filePath.string());
+		}
 		ofstream.close();
 	}
 
@@ -89,6 +98,7 @@ void EditorMain::Draw() {
 	instance.sceneView.draw();
 	instance.hierarchy.draw();
 	instance.inspector.draw();
+	EditorLogWindow::Draw();
 	if (instance.sceneView.is_active()) {
 		ImGuizmo::SetDrawlist(instance.sceneView.draw_list().ptr());
 		instance.gizmo.draw_gizmo(instance.selectObject);
@@ -120,6 +130,7 @@ void EditorMain::set_imgui_command() {
 			sceneView.draw_menu("Scene");
 			hierarchy.draw_menu("Hierarchy");
 			inspector.draw_menu("Inspector");
+			EditorLogWindow::DrawMenu("Log");
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit")) {

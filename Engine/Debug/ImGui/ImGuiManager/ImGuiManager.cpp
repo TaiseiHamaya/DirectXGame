@@ -18,8 +18,6 @@
 #include <imgui_impl_win32.h>
 #include <ImGuizmo.h>
 
-#include <Engine/Runtime/Input/InputHandler.h>
-
 ImGuiManager& ImGuiManager::GetInstance() noexcept {
 	static ImGuiManager instance{};
 	return instance;
@@ -53,10 +51,11 @@ void ImGuiManager::Initialize() {
 	ImFontConfig config{};
 	config.MergeMode = true;
 	config.GlyphRanges = IconsGlyphRanges;
+	config.GlyphOffset.y = 2.f;
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, glyphRangesJapanese);
-	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 13.f, &config, IconsGlyphRanges);
+	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 14.5f, &config, IconsGlyphRanges);
 	ImGui::GetStyle().Colors[2] = ImVec4{ 0.1f,0.1f,0.1f,1 };
 	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
 
