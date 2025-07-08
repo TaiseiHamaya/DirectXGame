@@ -181,6 +181,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorHierarchyDandD.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp" />
@@ -468,6 +470,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandReparent.h" />
+    <ClInclude Include="Engine\Debug\Editor\EditorHierarchyDandD.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorLogWindow.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandScope.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandResizeContainer.h" />

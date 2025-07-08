@@ -37,7 +37,7 @@ void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 	ImGui::TreePop();
 	
 	// こうすると選択できるらしい
-	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen() && !isSelected) {
 		EditorCommandInvoker::Execute(
 			std::make_unique<EditorSelectCommand>(this)
 		);

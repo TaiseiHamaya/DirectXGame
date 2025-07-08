@@ -8,6 +8,7 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
+#include "../EditorHierarchyDandD.h"
 
 RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
@@ -31,8 +32,12 @@ void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 		flags |= ImGuiTreeNodeFlags_DefaultOpen;
 	}
 	isOpen = ImGui::TreeNodeEx(std::format("{}##{}", hierarchyName.get(), (void*)this).c_str(), flags);
+	if (ImGui::BeginDragDropTarget()) {
+		EditorHierarchyDandD::EndDrag(this);
+		ImGui::EndDragDropTarget();
+	}
 
-	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen() && !isSelected) {
 		EditorCommandInvoker::Execute(
 			std::make_unique<EditorSelectCommand>(this)
 		);

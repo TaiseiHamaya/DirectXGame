@@ -12,6 +12,7 @@
 #include "Command/EditorSelectCommand.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "EditorHierarchyDandD.h"
 
 #include "./Window/EditorLogWindow.h"
 
@@ -103,6 +104,8 @@ void EditorMain::Draw() {
 		ImGuizmo::SetDrawlist(instance.sceneView.draw_list().ptr());
 		instance.gizmo.draw_gizmo(instance.selectObject);
 	}
+
+	EditorHierarchyDandD::ExecuteReparent();
 }
 
 void EditorMain::Finalize() {
