@@ -97,19 +97,23 @@ void Transform2D::copy(const Transform2D& copy) noexcept {
 void Transform2D::debug_gui(string_literal tag) {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
-		if (ImGui::Button("ResetScale")) {
+		if (ImGui::Button("\ue5d5##Scale")) {
 			scale = CVector2::BASIS;
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("ResetRotate")) {
+		ImGui::SetNextItemWidth(150);
+		ImGui::DragFloat2("Scale", &scale.x, 0.01f);
+		if (ImGui::Button("\ue5d5##Rotate")) {
 			rotate = 0;
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("ResetTranslate")) {
+		ImGui::SetNextItemWidth(150);
+		ImGui::DragFloat("Rotate", &rotate, 0.02f);
+		if (ImGui::Button("\ue5d5##Translate")) {
 			translate = CVector2::ZERO;
 		}
-		ImGui::DragFloat2("Scale", &scale.x, 0.01f);
-		ImGui::DragFloat("Rotate", &rotate, 0.02f);
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(150);
 		ImGui::DragFloat2("Translate", &translate.x, 0.1f);
 		ImGui::TreePop();
 	}
