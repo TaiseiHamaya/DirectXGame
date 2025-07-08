@@ -25,17 +25,19 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 	layer.show_gui();
 	{
 		std::string cache = meshName;
-		if (PolygonMeshLibrary::MeshListGui(meshName)) {
-			EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
+		if (PolygonMeshLibrary::MeshListGui(cache)) {
+			if (cache != meshName) {
+				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
 
-			std::swap(cache, meshName);
-			EditorValueChangeCommandHandler::GenCommand<std::string>(meshName);
-			std::swap(cache, meshName);
-			EditorValueChangeCommandHandler::End();
+				EditorValueChangeCommandHandler::GenCommand<std::string>(meshName);
+				std::swap(cache, meshName);
+				EditorValueChangeCommandHandler::End();
+				skeleton = SkeletonLibrary::GetSkeleton(meshName);
 
-			default_material();
+				default_material();
 
-			EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
+				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
+			}
 		}
 	}
 	if (ImGui::Button("ResetMaterialData")) {
@@ -47,6 +49,8 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 	ImGui::Separator();
 	// Material
 	ImGui::Text("Materials");
+	ValueEditor::show_object<Color3> colorSO{ "Color" };
+	ValueEditor::show_object<r32> shininessSO{ "Shininess" };
 	for (i32 i = 0; auto& meshMaterial : materials) {
 		std::string treeNodeName;
 		auto meshData = PolygonMeshLibrary::GetPolygonMesh(meshName)->mesh_data(i);
@@ -56,42 +60,47 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 		if (treeNodeName.empty()) {
 			treeNodeName = "UnknownMaterialName##" + std::to_string(i);
 		}
-		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+		if (ImGui::TreeNodeEx(treeNodeName.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAllColumns)) {
 			{
 				std::string cache = meshMaterial.texture;
-				auto result = TextureLibrary::TextureListGui(meshMaterial.texture);
+				auto result = TextureLibrary::TextureListGui(cache);
 
-				if (result) {
-					std::swap(cache, meshMaterial.texture);
+				if (result && cache != meshMaterial.texture) {
 					EditorValueChangeCommandHandler::GenCommand<std::string>(meshMaterial.texture);
 					std::swap(cache, meshMaterial.texture);
 					EditorValueChangeCommandHandler::End();
 				}
 			}
 
-			meshMaterial.uvTransform.show_gui();
+			Transform2DShowGuiBody("UVTransform", meshMaterial.uvTransform);
 
-			meshMaterial.color.show_gui();
+			colorSO.show_gui(meshMaterial.color);
 
 			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
-				EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
-				meshMaterial.lightingType = LighingType::None;
-				EditorValueChangeCommandHandler::End();
+				if (meshMaterial.lightingType != LighingType::None) {
+					EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+					meshMaterial.lightingType = LighingType::None;
+					EditorValueChangeCommandHandler::End();
+				}
 			}
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
-				EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
-				meshMaterial.lightingType = LighingType::Lambert;
-				EditorValueChangeCommandHandler::End();
+				if (meshMaterial.lightingType != LighingType::Lambert) {
+					EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+					meshMaterial.lightingType = LighingType::Lambert;
+					EditorValueChangeCommandHandler::End();
+				}
 			}
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
-				EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
-				meshMaterial.lightingType = LighingType::HalfLambert;
-				EditorValueChangeCommandHandler::End();
+				if (meshMaterial.lightingType != LighingType::HalfLambert) {
+					EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+					meshMaterial.lightingType = LighingType::HalfLambert;
+					EditorValueChangeCommandHandler::End();
+				}
 			}
 
-			meshMaterial.shininess.show_gui();
+			shininessSO.show_gui(meshMaterial.shininess);
 
 			ImGui::TreePop();
 		}
@@ -102,10 +111,9 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 	//ここからAnimation専用処理
 	{
 		std::string cache = animationName;
-		auto result = NodeAnimationLibrary::AnimationListGui(animationName);
+		auto result = NodeAnimationLibrary::AnimationListGui(cache);
 
-		if (result) {
-			std::swap(cache, animationName);
+		if (result && cache != animationName) {
 			EditorValueChangeCommandHandler::GenCommand<std::string>(animationName);
 			std::swap(cache, animationName);
 			EditorValueChangeCommandHandler::End();
@@ -115,7 +123,6 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 	ImGui::Separator();
 
 	// Skeleton
-	std::shared_ptr<const SkeletonAsset> skeleton = SkeletonLibrary::GetSkeleton(animationName);
 	if (skeleton) {
 		ImGui::Text("NumSkeleton : %d", skeleton->joint_size());
 	}
@@ -137,10 +144,10 @@ nlohmann::json RemoteSkinningMeshInstance::serialize() const {
 	for (const auto& material : materials) {
 		nlohmann::json jMaterial;
 		jMaterial["Texture"] = material.texture;
-		jMaterial.update(material.color);
-		jMaterial.update(material.uvTransform);
+		jMaterial["Color"] = material.color;
+		jMaterial["UV Transform"] = material.uvTransform;
 		jMaterial["LightingType"] = static_cast<std::underlying_type_t<LighingType>>(material.lightingType);
-		jMaterial.update(material.shininess);
+		jMaterial["Shininess"] = material.shininess;
 		json["Materials"].emplace_back(std::move(jMaterial));
 	}
 
@@ -153,7 +160,7 @@ nlohmann::json RemoteSkinningMeshInstance::serialize() const {
 void RemoteSkinningMeshInstance::default_material() {
 	std::shared_ptr<const PolygonMesh> mesh = PolygonMeshLibrary::GetPolygonMesh(meshName);
 
-	EditorCommandInvoker::Execute(std::make_unique<EditorCommandResizeContainer<std::deque<Material>>>(
+	EditorCommandInvoker::Execute(std::make_unique<EditorCommandResizeContainer<std::vector<Material>>>(
 		materials, mesh->material_count()
 	));
 
@@ -162,29 +169,57 @@ void RemoteSkinningMeshInstance::default_material() {
 		const auto* meshMaterialData = mesh->material_data(i);
 		if (meshMaterialData) {
 			{
-				EditorValueChangeCommandHandler::GenCommand<std::string>(meshMaterial.texture);
+				EditorValueChangeCommandHandler::GenCommand<std::string>([&, i = i]() -> std::string& { return materials.at(i).texture; });
 				meshMaterial.texture = meshMaterialData->textureFileName;
 				EditorValueChangeCommandHandler::End();
 			}
-			meshMaterial.uvTransform.set(meshMaterialData->defaultUV);
+			EditorValueChangeCommandHandler::GenCommand<Vector2>([&, i = i]() -> Vector2& { return materials.at(i).uvTransform.get_scale(); });
+			meshMaterial.uvTransform.set_scale(meshMaterialData->defaultUV.get_scale());
+			EditorValueChangeCommandHandler::End();
+			EditorValueChangeCommandHandler::GenCommand<r32>([&, i = i]() -> r32& { return materials.at(i).uvTransform.get_rotate(); });
+			meshMaterial.uvTransform.set_rotate(meshMaterialData->defaultUV.get_rotate());
+			EditorValueChangeCommandHandler::End();
+			EditorValueChangeCommandHandler::GenCommand<Vector2>([&, i = i]() -> Vector2& { return materials.at(i).uvTransform.get_translate(); });
+			meshMaterial.uvTransform.set_translate(meshMaterialData->defaultUV.get_translate());
+			EditorValueChangeCommandHandler::End();
 
 		}
 		else {
-			meshMaterial.texture = "Error.png";
-			meshMaterial.uvTransform.set(Transform2D{});
+			{
+				EditorValueChangeCommandHandler::GenCommand<std::string>([&, i = i]() -> std::string& { return materials.at(i).texture; });
+				meshMaterial.texture = "Error.png";
+				EditorValueChangeCommandHandler::End();
+			}
+			EditorValueChangeCommandHandler::GenCommand<Vector2>([&, i = i]() -> Vector2& { return materials.at(i).uvTransform.get_scale(); });
+			meshMaterial.uvTransform.set_scale(CVector2::ONE);
+			EditorValueChangeCommandHandler::End();
+			EditorValueChangeCommandHandler::GenCommand<r32>([&, i = i]() -> r32& { return materials.at(i).uvTransform.get_rotate(); });
+			meshMaterial.uvTransform.set_rotate(0);
+			EditorValueChangeCommandHandler::End();
+			EditorValueChangeCommandHandler::GenCommand<Vector2>([&, i = i]() -> Vector2& { return materials.at(i).uvTransform.get_translate(); });
+			meshMaterial.uvTransform.set_translate(CVector2::ZERO);
+			EditorValueChangeCommandHandler::End();
+
 			Warning("Material data is not found.");
 		}
 		{
-			EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+			EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });
 			meshMaterial.lightingType = LighingType::HalfLambert;
 			EditorValueChangeCommandHandler::End();
 		}
-		meshMaterial.color.set(CColor3::WHITE);
-		meshMaterial.shininess.set(50);
+		{
+			EditorValueChangeCommandHandler::GenCommand<Color3>([&, i = i]() -> Color3& { return materials.at(i).color; });
+			meshMaterial.color = CColor3::WHITE;
+			EditorValueChangeCommandHandler::End();
+		}
+		{
+			EditorValueChangeCommandHandler::GenCommand<r32>([&, i = i]() -> r32& { return materials.at(i).shininess; });
+			meshMaterial.shininess = 50;
+			EditorValueChangeCommandHandler::End();
+		}
 
 		++i;
 	}
-
 }
 
 #endif // DEBUG_FEATURES_ENABLE

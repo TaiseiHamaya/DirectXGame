@@ -792,6 +792,9 @@
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">

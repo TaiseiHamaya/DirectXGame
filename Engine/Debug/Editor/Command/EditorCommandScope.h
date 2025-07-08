@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IEditorCommand.h"
 
 class EditorCommandScopeBegin final : public IEditorCommand {
@@ -28,3 +30,5 @@ public:
 private:
 	const i32 level{ 0 };
 };
+
+#endif // DEBUG_FEATURES_ENABLE

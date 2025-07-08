@@ -6,12 +6,13 @@
 #include "../RemoteObject/RemoteErrorObject.h"
 #include "../RemoteObject/RemoteSceneObject.h"
 #include "../RemoteObject/RemoteWorldObject.h"
+#include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
-#include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Application/Output.h"
+#include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 
 #include <Library/Utility/Template/string_hashed.h>
 
@@ -141,12 +142,18 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteStaticMeshInst
 			if (jMaterial.contains("Texture")) {
 				material.texture = jMaterial.at("Texture").get<std::string>();
 			}
-			jMaterial.get_to(material.color);
-			jMaterial.get_to(material.uvTransform);
+			if (jMaterial.contains("Color")) {
+				jMaterial.at("Color").get_to(material.color);
+			}
+			if (jMaterial.contains("UV Transform")) {
+				jMaterial.at("UV Transform").get_to(material.uvTransform);
+			}
 			if (jMaterial.contains("LightingType")) {
 				material.lightingType = static_cast<LighingType>(jMaterial.at("LightingType").get<std::underlying_type_t<LighingType>>());
 			}
-			jMaterial.get_to(material.shininess);
+			if (jMaterial.contains("Shininess")) {
+				jMaterial.at("Shininess").get_to(material.shininess);
+			}
 		}
 	}
 
@@ -166,6 +173,7 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteSkinningMeshIn
 	if (json.contains("MeshName")) {
 		json["MeshName"].get_to(result->meshName);
 	}
+	result->skeleton = SkeletonLibrary::GetSkeleton(result->meshName);
 	json.get_to(result->layer);
 	if (json.contains("Materials") && json["Materials"].is_array()) {
 		for (const nlohmann::json& jMaterial : json["Materials"]) {
@@ -173,15 +181,21 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteSkinningMeshIn
 			if (jMaterial.contains("Texture")) {
 				material.texture = jMaterial.at("Texture").get<std::string>();
 			}
-			jMaterial.get_to(material.color);
-			jMaterial.get_to(material.uvTransform);
+			if (jMaterial.contains("Color")) {
+				jMaterial.at("Color").get_to(material.color);
+			}
+			if (jMaterial.contains("UV Transform")) {
+				jMaterial.at("UV Transform").get_to(material.uvTransform);
+			}
 			if (jMaterial.contains("LightingType")) {
 				material.lightingType = static_cast<LighingType>(jMaterial.at("LightingType").get<std::underlying_type_t<LighingType>>());
 			}
-			jMaterial.get_to(material.shininess);
+			if (jMaterial.contains("Shininess")) {
+				jMaterial.at("Shininess").get_to(material.shininess);
+			}
 		}
 	}
-	if(json.contains("AnimationName")) {
+	if (json.contains("AnimationName")) {
 		json["AnimationName"].get_to(result->animationName);
 	}
 	json.get_to(result->isLoop);
@@ -202,7 +216,7 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteCamera3DInstan
 	json.get_to(result->aspectRatio);
 	json.get_to(result->nearClip);
 	json.get_to(result->farClip);
-	
+
 	return result;
 }
 

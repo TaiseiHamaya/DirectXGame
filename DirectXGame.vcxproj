@@ -181,6 +181,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp" />

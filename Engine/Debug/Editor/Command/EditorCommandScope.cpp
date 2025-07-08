@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorCommandScope.h"
 
 #include "EditorCommandInvoker.h"
@@ -35,3 +37,5 @@ void EditorCommandScopeEnd::undo() {
 		EditorCommandInvoker::Undo();
 	}
 }
+
+#endif // DEBUG_FEATURES_ENABLE

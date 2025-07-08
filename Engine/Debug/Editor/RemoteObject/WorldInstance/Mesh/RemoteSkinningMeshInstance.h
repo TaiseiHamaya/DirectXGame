@@ -5,7 +5,7 @@
 #include "../IRemoteInstance.h"
 
 #include <string>
-#include <deque>
+#include <vector>
 
 #include <Library/Math/Transform2D.h>
 
@@ -16,6 +16,8 @@
 
 class SkinningMeshInstance;
 
+class SkeletonAsset;
+
 class RemoteSkinningMeshInstance final : public IRemoteInstance<SkinningMeshInstance> {
 public:
 	friend class EditorSceneSerializer;
@@ -23,10 +25,10 @@ public:
 public:
 	struct Material {
 		std::string texture;
-		EditorValueField<Color3> color{ "Color" };
-		EditorValueField<Transform2D> uvTransform{ "UV Transform" };
+		Color3 color;
+		Transform2D uvTransform;
 		LighingType lightingType{ LighingType::HalfLambert };
-		EditorValueField<r32> shininess{ "Shininess" };
+		r32 shininess;
 	};
 
 public:
@@ -46,10 +48,12 @@ private:
 	EditorValueField<u32> layer{ "Layer" };
 
 	std::string meshName;
-	std::deque<Material> materials;
+	std::vector<Material> materials;
 
 	std::string animationName;
 	EditorValueField<bool> isLoop{ "IsLoop" };
+
+	std::shared_ptr<const SkeletonAsset> skeleton;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

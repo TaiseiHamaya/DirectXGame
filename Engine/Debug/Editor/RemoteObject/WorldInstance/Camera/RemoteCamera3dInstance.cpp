@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "RemoteCamera3dInstance.h"
 
 void RemoteCamera3dInstance::draw_inspector() {
@@ -32,3 +34,5 @@ nlohmann::json RemoteCamera3dInstance::serialize() const {
 
 	return result;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

@@ -27,6 +27,10 @@ public:
 	template<typename T>
 		requires std::copyable<T>
 	static void GenCommand(Reference<T> target);
+
+	template<typename T>
+		requires std::copyable<T>
+	static void GenCommand(std::function<T&()> function);
 };
 
 template<typename T>
@@ -39,6 +43,20 @@ void EditorValueChangeCommandHandler::GenCommand(Reference<T> target) {
 		command->prepare();
 		EditorCommandInvoker::Execute(
 			std::unique_ptr<EditorValueChangeCommand<T>>(command)
+		);
+	});
+};
+
+template<typename T>
+	requires std::copyable<T>
+void EditorValueChangeCommandHandler::GenCommand(std::function<T& ()> function) {
+	EditorValueChangeCommandLambda<T>* command
+		= new EditorValueChangeCommandLambda<T>(function);
+
+	Start([command]() {
+		command->prepare();
+		EditorCommandInvoker::Execute(
+			std::unique_ptr<EditorValueChangeCommandLambda<T>>(command)
 		);
 	});
 };

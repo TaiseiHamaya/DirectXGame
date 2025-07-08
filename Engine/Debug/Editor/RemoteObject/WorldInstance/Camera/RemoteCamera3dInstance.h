@@ -4,9 +4,9 @@
 
 #include "../IRemoteInstance.h"
 
-#include "Engine/Module/World/WorldInstance/WorldInstance.h"
+#include "Engine/Module/World/Camera/Camera3D.h"
 
-class RemoteCamera3dInstance final : public IRemoteInstance<WorldInstance> {
+class RemoteCamera3dInstance final : public IRemoteInstance<Camera3D> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -22,10 +22,10 @@ public:
 	nlohmann::json serialize() const override;
 
 private:
-	EditorValueField<r32> fovY{ "FOV Y" };
-	EditorValueField<r32> aspectRatio{ "AspectRatio" };
-	EditorValueField<r32> nearClip{ "NearClip" };
-	EditorValueField<r32> farClip{ "FarClip" };
+	EditorValueField<r32> fovY{ "FOV Y", 0.45f };
+	EditorValueField<r32> aspectRatio{ "AspectRatio", 1.7777f };
+	EditorValueField<r32> nearClip{ "NearClip", 0.1f };
+	EditorValueField<r32> farClip{ "FarClip", 1000.0f };
 };
 
 #endif // DEBUG_FEATURES_ENABLE

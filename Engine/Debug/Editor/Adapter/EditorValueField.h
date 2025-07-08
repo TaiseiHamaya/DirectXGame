@@ -14,9 +14,9 @@
 #include <Library/Math/Vector3.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Debug/Editor/Command/EditorValueChangeCommandHandler.h"
 #include "Engine/Debug/Editor/Command/EditorCommandScope.h"
-#include <Engine/Debug/ImGui/ImGuiJsonEditor/ValueEditorObject.h>
+#include "Engine/Debug/Editor/Command/EditorValueChangeCommandHandler.h"
+#include "Engine/Debug/ImGui/ImGuiJsonEditor/ValueEditorObject.h"
 
 #define TRANSFORM3D_SERIALIZER
 #define TRANSFORM2D_SERIALIZER
@@ -25,8 +25,8 @@
 template<typename T>
 class EditorValueField {
 public:
-	EditorValueField(const std::string& name_) :
-		showObject(name_, &value) {
+	EditorValueField(const std::string& name_, T init = T{}) :
+		showObject(name_), value(init) {
 	}
 	~EditorValueField() = default;
 
@@ -34,7 +34,7 @@ public:
 
 public:
 	void show_gui() {
-		std::bitset<2> result = showObject.show_gui();
+		std::bitset<2> result = showObject.show_gui(value);
 		if (result == 0b01) {
 			EditorValueChangeCommandHandler::GenCommand<T>(value);
 		}
@@ -83,14 +83,13 @@ struct adl_serializer<EditorValueField<T>> {
 
 }
 
+void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform);
+
 template<>
 class EditorValueField<Transform3D> {
 public:
 	EditorValueField(const std::string& name_) :
-		gui_label(name_),
-		scaleShowObject("Scale", &value.get_scale()),
-		rotateShowObject("Rotate", &value.get_quaternion()),
-		translateShowObject("Translate", &value.get_translate()) {
+		gui_label(name_) {
 	};
 	~EditorValueField() = default;
 
@@ -98,72 +97,10 @@ public:
 
 public:
 	void show_gui() {
-		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-		if (ImGui::TreeNode(std::format("{}##{:}", gui_label, (void*)this).c_str())) {
-			{
-				std::bitset<2> result = 0;
-				// ---------- Scale ----------
-				Vector3& scale = value.get_scale();
-				// リセットボタン
-				if (ImGui::Button("R##Scale")) {
-					scale = CVector3::BASIS;
-				}
-				result.set(ImGui::IsItemDeactivated(), 1);
-				result.set(ImGui::IsItemActivated(), 0);
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(150);
-				result |= scaleShowObject.show_gui();
-				if (result == 0b01) {
-					EditorValueChangeCommandHandler::GenCommand<Vector3>(scale);
-				}
-				else if (result == 0b10) {
-					EditorValueChangeCommandHandler::End();
-				}
-			}
-
-			{
-				std::bitset<2> result = 0;
-				// ---------- Rotate ----------
-				Quaternion& rotate = value.get_quaternion();
-				// リセットボタン
-				if (ImGui::Button("R##Rotate")) {
-					rotate = CQuaternion::IDENTITY;
-				}
-				result.set(ImGui::IsItemDeactivated(), 1);
-				result.set(ImGui::IsItemActivated(), 0);
-
-				result |= rotateShowObject.show_gui();
-				if (result == 0b01) {
-					EditorValueChangeCommandHandler::GenCommand<Quaternion>(rotate);
-				}
-				else if (result == 0b10) {
-					EditorValueChangeCommandHandler::End();
-				}
-			}
-
-			{
-				std::bitset<2> result = 0;
-				// ---------- Translate ----------
-				Vector3& translate = value.get_translate();
-				// リセットボタン
-				if (ImGui::Button("R##Translate")) {
-					translate = CVector3::ZERO;
-				}
-				result.set(ImGui::IsItemDeactivated(), 1);
-				result.set(ImGui::IsItemActivated(), 0);
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(150);
-				result |= translateShowObject.show_gui();
-				if (result == 0b01) {
-					EditorValueChangeCommandHandler::GenCommand<Vector3>(translate);
-				}
-				else if (result == 0b10) {
-					EditorValueChangeCommandHandler::End();
-				}
-			}
-
-			ImGui::TreePop();
-		}
+		Transform3DShowGuiBody(
+			std::format("{}##{:}", gui_label, (void*)this),
+			value
+		);
 	}
 
 	Transform3D& get() { return value; };
@@ -200,10 +137,6 @@ private:
 	std::string gui_label;
 
 	Transform3D value;
-
-	ValueEditor::show_object<Vector3> scaleShowObject;
-	ValueEditor::show_object<Quaternion> rotateShowObject;
-	ValueEditor::show_object<Vector3> translateShowObject;
 };
 
 namespace nlohmann {
@@ -223,14 +156,13 @@ struct adl_serializer<EditorValueField<Transform3D>> {
 
 }
 
+void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform);
+
 template<>
 class EditorValueField<Transform2D> {
 public:
 	EditorValueField(const std::string& name_) :
-		gui_label(name_),
-		scaleShowObject("Scale", &value.get_scale()),
-		rotateShowObject("Rotate", &value.get_rotate()),
-		translateShowObject("Translate", &value.get_translate()) {
+		gui_label(name_) {
 	};
 	~EditorValueField() = default;
 
@@ -238,73 +170,10 @@ public:
 
 public:
 	void show_gui() {
-		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-		if (ImGui::TreeNode(std::format("{}##{:}", gui_label, (void*)this).c_str())) {
-			{
-				std::bitset<2> result = 0;
-				// ---------- Scale ----------
-				Vector2& scale = value.get_scale();
-				// リセットボタン
-				if (ImGui::Button("R##Scale")) {
-					scale = CVector2::BASIS;
-				}
-				result.set(ImGui::IsItemDeactivated(), 1);
-				result.set(ImGui::IsItemActivated(), 0);
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(150);
-				result |= scaleShowObject.show_gui();
-				if (result == 0b01) {
-					EditorValueChangeCommandHandler::GenCommand<Vector2>(scale);
-				}
-				else if (result == 0b10) {
-					EditorValueChangeCommandHandler::End();
-				}
-			}
-
-			{
-				std::bitset<2> result = 0;
-				// ---------- Rotate ----------
-				r32& rotate = value.get_rotate();
-				// リセットボタン
-				if (ImGui::Button("R##Rotate")) {
-					rotate = 0;
-				}
-				result.set(ImGui::IsItemDeactivated(), 1);
-				result.set(ImGui::IsItemActivated(), 0);
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(150);
-				result |= rotateShowObject.show_gui();
-				if (result == 0b01) {
-					EditorValueChangeCommandHandler::GenCommand<r32>(rotate);
-				}
-				else if (result == 0b10) {
-					EditorValueChangeCommandHandler::End();
-				}
-			}
-
-			{
-				std::bitset<2> result = 0;
-				// ---------- Translate ----------
-				Vector2& translate = value.get_translate();
-				// リセットボタン
-				if (ImGui::Button("R##Translate")) {
-					translate = CVector2::ZERO;
-				}
-				result.set(ImGui::IsItemDeactivated(), 1);
-				result.set(ImGui::IsItemActivated(), 0);
-				ImGui::SameLine();
-				ImGui::SetNextItemWidth(150);
-				result |= translateShowObject.show_gui();
-				if (result == 0b01) {
-					EditorValueChangeCommandHandler::GenCommand<Vector2>(translate);
-				}
-				else if (result == 0b10) {
-					EditorValueChangeCommandHandler::End();
-				}
-			}
-
-			ImGui::TreePop();
-		}
+		Transform2DShowGuiBody(
+			std::format("{}##{:}", gui_label, (void*)this),
+			value
+		);
 	}
 
 	Transform2D& get() { return value; };
@@ -341,10 +210,6 @@ private:
 	std::string gui_label;
 
 	Transform2D value;
-
-	ValueEditor::show_object<Vector2> scaleShowObject;
-	ValueEditor::show_object<r32> rotateShowObject;
-	ValueEditor::show_object<Vector2> translateShowObject;
 };
 
 namespace nlohmann {

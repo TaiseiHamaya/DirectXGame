@@ -140,7 +140,7 @@ void EditorMain::set_imgui_command() {
 		ImGuiWindowFlags_MenuBar | // メニューバーを表示
 		ImGuiWindowFlags_NoDocking | // ドッキングしない
 		ImGuiWindowFlags_NoTitleBar | // タイトルバーなし
-		ImGuiWindowFlags_NoMove | 
+		ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize | // リサイズしない
 		ImGuiWindowFlags_NoScrollbar | // スクロールバーなし
 		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
@@ -153,7 +153,7 @@ void EditorMain::set_imgui_command() {
 	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
 	ImGui::SetCursorScreenPos({ 0, 19 });
-	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
 }
