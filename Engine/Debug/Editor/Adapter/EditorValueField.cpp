@@ -13,7 +13,7 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			// ---------- Scale ----------
 			Vector3& scale = transform.get_scale();
 			// リセットボタン
-			if (ImGui::Button("R##Scale")) {
+			if (ImGui::Button("\ue5d5##Scale")) {
 				scale = CVector3::BASIS;
 			}
 			result.set(ImGui::IsItemDeactivated(), 1);
@@ -34,13 +34,16 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			// ---------- Rotate ----------
 			Quaternion& rotate = transform.get_quaternion();
 			// リセットボタン
-			if (ImGui::Button("R##Rotate")) {
+			if (ImGui::Button("\ue5d5##Rotate")) {
 				rotate = CQuaternion::IDENTITY;
 			}
 			result.set(ImGui::IsItemDeactivated(), 1);
 			result.set(ImGui::IsItemActivated(), 0);
 
+			ImGui::SameLine();
+			ImGui::Indent(27.f);
 			result |= rotateObj.show_gui(rotate);
+			ImGui::Unindent(27.f);
 			if (result == 0b01) {
 				EditorValueChangeCommandHandler::GenCommand<Quaternion>(rotate);
 			}
@@ -54,7 +57,7 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			// ---------- Translate ----------
 			Vector3& translate = transform.get_translate();
 			// リセットボタン
-			if (ImGui::Button("R##Translate")) {
+			if (ImGui::Button("\ue5d5##Translate")) {
 				translate = CVector3::ZERO;
 			}
 			result.set(ImGui::IsItemDeactivated(), 1);
@@ -85,7 +88,7 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 			// ---------- Scale ----------
 			Vector2& scale = transform.get_scale();
 			// リセットボタン
-			if (ImGui::Button("R##Scale")) {
+			if (ImGui::Button("\ue5d5##Scale")) {
 				scale = CVector2::BASIS;
 			}
 			result.set(ImGui::IsItemDeactivated(), 1);
@@ -106,7 +109,7 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 			// ---------- Rotate ----------
 			r32& rotate = transform.get_rotate();
 			// リセットボタン
-			if (ImGui::Button("R##Rotate")) {
+			if (ImGui::Button("\ue5d5##Rotate")) {
 				rotate = 0;
 			}
 			result.set(ImGui::IsItemDeactivated(), 1);
@@ -127,7 +130,7 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 			// ---------- Translate ----------
 			Vector2& translate = transform.get_translate();
 			// リセットボタン
-			if (ImGui::Button("R##Translate")) {
+			if (ImGui::Button("\ue5d5##Translate")) {
 				translate = CVector2::ZERO;
 			}
 			result.set(ImGui::IsItemDeactivated(), 1);

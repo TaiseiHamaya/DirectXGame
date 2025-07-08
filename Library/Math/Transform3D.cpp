@@ -89,7 +89,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 	if (ImGui::TreeNode(std::format("{}##{:}", tag, (void*)this).c_str())) {
 		// ---------- Scale ----------
 		// リセットボタン
-		if (ImGui::Button("R##Scale")) {
+		if (ImGui::Button("\ue5d5##Scale")) {
 			scale = CVector3::BASIS;
 		}
 		result |= ImGui::IsItemDeactivated() << 1;
@@ -102,7 +102,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		
 		// ---------- Rotate ----------
 		// リセットボタン
-		if (ImGui::Button("R##Rotate")) {
+		if (ImGui::Button("\ue5d5##Rotate")) {
 			rotate = CQuaternion::IDENTITY;
 		}
 		result |= ImGui::IsItemDeactivated() << 1;
@@ -130,7 +130,7 @@ u32 Transform3D::debug_gui(string_literal tag) {
 		ImGui::Unindent(23.2f);
 		// ---------- Translate ----------
 		// リセットボタン
-		if (ImGui::Button("R##Translate")) {
+		if (ImGui::Button("\ue5d5##Translate")) {
 			translate = CVector3::ZERO;
 		}
 		result |= ImGui::IsItemDeactivated() << 1;

@@ -29,6 +29,8 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 			if (cache != meshName) {
 				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
 
+				default_material();
+
 				EditorValueChangeCommandHandler::GenCommand<std::string>(meshName);
 				std::swap(cache, meshName);
 				EditorValueChangeCommandHandler::End();
@@ -66,7 +68,7 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 				auto result = TextureLibrary::TextureListGui(cache);
 
 				if (result && cache != meshMaterial.texture) {
-					EditorValueChangeCommandHandler::GenCommand<std::string>(meshMaterial.texture);
+					EditorValueChangeCommandHandler::GenCommand<std::string>([&, i = i]() -> std::string& { return materials.at(i).texture; });
 					std::swap(cache, meshMaterial.texture);
 					EditorValueChangeCommandHandler::End();
 				}
@@ -74,11 +76,19 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 
 			Transform2DShowGuiBody("UVTransform", meshMaterial.uvTransform);
 
-			colorSO.show_gui(meshMaterial.color);
+			{
+				auto result = colorSO.show_gui(meshMaterial.color);
+				if (result == 0b01) {
+					EditorValueChangeCommandHandler::GenCommand<Color3>([&, i = i]() -> Color3& { return materials.at(i).color; });
+				}
+				else if (result == 0b10) {
+					EditorValueChangeCommandHandler::End();
+				}
+			}
 
 			if (ImGui::RadioButton("None", meshMaterial.lightingType == LighingType::None)) {
 				if (meshMaterial.lightingType != LighingType::None) {
-					EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+					EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });
 					meshMaterial.lightingType = LighingType::None;
 					EditorValueChangeCommandHandler::End();
 				}
@@ -86,7 +96,7 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Lambert", meshMaterial.lightingType == LighingType::Lambert)) {
 				if (meshMaterial.lightingType != LighingType::Lambert) {
-					EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+					EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });
 					meshMaterial.lightingType = LighingType::Lambert;
 					EditorValueChangeCommandHandler::End();
 				}
@@ -94,13 +104,21 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Half lambert", meshMaterial.lightingType == LighingType::HalfLambert)) {
 				if (meshMaterial.lightingType != LighingType::HalfLambert) {
-					EditorValueChangeCommandHandler::GenCommand<LighingType>(meshMaterial.lightingType);
+					EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });
 					meshMaterial.lightingType = LighingType::HalfLambert;
 					EditorValueChangeCommandHandler::End();
 				}
 			}
 
-			shininessSO.show_gui(meshMaterial.shininess);
+			{
+				auto result = shininessSO.show_gui(meshMaterial.shininess);
+				if (result == 0b01) {
+					EditorValueChangeCommandHandler::GenCommand<r32>([&, i = i]() -> r32& { return materials.at(i).shininess; });
+				}
+				else if (result == 0b10) {
+					EditorValueChangeCommandHandler::End();
+				}
+			}
 
 			ImGui::TreePop();
 		}

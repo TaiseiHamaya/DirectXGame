@@ -197,7 +197,6 @@ public:
 	inline std::bitset<2> show_gui(Quaternion& value) const {
 		std::bitset<2> result1 = 0;
 		Vector3 rotationL = CVector3::ZERO;
-		ImGui::SameLine();
 		ImGui::SetNextItemWidth(150);
 		if (ImGui::DragFloat3("RotateLocal", &rotationL.x, 1.0f, -180.0f, 180.0f, "")) {
 			value = (value * Quaternion::EulerDegree(rotationL)).normalize();
@@ -207,7 +206,6 @@ public:
 
 		std::bitset<2> result2 = 0;
 		Vector3 rotationW = CVector3::ZERO;
-		ImGui::Indent(23.2f);
 		ImGui::SetNextItemWidth(150);
 		if (ImGui::DragFloat3("RotateWorld", &rotationW.x, 1.0f, -180.0f, 180.0f, "")) {
 			value *= Quaternion::EulerDegree(rotationW);
@@ -215,7 +213,6 @@ public:
 		}
 		result2.set(ImGui::IsItemDeactivated(), 1);
 		result2.set(ImGui::IsItemActivated(), 0);
-		ImGui::Unindent(23.2f);
 
 		return result1 | result2;
 	};
