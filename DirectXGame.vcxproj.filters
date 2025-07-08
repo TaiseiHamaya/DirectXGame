@@ -735,19 +735,19 @@
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorHierarchy.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorHierarchy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorInspector.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorInspector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorSceneView.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorSceneView.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\IEditorWindow.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Window\IEditorWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp">
@@ -1343,7 +1343,7 @@
     <ClInclude Include="Library\Utility\Template\string_hashed.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\IEditorWindow.h">
+    <ClInclude Include="Engine\Debug\Editor\Window\IEditorWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.h">
@@ -1364,16 +1364,16 @@
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorHierarchy.h">
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorHierarchy.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorInspector.h">
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorInspector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\EditorMain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorSceneView.h">
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorSceneView.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h">

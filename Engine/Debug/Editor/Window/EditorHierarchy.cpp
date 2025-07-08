@@ -5,16 +5,16 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
-#include "Adapter/EditorSceneSerializer.h"
-#include "Command/EditorCommandInvoker.h"
-#include "Command/EditorCreateObjectCommand.h"
-#include "Command/EditorDeleteObjectCommand.h"
-#include "RemoteObject/FolderObject.h"
+#include "../Adapter/EditorSceneSerializer.h"
+#include "../Command/EditorCommandInvoker.h"
+#include "../Command/EditorCreateObjectCommand.h"
+#include "../Command/EditorDeleteObjectCommand.h"
+#include "../RemoteObject/FolderObject.h"
 
-#include "RemoteObject/WorldInstance/RemoteWorldInstance.h"
-#include "RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
-#include "RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
-#include "RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
+#include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager.h"
 

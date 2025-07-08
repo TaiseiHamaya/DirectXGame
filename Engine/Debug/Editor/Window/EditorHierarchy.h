@@ -9,7 +9,7 @@
 
 #include <Library/Utility/Template/Reference.h>
 
-#include "RemoteObject/RemoteSceneObject.h"
+#include "../RemoteObject/RemoteSceneObject.h"
 
 class IRemoteObject;
 class EditorSelectObject;

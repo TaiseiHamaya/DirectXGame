@@ -7,9 +7,9 @@
 #include <Engine/Runtime/Input/InputHandler.h>
 
 #include "EditorGizmo.h"
-#include "EditorHierarchy.h"
-#include "EditorInspector.h"
-#include "EditorSceneView.h"
+#include "./Window/EditorHierarchy.h"
+#include "./Window/EditorInspector.h"
+#include "./Window/EditorSceneView.h"
 #include "EditorSelectObject.h"
 #include "EditorSceneList.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
