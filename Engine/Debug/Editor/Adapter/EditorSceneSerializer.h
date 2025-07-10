@@ -31,6 +31,8 @@ private:
 	static std::unique_ptr<IRemoteObject> CreateRemoteStaticMeshInstance(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteSkinningMeshInstance(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteCamera3DInstance(const nlohmann::json& json);
+	static std::unique_ptr<IRemoteObject> CreateRemoteSphereColliderInstance(const nlohmann::json& json);
+	static std::unique_ptr<IRemoteObject> CreateRemoteAABBColliderInstance(const nlohmann::json& json);
 
 	//static nlohmann::json SaveRemoteScene(Reference<const RemoteSceneObject> scene);
 	//static nlohmann::json SaveRemoteWorld(Reference<const RemoteWorldObject> world);
