@@ -81,17 +81,17 @@ void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<TextureAs
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
-bool TextureLibrary::TextureListGui(std::shared_ptr<const TextureAsset>& current) {
+bool TextureLibrary::TextureListGui(std::string& current) {
 	bool changed = false;
 
 	std::lock_guard<std::mutex> lock{ textureMutex };
-	const std::string& currentName = current ? current->name() : "Current texture is nullptr";
+	const std::string& currentName = current.empty() ? "Current texture is nullptr" : current;
 	if (ImGui::BeginCombo("TextureList", currentName.data())) {
 		auto&& list = GetInstance().textureInstanceList;
 		for (const auto& name : list | std::views::keys) {
 			bool is_selected = (currentName == name);
 			if (ImGui::Selectable(name.c_str(), is_selected)) {
-				current = list.at(name);
+				current = name;
 				changed = true;
 			}
 			if (is_selected) {

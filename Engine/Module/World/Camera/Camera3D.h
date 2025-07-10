@@ -12,6 +12,8 @@
 #endif // _DEBUG
 
 class Camera3D : public WorldInstance {
+	friend class RemoteCamera3DInstance;
+
 public:
 	struct VpBuffers {
 		Matrix4x4 viewProjection;
@@ -47,7 +49,10 @@ public:
 
 	const Matrix4x4& vp_matrix() const;
 
-private:
+	const Affine& view_affine() const;
+	const Matrix4x4& proj_matrix() const;
+
+protected:
 	void make_view_matrix();
 	void make_perspectivefov_matrix();
 
@@ -61,6 +66,8 @@ public:
 	void debug_draw_axis();
 	void debug_draw_frustum() const;
 	const Matrix4x4& vp_matrix_debug() const;
+	const Affine& debug_view_affine() const;
+	const Matrix4x4& debug_proj_matrix() const;
 	Reference<const StaticMeshInstance> camera_axis() const { return debugCameraCenter; }
 #endif // _DEBUG
 
@@ -79,8 +86,8 @@ private:
 #ifdef DEBUG_FEATURES_ENABLE
 	Matrix4x4 vpMatrix;
 	Affine debugViewAffine;
-	bool isValidDebugCamera;
-	bool useDebugCameraLighting;
+	bool isValidDebugCamera{ false };
+	bool useDebugCameraLighting{ true };
 	std::unique_ptr<StaticMeshInstance> debugCameraCenter;
 	std::unique_ptr<WorldInstance> debugCamera;
 	std::unique_ptr<PrimitiveGeometryDrawExecutor> frustumExecutor;

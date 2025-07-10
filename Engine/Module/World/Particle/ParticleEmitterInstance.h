@@ -9,6 +9,7 @@
 #include "./DrawSystem/BaseParticleDrawSystem.h"
 #include "./Particle/Particle.h"
 #include "Engine/Runtime/Clock/WorldTimer.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER
@@ -63,14 +64,14 @@ public:
 		} rotation;
 		Randomize<Color4> color;
 
-		void debug_gui(string_literal tag);
+		u32 debug_gui(string_literal tag);
 	};
 
 	struct ParticleFinal {
 		Randomize<Vector3> size;
 		Randomize<Color4> color;
 
-		void debug_gui(string_literal tag);
+		u32 debug_gui(string_literal tag);
 	};
 
 	struct Emission {
@@ -102,7 +103,7 @@ public:
 			std::variant<std::monostate, Sphere, Cone, Box> data;
 		} shape;
 
-		void debug_gui(string_literal tag);
+		u32 debug_gui(string_literal tag);
 	};
 
 public: // Constructor/Destructor
@@ -132,10 +133,10 @@ private:
 
 public: // Getter/Setter
 
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui();
-#endif // _DEBUG
+//#ifdef DEBUG_FEATURES_ENABLE
+//public:
+//	void debug_gui();
+//#endif // _DEBUG
 
 protected: // Member variable
 	WorldTimer timer;

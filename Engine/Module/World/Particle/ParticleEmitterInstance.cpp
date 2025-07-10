@@ -290,70 +290,70 @@ void ParticleEmitterInstance::create_draw_system() {
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
-#include <imgui.h>
-void ParticleEmitterInstance::debug_gui() {
-	if (ImGui::CollapsingHeader("Emitter")) {
-		WorldInstance::debug_gui();
-	}
-	if (ImGui::CollapsingHeader("Particles")) {
-		ImGui::Text("Now/Max : %d/%d", particles.size(), numMaxParticle);
-	}
-	ImGui::Text("DrawType");
-	if (ImGui::RadioButton("Mesh", drawType == ParticleDrawType::Mesh)) {
-		drawType = ParticleDrawType::Mesh;
-		drawSystemData = std::monostate();
-		useResourceName = "";
-	}
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Rect", drawType == ParticleDrawType::Rect)) {
-		drawType = ParticleDrawType::Rect;
-		drawSystemData = Rect{};
-		useResourceName = TextureLibrary::GetTexture("");
-	}
-	std::string_view resourceName;
-	switch (drawType) {
-	case ParticleDrawType::Mesh:
-	{
-		auto& val = std::get<0>(useResourceName);
-		resourceName = val;
-		ImGui::Text("Draw use : %s", val.c_str());
-		PolygonMeshLibrary::MeshListGui(val);
-		break;
+//#include <imgui.h>
+//void ParticleEmitterInstance::debug_gui() {
+//	if (ImGui::CollapsingHeader("Emitter")) {
+//		WorldInstance::debug_gui();
+//	}
+//	if (ImGui::CollapsingHeader("Particles")) {
+//		ImGui::Text("Now/Max : %d/%d", particles.size(), numMaxParticle);
+//	}
+//	ImGui::Text("DrawType");
+//	if (ImGui::RadioButton("Mesh", drawType == ParticleDrawType::Mesh)) {
+//		drawType = ParticleDrawType::Mesh;
+//		drawSystemData = std::monostate();
+//		useResourceName = "";
+//	}
+//	ImGui::SameLine();
+//	if (ImGui::RadioButton("Rect", drawType == ParticleDrawType::Rect)) {
+//		drawType = ParticleDrawType::Rect;
+//		drawSystemData = Rect{};
+//		useResourceName = TextureLibrary::GetTexture("");
+//	}
+//	std::string_view resourceName;
+//	switch (drawType) {
+//	case ParticleDrawType::Mesh:
+//	{
+//		auto& val = std::get<0>(useResourceName);
+//		resourceName = val;
+//		ImGui::Text("Draw use : %s", val.c_str());
+//		PolygonMeshLibrary::MeshListGui(val);
+//		break;
+//
+//	}
+//	case ParticleDrawType::Rect:
+//	{
+//		auto& val = std::get<1>(useResourceName);
+//		resourceName = val->name();
+//		ImGui::Text("Draw use : %s", resourceName.data());
+//		TextureLibrary::TextureListGui(val);
+//		auto& data = std::get<Rect>(drawSystemData);
+//
+//		ImGui::DragFloat2("Size", &data.rect.x, 0.1f, 0.0f, 1e10f);
+//		ImGui::DragFloat2("Pivot", &data.pivot.x, 0.01f);
+//		break;
+//	}
+//	default:
+//		break;
+//	}
+//	if (ImGui::Button("Apply")) {
+//		create_draw_system();
+//	}
+//	ImGui::Separator();
+//	jsonResource.editor_gui();
+//	if (ImGui::Button("Save")) {
+//		jsonResource.write("DrawType", drawType);
+//		jsonResource.write("useResourceName", resourceName);
+//		if (drawType == ParticleDrawType::Rect) {
+//			const auto& data = std::get<Rect>(drawSystemData);
+//			jsonResource.write("Size", data.rect);
+//			jsonResource.write("Pivot", data.pivot);
+//		}
+//		jsonResource.save();
+//	}
+//}
 
-	}
-	case ParticleDrawType::Rect:
-	{
-		auto& val = std::get<1>(useResourceName);
-		resourceName = val->name();
-		ImGui::Text("Draw use : %s", resourceName.data());
-		TextureLibrary::TextureListGui(val);
-		auto& data = std::get<Rect>(drawSystemData);
-
-		ImGui::DragFloat2("Size", &data.rect.x, 0.1f, 0.0f, 1e10f);
-		ImGui::DragFloat2("Pivot", &data.pivot.x, 0.01f);
-		break;
-	}
-	default:
-		break;
-	}
-	if (ImGui::Button("Apply")) {
-		create_draw_system();
-	}
-	ImGui::Separator();
-	jsonResource.editor_gui();
-	if (ImGui::Button("Save")) {
-		jsonResource.write("DrawType", drawType);
-		jsonResource.write("useResourceName", resourceName);
-		if (drawType == ParticleDrawType::Rect) {
-			const auto& data = std::get<Rect>(drawSystemData);
-			jsonResource.write("Size", data.rect);
-			jsonResource.write("Pivot", data.pivot);
-		}
-		jsonResource.save();
-	}
-}
-
-void ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
+u32 ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
 	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloatRange2("Lifetime", &lifetime.min, &lifetime.max, 0.01f, 0.0f, FLOAT_MAX);
@@ -465,9 +465,11 @@ void ParticleEmitterInstance::ParticleInit::debug_gui(string_literal tag) {
 
 		ImGui::TreePop();
 	}
+
+	return 0;
 }
 
-void ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
+u32 ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloat3("SizeMin", &size.min.x, 0.1f);
 		ImGui::DragFloat3("SizeMax", &size.max.x, 0.1f);
@@ -476,9 +478,10 @@ void ParticleEmitterInstance::ParticleFinal::debug_gui(string_literal tag) {
 		color.max.debug_gui("ColorMax");
 		ImGui::TreePop();
 	}
+	return 0;
 }
 
-void ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
+u32 ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
 	constexpr r32 FLOAT_MAX = std::numeric_limits<r32>::max();
 	if (ImGui::TreeNode(tag)) {
 		ImGui::DragFloat("Delay", &delay, 0.1f, 0.0f, FLOAT_MAX);
@@ -537,5 +540,6 @@ void ParticleEmitterInstance::Emission::debug_gui(string_literal tag) {
 		}
 		ImGui::TreePop();
 	}
+	return 0;
 }
 #endif // _DEBUG

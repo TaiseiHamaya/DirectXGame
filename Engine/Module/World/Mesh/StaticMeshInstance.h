@@ -11,6 +11,10 @@ class TransformMatrix;
 
 class StaticMeshInstance : public IMultiMeshInstance {
 public:
+	friend class RemoteStaticMeshInstance;
+	friend class RemoteSkinningMeshInstance;
+
+public:
 	StaticMeshInstance() noexcept;
 	explicit StaticMeshInstance(const std::string& meshName_) noexcept(false);
 	virtual ~StaticMeshInstance() noexcept;
@@ -24,9 +28,4 @@ public:
 	/// Texture、Materialパラメータ、UVデータのリセットを行う
 	/// </summary>
 	void default_material();
-
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui() override;
-#endif // _DEBUG
 };

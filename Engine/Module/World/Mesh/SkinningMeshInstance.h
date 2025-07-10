@@ -54,11 +54,6 @@ public:
 private:
 	void create_skeleton();
 
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui() override;
-#endif // _DEBUG
-
 protected:
 	std::unique_ptr<NodeAnimationPlayer> nodeAnimation; // NodeAnimation
 

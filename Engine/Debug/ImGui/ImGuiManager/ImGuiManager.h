@@ -23,7 +23,6 @@ public:
 	static void EndFrame();
 
 private:
-	u32 srvIndex;
 };
 
 #endif // _DEBUG

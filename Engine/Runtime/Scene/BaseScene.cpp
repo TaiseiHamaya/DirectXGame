@@ -1,5 +1,7 @@
 #include "BaseScene.h"
 
+#include "Engine/Application/Output.h"
+
 /////////////////////
 /// シーンの使い方 ///
 ////////////////////

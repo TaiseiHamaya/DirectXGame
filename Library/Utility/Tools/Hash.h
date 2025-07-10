@@ -82,9 +82,12 @@ constexpr u64 string_hash(std::string_view str) noexcept {
 			value = 0;
 		}
 	}
+	if (value != 0) {
+		values.emplace_back(value);
+	}
 
 	u64 result = 0;
-	for(auto& elem : values) {
+	for (auto& elem : values) {
 		result = hash(result, elem);
 	}
 
