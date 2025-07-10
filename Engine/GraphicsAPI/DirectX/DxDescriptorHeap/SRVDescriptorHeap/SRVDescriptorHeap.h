@@ -26,6 +26,7 @@ public:
 	static void SetDescriptorHeaps();
 
 	static void ReleaseHeapIndex(u32 index);
+	static void ReleaseHeapHandle(D3D12_GPU_DESCRIPTOR_HANDLE handle);
 
 private:
 	void create_descriptor_heap() override;

@@ -6,8 +6,6 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include <Engine/Assets/Json/JsonAsset.h>
-
 class WorldManager;
 
 class WorldInstance {
@@ -16,8 +14,8 @@ class WorldInstance {
 #endif // DEBUG_FEATURES_ENABLE
 
 public:
-	WorldInstance() noexcept;
-	virtual ~WorldInstance();
+	WorldInstance() noexcept = default;
+	virtual ~WorldInstance() = default;
 
 	__CLASS_NON_COPYABLE(WorldInstance)
 
@@ -92,10 +90,6 @@ public:
 
 	const Reference<WorldManager>& world_manager() const { return worldManager; };
 
-	// 削除するかも？
-	const Hierarchy& get_hierarchy() const { return hierarchy; };
-	Hierarchy& get_hierarchy() { return hierarchy; };
-
 	/// <summary>
 	/// Transformの取得(Const)
 	/// </summary>
@@ -135,14 +129,9 @@ public:
 
 	void set_world_manager(Reference<WorldManager> worldManager_);
 
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	virtual void debug_gui();
-#endif // _DEBUG
-
 protected:
 	Transform3D transform{}; // Transform
-	Hierarchy hierarchy{}; // Hierarchy
+	Hierarchy hierarchy{ affine }; // Hierarchy
 
 private:
 	Affine affine;
