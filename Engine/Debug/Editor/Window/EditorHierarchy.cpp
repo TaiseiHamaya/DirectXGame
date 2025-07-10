@@ -139,12 +139,12 @@ void EditorHierarchy::draw() {
 			}
 			if (ImGui::MenuItem("AABBColliderInstance")) {
 				if (select->get_item().object) {
-					//EditorCommandInvoker::Execute(
-					//	std::make_unique<EditorCreateObjectCommand>(
-					//		select->get_item().object,
-					//		std::make_unique<RemoteAABBColliderInstance>()
-					//	)
-					//);
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteAABBColliderInstance>()
+						)
+					);
 				}
 			}
 			if (ImGui::MenuItem("SphereColliderInstance")) {

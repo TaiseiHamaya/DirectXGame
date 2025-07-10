@@ -4,8 +4,6 @@
 
 #include "../IRemoteInstance.h"
 
-#include "Engine/Module/World/Camera/Camera3D.h"
-
 class SphereCollider;
 
 class RemoteSphereColliderInstance final : public IRemoteInstance<SphereCollider, void*> {

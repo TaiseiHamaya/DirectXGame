@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "RemoteSphereColliderInstance.h"
 
 void RemoteSphereColliderInstance::draw_inspector() {
@@ -42,3 +44,5 @@ void RemoteSphereColliderInstance::set_editor_world_view(Reference<EditorWorldVi
 		}
 	}
 }
+
+#endif // DEBUG_FEATURES_ENABLE

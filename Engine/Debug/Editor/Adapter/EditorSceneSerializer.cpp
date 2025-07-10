@@ -83,7 +83,7 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 	case 31: // AABB Collider
 	{
-		return std::make_unique<RemoteErrorObject>("RemoteAABBCollider is not defined.");
+		return CreateRemoteAABBColliderInstance(json);
 	}
 	case 40: // DirectionalLight
 	{
@@ -232,6 +232,21 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteSphereCollider
 	}
 	json.get_to(result->transform);
 	json.get_to(result->radius);
+
+	return result;
+}
+
+std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteAABBColliderInstance(const nlohmann::json& json) {
+	std::unique_ptr<RemoteAABBColliderInstance> result = std::make_unique<RemoteAABBColliderInstance>();
+	json.get_to(result->hierarchyName);
+	if (json.contains("Children") && json["Children"].is_array()) {
+		for (const nlohmann::json& instance : json["Children"]) {
+			result->add_child(CreateRemoteObject(instance));
+		}
+	}
+	json.get_to(result->transform);
+	json.get_to(result->size);
+	json.get_to(result->offset);
 
 	return result;
 }
