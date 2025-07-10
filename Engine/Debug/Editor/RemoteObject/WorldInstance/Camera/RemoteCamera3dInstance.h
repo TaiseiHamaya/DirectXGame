@@ -6,7 +6,7 @@
 
 #include "Engine/Module/World/Camera/Camera3D.h"
 
-class RemoteCamera3dInstance final : public IRemoteInstance<Camera3D> {
+class RemoteCamera3dInstance final : public IRemoteInstance<Camera3D, void*> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -20,6 +20,8 @@ public:
 	void draw_inspector() override;
 
 	nlohmann::json serialize() const override;
+
+	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine = nullptr) override;
 
 private:
 	EditorValueField<r32> fovY{ "FOV Y", 0.45f };

@@ -17,7 +17,7 @@
 
 class StaticMeshInstance;
 
-class RemoteStaticMeshInstance final : public IRemoteInstance<StaticMeshInstance> {
+class RemoteStaticMeshInstance final : public IRemoteInstance<StaticMeshInstance, StaticMeshInstance> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -31,13 +31,15 @@ public:
 	};
 
 public:
-	RemoteStaticMeshInstance() = default;
+	RemoteStaticMeshInstance();
 	~RemoteStaticMeshInstance() = default;
 
 public:
 	void draw_inspector() override;
 
 	nlohmann::json serialize() const override;
+
+	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) override;
 
 private:
 	void default_material();

@@ -17,11 +17,6 @@ struct CameraInformation {
 	float4x4 viewProjection;
 };
 
-struct VertexShaderInput {
-	float3 position;
-	float2 texcoord;
-};
-
 static const float2 Positions[] = {
 	float2(0.0f, 0.0f),
 	float2(1.0f, 0.0f),

@@ -9,6 +9,7 @@
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
 #include "../EditorHierarchyDandD.h"
+#include "../Window/EditorWorldView/EditorWorldView.h"
 
 RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
@@ -89,6 +90,22 @@ nlohmann::json RemoteWorldObject::serialize() const {
 	}
 
 	return result;
+}
+
+void RemoteWorldObject::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine>) {
+	worldView->setup(this);
+	if (!worldView->is_select_tab()) {
+		return;
+	}
+	for (auto& child : children) {
+		if (child) {
+			child->set_editor_world_view(worldView);
+		}
+	}
+}
+
+const std::string& RemoteWorldObject::world_name() const {
+	return hierarchyName.cget();
 }
 
 #endif // DEBUG_FEATURES_ENABLE

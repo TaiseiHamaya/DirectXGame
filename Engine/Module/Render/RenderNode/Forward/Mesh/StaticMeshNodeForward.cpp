@@ -18,17 +18,18 @@ void StaticMeshNodeForward::create_pipeline_state() {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1, 0); // 0 : transform(S0T0, V)
 	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1, 0); // 1 : material(S0T0, P)
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1); // 2 : camera proj(S1B0, V)
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1); // 3 : camera position(S1B0, P)
-	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0, 2); // 4 : light(S2B0, P)
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1); // 2 : camera vs(S1B0, V)
+	rootSignatureBuilder.add_cbv(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1); // 3 : camera ps(S1B0, P)
+	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1, 2); // 4 : light(S1B0, P)
 	rootSignatureBuilder.sampler( // sampler
 		D3D12_SHADER_VISIBILITY_PIXEL,
 		0, 0,
-		D3D12_FILTER_ANISOTROPIC
+		D3D12_FILTER_ANISOTROPIC,
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP
 	);
 
 	InputLayoutBuilder inputLayoutBuilder;
-	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
 	inputLayoutBuilder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
@@ -38,7 +39,7 @@ void StaticMeshNodeForward::create_pipeline_state() {
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(ShaderType::Vertex, "StaticMesh.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Vertex, "StaticMeshForward.VS.hlsl");
 	psoBuilder->shaders(ShaderType::Pixel, "Forward.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->rendertarget();

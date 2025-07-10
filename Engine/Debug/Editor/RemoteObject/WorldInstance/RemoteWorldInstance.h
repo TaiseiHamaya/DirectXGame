@@ -6,7 +6,7 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-class RemoteWorldInstance final : public IRemoteInstance<WorldInstance> {
+class RemoteWorldInstance final : public IRemoteInstance<WorldInstance, void*> {
 public:
 	friend class EditorSceneSerializer;
 

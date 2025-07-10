@@ -24,6 +24,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> affine = nullptr) override;
+
 private:
 	std::vector<std::unique_ptr<IRemoteObject>> children;
 };

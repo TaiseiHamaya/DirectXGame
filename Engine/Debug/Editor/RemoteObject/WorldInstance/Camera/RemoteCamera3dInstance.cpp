@@ -35,4 +35,19 @@ nlohmann::json RemoteCamera3dInstance::serialize() const {
 	return result;
 }
 
+void RemoteCamera3dInstance::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
+	Affine affine = Affine::FromTransform3D(transform.cget());
+	if (parentAffine) {
+		affine *= *parentAffine;
+	}
+
+	worldView->register_primitive("Frustum", affine);
+
+	for (const auto& child : children) {
+		if (child) {
+			child->set_editor_world_view(worldView, affine);
+		}
+	}
+}
+
 #endif // DEBUG_FEATURES_ENABLE

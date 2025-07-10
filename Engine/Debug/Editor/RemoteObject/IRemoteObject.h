@@ -12,6 +12,9 @@
 
 #include "../EditorSelectObject.h"
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+#include "../Window/EditorWorldView/EditorWorldView.h"
+
+class Affine;
 
 class IRemoteObject {
 	friend class EditorSceneSerializer;
@@ -34,6 +37,8 @@ public:
 	virtual void add_child(std::unique_ptr<IRemoteObject> child) = 0;
 
 	virtual nlohmann::json serialize() const = 0;
+	
+	virtual void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> = nullptr) = 0;
 
 public:
 	Reference<IRemoteObject> get_parent() const;

@@ -5,6 +5,7 @@
 #include "IRemoteObject.h"
 
 #include <memory>
+#include <string_view>
 #include <vector>
 
 class WorldManager;
@@ -33,6 +34,10 @@ public:
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
 	nlohmann::json serialize() const override;
+
+	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> = nullptr) override;
+
+	const std::string& world_name() const;
 
 private:
 	Reference<WorldManager> self;

@@ -11,20 +11,17 @@
 #include "./RemoteObject/IRemoteObject.h"
 #include "Command/EditorValueChangeCommandHandler.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
+#include "RemoteObject/RemoteWorldObject.h"
 
 EditorGizmo::EditorGizmo() = default;
 EditorGizmo::~EditorGizmo() = default;
 
-void EditorGizmo::begin_frame(Reference<Camera3D> camera, const Vector2& origin, const Vector2& size) {
+void EditorGizmo::begin_frame(const Vector2& origin, const Vector2& size) {
 	ImGuizmo::SetRect(origin.x, origin.y, size.x, size.y);
-	if (camera) {
-		view = camera->debug_view_affine().to_matrix();
-		proj = camera->debug_proj_matrix();
-	}
 }
 
-void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select) {
-	if (!select) {
+void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<const EditorWorldView> world) {
+	if (!select || !world) {
 		return;
 	}
 
@@ -34,6 +31,30 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select) {
 	// null check
 	if (!item.object || !item.transform) {
 		return;
+	}
+
+	// RootWorld check
+	{
+		bool check = false;
+		Reference<IRemoteObject> remoteObject = item.object;
+		while (remoteObject) {
+			if (remoteObject == world->remote_world()) {
+				check = true;
+				break;
+			}
+			remoteObject = remoteObject->get_parent();
+		}
+		if (!check) {
+			// RootWorldが違う
+			return;
+		}
+	}
+
+	// SetCamera
+	{
+		Reference<const Camera3D> camera = world->get_camera();
+		view = camera->view_affine().to_matrix();
+		proj = camera->proj_matrix();
 	}
 
 	// to matrix

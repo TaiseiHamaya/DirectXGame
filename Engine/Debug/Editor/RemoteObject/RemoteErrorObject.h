@@ -24,6 +24,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	void set_editor_world_view(Reference<EditorWorldView>, Reference<const Affine>) override {};
+
 private:
 	std::string errorMessage;
 };

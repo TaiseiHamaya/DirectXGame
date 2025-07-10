@@ -12,6 +12,7 @@ class TransformMatrix;
 class StaticMeshInstance : public IMultiMeshInstance {
 public:
 	friend class RemoteStaticMeshInstance;
+	friend class RemoteSkinningMeshInstance;
 
 public:
 	StaticMeshInstance() noexcept;

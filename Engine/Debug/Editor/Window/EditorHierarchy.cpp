@@ -6,15 +6,17 @@
 #include <imgui_stdlib.h>
 
 #include "../Adapter/EditorSceneSerializer.h"
+#include "EditorSceneView.h"
+
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorCreateObjectCommand.h"
 #include "../Command/EditorDeleteObjectCommand.h"
-#include "../RemoteObject/FolderObject.h"
 
-#include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/FolderObject.h"
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager.h"
 
@@ -28,6 +30,15 @@ void EditorHierarchy::finalize() {
 	JsonAsset json{ "./Game/DebugData/Editor.json" };
 	json.get()["LastLoadedScene"] = scene->name();
 	scene.reset();
+}
+
+void EditorHierarchy::sync_scene_view(Reference<EditorSceneView> sceneView) {
+	if (!sceneView) {
+		return;
+	}
+	for (u32 i = 0; i < scene->world_size(); ++i) {
+		scene->sync_world_entry(i, sceneView);
+	}
 }
 
 void EditorHierarchy::load(std::filesystem::path file) {
@@ -73,7 +84,7 @@ void EditorHierarchy::draw() {
 	scene->draw_hierarchy(select);
 
 	// 右クリックメニュー
-	if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Right) && ImGui::IsWindowFocused()) {
 		ImGui::OpenPopup("HierarchyMenu");
 	}
 
@@ -172,6 +183,10 @@ void EditorHierarchy::draw() {
 
 std::string EditorHierarchy::current_scene_name() {
 	return scene->name();
+}
+
+const std::vector<std::unique_ptr<RemoteWorldObject>>& EditorHierarchy::world_list() const {
+	return scene->get_remote_worlds();
 }
 
 #endif // DEBUG_FEATURES_ENABLE
