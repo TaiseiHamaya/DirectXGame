@@ -57,6 +57,7 @@ public:
 		EditorValueChangeCommandHandler::End();
 	}
 	T& get() { return value; };
+	const T& cget() const { return value; };
 	T copy() const { return value; }
 	std::string_view label() const {
 		return showObject.get_name();
@@ -106,6 +107,7 @@ public:
 	}
 
 	Transform3D& get() { return value; };
+	const Transform3D& cget() const { return value; };
 	void set_weak(const Transform3D& value_) {
 		value.copy(value_);
 	}
@@ -179,6 +181,7 @@ public:
 	}
 
 	Transform2D& get() { return value; };
+	const Transform2D& cget() const { return value; };
 	void set_weak(const Transform2D& value_) {
 		value.copy(value_);
 	}

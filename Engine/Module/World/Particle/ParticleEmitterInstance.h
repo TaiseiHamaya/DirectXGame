@@ -9,6 +9,7 @@
 #include "./DrawSystem/BaseParticleDrawSystem.h"
 #include "./Particle/Particle.h"
 #include "Engine/Runtime/Clock/WorldTimer.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER

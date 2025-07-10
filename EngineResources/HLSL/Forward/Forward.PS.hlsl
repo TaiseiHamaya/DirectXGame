@@ -1,72 +1,69 @@
 #include "Forward.hlsli"
 
+#include "Tools/Lighing/DirectionalLighting.hlsli"
+
 struct Material {
 	float3 color;
-	int lightingType;
+	uint lightingType;
 	float shininess;
-	float4x4 uvTransform;
+	uint textureIndex;
+	float3x3 uvTransform;
 };
 
 struct Camera {
 	float3 position;
 };
 
-struct DirectionalLight {
-	float3 color; // 色
-	float intensity; // 輝度
-	float3 directon; // 向き
-};
-
-ConstantBuffer<Material> gMaterial : register(b0);
-ConstantBuffer<Camera> gCamera : register(b1);
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b2);
-Texture2D<float4> gTexture : register(t0);
+StructuredBuffer<Material> gMaterial : register(t0, space0);
+ConstantBuffer<Camera> gCamera : register(b0, space1);
+StructuredBuffer<DirectionalLightBuffer> gDirectionalLight : register(t0, space2);
 SamplerState gSampler : register(s0);
 
 float4 main(VertexShaderOutput input) : SV_Target0 {
-	float4 output;
-	float3 transformedUV = mul(float3(input.texcoord, 1.0f), (float3x3)gMaterial.uvTransform);
-	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
-	float3 baseColor = textureColor.rgb * gMaterial.color;
+	float4 output = float4(0, 0, 0, 0);
 	
-	// specular
-	float3 toCamera = normalize(gCamera.position - input.world);
-	float3 halfVector = normalize(-gDirectionalLight.directon + toCamera);
-	float dotNormal = dot(input.normal, halfVector);
-	float specularPow = pow(saturate(dotNormal), gMaterial.shininess);
-	if (isnan(specularPow)) {
-		specularPow = 0;
-	}
-	else {
-		specularPow *= 2.0f;
-	}
-	float3 specular = gDirectionalLight.color * gDirectionalLight.intensity * specularPow * baseColor;
-
+	Material material = gMaterial[input.instance];
+	const Texture2D<float4> texture = ResourceDescriptorHeap[material.textureIndex];
 	
+	float3 transformedUV = mul(float3(input.texcoord, 1.0f), material.uvTransform);
+	float4 textureColor = texture.Sample(gSampler, transformedUV.xy);
+	
+	float alpha = 1.0f;
+	
+	Pixel pixel;
+	pixel.color = textureColor.rgb * material.color.rgb;
+	pixel.normal = input.normal;
+	pixel.shininess = material.shininess;
+	pixel.world = input.world;
+	
+	uint numStructs;
+	uint stride;
+	
+	gDirectionalLight.GetDimensions(numStructs, stride);
 	// ライティングなし
-	if (gMaterial.lightingType == 0) {
-		output.rgb = baseColor.rgb;
-		output.a = 1.0f;
+	if (material.lightingType == 0) {
+		output.rgb = pixel.color;
+		output.a = alpha;
 	}
 	// Lambert
-	else if (gMaterial.lightingType == 1) {
-		float NdotL = dot(input.normal, -gDirectionalLight.directon);
-		float cos = saturate(NdotL);
-		output.rgb = baseColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
-		output.rgb += specular;
-		output.a = 1.0f;
+	else if (material.lightingType == 1) {
+		for (uint i = 0; i < numStructs; i++) {
+			DirectionalLightBuffer directionalLight = gDirectionalLight[i];
+		
+			LightingData lightingData = CalcLightingData(pixel, gCamera.position, directionalLight);
+			output.rgb += BlinnPhongSpecular(lightingData) + LambertDiffuse(lightingData);
+			output.a = alpha;
+		}
 	}
 	// Half Lambert
-	else if (gMaterial.lightingType == 2) {
-		float NdotL = dot(input.normal, -gDirectionalLight.directon);
-		float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-		output.rgb = baseColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
-		output.rgb += specular;
-		output.a = 1.0f;
-	}
-	// それ以外は異常値なので、黒を出力
-	else {
-		output = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	else if (material.lightingType == 2) {
+		for (uint i = 0; i < numStructs; i++) {
+			DirectionalLightBuffer directionalLight = gDirectionalLight[i];
+		
+			LightingData lightingData = CalcLightingData(pixel, gCamera.position, directionalLight);
+			output.rgb += BlinnPhongSpecular(lightingData) + HalfLambertDiffuse(lightingData);
+			output.a = alpha;
+		}
 	}
 	
 	// 透明の場合は出力せず終了

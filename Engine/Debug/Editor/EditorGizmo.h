@@ -14,6 +14,7 @@
 class Camera3D;
 class EditorObjectMoveCommand;
 class EditorSelectObject;
+class EditorWorldView;
 
 class EditorGizmo {
 public:
@@ -23,8 +24,8 @@ public:
 	__CLASS_NON_COPYABLE(EditorGizmo)
 
 public:
-	void begin_frame(Reference<Camera3D> camera, const Vector2& origin, const Vector2& size);
-	void draw_gizmo(Reference<EditorSelectObject> object);
+	void begin_frame(const Vector2& origin, const Vector2& size);
+	void draw_gizmo(Reference<EditorSelectObject> object, Reference<const EditorWorldView> world);
 	void scene_header();
 
 private:

@@ -8,6 +8,10 @@
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Debug/Editor/Command/EditorCommandResizeContainer.h"
 
+RemoteStaticMeshInstance::RemoteStaticMeshInstance() {
+	debugVisual = std::make_unique<StaticMeshInstance>();
+}
+
 void RemoteStaticMeshInstance::draw_inspector() {
 	ImGui::Text("Type : StaticMeshInstance");
 
@@ -142,6 +146,33 @@ nlohmann::json RemoteStaticMeshInstance::serialize() const {
 	}
 
 	return json;
+}
+
+void RemoteStaticMeshInstance::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
+
+	Affine affine = Affine::FromTransform3D(transform.cget());
+	if (parentAffine) {
+		affine *= *parentAffine;
+	}
+	worldView->register_mesh(debugVisual);
+	debugVisual->reset_mesh(meshName);
+	debugVisual->localAffine = affine;
+	debugVisual->isDraw = isDraw.cget();
+
+	for (i32 i = 0; i < materials.size(); ++i) {
+		RemoteStaticMeshInstance::Material& source = materials[i];
+		StaticMeshInstance::Material& write = debugVisual->materials[i];
+		write.texture = TextureLibrary::GetTexture(source.texture);
+		write.color = source.color;
+		write.uvTransform.copy(source.uvTransform);
+		write.lightingType = source.lightingType;
+		write.shininess = source.shininess;
+	};
+	for (const auto& child : children) {
+		if (child) {
+			child->set_editor_world_view(worldView, affine);
+		}
+	}
 }
 
 void RemoteStaticMeshInstance::default_material() {

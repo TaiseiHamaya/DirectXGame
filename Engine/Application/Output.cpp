@@ -138,7 +138,9 @@ static void LogOutputBody(const std::wstring& file, LogType type, const std::wst
 	}
 	// Editor出力
 	if (config & 0b001000) {
+#ifdef DEBUG_FEATURES_ENABLE
 		EditorLogWindow::AppendLogEntry(type, ConvertString(std::format(L"{:%H:%M:%S} | {}\n", time, message)));
+#endif // DEBUG_FEATURES_ENABLE
 	}
 	// ウィンドウ出力
 	if (config & 0b000100) {

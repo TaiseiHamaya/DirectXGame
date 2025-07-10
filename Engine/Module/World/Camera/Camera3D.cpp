@@ -122,6 +122,14 @@ const Matrix4x4& Camera3D::vp_matrix() const {
 #endif // _DEBUG
 }
 
+const Affine& Camera3D::view_affine() const {
+	return viewAffine;
+}
+
+const Matrix4x4& Camera3D::proj_matrix() const {
+	return projectionMatrix;
+}
+
 void Camera3D::make_view_matrix() {
 	viewAffine = world_affine().inverse_fast();
 }

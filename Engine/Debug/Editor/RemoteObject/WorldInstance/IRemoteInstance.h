@@ -12,11 +12,11 @@
 #include <Library/Math/Transform3D.h>
 #include <Library/Utility/Template/Reference.h>
 
+#include "../../EditorHierarchyDandD.h"
 #include "Engine/Debug/Editor/Command/EditorCommandInvoker.h"
 #include "Engine/Debug/Editor/Command/EditorSelectCommand.h"
-#include "../../EditorHierarchyDandD.h"
 
-template<typename RuntimeType>
+template<typename RuntimeType, typename DebugVisualType>
 class IRemoteInstance : public IRemoteObject {
 public:
 	IRemoteInstance() = default;
@@ -33,15 +33,20 @@ public:
 
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
+	virtual void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) override;
+
 protected:
 	Reference<RuntimeType> self;
 
 	std::vector<std::unique_ptr<IRemoteObject>> children;
+
+	std::unique_ptr<DebugVisualType> debugVisual;
+
 	EditorValueField<Transform3D> transform{ "Local transform" };
 };
 
-template<typename RuntimeType>
-inline void IRemoteInstance<RuntimeType>::draw_hierarchy(Reference<const EditorSelectObject> select) {
+template<typename RuntimeType, typename DebugVisualType>
+inline void IRemoteInstance<RuntimeType, DebugVisualType>::draw_hierarchy(Reference<const EditorSelectObject> select) {
 	bool isSelected = select->is_selected(this);
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
@@ -75,8 +80,8 @@ inline void IRemoteInstance<RuntimeType>::draw_hierarchy(Reference<const EditorS
 	}
 }
 
-template<typename RuntimeType>
-std::unique_ptr<IRemoteObject> IRemoteInstance<RuntimeType>::move_force(Reference<const IRemoteObject> child) {
+template<typename RuntimeType, typename DebugVisualType>
+std::unique_ptr<IRemoteObject> IRemoteInstance<RuntimeType, DebugVisualType>::move_force(Reference<const IRemoteObject> child) {
 	auto itr = std::find_if(children.begin(), children.end(), [&](const std::unique_ptr<IRemoteObject>& lhs) {
 		return lhs.get() == child.ptr();
 	});
@@ -88,18 +93,31 @@ std::unique_ptr<IRemoteObject> IRemoteInstance<RuntimeType>::move_force(Referenc
 	return nullptr;
 }
 
-template<typename RuntimeType>
-void IRemoteInstance<RuntimeType>::reparent(Reference<IRemoteObject> remoteObject) {
+template<typename RuntimeType, typename DebugVisualType>
+void IRemoteInstance<RuntimeType, DebugVisualType>::reparent(Reference<IRemoteObject> remoteObject) {
 	parent = remoteObject;
 }
 
-template<typename RuntimeType>
-void IRemoteInstance<RuntimeType>::add_child(std::unique_ptr<IRemoteObject> child) {
+template<typename RuntimeType, typename DebugVisualType>
+void IRemoteInstance<RuntimeType, DebugVisualType>::add_child(std::unique_ptr<IRemoteObject> child) {
 	if (!child) {
 		return;
 	}
 	child->reparent(this);
 	children.emplace_back(std::move(child));
+}
+
+template<typename RuntimeType, typename DebugVisualType>
+inline void IRemoteInstance<RuntimeType, DebugVisualType>::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
+	Affine affine = Affine::FromTransform3D(transform.cget());
+	if (parentAffine) {
+		affine *= *parentAffine;
+	}
+	for (const auto& child : children) {
+		if (child) {
+			child->set_editor_world_view(worldView, affine);
+		}
+	}
 }
 
 #endif // DEBUG_FEATURES_ENABLE

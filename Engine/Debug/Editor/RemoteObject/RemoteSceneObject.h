@@ -8,6 +8,7 @@
 
 class BaseScene;
 class RemoteWorldObject;
+class EditorSceneView;
 
 class RemoteSceneObject final : public IRemoteObject {
 public:
@@ -32,8 +33,16 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> = nullptr) override;
+
+	void sync_world_entry(u64 index, Reference<EditorSceneView> sceneView);
+
 public:
+	size_t world_size() const;
+
 	std::string name() const;
+
+	const std::vector<std::unique_ptr<RemoteWorldObject>>& get_remote_worlds() const;
 
 private:
 	Reference<BaseScene> self;

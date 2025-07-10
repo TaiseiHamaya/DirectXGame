@@ -4,12 +4,13 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-void Hierarchy::initialize(const Affine& worldMatrix) noexcept {
-	currentMatrix = &worldMatrix;
+Hierarchy::Hierarchy(Reference<const Affine> selfAffine_) {
+	selfAffine = selfAffine_;
+	parent = nullptr;
 }
 
-void Hierarchy::set_parent(const WorldInstance& hierarchy) noexcept {
-	parent = &hierarchy;
+void Hierarchy::set_parent(const WorldInstance& instance) noexcept {
+	parent = instance;
 }
 
 void Hierarchy::reset_parent() noexcept {
@@ -19,10 +20,6 @@ void Hierarchy::reset_parent() noexcept {
 const Reference<const WorldInstance>& Hierarchy::get_parent() const noexcept {
 	return parent;
 }
-
-//const WorldInstance* Hierarchy::get_parent_address() const noexcept {
-//	return parent;
-//}
 
 bool Hierarchy::has_parent() const noexcept {
 	return parent;

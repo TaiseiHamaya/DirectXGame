@@ -15,10 +15,11 @@
 #include "Engine/Assets/Json/JsonSerializer.h"
 
 class SkinningMeshInstance;
+class StaticMeshInstance;
 
 class SkeletonAsset;
 
-class RemoteSkinningMeshInstance final : public IRemoteInstance<SkinningMeshInstance> {
+class RemoteSkinningMeshInstance final : public IRemoteInstance<SkinningMeshInstance, StaticMeshInstance> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -32,13 +33,15 @@ public:
 	};
 
 public:
-	RemoteSkinningMeshInstance() = default;
+	RemoteSkinningMeshInstance();
 	~RemoteSkinningMeshInstance() = default;
 
 public:
 	void draw_inspector() override;
 
 	nlohmann::json serialize() const override;
+
+	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) override;
 
 private:
 	void default_material();

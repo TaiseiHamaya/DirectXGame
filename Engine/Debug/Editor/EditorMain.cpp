@@ -35,7 +35,7 @@ void EditorMain::Setup() {
 	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
 	instance.hierarchy.setup(instance.selectObject);
 	instance.inspector.setup(instance.selectObject);
-	instance.sceneView.setup(instance.gizmo);
+	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 
 	EditorCreateObjectCommand::Setup(instance.deletedPool);
 	EditorDeleteObjectCommand::Setup(instance.deletedPool);
@@ -44,6 +44,15 @@ void EditorMain::Setup() {
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
+
+	// HierarchyとSceneViewの同期
+	instance.gizmo.begin_frame(instance.sceneView.view_origin(), instance.sceneView.view_size());
+	auto worldView = instance.sceneView.get_current_world_view();
+	if (worldView) {
+		worldView->update();
+	}
+	instance.hierarchy.sync_scene_view(instance.sceneView);
+	instance.sceneView.draw_scene();
 
 	instance.input.update();
 	if (instance.input.trigger(KeyID::F6)) {
@@ -102,7 +111,7 @@ void EditorMain::Draw() {
 	EditorLogWindow::Draw();
 	if (instance.sceneView.is_active()) {
 		ImGuizmo::SetDrawlist(instance.sceneView.draw_list().ptr());
-		instance.gizmo.draw_gizmo(instance.selectObject);
+		instance.gizmo.draw_gizmo(instance.selectObject, instance.sceneView.get_current_world_view());
 	}
 
 	EditorHierarchyDandD::ExecuteReparent();
@@ -116,12 +125,6 @@ void EditorMain::Finalize() {
 bool EditorMain::IsHoverEditorWindow() {
 	EditorMain& instance = GetInstance();
 	return instance.sceneView.is_hovered_window();
-}
-
-void EditorMain::SetCamera(Reference<Camera3D> camera) {
-	EditorMain& instance = GetInstance();
-
-	instance.gizmo.begin_frame(camera, instance.sceneView.view_origin(), instance.sceneView.view_size());
 }
 
 void EditorMain::set_imgui_command() {

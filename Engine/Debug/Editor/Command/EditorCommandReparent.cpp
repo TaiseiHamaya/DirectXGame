@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorCommandReparent.h"
 
 #include "Engine/Application/Output.h"
@@ -39,3 +41,5 @@ void EditorCommandReparent::undo() {
 
 	recentParent->add_child(std::move(instance));
 }
+
+#endif // DEBUG_FEATURES_ENABLE

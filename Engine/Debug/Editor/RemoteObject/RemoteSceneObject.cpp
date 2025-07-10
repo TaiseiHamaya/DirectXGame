@@ -12,6 +12,7 @@
 #include "../Command/EditorSelectCommand.h"
 #include "IRemoteObject.h"
 #include "RemoteWorldObject.h"
+#include "../Window/EditorSceneView.h"
 
 RemoteSceneObject::RemoteSceneObject() = default;
 RemoteSceneObject::~RemoteSceneObject() = default;
@@ -68,13 +69,13 @@ std::unique_ptr<IRemoteObject> RemoteSceneObject::move_force(Reference<const IRe
 }
 
 void RemoteSceneObject::reparent(Reference<IRemoteObject> remoteObject) {
-	Warning("RemoteSceneObject is must be root object.");
+	Error("RemoteSceneObject is must be root object.");
 }
 
 void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
 	auto tmp = dynamic_cast<RemoteWorldObject*>(child.release());
 	auto childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
-	if(!childPtr) {
+	if (!childPtr) {
 		Warning("RemoteSceneObject can only add RemoteWorldObject as child.");
 		return;
 	}
@@ -96,8 +97,26 @@ nlohmann::json RemoteSceneObject::serialize() const {
 	return result;
 }
 
+void RemoteSceneObject::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine>) {
+	Error("Don't call RemoteSceneObject::set_editor_world_view(). Call sync_world_entry.");
+}
+
+void RemoteSceneObject::sync_world_entry(u64 index, Reference<EditorSceneView> sceneView) {
+	auto& world = remoteWorlds[index];
+	sceneView->check_world(world);
+	world->set_editor_world_view(sceneView->get_world_view(world));
+}
+
+size_t RemoteSceneObject::world_size() const {
+	return remoteWorlds.size();
+}
+
 std::string RemoteSceneObject::name() const {
 	return hierarchyName.copy();
+}
+
+const std::vector<std::unique_ptr<RemoteWorldObject>>& RemoteSceneObject::get_remote_worlds() const {
+	return remoteWorlds;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

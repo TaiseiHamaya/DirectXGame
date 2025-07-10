@@ -13,11 +13,14 @@
 
 class IRemoteObject;
 class EditorSelectObject;
+class EditorSceneView;
 
 class EditorHierarchy : public IEditorWindow {
 public:
 	void setup(Reference<EditorSelectObject> select_);
 	void finalize();
+
+	void sync_scene_view(Reference<EditorSceneView> sceneView);
 
 	void load(std::filesystem::path file);
 	nlohmann::json save() const;
@@ -26,6 +29,7 @@ public:
 
 public:
 	std::string current_scene_name();
+	const std::vector<std::unique_ptr<RemoteWorldObject>>& world_list() const;
 
 private:
 	std::unique_ptr<RemoteSceneObject> scene;

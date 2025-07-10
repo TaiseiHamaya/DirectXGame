@@ -181,6 +181,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp" />
     <ClCompile Include="Engine\Debug\Editor\EditorHierarchyDandD.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp" />
@@ -221,6 +223,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\WorldRoot.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -470,6 +474,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandReparent.h" />
     <ClInclude Include="Engine\Debug\Editor\EditorHierarchyDandD.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorLogWindow.h" />
@@ -514,6 +520,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorValueField.h" />
+    <ClInclude Include="Engine\Module\World\WorldRoot.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>
@@ -776,7 +784,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMesh.VS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMeshForward.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

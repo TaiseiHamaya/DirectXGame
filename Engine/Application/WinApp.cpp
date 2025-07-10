@@ -145,6 +145,8 @@ void WinApp::Initialize() {
 	// Shader
 	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
 	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Forward/Mesh/StaticMeshForward.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Forward/Forward.PS.hlsl");
 
 	PrimitiveGeometryLibrary::Transfer(
 		"SphereCollider",
@@ -344,7 +346,11 @@ void WinApp::wait_frame() {
 	}
 }
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 bool WinApp::IsStopUpdate() {
 	auto& instance = GetInstance();
 	return instance.isStopUpdate && !instance.isPassedPause;
 }
+
+#endif // DEBUG_FEATURES_ENABLE
