@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "RemoteAABBColliderInstance.h"
 
 void RemoteAABBColliderInstance::draw_inspector() {
@@ -44,3 +46,5 @@ void RemoteAABBColliderInstance::set_editor_world_view(Reference<EditorWorldView
 		}
 	}
 }
+
+#endif // DEBUG_FEATURES_ENABLE
