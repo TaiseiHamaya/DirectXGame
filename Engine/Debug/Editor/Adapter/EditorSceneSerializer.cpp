@@ -9,6 +9,8 @@
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Application/Output.h"
@@ -73,11 +75,11 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteObject(const n
 	}
 	case 21: // Camera2D
 	{
-		return std::make_unique<RemoteErrorObject>("RemoteSphereCollider is not defined.");
+		return std::make_unique<RemoteErrorObject>("Camera2D is not defined.");
 	}
 	case 30: // SphereCollider
 	{
-		return std::make_unique<RemoteErrorObject>("RemoteStaticMeshInstance is not defined.");
+		return CreateRemoteSphereColliderInstance(json);
 	}
 	case 31: // AABB Collider
 	{
@@ -216,6 +218,20 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteCamera3DInstan
 	json.get_to(result->aspectRatio);
 	json.get_to(result->nearClip);
 	json.get_to(result->farClip);
+
+	return result;
+}
+
+std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteSphereColliderInstance(const nlohmann::json& json) {
+	std::unique_ptr<RemoteSphereColliderInstance> result = std::make_unique<RemoteSphereColliderInstance>();
+	json.get_to(result->hierarchyName);
+	if (json.contains("Children") && json["Children"].is_array()) {
+		for (const nlohmann::json& instance : json["Children"]) {
+			result->add_child(CreateRemoteObject(instance));
+		}
+	}
+	json.get_to(result->transform);
+	json.get_to(result->radius);
 
 	return result;
 }

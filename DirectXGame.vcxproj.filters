@@ -816,6 +816,12 @@
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -1473,6 +1479,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,8 @@
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager.h"
@@ -131,6 +133,26 @@ void EditorHierarchy::draw() {
 						std::make_unique<EditorCreateObjectCommand>(
 							select->get_item().object,
 							std::make_unique<RemoteCamera3dInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("AABBColliderInstance")) {
+				if (select->get_item().object) {
+					//EditorCommandInvoker::Execute(
+					//	std::make_unique<EditorCreateObjectCommand>(
+					//		select->get_item().object,
+					//		std::make_unique<RemoteAABBColliderInstance>()
+					//	)
+					//);
+				}
+			}
+			if (ImGui::MenuItem("SphereColliderInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteSphereColliderInstance>()
 						)
 					);
 				}
