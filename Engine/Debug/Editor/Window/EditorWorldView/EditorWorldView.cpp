@@ -102,12 +102,33 @@ void EditorWorldView::rendering() {
 	renderPath.next(); // End
 }
 
-bool EditorWorldView::draw_editor(const TempTexture& texture, r32 sizeX, r32 sizeY) {
+std::tuple<bool, Vector2, Vector2> EditorWorldView::draw_editor(const TempTexture& texture) {
+	Vector2 resultPos;
+	Vector2 resultSize;
 	if (ImGui::BeginTabItem(std::format("{}##{}", (remoteWorld ? remoteWorld->world_name() : "UnknownWorld"s), (void*)this).c_str())) {
 		isSelectTab = true;
 
+		// Imageの位置とサイズを計算
+		ImVec2 winSize = ImGui::GetContentRegionAvail();
+		ImVec2 winPos = ImGui::GetWindowPos();
+
+		float aspectX = winSize.x / 16;
+		float aspectY = winSize.y / 9;
+
+		ImVec2 imgSize = aspectX > aspectY ?
+			ImVec2{ winSize.y / 9 * 16, winSize.y } :
+			ImVec2{ winSize.x, winSize.x / 16 * 9 };
+
+		ImVec2 cursorPos = {
+			(winSize.x - imgSize.x) * 0.5f + winPos.x + ImGui::GetCursorPosX(),
+			(winSize.y - imgSize.y) * 0.5f + winPos.y + ImGui::GetCursorPosY()
+		};
+		ImGui::SetCursorScreenPos(cursorPos);
+		resultPos = { cursorPos.x, cursorPos.y };
+		resultSize = { imgSize.x, imgSize.y };
+
 		ImGui::Image(
-			static_cast<ImTextureID>(texture.get_as_srv()->handle().ptr), ImVec2{ sizeX, sizeY }
+			static_cast<ImTextureID>(texture.get_as_srv()->handle().ptr), imgSize
 		);
 
 		ImGui::EndTabItem();
@@ -116,7 +137,7 @@ bool EditorWorldView::draw_editor(const TempTexture& texture, r32 sizeX, r32 siz
 		isSelectTab = false;
 	}
 
-	return isSelectTab;
+	return { isSelectTab, resultPos, resultSize };
 }
 
 void EditorWorldView::camera_gui() {

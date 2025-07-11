@@ -43,7 +43,6 @@ public:
 public:
 	std::array<LogState, 4> logStates;
 	bool isBottomScroll{ true };
-	u8 frameCounter{ 0 };
 	std::vector<LogBody> logs;
 };
 
