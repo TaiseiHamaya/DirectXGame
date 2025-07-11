@@ -34,7 +34,7 @@ public:
 
 	void update();
 	void rendering();
-	bool draw_editor(const TempTexture& texture, r32 sizeX, r32 sizeY);
+	std::tuple<bool, Vector2, Vector2> draw_editor(const TempTexture& texture);
 
 	void camera_gui();
 	Reference<const Camera3D> get_camera() const;

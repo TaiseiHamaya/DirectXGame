@@ -3,6 +3,7 @@
 #include "EditorLogWindow.h"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 
 #include "Engine/Application/Output.h"
 
@@ -96,17 +97,16 @@ void EditorLogWindow::draw() {
 	}
 
 	// ---------- スクロール処理 ----------
-	if (frameCounter < 2) {
-		++frameCounter;
-		if (frameCounter == 2) {
-			ImGui::SetScrollY(ImGui::GetScrollMaxY());
-			++frameCounter;
-		}
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	ImGuiID active_id = ImGui::GetActiveID();
+	bool any_scrollbar_active = active_id && (active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_X) || active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_Y));
+	if (ImGui::GetIO().MouseWheel > 0) {
+		isBottomScroll = false;
 	}
-	if (ImGui::GetScrollMaxY() - ImGui::GetScrollY() <= 18.0f) {
+	else if (ImGui::GetScrollMaxY() == ImGui::GetScrollY()) {
 		isBottomScroll = true;
 	}
-	else {
+	else if (any_scrollbar_active) {
 		isBottomScroll = false;
 	}
 	if (isBottomScroll) {

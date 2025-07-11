@@ -107,45 +107,22 @@ void EditorSceneView::set_imgui_command() {
 	drawList = ImGui::GetWindowDrawList();
 	isHoverWindow = ImGui::IsWindowHovered();
 
-	// Imageの位置とサイズを計算
-	ImVec2 winSize = ImGui::GetContentRegionAvail();
-	ImVec2 winPos = ImGui::GetWindowPos();
-
-	float aspectX = winSize.x / 16;
-	float aspectY = winSize.y / 9;
-
-	ImVec2 imgSize = aspectX > aspectY ?
-		ImVec2{ winSize.y / 9 * 16, winSize.y } :
-		ImVec2{ winSize.x, winSize.x / 16 * 9 };
-
-	ImVec2 cursorPos = {
-		(winSize.x - imgSize.x) * 0.5f + winPos.x + ImGui::GetCursorPosX(),
-		(winSize.y - imgSize.y) * 0.5f + winPos.y + ImGui::GetCursorPosY()
-	};
-	ImGui::SetCursorScreenPos(cursorPos);
-
 	// 各WorldViewをImGuiに描画
 	auto& worldList = hierarchy->world_list();
 	for (u32 i = 0; i < worldList.size(); ++i) {
 		auto& world = worldList[i];
 		if (worldView.contains(world)) {
-			if (worldView.at(world).draw_editor(screenResultTexture, imgSize.x, imgSize.y)) {
+			auto [result, pos, size_] = worldView.at(world).draw_editor(screenResultTexture);
+			if (result) {
 				selectWorldObject = world;
+				origin = pos;
+				size = size_;
 			}
 		}
 	}
 
-	if (worldView.empty()) {
-		ImGui::Image(
-			static_cast<ImTextureID>(screenResultTexture.get_as_srv()->handle().ptr), imgSize
-		);
-	}
-
 	ImGui::EndTabBar();
 	ImGui::End();
-
-	origin = { cursorPos.x, cursorPos.y };
-	size = { imgSize.x, imgSize.y };
 }
 
 #endif // DEBUG_FEATURES_ENABLE
