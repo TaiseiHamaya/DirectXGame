@@ -8,7 +8,7 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "../EditorHierarchyDandD.h"
+#include "../Core/EditorHierarchyDandD.h"
 #include "../Window/EditorWorldView/EditorWorldView.h"
 
 RemoteWorldObject::RemoteWorldObject() = default;

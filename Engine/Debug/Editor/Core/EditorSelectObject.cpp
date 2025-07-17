@@ -2,7 +2,7 @@
 
 #include "EditorSelectObject.h"
 
-#include "RemoteObject/IRemoteObject.h"
+#include "../RemoteObject/IRemoteObject.h"
 
 void EditorSelectObject::set_item(Reference<IRemoteObject> object_, Reference<Transform3D> transform_) {
 	select.object = object_;

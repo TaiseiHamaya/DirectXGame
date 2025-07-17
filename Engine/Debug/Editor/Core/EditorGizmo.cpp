@@ -8,10 +8,10 @@
 
 #include <Library/Math/Affine.h>
 
-#include "./RemoteObject/IRemoteObject.h"
-#include "Command/EditorValueChangeCommandHandler.h"
+#include "../Command/EditorValueChangeCommandHandler.h"
+#include "../RemoteObject/IRemoteObject.h"
+#include "../RemoteObject/RemoteWorldObject.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "RemoteObject/RemoteWorldObject.h"
 
 EditorGizmo::EditorGizmo() = default;
 EditorGizmo::~EditorGizmo() = default;

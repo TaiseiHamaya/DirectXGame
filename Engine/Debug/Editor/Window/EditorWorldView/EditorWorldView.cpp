@@ -5,8 +5,8 @@
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Debug/Editor/RemoteObject/RemoteWorldObject.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
-#include "Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h"
 #include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
@@ -28,9 +28,9 @@ void EditorWorldView::initialize() {
 
 	staticMeshDrawManager.initialize(1);
 	directionalLightingExecutor.reinitialize(1);
-	renderPath.initialize({
-		staticMeshNode,primitiveLineNode
-		});
+	renderPath.initialize(
+		{ staticMeshNode,primitiveLineNode }
+	);
 
 	cameraInstance = std::make_unique<EditorDebugCamera>();
 	cameraInstance->initialize();

@@ -4,7 +4,7 @@
 
 #include "IEditorCommand.h"
 
-#include "../EditorSelectObject.h"
+#include "../Core/EditorSelectObject.h"
 
 class EditorSelectCommand final : public IEditorCommand {
 public:

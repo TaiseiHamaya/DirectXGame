@@ -8,7 +8,7 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "../EditorHierarchyDandD.h"
+#include "../Core/EditorHierarchyDandD.h"
 
 void FolderObject::draw_inspector() {
 	hierarchyName.show_gui();

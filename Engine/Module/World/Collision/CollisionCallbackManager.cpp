@@ -26,7 +26,7 @@ void CollisionCallbackManager::callback(CallbackInfo lhs, CallbackInfo rhs, bool
 
 	CollisionRecentKeyType recentKey = CollisionRecentKeyType(lhs, rhs);
 	if (!collisionRecent.contains(recentKey)) {
-		collisionRecent.emplace(recentKey, "00");
+		collisionRecent.emplace(recentKey, 0b00);
 	}
 
 	auto& collisionObject = collisionRecent.at(recentKey);

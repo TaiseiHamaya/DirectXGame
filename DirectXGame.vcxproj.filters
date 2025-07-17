@@ -753,10 +753,10 @@
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorGizmo.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorGizmo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorSelectObject.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorSelectObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp">
@@ -774,7 +774,7 @@
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorSceneList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp">
@@ -798,7 +798,7 @@
     <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Debug\Editor\EditorHierarchyDandD.cpp">
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorHierarchyDandD.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp">
@@ -1409,10 +1409,10 @@
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorGizmo.h">
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorGizmo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorSelectObject.h">
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorSelectObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandInvoker.h">
@@ -1433,7 +1433,7 @@
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorSceneList.h">
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorSceneList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.h">
@@ -1463,7 +1463,7 @@
     <ClInclude Include="Engine\Debug\Editor\Window\EditorLogWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Debug\Editor\EditorHierarchyDandD.h">
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorHierarchyDandD.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandReparent.h">

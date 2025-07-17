@@ -10,9 +10,9 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "../EditorSelectObject.h"
-#include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+#include "../Core/EditorSelectObject.h"
 #include "../Window/EditorWorldView/EditorWorldView.h"
+#include "Engine/Debug/Editor/Adapter/EditorValueField.h"
 
 class Affine;
 
@@ -37,7 +37,7 @@ public:
 	virtual void add_child(std::unique_ptr<IRemoteObject> child) = 0;
 
 	virtual nlohmann::json serialize() const = 0;
-	
+
 	virtual void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> = nullptr) = 0;
 
 public:

@@ -122,6 +122,11 @@ void EditorLogWindow::AppendLogEntry(LogType type, const std::string& message) {
 	auto& instance = GetInstance();
 	++instance.logStates[static_cast<u8>(type)].numLogs;
 	instance.logs.emplace_back(type, message);
+	if (instance.logs.size() >= MAX_LOG_SIZE) {
+		auto& tmp = instance.logs.front();
+		--instance.logStates[static_cast<u8>(tmp.type)].numLogs;
+		instance.logs.pop_front();
+	}
 }
 
 #endif // DEBUG_FEATURES_ENABLE
