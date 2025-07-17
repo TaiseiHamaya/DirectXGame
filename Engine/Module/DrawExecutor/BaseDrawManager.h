@@ -9,22 +9,14 @@
 #include <unordered_set>
 #include <vector>
 
+#include <Library/Utility/Tools/Hash.h>
+
 template <class Executor, typename T>
 concept ConceptExecutor = std::derived_from<Executor, BaseDrawExecutor<T>>;
 
 template<class Executor, typename KeyType = std::string, typename InstanceType = typename Executor::InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 class BaseDrawManager {
-protected:
-	struct Data {
-		std::unordered_set<Reference<const InstanceType>> instances;
-		// key : meshID
-		std::unordered_map<KeyType, Executor> executors;
-
-		Data() = default;
-		Data(Data&&) noexcept = default;
-	};
-
 public:
 	BaseDrawManager() = default;
 	virtual ~BaseDrawManager() = default;
@@ -45,7 +37,10 @@ public:
 #endif // _DEBUG
 
 protected:
-	std::vector<Data> drawData;
+	u32 maxLayer;
+	std::unordered_set<Reference<const InstanceType>> instances;
+	std::unordered_map<std::pair<u32, KeyType>, Executor> executors;
+	std::vector<std::vector<Reference<Executor>>> layerExecutors;
 
 #ifdef DEBUG_FEATURES_ENABLE
 	u32 layer{ 0 };
@@ -57,63 +52,54 @@ protected:
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::initialize(u32 numLayer) {
-	drawData.resize(numLayer);
+	maxLayer = numLayer;
+	layerExecutors.resize(maxLayer);
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::register_instance(Reference<const InstanceType> instance) {
-	if (!instance || instance->layer() >= drawData.size()) {
-		return;
-	}
-
-	drawData[instance->layer()].instances.emplace(instance);
+	instances.emplace(instance);
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::unregister_instance(Reference<const InstanceType> instance) {
-	if (!instance || instance->layer() >= drawData.size()) {
-		return;
-	}
-
-	drawData[instance->layer()].instances.erase(instance);
+	instances.erase(instance);
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::transfer() {
-	for (Data& data : drawData) {
-		// 全てのExecutorをリセット
-		auto depthView = std::views::values(data.executors);
-		std::for_each(
-			std::execution::par, depthView.begin(), depthView.end(),
-			[](Executor& executor) {
-			executor.begin();
-		});
-		std::for_each(
-			std::execution::par, data.instances.begin(), data.instances.end(),
-			[&executors = data.executors](const Reference<const InstanceType>& instance) {
-			const KeyType& id = instance->key_id();
-			if (!executors.contains(id)) {
-				// 選択したMeshIdがExecutorに存在しない
-				return;
-			}
-			auto& executor = executors[id];
-			executor.write_to_buffer(instance);
-		});
-	}
+	// 全てのExecutorをリセット
+	auto executorsValue = std::views::values(executors);
+	std::for_each(
+		std::execution::par, executorsValue.begin(), executorsValue.end(),
+		[](Executor& executor) {
+		executor.begin();
+	});
+	// 全てのExecutorをリセット
+	std::for_each(
+		std::execution::par, instances.begin(), instances.end(),
+		[&](const Reference<const InstanceType> instance) {
+		auto key = std::make_pair(instance->layer(), instance->key_id());
+		if (!executors.contains(key)) {
+			// executorにkeyが存在しない
+			return;
+		}
+		executors.at(key).write_to_buffer(instance);
+	});
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 layer) {
-	if (layer >= drawData.size()) {
+	if (layer >= layerExecutors.size()) {
 		// Layer外をDrawCallしようとした
 		return;
 	}
 
-	for (const Executor& executor : drawData[layer].executors | std::views::values) {
-		executor.draw_command();
+	for (Reference<const Executor> executor : layerExecutors[layer]) {
+		executor->draw_command();
 	}
 }

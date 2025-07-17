@@ -4,7 +4,7 @@
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 
 void SkinningMeshDrawManager::make_instancing(u32 layer, const std::string& meshName, u32 maxInstance) {
-	if (layer >= drawData.size()) {
+	if (layer >= maxLayer) {
 		return;
 	}
 	if (!PolygonMeshLibrary::IsRegistered(meshName) ||
@@ -12,13 +12,17 @@ void SkinningMeshDrawManager::make_instancing(u32 layer, const std::string& mesh
 		return;
 	}
 
-	Data& data = drawData[layer];
-	data.executors.try_emplace(
-		meshName,
+	std::pair<u32, std::string> key = std::make_pair(layer, meshName);
+	auto [emplaced, result] = executors.try_emplace(
+		key,
 		PolygonMeshLibrary::GetPolygonMesh(meshName),
 		SkeletonLibrary::GetSkeleton(meshName),
 		maxInstance
 	);
+
+	if (result) {
+		layerExecutors[layer].emplace_back(emplaced->second);
+	}
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -38,17 +42,17 @@ void SkinningMeshDrawManager::debug_gui() {
 		make_instancing(layer, select, maxInstance);
 	}
 
-	for (u32 i = 0; auto & data : drawData) {
-		if (ImGui::TreeNode(std::format("Layer{}", i).c_str())) {
-			ImGui::Text(std::format("RegisteredInstance : {}", data.instances.size()).c_str());
-			ImGui::Indent();
-			for (const auto& [name, executor] : data.executors) {
-				ImGui::Text(std::format("{} : {}/{}", name, executor.count(), executor.max_instance()).c_str());
-			}
-			ImGui::Unindent();
-			ImGui::TreePop();
-		}
-		++i;
-	}
+	//for (u32 i = 0; auto & data : drawData) {
+	//	if (ImGui::TreeNode(std::format("Layer{}", i).c_str())) {
+	//		ImGui::Text(std::format("RegisteredInstance : {}", data.instances.size()).c_str());
+	//		ImGui::Indent();
+	//		for (const auto& [name, executor] : data.executors) {
+	//			ImGui::Text(std::format("{} : {}/{}", name, executor.count(), executor.max_instance()).c_str());
+	//		}
+	//		ImGui::Unindent();
+	//		ImGui::TreePop();
+	//	}
+	//	++i;
+	//}
 }
 #endif // _DEBUG
