@@ -39,6 +39,10 @@ public:
 
 	Reference<const RemoteWorldObject> query_world() const override;
 
+	void on_spawn() override;
+
+	void on_destroy() override;
+
 public:
 	size_t world_size() const;
 

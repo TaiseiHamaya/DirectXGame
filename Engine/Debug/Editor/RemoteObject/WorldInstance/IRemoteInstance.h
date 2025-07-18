@@ -38,6 +38,10 @@ public:
 
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
+	void on_spawn() override;
+
+	void on_destroy() override;
+
 protected:
 	Reference<RuntimeType> self;
 
@@ -129,6 +133,24 @@ void IRemoteInstance<RuntimeType, DebugVisualType>::add_child(std::unique_ptr<IR
 	}
 	child->reparent(this);
 	children.emplace_back(std::move(child));
+}
+
+template<typename RuntimeType, typename DebugVisualType>
+void IRemoteInstance<RuntimeType, DebugVisualType>::on_spawn() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_spawn();
+		}
+	}
+}
+
+template<typename RuntimeType, typename DebugVisualType>
+void IRemoteInstance<RuntimeType, DebugVisualType>::on_destroy() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_destroy();
+		}
+	}
 }
 
 #endif // DEBUG_FEATURES_ENABLE

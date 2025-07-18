@@ -111,6 +111,22 @@ nlohmann::json RemoteWorldObject::serialize() const {
 	return result;
 }
 
+void RemoteWorldObject::on_spawn() {
+	for(auto& child : children) {
+		if (child) {
+			child->on_spawn();
+		}
+	}
+}
+
+void RemoteWorldObject::on_destroy() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_destroy();
+		}
+	}
+}
+
 Reference<const RemoteWorldObject> RemoteWorldObject::query_world() const {
 	return this;
 }

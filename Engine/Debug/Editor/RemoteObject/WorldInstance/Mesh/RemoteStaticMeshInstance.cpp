@@ -14,11 +14,12 @@ RemoteStaticMeshInstance::RemoteStaticMeshInstance() {
 }
 
 void RemoteStaticMeshInstance::setup() {
+	on_spawn();
 	debugVisual->reset_mesh(meshName);
-	auto world = query_world();
-	auto result = sceneView->get_layer(world);
-	debugVisual->set_layer(result.value_or(-1));
-	sceneView->register_mesh(world, debugVisual);
+	// Editor側でDrawExecutorに登録
+	if (sceneView) {
+		sceneView->register_mesh(query_world(), debugVisual);
+	}
 
 	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::setup();
 }
@@ -63,6 +64,11 @@ void RemoteStaticMeshInstance::draw_inspector() {
 				EditorValueChangeCommandHandler::GenCommand<std::string>(meshName);
 				std::swap(cache, meshName);
 				EditorValueChangeCommandHandler::End();
+
+				// Editor側のDrawExecutorに登録
+				if (sceneView) {
+					sceneView->create_mesh_instancing(query_world(), meshName);
+				}
 
 				default_material();
 
@@ -175,6 +181,20 @@ nlohmann::json RemoteStaticMeshInstance::serialize() const {
 	}
 
 	return json;
+}
+
+void RemoteStaticMeshInstance::on_spawn() {
+	auto world = parent->query_world();
+	auto result = sceneView->get_layer(world);
+	debugVisual->set_layer(result.value_or(-1));
+
+	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::on_spawn();
+}
+
+void RemoteStaticMeshInstance::on_destroy() {
+	debugVisual->set_layer(-1);
+
+	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::on_destroy();
 }
 
 void RemoteStaticMeshInstance::default_material() {

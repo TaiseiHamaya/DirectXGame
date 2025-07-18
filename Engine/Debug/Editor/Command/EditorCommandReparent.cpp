@@ -30,6 +30,7 @@ void EditorCommandReparent::execute() {
 	}
 
 	nextParent->add_child(std::move(instance));
+	target->on_spawn();
 }
 
 void EditorCommandReparent::undo() {
@@ -40,6 +41,7 @@ void EditorCommandReparent::undo() {
 	}
 
 	recentParent->add_child(std::move(instance));
+	target->on_spawn();
 }
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -96,4 +96,20 @@ nlohmann::json FolderObject::serialize() const {
 	return result;
 }
 
+void FolderObject::on_spawn() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_spawn();
+		}
+	}
+}
+
+void FolderObject::on_destroy() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_destroy();
+		}
+	}
+}
+
 #endif // DEBUG_FEATURES_ENABLE

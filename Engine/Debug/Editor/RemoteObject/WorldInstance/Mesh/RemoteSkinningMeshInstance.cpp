@@ -18,11 +18,11 @@ RemoteSkinningMeshInstance::RemoteSkinningMeshInstance() {
 }
 
 void RemoteSkinningMeshInstance::setup() {
+	on_spawn();
 	debugVisual->reset_mesh(meshName);
-	auto world = query_world();
-	auto result = sceneView->get_layer(world);
-	debugVisual->set_layer(result.value_or(-1));
-	sceneView->register_mesh(world, debugVisual);
+	if (sceneView) {
+		sceneView->register_mesh(query_world(), debugVisual);
+	}
 
 	IRemoteInstance<SkinningMeshInstance, StaticMeshInstance>::setup();
 }
@@ -68,6 +68,11 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 				std::swap(cache, meshName);
 				EditorValueChangeCommandHandler::End();
 				skeleton = SkeletonLibrary::GetSkeleton(meshName);
+
+				// Editor側のDrawExecutorに登録
+				if (sceneView) {
+					sceneView->create_mesh_instancing(query_world(), meshName);
+				}
 
 				default_material();
 
@@ -206,6 +211,16 @@ nlohmann::json RemoteSkinningMeshInstance::serialize() const {
 	json.update(isLoop);
 
 	return json;
+}
+
+void RemoteSkinningMeshInstance::on_spawn() {
+	auto world = query_world();
+	auto result = sceneView->get_layer(world);
+	debugVisual->set_layer(result.value_or(-1));
+}
+
+void RemoteSkinningMeshInstance::on_destroy() {
+	debugVisual->set_layer(-1);
 }
 
 void RemoteSkinningMeshInstance::default_material() {

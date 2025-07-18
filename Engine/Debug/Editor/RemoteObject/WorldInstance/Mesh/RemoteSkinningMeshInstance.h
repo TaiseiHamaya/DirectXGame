@@ -45,6 +45,10 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	void on_spawn() override;
+
+	void on_destroy() override;
+
 private:
 	void default_material();
 

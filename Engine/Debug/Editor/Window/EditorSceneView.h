@@ -48,6 +48,7 @@ public:
 
 	void register_world(Reference<RemoteWorldObject> world);
 
+	void create_mesh_instancing(Reference<const RemoteWorldObject> world, const std::string& meshName);
 	void register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance);
 	void write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine);
 

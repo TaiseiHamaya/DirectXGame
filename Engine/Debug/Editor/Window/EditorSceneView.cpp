@@ -116,10 +116,14 @@ void EditorSceneView::register_world(Reference<RemoteWorldObject> world) {
 	staticMeshDrawManager.initialize(layerSize);
 }
 
-void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance) {
+void EditorSceneView::create_mesh_instancing(Reference<const RemoteWorldObject> world, const std::string& meshName) {
 	if (worldViews.contains(world)) {
-		staticMeshDrawManager.make_instancing(worldViews.at(world).layer, instance->key_id(), 1024);
+		staticMeshDrawManager.make_instancing(worldViews.at(world).layer, meshName, 1024);
 	}
+}
+
+void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance) {
+	create_mesh_instancing(world, instance->key_id());
 	staticMeshDrawManager.register_instance(instance);
 }
 

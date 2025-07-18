@@ -115,6 +115,22 @@ Reference<const RemoteWorldObject> RemoteSceneObject::query_world() const {
 	return nullptr;
 }
 
+void RemoteSceneObject::on_spawn() {
+	for (auto& child : remoteWorlds) {
+		if (child) {
+			child->on_spawn();
+		}
+	}
+}
+
+void RemoteSceneObject::on_destroy() {
+	for (auto& child : remoteWorlds) {
+		if (child) {
+			child->on_destroy();
+		}
+	}
+}
+
 size_t RemoteSceneObject::world_size() const {
 	return remoteWorlds.size();
 }

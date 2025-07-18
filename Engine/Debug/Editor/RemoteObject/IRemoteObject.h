@@ -45,9 +45,9 @@ public:
 
 	virtual Reference<const RemoteWorldObject> query_world() const;
 
-	virtual void on_spawn(Reference<IRemoteObject> parent) {};
+	virtual void on_spawn() = 0;
 
-	virtual void on_destroy() {};
+	virtual void on_destroy() = 0;
 
 public:
 	Reference<IRemoteObject> get_parent() const;

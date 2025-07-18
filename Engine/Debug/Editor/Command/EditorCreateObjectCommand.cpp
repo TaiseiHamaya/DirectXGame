@@ -12,20 +12,21 @@ EditorCreateObjectCommand::EditorCreateObjectCommand(Reference<IRemoteObject> pa
 }
 
 void EditorCreateObjectCommand::execute() {
-	generatedObjectTemp->on_spawn(parent);
 	if (generatedObjectTemp) { // 初回
 		// SceneViewに登録
-		generatedObjectTemp->setup();
 		parent->add_child(std::move(generatedObjectTemp));
+		object->setup();
 	}
 	else { // undo
-		parent->add_child(deletedPool->get_deleted_force(object));
+		auto instance = deletedPool->get_deleted_force(object);
+		parent->add_child(std::move(instance));
+		object->on_spawn();
 	}
 }
 
 void EditorCreateObjectCommand::undo() {
-	object->on_destroy();
 	deletedPool->delete_sequence(parent, object);
+	object->on_destroy();
 }
 
 void EditorCreateObjectCommand::Setup(Reference<EditorDeletedObjectPool> deletedPool_) {
