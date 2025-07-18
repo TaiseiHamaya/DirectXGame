@@ -180,12 +180,10 @@ void EditorHierarchy::draw() {
 
 		if (ImGui::MenuItem("Delete")) {
 			if (select->get_item().object && select->get_item().object.ptr() != scene.get()) {
-				EditorCommandInvoker::Execute(
-					std::make_unique<EditorDeleteObjectCommand>(
-						select->get_item().object
-					)
-				);
-				select->set_item(nullptr);
+				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
+				EditorCommandInvoker::Execute(std::make_unique<EditorDeleteObjectCommand>(select->get_item().object));
+				EditorCommandInvoker::Execute(std::make_unique<EditorSelectCommand>(nullptr));
+				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
 			}
 		}
 
