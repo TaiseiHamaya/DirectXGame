@@ -34,6 +34,8 @@ private:
 private:
 	bool isActiveEditor{};
 
+	std::optional<std::string> switchSceneName;
+
 	InputHandler<KeyID> input;
 
 	EditorSceneView sceneView;

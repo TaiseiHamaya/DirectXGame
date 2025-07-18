@@ -47,10 +47,17 @@ public:
 
 	const std::string& world_name() const;
 
+	u32 get_id() const;
+
 private:
 	Reference<WorldManager> self;
 
 	std::vector<std::unique_ptr<IRemoteObject>> children;
+
+	u32 id;
+
+private:
+	inline static u32 nextUseId{ 0 };
 };
 
 #endif // DEBUG_FEATURES_ENABLE

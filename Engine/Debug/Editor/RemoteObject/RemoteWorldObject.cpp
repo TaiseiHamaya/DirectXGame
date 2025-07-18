@@ -16,6 +16,8 @@ RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
 
 void RemoteWorldObject::setup() {
+	id = nextUseId;
+	++nextUseId;
 	sceneView->register_world(this);
 	
 	for(auto& child : children) {
@@ -133,6 +135,10 @@ Reference<const RemoteWorldObject> RemoteWorldObject::query_world() const {
 
 const std::string& RemoteWorldObject::world_name() const {
 	return hierarchyName.cget();
+}
+
+u32 RemoteWorldObject::get_id() const {
+	return id;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

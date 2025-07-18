@@ -57,6 +57,8 @@ public:
 	Reference<EditorWorldView> get_world_view(Reference<const RemoteWorldObject> worldRef);
 	Reference<EditorWorldView> get_current_world_view();
 
+	void reset_force();
+
 private:
 	void copy_screen();
 	void set_imgui_command();
@@ -72,9 +74,9 @@ private:
 	Reference<const EditorHierarchy> hierarchy;
 	Reference<ImDrawList> drawList;
 
-	Reference<RemoteWorldObject> selectWorldObject;
+	std::optional<u32> selectWorldId;
 
-	std::unordered_map<Reference<const RemoteWorldObject>, LayerAccessor> worldViews;
+	std::unordered_map<u32, LayerAccessor> worldViews;
 
 	// 描画用データ
 	TempTexture screenResultTexture;

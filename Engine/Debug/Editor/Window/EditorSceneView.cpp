@@ -43,8 +43,8 @@ void EditorSceneView::setup(Reference<EditorGizmo> gizmo_, Reference<const Edito
 }
 
 void EditorSceneView::update() {
-	if (worldViews.contains(selectWorldObject)) {
-		EditorWorldView& view = worldViews[selectWorldObject].view;
+	if (selectWorldId.has_value() && worldViews.contains(selectWorldId.value())) {
+		EditorWorldView& view = worldViews[selectWorldId.value()].view;
 
 		view.update();
 		directionalLightingExecutor.begin();
@@ -54,13 +54,13 @@ void EditorSceneView::update() {
 }
 
 void EditorSceneView::draw_scene() {
-	if (!selectWorldObject) {
+	if (!selectWorldId.has_value()) {
 		return;
 	}
 
-	if (worldViews.contains(selectWorldObject)) {
-		u32 layer = worldViews[selectWorldObject].layer;
-		EditorWorldView& view = worldViews[selectWorldObject].view;
+	if (worldViews.contains(selectWorldId.value())) {
+		u32 layer = worldViews[selectWorldId.value()].layer;
+		EditorWorldView& view = worldViews[selectWorldId.value()].view;
 
 		// 描画フェーズ
 		renderPath.begin();
@@ -104,11 +104,11 @@ void EditorSceneView::register_world(Reference<RemoteWorldObject> world) {
 	if (!world) {
 		return;
 	}
-	if (worldViews.contains(world)) {
+	if (worldViews.contains(world->get_id())) {
 		return;
 	}
 	// 新規にWorldViewを作成
-	auto& tmp = worldViews[world];
+	auto& tmp = worldViews[world->get_id()];
 	tmp.view.initialize();
 	tmp.view.setup(world);
 	tmp.layer = layerSize;
@@ -117,8 +117,8 @@ void EditorSceneView::register_world(Reference<RemoteWorldObject> world) {
 }
 
 void EditorSceneView::create_mesh_instancing(Reference<const RemoteWorldObject> world, const std::string& meshName) {
-	if (worldViews.contains(world)) {
-		staticMeshDrawManager.make_instancing(worldViews.at(world).layer, meshName, 1024);
+	if (worldViews.contains(world->get_id())) {
+		staticMeshDrawManager.make_instancing(worldViews.at(world->get_id()).layer, meshName, 1024);
 	}
 }
 
@@ -128,32 +128,39 @@ void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Re
 }
 
 void EditorSceneView::write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine) {
-	if (!worldViews.contains(world)) {
+	if (!worldViews.contains(world->get_id())) {
 		Warning("");
 		return;
 	}
-	worldViews.at(world).view.register_primitive(primitiveName, affine);
+	worldViews.at(world->get_id()).view.register_primitive(primitiveName, affine);
 }
 
 std::optional<u32> EditorSceneView::get_layer(Reference<const RemoteWorldObject> world) const {
-	if (!worldViews.contains(world)) {
+	if (!worldViews.contains(world->get_id())) {
 		return std::nullopt;
 	}
-	return worldViews.at(world).layer;
+	return worldViews.at(world->get_id()).layer;
 }
 
-Reference<EditorWorldView> EditorSceneView::get_world_view(Reference<const RemoteWorldObject> worldRef) {
-	if (worldViews.contains(worldRef)) {
-		return worldViews[worldRef].view;
+Reference<EditorWorldView> EditorSceneView::get_world_view(Reference<const RemoteWorldObject> world) {
+	if (!worldViews.contains(world->get_id())) {
+		return nullptr;
 	}
-	return nullptr;
+	return worldViews.at(world->get_id()).view;
 }
 
 Reference<EditorWorldView> EditorSceneView::get_current_world_view() {
-	if (worldViews.empty() || !worldViews.contains(selectWorldObject)) {
+	if (worldViews.empty() || !selectWorldId.has_value() || !worldViews.contains(selectWorldId.value())) {
 		return nullptr;
 	}
-	return worldViews[selectWorldObject].view;
+	return worldViews[selectWorldId.value()].view;
+}
+
+void EditorSceneView::reset_force() {
+	selectWorldId.reset();
+	worldViews.clear();
+	staticMeshDrawManager = StaticMeshDrawManager{};
+	layerSize = 0;
 }
 
 void EditorSceneView::copy_screen() {
@@ -189,11 +196,11 @@ void EditorSceneView::set_imgui_command() {
 	// 各WorldViewをImGuiに描画
 	auto& worldList = hierarchy->world_list();
 	for (u32 i = 0; i < worldList.size(); ++i) {
-		auto& world = worldList[i];
+		u32 world = worldList[i]->get_id();
 		if (worldViews.contains(world)) {
 			auto [result, pos, size_] = worldViews.at(world).view.draw_editor(screenResultTexture);
 			if (result) {
-				selectWorldObject = world;
+				selectWorldId = world;
 				origin = pos;
 				size = size_;
 			}

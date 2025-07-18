@@ -34,18 +34,31 @@ void EditorMain::Setup() {
 	EditorDeleteObjectCommand::Setup(instance.deletedPool);
 	EditorSelectCommand::Setup(instance.selectObject);
 	IRemoteObject::Setup(instance.sceneView);
+	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
+	instance.inspector.setup(instance.selectObject);
 
 	JsonAsset json;
 	json.load("./Game/DebugData/Editor.json");
 	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
 	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
 	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
-	instance.inspector.setup(instance.selectObject);
-	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 }
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
+
+	if (instance.switchSceneName.has_value()) {
+		// シーンビューを未設定に設定
+		instance.sceneView.reset_force();
+		// シーンのロード
+		instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", instance.switchSceneName.value()));
+		instance.hierarchy.setup(instance.selectObject, instance.sceneView);
+		// 選択オブジェクトのリセット
+		instance.selectObject.set_item(nullptr);
+		// コマンドのリセット
+		EditorCommandInvoker::ResetHistoryForce();
+	}
+	instance.switchSceneName = std::nullopt;
 
 	// HierarchyとSceneViewの同期
 	instance.gizmo.begin_frame(instance.sceneView.view_origin(), instance.sceneView.view_size());
@@ -142,8 +155,7 @@ void EditorMain::set_imgui_command() {
 			if (ImGui::BeginMenu("Scene")) {
 				std::string currentSceneName = hierarchy.current_scene_name();
 				if (sceneList.scene_list_gui(currentSceneName)) {
-					hierarchy.load(std::format("./Game/Core/Scene/{}.json", currentSceneName));
-					selectObject.set_item(nullptr);
+					switchSceneName = currentSceneName;;
 				}
 				ImGui::EndMenu();
 			}
