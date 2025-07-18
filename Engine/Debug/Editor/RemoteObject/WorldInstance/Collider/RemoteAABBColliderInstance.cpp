@@ -2,6 +2,14 @@
 
 #include "RemoteAABBColliderInstance.h"
 
+#include "../../../Window/EditorSceneView.h"
+
+void RemoteAABBColliderInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	IRemoteInstance<AABBCollider, void*>::update_preview(world, parentAffine);
+	Affine primitiveAffine = Affine::FromSRT(size.cget(), CQuaternion::IDENTITY, Vector3::Multiply(-offset.cget(), size.cget()) + worldAffine.get_origin());
+	sceneView->write_primitive(world, "AABBCollider", primitiveAffine);
+}
+
 void RemoteAABBColliderInstance::draw_inspector() {
 	ImGui::Text("Type : AABBCollider");
 
@@ -29,22 +37,6 @@ nlohmann::json RemoteAABBColliderInstance::serialize() const {
 	}
 
 	return result;
-}
-
-void RemoteAABBColliderInstance::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
-	Affine affine = Affine::FromTransform3D(transform.cget());
-	if (parentAffine) {
-		affine *= *parentAffine;
-	}
-	affine = Affine::FromSRT(size.cget(), CQuaternion::IDENTITY, Vector3::Multiply(-offset.cget(), size.cget())) * affine;
-
-	worldView->register_primitive("AABBCollider", affine);
-
-	for (const auto& child : children) {
-		if (child) {
-			child->set_editor_world_view(worldView, affine);
-		}
-	}
 }
 
 #endif // DEBUG_FEATURES_ENABLE

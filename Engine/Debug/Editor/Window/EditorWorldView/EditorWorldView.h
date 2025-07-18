@@ -8,9 +8,6 @@
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "EditorDebugCamera.h"
-#include "Engine/Module/DrawExecutor/LightingExecutor/DirectionalLightingExecutor.h"
-#include "Engine/Module/DrawExecutor/Mesh/StaticMeshDrawManager.h"
-#include "Engine/Module/Render/RenderPath/RenderPath.h"
 
 class RemoteWorldObject;
 class DirectionalLightInstance;
@@ -33,7 +30,8 @@ public:
 	void register_primitive(const std::string& name, const Affine& affine);
 
 	void update();
-	void rendering();
+	void set_camera_command();
+	void draw_lines();
 	std::tuple<bool, Vector2, Vector2> draw_editor(const TempTexture& texture);
 
 	void camera_gui();
@@ -44,13 +42,9 @@ public:
 
 private:
 	bool isSelectTab{ false };
-	RenderPath renderPath;
 	Reference<RemoteWorldObject> remoteWorld;
 
 	std::unique_ptr<EditorDebugCamera> cameraInstance;
-	std::unique_ptr<DirectionalLightInstance> lightInstance;
-	DirectionalLightingExecutor directionalLightingExecutor;
-	StaticMeshDrawManager staticMeshDrawManager;
 	std::unordered_map<std::string, std::unique_ptr<PrimitiveGeometryDrawExecutor>> primitive;
 };
 

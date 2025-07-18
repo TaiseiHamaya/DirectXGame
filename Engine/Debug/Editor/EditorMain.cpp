@@ -29,17 +29,19 @@ void EditorMain::Initialize() {
 
 void EditorMain::Setup() {
 	EditorMain& instance = GetInstance();
-	JsonAsset json;
-	json.load("./Game/DebugData/Editor.json");
-	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
-	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
-	instance.hierarchy.setup(instance.selectObject);
-	instance.inspector.setup(instance.selectObject);
-	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 
 	EditorCreateObjectCommand::Setup(instance.deletedPool);
 	EditorDeleteObjectCommand::Setup(instance.deletedPool);
 	EditorSelectCommand::Setup(instance.selectObject);
+	IRemoteObject::Setup(instance.sceneView);
+
+	JsonAsset json;
+	json.load("./Game/DebugData/Editor.json");
+	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
+	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
+	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
+	instance.inspector.setup(instance.selectObject);
+	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 }
 
 void EditorMain::DrawBase() {
@@ -47,11 +49,8 @@ void EditorMain::DrawBase() {
 
 	// HierarchyとSceneViewの同期
 	instance.gizmo.begin_frame(instance.sceneView.view_origin(), instance.sceneView.view_size());
-	auto worldView = instance.sceneView.get_current_world_view();
-	if (worldView) {
-		worldView->update();
-	}
-	instance.hierarchy.sync_scene_view(instance.sceneView);
+	instance.sceneView.update();
+	instance.hierarchy.update_preview();
 	instance.sceneView.draw_scene();
 
 	instance.input.update();

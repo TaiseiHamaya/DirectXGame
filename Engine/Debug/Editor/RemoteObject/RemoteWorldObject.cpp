@@ -10,9 +10,28 @@
 #include "../Command/EditorSelectCommand.h"
 #include "../Core/EditorHierarchyDandD.h"
 #include "../Window/EditorWorldView/EditorWorldView.h"
+#include "../Window/EditorSceneView.h"
 
 RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
+
+void RemoteWorldObject::setup() {
+	sceneView->register_world(this);
+	
+	for(auto& child : children) {
+		if (child) {
+			child->setup();
+		}
+	}
+}
+
+void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	for(auto& child : children) {
+		if (child) {
+			child->update_preview(this, nullptr);
+		}
+	}
+}
 
 void RemoteWorldObject::draw_inspector() {
 	hierarchyName.show_gui();
@@ -92,16 +111,8 @@ nlohmann::json RemoteWorldObject::serialize() const {
 	return result;
 }
 
-void RemoteWorldObject::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine>) {
-	worldView->setup(this);
-	if (!worldView->is_select_tab()) {
-		return;
-	}
-	for (auto& child : children) {
-		if (child) {
-			child->set_editor_world_view(worldView);
-		}
-	}
+Reference<const RemoteWorldObject> RemoteWorldObject::query_world() const {
+	return this;
 }
 
 const std::string& RemoteWorldObject::world_name() const {

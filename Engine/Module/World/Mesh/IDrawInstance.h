@@ -16,7 +16,8 @@ public:
 	virtual void update_affine() override;
 
 public:
-	const u32& layer() const { return renderLayer; };
+	const u32& layer() const { return renderLayer; }
+	void set_layer(u32 layer) { renderLayer = layer; }
 	virtual bool is_draw() const;
 	void set_draw(bool flag) { isDraw = flag; }
 	const Affine& local_affine() const { return localAffine; }

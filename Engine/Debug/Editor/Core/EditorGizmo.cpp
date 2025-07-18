@@ -11,6 +11,7 @@
 #include "../Command/EditorValueChangeCommandHandler.h"
 #include "../RemoteObject/IRemoteObject.h"
 #include "../RemoteObject/RemoteWorldObject.h"
+#include "../Window/EditorWorldView/EditorWorldView.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 
 EditorGizmo::EditorGizmo() = default;

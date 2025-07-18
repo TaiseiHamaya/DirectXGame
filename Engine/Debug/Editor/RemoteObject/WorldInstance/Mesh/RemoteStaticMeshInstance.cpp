@@ -2,6 +2,7 @@
 
 #include "RemoteStaticMeshInstance.h"
 
+#include "../../../Window/EditorSceneView.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
@@ -10,6 +11,34 @@
 
 RemoteStaticMeshInstance::RemoteStaticMeshInstance() {
 	debugVisual = std::make_unique<StaticMeshInstance>();
+}
+
+void RemoteStaticMeshInstance::setup() {
+	debugVisual->reset_mesh(meshName);
+	auto world = query_world();
+	auto result = sceneView->get_layer(world);
+	debugVisual->set_layer(result.value_or(-1));
+	sceneView->register_mesh(world, debugVisual);
+
+	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::setup();
+}
+
+void RemoteStaticMeshInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::update_preview(world, parentAffine);
+	
+	debugVisual->reset_mesh(meshName);
+	debugVisual->localAffine = worldAffine;
+	debugVisual->isDraw = isDraw.cget();
+
+	for (i32 i = 0; i < materials.size(); ++i) {
+		RemoteStaticMeshInstance::Material& source = materials[i];
+		StaticMeshInstance::Material& write = debugVisual->materials[i];
+		write.texture = TextureLibrary::GetTexture(source.texture);
+		write.color = source.color;
+		write.uvTransform.copy(source.uvTransform);
+		write.lightingType = source.lightingType;
+		write.shininess = source.shininess;
+	};
 }
 
 void RemoteStaticMeshInstance::draw_inspector() {
@@ -146,33 +175,6 @@ nlohmann::json RemoteStaticMeshInstance::serialize() const {
 	}
 
 	return json;
-}
-
-void RemoteStaticMeshInstance::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
-
-	Affine affine = Affine::FromTransform3D(transform.cget());
-	if (parentAffine) {
-		affine *= *parentAffine;
-	}
-	worldView->register_mesh(debugVisual);
-	debugVisual->reset_mesh(meshName);
-	debugVisual->localAffine = affine;
-	debugVisual->isDraw = isDraw.cget();
-
-	for (i32 i = 0; i < materials.size(); ++i) {
-		RemoteStaticMeshInstance::Material& source = materials[i];
-		StaticMeshInstance::Material& write = debugVisual->materials[i];
-		write.texture = TextureLibrary::GetTexture(source.texture);
-		write.color = source.color;
-		write.uvTransform.copy(source.uvTransform);
-		write.lightingType = source.lightingType;
-		write.shininess = source.shininess;
-	};
-	for (const auto& child : children) {
-		if (child) {
-			child->set_editor_world_view(worldView, affine);
-		}
-	}
 }
 
 void RemoteStaticMeshInstance::default_material() {

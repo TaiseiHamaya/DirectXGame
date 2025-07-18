@@ -9,10 +9,32 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
+#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
+#include "Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h"
+#include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
+#include "../RemoteObject/RemoteWorldObject.h"
+#include "Engine/Application/Output.h"
 
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
 	screenResultTexture.initialize();
+
+	lightInstance = std::make_unique<DirectionalLightInstance>();
+	std::shared_ptr<StaticMeshNodeForward> staticMeshNode = std::make_shared<StaticMeshNodeForward>();
+	staticMeshNode->initialize();
+	staticMeshNode->set_render_target_SC();
+	staticMeshNode->set_config(RenderNodeConfig::Default);
+
+	std::shared_ptr<PrimitiveLineNode> primitiveLineNode = std::make_shared<PrimitiveLineNode>();
+	primitiveLineNode->initialize();
+	primitiveLineNode->set_render_target_SC();
+	primitiveLineNode->set_config(RenderNodeConfig::NoClearDepth | RenderNodeConfig::NoClearRenderTarget);
+
+	staticMeshDrawManager.initialize(1);
+	directionalLightingExecutor.reinitialize(1);
+	renderPath.initialize(
+		{ staticMeshNode,primitiveLineNode }
+	);
 }
 
 void EditorSceneView::setup(Reference<EditorGizmo> gizmo_, Reference<const EditorHierarchy> hierarchy_) {
@@ -20,9 +42,38 @@ void EditorSceneView::setup(Reference<EditorGizmo> gizmo_, Reference<const Edito
 	hierarchy = hierarchy_;
 }
 
+void EditorSceneView::update() {
+	if (worldViews.contains(selectWorldObject)) {
+		EditorWorldView& view = worldViews[selectWorldObject].view;
+
+		view.update();
+		directionalLightingExecutor.begin();
+		directionalLightingExecutor.write_to_buffer(lightInstance);
+		staticMeshDrawManager.transfer();
+	}
+}
+
 void EditorSceneView::draw_scene() {
-	if (worldView.contains(selectWorldObject)) {
-		worldView[selectWorldObject].rendering();
+	if (!selectWorldObject) {
+		return;
+	}
+
+	if (worldViews.contains(selectWorldObject)) {
+		u32 layer = worldViews[selectWorldObject].layer;
+		EditorWorldView& view = worldViews[selectWorldObject].view;
+
+		// 描画フェーズ
+		renderPath.begin();
+		// Mesh
+		view.set_camera_command();
+		directionalLightingExecutor.set_command(4);
+		staticMeshDrawManager.draw_layer(layer);
+
+		renderPath.next();
+		// lines
+		view.draw_lines();
+
+		renderPath.next();
 	}
 	copy_screen();
 }
@@ -49,31 +100,56 @@ Reference<ImDrawList> EditorSceneView::draw_list() const {
 	return drawList;
 }
 
-void EditorSceneView::check_world(Reference<RemoteWorldObject> worldRef) {
-	if (!worldRef) {
+void EditorSceneView::register_world(Reference<RemoteWorldObject> world) {
+	if (!world) {
 		return;
 	}
-	if (worldView.contains(worldRef)) {
+	if (worldViews.contains(world)) {
 		return;
 	}
 	// 新規にWorldViewを作成
-	auto& view = worldView[worldRef];
-	view.initialize();
-	view.setup(worldRef);
+	auto& tmp = worldViews[world];
+	tmp.view.initialize();
+	tmp.view.setup(world);
+	tmp.layer = layerSize;
+	++layerSize;
+	staticMeshDrawManager.initialize(layerSize);
+}
+
+void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance) {
+	if (worldViews.contains(world)) {
+		staticMeshDrawManager.make_instancing(worldViews.at(world).layer, instance->key_id(), 1024);
+	}
+	staticMeshDrawManager.register_instance(instance);
+}
+
+void EditorSceneView::write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine) {
+	if (!worldViews.contains(world)) {
+		Warning("");
+		return;
+	}
+	worldViews.at(world).view.register_primitive(primitiveName, affine);
+}
+
+std::optional<u32> EditorSceneView::get_layer(Reference<const RemoteWorldObject> world) const {
+	if (!worldViews.contains(world)) {
+		return std::nullopt;
+	}
+	return worldViews.at(world).layer;
 }
 
 Reference<EditorWorldView> EditorSceneView::get_world_view(Reference<const RemoteWorldObject> worldRef) {
-	if (worldView.contains(worldRef)) {
-		return worldView[worldRef];
+	if (worldViews.contains(worldRef)) {
+		return worldViews[worldRef].view;
 	}
 	return nullptr;
 }
 
 Reference<EditorWorldView> EditorSceneView::get_current_world_view() {
-	if (worldView.empty() || !worldView.contains(selectWorldObject)) {
+	if (worldViews.empty() || !worldViews.contains(selectWorldObject)) {
 		return nullptr;
 	}
-	return worldView[selectWorldObject];
+	return worldViews[selectWorldObject].view;
 }
 
 void EditorSceneView::copy_screen() {
@@ -110,8 +186,8 @@ void EditorSceneView::set_imgui_command() {
 	auto& worldList = hierarchy->world_list();
 	for (u32 i = 0; i < worldList.size(); ++i) {
 		auto& world = worldList[i];
-		if (worldView.contains(world)) {
-			auto [result, pos, size_] = worldView.at(world).draw_editor(screenResultTexture);
+		if (worldViews.contains(world)) {
+			auto [result, pos, size_] = worldViews.at(world).view.draw_editor(screenResultTexture);
 			if (result) {
 				selectWorldObject = world;
 				origin = pos;

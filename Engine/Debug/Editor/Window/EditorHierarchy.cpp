@@ -24,8 +24,10 @@
 
 #include <Engine/Assets/Json/JsonAsset.h>
 
-void EditorHierarchy::setup(Reference<EditorSelectObject> select_) {
+void EditorHierarchy::setup(Reference<EditorSelectObject> select_, Reference<EditorSceneView> sceneView_) {
 	select = select_;
+	sceneView = sceneView_;
+	scene->setup();
 }
 
 void EditorHierarchy::finalize() {
@@ -34,13 +36,8 @@ void EditorHierarchy::finalize() {
 	scene.reset();
 }
 
-void EditorHierarchy::sync_scene_view(Reference<EditorSceneView> sceneView) {
-	if (!sceneView) {
-		return;
-	}
-	for (u32 i = 0; i < scene->world_size(); ++i) {
-		scene->sync_world_entry(i, sceneView);
-	}
+void EditorHierarchy::update_preview() {
+	scene->update_preview(nullptr, nullptr);
 }
 
 void EditorHierarchy::load(std::filesystem::path file) {

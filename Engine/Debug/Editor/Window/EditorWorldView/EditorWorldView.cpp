@@ -5,10 +5,7 @@
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Debug/Editor/RemoteObject/RemoteWorldObject.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
-#include "Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h"
-#include "Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
 #include <imgui.h>
@@ -16,25 +13,8 @@
 using namespace std::string_literals;
 
 void EditorWorldView::initialize() {
-	std::shared_ptr<StaticMeshNodeForward> staticMeshNode = std::make_shared<StaticMeshNodeForward>();
-	staticMeshNode->initialize();
-	staticMeshNode->set_render_target_SC();
-	staticMeshNode->set_config(RenderNodeConfig::Default);
-
-	std::shared_ptr<PrimitiveLineNode> primitiveLineNode = std::make_shared<PrimitiveLineNode>();
-	primitiveLineNode->initialize();
-	primitiveLineNode->set_render_target_SC();
-	primitiveLineNode->set_config(RenderNodeConfig::NoClearDepth | RenderNodeConfig::NoClearRenderTarget);
-
-	staticMeshDrawManager.initialize(1);
-	directionalLightingExecutor.reinitialize(1);
-	renderPath.initialize(
-		{ staticMeshNode,primitiveLineNode }
-	);
-
 	cameraInstance = std::make_unique<EditorDebugCamera>();
 	cameraInstance->initialize();
-	lightInstance = std::make_unique<DirectionalLightInstance>();
 
 	primitive.emplace("Frustum", std::make_unique<PrimitiveGeometryDrawExecutor>(
 		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 16
@@ -52,8 +32,8 @@ void EditorWorldView::setup(Reference<RemoteWorldObject> remoteWorld_) {
 }
 
 void EditorWorldView::register_mesh(Reference<StaticMeshInstance> meshInstance) {
-	staticMeshDrawManager.make_instancing(0, meshInstance->key_id(), 1024);
-	staticMeshDrawManager.register_instance(meshInstance);
+	//staticMeshDrawManager.make_instancing(0, meshInstance->key_id(), 1024);
+	//staticMeshDrawManager.register_instance(meshInstance);
 }
 
 void EditorWorldView::register_primitive(const std::string& name, const Affine& affine) {
@@ -67,39 +47,24 @@ void EditorWorldView::update() {
 		return;
 	}
 
-	directionalLightingExecutor.begin();
 	for (auto& executor : primitive | std::views::values) {
 		executor->begin();
 	}
 	cameraInstance->update();
-}
-
-void EditorWorldView::rendering() {
-	if (!isSelectTab) {
-		return;
-	}
-
-	// 転送処理
-	staticMeshDrawManager.transfer();
-	directionalLightingExecutor.write_to_buffer(lightInstance);
 	cameraInstance->update_affine();
 	cameraInstance->transfer();
+}
 
-	// 描画処理
-	renderPath.begin();
-	// StaticMesh
+void EditorWorldView::set_camera_command() {
 	cameraInstance->register_world_projection(2);
 	cameraInstance->register_world_lighting(3);
-	directionalLightingExecutor.set_command(4);
-	staticMeshDrawManager.draw_layer(0);
+}
 
-	renderPath.next();
+void EditorWorldView::draw_lines() {
 	cameraInstance->register_world_projection(1);
 	for (auto& executor : primitive | std::views::values) {
 		executor->draw_command();
 	}
-
-	renderPath.next(); // End
 }
 
 std::tuple<bool, Vector2, Vector2> EditorWorldView::draw_editor(const TempTexture& texture) {
