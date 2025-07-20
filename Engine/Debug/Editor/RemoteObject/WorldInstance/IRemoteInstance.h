@@ -96,7 +96,7 @@ inline void IRemoteInstance<RuntimeType, DebugVisualType>::draw_hierarchy(Refere
 	// こうすると選択できるらしい
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen() && !isSelected) {
 		EditorCommandInvoker::Execute(
-			std::make_unique<EditorSelectCommand>(this, transform.get())
+			std::make_unique<EditorSelectCommand>(this, EditorSelectObjectBody::TransformData{ transform.get(), worldAffine })
 		);
 	}
 

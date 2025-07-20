@@ -8,7 +8,7 @@
 
 class EditorSelectCommand final : public IEditorCommand {
 public:
-	EditorSelectCommand(Reference<IRemoteObject> object, Reference<Transform3D> transform = nullptr);
+	EditorSelectCommand(Reference<IRemoteObject> object, EditorSelectObjectBody::TransformData transform_ = {});
 	~EditorSelectCommand() = default;
 
 	__CLASS_NON_COPYABLE(EditorSelectCommand)
