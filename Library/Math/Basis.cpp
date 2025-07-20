@@ -6,17 +6,21 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 
+#include "Engine/Application/Output.h"
+
 #define cofac(row1, col1, row2, col2) \
 	(rows[row1][col1] * rows[row2][col2] - rows[row1][col2] * rows[row2][col1])
 
 void Basis::invert() {
 	r32 co[3] = {
-		cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1 )
+		cofac(1, 1, 2, 2), cofac(1, 2, 2, 0), cofac(1, 0, 2, 1)
 	};
 	r32 det = rows[0][0] * co[0] +
 		rows[0][1] * co[1] +
 		rows[0][2] * co[2];
 	r32 s = 1.0f / det;
+
+	WarningIf(det == 0.0f, "Basis::invert(inverse) is called. But determinant was zero");
 
 	*this = {
 		Vector3(co[0] * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s),
@@ -86,7 +90,7 @@ Vector3 Basis::to_scale() const {
 Quaternion Basis::to_quaternion() const {
 	// 理論 : https://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 	// Code : https://github.com/godotengine/godot/blob/master/core/math/basis.cpp (GodotEngine Basis::get_quaternion()関数より)
-	
+
 	Basis norm = orthonormalize();
 
 	Vector3 xyz;
