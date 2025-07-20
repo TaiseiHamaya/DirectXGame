@@ -10,17 +10,17 @@
 using namespace std::string_literals;
 
 void EditorLogWindow::Allocate() {
-	GetInstance();
-}
-
-void EditorLogWindow::Initialize(bool isActive_) {
 	auto& instance = GetInstance();
-	instance.isActive = isActive_;
 	//instance.logStates[static_cast<u8>(LogType::Editor)] = { false, 0, "\ue3c9", { 0.2f, 0.2f, 0.2f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Information)] = { true, 0, "\ue88e", { 0.5f, 0.5f, 0.5f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Warning)] = { true, 0, "\ue002", { 0.8f, 0.8f, 0.1f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Error)] = { true, 0, "\ue99a",{ 0.8f, 0.1f, 0.1f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Critical)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
+}
+
+void EditorLogWindow::Initialize(bool isActive_) {
+	auto& instance = GetInstance();
+	instance.isActive = isActive_;
 }
 
 void EditorLogWindow::Draw() {
