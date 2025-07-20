@@ -17,6 +17,19 @@
 RemoteSceneObject::RemoteSceneObject() = default;
 RemoteSceneObject::~RemoteSceneObject() = default;
 
+void RemoteSceneObject::setup() {
+	for (auto& child : remoteWorlds) {
+		child->setup();
+	}
+}
+
+void RemoteSceneObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	CriticalIf(world || parentAffine, "RemoteSceneObject::update_preview's argument named \'world\' and \'parentAffine\' must be nullptr.");
+	for (auto& child : remoteWorlds) {
+		child->update_preview(nullptr, nullptr);
+	}
+}
+
 void RemoteSceneObject::draw_inspector() {
 	hierarchyName.show_gui();
 
@@ -97,14 +110,25 @@ nlohmann::json RemoteSceneObject::serialize() const {
 	return result;
 }
 
-void RemoteSceneObject::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine>) {
-	Error("Don't call RemoteSceneObject::set_editor_world_view(). Call sync_world_entry.");
+Reference<const RemoteWorldObject> RemoteSceneObject::query_world() const {
+	Warning("IRemoteObject::query_world() was called in RemoteSceneObject.");
+	return nullptr;
 }
 
-void RemoteSceneObject::sync_world_entry(u64 index, Reference<EditorSceneView> sceneView) {
-	auto& world = remoteWorlds[index];
-	sceneView->check_world(world);
-	world->set_editor_world_view(sceneView->get_world_view(world));
+void RemoteSceneObject::on_spawn() {
+	for (auto& child : remoteWorlds) {
+		if (child) {
+			child->on_spawn();
+		}
+	}
+}
+
+void RemoteSceneObject::on_destroy() {
+	for (auto& child : remoteWorlds) {
+		if (child) {
+			child->on_destroy();
+		}
+	}
 }
 
 size_t RemoteSceneObject::world_size() const {

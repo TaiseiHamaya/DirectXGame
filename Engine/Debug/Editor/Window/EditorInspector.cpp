@@ -4,7 +4,7 @@
 
 #include <imgui.h>
 
-#include "../EditorSelectObject.h"
+#include "../Core/EditorSelectObject.h"
 #include "../RemoteObject/IRemoteObject.h"
 
 void EditorInspector::initialize() {

@@ -9,14 +9,15 @@
 
 #include <imgui.h>
 
+#include <Library/Math/Affine.h>
 #include <Library/Math/Transform3D.h>
 #include <Library/Utility/Template/Reference.h>
 
-#include "../../EditorHierarchyDandD.h"
+#include "../../Core/EditorHierarchyDandD.h"
 #include "Engine/Debug/Editor/Command/EditorCommandInvoker.h"
 #include "Engine/Debug/Editor/Command/EditorSelectCommand.h"
 
-template<typename RuntimeType, typename DebugVisualType>
+template<typename RuntimeType, typename DebugVisualType = void*>
 class IRemoteInstance : public IRemoteObject {
 public:
 	IRemoteInstance() = default;
@@ -25,6 +26,10 @@ public:
 	__CLASS_DEFAULT_ALL(IRemoteInstance)
 
 public:
+	virtual void setup() override;
+
+	virtual void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
+
 	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
 
 	std::unique_ptr<IRemoteObject> move_force(Reference<const IRemoteObject> child) override;
@@ -33,7 +38,9 @@ public:
 
 	void add_child(std::unique_ptr<IRemoteObject> child) override;
 
-	virtual void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) override;
+	void on_spawn() override;
+
+	void on_destroy() override;
 
 protected:
 	Reference<RuntimeType> self;
@@ -43,7 +50,28 @@ protected:
 	std::unique_ptr<DebugVisualType> debugVisual;
 
 	EditorValueField<Transform3D> transform{ "Local transform" };
+	Affine worldAffine;
 };
+
+template<typename RuntimeType, typename DebugVisualType>
+inline void IRemoteInstance<RuntimeType, DebugVisualType>::setup() {
+	for (auto& child : children) {
+		child->setup();
+	}
+}
+
+template<typename RuntimeType, typename DebugVisualType>
+inline void IRemoteInstance<RuntimeType, DebugVisualType>::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	// 行列計算
+	worldAffine = Affine::FromTransform3D(transform.cget());
+	if (parentAffine) {
+		worldAffine *= *parentAffine;
+	}
+	// 再帰実行
+	for (auto& child : children) {
+		child->update_preview(world, worldAffine);
+	}
+}
 
 template<typename RuntimeType, typename DebugVisualType>
 inline void IRemoteInstance<RuntimeType, DebugVisualType>::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -68,7 +96,7 @@ inline void IRemoteInstance<RuntimeType, DebugVisualType>::draw_hierarchy(Refere
 	// こうすると選択できるらしい
 	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen() && !isSelected) {
 		EditorCommandInvoker::Execute(
-			std::make_unique<EditorSelectCommand>(this, transform.get())
+			std::make_unique<EditorSelectCommand>(this, EditorSelectObjectBody::TransformData{ transform.get(), worldAffine })
 		);
 	}
 
@@ -108,14 +136,19 @@ void IRemoteInstance<RuntimeType, DebugVisualType>::add_child(std::unique_ptr<IR
 }
 
 template<typename RuntimeType, typename DebugVisualType>
-inline void IRemoteInstance<RuntimeType, DebugVisualType>::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
-	Affine affine = Affine::FromTransform3D(transform.cget());
-	if (parentAffine) {
-		affine *= *parentAffine;
-	}
-	for (const auto& child : children) {
+void IRemoteInstance<RuntimeType, DebugVisualType>::on_spawn() {
+	for (auto& child : children) {
 		if (child) {
-			child->set_editor_world_view(worldView, affine);
+			child->on_spawn();
+		}
+	}
+}
+
+template<typename RuntimeType, typename DebugVisualType>
+void IRemoteInstance<RuntimeType, DebugVisualType>::on_destroy() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_destroy();
 		}
 	}
 }

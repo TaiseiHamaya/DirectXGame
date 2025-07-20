@@ -12,6 +12,10 @@ public:
 	__CLASS_DEFAULT_ALL(RemoteErrorObject)
 
 public:
+	void setup() override {};
+
+	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override {};
+
 	void draw_inspector() override;
 
 	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
@@ -24,7 +28,9 @@ public:
 
 	nlohmann::json serialize() const override;
 
-	void set_editor_world_view(Reference<EditorWorldView>, Reference<const Affine>) override {};
+	void on_spawn() override {};
+
+	void on_destroy() override {};
 
 private:
 	std::string errorMessage;

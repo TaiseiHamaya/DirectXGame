@@ -7,13 +7,17 @@
 #include "./EditorSelectObject.h"
 
 #include <Library/Math/Affine.h>
+#include <Library/Math/Transform3D.h>
 
-#include "./RemoteObject/IRemoteObject.h"
-#include "Command/EditorValueChangeCommandHandler.h"
+#include "../Command/EditorValueChangeCommandHandler.h"
+#include "../RemoteObject/IRemoteObject.h"
+#include "../RemoteObject/RemoteWorldObject.h"
+#include "../Window/EditorWorldView/EditorWorldView.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
-#include "RemoteObject/RemoteWorldObject.h"
 
-EditorGizmo::EditorGizmo() = default;
+EditorGizmo::EditorGizmo() {
+	gizmoKeyHandler.initialize({ KeyID::LControl });
+}
 EditorGizmo::~EditorGizmo() = default;
 
 void EditorGizmo::begin_frame(const Vector2& origin, const Vector2& size) {
@@ -29,7 +33,7 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<con
 	auto& item = select->get_item();
 
 	// null check
-	if (!item.object || !item.transform) {
+	if (!item.object || !item.transformData.affine || !item.transformData.transform) {
 		return;
 	}
 
@@ -58,38 +62,60 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<con
 	}
 
 	// to matrix
-	Matrix4x4 matrix = Affine::FromTransform3D(*item.transform).to_matrix();
+	Matrix4x4 matrix = item.transformData.affine->to_matrix();
+	// create parent affine
+	Affine parentAffine =
+		Affine::FromTransform3D(*item.transformData.transform).inverse() * *item.transformData.affine;
 
+	gizmoKeyHandler.update();
+	std::array<float, 3> snap = { 0.0f, 0.0f, 0.0f };
+	switch (operation) {
+	case ImGuizmo::OPERATION::SCALEU:
+		snap = { 0.1f, 0.1f, 0.1f };
+		break;
+	case ImGuizmo::OPERATION::ROTATE:
+		snap = { 15.0f, 15.0f, 15.0f };
+		break;
+	case ImGuizmo::OPERATION::TRANSLATE:
+		snap = { 1.0f, 1.0f, 1.0f };
+		break;
+	default:
+		break;
+	}
 	// manipulate
 	gizmoState <<= 1;
-	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0]);
+	ImGuizmo::Manipulate(&view[0][0], &proj[0][0], operation, mode, &matrix[0][0], nullptr, gizmoKeyHandler.press(KeyID::LControl) ? snap.data() : nullptr);
 	gizmoState.set(0, ImGuizmo::IsUsing());
 	if (gizmoState == 0b01) {
 		switch (operation) {
 		case ImGuizmo::OPERATION::SCALEU:
-			EditorValueChangeCommandHandler::GenCommand<Vector3>(item.transform->get_scale());
+			EditorValueChangeCommandHandler::GenCommand<Vector3>(item.transformData.transform->get_scale());
 			break;
 		case ImGuizmo::OPERATION::ROTATE:
-			EditorValueChangeCommandHandler::GenCommand<Quaternion>(item.transform->get_quaternion());
+			EditorValueChangeCommandHandler::GenCommand<Quaternion>(item.transformData.transform->get_quaternion());
 			break;
 		case ImGuizmo::OPERATION::TRANSLATE:
-			EditorValueChangeCommandHandler::GenCommand<Vector3>(item.transform->get_translate());
+			EditorValueChangeCommandHandler::GenCommand<Vector3>(item.transformData.transform->get_translate());
 			break;
 		default:
 			break;
 		}
 	}
-	else if (gizmoState == 0b10) {
+
+	if (gizmoState.any()) {
+		// to affine
+		Affine decomposed = Affine::FromMatrix(matrix);
+		// ローカル座標系に戻す
+		Affine affine = decomposed * parentAffine.inverse();
+
+		// decompose
+		item.transformData.transform->set_scale(affine.get_basis().to_scale());
+		item.transformData.transform->set_quaternion(affine.get_basis().to_quaternion());
+		item.transformData.transform->set_translate(affine.get_origin());
+	}
+	if (gizmoState == 0b10) {
 		EditorValueChangeCommandHandler::End();
 	}
-
-	// to affine
-	Affine affine = Affine::FromMatrix(matrix);
-
-	// decompose
-	item.transform->set_scale(affine.get_basis().to_scale());
-	item.transform->set_quaternion(affine.get_basis().to_quaternion());
-	item.transform->set_translate(affine.get_origin());
 }
 
 void EditorGizmo::scene_header() {

@@ -2,18 +2,18 @@
 
 #include "EditorSelectCommand.h"
 
-EditorSelectCommand::EditorSelectCommand(Reference<IRemoteObject> object, Reference<Transform3D> transform) {
+EditorSelectCommand::EditorSelectCommand(Reference<IRemoteObject> object, EditorSelectObjectBody::TransformData transform) {
 	next.object = object;
-	next.transform = transform;
+	next.transformData = transform;
 	prev = selectObject->get_item();
 }
 
 void EditorSelectCommand::execute() {
-	selectObject->set_item(next.object, next.transform);
+	selectObject->set_item(next.object, next.transformData);
 }
 
 void EditorSelectCommand::undo() {
-	selectObject->set_item(prev.object, prev.transform);
+	selectObject->set_item(prev.object, prev.transformData);
 }
 
 void EditorSelectCommand::Setup(Reference<EditorSelectObject> selectObject_) {

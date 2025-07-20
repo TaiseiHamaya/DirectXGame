@@ -11,6 +11,8 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+#include <Engine/Runtime/Input/InputHandler.h>
+
 class Camera3D;
 class EditorObjectMoveCommand;
 class EditorSelectObject;
@@ -36,6 +38,8 @@ private:
 
 	ImGuizmo::MODE mode{ ImGuizmo::MODE::WORLD };
 	ImGuizmo::OPERATION operation{ ImGuizmo::OPERATION::TRANSLATE };
+
+	InputHandler<KeyID> gizmoKeyHandler;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

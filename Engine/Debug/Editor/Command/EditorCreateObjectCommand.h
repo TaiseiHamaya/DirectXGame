@@ -9,6 +9,7 @@
 #include "../RemoteObject/IRemoteObject.h"
 
 class EditorDeletedObjectPool;
+class EditorSceneView;
 
 class EditorCreateObjectCommand final : public IEditorCommand {
 public:

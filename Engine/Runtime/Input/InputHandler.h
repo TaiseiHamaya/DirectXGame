@@ -100,7 +100,7 @@ inline void InputHandler<T, InputFunction>::update() {
 	for (auto& [id, elem] : data) {
 		elem.flags <<= 1;
 		elem.flags.set(0, inputter(id));
-		if (elem.timer > 0 && elem.flags.count() == 1) {
+		if (elem.flags.count() == 1) {
 			elem.timer.set(0);
 		}
 		else {

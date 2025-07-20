@@ -2,6 +2,14 @@
 
 #include "RemoteSphereColliderInstance.h"
 
+#include "../../../Window/EditorSceneView.h"
+
+void RemoteSphereColliderInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	IRemoteInstance<SphereCollider, void*>::update_preview(world, parentAffine);
+	Affine primitiveAffine = Affine::FromScale(Vector3{ radius.cget(), radius.cget(), radius.cget() }) * Affine::FromTranslate(worldAffine.get_origin());
+	sceneView->write_primitive(world, "SphereCollider", primitiveAffine);
+}
+
 void RemoteSphereColliderInstance::draw_inspector() {
 	ImGui::Text("Type : SphereCollider");
 
@@ -27,22 +35,6 @@ nlohmann::json RemoteSphereColliderInstance::serialize() const {
 	}
 
 	return result;
-}
-
-void RemoteSphereColliderInstance::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
-	Affine affine = Affine::FromTransform3D(transform.cget());
-	if (parentAffine) {
-		affine *= *parentAffine;
-	}
-	affine = Affine::FromScale(Vector3{ radius.cget(), radius.cget(), radius.cget() }) * affine;
-
-	worldView->register_primitive("SphereCollider", affine);
-
-	for (const auto& child : children) {
-		if (child) {
-			child->set_editor_world_view(worldView, affine);
-		}
-	}
 }
 
 #endif // DEBUG_FEATURES_ENABLE

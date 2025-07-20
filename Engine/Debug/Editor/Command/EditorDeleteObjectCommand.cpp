@@ -11,10 +11,14 @@ EditorDeleteObjectCommand::EditorDeleteObjectCommand(Reference<IRemoteObject> ob
 
 void EditorDeleteObjectCommand::execute() {
 	deletedPool->delete_sequence(parent, object);
+	object->on_destroy();
 }
 
 void EditorDeleteObjectCommand::undo() {
-	parent->add_child(std::move(deletedPool->get_deleted_force(object)));
+	auto instance = deletedPool->get_deleted_force(object);
+	Reference<IRemoteObject> tmp = instance;
+	parent->add_child(std::move(instance));
+	tmp->on_spawn();
 }
 
 void EditorDeleteObjectCommand::Setup(Reference<EditorDeletedObjectPool> deletedPool_) {

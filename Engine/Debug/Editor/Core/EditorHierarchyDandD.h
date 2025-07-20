@@ -7,7 +7,7 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Template/SingletonInterface.h>
 
-#include "RemoteObject/IRemoteObject.h"
+#include "../RemoteObject/IRemoteObject.h"
 
 class EditorCommandReparent;
 

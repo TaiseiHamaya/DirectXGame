@@ -4,7 +4,6 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
-#include <utility>
 
 #include <Library/Utility/Template/SortedPair.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>

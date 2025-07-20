@@ -5,7 +5,7 @@
 #include "IRemoteObject.h"
 
 #include <memory>
-#include <string_view>
+#include <string>
 #include <vector>
 
 class WorldManager;
@@ -23,6 +23,10 @@ public:
 	__CLASS_NON_COPYABLE(RemoteWorldObject)
 
 public:
+	void setup() override;
+
+	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
+
 	void draw_inspector() override;
 
 	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
@@ -35,14 +39,25 @@ public:
 
 	nlohmann::json serialize() const override;
 
-	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> = nullptr) override;
+	Reference<const RemoteWorldObject> query_world() const override;
+
+	void on_spawn() override;
+
+	void on_destroy() override;
 
 	const std::string& world_name() const;
+
+	u32 get_id() const;
 
 private:
 	Reference<WorldManager> self;
 
 	std::vector<std::unique_ptr<IRemoteObject>> children;
+
+	u32 id;
+
+private:
+	inline static u32 nextUseId{ 0 };
 };
 
 #endif // DEBUG_FEATURES_ENABLE

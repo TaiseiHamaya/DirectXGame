@@ -3,6 +3,7 @@
 #include "EditorCreateObjectCommand.h"
 
 #include "../RemoteObject/EditorDeletedObjectPool.h"
+#include "../Window/EditorSceneView.h"
 
 EditorCreateObjectCommand::EditorCreateObjectCommand(Reference<IRemoteObject> parent_, std::unique_ptr<IRemoteObject> generatedObjectTemp_) {
 	parent = parent_;
@@ -12,15 +13,20 @@ EditorCreateObjectCommand::EditorCreateObjectCommand(Reference<IRemoteObject> pa
 
 void EditorCreateObjectCommand::execute() {
 	if (generatedObjectTemp) { // 初回
+		// SceneViewに登録
 		parent->add_child(std::move(generatedObjectTemp));
+		object->setup();
 	}
 	else { // undo
-		parent->add_child(deletedPool->get_deleted_force(object));
+		auto instance = deletedPool->get_deleted_force(object);
+		parent->add_child(std::move(instance));
+		object->on_spawn();
 	}
 }
 
 void EditorCreateObjectCommand::undo() {
 	deletedPool->delete_sequence(parent, object);
+	object->on_destroy();
 }
 
 void EditorCreateObjectCommand::Setup(Reference<EditorDeletedObjectPool> deletedPool_) {

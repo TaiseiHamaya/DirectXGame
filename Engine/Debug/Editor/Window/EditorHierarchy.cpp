@@ -24,8 +24,10 @@
 
 #include <Engine/Assets/Json/JsonAsset.h>
 
-void EditorHierarchy::setup(Reference<EditorSelectObject> select_) {
+void EditorHierarchy::setup(Reference<EditorSelectObject> select_, Reference<EditorSceneView> sceneView_) {
 	select = select_;
+	sceneView = sceneView_;
+	scene->setup();
 }
 
 void EditorHierarchy::finalize() {
@@ -34,13 +36,8 @@ void EditorHierarchy::finalize() {
 	scene.reset();
 }
 
-void EditorHierarchy::sync_scene_view(Reference<EditorSceneView> sceneView) {
-	if (!sceneView) {
-		return;
-	}
-	for (u32 i = 0; i < scene->world_size(); ++i) {
-		scene->sync_world_entry(i, sceneView);
-	}
+void EditorHierarchy::update_preview() {
+	scene->update_preview(nullptr, nullptr);
 }
 
 void EditorHierarchy::load(std::filesystem::path file) {
@@ -183,12 +180,10 @@ void EditorHierarchy::draw() {
 
 		if (ImGui::MenuItem("Delete")) {
 			if (select->get_item().object && select->get_item().object.ptr() != scene.get()) {
-				EditorCommandInvoker::Execute(
-					std::make_unique<EditorDeleteObjectCommand>(
-						select->get_item().object
-					)
-				);
-				select->set_item(nullptr);
+				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
+				EditorCommandInvoker::Execute(std::make_unique<EditorDeleteObjectCommand>(select->get_item().object));
+				EditorCommandInvoker::Execute(std::make_unique<EditorSelectCommand>(nullptr));
+				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
 			}
 		}
 

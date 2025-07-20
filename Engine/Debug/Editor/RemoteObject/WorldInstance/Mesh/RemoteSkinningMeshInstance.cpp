@@ -2,6 +2,7 @@
 
 #include "RemoteSkinningMeshInstance.h"
 
+#include "../../../Window/EditorSceneView.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonAsset.h"
@@ -14,6 +15,34 @@
 
 RemoteSkinningMeshInstance::RemoteSkinningMeshInstance() {
 	debugVisual = std::make_unique<StaticMeshInstance>();
+}
+
+void RemoteSkinningMeshInstance::setup() {
+	on_spawn();
+	debugVisual->reset_mesh(meshName);
+	if (sceneView) {
+		sceneView->register_mesh(query_world(), debugVisual);
+	}
+
+	IRemoteInstance<SkinningMeshInstance, StaticMeshInstance>::setup();
+}
+
+void RemoteSkinningMeshInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	IRemoteInstance<SkinningMeshInstance, StaticMeshInstance>::update_preview(world, parentAffine);
+
+	debugVisual->reset_mesh(meshName);
+	debugVisual->localAffine = worldAffine;
+	debugVisual->isDraw = isDraw.cget();
+
+	for (i32 i = 0; i < materials.size(); ++i) {
+		RemoteSkinningMeshInstance::Material& source = materials[i];
+		StaticMeshInstance::Material& write = debugVisual->materials[i];
+		write.texture = TextureLibrary::GetTexture(source.texture);
+		write.color = source.color;
+		write.uvTransform.copy(source.uvTransform);
+		write.lightingType = source.lightingType;
+		write.shininess = source.shininess;
+	};
 }
 
 void RemoteSkinningMeshInstance::draw_inspector() {
@@ -39,6 +68,11 @@ void RemoteSkinningMeshInstance::draw_inspector() {
 				std::swap(cache, meshName);
 				EditorValueChangeCommandHandler::End();
 				skeleton = SkeletonLibrary::GetSkeleton(meshName);
+
+				// Editor側のDrawExecutorに登録
+				if (sceneView) {
+					sceneView->create_mesh_instancing(query_world(), meshName);
+				}
 
 				default_material();
 
@@ -179,30 +213,14 @@ nlohmann::json RemoteSkinningMeshInstance::serialize() const {
 	return json;
 }
 
-void RemoteSkinningMeshInstance::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine) {
-	Affine affine = Affine::FromTransform3D(transform.cget());
-	if (parentAffine) {
-		affine *= *parentAffine;
-	}
-	worldView->register_mesh(debugVisual);
-	debugVisual->reset_mesh(meshName);
-	debugVisual->localAffine = affine;
-	debugVisual->isDraw = isDraw.cget();
+void RemoteSkinningMeshInstance::on_spawn() {
+	auto world = query_world();
+	auto result = sceneView->get_layer(world);
+	debugVisual->set_layer(result.value_or(-1));
+}
 
-	for (i32 i = 0; i < materials.size(); ++i) {
-		RemoteSkinningMeshInstance::Material& source = materials[i];
-		StaticMeshInstance::Material& write = debugVisual->materials[i];
-		write.texture = TextureLibrary::GetTexture(source.texture);
-		write.color = source.color;
-		write.uvTransform.copy(source.uvTransform);
-		write.lightingType = source.lightingType;
-		write.shininess = source.shininess;
-	};
-	for (const auto& child : children) {
-		if (child) {
-			child->set_editor_world_view(worldView, affine);
-		}
-	}
+void RemoteSkinningMeshInstance::on_destroy() {
+	debugVisual->set_layer(-1);
 }
 
 void RemoteSkinningMeshInstance::default_material() {

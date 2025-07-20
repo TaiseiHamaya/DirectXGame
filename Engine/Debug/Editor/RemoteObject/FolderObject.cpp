@@ -8,7 +8,19 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "../EditorHierarchyDandD.h"
+#include "../Core/EditorHierarchyDandD.h"
+
+void FolderObject::setup() {
+	for (auto& child : children) {
+		child->setup();
+	}
+}
+
+void FolderObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	for (auto& child : children) {
+		child->update_preview(world, parentAffine);
+	}
+}
 
 void FolderObject::draw_inspector() {
 	hierarchyName.show_gui();
@@ -84,10 +96,18 @@ nlohmann::json FolderObject::serialize() const {
 	return result;
 }
 
-void FolderObject::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> affine) {
+void FolderObject::on_spawn() {
 	for (auto& child : children) {
 		if (child) {
-			child->set_editor_world_view(worldView, affine);
+			child->on_spawn();
+		}
+	}
+}
+
+void FolderObject::on_destroy() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_destroy();
 		}
 	}
 }
