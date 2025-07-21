@@ -27,6 +27,25 @@ void EditorMain::Initialize() {
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 }
 
+void EditorMain::Finalize() {
+	EditorMain& instance = GetInstance();
+
+	nlohmann::json json;
+	json["LastLoadedScene"] = instance.hierarchy.current_scene_name();
+
+	std::filesystem::path filePath = "./Game/DebugData/Editor.json";
+	auto parentPath = filePath.parent_path();
+	if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
+		std::filesystem::create_directories(parentPath);
+	}
+
+	std::ofstream ofstream{ filePath, std::ios_base::out };
+	ofstream << std::setw(1) << std::setfill('\t') << json;
+	ofstream.close();
+
+	instance.sceneList.finalize();
+}
+
 void EditorMain::Setup() {
 	EditorMain& instance = GetInstance();
 
@@ -127,11 +146,6 @@ void EditorMain::Draw() {
 	}
 
 	EditorHierarchyDandD::ExecuteReparent();
-}
-
-void EditorMain::Finalize() {
-	EditorMain& instance = GetInstance();
-	instance.sceneList.finalize();
 }
 
 bool EditorMain::IsHoverEditorWindow() {
