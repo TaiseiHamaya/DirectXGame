@@ -504,6 +504,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiStyleSetter.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h" />
     <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h" />

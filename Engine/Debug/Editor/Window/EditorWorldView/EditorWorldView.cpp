@@ -70,7 +70,7 @@ void EditorWorldView::draw_lines() {
 std::tuple<bool, Vector2, Vector2> EditorWorldView::draw_editor(const TempTexture& texture) {
 	Vector2 resultPos;
 	Vector2 resultSize;
-	if (ImGui::BeginTabItem(std::format("{}##{}", (remoteWorld ? remoteWorld->world_name() : "UnknownWorld"s), (void*)this).c_str())) {
+	if (ImGui::BeginTabItem(std::format("{}##{}", (remoteWorld && !remoteWorld->world_name().empty() ? remoteWorld->world_name() : "UnknownWorldName"s), (void*)this).c_str())) {
 		isSelectTab = true;
 
 		// Imageの位置とサイズを計算

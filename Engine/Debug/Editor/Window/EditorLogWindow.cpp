@@ -63,12 +63,12 @@ void EditorLogWindow::draw() {
 	for (u8 i = 0; i < logStates.size(); ++i) {
 		auto& logState = logStates[i];
 		if (logState.isActive) {
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.2f, 0.2f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.5f, 0.5f, 0.05f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.10f, 0.60f, 0.12f, 1.00f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.21f, 0.22f, 0.23f, 0.40f });
 		}
 		else {
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.1f, 0.1f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.05f, 0.05f, 0.05f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.05f, 0.05f, 0.05f, 0.0f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.02f, 0.02f, 0.02f, 1.00f });
 		}
 		if (ImGui::Button(std::format("{} {}", logState.icon, logState.numLogs <= 999 ? std::to_string(logState.numLogs) : "999+"s).c_str(), ImVec2{ 65.0f, 25.0f })) {
 			logState.isActive = !logState.isActive;

@@ -1487,6 +1487,9 @@
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiStyleSetter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\__Template\main.cpp.template" />

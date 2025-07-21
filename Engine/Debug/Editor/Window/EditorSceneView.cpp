@@ -187,7 +187,7 @@ void EditorSceneView::set_imgui_command() {
 	// Gizmo用ヘッダー描画
 	gizmo->scene_header();
 	ImGui::Separator();
-	ImGui::BeginTabBar("WorldViewTabBar");
+	ImGui::BeginTabBar("WorldViewTabBar", ImGuiTabBarFlags_DrawSelectedOverline);
 
 	// Guizmoのために必要
 	drawList = ImGui::GetWindowDrawList();
