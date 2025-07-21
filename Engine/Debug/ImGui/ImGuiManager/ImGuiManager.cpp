@@ -12,6 +12,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
+#include "./ImGuiStyleSetter.h"
 
 #include <imgui.h>
 #include <imgui_impl_dx12.h>
@@ -56,8 +57,9 @@ void ImGuiManager::Initialize() {
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, glyphRangesJapanese);
 	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 14.5f, &config, IconsGlyphRanges);
-	ImGui::GetStyle().Colors[2] = ImVec4{ 0.1f,0.1f,0.1f,1 };
 	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
+
+	SetImGuiStyle();
 
 	ImGuizmo::Enable(true);
 }
