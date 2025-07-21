@@ -6,6 +6,7 @@
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 #include "Engine/Runtime/Input/InputHandler.h"
 
+class EditorSceneView;
 
 class EditorDebugCamera final : public Camera3D {
 public:
@@ -20,4 +21,10 @@ private:
 	std::unique_ptr<StaticMeshInstance> constraint;
 	r32 offset{ -5.0f };
 	InputHandler<MouseID> mouseInputHandler;
+
+private:
+	static inline Reference<EditorSceneView> sceneView{ nullptr };
+
+public:
+	static void Setup(Reference<EditorSceneView> sceneView_);
 };
