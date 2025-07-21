@@ -35,6 +35,8 @@ void EditorSceneView::initialize(bool isActive_) {
 	renderPath.initialize(
 		{ staticMeshNode,primitiveLineNode }
 	);
+
+	EditorDebugCamera::Setup(this);
 }
 
 void EditorSceneView::setup(Reference<EditorGizmo> gizmo_, Reference<const EditorHierarchy> hierarchy_) {

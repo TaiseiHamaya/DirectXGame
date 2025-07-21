@@ -19,12 +19,11 @@ class EditorMain final : public SingletonInterface<EditorMain> {
 
 public:
 	static void Initialize();
+	static void Finalize();
 	static void Setup();
 
 	static void DrawBase();
 	static void Draw();
-
-	static void Finalize();
 
 	static bool IsHoverEditorWindow();
 

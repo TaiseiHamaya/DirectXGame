@@ -3,6 +3,7 @@
 #include <Library/Math/VectorConverter.h>
 
 #include "Engine/Application/EngineSettings.h"
+#include "../EditorSceneView.h"
 
 void EditorDebugCamera::initialize() {
 	set_perspective_fov_info(
@@ -21,17 +22,14 @@ void EditorDebugCamera::initialize() {
 void EditorDebugCamera::update() {
 	mouseInputHandler.update();
 
-	// エディター範囲外チェック
-	if (false) {
-		return;
-	}
-
 	// マウスの移動量を取得
 	Vector2 mouseDelta = Input::MouseDelta();
 
 	// 注視距離設定
-	r32 wheel = static_cast<r32>(Input::WheelDelta());
-	offset = std::min(offset + wheel, 0.0f);
+	if (sceneView && sceneView->is_hovered_window()) {
+		r32 wheel = static_cast<r32>(Input::WheelDelta());
+		offset = std::min(offset + wheel, 0.0f);
+	}
 
 	// 右クリック(回転)
 	if (mouseInputHandler.press(MouseID::Right)) {
@@ -66,4 +64,8 @@ void EditorDebugCamera::update() {
 void EditorDebugCamera::update_affine() {
 	constraint->update_affine();
 	Camera3D::update_affine();
+}
+
+void EditorDebugCamera::Setup(Reference<EditorSceneView> sceneView_) {
+	sceneView = sceneView_;
 }

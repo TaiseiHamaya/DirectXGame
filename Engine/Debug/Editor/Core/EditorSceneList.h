@@ -16,6 +16,9 @@ public:
 	void add_scene(const std::string& sceneName);
 
 private:
+	void export_scene_list();
+
+private:
 	std::unordered_set<std::string> sceneList;
 };
 
