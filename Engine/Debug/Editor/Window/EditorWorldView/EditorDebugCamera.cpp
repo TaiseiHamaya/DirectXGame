@@ -1,9 +1,11 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorDebugCamera.h"
 
 #include <Library/Math/VectorConverter.h>
 
-#include "Engine/Application/EngineSettings.h"
 #include "../EditorSceneView.h"
+#include "Engine/Application/EngineSettings.h"
 
 void EditorDebugCamera::initialize() {
 	set_perspective_fov_info(
@@ -69,3 +71,5 @@ void EditorDebugCamera::update_affine() {
 void EditorDebugCamera::Setup(Reference<EditorSceneView> sceneView_) {
 	sceneView = sceneView_;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

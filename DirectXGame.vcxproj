@@ -167,7 +167,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>game.lib;Asio.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(SolutionDir)..\generated\outputs\Asio\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(SolutionDir)..\generated\outputs\Asio\$(Platform)\Release\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PostBuildEvent>
