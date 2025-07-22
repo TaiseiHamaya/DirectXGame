@@ -113,7 +113,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NOMINMAX;ASIO_STANDALONE;_WIN32_WINNT=0x0A00;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\asio-1.34.2\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\asio-1.34.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
