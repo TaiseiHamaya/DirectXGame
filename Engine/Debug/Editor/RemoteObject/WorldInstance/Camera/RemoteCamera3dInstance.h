@@ -17,11 +17,11 @@ public:
 	__CLASS_DEFAULT_ALL(RemoteCamera3dInstance)
 
 public:
+	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
+
 	void draw_inspector() override;
 
 	nlohmann::json serialize() const override;
-
-	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> parentAffine = nullptr) override;
 
 private:
 	EditorValueField<r32> fovY{ "FOV Y", 0.45f };

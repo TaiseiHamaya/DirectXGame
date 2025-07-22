@@ -74,10 +74,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_WINDOWS;NOMINMAX;DEBUG_FEATURES_ENABLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;NOMINMAX;ASIO_STANDALONE;_WIN32_WINNT=0x0A00;DEBUG_FEATURES_ENABLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\asio-1.34.2\include;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -89,8 +89,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>game.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>game.lib;Asio.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(SolutionDir)..\generated\outputs\Asio\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PostBuildEvent>
@@ -111,9 +111,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_WINDOWS;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;NOMINMAX;ASIO_STANDALONE;_WIN32_WINNT=0x0A00;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\asio-1.34.2\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -128,8 +128,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>game.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>game.lib;Asio.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(SolutionDir)..\generated\outputs\Asio\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PostBuildEvent>
@@ -148,9 +148,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_WINDOWS;NOMINMAX;DEBUG_FEATURES_ENABLE;_DEVELOP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;NOMINMAX;ASIO_STANDALONE;_WIN32_WINNT=0x0A00;DEBUG_FEATURES_ENABLE;_DEVELOP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Library\Externals\nlohmann;$(ProjectDir)Library\Externals\DirectXTex;$(ProjectDir)Library\Externals\assimp\include;$(ProjectDir)Library\Externals\asio-1.34.2\include;$(ProjectDir)Library\Externals\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -166,8 +166,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>game.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>game.lib;Asio.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(SolutionDir)..\generated\outputs\Asio\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PostBuildEvent>
@@ -184,19 +184,19 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\EditorHierarchyDandD.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorHierarchyDandD.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\EditorSceneList.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorSceneList.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\EditorSelectObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\EditorGizmo.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorSelectObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorGizmo.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorHierarchy.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorInspector.cpp" />
@@ -479,20 +479,20 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandReparent.h" />
-    <ClInclude Include="Engine\Debug\Editor\EditorHierarchyDandD.h" />
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorHierarchyDandD.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorLogWindow.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandScope.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandResizeContainer.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorValueChangeCommand.h" />
-    <ClInclude Include="Engine\Debug\Editor\EditorSceneList.h" />
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorSceneList.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorSelectCommand.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandInvoker.h" />
-    <ClInclude Include="Engine\Debug\Editor\EditorSelectObject.h" />
-    <ClInclude Include="Engine\Debug\Editor\EditorGizmo.h" />
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorSelectObject.h" />
+    <ClInclude Include="Engine\Debug\Editor\Core\EditorGizmo.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorHierarchy.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorInspector.h" />
@@ -504,6 +504,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.h" />
+    <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiStyleSetter.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h" />
     <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h" />

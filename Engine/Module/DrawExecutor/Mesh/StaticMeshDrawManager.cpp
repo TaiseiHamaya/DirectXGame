@@ -5,48 +5,27 @@
 #include <execution>
 
 void StaticMeshDrawManager::make_instancing(u32 layer, const std::string& meshName_, u32 maxInstance) {
-	if (layer >= drawData.size()) {
+	if (layer >= maxLayer) {
 		return;
 	}
 	if (!PolygonMeshLibrary::IsRegistered(meshName_)) {
 		return;
 	}
 
-	Data& data = drawData[layer];
-	data.executors.try_emplace(
-		meshName_,
+	std::pair<u32, std::string> key = std::make_pair(layer, meshName_);
+	auto [emplaced, result] = executors.try_emplace(
+		key,
 		PolygonMeshLibrary::GetPolygonMesh(meshName_), maxInstance
 	);
+
+	if (result) {
+		layerExecutors[layer].emplace_back(emplaced->second);
+	}
 }
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <Engine/Module/World/Camera/Camera3D.h>
 #include <Engine/Debug/DebugValues/DebugValues.h>
-
-void StaticMeshDrawManager::register_debug_instance(u32 layer, Reference<const Camera3D> camera, bool isShowGrid) {
-	if (layer >= drawData.size()) {
-		return;
-	}
-
-	Data& data = drawData[layer];
-
-	data.executors.try_emplace(
-		"CameraAxis.obj",
-		PolygonMeshLibrary::GetPolygonMesh("CameraAxis.obj"), 1
-	);
-	data.executors.try_emplace(
-		"Grid.obj",
-		PolygonMeshLibrary::GetPolygonMesh("Grid.obj"), 1
-	);
-
-	if (camera) {
-		data.instances.emplace(camera->camera_axis());
-	}
-
-	if (isShowGrid) {
-		data.instances.emplace(DebugValues::GetGridInstance());
-	}
-}
 
 #include <imgui.h>
 void StaticMeshDrawManager::debug_gui() {
@@ -62,17 +41,17 @@ void StaticMeshDrawManager::debug_gui() {
 		make_instancing(layer, select, maxInstance);
 	}
 
-	for (u32 i = 0; auto & data : drawData) {
-		if (ImGui::TreeNode(std::format("Layer{}", i).c_str())) {
-			ImGui::Text(std::format("RegisteredInstance : {}", data.instances.size()).c_str());
-			ImGui::Indent();
-			for (const auto& [name, executor] : data.executors) {
-				ImGui::Text(std::format("{} : {}/{}", name, executor.count(), executor.max_instance()).c_str());
-			}
-			ImGui::Unindent();
-			ImGui::TreePop();
-		}
-		++i;
-	}
+	//for (u32 i = 0; auto & data : layerExecutors) {
+	//	if (ImGui::TreeNode(std::format("Layer{}", i).c_str())) {
+	//		ImGui::Text(std::format("RegisteredInstance : {}", instances.size()).c_str());
+	//		ImGui::Indent();
+	//		for (const auto& [name, executor] : data.executors) {
+	//			ImGui::Text(std::format("{} : {}/{}", name, executor.count(), executor.max_instance()).c_str());
+	//		}
+	//		ImGui::Unindent();
+	//		ImGui::TreePop();
+	//	}
+	//	++i;
+	//}
 }
 #endif // _DEBUG

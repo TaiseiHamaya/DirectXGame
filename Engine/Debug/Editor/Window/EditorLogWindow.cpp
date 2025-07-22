@@ -3,23 +3,24 @@
 #include "EditorLogWindow.h"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 
 #include "Engine/Application/Output.h"
 
 using namespace std::string_literals;
 
 void EditorLogWindow::Allocate() {
-	GetInstance();
-}
-
-void EditorLogWindow::Initialize(bool isActive_) {
 	auto& instance = GetInstance();
-	instance.isActive = isActive_;
 	//instance.logStates[static_cast<u8>(LogType::Editor)] = { false, 0, "\ue3c9", { 0.2f, 0.2f, 0.2f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Information)] = { true, 0, "\ue88e", { 0.5f, 0.5f, 0.5f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Warning)] = { true, 0, "\ue002", { 0.8f, 0.8f, 0.1f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Error)] = { true, 0, "\ue99a",{ 0.8f, 0.1f, 0.1f, 1.0f } };
 	instance.logStates[static_cast<u8>(LogType::Critical)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
+}
+
+void EditorLogWindow::Initialize(bool isActive_) {
+	auto& instance = GetInstance();
+	instance.isActive = isActive_;
 }
 
 void EditorLogWindow::Draw() {
@@ -62,12 +63,12 @@ void EditorLogWindow::draw() {
 	for (u8 i = 0; i < logStates.size(); ++i) {
 		auto& logState = logStates[i];
 		if (logState.isActive) {
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.2f, 0.2f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.5f, 0.5f, 0.05f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.10f, 0.60f, 0.12f, 1.00f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.21f, 0.22f, 0.23f, 0.40f });
 		}
 		else {
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.1f, 0.1f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.05f, 0.05f, 0.05f, 1.0f });
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.05f, 0.05f, 0.05f, 0.0f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.02f, 0.02f, 0.02f, 1.00f });
 		}
 		if (ImGui::Button(std::format("{} {}", logState.icon, logState.numLogs <= 999 ? std::to_string(logState.numLogs) : "999+"s).c_str(), ImVec2{ 65.0f, 25.0f })) {
 			logState.isActive = !logState.isActive;
@@ -96,17 +97,16 @@ void EditorLogWindow::draw() {
 	}
 
 	// ---------- スクロール処理 ----------
-	if (frameCounter < 2) {
-		++frameCounter;
-		if (frameCounter == 2) {
-			ImGui::SetScrollY(ImGui::GetScrollMaxY());
-			++frameCounter;
-		}
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	ImGuiID active_id = ImGui::GetActiveID();
+	bool any_scrollbar_active = active_id && (active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_X) || active_id == ImGui::GetWindowScrollbarID(window, ImGuiAxis_Y));
+	if (ImGui::GetIO().MouseWheel > 0) {
+		isBottomScroll = false;
 	}
-	if (ImGui::GetScrollMaxY() - ImGui::GetScrollY() <= 18.0f) {
+	else if (ImGui::GetScrollMaxY() == ImGui::GetScrollY()) {
 		isBottomScroll = true;
 	}
-	else {
+	else if (any_scrollbar_active) {
 		isBottomScroll = false;
 	}
 	if (isBottomScroll) {
@@ -122,6 +122,11 @@ void EditorLogWindow::AppendLogEntry(LogType type, const std::string& message) {
 	auto& instance = GetInstance();
 	++instance.logStates[static_cast<u8>(type)].numLogs;
 	instance.logs.emplace_back(type, message);
+	if (instance.logs.size() >= MAX_LOG_SIZE) {
+		auto& tmp = instance.logs.front();
+		--instance.logStates[static_cast<u8>(tmp.type)].numLogs;
+		instance.logs.pop_front();
+	}
 }
 
 #endif // DEBUG_FEATURES_ENABLE

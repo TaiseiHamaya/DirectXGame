@@ -24,7 +24,6 @@ public:
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
-	void register_debug_instance(u32 layer, Reference<const Camera3D> camera, bool isShowGrid);
 	void debug_gui() override;
 #endif // _DEBUG
 };

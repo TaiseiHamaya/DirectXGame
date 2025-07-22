@@ -21,6 +21,10 @@ public:
 	__CLASS_DEFAULT_ALL(RemoteSceneObject)
 
 public:
+	void setup() override;
+
+	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
+
 	void draw_inspector() override;
 
 	void draw_hierarchy(Reference<const EditorSelectObject> select) override;
@@ -33,9 +37,11 @@ public:
 
 	nlohmann::json serialize() const override;
 
-	void set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine> = nullptr) override;
+	Reference<const RemoteWorldObject> query_world() const override;
 
-	void sync_world_entry(u64 index, Reference<EditorSceneView> sceneView);
+	void on_spawn() override;
+
+	void on_destroy() override;
 
 public:
 	size_t world_size() const;

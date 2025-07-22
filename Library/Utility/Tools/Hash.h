@@ -25,10 +25,44 @@ constexpr u64 hash(u64 seed, u64 value) noexcept {
 	return seed;
 }
 
+/// <summary>
+/// 文字列用ハッシュ関数
+/// </summary>
+/// <param name="str"></param>
+/// <returns></returns>
+constexpr u64 string_hash(std::string_view str) noexcept {
+	constexpr u64 u8BitSize = sizeof(u8) * 8;
+
+	std::vector<u64> values;
+	u64 value{ 0 };
+	for (i32 i = 0; auto& c : str) {
+		value |= static_cast<u64>(c) << (i * u8BitSize);
+		++i;
+		if (sizeof(u64) * 8 / u8BitSize == i) {
+			values.emplace_back(value);
+			value = 0;
+		}
+	}
+	if (value != 0) {
+		values.emplace_back(value);
+	}
+
+	u64 result = 0;
+	for (auto& elem : values) {
+		result = hash(result, elem);
+	}
+
+	return result;
+}
+
 template<typename T>
 constexpr u64 _compression_64bit(const T& value) {
 	u64 result;
-	if constexpr (sizeof(T) == sizeof(u64)) {
+	if constexpr (std::is_convertible_v<T, std::string_view>) {
+		// 文字列の場合
+		result = eps::string_hash(value);
+	}
+	else if constexpr (sizeof(T) == sizeof(u64)) {
 		// バイナリデータを強制的に64bitに変換
 		result = std::bit_cast<u64, T>(value);
 	}
@@ -69,29 +103,15 @@ constexpr u64 hash_vector(std::initializer_list<T>&& initializerList) {
 	return result;
 }
 
-constexpr u64 string_hash(std::string_view str) noexcept {
-	constexpr u64 u8BitSize = sizeof(u8) * 8;
-
-	std::vector<u64> values;
-	u64 value{ 0 };
-	for (i32 i = 0; auto& c : str) {
-		value |= static_cast<u64>(c) << (i * u8BitSize);
-		++i;
-		if (sizeof(u64) * 8 / u8BitSize == i) {
-			values.emplace_back(value);
-			value = 0;
-		}
-	}
-	if (value != 0) {
-		values.emplace_back(value);
-	}
-
-	u64 result = 0;
-	for (auto& elem : values) {
-		result = hash(result, elem);
-	}
-
-	return result;
 }
 
-}
+// Pair用Hash
+template<class T, class S>
+struct std::hash<std::pair<T, S>> {
+	size_t operator()(const std::pair<T, S>& value) const noexcept {
+		return eps::hash(
+			eps::_compression_64bit(value.first),
+			eps::_compression_64bit(value.second)
+		);
+	}
+};

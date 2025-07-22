@@ -5,8 +5,8 @@
 #include "IEditorWindow.h"
 
 #include <array>
+#include <list>
 #include <string>
-#include <vector>
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
@@ -26,7 +26,7 @@ private:
 		bool isActive{ true };
 		u64 numLogs{ 0 };
 		string_literal icon;
-		std::array<r32,4> color;
+		std::array<r32, 4> color;
 	};
 
 public:
@@ -40,11 +40,13 @@ public:
 
 	static void AppendLogEntry(LogType type, const std::string& message);
 
-public:
+private:
 	std::array<LogState, 4> logStates;
 	bool isBottomScroll{ true };
-	u8 frameCounter{ 0 };
-	std::vector<LogBody> logs;
+	std::list<LogBody> logs;
+
+private:
+	static constexpr u64 MAX_LOG_SIZE = 4089;
 };
 
 

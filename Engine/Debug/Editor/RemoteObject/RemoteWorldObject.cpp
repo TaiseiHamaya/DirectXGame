@@ -8,11 +8,32 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "../EditorHierarchyDandD.h"
+#include "../Core/EditorHierarchyDandD.h"
 #include "../Window/EditorWorldView/EditorWorldView.h"
+#include "../Window/EditorSceneView.h"
 
 RemoteWorldObject::RemoteWorldObject() = default;
 RemoteWorldObject::~RemoteWorldObject() = default;
+
+void RemoteWorldObject::setup() {
+	id = nextUseId;
+	++nextUseId;
+	sceneView->register_world(this);
+	
+	for(auto& child : children) {
+		if (child) {
+			child->setup();
+		}
+	}
+}
+
+void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	for(auto& child : children) {
+		if (child) {
+			child->update_preview(this, nullptr);
+		}
+	}
+}
 
 void RemoteWorldObject::draw_inspector() {
 	hierarchyName.show_gui();
@@ -92,20 +113,32 @@ nlohmann::json RemoteWorldObject::serialize() const {
 	return result;
 }
 
-void RemoteWorldObject::set_editor_world_view(Reference<EditorWorldView> worldView, Reference<const Affine>) {
-	worldView->setup(this);
-	if (!worldView->is_select_tab()) {
-		return;
-	}
-	for (auto& child : children) {
+void RemoteWorldObject::on_spawn() {
+	for(auto& child : children) {
 		if (child) {
-			child->set_editor_world_view(worldView);
+			child->on_spawn();
 		}
 	}
 }
 
+void RemoteWorldObject::on_destroy() {
+	for (auto& child : children) {
+		if (child) {
+			child->on_destroy();
+		}
+	}
+}
+
+Reference<const RemoteWorldObject> RemoteWorldObject::query_world() const {
+	return this;
+}
+
 const std::string& RemoteWorldObject::world_name() const {
 	return hierarchyName.cget();
+}
+
+u32 RemoteWorldObject::get_id() const {
+	return id;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

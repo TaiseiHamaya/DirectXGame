@@ -17,10 +17,11 @@ class EditorSceneView;
 
 class EditorHierarchy : public IEditorWindow {
 public:
-	void setup(Reference<EditorSelectObject> select_);
+	void setup(Reference<EditorSelectObject> select_, Reference<EditorSceneView> sceneView);
+
 	void finalize();
 
-	void sync_scene_view(Reference<EditorSceneView> sceneView);
+	void update_preview();
 
 	void load(std::filesystem::path file);
 	nlohmann::json save() const;
@@ -38,6 +39,7 @@ private:
 	std::string menuString;
 
 	Reference<EditorSelectObject> select{ nullptr };
+	Reference<EditorSceneView> sceneView{ nullptr };
 
 	bool savedTrigger;
 };

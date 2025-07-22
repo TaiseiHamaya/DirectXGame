@@ -6,13 +6,13 @@
 
 #include <imgui.h>
 
+#include "./Core/EditorHierarchyDandD.h"
 #include "Command/EditorCommandInvoker.h"
 #include "Command/EditorCreateObjectCommand.h"
 #include "Command/EditorDeleteObjectCommand.h"
 #include "Command/EditorSelectCommand.h"
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
-#include "EditorHierarchyDandD.h"
 
 #include "./Window/EditorLogWindow.h"
 
@@ -27,31 +27,62 @@ void EditorMain::Initialize() {
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 }
 
+void EditorMain::Finalize() {
+	EditorMain& instance = GetInstance();
+
+	nlohmann::json json;
+	json["LastLoadedScene"] = instance.hierarchy.current_scene_name();
+
+	std::filesystem::path filePath = "./Game/DebugData/Editor.json";
+	auto parentPath = filePath.parent_path();
+	if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
+		std::filesystem::create_directories(parentPath);
+	}
+
+	std::ofstream ofstream{ filePath, std::ios_base::out };
+	ofstream << std::setw(1) << std::setfill('\t') << json;
+	ofstream.close();
+
+	instance.sceneList.finalize();
+}
+
 void EditorMain::Setup() {
 	EditorMain& instance = GetInstance();
-	JsonAsset json;
-	json.load("./Game/DebugData/Editor.json");
-	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
-	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
-	instance.hierarchy.setup(instance.selectObject);
-	instance.inspector.setup(instance.selectObject);
-	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 
 	EditorCreateObjectCommand::Setup(instance.deletedPool);
 	EditorDeleteObjectCommand::Setup(instance.deletedPool);
 	EditorSelectCommand::Setup(instance.selectObject);
+	IRemoteObject::Setup(instance.sceneView);
+	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
+	instance.inspector.setup(instance.selectObject);
+
+	JsonAsset json;
+	json.load("./Game/DebugData/Editor.json");
+	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
+	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
+	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 }
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
 
+	if (instance.switchSceneName.has_value()) {
+		// シーンビューを未設定に設定
+		instance.sceneView.reset_force();
+		// シーンのロード
+		instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", instance.switchSceneName.value()));
+		instance.hierarchy.setup(instance.selectObject, instance.sceneView);
+		// 選択オブジェクトのリセット
+		instance.selectObject.set_item(nullptr);
+		// コマンドのリセット
+		EditorCommandInvoker::ResetHistoryForce();
+	}
+	instance.switchSceneName = std::nullopt;
+
 	// HierarchyとSceneViewの同期
 	instance.gizmo.begin_frame(instance.sceneView.view_origin(), instance.sceneView.view_size());
-	auto worldView = instance.sceneView.get_current_world_view();
-	if (worldView) {
-		worldView->update();
-	}
-	instance.hierarchy.sync_scene_view(instance.sceneView);
+	instance.sceneView.update();
+	instance.hierarchy.update_preview();
 	instance.sceneView.draw_scene();
 
 	instance.input.update();
@@ -117,11 +148,6 @@ void EditorMain::Draw() {
 	EditorHierarchyDandD::ExecuteReparent();
 }
 
-void EditorMain::Finalize() {
-	EditorMain& instance = GetInstance();
-	instance.sceneList.finalize();
-}
-
 bool EditorMain::IsHoverEditorWindow() {
 	EditorMain& instance = GetInstance();
 	return instance.sceneView.is_hovered_window();
@@ -143,8 +169,7 @@ void EditorMain::set_imgui_command() {
 			if (ImGui::BeginMenu("Scene")) {
 				std::string currentSceneName = hierarchy.current_scene_name();
 				if (sceneList.scene_list_gui(currentSceneName)) {
-					hierarchy.load(std::format("./Game/Core/Scene/{}.json", currentSceneName));
-					selectObject.set_item(nullptr);
+					switchSceneName = currentSceneName;;
 				}
 				ImGui::EndMenu();
 			}
