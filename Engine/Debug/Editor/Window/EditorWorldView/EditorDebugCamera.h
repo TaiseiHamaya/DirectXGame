@@ -1,17 +1,15 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "Engine/Module/World/Camera/Camera3D.h"
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 #include "Engine/Runtime/Input/InputHandler.h"
 
 class EditorSceneView;
 
 class EditorDebugCamera final : public Camera3D {
-public:
-
-
 public:
 	void initialize() override;
 	void update();
@@ -28,3 +26,5 @@ private:
 public:
 	static void Setup(Reference<EditorSceneView> sceneView_);
 };
+
+#endif // DEBUG_FEATURES_ENABLE
