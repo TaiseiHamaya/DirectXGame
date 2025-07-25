@@ -38,56 +38,65 @@ void ProjectSettings::Initialize() {
 		nlohmann::json& jsonWindowStyle = json["WindowStyle"];
 		instance.windowStyle = 0;
 		bool isFullscreen = false;
-		if (jsonWindowStyle.contains("Fullscreen")) {
-			if (jsonWindowStyle.at("Fullscreen").get<bool>()) {
-				instance.windowStyle = WS_POPUP;
-				isFullscreen = true;
-			}
-			else {
-				instance.windowStyle = WS_OVERLAPPEDWINDOW;
-			}
+		// フルスクリーン
+		if (jsonWindowStyle.value("Fullscreen", false)) {
+			instance.windowStyle = WS_POPUP;
+			isFullscreen = true;
 		}
 		else {
 			instance.windowStyle = DEFAULT_WINDOW_STYLE;
 		}
 		if (!isFullscreen) {
-			if (jsonWindowStyle.contains("MaximizeBox")) {
-				if (jsonWindowStyle.at("MaximizeBox").get<bool>()) {
-					instance.windowStyle |= WS_MAXIMIZEBOX;
-				}
-				else {
-					instance.windowStyle &= ~WS_MAXIMIZEBOX;
-				}
+			// 最大化ボタン
+			if (jsonWindowStyle.value("MaximizeBox", false)) {
+				instance.windowStyle |= WS_MAXIMIZEBOX;
+
 			}
-			if (jsonWindowStyle.contains("MinimizeBox")) {
-				if (jsonWindowStyle.at("MinimizeBox").get<bool>()) {
-					instance.windowStyle |= WS_MINIMIZEBOX;
-				}
-				else {
-					instance.windowStyle &= ~WS_MINIMIZEBOX;
-				}
+			else {
+				instance.windowStyle &= ~WS_MAXIMIZEBOX;
 			}
-			if (jsonWindowStyle.contains("Resizable")) {
-				if (jsonWindowStyle.at("Resizable").get<bool>()) {
-					instance.windowStyle |= WS_THICKFRAME;
-				}
-				else {
-					instance.windowStyle &= ~WS_THICKFRAME;
-				}
+
+			// 最小化ボタン
+			if (jsonWindowStyle.value("MinimizeBox", true)) {
+				instance.windowStyle |= WS_MINIMIZEBOX;
+			}
+			else {
+				instance.windowStyle &= ~WS_MINIMIZEBOX;
+			}
+
+			// サイズ変更可能
+			if (jsonWindowStyle.value("Resizable", false)) {
+				instance.windowStyle |= WS_THICKFRAME;
+			}
+			else {
+				instance.windowStyle &= ~WS_THICKFRAME;
+			}
+
+			// 最大化状態で起動
+			if (jsonWindowStyle.value("MaximizeDefault", false)) {
+				instance.windowStyle |= WS_MAXIMIZE;
+			}
+			else {
+				instance.windowStyle &= ~WS_MAXIMIZE;
 			}
 		}
 	}
+	
+	// DirectX設定
 	if (json.contains("Graphics")) {
 		nlohmann::json& graphics = json["Graphics"];
+		// バッファリング数
 		if (graphics.contains("NumBuffering")) {
 			instance.graphicsSettings.numBuffering = graphics["NumBuffering"].get<u32>();
 		}
+		// シェーダーバージョン
 		if (graphics.contains("ShaderVersion")) {
 			std::string ver = graphics["ShaderVersion"].get<std::string>();
 			instance.graphicsSettings.shaderVersion = {
 				ver[0] - '0',ver[2] - '0'
 			};
 		}
+		// DescriptorHeapの数
 		if (graphics.contains("SrvHeapSize")) {
 			instance.graphicsSettings.srvHeapSize = graphics["SrvHeapSize"].get<u32>();
 		}
@@ -98,7 +107,8 @@ void ProjectSettings::Initialize() {
 			instance.graphicsSettings.dsvHeapSize = graphics["DsvHeapSize"].get<u32>();
 		}
 	}
-
+	
+	// デフォルトのウィンドウサイズ
 	if (json.contains("WindowSize")) {
 		nlohmann::json& windowSize = json["WindowSize"];
 		if (windowSize.contains("Width")) {
@@ -109,6 +119,7 @@ void ProjectSettings::Initialize() {
 		}
 	}
 
+	// WorldClockを修正するかどうか
 	if (json.contains("IsFixWorldClock")) {
 		EngineSettings::IsFixDeltaTime = json["IsFixWorldClock"];
 	}

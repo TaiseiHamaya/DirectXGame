@@ -68,8 +68,9 @@ void DxSwapChain::create_swapchain() {
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
 	swapChainDesc.BufferCount = RenderingSystemValues::NUM_BUFFERING; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
+	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 #ifdef DEBUG_FEATURES_ENABLE
-	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
+	swapChainDesc.Flags |= DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
 #endif // _DEBUG
 
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成
