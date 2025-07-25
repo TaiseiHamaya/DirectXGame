@@ -2,7 +2,7 @@
 
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
-#include <array>
+#include <vector>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"

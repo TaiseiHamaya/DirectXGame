@@ -3,15 +3,9 @@
 #include <filesystem>
 #include <format>
 
-#include <Library/Math/Vector2.h>
 #include <Library/Utility/Tools/ChronoUtility.h>
 
 namespace EngineSettings {
-// WindowSize
-static constexpr Vector2 CLIENT_SIZE{ 1280, 720 };
-static constexpr u32 CLIENT_WIDTH{ static_cast<u32>(CLIENT_SIZE.x) };
-static constexpr u32 CLIENT_HEIGHT{ static_cast<u32>(CLIENT_SIZE.y) };
-
 // ErrorOBJ/PNG VBVIBV/gpuHandle
 
 // UseRenderingEngine
