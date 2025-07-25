@@ -4,7 +4,7 @@
 
 #include "./IResourceView/DepthStencilView.h"
 #include "./IResourceView/ShaderResourceView.h"
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 class DepthStencilTexture final : protected ITextureResource {
 public:
@@ -14,7 +14,7 @@ public:
 	__CLASS_NON_COPYABLE(DepthStencilTexture)
 
 public:
-	void initialize(DXGI_FORMAT format, u32 width_ = EngineSettings::CLIENT_WIDTH, u32 height_ = EngineSettings::CLIENT_HEIGHT);
+	void initialize(DXGI_FORMAT format, u32 width_ = ProjectSettings::ClientWidth(), u32 height_ = ProjectSettings::ClientHeight());
 	void start_write();
 	void start_read();
 

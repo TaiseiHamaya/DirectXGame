@@ -11,8 +11,8 @@
 #include "Command/EditorCreateObjectCommand.h"
 #include "Command/EditorDeleteObjectCommand.h"
 #include "Command/EditorSelectCommand.h"
-#include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 #include "./Window/EditorLogWindow.h"
 
@@ -188,14 +188,14 @@ void EditorMain::set_imgui_command() {
 		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
 
 	ImGui::SetNextWindowPos({ 0, 0 });
-	ImGui::SetNextWindowSize({ EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y });
+	ImGui::SetNextWindowSize({ ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y });
 
 	ImGui::Begin("EditorMain", nullptr, flags);
 
 	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
 	ImGui::SetCursorScreenPos({ 0, 19 });
-	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::DockSpace(dockSpaceId, ImVec2(ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
 }

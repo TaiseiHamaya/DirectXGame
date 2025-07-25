@@ -6,7 +6,7 @@
 
 #include "./IResourceView/RenderTargetView.h"
 #include "./IResourceView/ShaderResourceView.h"
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 class RenderTexture final : public ITextureResource {
 public:
@@ -16,7 +16,7 @@ public:
 	__CLASS_NON_COPYABLE(RenderTexture)
 
 public:
-	void initialize(DXGI_FORMAT format, u32 width_ = EngineSettings::CLIENT_WIDTH, u32 height_ = EngineSettings::CLIENT_HEIGHT);
+	void initialize(DXGI_FORMAT format, u32 width_ = ProjectSettings::ClientWidth(), u32 height_ = ProjectSettings::ClientHeight());
 	void start_write();
 	void start_read();
 

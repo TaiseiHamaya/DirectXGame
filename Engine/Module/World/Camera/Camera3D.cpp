@@ -5,7 +5,7 @@
 #include <Library/Math/VectorConverter.h>
 
 #include "../WorldManager.h"
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -17,7 +17,7 @@
 void Camera3D::initialize() {
 	set_perspective_fov_info(
 		0.45f,
-		EngineSettings::CLIENT_SIZE.x / EngineSettings::CLIENT_SIZE.y,
+		(float)ProjectSettings::ClientWidth() / ProjectSettings::ClientHeight(),
 		0.1f, 1000
 	);
 

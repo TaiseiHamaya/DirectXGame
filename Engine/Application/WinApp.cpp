@@ -19,9 +19,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
-#include "Engine/Runtime/ProjectManager/ProjectManager.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
-#include "EngineSettings.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/Editor/EditorMain.h"
@@ -98,7 +97,7 @@ void WinApp::Initialize() {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// ---------- Projectのロード ----------
-	ProjectManager::Initialize();
+	ProjectSettings::Initialize();
 
 	// ---------- WindowsApplicationの起動 ----------
 	// アプリケーションの初期化
@@ -286,7 +285,7 @@ void WinApp::ProcessMessage() {
 }
 
 void WinApp::initialize_application() {
-	std::wstring windowTitleW = ConvertString(ProjectManager::GetProjectName());
+	std::wstring windowTitleW = ConvertString(ProjectSettings::GetProjectName());
 
 	// ウィンドウの設定
 	WNDCLASS windowClass{};
@@ -300,15 +299,15 @@ void WinApp::initialize_application() {
 
 	// ウィンドウサイズ指定用に構造体にする
 	RECT wrc = { 0,0,
-		EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT };
+		static_cast<LONG>(ProjectSettings::ClientWidth()), static_cast<LONG>(ProjectSettings::ClientHeight()) };
 	// 実際にwrcを変更
-	AdjustWindowRect(&wrc, ProjectManager::WindowConfig(), false);
+	AdjustWindowRect(&wrc, ProjectSettings::WindowStyle(), false);
 
 	// ウィンドウの生成
 	hWnd = CreateWindowW(
 		windowClass.lpszClassName,
 		windowTitleW.data(),
-		ProjectManager::WindowConfig(),
+		ProjectSettings::WindowStyle(),
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		wrc.right - wrc.left,

@@ -1,7 +1,7 @@
 #include "TempTexture.h"
 
 #include "Engine/Application/Output.h"
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 TempTexture::~TempTexture() {
@@ -9,8 +9,8 @@ TempTexture::~TempTexture() {
 }
 
 void TempTexture::initialize() {
-	width = EngineSettings::CLIENT_WIDTH;
-	height = EngineSettings::CLIENT_HEIGHT;
+	width = ProjectSettings::ClientWidth();
+	height = ProjectSettings::ClientHeight();
 	create_resource();
 
 	srv.create(this, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
