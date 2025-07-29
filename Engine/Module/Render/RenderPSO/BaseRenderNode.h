@@ -3,9 +3,6 @@
 #include <memory>
 
 #include <Library/Utility/Template/bitflag.h>
-#include <Library/Utility/Template/Reference.h>
-
-#include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 class DepthStencilTexture;
 class DxPipelineState;
@@ -46,13 +43,7 @@ public:
 	/// </summary>
 	virtual void begin();
 
-	void set_config(const eps::bitflag<RenderNodeConfig>& config_);
-
 protected:
-	Reference<BaseRenderTargetGroup> renderTarget;
-	Reference<DepthStencilTexture> depthStencil;
 	std::unique_ptr<DxPipelineState> pipelineState;
 	D3D_PRIMITIVE_TOPOLOGY primitiveTopology{};
-
-	eps::bitflag<RenderNodeConfig> config;
 };

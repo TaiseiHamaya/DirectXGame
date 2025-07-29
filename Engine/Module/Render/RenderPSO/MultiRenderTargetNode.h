@@ -15,19 +15,7 @@ public:
 	MultiRenderTargetNode& operator=(const MultiRenderTargetNode&) = delete;
 	MultiRenderTargetNode(MultiRenderTargetNode&&) = default;
 	MultiRenderTargetNode& operator=(MultiRenderTargetNode&&) = default;
-
-public:
-	/// <summary>
-	/// 描画先の指定
-	/// </summary>
-	/// <param name="renderTarget_">描画先レンダーターゲットグループ</param>
-	void set_render_target(Reference<MultiRenderTarget<NumRenderTarget>> renderTarget_);
 };
-
-template<u32 NumRenderTarget>
-void MultiRenderTargetNode<NumRenderTarget>::set_render_target(Reference<MultiRenderTarget<NumRenderTarget>> renderTarget_) {
-	renderTarget = renderTarget_;
-}
 
 /// ----------------------------------
 /// ---------- 旧バージョン ----------

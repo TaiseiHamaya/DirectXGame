@@ -10,12 +10,9 @@ PrimitiveLineNode::PrimitiveLineNode() = default;
 PrimitiveLineNode::~PrimitiveLineNode() noexcept = default;
 
 void PrimitiveLineNode::initialize() {
-	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state();
 	pipelineState->set_name("PrimitiveLineNode");
 	primitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-	set_render_target_SC();
-	set_config(RenderNodeConfig::NoClearRenderTarget | RenderNodeConfig::NoClearDepth);
 }
 
 void PrimitiveLineNode::create_pipeline_state() {
@@ -29,7 +26,7 @@ void PrimitiveLineNode::create_pipeline_state() {
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->blendstate();
 	psoBuilder->rasterizerstate();
-	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
+	psoBuilder->depth_state(RenderingSystemValues::GetDepthStencilTexture()->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(ShaderType::Vertex, "PrimitiveGeometry.VS.hlsl");
