@@ -1,7 +1,7 @@
 #include "RenderPath.h"
 
 #include "Engine/Application/Output.h"
-#include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 void RenderPath::initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める

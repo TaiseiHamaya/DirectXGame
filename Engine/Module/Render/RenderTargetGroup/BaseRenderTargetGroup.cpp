@@ -3,7 +3,7 @@
 #include <d3d12.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
@@ -21,7 +21,7 @@ public:
 /// ---------- 旧バージョン ----------
 /// ----------------------------------
 
-//#include "Engine/Render/RenderNode/BaseRenderNode.h"
+//#include "Engine/Render/RenderPSO/BaseRenderNode.h"
 //
 //class MultiRenderTarget;
 //struct D3D12_GPU_DESCRIPTOR_HANDLE;

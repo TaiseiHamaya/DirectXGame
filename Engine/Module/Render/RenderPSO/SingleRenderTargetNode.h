@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 class SingleRenderTarget;
 class SwapChainRenderTargetGroup;
