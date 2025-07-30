@@ -50,3 +50,7 @@ Reference<WorldManager> BaseScene::get_world(u64 index) {
 
 	return worlds[index];
 }
+
+const std::string& BaseScene::name() const noexcept {
+	return sceneName;
+}

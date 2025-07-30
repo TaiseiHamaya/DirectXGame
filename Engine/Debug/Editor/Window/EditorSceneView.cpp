@@ -5,15 +5,18 @@
 #include <imgui.h>
 
 #include "../Core/EditorGizmo.h"
+#include "../RemoteObject/RemoteWorldObject.h"
 #include "EditorHierarchy.h"
+#include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/Module/Render/RenderPSO/Debug/PrimitiveLine/PrimitiveLineNode.h"
 #include "Engine/Module/Render/RenderPSO/Forward/Mesh/StaticMeshNodeForward.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
-#include "../RemoteObject/RemoteWorldObject.h"
-#include "Engine/Application/Output.h"
 
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
@@ -22,13 +25,9 @@ void EditorSceneView::initialize(bool isActive_) {
 	lightInstance = std::make_unique<DirectionalLightInstance>();
 	std::shared_ptr<StaticMeshNodeForward> staticMeshNode = std::make_shared<StaticMeshNodeForward>();
 	staticMeshNode->initialize();
-	staticMeshNode->set_render_target_SC();
-	staticMeshNode->set_config(RenderNodeConfig::Default);
 
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode = std::make_shared<PrimitiveLineNode>();
 	primitiveLineNode->initialize();
-	primitiveLineNode->set_render_target_SC();
-	primitiveLineNode->set_config(RenderNodeConfig::NoClearDepth | RenderNodeConfig::NoClearRenderTarget);
 
 	staticMeshDrawManager.initialize(1);
 	directionalLightingExecutor.reinitialize(1);
@@ -66,6 +65,26 @@ void EditorSceneView::draw_scene() {
 
 		// 描画フェーズ
 		renderPath.begin();
+		auto swapChainBuffer = DxSwapChain::GetRenderTarget();
+		auto depthStencilTexture = RenderingSystemValues::GetDepthStencilTexture();
+		swapChainBuffer->begin_write(true, depthStencilTexture);
+		depthStencilTexture->start_write();
+		depthStencilTexture->get_as_dsv()->clear();
+		auto&& commandList = DxCommand::GetCommandList();
+		D3D12_VIEWPORT viewPort{
+			0.0f, 0.0f,
+			ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y,
+			0.0f, 1.0f
+		};
+		RECT scissorRect = D3D12_RECT{
+			0, 0, (long)ProjectSettings::ClientWidth(), (long)ProjectSettings::ClientHeight()
+		};
+
+		// ViewPortの設定
+		commandList->RSSetViewports(1, &viewPort);
+		// シザー矩形の設定
+		commandList->RSSetScissorRects(1, &scissorRect);
+
 		// Mesh
 		view.set_camera_command();
 		directionalLightingExecutor.set_command(4);

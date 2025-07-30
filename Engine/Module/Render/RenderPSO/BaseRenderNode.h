@@ -2,20 +2,8 @@
 
 #include <memory>
 
-#include <Library/Utility/Template/bitflag.h>
-
-class DepthStencilTexture;
 class DxPipelineState;
 enum D3D_PRIMITIVE_TOPOLOGY;
-
-enum class RenderNodeConfig : u8 {
-	Default = 0,
-	NoClearRenderTarget = 1 << 0,
-	NoClearDepth = 1 << 1,
-};
-
-// BitFlag型を使用
-__USE_BITFLAG(RenderNodeConfig)
 
 class BaseRenderNode {
 public:

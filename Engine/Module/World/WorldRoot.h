@@ -1,30 +1,17 @@
 #pragma once
 
-#include <functional>
 #include <memory>
-#include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
-#include "Engine/Module/DrawExecutor/Mesh/SkinningMeshDrawManager.h"
-#include "Engine/Module/DrawExecutor/Mesh/StaticMeshDrawManager.h"
-#include "Engine/Module/Render/RenderPath/RenderPath.h"
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "./InstanceBucket.h"
+#include "Engine/Application/Output.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-class StaticMeshInstance;
-class SkinningMeshInstance;
-
-class WorldRoot {
-private:
-	struct InstanceData {
-		Reference<WorldInstance> instance;
-		std::function<void()> destroyCallback;
-	};
-
+class WorldRoot final {
 public:
 	WorldRoot();
 	~WorldRoot();
@@ -33,71 +20,46 @@ public:
 
 public:
 	void initialize();
+	void setup(Reference<InstanceBucket> instanceBucket_);
+
 	void update();
-	void transfer();
-	void draw();
 
 	void post_update();
 
 	template<std::derived_from<WorldInstance> T, typename ...Args>
-	Reference<T> create(Reference<const WorldInstance> parent = nullptr, Args&&... args);
+	Reference<T> instantiate(Reference<const WorldInstance> parent = nullptr, Args&&... args);
 
 	void destroy(Reference<WorldInstance> instance);
 
+	void destroy_marked_instances();
+
 private:
 	u64 nextInstanceId = 0;
-	std::unordered_map<u64, std::unique_ptr<InstanceData>> worldInstances;
+	std::unordered_map<u64, std::unique_ptr<WorldInstance>> worldInstances;
 
 	std::vector<Reference<WorldInstance>> destroyInstances;
 
-	RenderTexture renderTexture;
-	SingleRenderTarget renderTarget;
-	RenderPath renderPath;
-	StaticMeshDrawManager staticMeshDrawManager;
-	SkinningMeshDrawManager skinningMeshDrawManager;
+	Reference<InstanceBucket> instanceBucket;
 };
 
 template<std::derived_from<WorldInstance> T, typename ...Args>
-inline Reference<T> WorldRoot::create(Reference<const WorldInstance> parent, Args&&... args) {
-	std::unique_ptr<T> instance = T::Insantiate(nextInstanceId, parent, std::forward<Args>(args)...);
+inline Reference<T> WorldRoot::instantiate(Reference<const WorldInstance> parent, Args&&... args) {
+	std::unique_ptr<T> instance = std::make_unique<T>(std::forward<Args>(args)...);
+	Reference<T> result = instance;
+	auto [_, emplaced] = worldInstances.try_emplace(nextInstanceId, std::move(instance));
+	if (!emplaced) {
+		Warning("Instantiate failed for an unknown reason. Type-\'{}\'", typeid(T).name());
+	}
 	++nextInstanceId;
 
+	if (parent) {
+		result->reparent(parent, false);
+	}
+	else {
+		result->reparent(nullptr, false);
+	}
 
+	instanceBucket->register_instance(result);
 
-	//std::unique_ptr<T> instance = std::make_unique<T>(args...);
-	//u64 instanceId = nextInstanceId;
-	//++nextInstanceId;
-
-	//if (parent) {
-	//	instance->reparent(parent, false);
-	//}
-	//else {
-	//	instance->reparent(nullptr, false);
-	//}
-
-	//if constexpr (std::is_same_v<T, StaticMeshInstance>) {
-	//	staticMeshDrawManager.register_instance(instance);
-	//}
-	//else if constexpr (std::is_same_v<T, SkinningMeshInstance>) {
-	//	skinningMeshDrawManager.register_instance(instance);
-	//}
-
-
-
-	//Reference<WorldInstance> result = instance;
-	//worldInstances.emplace(
-	//	result,
-	//	std::move(instance),
-	//	[&, instanceId, result]() {
-	//	if constexpr (std::is_same_v<T, StaticMeshInstance>) {
-	//		staticMeshDrawManager.unregister_instance(instance);
-	//	}
-	//	else if constexpr (std::is_same_v<T, SkinningMeshInstance>) {
-	//		skinningMeshDrawManager.unregister_instance(instance);
-	//	}
-	//	worldInstances.erase(instanceId);
-	//}
-	//);
-
-	//return result;
+	return result;
 }

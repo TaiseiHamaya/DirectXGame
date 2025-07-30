@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "Engine/Module/World/WorldManager.h"
@@ -36,7 +37,9 @@ public:
 public:
 	u64 world_size() const;
 	Reference<WorldManager> get_world(u64 index);
+	const std::string& name() const noexcept;
 
 protected:
+	std::string sceneName;
 	std::vector<WorldManager> worlds;
 };

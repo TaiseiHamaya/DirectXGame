@@ -8,9 +8,9 @@ void PointLightInstance::update_affine() {
 	WorldInstance::update_affine();
 }
 
-void PointLightInstance::transfer() {
-	lightData.position = world_position();
-}
+//void PointLightInstance::transfer() {
+//	lightData.position = world_position();
+//}
 
 Matrix4x4 PointLightInstance::transform_matrix() const {
 	return world_affine().to_matrix();

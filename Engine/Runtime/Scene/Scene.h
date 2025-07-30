@@ -4,11 +4,9 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/World/WorldManager.h"
+#include "Engine/Module/Manager/WorldCluster/WorldCluster.h"
 
-#include "BaseScene.h"
-
-class Scene final : public BaseScene {
+class Scene final {
 public:
 	Scene() = default;
 	~Scene() = default;
@@ -16,16 +14,14 @@ public:
 	__CLASS_NON_COPYABLE(Scene)
 
 public:
-	//void load(std::filesystem::path assetCollection);
 	void initialize();
 
-	void begin();
 	void update();
-	void transfer();
-	void late_update();
 
 	void draw() const;
 
+	void end_frame();
+
 private:
-	//std::vector<WorldManager> worlds;
+	std::vector<WorldCluster> worlds;
 };

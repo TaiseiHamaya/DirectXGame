@@ -21,5 +21,4 @@ public:
 	DirectionalLightInstance& operator=(DirectionalLightInstance&&) = default;
 
 public:
-	void transfer() override;
 };

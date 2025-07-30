@@ -3,23 +3,17 @@
 void Scene::initialize() {
 }
 
-void Scene::begin() {
-}
-
 void Scene::update() {
-	for (WorldManager& world : worlds) {
-		//world.update_matrix();
+	for (WorldCluster& world : worlds) {
+		world.update();
 	}
-}
-
-void Scene::transfer() {
-	for (WorldManager& world : worlds) {
-		world.update_matrix();
-	}
-}
-
-void Scene::late_update() {
 }
 
 void Scene::draw() const {
+}
+
+void Scene::end_frame() {
+	for (WorldCluster& world : worlds) {
+		world.end_frame();
+	}
 }

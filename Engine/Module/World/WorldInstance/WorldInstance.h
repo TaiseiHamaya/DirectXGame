@@ -120,6 +120,8 @@ public:
 	/// <returns></returns>
 	const Vector3& world_position() const { return affine.get_origin(); };
 
+	bool is_marked_destroy() const { return isDestroy; }
+
 	/// <summary>
 	/// 親子付けを再設定
 	/// </summary>
@@ -141,5 +143,6 @@ private:
 
 protected:
 	bool isActive = true;
+	bool isDestroy{ false };
 };
 

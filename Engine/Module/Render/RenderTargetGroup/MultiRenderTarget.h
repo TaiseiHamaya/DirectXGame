@@ -47,7 +47,6 @@ inline void MultiRenderTarget<NumRenderTarget>::initialize(std::array<Reference<
 	for (u32 i = 0; i < NumRenderTarget; ++i) {
 		renderTargetsHandles[i] = renderTextures[i]->get_as_rtv()->handle();
 	}
-	create_view_port(renderTextures[0]->get_width(), renderTextures[0]->get_height());
 }
 
 template<u32 NumRenderTarget>

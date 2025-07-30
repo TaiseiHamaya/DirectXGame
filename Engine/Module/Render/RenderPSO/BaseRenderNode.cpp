@@ -4,8 +4,6 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/DepthStencilTexture.h"
-#include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 BaseRenderNode::BaseRenderNode() = default;
 

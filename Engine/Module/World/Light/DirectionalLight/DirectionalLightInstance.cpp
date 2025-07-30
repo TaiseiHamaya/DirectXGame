@@ -1,8 +1,5 @@
 #include "DirectionalLightInstance.h"
 
-void DirectionalLightInstance::transfer() {
-}
-
 //#ifdef DEBUG_FEATURES_ENABLE
 //#include <imgui.h>
 //#include <format>

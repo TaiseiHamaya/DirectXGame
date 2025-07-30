@@ -6,7 +6,6 @@
 
 void SingleRenderTarget::initialize(Reference<RenderTexture> texture_) {
 	texture = texture_;
-	create_view_port(texture->get_width(), texture->get_height());
 	view = texture->get_as_rtv();
 }
 

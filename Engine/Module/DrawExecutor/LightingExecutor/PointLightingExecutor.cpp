@@ -1,14 +1,15 @@
 #include "PointLightingExecutor.h"
 
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 
-PointLightingExecutor::PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance) {
-	reinitialize(asset_, maxInstance);
+PointLightingExecutor::PointLightingExecutor(u32 maxInstance) {
+	reinitialize(maxInstance);
 }
 
-void PointLightingExecutor::reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance_) {
-	asset = asset_;
+void PointLightingExecutor::reinitialize(u32 maxInstance_) {
+	asset = PrimitiveGeometryLibrary::GetPrimitiveGeometry("Ico3");
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);
 	lightData.initialize(maxInstance);

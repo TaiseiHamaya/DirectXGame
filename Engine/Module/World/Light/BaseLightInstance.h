@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
 template<class T>
@@ -16,11 +14,11 @@ public:
 	BaseLightInstance& operator=(BaseLightInstance&&) = default;
 
 public:
-	virtual void transfer() = 0;
-
-public:
 	const T& light_data() const { return lightData; };
+
+	u32 influence_layer() const { return layerMask; }
 
 protected:
 	T lightData;
+	u32 layerMask;
 };
