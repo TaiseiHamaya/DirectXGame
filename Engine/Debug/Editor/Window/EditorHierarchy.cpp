@@ -94,6 +94,7 @@ void EditorHierarchy::draw() {
 			if (ImGui::Button("\ue5cd")) {
 				menuString.clear();
 			}
+			ImGui::SeparatorText("Instance");
 			if (ImGui::MenuItem("WorldInstance")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
@@ -104,6 +105,7 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			ImGui::SeparatorText("Rendering");
 			if (ImGui::MenuItem("StaticMeshInstance")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
@@ -124,6 +126,7 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			ImGui::SeparatorText("Camera");
 			if (ImGui::MenuItem("Camera3D")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
@@ -134,6 +137,10 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			ImGui::SeparatorText("Light");
+
+
+			ImGui::SeparatorText("Collider");
 			if (ImGui::MenuItem("AABBColliderInstance")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
