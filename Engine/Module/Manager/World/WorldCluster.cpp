@@ -3,7 +3,9 @@
 void WorldCluster::initialize() {
 	worldRoot.initialize();
 	worldRenderCollection.initialize();
+}
 
+void WorldCluster::setup(const std::filesystem::path& setupFile) {
 	worldRoot.setup(instanceBucket);
 }
 

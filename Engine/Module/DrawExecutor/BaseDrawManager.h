@@ -30,7 +30,7 @@ public:
 	void unregister_instance(Reference<const InstanceType> instance);
 	void remove_marked_destroy();
 	void transfer();
-	void draw_layer(u32 layer);
+	void draw_layer(u32 layer) const;
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
@@ -102,7 +102,7 @@ inline void BaseDrawManager<Executor, KeyType, InstanceType>::transfer() {
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
-inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 layer) {
+inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 layer) const {
 	if (layer >= layerExecutors.size()) {
 		// Layer外をDrawCallしようとした
 		return;

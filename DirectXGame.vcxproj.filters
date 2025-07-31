@@ -807,7 +807,7 @@
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\WorldRoot.cpp">
+    <ClCompile Include="Engine\Module\Manager\World\WorldRoot.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.cpp">
@@ -840,10 +840,10 @@
     <ClCompile Include="Engine\Module\Render\WorldRenderCollection.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\InstanceBucket.cpp">
+    <ClCompile Include="Engine\Module\Manager\World\InstanceBucket.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Manager\WorldCluster\WorldCluster.cpp">
+    <ClCompile Include="Engine\Module\Manager\World\WorldCluster.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp">
@@ -1499,7 +1499,7 @@
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\WorldRoot.h">
+    <ClInclude Include="Engine\Module\Manager\World\WorldRoot.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.h">
@@ -1535,10 +1535,10 @@
     <ClInclude Include="Engine\Module\Render\WorldRenderCollection.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\InstanceBucket.h">
+    <ClInclude Include="Engine\Module\Manager\World\InstanceBucket.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Manager\WorldCluster\WorldCluster.h">
+    <ClInclude Include="Engine\Module\Manager\World\WorldCluster.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Runtime\Scene\Scene.h">

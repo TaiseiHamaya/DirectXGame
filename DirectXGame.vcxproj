@@ -212,7 +212,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
     <ClCompile Include="Engine\Application\ProjectSettings\ProjectSettings.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\IRenderNode.cpp" />
-    <ClCompile Include="Engine\Module\World\InstanceBucket.cpp" />
+    <ClCompile Include="Engine\Module\Manager\World\InstanceBucket.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
     <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />
@@ -227,7 +227,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\WorldRoot.cpp" />
+    <ClCompile Include="Engine\Module\Manager\World\WorldRoot.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.cpp" />
@@ -235,7 +235,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderDAG.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.cpp" />
     <ClCompile Include="Engine\Module\Render\WorldRenderCollection.cpp" />
-    <ClCompile Include="Engine\Module\Manager\WorldCluster\WorldCluster.cpp" />
+    <ClCompile Include="Engine\Module\Manager\World\WorldCluster.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -520,7 +520,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\IEditorCommand.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\IRenderNode.h" />
-    <ClInclude Include="Engine\Module\World\InstanceBucket.h" />
+    <ClInclude Include="Engine\Module\Manager\World\InstanceBucket.h" />
     <ClInclude Include="Engine\Runtime\Scene\Scene.h" />
     <ClInclude Include="Library\Utility\Template\string_hashed.h" />
     <ClInclude Include="Library\Utility\Template\call_once.h" />
@@ -536,7 +536,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorValueField.h" />
-    <ClInclude Include="Engine\Module\World\WorldRoot.h" />
+    <ClInclude Include="Engine\Module\Manager\World\WorldRoot.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.h" />
@@ -544,7 +544,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderDAG.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.h" />
     <ClInclude Include="Engine\Module\Render\WorldRenderCollection.h" />
-    <ClInclude Include="Engine\Module\Manager\WorldCluster\WorldCluster.h" />
+    <ClInclude Include="Engine\Module\Manager\World\WorldCluster.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>

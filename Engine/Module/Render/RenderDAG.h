@@ -7,7 +7,7 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-class IRenderVertex;
+class IRenderNode;
 
 class RenderDAG final {
 public:
@@ -19,11 +19,11 @@ public:
 public:
 	void setup(std::filesystem::path sceneName);
 
-	void render_entry_point();
+	void render_entry_point() const;
 
 private:
-	struct RenderVertexBase {
-		std::unique_ptr<IRenderVertex> vertex;
+	struct RenderNodeBase {
+		std::unique_ptr<IRenderNode> vertex;
 		std::list<u32> nextVertices;
 	};
 
@@ -35,5 +35,5 @@ private:
 	void sort_render_graph();
 
 private:
-	std::vector<std::unique_ptr<IRenderVertex>> renderGraph;
+	std::vector<std::unique_ptr<IRenderNode>> renderGraph;
 };

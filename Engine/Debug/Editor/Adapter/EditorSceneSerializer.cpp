@@ -40,6 +40,8 @@ std::unique_ptr<RemoteWorldObject> EditorSceneSerializer::CreateRemoteWorld(cons
 			world->add_child(CreateRemoteObject(instance));
 		}
 	}
+
+	json.get_to(world->numLayer);
 	return world;
 }
 

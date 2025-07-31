@@ -73,4 +73,6 @@ void WorldLayerRenderNode::stack_command() {
 	camera->register_world_lighting(4);
 	worldRenderCollection->directionalLightingExecutors[renderLayer].set_command(4);
 	worldRenderCollection->rect3dDrawManager.draw_layer(renderLayer);
+
+	subtree.next_node();
 }

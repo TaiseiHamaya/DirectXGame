@@ -1,9 +1,11 @@
 #pragma once
 
+#include <filesystem>
+
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/World/InstanceBucket.h"
-#include "Engine/Module/World/WorldRoot.h"
+#include "Engine/Module/Manager/World/InstanceBucket.h"
+#include "Engine/Module/Manager/World/WorldRoot.h"
 #include "Engine/Module/Render/WorldRenderCollection.h"
 
 class WorldCluster final {
@@ -15,6 +17,8 @@ public:
 
 public:
 	void initialize();
+	void setup(const std::filesystem::path& setupFile);
+
 	void update();
 	void end_frame();
 

@@ -1,10 +1,12 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/Manager/WorldCluster/WorldCluster.h"
+#include "Engine/Module/Manager/World/WorldCluster.h"
+#include "Engine/Module/Render/RenderDAG.h"
 
 class Scene final {
 public:
@@ -14,7 +16,7 @@ public:
 	__CLASS_NON_COPYABLE(Scene)
 
 public:
-	void initialize();
+	void initialize(const std::string& sceneName);
 
 	void update();
 
@@ -24,4 +26,5 @@ public:
 
 private:
 	std::vector<WorldCluster> worlds;
+	RenderDAG renderDAG;
 };

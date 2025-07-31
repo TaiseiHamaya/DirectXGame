@@ -37,6 +37,10 @@ void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Refer
 
 void RemoteWorldObject::draw_inspector() {
 	hierarchyName.show_gui();
+
+	ImGui::Separator();
+
+	numLayer.show_gui();
 }
 
 void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -109,6 +113,8 @@ nlohmann::json RemoteWorldObject::serialize() const {
 			result["Instances"].emplace_back(child->serialize());
 		}
 	}
+
+	result.update(numLayer);
 
 	return result;
 }
