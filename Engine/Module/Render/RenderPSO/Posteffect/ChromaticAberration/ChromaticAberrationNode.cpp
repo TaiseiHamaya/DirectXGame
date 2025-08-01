@@ -20,7 +20,7 @@ void ChromaticAberrationNode::initialize() {
 	*aberrationLevel.get_data() = CVector2::ZERO;
 }
 
-void ChromaticAberrationNode::draw() {
+void ChromaticAberrationNode::execute_effect_command() {
 	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootConstantBufferView(0, aberrationLevel.get_resource()->GetGPUVirtualAddress());
 	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/PostEffectPSO.h"
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 
-class GrayscaleNode : public SingleRenderTargetNode {
+class GrayscaleNode : public PostEffectPSO {
 public:
 	GrayscaleNode();
 	~GrayscaleNode();
@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void draw();
+	void execute_effect_command();
 
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定

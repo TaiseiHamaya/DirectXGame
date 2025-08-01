@@ -1,6 +1,7 @@
 #include "WorldLayerRenderNode.h"
 
 #include "../WorldRenderCollection.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 
@@ -50,7 +51,7 @@ void WorldLayerRenderNode::stack_command() {
 	commandList->RSSetViewports(1, &viewport);
 	// シザー矩形の設定
 	commandList->RSSetScissorRects(1, &rect);
-	renderTargetGroup->begin_write(false);
+	outputRenderTargetGroup->begin_write(false);
 
 	// NonLightingPixel
 	subtree.next_node(); // 自動実行
@@ -68,7 +69,7 @@ void WorldLayerRenderNode::stack_command() {
 	// ----- PrimitivePass -----
 	// Rect
 	subtree.next_node();
-	renderTargetGroup->begin_write(false, depthStencilTexture);
+	outputRenderTargetGroup->begin_write(false, depthStencilTexture);
 	camera->register_world_projection(3);
 	camera->register_world_lighting(4);
 	worldRenderCollection->directionalLightingExecutors[renderLayer].set_command(4);

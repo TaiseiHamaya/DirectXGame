@@ -9,7 +9,7 @@ BaseRenderNode::BaseRenderNode() = default;
 
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
-void BaseRenderNode::begin() {
+void BaseRenderNode::stack_pso_command() {
 	auto&& commandList = DxCommand::GetCommandList();
 	// PSOの設定
 	pipelineState->set_graphics_pipeline_state();

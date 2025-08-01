@@ -236,6 +236,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.cpp" />
     <ClCompile Include="Engine\Module\Render\WorldRenderCollection.cpp" />
     <ClCompile Include="Engine\Module\Manager\World\WorldCluster.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -545,6 +548,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.h" />
     <ClInclude Include="Engine\Module\Render\WorldRenderCollection.h" />
     <ClInclude Include="Engine\Module\Manager\World\WorldCluster.h" />
+    <ClInclude Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\PostEffectNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>

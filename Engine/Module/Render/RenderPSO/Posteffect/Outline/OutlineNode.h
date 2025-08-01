@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/PostEffectPSO.h"
 
 #include <Library/Utility/Template/Reference.h>
 
 class RenderTexture;
 class DepthStencilTexture;
 
-class OutlineNode : public SingleRenderTargetNode {
+class OutlineNode : public PostEffectPSO {
 public:
 	OutlineNode();
 	~OutlineNode();
@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void draw();
+	void execute_effect_command();
 
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定

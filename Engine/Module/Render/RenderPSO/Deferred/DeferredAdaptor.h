@@ -1,12 +1,6 @@
 #pragma once
 
-#include <memory>
-
-#include <Library/Utility/Tools/SmartPointer.h>
-
-#include "Engine/Application/EngineSettings.h"
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
-#include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 
 namespace DeferredAdaptor {
 

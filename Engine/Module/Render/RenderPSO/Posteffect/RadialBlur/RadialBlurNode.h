@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/PostEffectPSO.h"
 
 #include <Library/Math/Vector2.h>
 
@@ -14,7 +14,7 @@ struct BlurInfo {
 	u32 sampleCount;
 };
 
-class RadialBlurNode : public SingleRenderTargetNode {
+class RadialBlurNode : public PostEffectPSO {
 public:
 	RadialBlurNode();
 	~RadialBlurNode() noexcept;
@@ -30,12 +30,10 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void preprocess() override {};
-
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void draw();
+	void execute_effect_command();
 
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定

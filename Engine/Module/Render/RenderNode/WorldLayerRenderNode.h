@@ -4,9 +4,9 @@
 
 #include <Library/Utility/Template/Reference.h>
 
-#include <Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h>
-#include <Engine/Module/Render/RenderSubtree/LayerRenderSubtree.h>
-#include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
+#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
+#include "Engine/Module/Render/RenderSubtree/LayerRenderSubtree.h"
+#include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 class Camera3D;
 class WorldRenderCollection;
@@ -34,7 +34,7 @@ public:
 	void stack_command() override;
 
 private:
-	Reference<BaseRenderTargetGroup> renderTargetGroup;
+	Reference<BaseRenderTargetGroup> outputRenderTargetGroup;
 	GBufferData gBuffer;
 	Reference<WorldRenderCollection> worldRenderCollection;
 	u8 renderLayer;

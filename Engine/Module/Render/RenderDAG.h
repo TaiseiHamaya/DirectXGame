@@ -1,11 +1,14 @@
 #pragma once
 
-#include <filesystem>
-#include <list>
 #include <memory>
+#include <string>
 #include <vector>
 
+#include <json.hpp>
+
 #include <Library/Utility/Tools/ConstructorMacro.h>
+
+#include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
 
 class IRenderNode;
 
@@ -17,23 +20,15 @@ public:
 	__CLASS_NON_COPYABLE(RenderDAG)
 
 public:
-	void setup(std::filesystem::path sceneName);
+	void setup(const std::string& sceneName);
 
 	void render_entry_point() const;
 
 private:
-	struct RenderNodeBase {
-		std::unique_ptr<IRenderNode> vertex;
-		std::list<u32> nextVertices;
-	};
-
-private:
-	void load_render_graph(const std::filesystem::path& sceneName);
+	void load_render_graph(const nlohmann::json& json);
 	// vertex生成関数
 
-	// DAGをトポロジカルソート
-	void sort_render_graph();
-
 private:
+	RenderTargetCollection renderTargetCollection;
 	std::vector<std::unique_ptr<IRenderNode>> renderGraph;
 };

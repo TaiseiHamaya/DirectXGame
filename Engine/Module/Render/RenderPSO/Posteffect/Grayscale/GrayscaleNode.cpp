@@ -18,7 +18,7 @@ void GrayscaleNode::initialize() {
 	*isGray.get_data() = false;
 }
 
-void GrayscaleNode::draw() {
+void GrayscaleNode::execute_effect_command() {
 	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
 	command->SetGraphicsRootConstantBufferView(0, isGray.get_resource()->GetGPUVirtualAddress());

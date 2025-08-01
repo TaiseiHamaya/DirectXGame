@@ -33,8 +33,7 @@ bool RenderPath::begin() {
 bool RenderPath::next() {
 	// 末尾に行っていなければ次の処理を開始
 	if (nowNode != renderNodeList.end()) {
-		(*nowNode)->begin();
-		(*nowNode)->preprocess();
+		(*nowNode)->stack_pso_command();
 		// 次に進める
 		++nowNode;
 		return true;

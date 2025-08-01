@@ -23,7 +23,7 @@ void RadialBlurNode::initialize() {
 	};
 }
 
-void RadialBlurNode::draw() {
+void RadialBlurNode::execute_effect_command() {
 	baseTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();

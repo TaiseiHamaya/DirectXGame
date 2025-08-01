@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// 描画開始
 	/// </summary>
-	virtual void begin();
+	void stack_pso_command();
 
 protected:
 	std::unique_ptr<DxPipelineState> pipelineState;
