@@ -213,6 +213,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Application\ProjectSettings\ProjectSettings.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\IRenderNode.cpp" />
     <ClCompile Include="Engine\Module\Manager\World\InstanceBucket.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
     <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />

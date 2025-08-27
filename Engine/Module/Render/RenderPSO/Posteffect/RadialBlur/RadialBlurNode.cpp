@@ -3,6 +3,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/Module/Manager/RuntimeStorage/RuntimeStorage.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
@@ -24,6 +25,8 @@ void RadialBlurNode::initialize() {
 }
 
 void RadialBlurNode::execute_effect_command() {
+	*blurInfo.get_data() = std::any_cast<BlurInfo>(RuntimeStorage::GetValue("PostEffect")[groupName]);
+
 	baseTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();

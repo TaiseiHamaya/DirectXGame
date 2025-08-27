@@ -10,9 +10,7 @@ class RuntimeStorage : public SingletonInterface<RuntimeStorage> {
 	__CLASS_SINGLETON_INTERFACE(RuntimeStorage)
 
 public:
-	struct ValueGroup {
-		std::unordered_map<std::string, std::any> values;
-	};
+	using ValueGroup = std::unordered_map<std::string, std::any>;
 
 public:
 	static ValueGroup& GetValue(const std::string& name);
