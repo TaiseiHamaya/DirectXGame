@@ -2,9 +2,9 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class PrimitiveLineNode final : public SingleRenderTargetNode {
+class PrimitiveLineNode final : public BaseRenderNode {
 public:
 	PrimitiveLineNode();
 	~PrimitiveLineNode() noexcept;

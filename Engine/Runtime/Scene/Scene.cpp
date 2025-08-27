@@ -13,7 +13,7 @@ void Scene::initialize(const std::string& sceneName) {
 		worlds.emplace_back(std::move(world));
 	}
 
-	renderDAG.setup(sceneName);
+	renderDAG.setup(sceneName, this);
 }
 
 void Scene::update() {
@@ -30,4 +30,12 @@ void Scene::end_frame() {
 	for (WorldCluster& world : worlds) {
 		world.end_frame();
 	}
+}
+
+Reference<WorldCluster> Scene::get_world(u32 index) {
+	if( index >= worlds.size() ) {
+		Warning("Try to reference world out of range index-\'{}\'.", index);
+		return nullptr;
+	}
+	return worlds[index];
 }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 #include "../DeferredAdaptor.h"
 
-class NonLightingPixelNode final : public SingleRenderTargetNode {
+class NonLightingPixelNode final : public BaseRenderNode {
 public:
 	NonLightingPixelNode();
 	~NonLightingPixelNode() noexcept;

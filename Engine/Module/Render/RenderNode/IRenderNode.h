@@ -10,5 +10,7 @@ public:
 	__CLASS_NON_COPYABLE(IRenderNode)
 
 public:
+	virtual void initialize() = 0;
+
 	virtual void stack_command() = 0;
 };

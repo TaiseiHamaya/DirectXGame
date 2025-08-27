@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class ParticleMeshNode final : public SingleRenderTargetNode {
+class ParticleMeshNode final : public BaseRenderNode {
 public:
 	ParticleMeshNode();
 	~ParticleMeshNode() noexcept;

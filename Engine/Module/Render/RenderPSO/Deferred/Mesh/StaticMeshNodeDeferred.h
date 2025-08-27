@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/MultiRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 #include "../DeferredAdaptor.h"
 
-class StaticMeshNodeDeferred final : public MultiRenderTargetNode<DeferredAdaptor::NUM_GBUFFER> {
+class StaticMeshNodeDeferred final : public BaseRenderNode {
 public:
 	StaticMeshNodeDeferred();
 	~StaticMeshNodeDeferred() noexcept;

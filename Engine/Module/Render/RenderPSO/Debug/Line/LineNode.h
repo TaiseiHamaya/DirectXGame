@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class LineNode final : public SingleRenderTargetNode {
+class LineNode final : public BaseRenderNode {
 public:
 	LineNode();
 	~LineNode() noexcept;

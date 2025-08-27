@@ -24,6 +24,9 @@ public:
 
 	void end_frame();
 
+public:
+	Reference<WorldCluster> get_world(u32 index);
+
 private:
 	std::vector<WorldCluster> worlds;
 	RenderDAG renderDAG;

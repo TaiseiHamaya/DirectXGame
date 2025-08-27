@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class SkinningMeshNodeForward final : public SingleRenderTargetNode {
+class SkinningMeshNodeForward final : public BaseRenderNode {
 public:
 	SkinningMeshNodeForward();
 	~SkinningMeshNodeForward() noexcept;

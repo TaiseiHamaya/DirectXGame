@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <dxgidebug.h>
+
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -15,6 +16,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 DxCore::DxCore() = default;
 

@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/MultiRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-#include "../DeferredAdaptor.h"
-
-class SkinningMeshNodeDeferred final : public MultiRenderTargetNode<DeferredAdaptor::NUM_GBUFFER> {
+class SkinningMeshNodeDeferred final : public BaseRenderNode {
 public:
 	SkinningMeshNodeDeferred();
 	~SkinningMeshNodeDeferred() noexcept;

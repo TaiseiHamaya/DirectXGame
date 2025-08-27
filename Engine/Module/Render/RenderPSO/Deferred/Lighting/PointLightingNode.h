@@ -1,14 +1,10 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 #include "../DeferredAdaptor.h"
 
-/// 既知の不具合一覧 
-/// ・ライト内にカメラがあった際に、正しくライティングされない。
-/// ・ライト位置に対して背面を向いている面でライティングされる場合がある。
-
-class PointLightingNode final : public SingleRenderTargetNode {
+class PointLightingNode final : public BaseRenderNode {
 public:
 	PointLightingNode();
 	~PointLightingNode() noexcept;

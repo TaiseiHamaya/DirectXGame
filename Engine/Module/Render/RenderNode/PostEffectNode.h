@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <utility>
+
 #include <d3d12.h>
 
 #include "./IRenderNode.h"
@@ -10,6 +13,15 @@
 #include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
 
 class PostEffectNode final : public IRenderNode {
+public:
+	struct Data {
+		Reference<BaseRenderTargetGroup> outRenderTargetGroup;
+
+		RECT rect;
+		D3D12_VIEWPORT viewport;
+
+		std::unique_ptr<PostEffectPSO> postEffectPSO;
+	};
 
 public:
 	PostEffectNode() = default;
@@ -18,13 +30,14 @@ public:
 	__CLASS_NON_COPYABLE(PostEffectNode)
 
 public:
+	void initialize();
+
 	void stack_command() override;
 
-private:
-	Reference<BaseRenderTargetGroup> outRenderTargetGroup;
+public:
+	void set_data(Data&& data_) { data = std::move(data_); };
+	const Data& get_data() const { return data; };
 
-	RECT rect;
-	D3D12_VIEWPORT viewport;
-	
-	std::unique_ptr<PostEffectPSO> postEffectPSO;
+private:
+	Data data;
 };

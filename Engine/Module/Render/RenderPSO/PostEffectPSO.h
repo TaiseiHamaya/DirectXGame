@@ -2,9 +2,9 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "./SingleRenderTargetNode.h"
+#include "./BaseRenderNode.h"
 
-class PostEffectPSO : public SingleRenderTargetNode {
+class PostEffectPSO : public BaseRenderNode {
 public:
 	PostEffectPSO() = default;
 	virtual ~PostEffectPSO() = default;

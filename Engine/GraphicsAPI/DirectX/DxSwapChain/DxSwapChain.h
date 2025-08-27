@@ -7,8 +7,7 @@
 #include <wrl/client.h>
 
 #include <Library/Math/Color4.h>
-
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
+#include <Library/Utility/Template/Reference.h>
 
 class SwapChainRenderTargetGroup;
 class PSOBuilder;

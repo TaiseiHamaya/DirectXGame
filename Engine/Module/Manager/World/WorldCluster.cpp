@@ -11,8 +11,8 @@ void WorldCluster::setup(const std::filesystem::path& setupFile) {
 
 void WorldCluster::update() {
 	worldRoot.update();
-
-	instanceBucket.begin_frame();
+	
+	worldRoot.update_affine();
 
 	worldRenderCollection.transfer();
 
@@ -20,11 +20,18 @@ void WorldCluster::update() {
 }
 
 void WorldCluster::end_frame() {
+	// ---------- 削除予定インスタンス処理 ----------
+	// 描画に関して
 	worldRenderCollection.remove_marked_destroy();
-
+	// コリジョン
+	collisionManager.remove_marked_destroy();
+	// 実際の削除
+	worldRoot.delete_marked_destroy();
+	
+	// ---------- Instantiate後の処理 ----------
+	// 描画が側に伝達
 	worldRenderCollection.collect_instantiated(instanceBucket);
-
-	worldRoot.destroy_marked_instances();
+	instanceBucket.reset();
 }
 
 Reference<WorldRenderCollection> WorldCluster::render_collection() {

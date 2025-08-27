@@ -22,7 +22,7 @@ public:
 	__CLASS_NON_COPYABLE(InstanceBucket)
 
 public:
-	void begin_frame();
+	void reset();
 
 	template<typename T>
 	void register_instance(Reference<T> instance);

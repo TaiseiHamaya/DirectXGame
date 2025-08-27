@@ -330,9 +330,6 @@
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
       <Filter>Engine\Module\Render\RenderTargetGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp">
-      <Filter>Engine\Module\Render\RenderTargetGroup\MultiRenderTarget</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp">
       <Filter>Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup</Filter>
     </ClCompile>
@@ -343,12 +340,6 @@
       <Filter>Engine\Module\Render\RenderNode\Grayscale</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPSO\BaseRenderNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\MultiRenderTargetNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\SingleRenderTargetNode.cpp">
       <Filter>Engine\Module\Render\RenderNode\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp">
@@ -855,7 +846,10 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -927,12 +921,6 @@
       <Filter>Engine\Module\Render\RenderNode\Grayscale</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPSO\BaseRenderNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\MultiRenderTargetNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\SingleRenderTargetNode.h">
       <Filter>Engine\Module\Render\RenderNode\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.h">
@@ -1560,6 +1548,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

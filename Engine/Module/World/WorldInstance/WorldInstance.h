@@ -71,18 +71,6 @@ public:
 	void look_at_axis(const Vector3& point, const Vector3& axis = CVector3::BASIS_Y, r32 angle = 0.0f) noexcept;
 
 	/// <summary>
-	/// アクティブフラグの設定
-	/// </summary>
-	/// <param name="isActive_"></param>
-	void set_active(bool isActive_) { isActive = isActive_; };
-
-	/// <summary>
-	/// アクティブフラグの取得
-	/// </summary>
-	/// <returns></returns>
-	bool is_active() const { return isActive; };
-
-	/// <summary>
 	/// 階層構造の震度
 	/// </summary>
 	/// <returns></returns>
@@ -120,8 +108,6 @@ public:
 	/// <returns></returns>
 	const Vector3& world_position() const { return affine.get_origin(); };
 
-	bool is_marked_destroy() const { return isDestroy; }
-
 	/// <summary>
 	/// 親子付けを再設定
 	/// </summary>
@@ -130,6 +116,18 @@ public:
 	void reparent(Reference<const WorldInstance> instance, bool isKeepPose = true);
 
 	void set_world_manager(Reference<WorldManager> worldManager_);
+
+	// ----- Active関連 -----
+	void set_active(bool isActive_) { isActive = isActive_; };
+	bool is_active() const { return isActive; };
+
+	// ----- Destroyフラグ -----
+	void mark_destroy();
+	bool is_marked_destroy() const { return isDestroy; }
+
+	// ----- id関連 -----
+	void setup_id(u64 id);
+	u64 instance_id() const;
 
 protected:
 	Transform3D transform{}; // Transform
@@ -140,6 +138,8 @@ private:
 
 	Reference<WorldManager> worldManager{ nullptr };
 	u32 hierarchyDepth{ 0 };
+
+	u64 instanceId;
 
 protected:
 	bool isActive = true;

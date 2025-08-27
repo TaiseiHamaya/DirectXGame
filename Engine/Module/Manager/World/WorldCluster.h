@@ -7,6 +7,7 @@
 #include "Engine/Module/Manager/World/InstanceBucket.h"
 #include "Engine/Module/Manager/World/WorldRoot.h"
 #include "Engine/Module/Render/WorldRenderCollection.h"
+#include "Engine/Module/World/Collision/CollisionManager.h"
 
 class WorldCluster final {
 public:
@@ -29,4 +30,5 @@ private:
 	WorldRoot worldRoot;
 	InstanceBucket instanceBucket;
 	WorldRenderCollection worldRenderCollection;
+	CollisionManager collisionManager;
 };

@@ -1,6 +1,6 @@
 #include "InstanceBucket.h"
 
-void InstanceBucket::begin_frame() {
+void InstanceBucket::reset() {
 	camera.clear();
 	staticMesh.clear();
 	skinMesh.clear();

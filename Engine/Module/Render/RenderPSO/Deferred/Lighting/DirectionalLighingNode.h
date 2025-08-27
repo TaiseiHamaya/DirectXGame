@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 #include "../DeferredAdaptor.h"
 
 class RenderTexture;
 class DepthStencilTexture;
 
-class DirectionalLightingNode final : public SingleRenderTargetNode {
+class DirectionalLightingNode final : public BaseRenderNode {
 public:
 	DirectionalLightingNode();
 	~DirectionalLightingNode() noexcept;

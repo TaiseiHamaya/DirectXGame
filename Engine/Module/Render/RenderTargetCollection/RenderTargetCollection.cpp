@@ -2,6 +2,8 @@
 
 #include "Engine/Application/Output.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 
 void RenderTargetCollection::setup(const nlohmann::json& json) {
 	for (auto& [_, value] : json.items()) {
@@ -18,7 +20,11 @@ void RenderTargetCollection::setup(const nlohmann::json& json) {
 }
 
 Reference<BaseRenderTargetGroup> RenderTargetCollection::get_render_target(u32 index) const {
-	if (index >= renderTargets.size()) {
+	// 末尾指定の場合、Screenを指定
+	if (index == renderTargets.size()) {
+		return DxSwapChain::GetRenderTarget();
+	}
+	else if (index > renderTargets.size()) {
 		Warning("Try to reference render target out of range index-\'{}\'.", index);
 		return nullptr;
 	}

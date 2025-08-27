@@ -2,9 +2,9 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class Rect3dNode final : public SingleRenderTargetNode {
+class Rect3dNode final : public BaseRenderNode {
 public:
 	Rect3dNode();
 	~Rect3dNode() noexcept;

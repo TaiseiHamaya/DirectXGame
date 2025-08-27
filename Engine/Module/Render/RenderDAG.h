@@ -6,11 +6,13 @@
 
 #include <json.hpp>
 
+#include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
 
 class IRenderNode;
+class Scene;
 
 class RenderDAG final {
 public:
@@ -20,13 +22,9 @@ public:
 	__CLASS_NON_COPYABLE(RenderDAG)
 
 public:
-	void setup(const std::string& sceneName);
+	void setup(const std::string& sceneName, Reference<Scene> scene);
 
 	void render_entry_point() const;
-
-private:
-	void load_render_graph(const nlohmann::json& json);
-	// vertex生成関数
 
 private:
 	RenderTargetCollection renderTargetCollection;

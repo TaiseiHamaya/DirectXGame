@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class StaticMeshNodeForward final : public SingleRenderTargetNode {
+class StaticMeshNodeForward final : public BaseRenderNode {
 public:
 	StaticMeshNodeForward();
 	~StaticMeshNodeForward() noexcept;

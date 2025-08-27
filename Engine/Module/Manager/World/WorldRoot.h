@@ -24,6 +24,8 @@ public:
 
 	void update();
 
+	void update_affine();
+
 	void post_update();
 
 	template<std::derived_from<WorldInstance> T, typename ...Args>
@@ -31,13 +33,13 @@ public:
 
 	void destroy(Reference<WorldInstance> instance);
 
-	void destroy_marked_instances();
+	void delete_marked_destroy();
 
 private:
 	u64 nextInstanceId = 0;
 	std::unordered_map<u64, std::unique_ptr<WorldInstance>> worldInstances;
 
-	std::vector<Reference<WorldInstance>> destroyInstances;
+	std::vector<u64> destroyInstanceId;
 
 	Reference<InstanceBucket> instanceBucket;
 };

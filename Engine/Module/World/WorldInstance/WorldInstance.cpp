@@ -87,3 +87,15 @@ void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKee
 void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
 	worldManager = worldManager_;
 }
+
+void WorldInstance::mark_destroy() {
+	isDestroy = true;
+}
+
+void WorldInstance::setup_id(u64 id) {
+	instanceId = id;
+}
+
+u64 WorldInstance::instance_id() const {
+	return instanceId;
+}

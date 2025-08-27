@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Module/Render/RenderPSO/SingleRenderTargetNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
-class SpriteNode : public SingleRenderTargetNode {
+class SpriteNode : public BaseRenderNode {
 public:
 	SpriteNode();
 	~SpriteNode() noexcept;

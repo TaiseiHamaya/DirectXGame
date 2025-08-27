@@ -1,9 +1,10 @@
 #pragma once
 
 #include <list>
-#include <memory>
 #include <string>
 #include <unordered_map>
+
+#include <Library/Utility/Template/Reference.h>
 
 #include "Collider/BaseCollider.h"
 #include "CollisionCallbackManager.h"
@@ -19,33 +20,32 @@ class AABBCollider;
 class CollisionManager {
 private:
 	struct Colliders {
-		std::list<std::weak_ptr<SphereCollider>> sphereColliders;
-		std::list<std::weak_ptr<AABBCollider>> aabbColliders;
+		std::list<Reference<SphereCollider>> sphereColliders;
+		std::list<Reference<AABBCollider>> aabbColliders;
 	};
 
 public:
 	CollisionManager();
 	~CollisionManager() = default;
-
-	CollisionManager(const CollisionManager&) = delete;
-	CollisionManager(CollisionManager&&) = delete;
+	
+	__CLASS_NON_COPYABLE(CollisionManager)
 
 public:
-	void begin();
-	void update();
-	void collision(const std::string& groupName1, const std::string& groupName2);
+	void collision_entry_point();
 
-	template<std::derived_from<BaseCollider> ColliderType>
-	void register_collider(const std::string& groupName, const std::shared_ptr<ColliderType>& collider);
+	void remove_marked_destroy();
+
+	template<class ColliderType>
+	void register_collider(const std::string& groupName, Reference<ColliderType> collider);
 
 private:
-	template<std::derived_from<BaseCollider> ColliderType>
-	bool erase_expired(std::list<std::weak_ptr<ColliderType>>& colliders);
+	void collision(const std::string& groupName1, const std::string& groupName2);
 
+private:
 	template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
 	void test_colliders(
-		const std::list<std::weak_ptr<LColliderType>>& lhs,
-		const std::list<std::weak_ptr<RColliderType>>& rhs);
+		const std::list<Reference<LColliderType>>& lhs,
+		const std::list<Reference<RColliderType>>& rhs);
 
 public:
 	void set_callback_manager(std::unique_ptr<CollisionCallbackManager> manager) { collisionCallbackManager = std::move(manager); };
@@ -57,9 +57,11 @@ public:
 #endif // _DEBUG
 
 private:
-	std::unique_ptr<CollisionCallbackManager> collisionCallbackManager;
 	std::unordered_map<std::string, Colliders> colliderList;
-	//std::unordered_multimap<std::string, std::weak_ptr<BaseCollider>> colliderList;
+
+	std::unordered_set<SortedPair<std::string>> collisionLayerList;
+
+	std::unique_ptr<CollisionCallbackManager> collisionCallbackManager;
 
 #ifdef DEBUG_FEATURES_ENABLE
 	bool isShowDebugDraw = true;
@@ -70,8 +72,8 @@ private:
 #endif // _DEBUG
 };
 
-template<std::derived_from<BaseCollider> ColliderType>
-inline void CollisionManager::register_collider(const std::string& groupName, const std::shared_ptr<ColliderType>& collider) {
+template<class ColliderType>
+inline void CollisionManager::register_collider(const std::string& groupName, Reference<ColliderType> collider) {
 	Colliders& colliders = colliderList[groupName];
 	if constexpr (std::is_same_v<ColliderType, SphereCollider>) {
 		colliders.sphereColliders.emplace_back(collider);

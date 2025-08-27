@@ -238,7 +238,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Manager\World\WorldCluster.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -464,18 +465,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderPSO\BaseRenderNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPSO\MultiRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPSO\SingleRenderTargetNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp" />
     <ClCompile Include="Engine\Assets\BackgroundLoader\BackgroundLoader.cpp" />
@@ -551,6 +549,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\PostEffectNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>
@@ -701,14 +701,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderPSO\BaseRenderNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderPSO\MultiRenderTargetNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderPSO\SingleRenderTargetNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h" />
