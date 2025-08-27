@@ -30,10 +30,12 @@ public:
 	/// </summary>
 	void initialize() override;
 
+	void preprocess() override {}
+
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void execute_effect_command();
+	void execute_effect_command() override;
 
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定

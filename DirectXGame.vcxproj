@@ -240,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp" />
+    <ClCompile Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -551,6 +552,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h" />
+    <ClInclude Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>

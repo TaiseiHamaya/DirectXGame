@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#include <json.hpp>
-
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 

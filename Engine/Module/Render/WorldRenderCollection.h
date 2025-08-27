@@ -34,7 +34,7 @@ public:
 	void transfer();
 
 private:
-	u8 numLayer;
+	u8 numLayer{ 0 };
 
 	StaticMeshDrawManager staticMeshDrawManager;
 	SkinningMeshDrawManager skinningMeshDrawManager;

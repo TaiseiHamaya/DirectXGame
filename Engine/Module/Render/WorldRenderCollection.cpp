@@ -7,19 +7,22 @@ void WorldRenderCollection::initialize() {
 }
 
 void WorldRenderCollection::setup(u8 numLayer_) {
-	if (numLayer_ >= 32) {
+	if (numLayer_ >= 32) { // レイヤー数は最大32
 		Warning("Layer value \'{}\' exceeds maximum of 31. Clamped to 31.", numLayer_);
 		numLayer_ = 31;
 	}
 	numLayer = numLayer_;
-	directionalLightingExecutors.resize(numLayer);
-	pointLightingExecutors.resize(numLayer);
 
+	// DrawManager
 	staticMeshDrawManager.initialize(numLayer);
 	skinningMeshDrawManager.initialize(numLayer);
 	rect3dDrawManager.initialize(numLayer);
 
+	// ライティング関連
+	directionalLightingExecutors.resize(numLayer);
+	pointLightingExecutors.resize(numLayer);
 	for (u8 i = 0; i < numLayer; ++i) {
+		// 設置可能Instance
 		directionalLightingExecutors[i].reinitialize(4); // TODO: 可変長にする
 		pointLightingExecutors[i].reinitialize(1024);
 	}
