@@ -220,7 +220,7 @@ void RemoteSkinningMeshInstance::on_spawn() {
 }
 
 void RemoteSkinningMeshInstance::on_destroy() {
-	debugVisual->set_layer(-1);
+	debugVisual->set_layer(std::numeric_limits<u32>::max());
 }
 
 void RemoteSkinningMeshInstance::default_material() {

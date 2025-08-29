@@ -236,7 +236,7 @@ void ParticleEmitterInstance::emit_once() {
 	}
 
 	// 生成
-	auto& newParticle = particles.emplace_back(
+	particles.emplace_back(
 		world_manager()->create<Particle>(
 			isParentEmitter ? this : nullptr,
 			isParentEmitter ? offset : world_position() + offset,

@@ -192,7 +192,7 @@ void RemoteStaticMeshInstance::on_spawn() {
 }
 
 void RemoteStaticMeshInstance::on_destroy() {
-	debugVisual->set_layer(-1);
+	debugVisual->set_layer(std::numeric_limits<u32>::max());
 
 	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::on_destroy();
 }

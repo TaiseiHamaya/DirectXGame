@@ -115,7 +115,7 @@ public: // Member function
 	virtual void transfer();
 	void draw() const;
 
-	virtual void on_emit(Particle* const particle) {};
+	virtual void on_emit(Particle* const) {};
 	virtual void restart();
 
 	void emit();

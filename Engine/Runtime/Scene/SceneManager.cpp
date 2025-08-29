@@ -33,7 +33,7 @@ void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	SceneManager& instance = GetInstance();
 	instance.factory = std::move(factory_);
 	auto initScene = instance.factory->initialize_scene();
-	CriticalIf(!initScene, "The initial scene crated is nullptr.");
+	CriticalIf(!initScene, "The created initial scene was nullptr.");
 
 	initScene->load();
 	BackgroundLoader::WaitEndExecute();

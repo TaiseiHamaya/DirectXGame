@@ -5,7 +5,7 @@ void WorldCluster::initialize() {
 	worldRenderCollection.initialize();
 }
 
-void WorldCluster::setup(const std::filesystem::path& setupFile) {
+void WorldCluster::setup([[maybe_unused]] const std::filesystem::path& setupFile) {
 	worldRoot.setup(instanceBucket);
 }
 

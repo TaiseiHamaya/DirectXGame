@@ -37,9 +37,9 @@ bool PolygonMesh::load(const std::filesystem::path& filePath) {
 	}
 
 	std::wstring meshFileName = filePath.filename().wstring();
-	for (i32 index = 0; auto & meshData : meshData) {
-		meshData.vertices->get_resource()->SetName(std::format(L"VertexBuffer-{}({})", index, meshFileName).c_str());
-		meshData.indexes->get_resource()->SetName(std::format(L"IndexBuffer-{}({})", index, meshFileName).c_str());
+	for (i32 index = 0; auto & mesh : meshData) {
+		mesh.vertices->get_resource()->SetName(std::format(L"VertexBuffer-{}({})", index, meshFileName).c_str());
+		mesh.indexes->get_resource()->SetName(std::format(L"IndexBuffer-{}({})", index, meshFileName).c_str());
 		++index;
 	}
 

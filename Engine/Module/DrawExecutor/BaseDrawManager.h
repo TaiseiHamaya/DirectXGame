@@ -44,9 +44,9 @@ protected:
 	std::vector<std::vector<Reference<Executor>>> layerExecutors;
 
 #ifdef DEBUG_FEATURES_ENABLE
-	u32 layer{ 0 };
+	u32 d_layer{ 0 };
 	KeyType select;
-	u32 maxInstance{ 0 };
+	u32 d_maxInstance{ 0 };
 #endif // _DEBUG
 };
 

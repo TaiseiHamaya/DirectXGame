@@ -27,7 +27,7 @@ void RemoteWorldObject::setup() {
 	}
 }
 
-void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+void RemoteWorldObject::update_preview(Reference<RemoteWorldObject>, Reference<Affine>) {
 	for(auto& child : children) {
 		if (child) {
 			child->update_preview(this, nullptr);

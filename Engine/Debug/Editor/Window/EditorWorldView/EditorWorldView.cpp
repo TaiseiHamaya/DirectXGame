@@ -31,9 +31,7 @@ void EditorWorldView::setup(Reference<RemoteWorldObject> remoteWorld_) {
 	remoteWorld = remoteWorld_;
 }
 
-void EditorWorldView::register_mesh(Reference<StaticMeshInstance> meshInstance) {
-	//staticMeshDrawManager.make_instancing(0, meshInstance->key_id(), 1024);
-	//staticMeshDrawManager.register_instance(meshInstance);
+void EditorWorldView::register_mesh(Reference<StaticMeshInstance>) {
 }
 
 void EditorWorldView::register_primitive(const std::string& name, const Affine& affine) {

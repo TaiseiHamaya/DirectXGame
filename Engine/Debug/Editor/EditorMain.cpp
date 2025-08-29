@@ -154,7 +154,6 @@ bool EditorMain::IsHoverEditorWindow() {
 }
 
 void EditorMain::set_imgui_command() {
-	EditorMain& instance = GetInstance();
 	// メニューバーの表示
 	if (ImGui::BeginMainMenuBar()) {
 		// Windowメニュー

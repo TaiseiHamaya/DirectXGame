@@ -64,7 +64,6 @@ void EditorHierarchy::draw() {
 	savedTrigger = false;
 
 	// 検索ボックス
-	size_t beforSize = searchString.size();
 	ImGui::InputText("##HierarchySearch", &searchString); ImGui::SameLine();
 	if (ImGui::Button("\ue5cd")) {
 		searchString.clear();

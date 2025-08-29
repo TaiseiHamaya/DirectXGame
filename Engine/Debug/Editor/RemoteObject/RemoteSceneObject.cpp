@@ -77,7 +77,7 @@ std::unique_ptr<IRemoteObject> RemoteSceneObject::move_force(Reference<const IRe
 	return nullptr;
 }
 
-void RemoteSceneObject::reparent(Reference<IRemoteObject> remoteObject) {
+void RemoteSceneObject::reparent(Reference<IRemoteObject>) {
 	Error("RemoteSceneObject is must be root object.");
 }
 
