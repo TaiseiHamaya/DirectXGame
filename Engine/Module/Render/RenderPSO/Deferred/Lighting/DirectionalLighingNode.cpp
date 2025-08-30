@@ -17,7 +17,6 @@ void DirectionalLightingNode::initialize() {
 }
 
 void DirectionalLightingNode::preprocess() {
-	auto& command = DxCommand::GetCommandList();
 	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		gBufferTextures[i]->start_read();
 		gBufferTextures[i]->get_as_srv()->use(i + 2);

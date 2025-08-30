@@ -6,7 +6,6 @@
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 
 BaseRenderNode::BaseRenderNode() = default;
-
 BaseRenderNode::~BaseRenderNode() noexcept = default;
 
 void BaseRenderNode::stack_pso_command() {

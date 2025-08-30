@@ -7,6 +7,8 @@
 #include "Engine/Module/Render/RenderNode/Loader/RenderNodeLoader.h"
 #include "Engine/Runtime/Scene/Scene.h"
 
+RenderDAG::~RenderDAG() noexcept = default;
+
 void RenderDAG::setup(const std::string& sceneName, Reference<Scene> scene) {
 	JsonAsset json{ std::format("./Game/Core/Scene/{}/RenderDAG.json", sceneName) };
 

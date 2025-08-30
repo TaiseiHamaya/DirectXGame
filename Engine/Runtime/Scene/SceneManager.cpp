@@ -191,6 +191,7 @@ void SceneManager::NextScene() {
 
 #include <imgui.h>
 #include <format>
+#include "SceneManager2.h"
 
 void SceneManager::SetProfiler(Reference<TimestampProfiler> profiler_) {
 	GetInstance().profiler = profiler_;

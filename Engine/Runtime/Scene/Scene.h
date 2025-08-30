@@ -8,7 +8,7 @@
 #include "Engine/Module/Manager/World/WorldCluster.h"
 #include "Engine/Module/Render/RenderDAG.h"
 
-class Scene final {
+class Scene {
 public:
 	Scene() = default;
 	~Scene() = default;
@@ -16,9 +16,17 @@ public:
 	__CLASS_NON_COPYABLE(Scene)
 
 public:
-	void initialize(const std::string& sceneName);
+	void load_asset();
+
+	void initialize();
+
+	void setup();
+
+	virtual void custom_setup() {};
 
 	void update();
+
+	void pre_draw();
 
 	void draw() const;
 
@@ -26,6 +34,12 @@ public:
 
 public:
 	Reference<WorldCluster> get_world(u32 index);
+
+	void set_name(const std::string& name);
+	std::string_view name() const noexcept;
+
+protected:
+	std::string sceneName;
 
 private:
 	std::vector<WorldCluster> worlds;

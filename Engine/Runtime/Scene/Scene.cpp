@@ -2,8 +2,15 @@
 
 #include <filesystem>
 
-void Scene::initialize(const std::string& sceneName) {
-	for (const std::filesystem::directory_entry& entry : 
+void Scene::load_asset() {
+}
+
+void Scene::initialize() {
+}
+
+void Scene::setup() {
+	// フォルダ内のワールドを全て読み込む
+	for (const std::filesystem::directory_entry& entry :
 		std::filesystem::directory_iterator(std::format("./Game/Core/Scene/{}/Worlds", sceneName))) {
 		WorldCluster world;
 
@@ -12,13 +19,21 @@ void Scene::initialize(const std::string& sceneName) {
 
 		worlds.emplace_back(std::move(world));
 	}
+	WarningIf(worlds.empty(), "Scene-\'{}\' has no worlds.", sceneName);
 
+	// 描画パスの初期化
 	renderDAG.setup(sceneName, this);
 }
 
 void Scene::update() {
 	for (WorldCluster& world : worlds) {
 		world.update();
+	}
+}
+
+void Scene::pre_draw() {
+	for(WorldCluster& world : worlds ) {
+		world.pre_draw();
 	}
 }
 
@@ -38,4 +53,12 @@ Reference<WorldCluster> Scene::get_world(u32 index) {
 		return nullptr;
 	}
 	return worlds[index];
+}
+
+void Scene::set_name(const std::string& name) {
+	sceneName = name;
+}
+
+std::string_view Scene::name() const noexcept {
+	return sceneName;
 }

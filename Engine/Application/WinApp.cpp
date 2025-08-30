@@ -8,6 +8,7 @@
 
 #include "Engine/Application/CrashHandler.h"
 #include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
@@ -19,8 +20,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
-#include "Engine/Application/ProjectSettings/ProjectSettings.h"
-#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Runtime/Scene/SceneManager2.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/Editor/EditorMain.h"
@@ -164,11 +164,11 @@ void WinApp::Initialize() {
 	// 待機
 	BackgroundLoader::WaitEndExecute();
 
-	SceneManager::Initialize();
+	SceneManager2::Initialize();
 
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorMain::Initialize();
-	SceneManager::SetProfiler(instance.profiler);
+	//SceneManager::SetProfiler(instance.profiler);
 #endif // _DEBUG
 
 	Information("Complete initialize application.");
@@ -182,21 +182,54 @@ void WinApp::BeginFrame() {
 	instance.profiler.clear_timestamps();
 	instance.profiler.timestamp("BeginFrame");
 #endif // _DEBUG
+
 	WorldClock::Update();
 	Input::Update();
-	DxCore::BeginFrame();
+	DxCore::BeginFrame(); // SetDescriptorHeapsやる
+
 #ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::BeginFrame();
-	EditorMain::DrawBase();
+	EditorMain::DrawBase(); // Editorのベース描画
 #endif // _DEBUG
+}
+
+void WinApp::Update() {
+#ifdef DEBUG_FEATURES_ENABLE
+	auto& instance = GetInstance();
+	instance.profiler.timestamp("Update");
+	if (IsStopUpdate()) { // 更新停止の場合
+		return;
+	}
+#endif // DEBUG_FEATURES_ENABLE
+
+	// シーン更新
+	SceneManager2::Update();
+}
+
+void WinApp::Draw() {
+#ifdef DEBUG_FEATURES_ENABLE
+	auto& instance = GetInstance();
+	instance.profiler.timestamp("PreDraw");
+#endif // DEBUG_FEATURES_ENABLE
+
+	// 描画前処理
+	SceneManager2::PreDraw();
+
+#ifdef DEBUG_FEATURES_ENABLE
+	instance.profiler.timestamp("Draw");
+#endif // DEBUG_FEATURES_ENABLE
+
+	// コマンドを積む
+	SceneManager2::Draw();
 }
 
 void WinApp::EndFrame() {
 #ifdef DEBUG_FEATURES_ENABLE
+	// タイムスタンプ
 	auto& instance = GetInstance();
 	instance.profiler.timestamp("EndFrame");
-	SceneManager::DebugGui();
-	instance.profiler.timestamp("End");
+
+	// GUI
 	ImGui::Begin("Application");
 	ImGui::Checkbox("IsStopUpdate", &instance.isStopUpdate);
 	instance.isPassedPause = false;
@@ -205,15 +238,18 @@ void WinApp::EndFrame() {
 	instance.profiler.debug_gui();
 	ImGui::End();
 
+	// エディター描画
 	EditorMain::Draw();
 
-	// 一番先にImGUIの処理
+	// ImGuiのコマンドを積む
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
 
+	// 描画実行とWait
 	DxCore::EndFrame();
 
-	//instance->wait_frame();
+	// シーンのフレーム後処理
+	SceneManager2::EndFrame();
 }
 
 void WinApp::Finalize() {
@@ -226,7 +262,7 @@ void WinApp::Finalize() {
 	// 各種終了処理
 	// Initializeと逆順でやる
 	// シーン
-	SceneManager::Finalize();
+	SceneManager2::Finalize();
 #ifdef DEBUG_FEATURES_ENABLE
 	// ImGui
 	EditorMain::Finalize();
@@ -259,7 +295,7 @@ bool WinApp::IsEndApp() {
 	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
 		return true;
 	}
-	if (SceneManager::IsEndProgram()) {
+	if (SceneManager2::IsEndProgram()) {
 		return true;
 	}
 	return false;

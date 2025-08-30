@@ -23,10 +23,18 @@ public:
 
 public:
 	static void Initialize();
+	
 	static void BeginFrame();
+
+	static void Update();
+
+	static void Draw();
+
 	static void EndFrame();
+	
 	static void Finalize();
 
+public:
 	static void ShowAppWindow();
 	static bool IsEndApp();
 	static void ProcessMessage();

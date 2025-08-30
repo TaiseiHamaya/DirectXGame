@@ -15,7 +15,7 @@ class Scene;
 class RenderDAG final {
 public:
 	RenderDAG() = default;
-	~RenderDAG() noexcept = default;
+	~RenderDAG() noexcept;
 
 	__CLASS_NON_COPYABLE(RenderDAG)
 

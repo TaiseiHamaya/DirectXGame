@@ -37,7 +37,7 @@ void Input::Update() {
 	);
 	if (FAILED(result)) {
 		// 失敗したら0埋め
-		std::fill(instance.keyboardState.begin(), instance.keyboardState.end(), 0);
+		std::fill(instance.keyboardState.begin(), instance.keyboardState.end(), (BYTE)0);
 	}
 
 	// マウス更新

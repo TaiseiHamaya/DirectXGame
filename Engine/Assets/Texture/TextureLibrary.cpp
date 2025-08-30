@@ -65,7 +65,6 @@ void TextureLibrary::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(textureName)) {
 		Information("Unload texture Name-\'{:}\'.", textureName);
-		auto&& texture = GetInstance().textureInstanceList.at(textureName);
 		GetInstance().textureInstanceList.erase(textureName);
 	}
 }

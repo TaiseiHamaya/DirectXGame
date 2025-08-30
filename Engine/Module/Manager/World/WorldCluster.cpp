@@ -13,7 +13,9 @@ void WorldCluster::update() {
 	worldRoot.update();
 	
 	worldRoot.update_affine();
+}
 
+void WorldCluster::pre_draw() {
 	worldRenderCollection.transfer();
 
 	worldRoot.post_update();

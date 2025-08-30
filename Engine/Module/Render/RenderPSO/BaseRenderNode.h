@@ -2,18 +2,18 @@
 
 #include <memory>
 
+#include <d3dcommon.h>
+
+#include <Library/Utility/Tools/ConstructorMacro.h>
+
 class DxPipelineState;
-enum D3D_PRIMITIVE_TOPOLOGY;
 
 class BaseRenderNode {
 public:
 	BaseRenderNode();
 	virtual ~BaseRenderNode() noexcept;
 
-	BaseRenderNode(const BaseRenderNode&) = delete;
-	BaseRenderNode& operator=(const BaseRenderNode&) = delete;
-	BaseRenderNode(BaseRenderNode&&) = default;
-	BaseRenderNode& operator=(BaseRenderNode&&) = default;
+	__CLASS_NON_COPYABLE(BaseRenderNode)
 
 public:
 	/// <summary>

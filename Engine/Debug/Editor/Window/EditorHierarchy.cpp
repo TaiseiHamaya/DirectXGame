@@ -20,7 +20,7 @@
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
-#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Runtime/Scene/SceneManager2.h"
 
 #include <Engine/Assets/Json/JsonAsset.h>
 
@@ -47,7 +47,7 @@ void EditorHierarchy::load(std::filesystem::path file) {
 	JsonAsset json{ file };
 	scene = EditorSceneSerializer::CreateRemoteScene(json.try_emplace<nlohmann::json>("Scene"));
 
-	Reference<BaseScene> currentScene = SceneManager::GetCurrentScene();
+	Reference<Scene> currentScene = SceneManager2::GetCurrentScene();
 }
 
 nlohmann::json EditorHierarchy::save() const {

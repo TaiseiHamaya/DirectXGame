@@ -21,6 +21,9 @@ public:
 	void setup(const std::filesystem::path& setupFile);
 
 	void update();
+
+	void pre_draw();
+
 	void end_frame();
 
 public:

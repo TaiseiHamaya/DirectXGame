@@ -37,7 +37,7 @@ inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, r32 time_) {
 template<class Type>
 inline void TimedCall<Type>::update() {
 	timer.back();
-	if (timer.time() <= 0) {
+	if (timer <= 0) {
 		isFinished = true;
 		function();
 	}

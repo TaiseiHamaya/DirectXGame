@@ -19,9 +19,9 @@ void RenderPath::initialize(std::initializer_list<std::shared_ptr<BaseRenderNode
 void RenderPath::use() {
 	// nowNodeのリセットしておく
 	nowNode = renderNodeList.end();
-	for (auto& renderNode : renderNodeList) {
-		//renderNode.lock()->use();
-	}
+	//for (auto& renderNode : renderNodeList) {
+	//	renderNode->use();
+	//}
 }
 
 bool RenderPath::begin() {
