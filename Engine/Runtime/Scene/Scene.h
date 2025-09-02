@@ -16,7 +16,7 @@ public:
 	__CLASS_NON_COPYABLE(Scene)
 
 public:
-	void load_asset();
+	virtual void load_asset();
 
 	void initialize();
 

@@ -6,5 +6,7 @@ public:
 	virtual ~Framework() = default;
 
 public:
+	virtual void initialize() = 0;
+
 	void run();
 };

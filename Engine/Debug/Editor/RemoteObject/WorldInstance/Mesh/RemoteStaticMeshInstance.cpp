@@ -31,6 +31,9 @@ void RemoteStaticMeshInstance::update_preview(Reference<RemoteWorldObject> world
 	debugVisual->localAffine = worldAffine;
 	debugVisual->isDraw = isDraw.cget();
 
+	if (debugVisual->keyID != meshName) {
+		return;
+	}
 	for (i32 i = 0; i < materials.size(); ++i) {
 		RemoteStaticMeshInstance::Material& source = materials[i];
 		StaticMeshInstance::Material& write = debugVisual->materials[i];

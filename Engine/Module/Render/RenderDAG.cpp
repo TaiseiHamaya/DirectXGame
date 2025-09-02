@@ -7,6 +7,7 @@
 #include "Engine/Module/Render/RenderNode/Loader/RenderNodeLoader.h"
 #include "Engine/Runtime/Scene/Scene.h"
 
+RenderDAG::RenderDAG() = default;
 RenderDAG::~RenderDAG() noexcept = default;
 
 void RenderDAG::setup(const std::string& sceneName, Reference<Scene> scene) {
