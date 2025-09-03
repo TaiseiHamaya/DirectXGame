@@ -4,8 +4,8 @@
 
 #include "IEditorWindow.h"
 
-#include <filesystem>
 #include <memory>
+#include <string>
 
 #include <Library/Utility/Template/Reference.h>
 
@@ -23,7 +23,7 @@ public:
 
 	void update_preview();
 
-	void load(std::filesystem::path file);
+	void load(const std::string& sceneName);
 	nlohmann::json save() const;
 
 	void draw() override;

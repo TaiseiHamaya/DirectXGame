@@ -3,6 +3,7 @@
 #ifdef DEBUG_FEATURES_ENABLE
 
 #include <memory>
+#include <string>
 
 #include <json.hpp>
 
@@ -19,7 +20,7 @@ public:
 	__CLASS_NON_COPYABLE(EditorSceneSerializer)
 
 public:
-	static std::unique_ptr<RemoteSceneObject> CreateRemoteScene(const nlohmann::json& json);
+	static std::unique_ptr<RemoteSceneObject> CreateRemoteScene(const std::string& sceneName);
 	static std::unique_ptr<RemoteWorldObject> CreateRemoteWorld(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteObject(const nlohmann::json& json);
 

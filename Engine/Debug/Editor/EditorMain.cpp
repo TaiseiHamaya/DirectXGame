@@ -58,8 +58,8 @@ void EditorMain::Setup() {
 
 	JsonAsset json;
 	json.load("./Game/DebugData/Editor.json");
-	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
-	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
+	std::string sceneName = json.try_emplace<std::string>("LastLoadedScene");
+	instance.hierarchy.load(sceneName);
 	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 }
 
@@ -70,7 +70,7 @@ void EditorMain::DrawBase() {
 		// シーンビューを未設定に設定
 		instance.sceneView.reset_force();
 		// シーンのロード
-		instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", instance.switchSceneName.value()));
+		instance.hierarchy.load(instance.switchSceneName.value());
 		instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 		// 選択オブジェクトのリセット
 		instance.selectObject.set_item(nullptr);

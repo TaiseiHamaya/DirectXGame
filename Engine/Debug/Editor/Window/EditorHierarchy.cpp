@@ -40,12 +40,12 @@ void EditorHierarchy::update_preview() {
 	scene->update_preview(nullptr, nullptr);
 }
 
-void EditorHierarchy::load(std::filesystem::path file) {
+void EditorHierarchy::load(const std::string& sceneName) {
 	savedTrigger = false;
 	isActive = true;
-
-	JsonAsset json{ file };
-	scene = EditorSceneSerializer::CreateRemoteScene(json.try_emplace<nlohmann::json>("Scene"));
+	
+	//JsonAsset json{ std::format("./Game/Core/Scene/{}.json", sceneName) };
+	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
 	Reference<Scene> currentScene = SceneManager2::GetCurrentScene();
 }

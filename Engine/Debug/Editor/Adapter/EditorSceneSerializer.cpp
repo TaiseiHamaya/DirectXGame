@@ -7,28 +7,35 @@
 #include "../RemoteObject/RemoteSceneObject.h"
 #include "../RemoteObject/RemoteWorldObject.h"
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
+#include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
-#include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
-#include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Application/Output.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 #include <Library/Utility/Template/string_hashed.h>
 
 #define TRANSFORM3D_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
-std::unique_ptr<RemoteSceneObject> EditorSceneSerializer::CreateRemoteScene(const nlohmann::json& json) {
+std::unique_ptr<RemoteSceneObject> EditorSceneSerializer::CreateRemoteScene(const std::string& sceneName) {
 	std::unique_ptr<RemoteSceneObject> scene = std::make_unique<RemoteSceneObject>();
-	json.get_to(scene->hierarchyName);
-	if (json.contains("Worlds") && json["Worlds"].is_array()) {
-		for (const nlohmann::json& world : json["Worlds"]) {
-			scene->add_child(EditorSceneSerializer::CreateRemoteWorld(world));
-		}
+	if(sceneName.empty() || !std::filesystem::exists(std::format("./Game/Core/Scene/{}", sceneName))) {
+		Error("Scene is not found. Name-\'{}\'", sceneName);
+		return scene;
 	}
+	scene->hierarchyName.set_weak(sceneName);
+
+	for (const std::filesystem::directory_entry& entry :
+		std::filesystem::directory_iterator(std::format("./Game/Core/Scene/{}/Worlds", sceneName))) {
+		JsonAsset json{ entry };
+		scene->add_child(EditorSceneSerializer::CreateRemoteWorld(json.cget()));
+	}
+
 	return scene;
 }
 

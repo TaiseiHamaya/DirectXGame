@@ -19,11 +19,14 @@ void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	instance.factory = std::move(factory_);
 
 	auto scene = instance.factory->initialize_scene2();
-	CriticalIf(!scene, "The created initial scene was nullptr.");
+	if (!scene) {
+		Critical("The created initial scene was nullptr.");
+		return;
+	}
 
 	scene->load_asset();
 
-	instance.sceneStack.back() = std::move(scene);
+	instance.sceneStack.emplace_back(std::move(scene));
 
 	BackgroundLoader::WaitEndExecute();
 }
@@ -31,6 +34,7 @@ void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 void SceneManager2::Finalize() noexcept {
 	SceneManager2& instance = GetInstance();
 	instance.sceneStack.clear();
+	instance.factory.reset();
 }
 
 void SceneManager2::BeginFrame() {

@@ -6,12 +6,13 @@
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Engine/Module/Manager/World/WorldCluster.h"
+#include "Engine/Module/Manager/SceneScript/SceneScriptManager.h"
 #include "Engine/Module/Render/RenderDAG.h"
 
 class Scene {
 public:
 	Scene() = default;
-	~Scene() = default;
+	virtual ~Scene() = default;
 
 	__CLASS_NON_COPYABLE(Scene)
 
@@ -44,4 +45,5 @@ protected:
 private:
 	std::vector<WorldCluster> worlds;
 	RenderDAG renderDAG;
+	SceneScriptManager sceneScriptManager;
 };

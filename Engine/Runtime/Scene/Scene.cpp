@@ -26,9 +26,11 @@ void Scene::setup() {
 }
 
 void Scene::update() {
+	sceneScriptManager.prev_update();
 	for (WorldCluster& world : worlds) {
 		world.update();
 	}
+	sceneScriptManager.post_update();
 }
 
 void Scene::pre_draw() {
