@@ -23,6 +23,11 @@ void JsonAsset::load(const std::filesystem::path& file) {
 		filePath = DEFAULT_DIRECTORY / file;
 	}
 
+	if (!std::filesystem::exists(filePath)) {
+		Warning(L"File-\'{}\' is not found.", filePath.stem().native());
+		return;
+	}
+
 	std::ifstream ifstream{ filePath };
 
 	if (ifstream.fail()) {

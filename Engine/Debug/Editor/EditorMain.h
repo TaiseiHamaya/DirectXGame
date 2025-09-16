@@ -25,6 +25,9 @@ public:
 	static void DrawBase();
 	static void Draw();
 
+public:
+	static void SetActiveEditor(bool isActive);
+
 	static bool IsHoverEditorWindow();
 
 private:
