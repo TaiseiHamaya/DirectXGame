@@ -167,8 +167,8 @@ void EditorGizmo::scene_header() {
 
 		ImGui::PopStyleVar(1);
 		ImGui::PopFont();
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
 }
 
 #endif // DEBUG_FEATURES_ENABLE
