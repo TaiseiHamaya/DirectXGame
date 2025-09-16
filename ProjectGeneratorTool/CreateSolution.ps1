@@ -112,6 +112,9 @@ if (Test-Path $gameDir) {
     }
 }
 
+# DirectXGame.vcxproj.userのassume-unchanged
+cd DirectXGame
+git update-index --assume-unchanged DirectXGame.vcxproj.user
 
 Pop-Location
 Write-Host "完了しました。"

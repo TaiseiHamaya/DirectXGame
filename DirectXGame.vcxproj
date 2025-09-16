@@ -209,7 +209,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
-    <ClCompile Include="Engine\Runtime\ProjectManager\ProjectManager.cpp" />
+    <ClCompile Include="Engine\Application\ProjectSettings\ProjectSettings.cpp" />
     <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
     <ClCompile Include="Library\Utility\Template\call_once.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
@@ -506,7 +506,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiStyleSetter.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h" />
-    <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h" />
+    <ClInclude Include="Engine\Application\ProjectSettings\ProjectSettings.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\IRemoteInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\IEditorCommand.h" />
     <ClInclude Include="Library\Utility\Template\string_hashed.h" />

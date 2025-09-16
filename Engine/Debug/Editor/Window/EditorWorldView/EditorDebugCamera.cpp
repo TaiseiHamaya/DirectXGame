@@ -5,12 +5,12 @@
 #include <Library/Math/VectorConverter.h>
 
 #include "../EditorSceneView.h"
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 void EditorDebugCamera::initialize() {
 	set_perspective_fov_info(
 		0.45f,
-		EngineSettings::CLIENT_SIZE.x / EngineSettings::CLIENT_SIZE.y,
+		(float)ProjectSettings::ClientWidth() / ProjectSettings::ClientHeight(),
 		0.1f, 1000
 	);
 

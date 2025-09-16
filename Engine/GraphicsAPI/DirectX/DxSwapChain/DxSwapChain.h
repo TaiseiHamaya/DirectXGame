@@ -1,7 +1,7 @@
 #pragma once
 
-#include <array>
 #include <memory>
+#include <vector>
 
 #include <dxgi1_5.h>
 #include <wrl/client.h>

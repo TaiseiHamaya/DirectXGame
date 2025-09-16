@@ -2,6 +2,7 @@
 
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 ScreenTexture::~ScreenTexture() {
 	rtv.release();
@@ -9,8 +10,8 @@ ScreenTexture::~ScreenTexture() {
 
 void ScreenTexture::initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource_) {
 	resource = resource_;
-	width = EngineSettings::CLIENT_WIDTH;
-	height = EngineSettings::CLIENT_HEIGHT;
+	width = ProjectSettings::ClientWidth();
+	height = ProjectSettings::ClientHeight();
 	rtv.create(this, DxSystemValues::SCREEN_RTV_FORMAT);
 
 	state = D3D12_RESOURCE_STATE_PRESENT;

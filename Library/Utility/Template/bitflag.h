@@ -21,7 +21,8 @@ public: // using
 public: // constructor/destructor
 	constexpr bitflag();
 	constexpr bitflag(const value_type& base);
-	constexpr bitflag(const under_type& base);
+	template<typename U>
+	constexpr bitflag(const U& base);
 	constexpr ~bitflag() = default;
 
 	constexpr bitflag(const_reference_bitflag) = default;
@@ -52,6 +53,10 @@ private: // member function
 private: // member value
 	under_type value;
 };
+
+// ----------------------------------
+// ---------- define macro ----------
+// ----------------------------------
 
 #define __USE_BITFLAG(EnumName) \
 constexpr eps::bitflag<EnumName> operator|(const EnumName lhs, const EnumName rhs) {\
@@ -97,7 +102,8 @@ inline constexpr bitflag<T>::bitflag(const value_type& base) : value(to_under(ba
 }
 
 template<Enum T>
-inline constexpr bitflag<T>::bitflag(const under_type& base) : value(base) {
+template<typename U>
+inline constexpr bitflag<T>::bitflag(const U& base) : value(base) {
 }
 
 // -------------------------------------
@@ -152,7 +158,7 @@ inline constexpr bitflag<T>::under_type bitflag<T>::to_under(const value_type& v
 }
 
 // -------------------------------------
-// ---------- gloval operator ----------
+// ---------- global operator ----------
 // -------------------------------------
 
 template<Enum T>

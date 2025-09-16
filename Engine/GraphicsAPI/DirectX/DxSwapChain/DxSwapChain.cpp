@@ -11,6 +11,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 void DxSwapChain::Initialize() {
 	auto& instance = GetInstance();
@@ -60,15 +61,16 @@ void DxSwapChain::create_swapchain() {
 	HRESULT hr;
 	// ----------スワップチェインを生成----------
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-	swapChainDesc.Width = EngineSettings::CLIENT_WIDTH; // 画面の幅
-	swapChainDesc.Height = EngineSettings::CLIENT_HEIGHT; // 画面の高さ
+	swapChainDesc.Width = ProjectSettings::ClientWidth(); // 画面の幅
+	swapChainDesc.Height = ProjectSettings::ClientHeight(); // 画面の高さ
 	swapChainDesc.Format = DxSystemValues::SWAPCHAIN_FORMAT; // 色の形式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
 	swapChainDesc.BufferCount = RenderingSystemValues::NUM_BUFFERING; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
+	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 #ifdef DEBUG_FEATURES_ENABLE
-	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
+	swapChainDesc.Flags |= DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // 限界までフレームレートを出せるようにする
 #endif // _DEBUG
 
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成

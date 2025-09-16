@@ -11,8 +11,8 @@
 #include "Command/EditorCreateObjectCommand.h"
 #include "Command/EditorDeleteObjectCommand.h"
 #include "Command/EditorSelectCommand.h"
-#include "Engine/Application/EngineSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 #include "./Window/EditorLogWindow.h"
 
@@ -55,16 +55,25 @@ void EditorMain::Setup() {
 	IRemoteObject::Setup(instance.sceneView);
 	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 	instance.inspector.setup(instance.selectObject);
+	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 
+	std::filesystem::path filePath = "./Game/DebugData/Editor.json";
 	JsonAsset json;
+	if (!std::filesystem::exists(filePath)) {
+		instance.isActiveEditor = false;
+		Warning("The file required to start the editor was not found.");
+	}
+
 	json.load("./Game/DebugData/Editor.json");
 	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
 	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
-	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 }
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
+	if (!instance.isActiveEditor) {
+		return;
+	}
 
 	if (instance.switchSceneName.has_value()) {
 		// シーンビューを未設定に設定
@@ -148,6 +157,10 @@ void EditorMain::Draw() {
 	EditorHierarchyDandD::ExecuteReparent();
 }
 
+void EditorMain::SetActiveEditor(bool isActive) {
+	GetInstance().isActiveEditor = isActive;
+}
+
 bool EditorMain::IsHoverEditorWindow() {
 	EditorMain& instance = GetInstance();
 	return instance.sceneView.is_hovered_window();
@@ -188,14 +201,14 @@ void EditorMain::set_imgui_command() {
 		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
 
 	ImGui::SetNextWindowPos({ 0, 0 });
-	ImGui::SetNextWindowSize({ EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y });
+	ImGui::SetNextWindowSize({ ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y });
 
 	ImGui::Begin("EditorMain", nullptr, flags);
 
 	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
 	ImGui::SetCursorScreenPos({ 0, 19 });
-	ImGui::DockSpace(dockSpaceId, ImVec2(EngineSettings::CLIENT_SIZE.x, EngineSettings::CLIENT_SIZE.y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::DockSpace(dockSpaceId, ImVec2(ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
 }

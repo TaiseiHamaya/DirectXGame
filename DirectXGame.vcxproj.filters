@@ -708,7 +708,7 @@
     <ClCompile Include="Library\Utility\Template\call_once.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Runtime\ProjectManager\ProjectManager.cpp">
+    <ClCompile Include="Engine\Application\ProjectSettings\ProjectSettings.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp">
@@ -1361,7 +1361,7 @@
     <ClInclude Include="Library\Utility\Template\call_once.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Runtime\ProjectManager\ProjectManager.h">
+    <ClInclude Include="Engine\Application\ProjectSettings\ProjectSettings.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.h">
