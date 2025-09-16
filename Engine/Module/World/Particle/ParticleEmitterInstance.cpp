@@ -50,6 +50,14 @@ ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile,
 	create_draw_system();
 }
 
+ParticleEmitterInstance::~ParticleEmitterInstance() {
+	// 登録解除
+	Reference<WorldManager> manager = world_manager();
+	for(auto& particle : particles) {
+		manager->erase(particle);
+	}
+}
+
 void ParticleEmitterInstance::update() {
 	if (!isActive) {
 		return;
@@ -73,6 +81,8 @@ void ParticleEmitterInstance::update() {
 	particles.remove_if(
 		[&](std::unique_ptr<Particle>& particle) {
 		if (particle->is_destroy()) {
+			Reference<WorldManager> manager = world_manager();
+			manager->erase(particle);
 			return true;
 		}
 		return false;
