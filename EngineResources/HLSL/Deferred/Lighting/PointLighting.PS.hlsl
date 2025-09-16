@@ -13,7 +13,7 @@ struct Camera {
 };
 
 Texture2D<float4> gAlbedoShading : register(t0);
-Texture2D<float4> gNormal : register(t1);
+Texture2D<uint> gNormal : register(t1);
 Texture2D<float> gDepth : register(t2);
 
 StructuredBuffer<PointLightBuffer> gPointLight : register(t3);
@@ -27,15 +27,15 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	
 	// sampling
 	float4 albedoShading = gAlbedoShading.Load(input.position.xyz);
-	float4 normalViewShininess = gNormal.Load(input.position.xyz);
+	uint normalViewShininess = gNormal.Load(input.position.xyz);
 	float ndcDepth = gDepth.Load(input.position.xyz);
 	
 	// unpack
 	Pixel pixel;
 	pixel.color = albedoShading.rgb;
 	uint shadingType = UnpackA2bit(albedoShading.a);
-	pixel.normal = mul(UnpackingNormaV2(normalViewShininess.xy), (float3x3)gCamera.viewInv);
-	pixel.shininess = UnpackShininess(normalViewShininess.zw);
+	pixel.normal = mul(UnpackingNormaV2(normalViewShininess), (float3x3)gCamera.viewInv);
+	pixel.shininess = UnpackShininess(normalViewShininess);
 	//float3 normal = normalize(normalShininess.xyz);
 	float3 ndc = float3(texcoord.xy * 2 - 1, ndcDepth);
 	ndc.y *= -1;
