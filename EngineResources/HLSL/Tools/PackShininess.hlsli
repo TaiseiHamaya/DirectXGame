@@ -1,11 +1,11 @@
-float2 PackShininess(float shininess) {
-	float temp = clamp(shininess, 0, 399.999) / 100;
-	return float2(
-		frac(temp),
-		trunc(temp) / 3.0f
-	);
+#define SHININESS_BITS 8
+#define SHININESS_BIT_MASK ((1u << SHININESS_BITS) - 1)
+
+uint PackShininess(float shininess) {
+	return saturate(shininess / 400) * SHININESS_BIT_MASK;
+
 }
 
-float UnpackShininess(float2 packed) {
-	return float(packed.y * 3.0f + packed.x) * 100;
+uint UnpackShininess(uint packed) {
+	return (packed & SHININESS_BIT_MASK) / (float)SHININESS_BIT_MASK * 400;
 }
