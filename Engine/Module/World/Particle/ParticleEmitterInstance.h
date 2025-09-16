@@ -108,7 +108,7 @@ public:
 
 public: // Constructor/Destructor
 	ParticleEmitterInstance(std::filesystem::path jsonFile, u32 MaxParticle);
-	virtual ~ParticleEmitterInstance() = default;
+	virtual ~ParticleEmitterInstance();
 
 public: // Member function
 	virtual void update();
