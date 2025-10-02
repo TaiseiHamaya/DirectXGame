@@ -17,6 +17,8 @@ enum class LogType : u8 {
 
 void InitializeLog();
 
+void FinalizeLog();
+
 void SyncErrorWindow();
 
 void LogOutputA(const std::source_location& sourceLocation, LogType type, const std::string& message);

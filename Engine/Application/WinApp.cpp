@@ -57,10 +57,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 WinApp::~WinApp() noexcept {
-	// COMの終了
-	CoUninitialize();
 	// ログ
 	Information("Complete finalize application.");
+	FinalizeLog();
+	// COMの終了
+	CoUninitialize();
 	// chrono内のTZDBを削除(これ以降ログ出力はされない)
 	std::chrono::get_tzdb_list().~tzdb_list();
 }
@@ -87,14 +88,15 @@ void WinApp::Initialize() {
 
 	// クラッシュハンドラの設定
 	CrashHandler::Initialize();
+
+	// COMの初期化
+	CoInitializeEx(0, COINIT_MULTITHREADED);
+
 	// Log出力システムの初期化
 	InitializeLog();
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorLogWindow::Allocate();
 #endif // DEBUG_FEATURES_ENABLE
-
-	// COMの初期化
-	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// ---------- Projectのロード ----------
 	ProjectSettings::Initialize();
