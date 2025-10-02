@@ -21,7 +21,9 @@
 
 namespace chrono = std::chrono;
 
-std::mutex OutputMutex;
+static std::mutex OutputMutex;
+
+static bool canOutputLog{ false };
 
 constexpr std::array<wstring_literal, 4> TypeStringW = {
 	L"Information",
@@ -35,6 +37,14 @@ void InitializeLog() {
 	std::ofstream file;
 	file.exceptions(std::ios_base::badbit | std::ios_base::failbit);
 	file.open(EngineSettings::LogFilePath);
+
+	std::lock_guard<std::mutex> lock{ OutputMutex };
+	canOutputLog = true;
+}
+
+void FinalizeLog() {
+	std::lock_guard<std::mutex> lock{ OutputMutex };
+	canOutputLog = false;
 }
 
 void SyncErrorWindow() {
@@ -157,9 +167,19 @@ static void LogOutputBody(const std::wstring& file, LogType type, const std::wst
 }
 
 void LogOutputA(const std::source_location& sourceLocation, LogType type, const std::string& message) {
+	if (!canOutputLog) {
+		throw std::runtime_error("アプリケーション終了後にログ出力が行われました。");
+		return;
+	}
+
 	LogOutputBody(ToFilenameW(sourceLocation), type, ConvertString(message));
 }
 
 void LogOutputW(const std::source_location& sourceLocation, LogType type, const std::wstring& message) {
+	if (!canOutputLog) {
+		throw std::runtime_error("アプリケーション終了後にログ出力が行われました。");
+		return;
+	}
+
 	LogOutputBody(ToFilenameW(sourceLocation), type, message);
 }
