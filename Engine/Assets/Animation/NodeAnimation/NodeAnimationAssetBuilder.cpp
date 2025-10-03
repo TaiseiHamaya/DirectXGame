@@ -11,12 +11,7 @@
 #include "Engine/Application/Output.h"
 
 NodeAnimationAssetBuilder::NodeAnimationAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = filePath_;
-}
-
-void NodeAnimationAssetBuilder::preprocess() {
-	nodeAnimationData.clear();
-	//nodeAnimationData = eps::CreateShared<NodeAnimationAsset>();
+	filePath = BaseAssetBuilder::ResolveFilePath(filePath_);
 }
 
 bool NodeAnimationAssetBuilder::run() {
@@ -46,8 +41,38 @@ bool NodeAnimationAssetBuilder::run() {
 		BuildData& write = nodeAnimationData[i];
 		aiAnimation* aiPAnimation = scene->mAnimations[i];
 		write.name = std::format("{}-{}", fileName, aiPAnimation->mName.C_Str());
-		write.asset = eps::CreateShared<NodeAnimationAsset>();
-		write.asset->load(aiPAnimation);
+
+		r32 ticksPerSecond = static_cast<r32>(aiPAnimation->mTicksPerSecond);
+		// duration算出
+		r32 duration = r32(aiPAnimation->mDuration) / ticksPerSecond;
+		std::unordered_map<std::string, NodeAnimationAsset::NodeAnimation> nodeAnimations;
+		for (u32 channelIndex = 0; channelIndex < aiPAnimation->mNumChannels; ++channelIndex) {
+			aiNodeAnim* aiNodeAnimation = aiPAnimation->mChannels[channelIndex];
+			// Node追加
+			NodeAnimationAsset::NodeAnimation& nodeAnimation = nodeAnimations[aiNodeAnimation->mNodeName.C_Str()];
+			// Scale
+			for (u32 keyIndex = 0; keyIndex < aiNodeAnimation->mNumScalingKeys; ++keyIndex) {
+				aiVectorKey& aiKey = aiNodeAnimation->mScalingKeys[keyIndex];
+				r32 time = r32(aiKey.mTime) / ticksPerSecond;
+				Vector3 value = { aiKey.mValue.x,aiKey.mValue.y,aiKey.mValue.z };
+				nodeAnimation.scale.keyframes.emplace(time, value);
+			}
+			// Rotation
+			for (u32 keyIndex = 0; keyIndex < aiNodeAnimation->mNumRotationKeys; ++keyIndex) {
+				aiQuatKey& aiKey = aiNodeAnimation->mRotationKeys[keyIndex];
+				r32 time = r32(aiKey.mTime) / ticksPerSecond;
+				Quaternion value = { aiKey.mValue.x, -aiKey.mValue.y, -aiKey.mValue.z, aiKey.mValue.w };
+				nodeAnimation.rotate.keyframes.emplace(time, value);
+			}
+			// Translate
+			for (u32 keyIndex = 0; keyIndex < aiNodeAnimation->mNumPositionKeys; ++keyIndex) {
+				aiVectorKey& aiKey = aiNodeAnimation->mPositionKeys[keyIndex];
+				r32 time = r32(aiKey.mTime) / ticksPerSecond;
+				Vector3 value = { -aiKey.mValue.x,aiKey.mValue.y,aiKey.mValue.z };
+				nodeAnimation.translate.keyframes.emplace(time, value);
+			}
+		}
+		write.asset = eps::CreateShared<NodeAnimationAsset>(duration, nodeAnimations);
 	}
 
 	return true;

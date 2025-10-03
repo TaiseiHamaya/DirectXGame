@@ -8,14 +8,12 @@
 
 class ShaderAsset final {
 public:
-	ShaderAsset() = default;
+	ShaderAsset(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;
 	~ShaderAsset() = default;
 
 	__CLASS_NON_COPYABLE(ShaderAsset)
 
 public:
-	void initialize(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;
-
 	D3D12_SHADER_BYTECODE blob_bytecode() const noexcept;
 	DxcBuffer blob_buffer() const noexcept;
 

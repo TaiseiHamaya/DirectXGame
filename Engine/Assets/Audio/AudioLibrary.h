@@ -5,21 +5,12 @@
 #include <string>
 #include <unordered_map>
 
+#include <Library/Utility/Template/SingletonInterface.h>
+
 class AudioAsset;
 
-class AudioLibrary final {
-private:
-	AudioLibrary() noexcept;
-
-public:
-	~AudioLibrary() noexcept;
-
-private:
-	AudioLibrary(const AudioLibrary&) = delete;
-	AudioLibrary& operator=(const AudioLibrary&) = delete;
-
-public:
-	static AudioLibrary& GetInstance() noexcept;
+class AudioLibrary final : public SingletonInterface<AudioLibrary> {
+	__CLASS_SINGLETON_INTERFACE(AudioLibrary)
 
 public:
 	/// <summary>

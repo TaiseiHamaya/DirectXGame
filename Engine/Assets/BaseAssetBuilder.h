@@ -13,11 +13,6 @@ public:
 
 public:
 	/// <summary>
-	/// Run on "RegisterLoadQue"
-	/// </summary>
-	virtual void preprocess() = 0;
-
-	/// <summary>
 	/// Run on default timing
 	/// </summary>
 	/// <returns>Succeed / Failed</returns>
@@ -35,6 +30,9 @@ public:
 
 public:
 	const std::filesystem::path& filepath() { return filePath; };
+
+public:
+	static std::filesystem::path ResolveFilePath(const std::filesystem::path& filePath, const std::string& subPath = "");
 
 protected:
 	std::filesystem::path filePath;
