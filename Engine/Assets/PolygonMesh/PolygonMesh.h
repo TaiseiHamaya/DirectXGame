@@ -2,17 +2,16 @@
 
 #include <d3d12.h>
 
-#include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
+#include <Library/Math/Transform2D.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
+
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
-#include <Library/Math/Transform2D.h>
-
 class IndexBuffer;
-class Texture;
 
 class PolygonMesh final {
 public:
@@ -29,21 +28,12 @@ public:
 	};
 
 public:
-	PolygonMesh() noexcept;
+	PolygonMesh(std::vector<MeshData>& meshData_, std::unordered_map<std::string, MeshMaterialData>& materialData_) noexcept;
 	~PolygonMesh() noexcept;
 
-private:
-	PolygonMesh(const PolygonMesh&) = delete;
-	PolygonMesh& operator=(const PolygonMesh&) = delete;
+	__CLASS_NON_COPYABLE(PolygonMesh)
 
 public:
-	/// <summary>
-	/// ロード関数
-	/// </summary>
-	/// <param name="filePath">ファイルディレクトリ</param>
-	/// <returns>成功値</returns>
-	bool load(const std::filesystem::path& filePath);
-
 	/// <summary>
 	/// VertexBufferViewを取得
 	/// </summary>
@@ -75,12 +65,6 @@ public:
 
 private:
 	bool has_material(u32 index) const;
-
-private:
-	bool load_obj_file(const std::filesystem::path& filePath);
-	bool load_mtl_file(const std::filesystem::path& mtlFileName);
-
-	bool load_gltf_file(const std::filesystem::path& mtlFilePath);
 
 private:
 	std::vector<MeshData> meshData;

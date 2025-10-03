@@ -11,17 +11,7 @@
 
 std::mutex audioMutex;
 
-AudioLibrary::AudioLibrary() noexcept = default;
-
-AudioLibrary::~AudioLibrary() noexcept = default;
-
-AudioLibrary& AudioLibrary::GetInstance() noexcept {
-	static AudioLibrary instance;
-	return instance;
-}
-
 void AudioLibrary::Initialize() {
-	auto&& instance = GetInstance();
 	// nullインスタンスの追加
 	Transfer("NULL", nullptr);
 }

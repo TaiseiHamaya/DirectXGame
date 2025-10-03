@@ -18,8 +18,6 @@ public:
 	~TextureAssetBuilder() = default;
 
 public:
-	void preprocess() override;
-
 	bool run() override;
 
 	void postprocess() override;

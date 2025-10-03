@@ -25,18 +25,10 @@ public:
 	};
 
 public:
-	NodeAnimationAsset() = default;
+	NodeAnimationAsset(r32 _duration, std::unordered_map<std::string, NodeAnimation>& _nodeAnimations);
 	~NodeAnimationAsset() = default;
 
 	__CLASS_NON_COPYABLE(NodeAnimationAsset)
-
-public:
-	/// <summary>
-	/// ロード関数
-	/// </summary>
-	/// <param name="filePath">ファイルパス</param>
-	/// <returns>成功値</returns>
-	void load(aiAnimation* aiPAnimation);
 
 public:
 	const NodeAnimation& node(const std::string& nodeName) const;

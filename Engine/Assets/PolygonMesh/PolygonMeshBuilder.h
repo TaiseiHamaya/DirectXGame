@@ -12,8 +12,6 @@ public:
 	~PolygonMeshBuilder() = default;
 
 public:
-	void preprocess() override;
-
 	bool run() override;
 
 	void postprocess() override;
@@ -21,6 +19,6 @@ public:
 	void transfer() override;
 
 private:
-	std::shared_ptr<PolygonMesh> meshData;
+	std::shared_ptr<PolygonMesh> meshResult;
 };
 
