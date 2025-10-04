@@ -9,7 +9,7 @@ namespace eps {
 /// 線形補間
 /// </summary>
 /// <returns></returns>
-template<typename T, T one = 1.0f>
+template<typename T>
 constexpr T lerp(const T& from, const T& to, r32 t) noexcept;
 
 /// <summary>
@@ -39,9 +39,9 @@ constexpr r32 saturate(r32 value) noexcept;
 
 }
 
-template<typename T, T one>
+template<typename T>
 constexpr T eps::lerp(const T& begin, const T& end, r32 t) noexcept {
-	return T(begin * (one - t)) + T(end * t);
+	return T(begin * (1 - t)) + T(end * t);
 }
 
 template<typename T>
