@@ -94,7 +94,8 @@ public:
 	/// Hierarchyの親アドレスの取得
 	/// </summary>
 	/// <returns>存在しなければnullptr</returns>
-	const Reference<const WorldInstance>& get_parent_address() const { return hierarchy.get_parent(); };
+	Reference<const WorldInstance> parent_imm() const noexcept;
+	Reference<WorldInstance> parent_mut() noexcept;
 
 	/// <summary>
 	/// World行列の取得
@@ -109,11 +110,11 @@ public:
 	const Vector3& world_position() const { return affine.get_origin(); };
 
 	/// <summary>
-	/// 親子付けを再設定
+	/// 親を再設定
 	/// </summary>
-	/// <param name="instance">対象のInstance</param>
-	/// <param name="isKeepPose">現在の姿勢を維持する</param>
-	void reparent(Reference<const WorldInstance> instance, bool isKeepPose = true);
+	/// <param name="instance">親のInstance</param>
+	/// <param name="isKeepPose">現在の姿勢を維持するかどうか</param>
+	void reparent(Reference<WorldInstance> instance, bool isKeepPose = true);
 
 	void set_world_manager(Reference<WorldManager> worldManager_);
 
@@ -128,6 +129,11 @@ public:
 	// ----- id関連 -----
 	void setup_id(u64 id);
 	u64 instance_id() const;
+
+private:
+	void detach_child(Reference<WorldInstance> child);
+	void attach_child(Reference<WorldInstance> child);
+	void recalculate_depth();
 
 protected:
 	Transform3D transform{}; // Transform

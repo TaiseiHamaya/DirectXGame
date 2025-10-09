@@ -38,22 +38,22 @@ private:
 
 template<typename T>
 void InstanceBucket::register_instance(Reference<T> instance) {
-	if constexpr (std::is_same_v<T, Camera3D>) {
+	if constexpr (std::derived_from<T, Camera3D>) {
 		camera.emplace_back(instance);
 	}
-	else if constexpr (std::is_same_v<T, StaticMeshInstance>) {
+	else if constexpr (std::derived_from<T, StaticMeshInstance>) {
 		staticMesh.emplace_back(instance);
 	}
-	else if constexpr (std::is_same_v<T, SkinningMeshInstance>) {
+	else if constexpr (std::derived_from<T, SkinningMeshInstance>) {
 		skinMesh.emplace_back(instance);
 	}
-	else if constexpr (std::is_same_v<T, DirectionalLightInstance>) {
+	else if constexpr (std::derived_from<T, DirectionalLightInstance>) {
 		directionalLightInstance.emplace_back(instance);
 	}
-	else if constexpr (std::is_same_v<T, PointLightInstance>) {
+	else if constexpr (std::derived_from<T, PointLightInstance>) {
 		pointLightInstance.emplace_back(instance);
 	}
-	else if constexpr (std::is_same_v<T, Rect3d>) {
+	else if constexpr (std::derived_from<T, Rect3d>) {
 		rect.emplace_back(instance);
 	}
 }

@@ -54,9 +54,22 @@ void WorldInstance::look_at_axis(const Vector3& point, const Vector3& axis, r32 
 	look_at(lookPosition, angle, axis);
 }
 
-void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKeepPose) {
-	const Affine& worldAffine = this->world_affine();
+Reference<const WorldInstance> WorldInstance::parent_imm() const noexcept {
+	return hierarchy.parent_imm();
+}
+
+Reference<WorldInstance> WorldInstance::parent_mut() noexcept {
+	return hierarchy.parent_mut();
+}
+
+void WorldInstance::reparent(Reference<WorldInstance> instance, bool isKeepPose) {
+	// 古い親から削除
+	if (hierarchy.has_parent()) {
+		hierarchy.parent_mut()->detach_child(this);
+	}
+	// transformの計算
 	if (isKeepPose) {
+		const Affine& worldAffine = world_affine();
 		if (instance) {
 			const Affine parentAffineInv = instance->world_affine().inverse();
 			const Affine local = worldAffine * parentAffineInv;
@@ -72,16 +85,14 @@ void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKee
 			transform.set_translate(worldAffine.get_origin());
 		}
 	}
-	hierarchy.set_parent(*instance.ptr());
+	// 親の登録
+	hierarchy.set_parent(instance);
+	// 新親に登録
 	if (instance) {
-		hierarchyDepth = instance->depth() + 1;
+		instance->attach_child(this);
 	}
-	else {
-		hierarchyDepth = 0;
-	}
-	if (worldManager) {
-		worldManager->reset_depth(this, hierarchyDepth);
-	}
+	// 深度の再計算
+	recalculate_depth();
 }
 
 void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
@@ -90,6 +101,10 @@ void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
 
 void WorldInstance::mark_destroy() {
 	isDestroy = true;
+	// 子も削除予定にする
+	for (auto& [_, child] : hierarchy.children_mut()) {
+		child->mark_destroy();
+	}
 }
 
 void WorldInstance::setup_id(u64 id) {
@@ -98,4 +113,28 @@ void WorldInstance::setup_id(u64 id) {
 
 u64 WorldInstance::instance_id() const {
 	return instanceId;
+}
+
+void WorldInstance::detach_child(Reference<WorldInstance> child) {
+	hierarchy.remove_child(child);
+}
+
+void WorldInstance::attach_child(Reference<WorldInstance> child) {
+	hierarchy.add_child(child);
+}
+
+void WorldInstance::recalculate_depth() {
+	if (hierarchy.has_parent()) {
+		hierarchyDepth = hierarchy.parent_imm()->depth() + 1;
+	}
+	else {
+		hierarchyDepth = 0;
+	}
+	if (worldManager) {
+		worldManager->reset_depth(this, hierarchyDepth);
+	}
+	// 子の深度も再計算
+	for (auto& [_, child] : hierarchy.children_mut()) {
+		child->recalculate_depth();
+	}
 }

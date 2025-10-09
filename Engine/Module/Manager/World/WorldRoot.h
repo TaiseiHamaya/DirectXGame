@@ -54,13 +54,8 @@ inline Reference<T> WorldRoot::instantiate(Reference<const WorldInstance> parent
 	}
 	++nextInstanceId;
 
-	if (parent) {
-		result->reparent(parent, false);
-	}
-	else {
-		result->reparent(nullptr, false);
-	}
-
+	result->reparent(parent, false);
+	
 	instanceBucket->register_instance(result);
 
 	return result;

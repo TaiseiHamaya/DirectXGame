@@ -13,7 +13,7 @@
 
 class CollisionCallbackManager {
 protected:
-	using CallbackTarget = Reference<const BaseCollider>; // 対象
+	using CallbackTarget = Reference<BaseCollider>; // 対象
 	using CollisionRecentKeyType = SortedPair<CallbackTarget>; // 衝突管理キー
 	using CallbackMapKey = SortedPair<const std::string>; //  
 	// コールバック関数
