@@ -55,16 +55,25 @@ void EditorMain::Setup() {
 	IRemoteObject::Setup(instance.sceneView);
 	instance.sceneView.setup(instance.gizmo, instance.hierarchy);
 	instance.inspector.setup(instance.selectObject);
+	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 
+	std::filesystem::path filePath = "./Game/DebugData/Editor.json";
 	JsonAsset json;
+	if (!std::filesystem::exists(filePath)) {
+		instance.isActiveEditor = false;
+		Warning("The file required to start the editor was not found.");
+	}
+
 	json.load("./Game/DebugData/Editor.json");
 	std::string sceneName = json.try_emplace<std::string>("LastLoadedScene");
 	instance.hierarchy.load(sceneName);
-	instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 }
 
 void EditorMain::DrawBase() {
 	EditorMain& instance = GetInstance();
+	if (!instance.isActiveEditor) {
+		return;
+	}
 
 	if (instance.switchSceneName.has_value()) {
 		// シーンビューを未設定に設定
@@ -146,6 +155,10 @@ void EditorMain::Draw() {
 	}
 
 	EditorHierarchyDandD::ExecuteReparent();
+}
+
+void EditorMain::SetActiveEditor(bool isActive) {
+	GetInstance().isActiveEditor = isActive;
 }
 
 bool EditorMain::IsHoverEditorWindow() {

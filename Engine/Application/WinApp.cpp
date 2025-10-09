@@ -57,10 +57,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 }
 
 WinApp::~WinApp() noexcept {
-	// COMの終了
-	CoUninitialize();
 	// ログ
 	Information("Complete finalize application.");
+	FinalizeLog();
+	// COMの終了
+	CoUninitialize();
 	// chrono内のTZDBを削除(これ以降ログ出力はされない)
 	std::chrono::get_tzdb_list().~tzdb_list();
 }
@@ -87,14 +88,15 @@ void WinApp::Initialize() {
 
 	// クラッシュハンドラの設定
 	CrashHandler::Initialize();
+
+	// COMの初期化
+	CoInitializeEx(0, COINIT_MULTITHREADED);
+
 	// Log出力システムの初期化
 	InitializeLog();
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorLogWindow::Allocate();
 #endif // DEBUG_FEATURES_ENABLE
-
-	// COMの初期化
-	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// ---------- Projectのロード ----------
 	ProjectSettings::Initialize();
@@ -126,38 +128,38 @@ void WinApp::Initialize() {
 
 	// システム使用のアセットをロード
 	// メッシュ
-	PolygonMeshLibrary::RegisterLoadQue("./DirectXGame/EngineResources/Models/ErrorObject/ErrorObject.obj");
-	PolygonMeshLibrary::RegisterLoadQue("./DirectXGame/EngineResources/Models/Grid/Grid.obj");
-	PolygonMeshLibrary::RegisterLoadQue("./DirectXGame/EngineResources/Models/Camera/CameraAxis.obj");
+	PolygonMeshLibrary::RegisterLoadQue("[[szg]]/ErrorObject/ErrorObject.obj");
+	PolygonMeshLibrary::RegisterLoadQue("[[szg]]/Grid/Grid.obj");
+	PolygonMeshLibrary::RegisterLoadQue("[[szg]]/Camera/CameraAxis.obj");
 	// Primitive
 	PrimitiveGeometryLibrary::Transfer(
 		"Ico3",
-		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Lighting/Ico3.json")
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Lighting/Ico3.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"Rect3D",
-		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Primitive/Rect3D.json")
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Primitive/Rect3D.json")
 	);
 
 #ifdef DEBUG_FEATURES_ENABLE
 	// デバッグ用アセットのロード
 	// Shader
-	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
-	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
-	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Forward/Mesh/StaticMeshForward.VS.hlsl");
-	ShaderLibrary::RegisterLoadQue("./DirectXGame/EngineResources/HLSL/Forward/Forward.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Mesh/StaticMeshForward.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Forward.PS.hlsl");
 
 	PrimitiveGeometryLibrary::Transfer(
 		"SphereCollider",
-		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Collider/Sphere.json")
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Collider/Sphere.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"AABBCollider",
-		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Collider/AABB.json")
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Collider/AABB.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"Frustum",
-		std::make_shared<PrimitiveGeometryAsset>("./DirectXGame/EngineResources/Json/PrimitiveGeometry/Frustum.json")
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Frustum.json")
 	);
 #endif // _DEBUG
 

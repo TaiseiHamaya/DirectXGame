@@ -11,11 +11,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
 TextureAssetBuilder::TextureAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = filePath_;
-}
-
-void TextureAssetBuilder::preprocess() {
-	textureData = std::make_unique<TextureAsset>();
+	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Texture");
 }
 
 bool TextureAssetBuilder::run() {
@@ -45,7 +41,7 @@ bool TextureAssetBuilder::run() {
 }
 
 void TextureAssetBuilder::postprocess() {
-	textureData->initialize(resource, isCubemap);
+	textureData = std::make_shared<TextureAsset>(resource, isCubemap);
 #ifdef DEBUG_FEATURES_ENABLE
 	textureData->set_name(filePath.filename().native());
 #endif // DEBUG_FEATURES_ENABLE

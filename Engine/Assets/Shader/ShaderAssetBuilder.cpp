@@ -23,11 +23,7 @@ const std::wstring profiles[] = {
 };
 
 ShaderAssetBuilder::ShaderAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = filePath_;
-}
-
-void ShaderAssetBuilder::preprocess() {
-	asset = eps::CreateShared<ShaderAsset>();
+	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "HLSL");
 }
 
 bool ShaderAssetBuilder::run() {
@@ -92,7 +88,7 @@ bool ShaderAssetBuilder::run() {
 	ErrorIf(FAILED(hr), L"Shader compilation succeeded, but writing failed. File-\'{}\'", filePath.native());
 	Information(L"Compile succeeded."); // 成功ログ
 
-	asset->initialize(shaderBlob);
+	asset = std::make_shared<ShaderAsset>(shaderBlob);
 
 	return true;
 }

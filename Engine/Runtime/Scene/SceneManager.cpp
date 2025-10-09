@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 
 #include <algorithm>
+#include <ranges>
 
 #include "Engine/Application/Output.h"
 #include "Engine/Application/WinApp.h"
@@ -46,6 +47,11 @@ void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 
 void SceneManager::Finalize() noexcept {
 	SceneManager& instance = GetInstance();
+	for (auto& scene : instance.sceneQue | std::views::reverse) {
+		if (scene) {
+			scene->finalize();
+		}
+	}
 	instance.sceneQue.clear();
 }
 

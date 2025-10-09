@@ -38,7 +38,6 @@ void BackgroundLoader::RegisterLoadQue(std::unique_ptr<BaseAssetBuilder> builder
 	auto& instance = GetInstance();
 	instance.isLoading = true;
 
-	builder->preprocess();
 	instance.loadEvents.emplace_back(std::move(builder));
 
 	// 条件変数通知

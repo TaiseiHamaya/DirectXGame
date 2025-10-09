@@ -82,12 +82,14 @@ void RemoteSceneObject::reparent(Reference<IRemoteObject>) {
 }
 
 void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
-	auto tmp = dynamic_cast<RemoteWorldObject*>(child.release());
-	auto childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
-	if (!childPtr) {
+	IRemoteObject* ptr = child.release();
+	RemoteWorldObject* tmp = dynamic_cast<RemoteWorldObject*>(ptr);
+	if (!tmp) {
 		Warning("RemoteSceneObject can only add RemoteWorldObject as child.");
+		delete ptr;
 		return;
 	}
+	std::unique_ptr<RemoteWorldObject> childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
 	childPtr->reparent(this);
 	remoteWorlds.emplace_back(std::move(childPtr));
 }

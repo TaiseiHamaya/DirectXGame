@@ -27,12 +27,9 @@
 void EditorHierarchy::setup(Reference<EditorSelectObject> select_, Reference<EditorSceneView> sceneView_) {
 	select = select_;
 	sceneView = sceneView_;
-	scene->setup();
 }
 
 void EditorHierarchy::finalize() {
-	JsonAsset json{ "./Game/DebugData/Editor.json" };
-	json.get()["LastLoadedScene"] = scene->name();
 	scene.reset();
 }
 
@@ -48,6 +45,8 @@ void EditorHierarchy::load(const std::string& sceneName) {
 	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
 	Reference<Scene> currentScene = SceneManager2::GetCurrentScene();
+
+	scene->setup();
 }
 
 nlohmann::json EditorHierarchy::save() const {

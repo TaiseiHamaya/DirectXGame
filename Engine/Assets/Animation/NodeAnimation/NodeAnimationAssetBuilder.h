@@ -18,8 +18,6 @@ public:
 	~NodeAnimationAssetBuilder() = default;
 
 public:
-	void preprocess() override;
-
 	bool run() override;
 
 	void postprocess() override;

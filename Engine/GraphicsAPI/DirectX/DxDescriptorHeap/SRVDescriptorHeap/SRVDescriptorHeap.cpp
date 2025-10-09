@@ -50,7 +50,7 @@ void SRVDescriptorHeap::ReleaseHeapIndex(u32 index) {
 
 void SRVDescriptorHeap::ReleaseHeapHandle(D3D12_GPU_DESCRIPTOR_HANDLE handle) {
 	auto& instance = GetInstance();
-	u32 index = u32(instance.heapStartGPU.ptr - handle.ptr) / instance.incrementSize;
+	u32 index = u32(handle.ptr - instance.heapStartGPU.ptr) / instance.incrementSize;
 	ReleaseHeapIndex(index);
 }
 
