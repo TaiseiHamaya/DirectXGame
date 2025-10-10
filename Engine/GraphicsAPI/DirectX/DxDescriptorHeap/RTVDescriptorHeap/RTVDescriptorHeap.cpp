@@ -1,8 +1,8 @@
 #include "RTVDescriptorHeap.h"
 
 #include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
 RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {
 	static RTVDescriptorHeap instance{};
@@ -30,7 +30,12 @@ void RTVDescriptorHeap::ReleaseIndex(u32 index) {
 }
 
 void RTVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, DxSystemValues::HEAP_SIZE_RTV, false);
+	descriptorHeap =
+		DxDescriptorHeap::CreateDescriptorHeap(
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
+			ProjectSettings::GetGraphicsSettings().rtvHeapSize,
+			false
+		);
 }
 
 void RTVDescriptorHeap::initialize() {

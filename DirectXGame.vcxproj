@@ -181,6 +181,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Application\ArgumentParser.cpp" />
     <ClCompile Include="Engine\Assets\BaseAssetBuilder.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp" />
@@ -477,6 +478,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Application\ArgumentParser.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.h" />
     <ClInclude Include="Engine\Debug\Editor\Command\EditorCommandReparent.h" />

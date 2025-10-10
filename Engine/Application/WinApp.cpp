@@ -8,6 +8,7 @@
 
 #include "Engine/Application/CrashHandler.h"
 #include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
@@ -194,8 +195,8 @@ void WinApp::BeginFrame() {
 }
 
 void WinApp::EndFrame() {
-#ifdef DEBUG_FEATURES_ENABLE
 	auto& instance = GetInstance();
+#ifdef DEBUG_FEATURES_ENABLE
 	instance.profiler.timestamp("EndFrame");
 	SceneManager::DebugGui();
 	instance.profiler.timestamp("End");
@@ -215,13 +216,13 @@ void WinApp::EndFrame() {
 
 	DxCore::EndFrame();
 
-	//instance->wait_frame();
+	instance.wait_frame();
 }
 
 void WinApp::Finalize() {
 	// 終了通知
 	Information("End Program.");
-	//windowを閉じる
+	// windowを閉じる
 	CloseWindow(GetInstance().hWnd);
 	Information("Closed Window.");
 
@@ -328,10 +329,13 @@ void WinApp::initialize_application() {
 #include <thread>
 
 void WinApp::wait_frame() {
+	if (!ProjectSettings::GetApplicationSettings().maxFrameRate.has_value()) {
+		return;
+	}
 	using millisecond_f = std::chrono::duration<r32, std::milli>;
 
-	//constexpr millisecond_f MinTime{ 1000.00000f / 60.0f };
-	constexpr millisecond_f MinCheckTime{ 1000.00000f / 65.0f }; // 少し短い時間を使用することで60FPSになるようにする
+	const u32 targetFPS = ProjectSettings::GetApplicationSettings().maxFrameRate.value() + 5;
+	const millisecond_f MinCheckTime{ 1000.00000f / targetFPS }; // 少し短い時間を使用する
 	// 開始
 	auto& begin = WorldClock::BeginTime();
 	// 今

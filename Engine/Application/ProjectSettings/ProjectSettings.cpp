@@ -4,10 +4,11 @@
 
 #include <json.hpp>
 
-#include "Engine/Application/EngineSettings.h"
 #include "Engine/Application/Output.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
+
+#define COLOR4_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
 
 constexpr u32 DEFAULT_WINDOW_STYLE = WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_THICKFRAME;
 
@@ -81,14 +82,12 @@ void ProjectSettings::Initialize() {
 			}
 		}
 	}
-	
+
 	// DirectX設定
 	if (json.contains("Graphics")) {
 		nlohmann::json& graphics = json["Graphics"];
 		// バッファリング数
-		if (graphics.contains("NumBuffering")) {
-			instance.graphicsSettings.numBuffering = graphics["NumBuffering"].get<u32>();
-		}
+		instance.graphicsSettings.numBuffering = graphics.value("NumBuffering", 2);
 		// シェーダーバージョン
 		if (graphics.contains("ShaderVersion")) {
 			std::string ver = graphics["ShaderVersion"].get<std::string>();
@@ -97,40 +96,29 @@ void ProjectSettings::Initialize() {
 			};
 		}
 		// DescriptorHeapの数
-		if (graphics.contains("SrvHeapSize")) {
-			instance.graphicsSettings.srvHeapSize = graphics["SrvHeapSize"].get<u32>();
-		}
-		if (graphics.contains("RtvHeapSize")) {
-			instance.graphicsSettings.rtvHeapSize = graphics["RtvHeapSize"].get<u32>();
-		}
-		if (graphics.contains("DsvHeapSize")) {
-			instance.graphicsSettings.dsvHeapSize = graphics["DsvHeapSize"].get<u32>();
-		}
+		instance.graphicsSettings.srvHeapSize = graphics.value("SrvHeapSize", 65536);
+		instance.graphicsSettings.rtvHeapSize = graphics.value("RtvHeapSize", 20);
+		instance.graphicsSettings.dsvHeapSize = graphics.value("DsvHeapSize", 1);
+		// クリアカラー
+		instance.graphicsSettings.clearColor = graphics.value("ClearColor", Color4{ 0.39f, 0.58f, 0.92f, 1.0f });
 	}
-	
+
 	// デフォルトのウィンドウサイズ
-	if (json.contains("WindowSize")) {
-		nlohmann::json& windowSize = json["WindowSize"];
-		if (windowSize.contains("Width")) {
-			instance.clientWidth = windowSize["Width"].get<u32>();
+	if (json.contains("Application")) {
+		nlohmann::json& appSettings = json["Application"];
+		if (appSettings.contains("Window")) {
+			nlohmann::json& windowSettings = appSettings["Window"];
+			instance.applicationSettings.clientWidth = windowSettings.value("Width", 1280);
+			instance.applicationSettings.clientHeight = windowSettings.value("Height", 720);
 		}
-		if (windowSize.contains("Height")) {
-			instance.clientHeight = windowSize["Height"].get<u32>();
+		instance.applicationSettings.isFixWorldClock = appSettings.value("IsFixWorldClock", false);
+		if (appSettings.contains("MaxFrameRate") && !appSettings.at("MaxFrameRate").is_null()) {
+			instance.applicationSettings.maxFrameRate = appSettings["MaxFrameRate"].get<u32>();
+		}
+		else {
+			instance.applicationSettings.maxFrameRate = std::nullopt;
 		}
 	}
-
-	// WorldClockを修正するかどうか
-	if (json.contains("IsFixWorldClock")) {
-		EngineSettings::IsFixDeltaTime = json["IsFixWorldClock"];
-	}
-
-	RenderingSystemValues::NUM_BUFFERING = instance.graphicsSettings.numBuffering;
-
-	DxSystemValues::HEAP_SIZE_SRV = instance.graphicsSettings.srvHeapSize;
-	DxSystemValues::HEAP_SIZE_RTV = instance.graphicsSettings.rtvHeapSize;
-	DxSystemValues::HEAP_SIZE_DSV = instance.graphicsSettings.dsvHeapSize;
-
-	DxSystemValues::SHADER_VERSION = instance.graphicsSettings.shaderVersion;
 }
 
 const std::string& ProjectSettings::GetProjectName() {
@@ -141,18 +129,30 @@ u32 ProjectSettings::WindowStyle() {
 	return GetInstance().windowStyle;
 }
 
+const ProjectSettings::Application& ProjectSettings::GetApplicationSettings() noexcept {
+	return GetInstance().applicationSettings;
+}
+
+const ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettings() noexcept {
+	return GetInstance().graphicsSettings;
+}
+
 Vector2 ProjectSettings::ClientSize() noexcept {
 	auto& instance = GetInstance();
 	return Vector2{
-		static_cast<r32>(instance.clientWidth),
-		static_cast<r32>(instance.clientHeight)
+		static_cast<r32>(instance.applicationSettings.clientWidth),
+		static_cast<r32>(instance.applicationSettings.clientHeight)
 	};
 }
 
 u32 ProjectSettings::ClientWidth() noexcept {
-	return static_cast<u32>(GetInstance().clientWidth);
+	return static_cast<u32>(GetInstance().applicationSettings.clientWidth);
 }
 
 u32 ProjectSettings::ClientHeight() noexcept {
-	return static_cast<u32>(GetInstance().clientHeight);
+	return static_cast<u32>(GetInstance().applicationSettings.clientHeight);
+}
+
+void ProjectSettings::SetMaxFrameRate(std::optional<u32> maxFrameRate) noexcept {
+	GetInstance().applicationSettings.maxFrameRate = maxFrameRate;
 }
