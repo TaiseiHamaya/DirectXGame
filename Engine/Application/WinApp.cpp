@@ -6,6 +6,7 @@
 #include <Library/Utility/Tools/ConvertString.h>
 #include <Library/Utility/Tools/RandomEngine.h>
 
+#include "Engine/Application/ArgumentParser.h"
 #include "Engine/Application/CrashHandler.h"
 #include "Engine/Application/Output.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
@@ -17,10 +18,8 @@
 #include "Engine/Assets/Shader/ShaderLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
-#include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
-#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -108,6 +107,8 @@ void WinApp::Initialize() {
 	instance.initialize_application();
 	// シンボルハンドラーの初期化
 	SymInitialize(instance.hProcess, nullptr, true);
+
+	ArgumentParser::Parse();
 
 	// ---------- エンジン機能の初期化 ----------
 	//DirectXの初期化
