@@ -6,8 +6,10 @@
 
 #include <Library/Utility/Tools/ConvertString.h>
 
+#include "Engine/Application/Output.h"
+
 void ArgumentParser::Parse() {
-	auto& instance = GetInstance();
+	ArgumentParser& instance = GetInstance();
 	instance.arguments.clear();
 	instance.argumentsInverseIndex.clear();
 
@@ -26,6 +28,7 @@ void ArgumentParser::Parse() {
 		std::string argA = ConvertString(argW);
 		instance.arguments.emplace_back(argA);
 		instance.argumentsInverseIndex[argA] = index;
+		Information("Command line argument [{}]: {}", index, argA);
 		++index;
 	}
 }
@@ -38,19 +41,23 @@ const std::string& ArgumentParser::ValueByIndex(u64 index) {
 	return GetInstance().arguments[index];
 }
 
-const std::string& ArgumentParser::ValueOr(const std::string& arg, const std::string& defaultValue) {
-	auto& instance = GetInstance();
-	if (!instance.argumentsInverseIndex.contains(arg)) {
-		return defaultValue;
-	}
-	u64 index = instance.argumentsInverseIndex[arg];
-	return instance.arguments[index];
-}
-
 std::optional<u64> ArgumentParser::ArgIndexByValue(const std::string& value) {
-	auto& instance = GetInstance();
+	ArgumentParser& instance = GetInstance();
 	if (!instance.argumentsInverseIndex.contains(value)) {
 		return std::nullopt;
 	}
 	return instance.argumentsInverseIndex[value];
+}
+
+std::optional<std::string> ArgumentParser::FindValueStartWith(const std::string& prefix, u64 position) noexcept {
+	ArgumentParser& instance = GetInstance();
+	for (const std::string& arg : instance.arguments) {
+		if (arg.starts_with(prefix)) {
+			--position;
+			if (position == 0) {
+				return arg;
+			}
+		}
+	}
+	return std::nullopt;
 }
