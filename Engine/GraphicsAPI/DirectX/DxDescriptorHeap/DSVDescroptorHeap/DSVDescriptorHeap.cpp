@@ -1,8 +1,8 @@
 #include "DSVDescriptorHeap.h"
 
 #include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
 DSVDescriptorHeap& DSVDescriptorHeap::GetInstance() noexcept {
 	static DSVDescriptorHeap instance{};
@@ -30,7 +30,11 @@ void DSVDescriptorHeap::ReleaseHeapIndex(u32 index) {
 }
 
 void DSVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, DxSystemValues::HEAP_SIZE_DSV, false);
+	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(
+		D3D12_DESCRIPTOR_HEAP_TYPE_DSV,
+		ProjectSettings::GetGraphicsSettings().dsvHeapSize,
+		false
+	);
 }
 
 void DSVDescriptorHeap::initialize() {

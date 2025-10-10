@@ -4,6 +4,8 @@
 
 #include "./ImGuiIcons.h"
 #include "./ImGuiJapanese.h"
+#include "./ImGuiStyleSetter.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -11,8 +13,6 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
-#include "./ImGuiStyleSetter.h"
 
 #include <imgui.h>
 #include <imgui_impl_dx12.h>
@@ -36,7 +36,7 @@ void ImGuiManager::Initialize() {
 	ImGui_ImplDX12_InitInfo initInfo{};
 	initInfo.Device = DxDevice::GetDevice().Get();
 	initInfo.CommandQueue = DxCommand::GetCommandQueue().Get();
-	initInfo.NumFramesInFlight = RenderingSystemValues::NUM_BUFFERING;
+	initInfo.NumFramesInFlight = ProjectSettings::GetGraphicsSettings().numBuffering;
 	initInfo.RTVFormat = DxSystemValues::SCREEN_RTV_FORMAT;
 	initInfo.SrvDescriptorHeap = SRVDescriptorHeap::GetDescriptorHeap().Get();
 	initInfo.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* outHandleCpu, D3D12_GPU_DESCRIPTOR_HANDLE* outHandleGpu) {

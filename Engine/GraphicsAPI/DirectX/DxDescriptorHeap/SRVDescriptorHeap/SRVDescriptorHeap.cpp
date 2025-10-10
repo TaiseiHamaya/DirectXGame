@@ -3,7 +3,7 @@
 #include "Engine/Application/Output.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 #include <mutex>
 
@@ -55,7 +55,11 @@ void SRVDescriptorHeap::ReleaseHeapHandle(D3D12_GPU_DESCRIPTOR_HANDLE handle) {
 }
 
 void SRVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, DxSystemValues::HEAP_SIZE_SRV, true);
+	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(
+		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+		ProjectSettings::GetGraphicsSettings().srvHeapSize,
+		true
+	);
 }
 
 void SRVDescriptorHeap::initialize() {

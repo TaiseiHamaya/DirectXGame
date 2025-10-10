@@ -1,25 +1,16 @@
 #include "ShaderAssetBuilder.h"
 
-#include <Library/Utility/Tools/SmartPointer.h>
-
 #include "./ShaderAsset.h"
 #include "./ShaderLibrary.h"
 #include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
 constexpr wstring_literal extension[] = {
 	L"VS.hlsl",
 	L"PS.hlsl",
 	L"CS.hlsl",
 	L"MS.hlsl",
-};
-
-const std::wstring profiles[] = {
-	std::format(L"vs_{}_{}", DxSystemValues::SHADER_VERSION.first, DxSystemValues::SHADER_VERSION.second),
-	std::format(L"ps_{}_{}", DxSystemValues::SHADER_VERSION.first, DxSystemValues::SHADER_VERSION.second),
-	std::format(L"cs_{}_{}", DxSystemValues::SHADER_VERSION.first, DxSystemValues::SHADER_VERSION.second),
-	std::format(L"ms_{}_{}", DxSystemValues::SHADER_VERSION.first, DxSystemValues::SHADER_VERSION.second),
 };
 
 ShaderAssetBuilder::ShaderAssetBuilder(const std::filesystem::path& filePath_) {
@@ -29,6 +20,13 @@ ShaderAssetBuilder::ShaderAssetBuilder(const std::filesystem::path& filePath_) {
 bool ShaderAssetBuilder::run() {
 	HRESULT hr;
 	Information(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
+
+	const std::wstring profiles[] = {
+		std::format(L"vs_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
+		std::format(L"ps_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
+		std::format(L"cs_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
+		std::format(L"ms_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
+	};
 
 	std::wstring_view profile;
 	for (u32 i = 0; i < 4; ++i) {

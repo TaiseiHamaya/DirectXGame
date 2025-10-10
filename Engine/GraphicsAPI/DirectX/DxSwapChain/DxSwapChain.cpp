@@ -4,14 +4,13 @@
 
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Application/Output.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 void DxSwapChain::Initialize() {
 	auto& instance = GetInstance();
@@ -19,7 +18,7 @@ void DxSwapChain::Initialize() {
 	instance.renderTargetGroup->initialize();
 	instance.create_swapchain();
 	instance.create_render_target();
-	SetClearColor(RenderingSystemValues::DEFAULT_CLEAR_COLOR);
+	SetClearColor(ProjectSettings::GetGraphicsSettings().clearColor);
 }
 
 void DxSwapChain::Finalize() {
@@ -66,7 +65,7 @@ void DxSwapChain::create_swapchain() {
 	swapChainDesc.Format = DxSystemValues::SWAPCHAIN_FORMAT; // 色の形式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
-	swapChainDesc.BufferCount = RenderingSystemValues::NUM_BUFFERING; // ダブルバッファ
+	swapChainDesc.BufferCount = ProjectSettings::GetGraphicsSettings().numBuffering; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
 	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 #ifdef DEBUG_FEATURES_ENABLE
@@ -80,11 +79,11 @@ void DxSwapChain::create_swapchain() {
 }
 
 void DxSwapChain::create_render_target() {
-	textures.resize(RenderingSystemValues::NUM_BUFFERING);
+	textures.resize(ProjectSettings::GetGraphicsSettings().numBuffering);
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
-	for (u32 i = 0; i < RenderingSystemValues::NUM_BUFFERING; ++i) {
+	for (u32 i = 0; i < ProjectSettings::GetGraphicsSettings().numBuffering; ++i) {
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 		hr = swapChain->GetBuffer(i, IID_PPV_ARGS(resource.GetAddressOf()));
 		CriticalIf(FAILED(hr), "Failed creating swapchain render targets.");
