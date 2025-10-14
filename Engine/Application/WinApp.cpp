@@ -248,8 +248,10 @@ void WinApp::Finalize() {
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
-	ShowWindow(GetInstance().hWnd, SW_SHOW);
-	Information("Show application window.");
+	if (!ProjectSettings::GetApplicationSettings().hideWindowForce) {
+		ShowWindow(GetInstance().hWnd, SW_SHOW);
+		Information("Show application window.");
+	}
 
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorMain::Setup();

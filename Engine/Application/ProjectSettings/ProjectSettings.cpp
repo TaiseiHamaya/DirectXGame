@@ -137,6 +137,14 @@ const ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettings() noexcept
 	return GetInstance().graphicsSettings;
 }
 
+ProjectSettings::Application& ProjectSettings::GetApplicationSettingsImm() noexcept {
+	return GetInstance().applicationSettings;
+}
+
+ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettingsImm() noexcept {
+	return GetInstance().graphicsSettings;
+}
+
 Vector2 ProjectSettings::ClientSize() noexcept {
 	auto& instance = GetInstance();
 	return Vector2{
