@@ -15,6 +15,7 @@ public:
 		u32 clientWidth{ 1280 };
 		u32 clientHeight{ 720 };
 		bool isFixWorldClock{ false };
+		bool hideWindowForce{ false };
 		std::optional<u32> maxFrameRate;
 	};
 
@@ -35,6 +36,9 @@ public:
 
 	static const Application& GetApplicationSettings() noexcept;
 	static const Graphics& GetGraphicsSettings() noexcept;
+
+	static Application& GetApplicationSettingsImm() noexcept;
+	static Graphics& GetGraphicsSettingsImm() noexcept;
 
 	static Vector2 ClientSize() noexcept;
 	static u32 ClientWidth() noexcept;
