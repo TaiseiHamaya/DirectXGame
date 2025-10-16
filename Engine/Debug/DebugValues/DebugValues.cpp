@@ -1,5 +1,3 @@
-#ifdef DEBUG_FEATURES_ENABLE
-
 #include "DebugValues.h"
 
 DebugValues::DebugValues() {
@@ -15,4 +13,3 @@ Reference<const StaticMeshInstance> DebugValues::GetGridInstance() {
 	auto& instance = GetInstance();
 	return instance.gridMesh;
 }
-#endif // _DEBUG
