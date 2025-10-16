@@ -19,7 +19,8 @@ public:
 	virtual void transfer() = 0;
 
 public:
-	const T& light_data() const { return lightData; };
+	const T& light_data_imm() const { return lightData; };
+	T& light_data_mut() { return lightData; };
 
 protected:
 	T lightData;
