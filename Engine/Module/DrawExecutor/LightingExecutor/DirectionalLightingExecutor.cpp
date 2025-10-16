@@ -31,6 +31,6 @@ void DirectionalLightingExecutor::write_to_buffer(Reference<const DirectionalLig
 		return;
 	}
 
-	lightData[instanceCounter] = instance->light_data();
+	lightData[instanceCounter] = instance->light_data_imm();
 	++instanceCounter;
 }
