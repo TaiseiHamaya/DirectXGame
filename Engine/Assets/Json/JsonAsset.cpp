@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #include "../BaseAssetBuilder.h"
 
@@ -12,20 +12,20 @@ JsonAsset::JsonAsset(const std::filesystem::path& file) {
 
 void JsonAsset::load(const std::filesystem::path& file) {
 	if (file.extension() != ".json") {
-		Warning(L"This file's extension is not .json. File\'{}\'", file.native());
+		szgWarning(L"This file's extension is not .json. File\'{}\'", file.native());
 	}
 
 	filePath = BaseAssetBuilder::ResolveFilePath(file, "json");
 
 	if (!std::filesystem::exists(filePath)) {
-		Warning(L"File-\'{}\' is not found.", filePath.stem().native());
+		szgWarning(L"File-\'{}\' is not found.", filePath.stem().native());
 		return;
 	}
 
 	std::ifstream ifstream{ filePath };
 
 	if (ifstream.fail()) {
-		Error(L"File-\'{}\' is not found.", filePath.stem().native());
+		szgError(L"File-\'{}\' is not found.", filePath.stem().native());
 		return;
 	}
 

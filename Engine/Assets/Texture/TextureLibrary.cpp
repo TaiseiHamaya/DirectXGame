@@ -7,7 +7,7 @@
 
 #include "./TextureAsset.h"
 #include "./TextureAssetBuilder.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -51,7 +51,7 @@ std::shared_ptr<const TextureAsset> TextureLibrary::GetTexture(const std::string
 		return GetInstance().textureInstanceList.at(textureName);
 	}
 	else {
-		Warning("Texture Name-\'{:}\' is not loading.", textureName);
+		szgWarning("Texture Name-\'{:}\' is not loading.", textureName);
 		return GetInstance().textureInstanceList.at("Error.png");
 	}
 }
@@ -64,7 +64,7 @@ bool TextureLibrary::IsRegistered(const std::string& textureName) noexcept(false
 void TextureLibrary::UnloadTexture(const std::string& textureName) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(textureName)) {
-		Information("Unload texture Name-\'{:}\'.", textureName);
+		szgInformation("Unload texture Name-\'{:}\'.", textureName);
 		GetInstance().textureInstanceList.erase(textureName);
 	}
 }
@@ -72,10 +72,10 @@ void TextureLibrary::UnloadTexture(const std::string& textureName) {
 void TextureLibrary::Transfer(const std::string& name, std::shared_ptr<TextureAsset>& data) {
 	std::lock_guard<std::mutex> lock{ textureMutex };
 	if (IsRegisteredNonlocking(name)) {
-		Warning("Transferring registered texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+		szgWarning("Transferring registered texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
-	Information("Transfer new Texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	szgInformation("Transfer new Texture. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().textureInstanceList.emplace(name, data);
 }
 

@@ -6,7 +6,7 @@
 
 #include "./AudioAsset.h"
 #include "./AudioAssetBuilder.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
 std::mutex audioMutex;
@@ -38,7 +38,7 @@ const std::unique_ptr<AudioAsset>& AudioLibrary::GetAudio(const std::string& aud
 		return GetInstance().audioResources.at(audioName);
 	}
 	else {
-		Warning("Audio Name-\'{:}\' is not loading.", audioName);
+		szgWarning("Audio Name-\'{:}\' is not loading.", audioName);
 		return GetInstance().audioResources.at("NULL");
 	}
 }
@@ -58,10 +58,10 @@ void AudioLibrary::UnloadAudio(const std::string& audioName) {
 void AudioLibrary::Transfer(const std::string& name, std::unique_ptr<AudioAsset>&& data) {
 	std::lock_guard<std::mutex> lock{ audioMutex };
 	if (IsRegisteredNonlocking(name)) {
-		Warning("Transferring registered Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+		szgWarning("Transferring registered Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 		return;
 	}
-	Information("Transfer new Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	szgInformation("Transfer new Audio. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().audioResources.emplace(name, std::move(data));
 
 }

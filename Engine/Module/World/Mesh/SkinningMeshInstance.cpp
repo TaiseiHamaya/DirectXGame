@@ -2,7 +2,7 @@
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Animation/NodeAnimation/NodeAnimationPlayer.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonAsset.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
@@ -103,7 +103,7 @@ void SkinningMeshInstance::default_material() {
 		else {
 			meshMaterial.texture = TextureLibrary::GetTexture("Error.png");
 			meshMaterial.uvTransform.copy(Transform2D{});
-			Warning("Material data is not found.");
+			szgWarning("Material data is not found.");
 		}
 		++i;
 	}

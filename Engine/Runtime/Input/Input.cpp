@@ -4,7 +4,7 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment (lib, "xinput.lib")
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/WinApp.h"
 
 Input& Input::GetInstance() {
@@ -189,7 +189,7 @@ void Input::create_direct_input() {
 		reinterpret_cast<void**>(directInput.GetAddressOf()),
 		nullptr
 	);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 }
 
 void Input::create_keyboard_device() {
@@ -200,15 +200,15 @@ void Input::create_keyboard_device() {
 		keyboardDevice.GetAddressOf(),
 		nullptr
 	);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 	// フォーマットの設定
 	result = keyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 	// その他コンフィグ
 	result = keyboardDevice->SetCooperativeLevel(
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 }
 
 void Input::create_mouse_device() {
@@ -219,15 +219,15 @@ void Input::create_mouse_device() {
 		mouseDevice.GetAddressOf(),
 		nullptr
 	);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 	// フォーマットの設定
 	result = mouseDevice->SetDataFormat(&c_dfDIMouse2);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 	// その他コンフィグ
 	result = mouseDevice->SetCooperativeLevel(
 		WinApp::GetWndHandle(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE
 	);
-	ErrorIf(FAILED(result), "Failed initialize direct input.");
+	szgErrorIf(FAILED(result), "Failed initialize direct input.");
 
 	// stateの生成
 	mouseState = std::make_unique<DIMOUSESTATE2>();

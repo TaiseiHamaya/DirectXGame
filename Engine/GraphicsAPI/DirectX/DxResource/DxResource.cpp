@@ -1,6 +1,6 @@
 #include "DxResource.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 Microsoft::WRL::ComPtr<ID3D12Resource>& DxResource::get_resource() noexcept {
@@ -27,6 +27,6 @@ const Microsoft::WRL::ComPtr<ID3D12Resource>& DxResource::get_resource() const n
 	HRESULT hr;
 	// 生成
 	hr = DxDevice::GetDevice()->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&bufferResource));
-	ErrorIf(FAILED(hr), "Failed creating GPU buffer. Size-\'{}\'", sizeInByte);
+	szgErrorIf(FAILED(hr), "Failed creating GPU buffer. Size-\'{}\'", sizeInByte);
 	return bufferResource;
 }

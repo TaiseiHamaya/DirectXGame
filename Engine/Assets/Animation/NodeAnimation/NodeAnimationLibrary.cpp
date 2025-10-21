@@ -6,7 +6,7 @@
 
 #include "./NodeAnimationAsset.h"
 #include "./NodeAnimationAssetBuilder.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -43,7 +43,7 @@ bool NodeAnimationLibrary::IsRegistered(const std::string& name) {
 
 void NodeAnimationLibrary::Transfer(const std::string& name, std::shared_ptr<NodeAnimationAsset> data) {
 	std::lock_guard<std::mutex> lock{ nodeAnimationMutex };
-	Information("Transfer new NodeAnimation. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	szgInformation("Transfer new NodeAnimation. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 

@@ -13,7 +13,7 @@
 #include "Engine/Module/Render/RenderNode/Forward/Mesh/StaticMeshNodeForward.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "../RemoteObject/RemoteWorldObject.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
@@ -131,7 +131,7 @@ void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Re
 
 void EditorSceneView::write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine) {
 	if (!worldViews.contains(world->get_id())) {
-		Warning("");
+		szgWarning("");
 		return;
 	}
 	worldViews.at(world->get_id()).view.register_primitive(primitiveName, affine);

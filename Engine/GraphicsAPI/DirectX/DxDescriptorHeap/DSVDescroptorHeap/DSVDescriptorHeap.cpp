@@ -1,6 +1,6 @@
 #include "DSVDescriptorHeap.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
@@ -16,7 +16,7 @@ void DSVDescriptorHeap::Initialize() {
 
 const u32 DSVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Information("Use DSV index. Index-\'{}\'", useIndex);
+	szgInformation("Use DSV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
@@ -25,7 +25,7 @@ const D3D12_CPU_DESCRIPTOR_HANDLE DSVDescriptorHeap::GetCPUHandle(u32 index) noe
 }
 
 void DSVDescriptorHeap::ReleaseHeapIndex(u32 index) {
-	Information("Release DSV index. Index-\'{}\'", index);
+	szgInformation("Release DSV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }
 

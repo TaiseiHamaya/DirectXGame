@@ -4,7 +4,7 @@
 
 #include "./SkeletonAsset.h"
 #include "./SkeletonAssetBuilder.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
 #include <Library/Utility/Tools/SmartPointer.h>
@@ -30,7 +30,7 @@ std::shared_ptr<const SkeletonAsset> SkeletonLibrary::GetSkeleton(const std::str
 		return GetInstance().instanceList.at(name);
 	}
 	else {
-		Warning("Unloading skeleton. Name-\'{:}\'", name);
+		szgWarning("Unloading skeleton. Name-\'{:}\'", name);
 		return nullptr;
 	}
 }
@@ -43,7 +43,7 @@ bool SkeletonLibrary::IsRegistered(const std::string& name) {
 
 void SkeletonLibrary::Transfer(const std::string& name, std::shared_ptr<SkeletonAsset>& data) {
 	std::lock_guard<std::mutex> lock{ skeletonMutex };
-	Information("Transfer new Skeleton. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	szgInformation("Transfer new Skeleton. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().instanceList.emplace(name, data);
 }
 

@@ -4,7 +4,7 @@
 
 #include <json.hpp>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 #define COLOR4_SERIALIZER
@@ -28,7 +28,7 @@ void ProjectSettings::Initialize() {
 	std::ifstream ifstream{ "./Game/Core/Core.json" };
 
 	if (ifstream.fail()) {
-		Error("Project is not found.");
+		szgError("Project is not found.");
 		return;
 	}
 

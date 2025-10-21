@@ -1,6 +1,6 @@
 #include "BaseScene.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 /////////////////////
 /// シーンの使い方 ///
@@ -45,7 +45,7 @@ u64 BaseScene::world_size() const {
 
 Reference<WorldManager> BaseScene::get_world(u64 index) {
 #ifdef DEBUG_FEATURES_ENABLE
-	ErrorIf(index >= worlds.size(), "Out of range.");
+	szgErrorIf(index >= worlds.size(), "Out of range.");
 #endif // DEBUG_FEATURES_ENABLE
 
 	return worlds[index];

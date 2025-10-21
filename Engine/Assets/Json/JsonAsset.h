@@ -5,7 +5,7 @@
 
 #include <json.hpp>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
