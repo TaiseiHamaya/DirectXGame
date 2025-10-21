@@ -2,7 +2,7 @@
 
 #include "./SkeletonAsset.h"
 #include "./SkeletonLibrary.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #include <Library/Math/Quaternion.h>
 #include <Library/Utility/Tools/SmartPointer.h>
@@ -44,12 +44,12 @@ bool SkeletonAssetBuilder::run() {
 	);
 	// ロード失敗時
 	if (importer.GetException() || !scene) {
-		Error("Failed to load skeleton file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
+		szgError("Failed to load skeleton file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
 		return false;
 	}
 	// スケルトン存在しない
 	if (!scene->mRootNode || !scene->mNumMeshes) {
-		Error("Can't find skeletons. File-\'{}\'", filePath.string());
+		szgError("Can't find skeletons. File-\'{}\'", filePath.string());
 		return false;
 	}
 

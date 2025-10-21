@@ -423,9 +423,6 @@
     <ClCompile Include="Library\Utility\Tools\ConvertString.cpp">
       <Filter>Engine\Utility\Tools\ConvertString</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Application\Output.cpp">
-      <Filter>Engine\Debug\Output</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp">
       <Filter>Engine\Runtime\WorldClock</Filter>
     </ClCompile>
@@ -828,6 +825,9 @@
     <ClCompile Include="Engine\Application\ArgumentParser.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Application\Logger.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\WinApp.h">
@@ -979,9 +979,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\World\WorldInstance\WorldInstance.h">
       <Filter>Engine\Module\World\WorldInstance</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Output.h">
-      <Filter>Engine\Debug\Output</Filter>
     </ClInclude>
     <ClInclude Include="Library\Utility\Tools\ConvertString.h">
       <Filter>Engine\Utility\Tools\ConvertString</Filter>
@@ -1497,6 +1494,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Application\ArgumentParser.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Logger.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

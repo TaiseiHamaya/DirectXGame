@@ -2,7 +2,7 @@
 
 #include <format>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 RenderTexture::~RenderTexture() {
@@ -53,7 +53,7 @@ void RenderTexture::create_resource(DXGI_FORMAT format) {
 		nullptr,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
-	ErrorIf(FAILED(hr), "Failed create offscreen resource. Width-\'{}\', Height-\'{}\', Format-\'{}\'",
+	szgErrorIf(FAILED(hr), "Failed create offscreen resource. Width-\'{}\', Height-\'{}\', Format-\'{}\'",
 		width, height, (i32)format);
 
 	state = D3D12_RESOURCE_STATE_GENERIC_READ;

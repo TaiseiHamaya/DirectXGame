@@ -6,7 +6,7 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #define cofac(row1, col1, row2, col2) \
 	(rows[row1][col1] * rows[row2][col2] - rows[row1][col2] * rows[row2][col1])
@@ -20,7 +20,7 @@ void Basis::invert() {
 		rows[0][2] * co[2];
 	r32 s = 1.0f / det;
 
-	WarningIf(det == 0.0f, "Basis::invert(inverse) is called. But determinant was zero");
+	szgWarningIf(det == 0.0f, "Basis::invert(inverse) is called. But determinant was zero");
 
 	*this = {
 		Vector3(co[0] * s, cofac(0, 2, 2, 1) * s, cofac(0, 1, 1, 2) * s),

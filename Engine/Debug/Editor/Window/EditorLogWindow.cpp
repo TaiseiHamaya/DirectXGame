@@ -5,17 +5,17 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 using namespace std::string_literals;
 
 void EditorLogWindow::Allocate() {
 	auto& instance = GetInstance();
-	//instance.logStates[static_cast<u8>(LogType::Editor)] = { false, 0, "\ue3c9", { 0.2f, 0.2f, 0.2f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Information)] = { true, 0, "\ue88e", { 0.5f, 0.5f, 0.5f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Warning)] = { true, 0, "\ue002", { 0.8f, 0.8f, 0.1f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Error)] = { true, 0, "\ue99a",{ 0.8f, 0.1f, 0.1f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Critical)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Type::Trace)] = { false, 0, "\ue3c9", { 0.2f, 0.2f, 0.2f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Type::Information)] = { true, 0, "\ue88e", { 0.5f, 0.5f, 0.5f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Type::Warning)] = { true, 0, "\ue002", { 0.8f, 0.8f, 0.1f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Type::Error)] = { true, 0, "\ue99a",{ 0.8f, 0.1f, 0.1f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Type::Critical)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
 }
 
 void EditorLogWindow::Initialize(bool isActive_) {
@@ -118,7 +118,7 @@ void EditorLogWindow::draw() {
 	ImGui::End();
 }
 
-void EditorLogWindow::AppendLogEntry(LogType type, const std::string& message) {
+void EditorLogWindow::AppendLogEntry(Logger::Type type, const std::string& message) {
 	auto& instance = GetInstance();
 	++instance.logStates[static_cast<u8>(type)].numLogs;
 	instance.logs.emplace_back(type, message);

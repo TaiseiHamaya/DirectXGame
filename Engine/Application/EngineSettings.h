@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <filesystem>
 #include <format>
 
@@ -26,24 +27,23 @@ extern inline const std::filesystem::path LogFilePath{
 	std::format(L"./Log/{}", EngineSettings::LogFileName.native())
 };
 
-// メモ
-// 上位ビットから6bitずつCritical,Error,Warning,Information
-// 各6bitの割り当ては上から
-//    コンソール出力
-//    ファイル出力
-//    Editor出力(未実装)
-//    ウィンドウ出力
-//    ブレークポイント命令
-//    Stacktrace出力
-//
-// つまり
-// [CriticalConfig6bit][ErrorConfig6bit][WarningConfig6bit][InfoConfig6bit]
-// の24bit
 #ifdef DEBUG_FEATURES_ENABLE
-//                                                C     E     W     I    
-static constexpr u32 LogOutputConfigFlags{ 0b111111111111111000111000 };
+static constexpr std::array<u8, 6> LoggerConfigs = {
+	0b00000111, // Trace
+	0b00000111, // Information
+	0b00000111, // Warning
+	0b00111111, // Error
+	0b00111111, // Critical
+	0b00101111, // Assert
+};
 #else
-//                                                C     E     W     I    
-static constexpr u32 LogOutputConfigFlags{ 0b110111110101110000000000 };
+static constexpr std::array<u8, 6> LoggerConfigs = {
+	0b00000000, // Trace
+	0b00000000, // Information
+	0b00000111, // Warning
+	0b00111111, // Error
+	0b00111111, // Critical
+	0b00000000, // Assert
+};
 #endif // DEBUG_FEATURES_ENABLE
 };

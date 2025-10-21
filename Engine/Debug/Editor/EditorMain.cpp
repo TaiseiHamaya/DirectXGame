@@ -61,7 +61,7 @@ void EditorMain::Setup() {
 	JsonAsset json;
 	if (!std::filesystem::exists(filePath)) {
 		instance.isActiveEditor = false;
-		Warning("The file required to start the editor was not found.");
+		szgWarning("The file required to start the editor was not found.");
 	}
 
 	json.load("./Game/DebugData/Editor.json");
@@ -128,10 +128,10 @@ void EditorMain::DrawBase() {
 		std::ofstream ofstream{ filePath, std::ios_base::out };
 		ofstream << std::setw(1) << std::setfill('\t') << root;
 		if (ofstream.fail()) {
-			Warning("Failed to save scene file. ({})", filePath.string());
+			szgWarning("Failed to save scene file. ({})", filePath.string());
 		}
 		else {
-			Information("Scene file saved. ({})", filePath.string());
+			szgInformation("Scene file saved. ({})", filePath.string());
 		}
 		ofstream.close();
 	}

@@ -229,6 +229,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.cpp" />
+    <ClCompile Include="Engine\Application\Logger.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -418,7 +419,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp" />
-    <ClCompile Include="Engine\Application\Output.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCore.cpp" />
     <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.cpp" />
@@ -530,6 +530,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.h" />
+    <ClInclude Include="Engine\Application\Logger.h" />
     <None Include="Game\__Template\SandBox.h.template">
       <FileType>Document</FileType>
     </None>
@@ -631,7 +632,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Clock\WorldClock.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.h" />
-    <ClInclude Include="Engine\Application\Output.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxCore.h" />
     <ClInclude Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.h" />

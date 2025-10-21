@@ -10,7 +10,8 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
-enum class LogType : u8;
+#include "Engine/Application/Logger.h"
+
 struct ImVec4;
 
 class EditorLogWindow : public IEditorWindow, SingletonInterface<EditorLogWindow> {
@@ -18,7 +19,7 @@ class EditorLogWindow : public IEditorWindow, SingletonInterface<EditorLogWindow
 
 private:
 	struct LogBody {
-		LogType type;
+		Logger::Type type;
 		std::string message;
 	};
 
@@ -38,10 +39,10 @@ public:
 
 	void draw() override;
 
-	static void AppendLogEntry(LogType type, const std::string& message);
+	static void AppendLogEntry(Logger::Type type, const std::string& message);
 
 private:
-	std::array<LogState, 4> logStates;
+	std::array<LogState, 7> logStates;
 	bool isBottomScroll{ true };
 	std::list<LogBody> logs;
 

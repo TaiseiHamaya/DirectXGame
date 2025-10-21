@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Engine/Application/EngineSettings.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
@@ -75,7 +75,7 @@ void DxSwapChain::create_swapchain() {
 	// コマンドキュー、ウィンドウハンドル、設定を渡してスワップチェインを生成
 	hr = DxDevice::GetFactory()->CreateSwapChainForHwnd(DxCommand::GetCommandQueue().Get(), WinApp::GetWndHandle(), &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	// 失敗したら停止させる
-	CriticalIf(FAILED(hr), "Failed creating swap chain.");
+	szgCriticalIf(FAILED(hr), "Failed creating swap chain.");
 }
 
 void DxSwapChain::create_render_target() {
@@ -86,7 +86,7 @@ void DxSwapChain::create_render_target() {
 	for (u32 i = 0; i < ProjectSettings::GetGraphicsSettings().numBuffering; ++i) {
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 		hr = swapChain->GetBuffer(i, IID_PPV_ARGS(resource.GetAddressOf()));
-		CriticalIf(FAILED(hr), "Failed creating swapchain render targets.");
+		szgCriticalIf(FAILED(hr), "Failed creating swapchain render targets.");
 		// テクスチャとして落とし込み
 		textures[i] = std::make_unique<ScreenTexture>();
 		textures[i]->initialize(resource);

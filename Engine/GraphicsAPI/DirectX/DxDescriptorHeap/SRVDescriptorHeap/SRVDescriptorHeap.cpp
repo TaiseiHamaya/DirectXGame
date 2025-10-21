@@ -1,6 +1,6 @@
 #include "SRVDescriptorHeap.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
@@ -22,7 +22,7 @@ void SRVDescriptorHeap::Initialize() {
 const u32 SRVDescriptorHeap::UseHeapIndex() noexcept {
 	std::lock_guard<std::mutex> lock{ srvHeapMutex };
 	auto useIndex = GetInstance().use_heap_index();
-	Information("Use SRV index. Index-\'{}\'", useIndex);
+	szgInformation("Use SRV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
@@ -44,7 +44,7 @@ void SRVDescriptorHeap::SetDescriptorHeaps() {
 }
 
 void SRVDescriptorHeap::ReleaseHeapIndex(u32 index) {
-	Information("Release SRV index. Index-\'{}\'", index);
+	szgInformation("Release SRV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }
 

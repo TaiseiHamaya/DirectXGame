@@ -2,7 +2,7 @@
 
 #include "./ShaderAsset.h"
 #include "./ShaderLibrary.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
 
@@ -19,7 +19,7 @@ ShaderAssetBuilder::ShaderAssetBuilder(const std::filesystem::path& filePath_) {
 
 bool ShaderAssetBuilder::run() {
 	HRESULT hr;
-	Information(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
+	szgInformation(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
 
 	const std::wstring profiles[] = {
 		std::format(L"vs_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
@@ -35,12 +35,12 @@ bool ShaderAssetBuilder::run() {
 			break;
 		}
 	}
-	ErrorIf(profile.empty(), L"Failed to find shader profile in extension. File-\'{}\'", filePath.native());
+	szgErrorIf(profile.empty(), L"Failed to find shader profile in extension. File-\'{}\'", filePath.native());
 
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> shaderSource = nullptr;
 	hr = DxcManager::GetUtils().LoadFile(filePath.c_str(), nullptr, shaderSource.GetAddressOf()); // ロード
 	// ファイル読み込みエラー
-	ErrorIf(FAILED(hr), L"Failed to load the shader file. File-\'{}\'", filePath.native());
+	szgErrorIf(FAILED(hr), L"Failed to load the shader file. File-\'{}\'", filePath.native());
 
 	DxcBuffer shaderSourceBuffer{}; // ロードしたデータを読み込む
 	shaderSourceBuffer.Ptr = shaderSource->GetBufferPointer();
@@ -70,21 +70,21 @@ bool ShaderAssetBuilder::run() {
 		IID_PPV_ARGS(shaderResult.GetAddressOf())
 	);
 	// コンパイルエラー
-	ErrorIf(FAILED(hr), L"Failed compile shader. File-\'{}\'", filePath.native());
+	szgErrorIf(FAILED(hr), L"Failed compile shader. File-\'{}\'", filePath.native());
 
 	// シェーダーのコンパイル結果をチェック
 	Microsoft::WRL::ComPtr<IDxcBlobUtf8> shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(shaderError.GetAddressOf()), nullptr); // エラーを取得
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
 		auto msg = shaderError->GetStringPointer();
-		Error("HLSL shader compile error. Message-\'{}\'", msg); // CEだったら停止
+		szgError("HLSL shader compile error. Message-\'{}\'", msg); // CEだったら停止
 	}
 
 	// 書き込み処理
 	Microsoft::WRL::ComPtr<IDxcBlob>  shaderBlob = nullptr;
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(shaderBlob.GetAddressOf()), nullptr); // 成功したので書き込み
-	ErrorIf(FAILED(hr), L"Shader compilation succeeded, but writing failed. File-\'{}\'", filePath.native());
-	Information(L"Compile succeeded."); // 成功ログ
+	szgErrorIf(FAILED(hr), L"Shader compilation succeeded, but writing failed. File-\'{}\'", filePath.native());
+	szgInformation(L"Compile succeeded."); // 成功ログ
 
 	asset = std::make_shared<ShaderAsset>(shaderBlob);
 

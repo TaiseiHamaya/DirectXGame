@@ -3,7 +3,7 @@
 #include "EditorCommandInvoker.h"
 
 #include "IEditorCommand.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 void EditorCommandInvoker::Execute(std::unique_ptr<IEditorCommand> command) {
 	auto& instance = GetInstance();
@@ -61,7 +61,7 @@ void EditorCommandInvoker::ResetHistoryForce() {
 	auto& instance = GetInstance();
 	instance.history.clear();
 	instance.recent = std::nullopt;
-	Information("Editor's command history is deleted.");
+	szgInformation("Editor's command history is deleted.");
 }
 
 #endif // DEBUG_FEATURES_ENABLE

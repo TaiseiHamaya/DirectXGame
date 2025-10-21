@@ -6,7 +6,7 @@
 
 #include <Library/Utility/Tools/ConvertString.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 void ArgumentParser::Parse() {
 	ArgumentParser& instance = GetInstance();
@@ -28,7 +28,7 @@ void ArgumentParser::Parse() {
 		std::string argA = ConvertString(argW);
 		instance.arguments.emplace_back(argA);
 		instance.argumentsInverseIndex[argA] = index;
-		Information("Command line argument [{}]: {}", index, argA);
+		szgInformation("Command line argument [{}]: {}", index, argA);
 		++index;
 	}
 }

@@ -8,7 +8,7 @@
 
 #include "Engine/Application/ArgumentParser.h"
 #include "Engine/Application/CrashHandler.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
@@ -58,8 +58,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 
 WinApp::~WinApp() noexcept {
 	// ログ
-	Information("Complete finalize application.");
-	FinalizeLog();
+	szgInformation("Complete finalize application.");
+	Logger::Finalize();
 	// COMの終了
 	CoUninitialize();
 	// chrono内のTZDBを削除(これ以降ログ出力はされない)
@@ -80,7 +80,7 @@ void WinApp::Initialize() {
 	// chrono時間精度の設定
 	timeBeginPeriod(1);
 
-	ErrorIf(isInitialized, "WinApp is already initialized.");
+	szgErrorIf(isInitialized, "WinApp is already initialized.");
 	isInitialized = true;
 
 	// アプリケーション内のwstring charsetをutf-8にする
@@ -93,7 +93,7 @@ void WinApp::Initialize() {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// Log出力システムの初期化
-	InitializeLog();
+	Logger::Initialize();
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorLogWindow::Allocate();
 #endif // DEBUG_FEATURES_ENABLE
@@ -175,11 +175,11 @@ void WinApp::Initialize() {
 	SceneManager::SetProfiler(instance.profiler);
 #endif // _DEBUG
 
-	Information("Complete initialize application.");
+	szgInformation("Complete initialize application.");
 }
 
 void WinApp::BeginFrame() {
-	SyncErrorWindow();
+	Logger::SyncErrorWindow();
 
 #ifdef DEBUG_FEATURES_ENABLE
 	auto& instance = GetInstance();
@@ -222,10 +222,10 @@ void WinApp::EndFrame() {
 
 void WinApp::Finalize() {
 	// 終了通知
-	Information("End Program.");
+	szgInformation("End Program.");
 	// windowを閉じる
 	CloseWindow(GetInstance().hWnd);
-	Information("Closed Window.");
+	szgInformation("Closed Window.");
 
 	// 各種終了処理
 	// Initializeと逆順でやる
@@ -250,7 +250,7 @@ void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
 	if (!ProjectSettings::GetApplicationSettings().hideWindowForce) {
 		ShowWindow(GetInstance().hWnd, SW_SHOW);
-		Information("Show application window.");
+		szgInformation("Show application window.");
 	}
 
 #ifdef DEBUG_FEATURES_ENABLE
