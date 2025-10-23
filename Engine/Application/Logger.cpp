@@ -48,16 +48,16 @@ void Logger::SyncErrorWindow() {
 	instance.logFile.flush();
 }
 
-void Logger::body(const std::wstring& file, Type type, const std::wstring& message) {
+void Logger::body(const std::wstring& file, Level level, const std::wstring& message) {
 	std::lock_guard<std::mutex> lock{ mutex };
 
 	ChronoUtility::LocalTimeSeconds time = ChronoUtility::NowLocalSecond();
 
-	eps::bitflag<OutputDestination> config = EngineSettings::LoggerConfigs[static_cast<u8>(type)];
+	eps::bitflag<OutputDestination> config = EngineSettings::LoggerConfigs[static_cast<u8>(level)];
 
-	std::wstring typeW = TypeStringW[static_cast<u8>(type)];
+	std::wstring levelStringW = LevelStringW[static_cast<u8>(level)];
 	std::wstring out =
-		std::format(L"{:%H:%M:%S} | {: <11} | {} [{}]\n", time, typeW, message, file);
+		std::format(L"{:%H:%M:%S} | {: <11} | {} [{}]\n", time, levelStringW, message, file);
 
 	// コンソール出力
 	if (config & OutputDestination::Console) {
@@ -74,12 +74,12 @@ void Logger::body(const std::wstring& file, Type type, const std::wstring& messa
 	// Editor出力
 	if (config & OutputDestination::Editor) {
 #ifdef DEBUG_FEATURES_ENABLE
-		EditorLogWindow::AppendLogEntry(type, ConvertString(std::format(L"{:%H:%M:%S} | {}\n", time, message)));
+		EditorLogWindow::AppendLogEntry(level, ConvertString(std::format(L"{:%H:%M:%S} | {}\n", time, message)));
 #endif // DEBUG_FEATURES_ENABLE
 	}
 	// ウィンドウ出力
 	if (config & OutputDestination::Window) {
-		popup_window(type, std::format(L"[{}] {}", typeW, file), message);
+		popup_window(level, std::format(L"[{}] {}", levelStringW, file), message);
 	}
 	// ブレークポイントによって停止させる
 	if (config & OutputDestination::Breakpoint) {
@@ -91,22 +91,22 @@ void Logger::body(const std::wstring& file, Type type, const std::wstring& messa
 	}
 }
 
-void Logger::intermediate_a(const std::source_location& sourceLocation, Type type, const std::string& message) {
+void Logger::intermediate_a(const std::source_location& sourceLocation, Level level, const std::string& message) {
 	if (!canOutputLog) {
 		throw std::runtime_error("アプリケーション終了後にログ出力が行われました。");
 		return;
 	}
 
-	body(ToFilenameW(sourceLocation), type, ConvertString(message));
+	body(ToFilenameW(sourceLocation), level, ConvertString(message));
 }
 
-void Logger::intermediate_w(const std::source_location& sourceLocation, Type type, const std::wstring& message) {
+void Logger::intermediate_w(const std::source_location& sourceLocation, Level level, const std::wstring& message) {
 	if (!canOutputLog) {
 		throw std::runtime_error("アプリケーション終了後にログ出力が行われました。");
 		return;
 	}
 
-	body(ToFilenameW(sourceLocation), type, message);
+	body(ToFilenameW(sourceLocation), level, message);
 }
 
 void Logger::output_console(const std::wstring& msg) {
@@ -118,19 +118,19 @@ void Logger::output_file(const std::wstring& msg) {
 	instance.logFile << msg;
 }
 
-void Logger::popup_window(Type type, const std::wstring& caption, const std::wstring& msg) {
+void Logger::popup_window(Level level, const std::wstring& caption, const std::wstring& msg) {
 	UINT flag = 0;
-	switch (type) {
-	case Logger::Type::Trace:
-	case Logger::Type::Information:
+	switch (level) {
+	case Logger::Level::Trace:
+	case Logger::Level::Information:
 		flag = MB_ICONINFORMATION;
 		break;
-	case Logger::Type::Warning:
+	case Logger::Level::Warning:
 		flag = MB_ICONWARNING;
 		break;
-	case Logger::Type::Error:
-	case Logger::Type::Critical:
-	case Logger::Type::Assert:
+	case Logger::Level::Error:
+	case Logger::Level::Critical:
+	case Logger::Level::Assert:
 		flag = MB_ICONERROR;
 		break;
 	default:
@@ -156,10 +156,10 @@ void Logger::stack_trace() {
 
 	stack_trace_line(L"\nOutput stack trace.\n");
 
-#ifdef _DEBUG
+#ifdef DEBUG_FEATURES_ENABLE
 	constexpr u32 NumSkipTrace{ 4 };
 #else
-	constexpr u32 NumSkipTrace{ 2 };
+	constexpr u32 NumSkipTrace{ 3 };
 #endif // _DEBUG
 
 	for (u32 i = NumSkipTrace; i < numberOfFrames; i++) {

@@ -9,6 +9,9 @@
 
 class NodeAnimationAsset;
 
+/// <summary>
+/// Animationアセット保持クラス(スレッドセーフ)
+/// </summary>
 class NodeAnimationLibrary final : SingletonInterface<NodeAnimationLibrary> {
 	__CLASS_SINGLETON_INTERFACE(NodeAnimationLibrary)
 

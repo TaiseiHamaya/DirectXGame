@@ -31,17 +31,51 @@ public:
 	constexpr friend Vector3 operator*(const Vector3& v, const Basis& basis);
 
 public:
+	/// <summary>
+	/// 逆行列化
+	/// </summary>
 	void invert();
+
+	/// <summary>
+	/// 転置
+	/// </summary>
 	void transpose();
 
+	/// <summary>
+	/// 逆行列を返す
+	/// </summary>
+	/// <returns></returns>
 	Basis inverse() const;
+
+	/// <summary>
+	/// 転置行列を返す
+	/// </summary>
+	/// <returns></returns>
 	Basis transposed() const;
 
+	/// <summary>
+	/// 正規化
+	/// </summary>
+	/// <returns></returns>
 	Basis orthonormalize() const;
 
+	/// <summary>
+	/// 3x3行列に変換
+	/// </summary>
+	/// <returns></returns>
 	Matrix3x3 to_matrix() const;
+
+	/// <summary>
+	/// 4x4行列に変換
+	/// </summary>
+	/// <returns></returns>
 	Matrix4x4 to_matrix4x4() const;
 
+	/// <summary>
+	/// indexの列を3次元ベクトルに変換して取得
+	/// </summary>
+	/// <param name="index"></param>
+	/// <returns></returns>
 	constexpr Vector3 column(u32 index) const noexcept;
 
 	void scale_rotate(const Vector3& scale, const Quaternion& rotate);

@@ -3,7 +3,7 @@
 #include <ratio>
 #include <thread>
 
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 namespace chrono = std::chrono;
 
@@ -11,7 +11,7 @@ void WorldClock::Initialize() {
 	auto& instance = GetInstance();
 	instance.startFrameTimePoint = chrono::high_resolution_clock::now();
 	std::this_thread::sleep_for(chrono::microseconds(1666));
-	instance.deltaSeconds = EngineSettings::FixDeltaSeconds;
+	instance.deltaSeconds = ProjectSettings::GetApplicationSettingsImm().fixDeltaSeconds.value_or(0);
 }
 
 void WorldClock::Update() {
@@ -25,7 +25,8 @@ void WorldClock::Update() {
 	// duration算出
 	auto secDuration = chrono::duration_cast<second_f>(now - instance.startFrameTimePoint);
 	// deltaTimeとして記録
-	instance.deltaSeconds = EngineSettings::IsFixDeltaTime ? std::min(EngineSettings::FixDeltaSeconds, secDuration.count()) : secDuration.count();
+	const auto& fixDeltaSeconds = ProjectSettings::GetApplicationSettingsImm().fixDeltaSeconds;
+	instance.deltaSeconds = fixDeltaSeconds.has_value() ? std::min(fixDeltaSeconds.value(), secDuration.count()) : secDuration.count();
 
 	// Startを更新
 	instance.startFrameTimePoint = now;
@@ -52,7 +53,5 @@ void WorldClock::DebugGui() {
 	u32 msDecimal = static_cast<u32>((deltaMS - std::floor(deltaMS)) * 1e4f);
 	ImGui::Text(std::format("Delta : {:>5}.{:0>4}ms", msInteger, msDecimal).c_str());
 	instance.profiler.debug_gui();
-	ImGui::Checkbox("IsFixDeltaTime", &EngineSettings::IsFixDeltaTime);
-	ImGui::Checkbox("IsUnlimitedFPS", &EngineSettings::IsUnlimitedFPS);
 }
 #endif // _DEBUG

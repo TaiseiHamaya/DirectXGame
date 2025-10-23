@@ -36,7 +36,14 @@ public:
 	static void Begin();
 	static void Update();
 	static void Draw();
-	//static void Debug();
+
+	/// <summary>
+	/// シーン変更命令の発行(既に発行済みの場合は何もしない)
+	/// </summary>
+	/// <param name="next">次シーンのシーン番号</param>
+	/// <param name="interval">遷移にかかる時間</param>
+	/// <param name="isStackInitialScene_">初期シーンをスタックするか</param>
+	/// <param name="isStopLoad">ロード未完了時に停止するか</param>
 	static void SetSceneChange(
 		i32 next,
 		r32 interval,

@@ -103,7 +103,7 @@ void ProjectSettings::Initialize() {
 		instance.graphicsSettings.clearColor = graphics.value("ClearColor", Color4{ 0.39f, 0.58f, 0.92f, 1.0f });
 	}
 
-	// デフォルトのウィンドウサイズ
+	// アプリケーション設定
 	if (json.contains("Application")) {
 		nlohmann::json& appSettings = json["Application"];
 		if (appSettings.contains("Window")) {
@@ -111,12 +111,11 @@ void ProjectSettings::Initialize() {
 			instance.applicationSettings.clientWidth = windowSettings.value("Width", 1280);
 			instance.applicationSettings.clientHeight = windowSettings.value("Height", 720);
 		}
-		instance.applicationSettings.isFixWorldClock = appSettings.value("IsFixWorldClock", false);
-		if (appSettings.contains("MaxFrameRate") && !appSettings.at("MaxFrameRate").is_null()) {
-			instance.applicationSettings.maxFrameRate = appSettings["MaxFrameRate"].get<u32>();
+		if (appSettings.contains("FixDeltaSeconds") && appSettings["FixDeltaSeconds"].is_number_float()) {
+			instance.applicationSettings.fixDeltaSeconds = appSettings["FixDeltaSeconds"].get<r32>();
 		}
-		else {
-			instance.applicationSettings.maxFrameRate = std::nullopt;
+		if (appSettings.contains("MaxFrameRate") && appSettings["MaxFrameRate"].is_number()) {
+			instance.applicationSettings.maxFrameRate = appSettings["MaxFrameRate"].get<u32>();
 		}
 	}
 }
@@ -129,19 +128,19 @@ u32 ProjectSettings::WindowStyle() {
 	return GetInstance().windowStyle;
 }
 
-const ProjectSettings::Application& ProjectSettings::GetApplicationSettings() noexcept {
+const ProjectSettings::Application& ProjectSettings::GetApplicationSettingsImm() noexcept {
 	return GetInstance().applicationSettings;
 }
 
-const ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettings() noexcept {
+const ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettingsImm() noexcept {
 	return GetInstance().graphicsSettings;
 }
 
-ProjectSettings::Application& ProjectSettings::GetApplicationSettingsImm() noexcept {
+ProjectSettings::Application& ProjectSettings::GetApplicationSettingsMut() noexcept {
 	return GetInstance().applicationSettings;
 }
 
-ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettingsImm() noexcept {
+ProjectSettings::Graphics& ProjectSettings::GetGraphicsSettingsMut() noexcept {
 	return GetInstance().graphicsSettings;
 }
 

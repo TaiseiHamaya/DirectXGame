@@ -15,15 +15,6 @@
 
 std::mutex meshMutex;
 
-PolygonMeshLibrary::PolygonMeshLibrary() noexcept = default;
-
-PolygonMeshLibrary::~PolygonMeshLibrary() noexcept = default;
-
-PolygonMeshLibrary& PolygonMeshLibrary::GetInstance() noexcept {
-	static PolygonMeshLibrary instance{};
-	return instance;
-}
-
 void PolygonMeshLibrary::RegisterLoadQue(const std::filesystem::path& filePath) {
 	// ロード済みの場合は何もしない
 	if (IsRegistered(filePath.filename().string())) {

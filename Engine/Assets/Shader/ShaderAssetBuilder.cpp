@@ -14,7 +14,7 @@ constexpr wstring_literal extension[] = {
 };
 
 ShaderAssetBuilder::ShaderAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "HLSL");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "HLSL");
 }
 
 bool ShaderAssetBuilder::run() {
@@ -22,10 +22,10 @@ bool ShaderAssetBuilder::run() {
 	szgInformation(L"Start compile shader. Path-\'{}\'", filePath.native()); // 開始ログ
 
 	const std::wstring profiles[] = {
-		std::format(L"vs_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
-		std::format(L"ps_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
-		std::format(L"cs_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
-		std::format(L"ms_{}_{}", ProjectSettings::GetGraphicsSettings().shaderVersion.first, ProjectSettings::GetGraphicsSettings().shaderVersion.second),
+		std::format(L"vs_{}_{}", ProjectSettings::GetGraphicsSettingsImm().shaderVersion.first, ProjectSettings::GetGraphicsSettingsImm().shaderVersion.second),
+		std::format(L"ps_{}_{}", ProjectSettings::GetGraphicsSettingsImm().shaderVersion.first, ProjectSettings::GetGraphicsSettingsImm().shaderVersion.second),
+		std::format(L"cs_{}_{}", ProjectSettings::GetGraphicsSettingsImm().shaderVersion.first, ProjectSettings::GetGraphicsSettingsImm().shaderVersion.second),
+		std::format(L"ms_{}_{}", ProjectSettings::GetGraphicsSettingsImm().shaderVersion.first, ProjectSettings::GetGraphicsSettingsImm().shaderVersion.second),
 	};
 
 	std::wstring_view profile;

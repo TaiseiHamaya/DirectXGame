@@ -85,11 +85,36 @@ public:
 	constexpr reference_fraction operator/=(const_reference_fraction rhs);
 
 public:
+	/// <summary>
+	/// 逆数を返す
+	/// </summary>
+	/// <returns></returns>
 	constexpr fraction_type inverse() const;
+
+	/// <summary>
+	/// 少数に変換
+	/// </summary>
+	/// <typeparam name="real"></typeparam>
+	/// <returns></returns>
 	template<std::floating_point real = r32>
 	constexpr real to_real() const;
+
+	/// <summary>
+	/// 絶対値を取得
+	/// </summary>
+	/// <returns></returns>
 	constexpr fraction_type abs() const;
+
+	/// <summary>
+	/// 最小公倍数を取得
+	/// </summary>
+	/// <returns></returns>
 	constexpr value_type lcm() const;
+
+	/// <summary>
+	/// 文字列に変換して返す
+	/// </summary>
+	/// <returns></returns>
 	std::string to_string() const;
 
 public:
@@ -175,6 +200,12 @@ inline constexpr Fraction<T>::fraction_type Fraction<T>::inverse() const {
 }
 
 template<std::signed_integral T>
+template<std::floating_point real>
+inline constexpr real Fraction<T>::to_real() const {
+	return static_cast<real>(numer) / denom;
+}
+
+template<std::signed_integral T>
 inline constexpr Fraction<T>::fraction_type Fraction<T>::abs() const {
 	return fraction_type(std::abs(numer), denom);
 }
@@ -192,12 +223,6 @@ inline std::string Fraction<T>::to_string() const {
 	else {
 		return std::to_string(numer) + '/' + std::to_string(denom);
 	}
-}
-
-template<std::signed_integral T>
-template<std::floating_point real>
-inline constexpr real Fraction<T>::to_real() const {
-	return static_cast<real>(numer) / denom;
 }
 
 template<std::signed_integral T>

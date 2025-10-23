@@ -4,7 +4,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void SwapChainRenderTargetGroup::initialize() {
-	textures.resize(ProjectSettings::GetGraphicsSettings().numBuffering);
+	textures.resize(ProjectSettings::GetGraphicsSettingsImm().numBuffering);
 	create_view_port(ProjectSettings::ClientWidth(), ProjectSettings::ClientHeight());
 }
 

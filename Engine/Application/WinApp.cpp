@@ -56,6 +56,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
+WinApp::WinApp() noexcept = default;
+
 WinApp::~WinApp() noexcept {
 	// ログ
 	szgInformation("Complete finalize application.");
@@ -248,7 +250,7 @@ void WinApp::Finalize() {
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
-	if (!ProjectSettings::GetApplicationSettings().hideWindowForce) {
+	if (!ProjectSettings::GetApplicationSettingsImm().hideWindowForce) {
 		ShowWindow(GetInstance().hWnd, SW_SHOW);
 		szgInformation("Show application window.");
 	}
@@ -259,16 +261,6 @@ void WinApp::ShowAppWindow() {
 
 	// 時計初期化
 	WorldClock::Initialize();
-}
-
-bool WinApp::IsEndApp() {
-	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
-		return true;
-	}
-	if (SceneManager::IsEndProgram()) {
-		return true;
-	}
-	return false;
 }
 
 void WinApp::ProcessMessage() {
@@ -288,6 +280,28 @@ void WinApp::ProcessMessage() {
 			break;
 		}
 	}
+}
+
+bool WinApp::IsEndApp() noexcept {
+	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
+		return true;
+	}
+	if (SceneManager::IsEndProgram()) {
+		return true;
+	}
+	return false;
+}
+
+HWND WinApp::GetWndHandle() noexcept {
+	return GetInstance().hWnd;
+}
+
+HANDLE WinApp::GetProcessHandle() noexcept {
+	return GetInstance().hProcess;
+}
+
+HINSTANCE WinApp::GetInstanceHandle() noexcept {
+	return GetInstance().hInstance;
 }
 
 void WinApp::initialize_application() {
@@ -332,12 +346,12 @@ void WinApp::initialize_application() {
 #include <thread>
 
 void WinApp::wait_frame() {
-	if (!ProjectSettings::GetApplicationSettings().maxFrameRate.has_value()) {
+	if (!ProjectSettings::GetApplicationSettingsImm().maxFrameRate.has_value()) {
 		return;
 	}
 	using millisecond_f = std::chrono::duration<r32, std::milli>;
 
-	const u32 targetFPS = ProjectSettings::GetApplicationSettings().maxFrameRate.value() + 5;
+	const u32 targetFPS = ProjectSettings::GetApplicationSettingsImm().maxFrameRate.value() + 5;
 	const millisecond_f MinCheckTime{ 1000.00000f / targetFPS }; // 少し短い時間を使用する
 	// 開始
 	auto& begin = WorldClock::BeginTime();

@@ -11,7 +11,7 @@
 #include "Engine/Application/Logger.h"
 
 NodeAnimationAssetBuilder::NodeAnimationAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_);
+	filePath = IAssetBuilder::ResolveFilePath(filePath_);
 }
 
 bool NodeAnimationAssetBuilder::run() {

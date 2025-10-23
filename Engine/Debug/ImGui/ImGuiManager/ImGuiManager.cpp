@@ -36,7 +36,7 @@ void ImGuiManager::Initialize() {
 	ImGui_ImplDX12_InitInfo initInfo{};
 	initInfo.Device = DxDevice::GetDevice().Get();
 	initInfo.CommandQueue = DxCommand::GetCommandQueue().Get();
-	initInfo.NumFramesInFlight = ProjectSettings::GetGraphicsSettings().numBuffering;
+	initInfo.NumFramesInFlight = ProjectSettings::GetGraphicsSettingsImm().numBuffering;
 	initInfo.RTVFormat = DxSystemValues::SCREEN_RTV_FORMAT;
 	initInfo.SrvDescriptorHeap = SRVDescriptorHeap::GetDescriptorHeap().Get();
 	initInfo.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* outHandleCpu, D3D12_GPU_DESCRIPTOR_HANDLE* outHandleGpu) {

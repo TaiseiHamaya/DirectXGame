@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/ArgumentParser.h"
 #include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Application/WinApp.h"
@@ -18,7 +18,7 @@ void DxSwapChain::Initialize() {
 	instance.renderTargetGroup->initialize();
 	instance.create_swapchain();
 	instance.create_render_target();
-	SetClearColor(ProjectSettings::GetGraphicsSettings().clearColor);
+	SetClearColor(ProjectSettings::GetGraphicsSettingsImm().clearColor);
 }
 
 void DxSwapChain::Finalize() {
@@ -65,7 +65,7 @@ void DxSwapChain::create_swapchain() {
 	swapChainDesc.Format = DxSystemValues::SWAPCHAIN_FORMAT; // 色の形式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 画面のターゲットとして利用
-	swapChainDesc.BufferCount = ProjectSettings::GetGraphicsSettings().numBuffering; // ダブルバッファ
+	swapChainDesc.BufferCount = ProjectSettings::GetGraphicsSettingsImm().numBuffering; // ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // モニタに映したら、中身を破棄
 	swapChainDesc.Scaling = DXGI_SCALING_NONE;
 #ifdef DEBUG_FEATURES_ENABLE
@@ -79,11 +79,11 @@ void DxSwapChain::create_swapchain() {
 }
 
 void DxSwapChain::create_render_target() {
-	textures.resize(ProjectSettings::GetGraphicsSettings().numBuffering);
+	textures.resize(ProjectSettings::GetGraphicsSettingsImm().numBuffering);
 	HRESULT hr;
 	// RTVにリソースを生成
 	// ダブルバッファなのでリソースを2つ作る
-	for (u32 i = 0; i < ProjectSettings::GetGraphicsSettings().numBuffering; ++i) {
+	for (u32 i = 0; i < ProjectSettings::GetGraphicsSettingsImm().numBuffering; ++i) {
 		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 		hr = swapChain->GetBuffer(i, IID_PPV_ARGS(resource.GetAddressOf()));
 		szgCriticalIf(FAILED(hr), "Failed creating swapchain render targets.");
@@ -97,7 +97,7 @@ void DxSwapChain::create_render_target() {
 
 void DxSwapChain::swap_screen() {
 #ifdef DEBUG_FEATURES_ENABLE
-	if (EngineSettings::IsUnlimitedFPS) {
+	if (ArgumentParser::Contains("-UnlimitedFPS")) {
 		swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 	}
 	else {

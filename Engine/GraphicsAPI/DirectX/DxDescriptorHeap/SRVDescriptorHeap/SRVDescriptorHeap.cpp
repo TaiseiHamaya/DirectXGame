@@ -57,7 +57,7 @@ void SRVDescriptorHeap::ReleaseHeapHandle(D3D12_GPU_DESCRIPTOR_HANDLE handle) {
 void SRVDescriptorHeap::create_descriptor_heap() {
 	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(
 		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
-		ProjectSettings::GetGraphicsSettings().srvHeapSize,
+		ProjectSettings::GetGraphicsSettingsImm().srvHeapSize,
 		true
 	);
 }

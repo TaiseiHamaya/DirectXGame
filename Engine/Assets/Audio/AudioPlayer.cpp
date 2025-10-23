@@ -19,7 +19,7 @@ void AudioPlayer::initialize(const std::string& name, r32 volume, bool isLoop) {
 	szgErrorIf(FAILED(result), "Failed crating source voice. File-\'{}\'", name);
 
 	buffer.pAudioData = audio->buffer_data().data();
-	buffer.AudioBytes = audio->size();
+	buffer.AudioBytes = audio->buffer_size();
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = isLoop ? XAUDIO2_LOOP_INFINITE : 0;
 	sourceVoice->SetVolume(volume);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <windows.h>
 
 #include <Library/Utility/Template/SingletonInterface.h>
@@ -12,8 +10,8 @@ class WinApp final : public SingletonInterface<WinApp> {
 	friend class SingletonInterface<WinApp>;
 
 private:
-	WinApp() = default;
-	~WinApp();
+	WinApp() noexcept;
+	~WinApp() noexcept;
 
 public:
 	WinApp(const WinApp&) = delete;
@@ -22,19 +20,41 @@ public:
 	WinApp& operator=(WinApp&&) = delete;
 
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	static void Initialize();
+
+	/// <summary>
+	/// フレーム開始処理
+	/// </summary>
 	static void BeginFrame();
+
+	/// <summary>
+	/// フレーム終了処理
+	/// </summary>
 	static void EndFrame();
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	static void Finalize();
 
+	/// <summary>
+	/// ウィンドウ表示
+	/// </summary>
 	static void ShowAppWindow();
-	static bool IsEndApp();
+
+	/// <summary>
+	/// プロセスメッセージの取得
+	/// </summary>
 	static void ProcessMessage();
 
 public:
-	static HWND GetWndHandle() noexcept { return GetInstance().hWnd; };
-	static HANDLE GetProcessHandle() noexcept { return GetInstance().hProcess; };
-	static HINSTANCE GetInstanceHandle() noexcept { return GetInstance().hInstance; };
+	static bool IsEndApp() noexcept;
+	static HWND GetWndHandle() noexcept;
+	static HANDLE GetProcessHandle() noexcept;
+	static HINSTANCE GetInstanceHandle() noexcept;
 
 private:
 	void initialize_application();
@@ -57,9 +77,9 @@ public:
 	static bool IsStopUpdate();
 
 private:
-	bool isStopUpdate;
-	bool isPassedPause;
-	mutable TimestampProfiler profiler;
+	bool isStopUpdate{ false };
+	bool isPassedPause{ false };
+	mutable TimestampProfiler profiler{};
 #endif // _DEBUG
 };
 
