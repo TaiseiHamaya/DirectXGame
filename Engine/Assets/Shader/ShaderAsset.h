@@ -6,6 +6,9 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+/// <summary>
+/// シェーダーアセット
+/// </summary>
 class ShaderAsset final {
 public:
 	ShaderAsset(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;

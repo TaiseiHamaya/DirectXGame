@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
 
 #include <memory>
 
 class PolygonMesh;
 
-class PolygonMeshBuilder final : public BaseAssetBuilder {
+class PolygonMeshBuilder final : public IAssetBuilder {
 public:
 	PolygonMeshBuilder(const std::filesystem::path& filePath_);
 	~PolygonMeshBuilder() = default;

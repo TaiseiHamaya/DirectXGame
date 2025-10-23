@@ -11,13 +11,6 @@ std::mutex referenceMutex;
 std::condition_variable waitConditionVariable;
 std::condition_variable loadConditionVariable;
 
-BackgroundLoader::BackgroundLoader() noexcept = default;
-BackgroundLoader::~BackgroundLoader() noexcept = default;
-
-BackgroundLoader& BackgroundLoader::GetInstance() noexcept {
-	static BackgroundLoader instance{};
-	return instance;
-}
 
 void BackgroundLoader::Initialize() {
 	GetInstance().initialize();
@@ -32,7 +25,7 @@ void BackgroundLoader::Finalize() {
 	}
 }
 
-void BackgroundLoader::RegisterLoadQue(std::unique_ptr<BaseAssetBuilder> builder) noexcept(false) {
+void BackgroundLoader::RegisterLoadQue(std::unique_ptr<IAssetBuilder> builder) noexcept(false) {
 	// mutexのlock
 	std::lock_guard<std::mutex> lock{ referenceMutex };
 	auto& instance = GetInstance();

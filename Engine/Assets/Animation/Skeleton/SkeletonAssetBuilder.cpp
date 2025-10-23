@@ -28,7 +28,7 @@ static std::optional<u32> CreateSkeleton(
 // ---------- ここから本編 ----------
 
 SkeletonAssetBuilder::SkeletonAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_);
+	filePath = IAssetBuilder::ResolveFilePath(filePath_);
 }
 
 bool SkeletonAssetBuilder::run() {

@@ -7,6 +7,12 @@ public:
 	void set(r32 time);
 	r32 time() const;
 
+	/// <summary>
+	/// このフレームでちょうどtimeを越えたか
+	/// 既知の不具合: backで戻った場合に正しく動作しない
+	/// </summary>
+	/// <param name="time"></param>
+	/// <returns></returns>
 	bool just_crossed(r32 time) const noexcept;
 
 public:

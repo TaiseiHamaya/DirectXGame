@@ -14,7 +14,10 @@ class Logger : public SingletonInterface<Logger> {
 	__CLASS_SINGLETON_INTERFACE(Logger)
 
 public:
-	enum class Type : u8 {
+	/// <summary>
+	/// ログレベル
+	/// </summary>
+	enum class Level : u8 {
 		Trace,
 		Information,
 		Warning,
@@ -23,6 +26,9 @@ public:
 		Assert,
 	};
 
+	/// <summary>
+	/// ログ出力ビットフラグ
+	/// </summary>
 	enum class OutputDestination : u8 {
 		Console = 1 << 0,
 		File = 1 << 1,
@@ -33,29 +39,60 @@ public:
 	};
 
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	static void Initialize();
 
+	/// <summary>
+	/// 終了
+	/// </summary>
 	static void Finalize();
 
+	/// <summary>
+	/// エラーウィンドウ
+	/// </summary>
 	static void SyncErrorWindow();
 
+	/// <summary>
+	/// ログエントリポイント
+	/// </summary>
+	/// <typeparam name="...Args"></typeparam>
+	/// <param name="sourceLocation"></param>
+	/// <param name="level">ログレベル</param>
+	/// <param name="msg">ログメッセージのformat_string</param>
+	/// <param name="...args"></param>
 	template<typename ...Args>
-	static void LogEntryPoint(const std::source_location& sourceLocation, Type type, std::format_string<Args...> msg, Args&& ...args);
+	static void LogEntryPoint(const std::source_location& sourceLocation, Level level, std::format_string<Args...> msg, Args&& ...args);
 
+	/// <summary>
+	/// ログエントリポイント
+	/// </summary>
+	/// <typeparam name="...Args"></typeparam>
+	/// <param name="sourceLocation"></param>
+	/// <param name="level">ログレベル</param>
+	/// <param name="msg">ログメッセージのformat_string</param>
+	/// <param name="...args"></param>
 	template<typename ...Args>
-	static void LogEntryPoint(const std::source_location& sourceLocation, Type type, std::wformat_string<Args...> msg, Args&& ...args);
+	static void LogEntryPoint(const std::source_location& sourceLocation, Level level, std::wformat_string<Args...> msg, Args&& ...args);
 
 private:
-	void body(const std::wstring& file, Type type, const std::wstring& message);
+	// ログ本体
+	void body(const std::wstring& file, Level level, const std::wstring& message);
 
-	void intermediate_a(const std::source_location& sourceLocation, Type type, const std::string& message);
-	void intermediate_w(const std::source_location& sourceLocation, Type type, const std::wstring& message);
+	// 中間処理
+	void intermediate_a(const std::source_location& sourceLocation, Level level, const std::string& message);
+	void intermediate_w(const std::source_location& sourceLocation, Level level, const std::wstring& message);
 
+	// コンソール出力
 	void output_console(const std::wstring& msg);
+	// ファイル出力
 	void output_file(const std::wstring& msg);
-	void popup_window(Type type, const std::wstring& caption, const std::wstring& msg);
-
+	// ポップアップウィンドウ出力
+	void popup_window(Level level, const std::wstring& caption, const std::wstring& msg);
+	// スタックトレース出力
 	void stack_trace();
+	// スタックトレース用の1行出力
 	void stack_trace_line(const std::wstring& msg);
 
 private:
@@ -64,7 +101,7 @@ private:
 	std::wofstream logFile;
 
 private:
-	static constexpr std::array<wstring_literal, 8> TypeStringW = {
+	static constexpr std::array<wstring_literal, 8> LevelStringW = {
 		L"Trace",
 		L"Information",
 		L"Warning",
@@ -79,25 +116,34 @@ private:
 __USE_BITFLAG(Logger::OutputDestination)
 
 template<typename ...Args>
-inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Type type, std::format_string<Args...> msg, Args && ...args) {
+inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Level level, std::format_string<Args...> msg, Args && ...args) {
 	std::string message = std::format(msg, std::forward<Args>(args)...);
-	Logger::GetInstance().intermediate_a(sourceLocation, type, message);
+	Logger::GetInstance().intermediate_a(sourceLocation, level, message);
 }
 
 template<typename ...Args>
-inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Type type, std::wformat_string<Args...> msg, Args && ...args) {
+inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Level level, std::wformat_string<Args...> msg, Args && ...args) {
 	std::wstring message = std::format(msg, std::forward<Args>(args)...);
-	Logger::GetInstance().intermediate_w(sourceLocation, type, message);
+	Logger::GetInstance().intermediate_w(sourceLocation, level, message);
 }
 
-#define szgTrace(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Type::Trace, msg, __VA_ARGS__)
-#define szgInformation(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Type::Information, msg, __VA_ARGS__)
-#define szgWarning(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Type::Warning, msg, __VA_ARGS__)
-#define szgError(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Type::Error, msg, __VA_ARGS__)
-#define szgCritical(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Type::Critical, msg, __VA_ARGS__)
+// Traceレベルのログ出力
+#define szgTrace(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Trace, msg, __VA_ARGS__)
+// Informationレベルのログ出力
+#define szgInformation(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Information, msg, __VA_ARGS__)
+// Warningレベルのログ出力
+#define szgWarning(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Warning, msg, __VA_ARGS__)
+// Errorレベルのログ出力
+#define szgError(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Error, msg, __VA_ARGS__)
+// Criticalレベルのログ出力
+#define szgCritical(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Critical, msg, __VA_ARGS__)
 
+// 条件付きWarningログ出力
 #define szgWarningIf(conditional, msg, ...) if((conditional)) szgWarning(msg, __VA_ARGS__)
+// 条件付きErrorログ出力
 #define szgErrorIf(conditional, msg, ...) if((conditional)) szgError(msg, __VA_ARGS__)
+// 条件付きCriticalログ出力
 #define szgCriticalIf(conditional, msg, ...) if((conditional)) szgCritical(msg, __VA_ARGS__)
 
-#define szgAssert(conditional) if (!(conditional)) Logger::LogEntryPoint(std::source_location::current(), Logger::Type::Assert, L"Assertion failed: {}", L#conditional)
+// Assert
+#define szgAssert(conditional) if (!(conditional)) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Assert, L"Assertion failed: {}", L#conditional)

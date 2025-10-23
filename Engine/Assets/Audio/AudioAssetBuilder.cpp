@@ -16,7 +16,7 @@ bool IsEqualArrayChunkId(const std::array<i8, 4>& read, std::string&& id) {
 
 
 AudioAssetBuilder::AudioAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Audio");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Audio");
 }
 
 bool AudioAssetBuilder::run() {

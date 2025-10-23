@@ -9,6 +9,9 @@
 
 class SkeletonAsset;
 
+/// <summary>
+/// Skeletonアセット保持クラス(スレッドセーフ)
+/// </summary>
 class SkeletonLibrary final : SingletonInterface<SkeletonLibrary> {
 	__CLASS_SINGLETON_INTERFACE(SkeletonLibrary)
 

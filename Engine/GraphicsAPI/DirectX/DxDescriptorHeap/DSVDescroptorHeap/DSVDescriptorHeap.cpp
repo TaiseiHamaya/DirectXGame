@@ -32,7 +32,7 @@ void DSVDescriptorHeap::ReleaseHeapIndex(u32 index) {
 void DSVDescriptorHeap::create_descriptor_heap() {
 	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(
 		D3D12_DESCRIPTOR_HEAP_TYPE_DSV,
-		ProjectSettings::GetGraphicsSettings().dsvHeapSize,
+		ProjectSettings::GetGraphicsSettingsImm().dsvHeapSize,
 		false
 	);
 }

@@ -7,6 +7,9 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+/// <summary>
+/// コマンドライン引数管理/解析クラス
+/// </summary>
 class ArgumentParser final : public SingletonInterface<ArgumentParser> {
 	__CLASS_SINGLETON_INTERFACE(ArgumentParser)
 

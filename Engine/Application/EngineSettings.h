@@ -7,27 +7,29 @@
 #include <Library/Utility/Tools/ChronoUtility.h>
 
 namespace EngineSettings {
-// ErrorOBJ/PNG VBVIBV/gpuHandle
-
 // UseRenderingEngine
 #define __USE_RENDERING_ENGINE_DIRECTX12
 //#define __USE_RENDERING_ENGINE_VULKAN
 
-// FixDeltaSeconds
-static constexpr r32 FixDeltaSeconds{ 1.0f / 60.0f };
-
-extern inline bool IsFixDeltaTime{ false };
-extern inline bool IsUnlimitedFPS{ false };
-
-extern inline const std::filesystem::path LogFileName{
+/// <summary>
+/// ログファイル名
+/// </summary>
+extern inline const std::filesystem::path LogFileName {
 	std::format(L"{:%F-%H%M%S}.log", ChronoUtility::NowLocalSecond())
 };
 
-extern inline const std::filesystem::path LogFilePath{
+/// <summary>
+/// ログファイルディレクトリ
+/// </summary>
+extern inline const std::filesystem::path LogFilePath {
 	std::format(L"./Log/{}", EngineSettings::LogFileName.native())
 };
 
 #ifdef DEBUG_FEATURES_ENABLE
+/// <summary>
+/// <para>ログレベルの設定</para>
+/// <para>詳細はLogger.hを参照</para>
+/// </summary>
 static constexpr std::array<u8, 6> LoggerConfigs = {
 	0b00000111, // Trace
 	0b00000111, // Information
@@ -37,6 +39,10 @@ static constexpr std::array<u8, 6> LoggerConfigs = {
 	0b00101111, // Assert
 };
 #else
+/// <summary>
+/// <para>ログレベルの設定</para>
+/// <para>詳細はLogger.hを参照</para>
+/// </summary>
 static constexpr std::array<u8, 6> LoggerConfigs = {
 	0b00000000, // Trace
 	0b00000000, // Information

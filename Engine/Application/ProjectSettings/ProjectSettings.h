@@ -7,18 +7,30 @@
 #include <Library/Math/Vector2.h>
 #include <Library/Utility/template/SingletonInterface.h>
 
+/// <summary>
+/// プロジェクト設定
+/// </summary>
 class ProjectSettings final : public SingletonInterface<ProjectSettings> {
 	__CLASS_SINGLETON_INTERFACE(ProjectSettings)
 
 public:
+	/// <summary>
+	/// アプリケーション設定
+	/// </summary>
 	struct Application {
 		u32 clientWidth{ 1280 };
 		u32 clientHeight{ 720 };
-		bool isFixWorldClock{ false };
+
+		std::optional<r32> fixDeltaSeconds{ std::nullopt };
+
+		std::optional<u32> maxFrameRate{ std::nullopt };
+	
 		bool hideWindowForce{ false };
-		std::optional<u32> maxFrameRate;
 	};
 
+	/// <summary>
+	/// グラフィック設定
+	/// </summary>
 	struct Graphics {
 		u32 numBuffering{ 2 };
 		std::pair<u32, u32> shaderVersion{ 6, 6 };
@@ -29,21 +41,72 @@ public:
 	};
 
 public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	static void Initialize();
 
+	/// <summary>
+	/// プロジェクト名の取得
+	/// </summary>
+	/// <returns></returns>
 	static const std::string& GetProjectName();
+
+	/// <summary>
+	/// WindowStyleの取得
+	/// </summary>
+	/// <returns></returns>
 	static u32 WindowStyle();
 
-	static const Application& GetApplicationSettings() noexcept;
-	static const Graphics& GetGraphicsSettings() noexcept;
+public: // getter
 
-	static Application& GetApplicationSettingsImm() noexcept;
-	static Graphics& GetGraphicsSettingsImm() noexcept;
+	/// <summary>
+	/// アプリケーション設定の取得
+	/// </summary>
+	/// <returns></returns>
+	static const Application& GetApplicationSettingsImm() noexcept;
 
+	/// <summary>
+	/// グラフィックス設定の取得
+	/// </summary>
+	/// <returns></returns>
+	static const Graphics& GetGraphicsSettingsImm() noexcept;
+
+	/// <summary>
+	/// アプリケーション設定の可変参照取得
+	/// </summary>
+	/// <returns></returns>
+	static Application& GetApplicationSettingsMut() noexcept;
+
+	/// <summary>
+	/// グラフィック設定の可変参照取得
+	/// </summary>
+	/// <returns></returns>
+	static Graphics& GetGraphicsSettingsMut() noexcept;
+
+	/// <summary>
+	/// ウィンドウのクライアントサイズをVector2で取得
+	/// </summary>
+	/// <returns></returns>
 	static Vector2 ClientSize() noexcept;
+
+	/// <summary>
+	/// ウィンドウのクライアント幅を取得
+	/// </summary>
+	/// <returns></returns>
 	static u32 ClientWidth() noexcept;
+
+	/// <summary>
+	/// ウィンドウのクライアントの高さを取得
+	/// </summary>
+	/// <returns></returns>
 	static u32 ClientHeight() noexcept;
 
+	/// <summary>
+	/// 最大フレームレートを設定
+	/// nulloptは無制限
+	/// </summary>
+	/// <param name="maxFrameRate"></param>
 	static void SetMaxFrameRate(std::optional<u32> maxFrameRate) noexcept;
 
 private:

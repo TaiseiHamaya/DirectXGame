@@ -33,7 +33,7 @@ void RTVDescriptorHeap::create_descriptor_heap() {
 	descriptorHeap =
 		DxDescriptorHeap::CreateDescriptorHeap(
 			D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
-			ProjectSettings::GetGraphicsSettings().rtvHeapSize,
+			ProjectSettings::GetGraphicsSettingsImm().rtvHeapSize,
 			false
 		);
 }

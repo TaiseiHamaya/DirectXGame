@@ -30,7 +30,7 @@ static bool LoadMtl(const std::filesystem::path& filePath, std::unordered_map<st
 static bool LoadMeshAssimp(const std::filesystem::path& filePath, std::vector<PolygonMesh::MeshData>& meshData, std::unordered_map<std::string, PolygonMesh::MeshMaterialData>& materialData);
 
 PolygonMeshBuilder::PolygonMeshBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Models");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Models");
 }
 
 bool PolygonMeshBuilder::run() {

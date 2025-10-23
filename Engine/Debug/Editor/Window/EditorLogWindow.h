@@ -19,7 +19,7 @@ class EditorLogWindow : public IEditorWindow, SingletonInterface<EditorLogWindow
 
 private:
 	struct LogBody {
-		Logger::Type type;
+		Logger::Level level;
 		std::string message;
 	};
 
@@ -39,10 +39,10 @@ public:
 
 	void draw() override;
 
-	static void AppendLogEntry(Logger::Type type, const std::string& message);
+	static void AppendLogEntry(Logger::Level level, const std::string& message);
 
 private:
-	std::array<LogState, 7> logStates;
+	std::array<LogState, 6> logStates;
 	bool isBottomScroll{ true };
 	std::list<LogBody> logs;
 

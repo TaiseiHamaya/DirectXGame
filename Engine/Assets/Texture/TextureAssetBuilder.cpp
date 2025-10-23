@@ -11,7 +11,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
 TextureAssetBuilder::TextureAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Texture");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Texture");
 }
 
 bool TextureAssetBuilder::run() {

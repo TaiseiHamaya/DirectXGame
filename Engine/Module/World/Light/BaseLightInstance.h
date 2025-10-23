@@ -19,7 +19,16 @@ public:
 	virtual void transfer() = 0;
 
 public:
+	/// <summary>
+	/// ライトデータの不変参照
+	/// </summary>
+	/// <returns></returns>
 	const T& light_data_imm() const { return lightData; };
+
+	/// <summary>
+	/// ライトデータの可変参照
+	/// </summary>
+	/// <returns></returns>
 	T& light_data_mut() { return lightData; };
 
 protected:

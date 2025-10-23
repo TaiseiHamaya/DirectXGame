@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
 
 #include <filesystem>
 #include <memory>
@@ -12,7 +12,7 @@
 
 class TextureAsset;
 
-class TextureAssetBuilder final : public BaseAssetBuilder {
+class TextureAssetBuilder final : public IAssetBuilder {
 public:
 	TextureAssetBuilder(const std::filesystem::path& filePath);
 	~TextureAssetBuilder() = default;
