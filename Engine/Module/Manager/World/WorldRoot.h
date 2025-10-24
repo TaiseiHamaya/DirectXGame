@@ -8,7 +8,7 @@
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "./InstanceBucket.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
 class WorldRoot final {
@@ -50,7 +50,7 @@ inline Reference<T> WorldRoot::instantiate(Reference<const WorldInstance> parent
 	Reference<T> result = instance;
 	auto [_, emplaced] = worldInstances.try_emplace(nextInstanceId, std::move(instance));
 	if (!emplaced) {
-		Warning("Instantiate failed for an unknown reason. Type-\'{}\'", typeid(T).name());
+		szgWarning("Instantiate failed for an unknown reason. Type-\'{}\'", typeid(T).name());
 	}
 	++nextInstanceId;
 

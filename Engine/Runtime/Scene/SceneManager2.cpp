@@ -1,13 +1,13 @@
 #include "SceneManager2.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Runtime/Scene/BaseSceneFactory.h"
 
 void SceneManager2::Initialize() {
 	SceneManager2& instance = GetInstance();
-	CriticalIf(!instance.sceneStack.empty(), "Scene manager is already initialized.");
+	szgCriticalIf(!instance.sceneStack.empty(), "Scene manager is already initialized.");
 
 	// 最初にnullptrをemplace_backする
 	instance.sceneStack.emplace_back(nullptr);
@@ -20,7 +20,7 @@ void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 
 	auto scene = instance.factory->initialize_scene2();
 	if (!scene) {
-		Critical("The created initial scene was nullptr.");
+		szgCritical("The created initial scene was nullptr.");
 		return;
 	}
 
@@ -85,7 +85,7 @@ void SceneManager2::SceneChange(u32 nextSceneIndex, r32 interval, bool isStackSc
 	SceneManager2& instance = GetInstance();
 
 	if (!instance.sceneChangeTempData.onEnd.is_finished()) {
-		Warning("Scene is changing now. Cannot change scene.");
+		szgWarning("Scene is changing now. Cannot change scene.");
 		return;
 	}
 
@@ -114,7 +114,7 @@ void SceneManager2::PopScene(r32 interval, size_t numPopScenes) {
 	SceneManager2& instance = GetInstance();
 
 	if (!instance.sceneChangeTempData.onEnd.is_finished()) {
-		Warning("Scene is changing now. Cannot change scene.");
+		szgWarning("Scene is changing now. Cannot change scene.");
 		return;
 	}
 
@@ -122,7 +122,7 @@ void SceneManager2::PopScene(r32 interval, size_t numPopScenes) {
 	if (numPopScenes >= sceneSize) {
 		// シーンを全てPopしないように調整
 		numPopScenes = sceneSize - 1;
-		Warning("NumPopScenes is bigger than current scene stack size. Adjusted to \'{}\'.", numPopScenes);
+		szgWarning("NumPopScenes is bigger than current scene stack size. Adjusted to \'{}\'.", numPopScenes);
 	}
 
 	size_t targetIndex = sceneSize - numPopScenes - 1;

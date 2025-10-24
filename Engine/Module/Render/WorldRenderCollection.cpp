@@ -1,6 +1,6 @@
 #include "WorldRenderCollection.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Module/Manager/World/InstanceBucket.h"
 
 void WorldRenderCollection::initialize() {
@@ -8,7 +8,7 @@ void WorldRenderCollection::initialize() {
 
 void WorldRenderCollection::setup(u8 numLayer_) {
 	if (numLayer_ >= 32) { // レイヤー数は最大32
-		Warning("Layer value \'{}\' exceeds maximum of 31. Clamped to 31.", numLayer_);
+		szgWarning("Layer value \'{}\' exceeds maximum of 31. Clamped to 31.", numLayer_);
 		numLayer_ = 31;
 	}
 	numLayer = numLayer_;

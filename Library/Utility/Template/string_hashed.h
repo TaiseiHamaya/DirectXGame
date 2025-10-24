@@ -95,7 +95,7 @@ struct hash<eps::string_hashed> {
 /// <param name="str"></param>
 /// <param name="len"></param>
 /// <returns></returns>
-inline eps::string_hashed operator"" _sh(string_literal str, std::size_t len) {
+inline eps::string_hashed operator"" _sh(string_literal str, std::size_t) {
 	return str;
 }
 
@@ -143,7 +143,7 @@ struct hash<eps::string_hashed> {
 
 };
 
-constexpr eps::string_hashed operator""_sh(string_literal str, std::size_t len) {
+constexpr eps::string_hashed operator""_sh(string_literal str, std::size_t) {
 	return str;
 }
 

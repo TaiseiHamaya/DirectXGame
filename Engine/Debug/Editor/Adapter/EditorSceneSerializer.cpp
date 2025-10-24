@@ -25,7 +25,7 @@
 std::unique_ptr<RemoteSceneObject> EditorSceneSerializer::CreateRemoteScene(const std::string& sceneName) {
 	std::unique_ptr<RemoteSceneObject> scene = std::make_unique<RemoteSceneObject>();
 	if(sceneName.empty() || !std::filesystem::exists(std::format("./Game/Core/Scene/{}", sceneName))) {
-		Error("Scene is not found. Name-\'{}\'", sceneName);
+		szgError("Scene is not found. Name-\'{}\'", sceneName);
 		return scene;
 	}
 	scene->hierarchyName.set_weak(sceneName);

@@ -322,7 +322,7 @@ bool WinApp::IsEndApp() noexcept {
 	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
 		return true;
 	}
-	if (SceneManager::IsEndProgram()) {
+	if (SceneManager2::IsEndProgram()) {
 		return true;
 	}
 	return false;

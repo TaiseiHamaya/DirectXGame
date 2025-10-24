@@ -19,7 +19,7 @@ void Scene::setup() {
 
 		worlds.emplace_back(std::move(world));
 	}
-	WarningIf(worlds.empty(), "Scene-\'{}\' has no worlds.", sceneName);
+	szgWarningIf(worlds.empty(), "Scene-\'{}\' has no worlds.", sceneName);
 
 	// 描画パスの初期化
 	renderDAG.setup(sceneName, this);
@@ -51,7 +51,7 @@ void Scene::end_frame() {
 
 Reference<WorldCluster> Scene::get_world(u32 index) {
 	if( index >= worlds.size() ) {
-		Warning("Try to reference world out of range index-\'{}\'.", index);
+		szgWarning("Try to reference world out of range index-\'{}\'.", index);
 		return nullptr;
 	}
 	return worlds[index];

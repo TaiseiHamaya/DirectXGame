@@ -1,6 +1,6 @@
 #include "RenderTargetCollection.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
@@ -25,7 +25,7 @@ Reference<BaseRenderTargetGroup> RenderTargetCollection::get_render_target(u32 i
 		return DxSwapChain::GetRenderTarget();
 	}
 	else if (index > renderTargets.size()) {
-		Warning("Try to reference render target out of range index-\'{}\'.", index);
+		szgWarning("Try to reference render target out of range index-\'{}\'.", index);
 		return nullptr;
 	}
 	return renderTargets[index];

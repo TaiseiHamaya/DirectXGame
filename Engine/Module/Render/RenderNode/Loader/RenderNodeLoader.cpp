@@ -16,7 +16,7 @@ std::vector<std::unique_ptr<IRenderNode>> RenderNodeLoader::entry_point(const nl
 
 	for (auto& [_, value] : json.items()) {
 		if (!value.contains("Type")) {
-			Warning("RenderNodeLoader::entry_point: Node Type is not specified.");
+			szgWarning("RenderNodeLoader::entry_point: Node Type is not specified.");
 			continue;
 		}
 		const std::string type = value["Type"].get<std::string>();
@@ -27,7 +27,7 @@ std::vector<std::unique_ptr<IRenderNode>> RenderNodeLoader::entry_point(const nl
 			result.emplace_back(load_world_lender_layer_node(value));
 		}
 		else {
-			Warning("RenderNodeLoader::entry_point: Unknown Node Type \'{}\'", type);
+			szgWarning("RenderNodeLoader::entry_point: Unknown Node Type \'{}\'", type);
 			continue;
 		}
 	}
