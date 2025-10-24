@@ -26,6 +26,17 @@ public:
 		Assert,
 	};
 
+	static constexpr u8 LevelCount = 6;
+
+	static constexpr std::array<wstring_literal, LevelCount> LevelStringW = {
+		L"Trace",
+		L"Information",
+		L"Warning",
+		L"Error",
+		L"Critical",
+		L"Assert",
+	};
+
 	/// <summary>
 	/// ログ出力ビットフラグ
 	/// </summary>
@@ -99,18 +110,6 @@ private:
 	bool canOutputLog{ false };
 	std::mutex mutex;
 	std::wofstream logFile;
-
-private:
-	static constexpr std::array<wstring_literal, 8> LevelStringW = {
-		L"Trace",
-		L"Information",
-		L"Warning",
-		L"Error",
-		L"Critical",
-		L"Assert",
-		L"",
-		L"",
-	};
 };
 
 __USE_BITFLAG(Logger::OutputDestination)
