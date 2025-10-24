@@ -8,10 +8,10 @@
 
 #include "./NodeAnimationAsset.h"
 #include "./NodeAnimationLibrary.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 NodeAnimationAssetBuilder::NodeAnimationAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_);
+	filePath = IAssetBuilder::ResolveFilePath(filePath_);
 }
 
 bool NodeAnimationAssetBuilder::run() {
@@ -24,12 +24,12 @@ bool NodeAnimationAssetBuilder::run() {
 	);
 	// ロード失敗時
 	if (importer.GetException() || !scene) {
-		Error("Failed to load animation file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
+		szgError("Failed to load animation file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
 		return false;
 	}
 	// アニメーションが存在しない
 	if (!scene->HasAnimations()) {
-		Error("Can't find animation. File-\'{}\'", filePath.string());
+		szgError("Can't find animation. File-\'{}\'", filePath.string());
 		return false;
 	}
 

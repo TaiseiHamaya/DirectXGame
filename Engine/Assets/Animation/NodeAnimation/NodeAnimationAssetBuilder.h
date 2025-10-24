@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../BaseAssetBuilder.h"
+#include "../../IAssetBuilder.h"
 
 #include <memory>
 
 class NodeAnimationAsset;
 
-class NodeAnimationAssetBuilder final : public BaseAssetBuilder {
+class NodeAnimationAssetBuilder final : public IAssetBuilder {
 private:
 	struct BuildData {
 		std::string name;

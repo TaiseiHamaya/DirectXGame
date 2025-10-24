@@ -148,8 +148,23 @@ public: // グローバルメンバ関数
 	/// <returns>変換後Quaternion</returns>
 	static Quaternion Slerp(const Quaternion& internal, const Quaternion& terminal, r32 t) noexcept;
 
+	/// <summary>
+	/// 球面線形補間を遠回りで行う
+	/// </summary>
+	/// <param name="internal">開始Quaternion</param>
+	/// <param name="terminal">終了Quaternion</param>
+	/// <param name="t">媒介変数</param>
+	/// <returns></returns>
 	static Quaternion SlerpFar(const Quaternion& internal, const Quaternion& terminal, r32 t) noexcept;
 
+	/// <summary>
+	/// 球面線形補間を回転軸基準で必ず時計回りを行う
+	/// </summary>
+	/// <param name="internal">開始Quaternion</param>
+	/// <param name="terminal">終了Quaternion</param>
+	/// <param name="t">媒介変数</param>
+	/// <param name="axis">回転軸</param>
+	/// <returns></returns>
 	static Quaternion SlerpClockwise(const Quaternion& internal, const Quaternion& terminal, r32 t, const Vector3& axis = CVector3::UP) noexcept;
 };
 

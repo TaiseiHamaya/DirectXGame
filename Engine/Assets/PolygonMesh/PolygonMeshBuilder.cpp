@@ -9,7 +9,7 @@
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/IndexBuffer/IndexBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
@@ -30,12 +30,12 @@ static bool LoadMtl(const std::filesystem::path& filePath, std::unordered_map<st
 static bool LoadMeshAssimp(const std::filesystem::path& filePath, std::vector<PolygonMesh::MeshData>& meshData, std::unordered_map<std::string, PolygonMesh::MeshMaterialData>& materialData);
 
 PolygonMeshBuilder::PolygonMeshBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Models");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Models");
 }
 
 bool PolygonMeshBuilder::run() {
 	bool result = false;
-	Information(L"Start load file-\'{}\'", filePath.native());
+	szgInformation(L"Start load file-\'{}\'", filePath.native());
 
 	std::vector<PolygonMesh::MeshData> meshData;
 	std::unordered_map<std::string, PolygonMesh::MeshMaterialData> materialData;
@@ -60,7 +60,7 @@ bool PolygonMeshBuilder::run() {
 
 	meshResult = eps::CreateShared<PolygonMesh>(meshData, materialData);
 
-	Information("Succeeded.");
+	szgInformation("Succeeded.");
 	return true;
 }
 
@@ -90,7 +90,7 @@ bool LoadObj(const std::filesystem::path& filePath, std::vector<PolygonMesh::Mes
 	// ファイルを開く
 	std::ifstream file(filePath);
 	if (!file.is_open()) {
-		Error("File \'{}\' is not found.", filePath.string());
+		szgError("File \'{}\' is not found.", filePath.string());
 		return false;
 	}
 
@@ -220,7 +220,7 @@ bool LoadMtl(const std::filesystem::path& filePath, std::unordered_map<std::stri
 	// mtlファイルを開く
 	file.open(filePath);
 	if (!file.is_open()) {
-		Warning(L"File \'{}\' is not found.", filePath.native());
+		szgWarning(L"File \'{}\' is not found.", filePath.native());
 		return false;
 	}
 
@@ -280,11 +280,11 @@ bool LoadMeshAssimp(const std::filesystem::path& filePath, std::vector<PolygonMe
 		aiProcess_LimitBoneWeights
 	);
 	if (importer.GetException() || !scene) {
-		Error("Failed to load mesh file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
+		szgError("Failed to load mesh file. File-\'{}\' Message-\'{}\'", filePath.string(), importer.GetErrorString());
 		return false;
 	}
 	if (!scene->HasMeshes()) {
-		Error("Can't find mesh. File-\'{}\'", filePath.string());
+		szgError("Can't find mesh. File-\'{}\'", filePath.string());
 		return false;
 	}
 
@@ -322,7 +322,7 @@ bool LoadMeshAssimp(const std::filesystem::path& filePath, std::vector<PolygonMe
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		// normalが存在しない、texcoordが存在しない場合はメッシュとして使用しない
 		if (!mesh->HasNormals() || !mesh->HasTextureCoords(0)) {
-			Error("This mesh don't have normal or texcoord. File-\'{}\'", filePath.string());
+			szgError("This mesh don't have normal or texcoord. File-\'{}\'", filePath.string());
 			continue;
 		}
 		vertices.reserve(mesh->mNumVertices);

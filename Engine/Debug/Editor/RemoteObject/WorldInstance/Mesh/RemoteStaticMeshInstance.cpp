@@ -3,7 +3,7 @@
 #include "RemoteStaticMeshInstance.h"
 
 #include "../../../Window/EditorSceneView.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
@@ -243,7 +243,7 @@ void RemoteStaticMeshInstance::default_material() {
 			meshMaterial.uvTransform.set_translate(CVector2::ZERO);
 			EditorValueChangeCommandHandler::End();
 
-			Warning("Material data is not found.");
+			szgWarning("Material data is not found.");
 		}
 		{
 			EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });

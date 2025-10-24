@@ -8,7 +8,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
@@ -45,7 +45,7 @@ void DxCore::Initialize() {
 	RenderingSystemValues::Initialize();
 
 	// オールコンプリート
-	Information("Complete create DirectXObjects");
+	szgInformation("Complete create DirectXObjects");
 }
 
 void DxCore::BeginFrame() {

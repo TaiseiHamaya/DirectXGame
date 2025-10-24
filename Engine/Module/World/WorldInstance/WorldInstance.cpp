@@ -41,14 +41,14 @@ void WorldInstance::look_at(const Vector3& point, r32 angle, const Vector3& upwa
 	transform.set_quaternion(Quaternion::AngleAxis(localForward, angle) * Quaternion::LookForward(localForward, localUpward));
 }
 
-void WorldInstance::look_at_axis(Reference<const WorldInstance> target, const Vector3& axis, r32 angle) noexcept {
+void WorldInstance::look_at_axis(Reference<const WorldInstance> target, r32 angle, const Vector3& axis) noexcept {
 	if (!target) {
 		return;
 	}
-	look_at_axis(target->world_position(), axis, angle);
+	look_at_axis(target->world_position(), angle, axis);
 }
 
-void WorldInstance::look_at_axis(const Vector3& point, const Vector3& axis, r32 angle) noexcept {
+void WorldInstance::look_at_axis(const Vector3& point, r32 angle, const Vector3& axis) noexcept {
 	Vector3 toTarget = world_position() - point;
 	Vector3 lookPosition = point + Vector3::Projection(toTarget, axis);
 	look_at(lookPosition, angle, axis);

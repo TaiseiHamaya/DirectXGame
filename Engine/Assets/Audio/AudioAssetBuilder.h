@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
 
 #include <memory>
 
 class AudioAsset;
 
-class AudioAssetBuilder final : public BaseAssetBuilder {
+class AudioAssetBuilder final : public IAssetBuilder {
 public:
 	AudioAssetBuilder(const std::filesystem::path& filePath_);
 	~AudioAssetBuilder() = default;

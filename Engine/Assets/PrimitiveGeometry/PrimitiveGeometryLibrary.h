@@ -9,6 +9,9 @@
 
 class PrimitiveGeometryAsset;
 
+/// <summary>
+/// Primitiveアセット保持クラス(スレッドセーフ)
+/// </summary>
 class PrimitiveGeometryLibrary final : SingletonInterface<PrimitiveGeometryLibrary> {
 	__CLASS_SINGLETON_INTERFACE(PrimitiveGeometryLibrary)
 

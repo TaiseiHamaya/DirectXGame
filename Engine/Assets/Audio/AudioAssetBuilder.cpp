@@ -4,9 +4,9 @@
 #include <cstring>
 #include <fstream>
 
-#include "Engine/Application/Output.h"
 #include "./AudioAsset.h"
 #include "./AudioLibrary.h"
+#include "Engine/Application/Logger.h"
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
@@ -16,7 +16,7 @@ bool IsEqualArrayChunkId(const std::array<i8, 4>& read, std::string&& id) {
 
 
 AudioAssetBuilder::AudioAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Audio");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Audio");
 }
 
 bool AudioAssetBuilder::run() {
@@ -34,7 +34,7 @@ bool AudioAssetBuilder::run() {
 		WAVEFORMATEXTENSIBLE format;
 	};
 
-	Information("Start load .wave file. file-\'{}\'", filePath.string());
+	szgInformation("Start load .wave file. file-\'{}\'", filePath.string());
 
 	// ファイル読み込み
 	std::ifstream file;
@@ -42,7 +42,7 @@ bool AudioAssetBuilder::run() {
 
 	// 失敗したら何もしない
 	if (!file.is_open()) {
-		Error("Failed open file. \'{}\'", filePath.filename().string());
+		szgError("Failed open file. \'{}\'", filePath.filename().string());
 		return false;
 	}
 
@@ -52,13 +52,13 @@ bool AudioAssetBuilder::run() {
 
 	// RIFFじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.header.id, "RIFF")) {
-		Error("Failed loading. File \'{}\' don't have RIFF chunk.", filePath.filename().string());
+		szgError("Failed loading. File \'{}\' don't have RIFF chunk.", filePath.filename().string());
 		return false;
 	}
 
 	// WAVEフォーマットじゃなかったらエラー処理
 	if (!IsEqualArrayChunkId(riff.type, "WAVE")) {
-		Error("Failed loading. File \'{}\' is not WAVE format.", filePath.filename().string());
+		szgError("Failed loading. File \'{}\' is not WAVE format.", filePath.filename().string());
 		return false;
 	}
 
@@ -80,7 +80,7 @@ bool AudioAssetBuilder::run() {
 	}
 	// chunk.sizeよりformatが小さくないとread時にエラーになる
 	if (formatChunk.header.size > sizeof(formatChunk.format)) {
-		Error("This fmt chunk format is not support. Size-\'{}\'", formatChunk.header.size);
+		szgError("This fmt chunk format is not support. Size-\'{}\'", formatChunk.header.size);
 		return false;
 	}
 
@@ -105,7 +105,7 @@ bool AudioAssetBuilder::run() {
 
 	// dataチャンクがなかったらエラー
 	if (!IsEqualArrayChunkId(data.id, "data")) {
-		Error("Failed loading. \'data\' chunk is not found. File-\'{}\'", filePath.string());
+		szgError("Failed loading. \'data\' chunk is not found. File-\'{}\'", filePath.string());
 		return false;
 	}
 
@@ -121,7 +121,7 @@ bool AudioAssetBuilder::run() {
 		data.size
 	);
 
-	Information("Succeeded.");
+	szgInformation("Succeeded.");
 	return true;
 }
 

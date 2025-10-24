@@ -1,6 +1,6 @@
 #include "PSOBuilder.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Shader/ShaderAsset.h"
 #include "Engine/Assets/Shader/ShaderLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxShaderReflection.h"
@@ -37,11 +37,11 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 
 	// バイナリに変換
 	hr = D3D12SerializeRootSignature(&descriptionRootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, signatureBlob.GetAddressOf(), errorBlob.GetAddressOf());
-	ErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<string_literal>(errorBlob->GetBufferPointer()));
+	szgErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<string_literal>(errorBlob->GetBufferPointer()));
 
 	// 変換したバイナリからRootSignatureを生成
 	hr = DxDevice::GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(rootSignature.GetAddressOf()));
-	ErrorIf(FAILED(hr), "Failed to create root signature.");
+	szgErrorIf(FAILED(hr), "Failed to create root signature.");
 	return rootSignature;
 }
 
@@ -96,7 +96,7 @@ Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 	HRESULT hr;
 	hr = DxDevice::GetDevice()
 		->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(graphicsPipelineState.GetAddressOf())); // PSOの生成
-	ErrorIf(FAILED(hr), "Failed to create PSO.");
+	szgErrorIf(FAILED(hr), "Failed to create PSO.");
 
 	return graphicsPipelineState;
 }
@@ -121,7 +121,7 @@ void PSOBuilder::inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout
 void PSOBuilder::shaders(ShaderType type, const std::string& shaderFilename) {
 	auto shader = ShaderLibrary::GetShader(shaderFilename);
 	if (!shader) {
-		Error("Shader file is not loading. File-\'{}\'", shaderFilename);
+		szgError("Shader file is not loading. File-\'{}\'", shaderFilename);
 		return;
 	}
 	if (!shader) {

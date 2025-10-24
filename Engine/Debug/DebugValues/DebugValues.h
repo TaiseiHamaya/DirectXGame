@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef DEBUG_FEATURES_ENABLE
-
 #include <memory>
 
 #include <Engine/Module/World/Mesh/StaticMeshInstance.h>
@@ -23,5 +21,3 @@ public:
 private:
 	std::unique_ptr<StaticMeshInstance> gridMesh = nullptr;
 };
-
-#endif // _DEBUG

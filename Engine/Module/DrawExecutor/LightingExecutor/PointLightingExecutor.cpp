@@ -37,6 +37,6 @@ void PointLightingExecutor::write_to_buffer(Reference<const PointLightInstance> 
 		return;
 	}
 	matrices[instanceCounter] = instance->transform_matrix();
-	lightData[instanceCounter] = instance->light_data();
+	lightData[instanceCounter] = instance->light_data_imm();
 	++instanceCounter;
 }

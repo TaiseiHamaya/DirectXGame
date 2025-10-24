@@ -5,21 +5,21 @@
 
 #include "./TextureAsset.h"
 #include "./TextureLibrary.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
 TextureAssetBuilder::TextureAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = BaseAssetBuilder::ResolveFilePath(filePath_, "Texture");
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Texture");
 }
 
 bool TextureAssetBuilder::run() {
-	Information("Start load texture. file-\'{}\'", filePath.string());
+	szgInformation("Start load texture. file-\'{}\'", filePath.string());
 	auto loadData = LoadTextureData(filePath); // ロード
 	// 失敗時
 	if (loadData.index() == 0) {
-		Error(L"Failed loading texture. File-'{}', Message-\'{}\'", filePath.wstring(), _com_error(std::get<0>(loadData)).ErrorMessage());
+		szgError(L"Failed loading texture. File-'{}', Message-\'{}\'", filePath.wstring(), _com_error(std::get<0>(loadData)).ErrorMessage());
 		return false;
 	}
 	DirectX::ScratchImage& mipImages = std::get<1>(loadData);
@@ -94,7 +94,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureAssetBuilder::CreateResource(const
 	resourceDesc.Format = metadata.format; // Textureのフォーマット
 
 	hr = DxDevice::GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(resource.GetAddressOf()));
-	ErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Depth-\'{}\', MipLevel-\'{}\', Format-\'{}\'",
+	szgErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Depth-\'{}\', MipLevel-\'{}\', Format-\'{}\'",
 		metadata.width, metadata.height, metadata.arraySize, metadata.mipLevels, (i32)metadata.format);
 
 	return resource;

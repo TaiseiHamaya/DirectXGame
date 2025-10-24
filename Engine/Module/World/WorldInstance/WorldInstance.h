@@ -67,16 +67,27 @@ public:
 	/// <param name="upward">上方向</param>
 	void look_at(const Vector3& point, r32 angle = 0.0f, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
-	void look_at_axis(Reference<const WorldInstance> target, const Vector3& axis = CVector3::BASIS_Y, r32 angle = 0.0f) noexcept;
-	void look_at_axis(const Vector3& point, const Vector3& axis = CVector3::BASIS_Y, r32 angle = 0.0f) noexcept;
+	/// <summary>
+	/// 軸LookAt(軸ビルボード)
+	/// </summary>
+	/// <param name="target"></param>
+	/// <param name="angle"></param>
+	/// <param name="axis"></param>
+	void look_at_axis(Reference<const WorldInstance> target, r32 angle = 0.0f, const Vector3& axis = CVector3::BASIS_Y) noexcept;
+
+	/// <summary>
+	/// 軸LookAt(軸ビルボード)
+	/// </summary>
+	/// <param name="point"></param>
+	/// <param name="angle"></param>
+	/// <param name="axis"></param>
+	void look_at_axis(const Vector3& point, r32 angle = 0.0f, const Vector3& axis = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
 	/// 階層構造の震度
 	/// </summary>
 	/// <returns></returns>
 	u32 depth() const { return hierarchyDepth; };
-
-	const Reference<WorldManager>& world_manager() const { return worldManager; };
 
 	/// <summary>
 	/// Transformの取得(Const)
@@ -115,6 +126,8 @@ public:
 	/// <param name="instance">親のInstance</param>
 	/// <param name="isKeepPose">現在の姿勢を維持するかどうか</param>
 	void reparent(Reference<WorldInstance> instance, bool isKeepPose = true);
+
+	const Reference<WorldManager>& world_manager() const { return worldManager; };
 
 	void set_world_manager(Reference<WorldManager> worldManager_);
 

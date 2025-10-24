@@ -7,11 +7,10 @@
 #include "../Core/EditorGizmo.h"
 #include "../RemoteObject/RemoteWorldObject.h"
 #include "EditorHierarchy.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
-#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/Module/Render/RenderPSO/Debug/PrimitiveLine/PrimitiveLineNode.h"
 #include "Engine/Module/Render/RenderPSO/Forward/Mesh/StaticMeshNodeForward.h"
@@ -150,7 +149,7 @@ void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Re
 
 void EditorSceneView::write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine) {
 	if (!worldViews.contains(world->get_id())) {
-		Warning("");
+		szgWarning("");
 		return;
 	}
 	worldViews.at(world->get_id()).view.register_primitive(primitiveName, affine);

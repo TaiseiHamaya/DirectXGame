@@ -13,7 +13,7 @@
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 #include "Engine/Assets/Json/JsonAsset.h"
 

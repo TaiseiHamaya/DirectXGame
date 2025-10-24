@@ -7,6 +7,10 @@ namespace eps {
 template<typename T>
 concept Enum = std::is_enum_v<T>;
 
+/// <summary>
+/// enum class用ビットフラグ型
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template<Enum T>
 class bitflag {
 public: // using

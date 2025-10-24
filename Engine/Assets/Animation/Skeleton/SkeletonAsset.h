@@ -28,6 +28,9 @@ struct Skeleton {
 	std::unordered_map<std::string, std::vector<u32>> useJointIndexesByMeshName;
 };
 
+/// <summary>
+/// Skeletonアセット
+/// </summary>
 class SkeletonAsset {
 public:
 	SkeletonAsset(Skeleton& skeleton_, std::unordered_map<std::string, VertexBuffer<VertexInfluenceData>>& influenceBuffers_);

@@ -10,7 +10,7 @@ public:
 	__CLASS_NON_COPYABLE(TextureAsset)
 
 public:
-	u32 index() const { return gpuIndex; }
+	u32 index() const;
 	D3D12_GPU_DESCRIPTOR_HANDLE handle() const;
 
 private:
@@ -20,7 +20,7 @@ private:
 #ifdef DEBUG_FEATURES_ENABLE
 public:
 	void set_name(const std::wstring& _name);
-	const std::string& name() const { return name_; }
+	const std::string& name() const;
 
 private:
 	std::string name_;

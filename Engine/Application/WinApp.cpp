@@ -6,8 +6,9 @@
 #include <Library/Utility/Tools/ConvertString.h>
 #include <Library/Utility/Tools/RandomEngine.h>
 
+#include "Engine/Application/ArgumentParser.h"
 #include "Engine/Application/CrashHandler.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
@@ -17,7 +18,6 @@
 #include "Engine/Assets/Shader/ShaderLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCore.h"
-#include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/Runtime/Clock/WorldClock.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager2.h"
@@ -56,10 +56,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
+WinApp::WinApp() noexcept = default;
+
 WinApp::~WinApp() noexcept {
 	// ログ
-	Information("Complete finalize application.");
-	FinalizeLog();
+	szgInformation("Complete finalize application.");
+	Logger::Finalize();
 	// COMの終了
 	CoUninitialize();
 	// chrono内のTZDBを削除(これ以降ログ出力はされない)
@@ -80,7 +82,7 @@ void WinApp::Initialize() {
 	// chrono時間精度の設定
 	timeBeginPeriod(1);
 
-	ErrorIf(isInitialized, "WinApp is already initialized.");
+	szgErrorIf(isInitialized, "WinApp is already initialized.");
 	isInitialized = true;
 
 	// アプリケーション内のwstring charsetをutf-8にする
@@ -93,7 +95,7 @@ void WinApp::Initialize() {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// Log出力システムの初期化
-	InitializeLog();
+	Logger::Initialize();
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorLogWindow::Allocate();
 #endif // DEBUG_FEATURES_ENABLE
@@ -107,6 +109,8 @@ void WinApp::Initialize() {
 	instance.initialize_application();
 	// シンボルハンドラーの初期化
 	SymInitialize(instance.hProcess, nullptr, true);
+
+	ArgumentParser::Parse();
 
 	// ---------- エンジン機能の初期化 ----------
 	//DirectXの初期化
@@ -173,11 +177,11 @@ void WinApp::Initialize() {
 	//SceneManager::SetProfiler(instance.profiler);
 #endif // _DEBUG
 
-	Information("Complete initialize application.");
+	szgInformation("Complete initialize application.");
 }
 
 void WinApp::BeginFrame() {
-	SyncErrorWindow();
+	Logger::SyncErrorWindow();
 
 #ifdef DEBUG_FEATURES_ENABLE
 	auto& instance = GetInstance();
@@ -226,9 +230,8 @@ void WinApp::Draw() {
 }
 
 void WinApp::EndFrame() {
-#ifdef DEBUG_FEATURES_ENABLE
-	// タイムスタンプ
 	auto& instance = GetInstance();
+#ifdef DEBUG_FEATURES_ENABLE
 	instance.profiler.timestamp("EndFrame");
 
 	// GUI
@@ -252,14 +255,15 @@ void WinApp::EndFrame() {
 
 	// シーンのフレーム後処理
 	SceneManager2::EndFrame();
+	instance.wait_frame();
 }
 
 void WinApp::Finalize() {
 	// 終了通知
-	Information("End Program.");
-	//windowを閉じる
+	szgInformation("End Program.");
+	// windowを閉じる
 	CloseWindow(GetInstance().hWnd);
-	Information("Closed Window.");
+	szgInformation("Closed Window.");
 
 	// 各種終了処理
 	// Initializeと逆順でやる
@@ -282,8 +286,10 @@ void WinApp::Finalize() {
 
 void WinApp::ShowAppWindow() {
 	// ウィンドウ表示
-	ShowWindow(GetInstance().hWnd, SW_SHOW);
-	Information("Show application window.");
+	if (!ProjectSettings::GetApplicationSettingsImm().hideWindowForce) {
+		ShowWindow(GetInstance().hWnd, SW_SHOW);
+		szgInformation("Show application window.");
+	}
 
 #ifdef DEBUG_FEATURES_ENABLE
 	EditorMain::Setup();
@@ -291,16 +297,6 @@ void WinApp::ShowAppWindow() {
 
 	// 時計初期化
 	WorldClock::Initialize();
-}
-
-bool WinApp::IsEndApp() {
-	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
-		return true;
-	}
-	if (SceneManager2::IsEndProgram()) {
-		return true;
-	}
-	return false;
 }
 
 void WinApp::ProcessMessage() {
@@ -320,6 +316,28 @@ void WinApp::ProcessMessage() {
 			break;
 		}
 	}
+}
+
+bool WinApp::IsEndApp() noexcept {
+	if (GetInstance().isEndApp) { // ×ボタンが押されたら終わる
+		return true;
+	}
+	if (SceneManager::IsEndProgram()) {
+		return true;
+	}
+	return false;
+}
+
+HWND WinApp::GetWndHandle() noexcept {
+	return GetInstance().hWnd;
+}
+
+HANDLE WinApp::GetProcessHandle() noexcept {
+	return GetInstance().hProcess;
+}
+
+HINSTANCE WinApp::GetInstanceHandle() noexcept {
+	return GetInstance().hInstance;
 }
 
 void WinApp::initialize_application() {
@@ -364,10 +382,13 @@ void WinApp::initialize_application() {
 #include <thread>
 
 void WinApp::wait_frame() {
+	if (!ProjectSettings::GetApplicationSettingsImm().maxFrameRate.has_value()) {
+		return;
+	}
 	using millisecond_f = std::chrono::duration<r32, std::milli>;
 
-	//constexpr millisecond_f MinTime{ 1000.00000f / 60.0f };
-	constexpr millisecond_f MinCheckTime{ 1000.00000f / 65.0f }; // 少し短い時間を使用することで60FPSになるようにする
+	const u32 targetFPS = ProjectSettings::GetApplicationSettingsImm().maxFrameRate.value() + 5;
+	const millisecond_f MinCheckTime{ 1000.00000f / targetFPS }; // 少し短い時間を使用する
 	// 開始
 	auto& begin = WorldClock::BeginTime();
 	// 今

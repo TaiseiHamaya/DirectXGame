@@ -1,12 +1,15 @@
 #pragma once
 
-#include "../../BaseAssetBuilder.h"
+#include "../../IAssetBuilder.h"
 
 #include <memory>
 
 class SkeletonAsset;
 
-class SkeletonAssetBuilder final : public BaseAssetBuilder {
+/// <summary>
+/// Skeletonアセットロード用一時クラス
+/// </summary>
+class SkeletonAssetBuilder final : public IAssetBuilder {
 public:
 	SkeletonAssetBuilder(const std::filesystem::path& filePath_);
 	~SkeletonAssetBuilder() = default;

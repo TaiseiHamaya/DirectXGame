@@ -4,22 +4,15 @@
 #include <memory>
 #include <thread>
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
+
+#include <Library/Utility/Template/SingletonInterface.h>
 
 /// <summary>
-/// バックグラウンドロード用クラス
+/// バックグラウンドロード用クラス(スレッドセーフ)
 /// </summary>
-class BackgroundLoader final {
-private:
-	BackgroundLoader() noexcept;
-	~BackgroundLoader() noexcept;
-
-	// コピームーブ禁止
-	BackgroundLoader(const BackgroundLoader&) = delete;
-	BackgroundLoader& operator=(const BackgroundLoader&) = delete;
-
-public: // シングルトン
-	static BackgroundLoader& GetInstance() noexcept;
+class BackgroundLoader final : public SingletonInterface<BackgroundLoader> {
+	__CLASS_SINGLETON_INTERFACE(BackgroundLoader)
 
 public:
 	/// <summary>
@@ -36,7 +29,7 @@ public:
 	/// ロードイベントの登録
 	/// </summary>
 	/// <param name="builder"></param>
-	static void RegisterLoadQue(std::unique_ptr<BaseAssetBuilder> builder) noexcept(false);
+	static void RegisterLoadQue(std::unique_ptr<IAssetBuilder> builder) noexcept(false);
 
 	/// <summary>
 	/// ロードが完了するまで待機
@@ -76,7 +69,7 @@ private:
 	/// イベントデータ
 	/// </summary>
 	struct EventList {
-		std::unique_ptr<BaseAssetBuilder> data; // 実データ
+		std::unique_ptr<IAssetBuilder> data; // 実データ
 	};
 
 	/// <summary>
@@ -97,10 +90,10 @@ private:
 	/// <summary>
 	/// マルチスレッド終了判定用
 	/// </summary>
-	bool isEndProgram;
+	bool isEndProgram{ false };
 
 	/// <summary>
 	/// ロード中フラグ
 	/// </summary>
-	bool isLoading;
+	bool isLoading{ false };
 };

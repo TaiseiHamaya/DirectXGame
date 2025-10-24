@@ -14,6 +14,9 @@ namespace eps {
 
 #ifdef DEBUG_FEATURES_ENABLE
 
+/// <summary>
+/// ハッシュ化済み文字列
+/// </summary>
 class string_hashed {
 public:
 	string_hashed() = default;
@@ -43,6 +46,9 @@ private:
 
 #else
 
+/// <summary>
+/// ハッシュ化済み文字列
+/// </summary>
 class string_hashed {
 public:
 	constexpr string_hashed() = default;
@@ -83,8 +89,13 @@ struct hash<eps::string_hashed> {
 
 };
 
-// string_hashedの文字列リテラル
-inline eps::string_hashed operator"" _sh(string_literal str, std::size_t) {
+/// <summary>
+/// string_hashedの文字列リテラル
+/// </summary>
+/// <param name="str"></param>
+/// <param name="len"></param>
+/// <returns></returns>
+inline eps::string_hashed operator"" _sh(string_literal str, std::size_t len) {
 	return str;
 }
 

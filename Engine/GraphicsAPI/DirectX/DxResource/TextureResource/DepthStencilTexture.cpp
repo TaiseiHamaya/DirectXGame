@@ -2,7 +2,7 @@
 
 #include <format>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 DepthStencilTexture::~DepthStencilTexture() {
@@ -57,6 +57,6 @@ void DepthStencilTexture::create_resource(DXGI_FORMAT format) {
 		&depthClearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
-	ErrorIf(FAILED(hr), "Failed create depth stencil. Size-\'[{}, {}]\', Format-\'{}\'", width, height, (i32)format);
+	szgErrorIf(FAILED(hr), "Failed create depth stencil. Size-\'[{}, {}]\', Format-\'{}\'", width, height, (i32)format);
 
 }

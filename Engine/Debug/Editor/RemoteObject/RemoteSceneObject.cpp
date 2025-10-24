@@ -6,7 +6,7 @@
 
 #include <imgui.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
@@ -24,7 +24,7 @@ void RemoteSceneObject::setup() {
 }
 
 void RemoteSceneObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
-	CriticalIf(world || parentAffine, "RemoteSceneObject::update_preview's argument named \'world\' and \'parentAffine\' must be nullptr.");
+	szgCriticalIf(world || parentAffine, "RemoteSceneObject::update_preview's argument named \'world\' and \'parentAffine\' must be nullptr.");
 	for (auto& child : remoteWorlds) {
 		child->update_preview(nullptr, nullptr);
 	}
@@ -78,14 +78,14 @@ std::unique_ptr<IRemoteObject> RemoteSceneObject::move_force(Reference<const IRe
 }
 
 void RemoteSceneObject::reparent(Reference<IRemoteObject>) {
-	Error("RemoteSceneObject is must be root object.");
+	szgError("RemoteSceneObject is must be root object.");
 }
 
 void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
 	IRemoteObject* ptr = child.release();
 	RemoteWorldObject* tmp = dynamic_cast<RemoteWorldObject*>(ptr);
 	if (!tmp) {
-		Warning("RemoteSceneObject can only add RemoteWorldObject as child.");
+		szgWarning("RemoteSceneObject can only add RemoteWorldObject as child.");
 		delete ptr;
 		return;
 	}
@@ -107,7 +107,7 @@ nlohmann::json RemoteSceneObject::serialize() const {
 }
 
 Reference<const RemoteWorldObject> RemoteSceneObject::query_world() const {
-	Warning("IRemoteObject::query_world() was called in RemoteSceneObject.");
+	szgWarning("IRemoteObject::query_world() was called in RemoteSceneObject.");
 	return nullptr;
 }
 

@@ -3,7 +3,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void SwapChainRenderTargetGroup::initialize() {
-	textures.resize(RenderingSystemValues::NUM_BUFFERING);
+	textures.resize(ProjectSettings::GetGraphicsSettingsImm().numBuffering);
 }
 
 void SwapChainRenderTargetGroup::set_resource(Reference<ScreenTexture> texture, u32 index) {

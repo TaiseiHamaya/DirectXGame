@@ -1,9 +1,9 @@
 #include "AudioPlayer.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Audio/AudioAsset.h"
-#include "Engine/Assets/Audio/AudioManager.h"
 #include "Engine/Assets/Audio/AudioLibrary.h"
+#include "Engine/Assets/Audio/AudioManager.h"
 
 AudioPlayer::~AudioPlayer() {
 	destroy();
@@ -16,15 +16,15 @@ void AudioPlayer::initialize(const std::string& name, r32 volume, bool isLoop) {
 	}
 	HRESULT result;
 	result = AudioManager::GetXAudio2()->CreateSourceVoice(&sourceVoice, &audio->format());
-	ErrorIf(FAILED(result), "Failed crating source voice. File-\'{}\'", name);
+	szgErrorIf(FAILED(result), "Failed crating source voice. File-\'{}\'", name);
 
 	buffer.pAudioData = audio->buffer_data().data();
-	buffer.AudioBytes = audio->size();
+	buffer.AudioBytes = audio->buffer_size();
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = isLoop ? XAUDIO2_LOOP_INFINITE : 0;
 	sourceVoice->SetVolume(volume);
 	result = sourceVoice->SubmitSourceBuffer(&buffer);
-	ErrorIf(FAILED(result), "Failed submit source buffer. File-\'{}\'", name);
+	szgErrorIf(FAILED(result), "Failed submit source buffer. File-\'{}\'", name);
 }
 
 void AudioPlayer::destroy() {
@@ -37,34 +37,34 @@ void AudioPlayer::destroy() {
 
 void AudioPlayer::play() {
 	if (!sourceVoice) {
-		Warning("Called \'play\' function on not initialized audio player. Address-\'{}\'", (void*)this);
+		szgWarning("Called \'play\' function on not initialized audio player. Address-\'{}\'", (void*)this);
 		return;
 	}
 	HRESULT result;
 	result = sourceVoice->Start();
-	ErrorIf(FAILED(result), "Start function was called but failed for unknown reason. Address-\'{}\'", (void*)this);
+	szgErrorIf(FAILED(result), "Start function was called but failed for unknown reason. Address-\'{}\'", (void*)this);
 }
 
 void AudioPlayer::stop() {
 	if (!sourceVoice) {
-		Warning("Called \'stop\' function on not initialized audio player. Address-\'{}\'", (void*)this);
+		szgWarning("Called \'stop\' function on not initialized audio player. Address-\'{}\'", (void*)this);
 		return;
 	}
 	HRESULT result;
 	result = sourceVoice->Stop();
-	ErrorIf(FAILED(result), "Stop function was called but failed for unknown reason. Address-\'{}\'", (void*)this);
+	szgErrorIf(FAILED(result), "Stop function was called but failed for unknown reason. Address-\'{}\'", (void*)this);
 	sourceVoice->FlushSourceBuffers();
 	sourceVoice->SubmitSourceBuffer(&buffer);
 }
 
 void AudioPlayer::pause() {
 	if (!sourceVoice) {
-		Warning("Called \'pause\' function on not initialized audio player. Address-\'{}\'", (void*)this);
+		szgWarning("Called \'pause\' function on not initialized audio player. Address-\'{}\'", (void*)this);
 		return;
 	}
 	HRESULT result;
 	result = sourceVoice->Stop();
-	ErrorIf(FAILED(result), "Pause function was called but failed for unknown reason. Address-\'{}\'", (void*)this);
+	szgErrorIf(FAILED(result), "Pause function was called but failed for unknown reason. Address-\'{}\'", (void*)this);
 }
 
 void AudioPlayer::restart() {
@@ -74,7 +74,7 @@ void AudioPlayer::restart() {
 
 void AudioPlayer::set_volume(r32 volume) {
 	if (!sourceVoice) {
-		Warning("Called \'set_volume\' function on not initialized audio player. Address-\'{}\'", (void*)this);
+		szgWarning("Called \'set_volume\' function on not initialized audio player. Address-\'{}\'", (void*)this);
 		return;
 	}
 	sourceVoice->SetVolume(volume);
@@ -82,7 +82,7 @@ void AudioPlayer::set_volume(r32 volume) {
 
 void AudioPlayer::set_loop(bool isLoop) {
 	if (!sourceVoice) {
-		Warning("Called \'set_loop\' function on not initialized audio player. Address-\'{}\'", (void*)this);
+		szgWarning("Called \'set_loop\' function on not initialized audio player. Address-\'{}\'", (void*)this);
 		return;
 	}
 	buffer.LoopCount = isLoop ? XAUDIO2_LOOP_INFINITE : 0;

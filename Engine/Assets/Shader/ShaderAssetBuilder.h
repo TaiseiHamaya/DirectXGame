@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
 
 #include <memory>
 
 class ShaderAsset;
 
-class ShaderAssetBuilder final : public BaseAssetBuilder {
+class ShaderAssetBuilder final : public IAssetBuilder {
 public:
 	ShaderAssetBuilder(const std::filesystem::path& filePath_);
 	~ShaderAssetBuilder() = default;

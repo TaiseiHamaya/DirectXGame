@@ -3,19 +3,19 @@
 #include <algorithm>
 #include <cmath>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 r32 Vector3::length() const noexcept {
 	return std::sqrt(Dot(*this, *this));
 }
 
 Vector3 Vector3::normalize() const noexcept(false) {
-	WarningIf(length() == 0, "Vector3::normalize was called. But length is 0.");
+	szgWarningIf(length() == 0, "Vector3::normalize was called. But length is 0.");
 	return *this / length();
 }
 
 Vector3 Vector3::normalize_safe(const Vector3& disapproval, r32 tolerance) const noexcept {
-	WarningIf(tolerance < 0, "Second argument tolerance less 0.");
+	szgWarningIf(tolerance < 0, "Second argument tolerance less 0.");
 	r32 length_ = length();
 	if (length_ <= tolerance) {
 		return disapproval;

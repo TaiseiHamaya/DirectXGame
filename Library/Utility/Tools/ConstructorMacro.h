@@ -1,6 +1,6 @@
 #pragma once
 
-// コピー禁止クラスマクロ
+// デフォルト定義マクロ
 #define __CLASS_DEFAULT_ALL(...) \
 public:\
 	__VA_ARGS__(const __VA_ARGS__&) = default;\

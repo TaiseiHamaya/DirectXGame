@@ -1,8 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <type_traits>
 
+/// <summary>
+/// 参照ラッパークラス
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template<typename T>
 class Reference {
 public:
