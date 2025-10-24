@@ -42,7 +42,7 @@ public:
 	static void AppendLogEntry(Logger::Level level, const std::string& message);
 
 private:
-	std::array<LogState, 6> logStates;
+	std::array<LogState, Logger::LevelCount> logStates;
 	bool isBottomScroll{ true };
 	std::list<LogBody> logs;
 
