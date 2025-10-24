@@ -25,8 +25,7 @@ public: // using
 public: // constructor/destructor
 	constexpr bitflag();
 	constexpr bitflag(const value_type& base);
-	template<typename U>
-	constexpr bitflag(const U& base);
+	constexpr bitflag(const under_type& base);
 	constexpr ~bitflag() = default;
 
 	constexpr bitflag(const_reference_bitflag) = default;
@@ -52,7 +51,7 @@ private: // member function
 	/// </summary>
 	/// <param name="value"></param>
 	/// <returns></returns>
-	constexpr under_type to_under(const value_type& value);
+	static constexpr under_type ToUnder(const value_type& value);
 
 private: // member value
 	under_type value;
@@ -102,12 +101,11 @@ inline constexpr bitflag<T>::bitflag() : value(0) {
 }
 
 template<Enum T>
-inline constexpr bitflag<T>::bitflag(const value_type& base) : value(to_under(base)) {
+inline constexpr bitflag<T>::bitflag(const value_type& base) : value(ToUnder(base)) {
 }
 
 template<Enum T>
-template<typename U>
-inline constexpr bitflag<T>::bitflag(const U& base) : value(base) {
+inline constexpr bitflag<T>::bitflag(const under_type& base) : value(base) {
 }
 
 // -------------------------------------
@@ -157,7 +155,7 @@ inline constexpr bitflag<T> bitflag<T>::operator~() const {
 // --------------------------------------
 
 template<Enum T>
-inline constexpr bitflag<T>::under_type bitflag<T>::to_under(const value_type& value) {
+inline constexpr bitflag<T>::under_type bitflag<T>::ToUnder(const value_type& value) {
 	return static_cast<bitflag<T>::under_type>(value);
 }
 
