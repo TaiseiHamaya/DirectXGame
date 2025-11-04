@@ -10,7 +10,7 @@ ParticleDrawSystemRect::ParticleDrawSystemRect(std::shared_ptr<const TextureAsse
 
 void ParticleDrawSystemRect::draw_command(size_t InstanceCount) const {
 	auto& commandList = DxCommand::GetCommandList();
-	if (texture) {
+	if (texture && InstanceCount != 0) {
 		commandList->IASetVertexBuffers(0, 1, &vertexBuffer.get_vbv());
 		commandList->SetGraphicsRootDescriptorTable(0, particleBuffer.get_handle_gpu());
 		commandList->SetGraphicsRootDescriptorTable(2, texture->handle());
