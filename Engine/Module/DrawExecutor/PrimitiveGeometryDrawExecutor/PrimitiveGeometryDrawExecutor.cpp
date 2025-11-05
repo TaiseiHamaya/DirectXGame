@@ -15,7 +15,7 @@ void PrimitiveGeometryDrawExecutor::reinitialize(std::shared_ptr<const Primitive
 }
 
 void PrimitiveGeometryDrawExecutor::draw_command() const {
-	if (!asset) {
+	if (!asset || instanceCounter == 0) {
 		return;
 	}
 

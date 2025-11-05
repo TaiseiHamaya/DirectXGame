@@ -13,6 +13,10 @@ void DirectionalLightingExecutor::reinitialize(u32 maxInstance_) {
 }
 
 void DirectionalLightingExecutor::draw_command() const {
+	if(instanceCounter == 0){
+		return;
+	}
+
 	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootDescriptorTable(0, lightData.get_handle_gpu());
 	command->DrawInstanced(3, instanceCounter, 0, 0);

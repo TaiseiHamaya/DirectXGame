@@ -16,7 +16,7 @@ void PointLightingExecutor::reinitialize(u32 maxInstance_) {
 }
 
 void PointLightingExecutor::draw_command() const {
-	if (!asset) {
+	if (!asset || instanceCounter == 0) {
 		return;
 	}
 
