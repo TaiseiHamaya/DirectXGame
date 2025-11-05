@@ -13,6 +13,11 @@
 #include <unordered_map>
 #include <imgui.h>
 #include "../src/imgui_bezier_math.h"
+
+#pragma warning(push)
+#pragma warning(disable: 4244)
+#pragma warning(disable: 4100)
+
 #include "../src/context_wrapper.h"
 
 //#define ConnectionFilter_None       [](ImFlow::Pin* out, ImFlow::Pin* in){ return true; }
@@ -1246,5 +1251,7 @@ namespace ImFlow
 }
 
 #include "../src/ImNodeFlow.inl"
+
+#pragma warning(pop)
 
 #endif
