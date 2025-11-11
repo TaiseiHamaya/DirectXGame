@@ -1883,6 +1883,7 @@
     <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\StaticTextureImNode.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\WorldLayerRenderImNode.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorRenderDAG.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -1893,5 +1894,8 @@
     <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\StaticTextureImNode.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\WorldLayerRenderImNode.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorRenderDAG.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
   </ItemGroup>
 </Project>

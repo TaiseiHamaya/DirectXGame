@@ -1,14 +1,12 @@
 #include "WorldLayerRenderImNode.h"
 
-WorldLayerRenderImNode::WorldLayerRenderImNode(u64 outPinId_) {
-	outPinId = outPinId_;
-
+WorldLayerRenderImNode::WorldLayerRenderImNode() {
 	setTitle("WorldLayerRender");
 	setStyle(ImFlow::NodeStyle::red());
 
 	addIN<u64>("Base", 0, ImFlow::ConnectionFilter::SameType());
 	addOUT<u64>("Output", nullptr)->behaviour([&]() {
-		return outPinId;
+		return nodeId;
 	});
 }
 
@@ -16,36 +14,44 @@ void WorldLayerRenderImNode::draw() {
 	ImGui::PushItemWidth(120.0f);
 	ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_SpanAllColumns | ImGuiTreeNodeFlags_SpanLabelWidth;
 
-	outputSize.show_gui();
+	data.outputSize.show_gui();
 
 	ImGui::Text("World/Layer");
 
-	worldIndex.show_gui();
-	layerIndex.show_gui();
-	cameraId.show_gui();
+	data.worldIndex.show_gui();
+	data.layerIndex.show_gui();
+	data.cameraId.show_gui();
 
 	ImGui::Text("GBuffer");
 
-	gBufferSize.show_gui();
+	data.gBufferSize.show_gui();
 
 	ImGui::Text("Rendering");
 
 	if (ImGui::TreeNodeEx("Viewport", treeNodeFlags)) {
-		gBufferViewport.left.show_gui();
-		gBufferViewport.top.show_gui();
-		gBufferViewport.width.show_gui();
-		gBufferViewport.height.show_gui();
-		gBufferViewport.minDepth.show_gui();
-		gBufferViewport.maxDepth.show_gui();
+		data.gBufferViewport.left.show_gui();
+		data.gBufferViewport.top.show_gui();
+		data.gBufferViewport.width.show_gui();
+		data.gBufferViewport.height.show_gui();
+		data.gBufferViewport.minDepth.show_gui();
+		data.gBufferViewport.maxDepth.show_gui();
 
 		ImGui::TreePop();
 	}
 	
 	if (ImGui::TreeNodeEx("Scissor", treeNodeFlags)) {
-		layerScissor.topLeft.show_gui();
-		layerScissor.bottomRight.show_gui();
+		data.layerScissor.topLeft.show_gui();
+		data.layerScissor.bottomRight.show_gui();
 		ImGui::TreePop();
 	}
 
 	ImGui::PopItemWidth();
+}
+
+void WorldLayerRenderImNode::set_data(const Data& data_) {
+	data = data_;
+}
+
+const WorldLayerRenderImNode::Data& WorldLayerRenderImNode::get_data() const {
+	return data;
 }

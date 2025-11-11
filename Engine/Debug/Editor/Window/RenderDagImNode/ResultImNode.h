@@ -1,8 +1,8 @@
 #pragma once
 
-#include <ImNodeFlow/include/ImNodeFlow.h>
+#include "IRenderDagImNode.h"
 
-class ResultImNode final : public ImFlow::BaseNode {
+class ResultImNode final : public IRenderDagImNode {
 public:
 	ResultImNode();
 	~ResultImNode() override = default;

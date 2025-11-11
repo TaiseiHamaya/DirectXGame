@@ -1,23 +1,28 @@
 #pragma once
 
-#include <ImNodeFlow/include/ImNodeFlow.h>
+#include "IRenderDagImNode.h"
 
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
 
 #include <string>
 
-class StaticTextureImNode : public ImFlow::BaseNode {
+class StaticTextureImNode : public IRenderDagImNode {
 public:
-	StaticTextureImNode(u64 outPinId_);
+	StaticTextureImNode();
 	~StaticTextureImNode() override = default;
+
+public:
+	struct Data {
+		EditorValueField<std::string> textureFilename{ "Filename" };
+	};
 
 public:
 	void draw() override;
 
-private:
-	u64 outPinId;
-	EditorValueField<std::string> textureFilename{ "TextureFilename" };
+public:
+	const Data& get_data() const;
+	void set_data(const Data& data_);
 
 private:
-	static std::vector<std::string> peName;
+	Data data;
 };

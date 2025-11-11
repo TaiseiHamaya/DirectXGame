@@ -361,6 +361,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneManager2.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
     <ClCompile Include="Library\Math\Basis.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
@@ -697,6 +698,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Scene\Scene.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager2.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
     <ClInclude Include="Library\Math\Affine.h" />
     <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Library\Math\Color3.h" />
@@ -732,6 +734,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Library\Utility\Tools\MathEPS.h" />
     <ClInclude Include="Library\Utility\Tools\RandomEngine.h" />
     <ClInclude Include="Library\Utility\Tools\SmartPointer.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Library\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
