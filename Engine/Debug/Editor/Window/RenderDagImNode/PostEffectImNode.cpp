@@ -54,25 +54,29 @@ void PostEffectImNode::draw() {
 				else {
 				}
 				data.peType = i;
-				if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend2)) {
-					data.extraInputs.resize(1, 0);
-					addIN<u64>("MixTexture", 0ull, ImFlow::ConnectionFilter::SameType());
-				}
-				else if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend4)) {
-					data.extraInputs.resize(3, 0);
-					addIN<u64>("MixTexture1", 0ull, ImFlow::ConnectionFilter::SameType());
-					addIN<u64>("MixTexture2", 0ull, ImFlow::ConnectionFilter::SameType());
-					addIN<u64>("MixTexture3", 0ull, ImFlow::ConnectionFilter::SameType());
-				}
-				else {
-					data.extraInputs.clear();
-				}
+				update_extra_input_pins();
 			}
 		}
 		ImGui::EndCombo();
 	}
 
 	ImGui::PopItemWidth();
+}
+
+void PostEffectImNode::update_extra_input_pins() {
+	if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend2)) {
+		data.extraInputs.resize(1, 0);
+		addIN<u64>("MixTexture", 0ull, ImFlow::ConnectionFilter::SameType());
+	}
+	else if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend4)) {
+		data.extraInputs.resize(3, 0);
+		addIN<u64>("MixTexture1", 0ull, ImFlow::ConnectionFilter::SameType());
+		addIN<u64>("MixTexture2", 0ull, ImFlow::ConnectionFilter::SameType());
+		addIN<u64>("MixTexture3", 0ull, ImFlow::ConnectionFilter::SameType());
+	}
+	else {
+		data.extraInputs.clear();
+	}
 }
 
 const PostEffectImNode::Data& PostEffectImNode::get_data() const {

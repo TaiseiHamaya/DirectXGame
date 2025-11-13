@@ -25,6 +25,8 @@ public:
 public:
 	void draw() override;
 
+	void update_extra_input_pins();
+
 public:
 	const Data& get_data() const;
 	void set_data(const Data& data_);

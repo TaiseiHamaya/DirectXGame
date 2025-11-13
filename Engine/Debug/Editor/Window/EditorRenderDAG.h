@@ -35,9 +35,6 @@ public:
 	void setup(const std::string& sceneName);
 	void finalize();
 
-	void load(const std::string& sceneName);
-	void save(const std::string& sceneName);
-
 	void draw() override;
 
 private:

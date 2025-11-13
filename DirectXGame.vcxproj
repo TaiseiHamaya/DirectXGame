@@ -216,6 +216,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp" />

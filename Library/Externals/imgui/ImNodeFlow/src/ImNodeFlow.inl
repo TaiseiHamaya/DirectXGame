@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ImNodeFlow.h"
+#include "../include/ImNodeFlow.h"
 
 namespace ImFlow
 {

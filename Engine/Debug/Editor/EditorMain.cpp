@@ -69,6 +69,7 @@ void EditorMain::Setup() {
 	json.load("./Game/DebugData/Editor.json");
 	std::string sceneName = json.try_emplace<std::string>("LastLoadedScene");
 	instance.hierarchy.load(sceneName);
+	instance.renderDAG.setup(sceneName);
 }
 
 void EditorMain::DrawBase() {

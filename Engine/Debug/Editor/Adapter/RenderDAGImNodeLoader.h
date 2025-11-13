@@ -3,54 +3,30 @@
 #include <memory>
 
 #include <ImNodeFlow/include/ImNodeFlow.h>
+#include <json.hpp>
 
 #include <Library/Utility/Template/Reference.h>
 
-#include "../Window/RenderDagImNode/PostEffectImNode.h"
-#include "../Window/RenderDagImNode/StaticTextureImNode.h"
-#include "../Window/RenderDagImNode/WorldLayerRenderImNode.h"
+#include "Engine/Debug/Editor/Window/EditorRenderDAG.h"
+
+class WorldLayerRenderImNode;
+class PostEffectImNode;
+class StaticTextureImNode;
 
 /// <summary>
 /// RenderDAGmNodeのロード用関数オブジェクト
 /// </summary>
-/// <typeparam name="T"></typeparam>
-template<typename T>
-class RenderDAGLoader {
+class RenderDAGImNodeLoader {
 public:
-	std::shared_ptr<PostEffectImNode> operator()(u64 outputId, Reference<ImFlow::ImNodeFlow> imNodeFlow, const nlohmann::json& json) {
-		auto result = imNodeFlow->addNode<PostEffectImNode>({ 0,0 }, outputId);
-		PostEffectImNode::Data data;
-		json.get_to(data.outputSize);
-		json.get_to(data.peType);
-		result->set_data(data);
-		return result;
-	};
+	u64 entry_point(const std::string& sceneName, Reference<ImFlow::ImNodeFlow> imNodeFlow_, std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes);
 
-	std::shared_ptr<StaticTextureImNode> operator()(u64 outputId, Reference<ImFlow::ImNodeFlow> imNodeFlow, const nlohmann::json& json) {
-		auto result = imNodeFlow->addNode<StaticTextureImNode>({ 0,0 }, outputId);
-		StaticTextureImNode::Data data;
-		json.get_to(data.textureFilename);
-		result->set_data(data);
-		return result;
-	};
+	std::shared_ptr<WorldLayerRenderImNode> load_as_world_render(const nlohmann::json& json);
 
-	std::shared_ptr<WorldLayerRenderImNode> operator()(u64 outputId, Reference<ImFlow::ImNodeFlow> imNodeFlow, const nlohmann::json& json) {
-		auto result = imNodeFlow->addNode<WorldLayerRenderImNode>({ 0,0 }, outputId);
-		WorldLayerRenderImNode::Data data;
-		json.get_to(data.outputSize);
-		json.get_to(data.worldIndex);
-		json.get_to(data.layerIndex);
-		json.get_to(data.cameraId);
-		json.get_to(data.gBufferSize);
-		json.get_to(data.gBufferViewport.left);
-		json.get_to(data.gBufferViewport.top);
-		json.get_to(data.gBufferViewport.width);
-		json.get_to(data.gBufferViewport.height);
-		json.get_to(data.gBufferViewport.minDepth);
-		json.get_to(data.gBufferViewport.maxDepth);
-		json.get_to(data.layerScissor.topLeft);
-		json.get_to(data.layerScissor.bottomRight);
-		result->set_data(data);
-		return result;
-	};
+	std::shared_ptr<PostEffectImNode> load_as_post_effect(const nlohmann::json& json);
+
+	std::shared_ptr<StaticTextureImNode> load_as_static_texture(const nlohmann::json& json);
+
+private:
+	u64 counter{ 1 };
+	Reference<ImFlow::ImNodeFlow> imNodeFlow;
 };
