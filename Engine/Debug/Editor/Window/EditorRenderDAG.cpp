@@ -4,7 +4,6 @@
 
 #include <ImNodeFlow/include/ImNodeFlow.h>
 
-#include "../Adapter/RenderDAGImNodeLoader.h"
 #include "../Adapter/RenderDAGImNodeSaver.h"
 #include "./RenderDagImNode/PostEffectImNode.h"
 #include "./RenderDagImNode/ResultImNode.h"
@@ -12,6 +11,15 @@
 #include "./RenderDagImNode/WorldLayerRenderImNode.h"
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "RenderDagImNode/IRenderDagImNode.h"
+#include <imgui.h>
+#include <json.hpp>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <variant>
+#include <vector>
 
 EditorRenderDAG::EditorRenderDAG() {
 	isActive = true;
@@ -81,19 +89,15 @@ void EditorRenderDAG::initialize() {
 			nodes.emplace(nodeCounter, imNode);
 			++nodeCounter;
 		}
-		if (ImGui::MenuItem("StaticTexture")) {
-			auto imNode = imNodeFlow->placeNode<StaticTextureImNode>();
-			imNode->set_node_id(nodeCounter);
-			if (isInPin) {
+		if (isInPin) {
+			if (ImGui::MenuItem("StaticTexture")) {
+				auto imNode = imNodeFlow->placeNode<StaticTextureImNode>();
+				imNode->set_node_id(nodeCounter);
 				auto& outPin = imNode->getOuts().front();
 				outPin->createLink(pin);
+				nodes.emplace(nodeCounter, imNode);
+				++nodeCounter;
 			}
-			else {
-				auto& inPin = imNode->getIns().front();
-				pin->createLink(inPin.get());
-			}
-			nodes.emplace(nodeCounter, imNode);
-			++nodeCounter;
 		}
 	});
 	generate_result_node();
