@@ -63,6 +63,11 @@ public:
 		return showObject.get_name();
 	}
 
+	EditorValueField<T>& operator=(const T& rhs) {
+		set(rhs);
+		return *this;
+	}
+
 private:
 	T value;
 	ValueEditor::show_object<T> showObject;
@@ -133,6 +138,11 @@ public:
 	}
 	std::string_view label() const {
 		return gui_label;
+	}
+
+	EditorValueField<Transform3D>& operator=(const Transform3D& rhs) {
+		set(rhs);
+		return *this;
 	}
 
 	friend struct nlohmann::adl_serializer<EditorValueField<Transform3D>>;
@@ -207,6 +217,11 @@ public:
 	}
 	std::string_view label() const {
 		return gui_label;
+	}
+
+	EditorValueField<Transform2D>& operator=(const Transform2D& rhs) {
+		set(rhs);
+		return *this;
 	}
 
 	friend struct nlohmann::adl_serializer<EditorValueField<Transform2D>>;

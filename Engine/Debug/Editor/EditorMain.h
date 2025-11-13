@@ -12,6 +12,7 @@
 #include "./Window/EditorHierarchy.h"
 #include "./Window/EditorInspector.h"
 #include "./Window/EditorSceneView.h"
+#include "./Window/EditorRenderDAG.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
 
 class EditorMain final : public SingletonInterface<EditorMain> {
@@ -47,6 +48,7 @@ private:
 	EditorSelectObject selectObject;
 	EditorDeletedObjectPool deletedPool;
 	EditorSceneList sceneList;
+	EditorRenderDAG renderDAG;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

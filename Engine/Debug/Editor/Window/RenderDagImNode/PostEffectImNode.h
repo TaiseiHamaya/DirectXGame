@@ -1,0 +1,37 @@
+#pragma once
+
+#include "IRenderDagImNode.h"
+
+#include <Library/Math/Vector2.h>
+
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
+#include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+
+#include <string>
+#include <vector>
+
+class PostEffectImNode : public IRenderDagImNode {
+public:
+	PostEffectImNode();
+	~PostEffectImNode() override = default;
+
+public:
+	struct Data {
+		EditorValueField<u32> peType{ "Type" };
+		EditorValueField<Vector2> outputSize{ "OutputSize", ProjectSettings::ClientSize() };
+		std::vector<u64> extraInputs;
+	};
+
+public:
+	void draw() override;
+
+public:
+	const Data& get_data() const;
+	void set_data(const Data& data_);
+
+private:
+	Data data;
+
+private:
+	static std::vector<std::string> peName;
+};

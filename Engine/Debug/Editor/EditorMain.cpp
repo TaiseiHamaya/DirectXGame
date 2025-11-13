@@ -23,6 +23,7 @@ void EditorMain::Initialize() {
 	instance.inspector.initialize();
 	instance.sceneList.initialize();
 	EditorLogWindow::Initialize(true);
+	instance.renderDAG.initialize();
 
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 }
@@ -44,6 +45,7 @@ void EditorMain::Finalize() {
 	ofstream.close();
 
 	instance.sceneList.finalize();
+	instance.renderDAG.finalize();
 }
 
 void EditorMain::Setup() {
@@ -148,6 +150,7 @@ void EditorMain::Draw() {
 	instance.sceneView.draw();
 	instance.hierarchy.draw();
 	instance.inspector.draw();
+	instance.renderDAG.draw();
 	EditorLogWindow::Draw();
 	if (instance.sceneView.is_active()) {
 		ImGuizmo::SetDrawlist(instance.sceneView.draw_list().ptr());
@@ -175,6 +178,7 @@ void EditorMain::set_imgui_command() {
 			hierarchy.draw_menu("Hierarchy");
 			inspector.draw_menu("Inspector");
 			EditorLogWindow::DrawMenu("Log");
+			renderDAG.draw_menu("RenderDAG");
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit")) {
