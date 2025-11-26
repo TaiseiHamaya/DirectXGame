@@ -18,7 +18,7 @@ void WorldLayerRenderNode::stack_command() {
 		szgWarning("Camera is invalid. LayerIndex: {}", data.layerData.index);
 		return;
 	}
-	if (camera->is_active()) {
+	if (!camera->is_active()) {
 		return;
 	}
 
@@ -42,7 +42,7 @@ void WorldLayerRenderNode::stack_command() {
 	// SkinningMesh
 	subtree.next_node();
 	camera->register_world_projection(2);
-	data.layerData.worldRenderCollection->staticMeshDrawManager.draw_layer(data.layerData.index);
+	data.layerData.worldRenderCollection->skinningMeshDrawManager.draw_layer(data.layerData.index);
 
 	// ----- LightingPass -----
 	// ViewPortの設定
@@ -70,7 +70,7 @@ void WorldLayerRenderNode::stack_command() {
 	data.outputRenderTargetGroup->begin_write(false, depthStencilTexture);
 	camera->register_world_projection(3);
 	camera->register_world_lighting(4);
-	data.layerData.worldRenderCollection->directionalLightingExecutors[data.layerData.index].set_command(4);
+	data.layerData.worldRenderCollection->directionalLightingExecutors[data.layerData.index].set_command(5);
 	data.layerData.worldRenderCollection->rect3dDrawManager.draw_layer(data.layerData.index);
 
 	subtree.next_node();

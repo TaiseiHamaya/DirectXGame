@@ -24,17 +24,16 @@ SkinningMeshInstance::SkinningMeshInstance(const std::string& keyID, const std::
 
 SkinningMeshInstance::~SkinningMeshInstance() noexcept = default;
 
-void SkinningMeshInstance::begin() {
-	if (!isActive) {
-		return;
-	}
-	nodeAnimation->update();
+void SkinningMeshInstance::update() {
+	IMultiMeshInstance::update();
+	update_animation();
 }
 
 void SkinningMeshInstance::update_animation() {
 	if (!isActive || !skeletonResrouce) {
 		return;
 	}
+	nodeAnimation->update();
 
 	// Skeletonの行列計算
 	const Skeleton& skeleton = skeletonResrouce->skeleton();

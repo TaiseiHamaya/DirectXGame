@@ -35,7 +35,7 @@ public:
 	__CLASS_NON_COPYABLE(SkinningMeshInstance)
 
 public:
-	virtual void begin() override;
+	virtual void update() override;
 
 	void update_animation();
 

@@ -61,6 +61,7 @@ template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::register_instance(Reference<const InstanceType> instance) {
 	instances.emplace(instance);
+	make_instancing(instance->layer(), instance->key_id(), 1000);
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
