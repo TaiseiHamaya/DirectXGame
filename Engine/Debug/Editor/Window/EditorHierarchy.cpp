@@ -14,10 +14,10 @@
 
 #include "../RemoteObject/FolderObject.h"
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager2.h"
@@ -40,7 +40,7 @@ void EditorHierarchy::update_preview() {
 void EditorHierarchy::load(const std::string& sceneName) {
 	savedTrigger = false;
 	isActive = true;
-	
+
 	//JsonAsset json{ std::format("./Game/Core/Scene/{}.json", sceneName) };
 	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
@@ -49,8 +49,13 @@ void EditorHierarchy::load(const std::string& sceneName) {
 	scene->setup();
 }
 
-nlohmann::json EditorHierarchy::save() const {
-	return scene->serialize();
+void EditorHierarchy::save(const std::filesystem::path& path) const {
+	for (auto& world : scene->get_remote_worlds()) {
+		JsonAsset worldJson{ path / (world->world_name() + ".json") };
+		worldJson.get().clear();
+		worldJson.get() = world->serialize();
+		worldJson.save();
+	}
 }
 
 void EditorHierarchy::draw() {

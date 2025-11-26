@@ -24,7 +24,7 @@ public:
 	void update_preview();
 
 	void load(const std::string& sceneName);
-	nlohmann::json save() const;
+	void save(const std::filesystem::path& path) const;
 
 	void draw() override;
 

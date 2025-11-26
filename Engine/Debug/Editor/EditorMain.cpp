@@ -121,24 +121,10 @@ void EditorMain::DrawBase() {
 	if (instance.input.trigger(KeyID::S) && instance.input.press(KeyID::LControl)) {
 		instance.sceneList.add_scene(instance.hierarchy.current_scene_name());
 
-		nlohmann::json root;
-		root["Scene"] = instance.hierarchy.save();
+		std::filesystem::path filePath = std::format("./Game/Core/Scene/{}/Worlds/", instance.hierarchy.current_scene_name());
+		instance.hierarchy.save(filePath);
 
-		std::filesystem::path filePath = std::format("./Game/Core/Scene/{}.json", instance.hierarchy.current_scene_name());
-		auto parentPath = filePath.parent_path();
-		if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
-			std::filesystem::create_directories(parentPath);
-		}
-
-		std::ofstream ofstream{ filePath, std::ios_base::out };
-		ofstream << std::setw(1) << std::setfill('\t') << root;
-		if (ofstream.fail()) {
-			szgWarning("Failed to save scene file. ({})", filePath.string());
-		}
-		else {
-			szgInformation("Scene file saved. ({})", filePath.string());
-		}
-		ofstream.close();
+		szgInformation("Scene file saved. ({})", instance.hierarchy.current_scene_name());
 	}
 
 	instance.deletedPool.solution_sequence();
