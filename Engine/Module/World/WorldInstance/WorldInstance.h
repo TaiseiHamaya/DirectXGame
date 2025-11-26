@@ -6,7 +6,7 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-class WorldManager;
+class WorldRoot;
 
 class WorldInstance {
 #ifdef DEBUG_FEATURES_ENABLE
@@ -123,13 +123,9 @@ public:
 	/// <summary>
 	/// 親を再設定
 	/// </summary>
-	/// <param name="instance">親のInstance</param>
+	/// <param name="parent">親のInstance</param>
 	/// <param name="isKeepPose">現在の姿勢を維持するかどうか</param>
-	void reparent(Reference<WorldInstance> instance, bool isKeepPose = true);
-
-	const Reference<WorldManager>& world_manager() const { return worldManager; };
-
-	void set_world_manager(Reference<WorldManager> worldManager_);
+	void reparent(Reference<WorldInstance> parent, bool isKeepPose = true);
 
 	// ----- Active関連 -----
 	void set_active(bool isActive_) { isActive = isActive_; };
@@ -138,10 +134,15 @@ public:
 	// ----- Destroyフラグ -----
 	void mark_destroy();
 	bool is_marked_destroy() const { return isDestroy; }
+	virtual void on_mark_destroy() {};
 
 	// ----- id関連 -----
 	void setup_id(u64 id);
 	u64 instance_id() const;
+
+	// ----- WorldRoot -----
+	void setup_world_root(Reference<WorldRoot> worldRoot_);
+	Reference<WorldRoot> world_root_mut() const;
 
 private:
 	void detach_child(Reference<WorldInstance> child);
@@ -155,7 +156,8 @@ protected:
 private:
 	Affine affine;
 
-	Reference<WorldManager> worldManager{ nullptr };
+	Reference<WorldRoot> worldRoot;
+
 	u32 hierarchyDepth{ 0 };
 
 	u64 instanceId;

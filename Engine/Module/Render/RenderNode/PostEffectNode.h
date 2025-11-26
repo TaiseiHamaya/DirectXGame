@@ -15,7 +15,7 @@
 class PostEffectNode final : public IRenderNode {
 public:
 	struct Data {
-		Reference<BaseRenderTargetGroup> outRenderTargetGroup;
+		Reference<BaseRenderTargetGroup> outputRenderTargetGroup;
 
 		RECT rect;
 		D3D12_VIEWPORT viewport;
@@ -30,8 +30,6 @@ public:
 	__CLASS_NON_COPYABLE(PostEffectNode)
 
 public:
-	void initialize();
-
 	void stack_command() override;
 
 public:

@@ -3,10 +3,18 @@
 void WorldCluster::initialize() {
 	worldRoot.initialize();
 	worldRenderCollection.initialize();
+	collisionManager.set_callback_manager(std::make_unique<CollisionCallbackManager>());
 }
 
 void WorldCluster::setup([[maybe_unused]] const std::filesystem::path& setupFile) {
 	worldRoot.setup(instanceBucket);
+}
+
+void WorldCluster::begin_frame() {
+	// ---------- Instantiate後の処理 ----------
+	// 描画が側に伝達
+	worldRenderCollection.collect_instantiated(instanceBucket);
+	instanceBucket.reset();
 }
 
 void WorldCluster::update() {
@@ -29,11 +37,10 @@ void WorldCluster::end_frame() {
 	collisionManager.remove_marked_destroy();
 	// 実際の削除
 	worldRoot.delete_marked_destroy();
-	
-	// ---------- Instantiate後の処理 ----------
-	// 描画が側に伝達
-	worldRenderCollection.collect_instantiated(instanceBucket);
-	instanceBucket.reset();
+}
+
+WorldRoot& WorldCluster::world_root_mut() {
+	return worldRoot;
 }
 
 Reference<WorldRenderCollection> WorldCluster::render_collection() {

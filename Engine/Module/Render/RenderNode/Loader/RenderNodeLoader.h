@@ -7,24 +7,43 @@
 
 #include <Library/Utility/Template/Reference.h>
 
-#include "./PostEffectPSOLoader.h"
-
 class Scene;
 class RenderTargetCollection;
 class IRenderNode;
+class BaseRenderTargetGroup;
+class RenderTexture;
+class PostEffectPSOLoader;
 
 class RenderNodeLoader {
+public:
+	struct ImmidiateData {
+		Reference<BaseRenderTargetGroup> renderTargetGroup;
+		Reference<RenderTexture> renderTexture;
+	};
+
+public:
+	RenderNodeLoader();
+	~RenderNodeLoader() noexcept;
+
 public:
 	void setup(Reference<Scene> scene_, Reference<RenderTargetCollection> renderTargetCollection);
 	std::vector<std::unique_ptr<IRenderNode>> entry_point(const nlohmann::json& json);
 
 private:
-	std::unique_ptr<IRenderNode> load_post_effect_node(const nlohmann::json& json);
-	std::unique_ptr<IRenderNode> load_world_lender_layer_node(const nlohmann::json& json);
+	std::unique_ptr<IRenderNode> load_as_post_effect(const nlohmann::json& json);
+	std::unique_ptr<IRenderNode> load_as_world_render(const nlohmann::json& json);
+	void load_as_static_texture(const nlohmann::json& json);
+
+	void calclate_result_node_index(const nlohmann::json& json);
 
 private:
+	std::vector<std::unique_ptr<IRenderNode>> result;
+
 	Reference<Scene> scene;
 	Reference<RenderTargetCollection> renderTargetCollection;
 
-	PostEffectPSOLoader pePsoLoader;
+	std::unique_ptr<PostEffectPSOLoader> pePsoLoader;
+
+	std::vector<ImmidiateData> immidiateData;
+	i32 resultNodeIndex{ 0 };
 };

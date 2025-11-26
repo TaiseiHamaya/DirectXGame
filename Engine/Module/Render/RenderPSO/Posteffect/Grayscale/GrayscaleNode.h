@@ -2,7 +2,10 @@
 
 #include "Engine/Module/Render/RenderPSO/PostEffectPSO.h"
 
+#include <Library/Utility/Template/Reference.h>
+
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
 
 class GrayscaleNode : public PostEffectPSO {
 public:
@@ -20,7 +23,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void preprocess() override {};
+	void preprocess() override;
 
 	/// <summary>
 	/// 描画
@@ -30,8 +33,7 @@ public:
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定
 	/// </summary>
-	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
-	void set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_);
+	void set_shader_texture(Reference<RenderTexture> baseTexture_);
 
 private:
 	/// <summary>
@@ -45,6 +47,6 @@ public:
 #endif // DEBUG
 
 private:
-	D3D12_GPU_DESCRIPTOR_HANDLE textureGPUHandle{};
+	Reference<RenderTexture> baseTexture;
 	ConstantBuffer<u32> isGray{};
 };

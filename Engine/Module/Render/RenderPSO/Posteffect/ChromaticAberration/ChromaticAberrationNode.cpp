@@ -4,10 +4,10 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
+#include "Engine/Module/Manager/RuntimeStorage/RuntimeStorage.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
-#include "Engine/Application/EngineSettings.h"
 #endif // _DEBUG
 
 ChromaticAberrationNode::ChromaticAberrationNode() = default;
@@ -20,15 +20,29 @@ void ChromaticAberrationNode::initialize() {
 	*aberrationLevel.get_data() = CVector2::ZERO;
 }
 
+void ChromaticAberrationNode::preprocess() {
+	if (!groupName.has_value()) {
+		return;
+	}
+
+	Reference<const std::any> strangeValue = RuntimeStorage::GetValueImm("PostEffect", groupName.value());
+	if (strangeValue.is_null()) {
+		return;
+	}
+	*aberrationLevel.get_data() = std::any_cast<Vector2>(*strangeValue);
+}
+
 void ChromaticAberrationNode::execute_effect_command() {
+	baseTexture->start_read();
+
 	auto&& command = DxCommand::GetCommandList();
 	command->SetGraphicsRootConstantBufferView(0, aberrationLevel.get_resource()->GetGPUVirtualAddress());
-	command->SetGraphicsRootDescriptorTable(1, textureGPUHandle);
+	baseTexture->get_as_srv()->use(1);
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
-void ChromaticAberrationNode::set_texture_resource(const D3D12_GPU_DESCRIPTOR_HANDLE& textureGPUHandle_) {
-	textureGPUHandle = textureGPUHandle_;
+void ChromaticAberrationNode::set_shader_texture(Reference<RenderTexture> baseTexture_) {
+	baseTexture = baseTexture_;
 }
 
 void ChromaticAberrationNode::create_pipeline_state() {

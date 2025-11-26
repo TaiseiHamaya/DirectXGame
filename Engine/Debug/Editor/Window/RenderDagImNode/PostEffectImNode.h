@@ -19,12 +19,15 @@ public:
 	struct Data {
 		EditorValueField<u32> peType{ "Type" };
 		EditorValueField<Vector2> outputSize{ "OutputSize", ProjectSettings::ClientSize() };
+		EditorValueField<bool> isUseRuntime{ "UseRuntime", false };
+		EditorValueField<std::string> EffectTagName{ "EffectTag", "" };
 		std::vector<u64> extraInputs;
 	};
 
 public:
 	void draw() override;
 
+	void remove_extra_input_pins();
 	void update_extra_input_pins();
 
 public:

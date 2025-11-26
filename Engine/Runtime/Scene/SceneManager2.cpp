@@ -11,7 +11,7 @@ void SceneManager2::Initialize() {
 
 	// 最初にnullptrをemplace_backする
 	instance.sceneStack.emplace_back(nullptr);
-	instance.sceneChangeTempData.onEnd = { &SceneManager2::OnNextScene, 0 };
+	instance.sceneChangeTempData.onEnd = { &SceneManager2::OnNextScene, 0, true };
 }
 
 void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
@@ -29,6 +29,11 @@ void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	instance.sceneStack.emplace_back(std::move(scene));
 
 	BackgroundLoader::WaitEndExecute();
+
+	auto& currentScene = instance.sceneStack.back();
+	currentScene->initialize();
+	currentScene->setup();
+	currentScene->custom_setup();
 }
 
 void SceneManager2::Finalize() noexcept {
@@ -42,6 +47,9 @@ void SceneManager2::BeginFrame() {
 	if (!instance.sceneChangeTempData.onEnd.is_finished()) {
 		instance.sceneChangeTempData.onEnd.update();
 	}
+
+	auto& currentScene = instance.sceneStack.back();
+	currentScene->begin_frame();
 }
 
 void SceneManager2::Update() {

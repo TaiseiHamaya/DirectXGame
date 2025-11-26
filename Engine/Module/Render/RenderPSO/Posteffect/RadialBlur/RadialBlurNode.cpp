@@ -24,9 +24,19 @@ void RadialBlurNode::initialize() {
 	};
 }
 
-void RadialBlurNode::execute_effect_command() {
-	*blurInfo.get_data() = std::any_cast<BlurInfo>(RuntimeStorage::GetValue("PostEffect")[groupName]);
+void RadialBlurNode::preprocess() {
+	if (!groupName.has_value()) {
+		return;
+	}
 
+	Reference<const std::any> strangeValue = RuntimeStorage::GetValueImm("PostEffect", groupName.value());
+	if (strangeValue.is_null()) {
+		return;
+	}
+	*blurInfo.get_data() = std::any_cast<BlurInfo>(*strangeValue);
+}
+
+void RadialBlurNode::execute_effect_command() {
 	baseTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();
@@ -35,7 +45,7 @@ void RadialBlurNode::execute_effect_command() {
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
-void RadialBlurNode::set_texture_resource(Reference<RenderTexture> baseTexture_) {
+void RadialBlurNode::set_shader_texture(Reference<RenderTexture> baseTexture_) {
 	baseTexture = baseTexture_;
 }
 

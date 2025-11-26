@@ -12,6 +12,7 @@ public:
 public:
 	u32 index() const;
 	D3D12_GPU_DESCRIPTOR_HANDLE handle() const;
+	Reference<const ShaderResourceView> get_srv() const;
 
 private:
 	u32 gpuIndex{ 0 };

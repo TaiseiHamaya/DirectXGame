@@ -11,18 +11,12 @@ RenderDAG::RenderDAG() = default;
 RenderDAG::~RenderDAG() noexcept = default;
 
 void RenderDAG::setup(const std::string& sceneName, Reference<Scene> scene) {
-	JsonAsset json{ std::format("./Game/Core/Scene/{}/RenderDAG.json", sceneName) };
-
-	if (json.cget().contains("RenderTextures")) {
-		renderTargetCollection.setup(json.cget()["RenderTextures"]);
-	}
+	JsonAsset json{ std::format("./Game/Core/Scene/{}/RenderPath.json", sceneName) };
 
 	RenderNodeLoader loader;
 	loader.setup(scene, renderTargetCollection);
 
-	if (json.cget().contains("RenderNodes")) {
-		renderGraph = loader.entry_point(json.cget()["RenderNodes"]);
-	}
+	renderGraph = loader.entry_point(json.get());
 }
 
 void RenderDAG::render_entry_point() const {

@@ -29,7 +29,7 @@ public:
 	void post_update();
 
 	template<std::derived_from<WorldInstance> T, typename ...Args>
-	Reference<T> instantiate(Reference<const WorldInstance> parent = nullptr, Args&&... args);
+	Reference<T> instantiate(Reference<WorldInstance> parent = nullptr, Args&&... args);
 
 	void destroy(Reference<WorldInstance> instance);
 
@@ -45,7 +45,7 @@ private:
 };
 
 template<std::derived_from<WorldInstance> T, typename ...Args>
-inline Reference<T> WorldRoot::instantiate(Reference<const WorldInstance> parent, Args&&... args) {
+inline Reference<T> WorldRoot::instantiate(Reference<WorldInstance> parent, Args&&... args) {
 	std::unique_ptr<T> instance = std::make_unique<T>(std::forward<Args>(args)...);
 	Reference<T> result = instance;
 	auto [_, emplaced] = worldInstances.try_emplace(nextInstanceId, std::move(instance));

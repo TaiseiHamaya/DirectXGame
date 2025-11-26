@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void preprocess() override {}
+	void preprocess() override;
 
 	/// <summary>
 	/// 描画
@@ -40,8 +40,7 @@ public:
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定
 	/// </summary>
-	/// <param name="textureGPUHandle_">テクスチャのSRVGPUハンドル</param>
-	void set_texture_resource(Reference<RenderTexture> baseTexture_);
+	void set_shader_texture(Reference<RenderTexture> baseTexture_);
 
 	BlurInfo& data() { return *blurInfo.get_data(); }
 

@@ -1,12 +1,13 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/Manager/World/WorldCluster.h"
 #include "Engine/Module/Manager/SceneScript/SceneScriptManager.h"
+#include "Engine/Module/Manager/World/WorldCluster.h"
 #include "Engine/Module/Render/RenderDAG.h"
 
 class Scene {
@@ -24,6 +25,8 @@ public:
 	void setup();
 
 	virtual void custom_setup() {};
+
+	void begin_frame();
 
 	void update();
 
@@ -43,7 +46,7 @@ protected:
 	std::string sceneName;
 
 private:
-	std::vector<WorldCluster> worlds;
+	std::vector<std::unique_ptr<WorldCluster>> worlds;
 	RenderDAG renderDAG;
 	SceneScriptManager sceneScriptManager;
 };

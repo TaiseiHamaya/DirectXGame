@@ -1,32 +1,39 @@
 #include "RenderTargetCollection.h"
 
-#include "Engine/Application/Logger.h"
+#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
-#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 
-void RenderTargetCollection::setup(const nlohmann::json& json) {
-	for (auto& [_, value] : json.items()) {
-		auto& texture = renderTextures.emplace_back();
-		texture.initialize(
-			value["Format"].get<DXGI_FORMAT>(),
-			value["Width"].get<u32>(),
-			value["Height"].get<u32>()
-		);
-		std::unique_ptr<SingleRenderTarget> renderTarget = std::make_unique<SingleRenderTarget>();
-		renderTarget->initialize(texture);
-		renderTargets.emplace_back(std::move(renderTarget));
-	}
+std::pair<Reference<BaseRenderTargetGroup>, Reference<RenderTexture>> RenderTargetCollection::create_render_target_group(const nlohmann::json& json) {
+	std::unique_ptr<SingleRenderTarget> result;
+
+	auto& texture = renderTextures.emplace_back();
+	texture = std::make_unique<RenderTexture>();
+	texture->initialize(
+		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+		json.value("OutputSize", nlohmann::json::object()).value("X", ProjectSettings::ClientWidth()),
+		json.value("OutputSize", nlohmann::json::object()).value("Y", ProjectSettings::ClientHeight())
+	);
+	result = std::make_unique<SingleRenderTarget>();
+	result->initialize(texture);
+
+	renderTargets.emplace_back(std::move(result));
+	return std::make_pair<Reference<BaseRenderTargetGroup>, Reference<RenderTexture>>(renderTargets.back(), texture);
 }
 
-Reference<BaseRenderTargetGroup> RenderTargetCollection::get_render_target(u32 index) const {
-	// 末尾指定の場合、Screenを指定
-	if (index == renderTargets.size()) {
-		return DxSwapChain::GetRenderTarget();
+std::pair<Reference<DeferredAdaptor::GBuffersType>, std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER>> RenderTargetCollection::create_gbuffer(const nlohmann::json& json) {
+	std::unique_ptr<DeferredAdaptor::GBuffersType> result = std::make_unique<DeferredAdaptor::GBuffersType>();
+	Reference<DeferredAdaptor::GBuffersType> temp = result;
+	std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gbufferTextures;
+
+	for (i32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
+		gbufferTextures[i] = renderTextures.emplace_back(std::make_unique<RenderTexture>());
+		gbufferTextures[i]->initialize(
+			DeferredAdaptor::DXGI_FORMAT_LIST[i],
+			json.value("GBufferSize", nlohmann::json::object()).value("X", ProjectSettings::ClientWidth()),
+			json.value("GBufferSize", nlohmann::json::object()).value("Y", ProjectSettings::ClientHeight())
+		);
 	}
-	else if (index > renderTargets.size()) {
-		szgWarning("Try to reference render target out of range index-\'{}\'.", index);
-		return nullptr;
-	}
-	return renderTargets[index];
+	result->initialize(gbufferTextures);
+	renderTargets.emplace_back(std::move(result));
+	return std::make_pair(temp, gbufferTextures);
 }

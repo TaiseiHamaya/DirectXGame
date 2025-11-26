@@ -20,11 +20,16 @@ public:
 	void initialize();
 	void setup(const std::filesystem::path& setupFile);
 
+	void begin_frame();
+
 	void update();
 
 	void pre_draw();
 
 	void end_frame();
+
+public:
+	WorldRoot& world_root_mut();
 
 public:
 	Reference<WorldRenderCollection> render_collection();

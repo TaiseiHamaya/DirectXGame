@@ -62,7 +62,7 @@ Reference<WorldInstance> WorldInstance::parent_mut() noexcept {
 	return hierarchy.parent_mut();
 }
 
-void WorldInstance::reparent(Reference<WorldInstance> instance, bool isKeepPose) {
+void WorldInstance::reparent(Reference<WorldInstance> parent, bool isKeepPose) {
 	// 古い親から削除
 	if (hierarchy.has_parent()) {
 		hierarchy.parent_mut()->detach_child(this);
@@ -70,8 +70,8 @@ void WorldInstance::reparent(Reference<WorldInstance> instance, bool isKeepPose)
 	// transformの計算
 	if (isKeepPose) {
 		const Affine& worldAffine = world_affine();
-		if (instance) {
-			const Affine parentAffineInv = instance->world_affine().inverse();
+		if (parent) {
+			const Affine parentAffineInv = parent->world_affine().inverse();
 			const Affine local = worldAffine * parentAffineInv;
 			const Basis& basis = local.get_basis();
 			transform.set_scale(basis.to_scale());
@@ -86,21 +86,18 @@ void WorldInstance::reparent(Reference<WorldInstance> instance, bool isKeepPose)
 		}
 	}
 	// 親の登録
-	hierarchy.set_parent(instance);
+	hierarchy.set_parent(parent);
 	// 新親に登録
-	if (instance) {
-		instance->attach_child(this);
+	if (parent) {
+		parent->attach_child(this);
 	}
 	// 深度の再計算
 	recalculate_depth();
 }
 
-void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
-	worldManager = worldManager_;
-}
-
 void WorldInstance::mark_destroy() {
 	isDestroy = true;
+	on_mark_destroy();
 	// 子も削除予定にする
 	for (auto& [_, child] : hierarchy.children_mut()) {
 		child->mark_destroy();
@@ -113,6 +110,14 @@ void WorldInstance::setup_id(u64 id) {
 
 u64 WorldInstance::instance_id() const {
 	return instanceId;
+}
+
+void WorldInstance::setup_world_root(Reference<WorldRoot> worldRoot_) {
+	worldRoot = worldRoot_;
+}
+
+Reference<WorldRoot> WorldInstance::world_root_mut() const {
+	return worldRoot;
 }
 
 void WorldInstance::detach_child(Reference<WorldInstance> child) {
@@ -129,9 +134,6 @@ void WorldInstance::recalculate_depth() {
 	}
 	else {
 		hierarchyDepth = 0;
-	}
-	if (worldManager) {
-		worldManager->reset_depth(this, hierarchyDepth);
 	}
 	// 子の深度も再計算
 	for (auto& [_, child] : hierarchy.children_mut()) {

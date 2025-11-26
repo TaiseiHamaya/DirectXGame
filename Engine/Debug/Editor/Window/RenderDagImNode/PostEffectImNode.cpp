@@ -1,15 +1,6 @@
 #include "PostEffectImNode.h"
 
-enum class PostEffectType {
-	None,
-	ChromaticAberration,
-	Grayscale,
-	Outline,
-	RadialBlur,
-	DownSampling,
-	TextureBlend2,
-	TextureBlend4,
-};
+#include "Engine/Module/Render/RenderPSO/PostEffectPSO.h"
 
 std::vector<std::string> PostEffectImNode::peName{
 	"None",
@@ -35,24 +26,16 @@ PostEffectImNode::PostEffectImNode() {
 void PostEffectImNode::draw() {
 	ImGui::PushItemWidth(120.f);
 	data.outputSize.show_gui();
+	data.isUseRuntime.show_gui();
 
 	if (ImGui::BeginCombo("Type", peName[data.peType.cget()].c_str())) {
 		for (u32 i = 0; i < peName.size(); ++i) {
-			bool is_selected = data.peType.cget() == i;
-			if (ImGui::Selectable(peName[i].c_str(), is_selected)) {
-				if (is_selected) {
+			bool isSelected = data.peType.cget() == i;
+			if (ImGui::Selectable(peName[i].c_str(), isSelected)) {
+				if (isSelected) {
 					continue;
 				}
-				if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend2)) {
-					dropIN("MixTexture");
-				}
-				else if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend4)) {
-					dropIN("MixTexture1");
-					dropIN("MixTexture2");
-					dropIN("MixTexture3");
-				}
-				else {
-				}
+				remove_extra_input_pins();
 				data.peType = i;
 				update_extra_input_pins();
 			}
@@ -63,19 +46,36 @@ void PostEffectImNode::draw() {
 	ImGui::PopItemWidth();
 }
 
+void PostEffectImNode::remove_extra_input_pins() {
+	switch (static_cast<PostEffectType>(data.peType.cget())) {
+	case PostEffectType::TextureBlend2:
+		dropIN("MixTexture");
+		break;
+	case PostEffectType::TextureBlend4:
+		dropIN("MixTexture1");
+		dropIN("MixTexture2");
+		dropIN("MixTexture3");
+		break;
+	default:
+		break;
+	}
+}
+
 void PostEffectImNode::update_extra_input_pins() {
-	if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend2)) {
+	switch (static_cast<PostEffectType>(data.peType.cget())) {
+	case PostEffectType::TextureBlend2:
 		data.extraInputs.resize(1, 0);
 		addIN<u64>("MixTexture", 0ull, ImFlow::ConnectionFilter::SameType());
-	}
-	else if (data.peType.cget() == static_cast<u32>(PostEffectType::TextureBlend4)) {
+		break;
+	case PostEffectType::TextureBlend4:
 		data.extraInputs.resize(3, 0);
 		addIN<u64>("MixTexture1", 0ull, ImFlow::ConnectionFilter::SameType());
 		addIN<u64>("MixTexture2", 0ull, ImFlow::ConnectionFilter::SameType());
 		addIN<u64>("MixTexture3", 0ull, ImFlow::ConnectionFilter::SameType());
-	}
-	else {
+		break;
+	default:
 		data.extraInputs.clear();
+		break;
 	}
 }
 

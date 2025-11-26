@@ -11,8 +11,8 @@
 #include "Command/EditorCreateObjectCommand.h"
 #include "Command/EditorDeleteObjectCommand.h"
 #include "Command/EditorSelectCommand.h"
-#include "Engine/Assets/Json/JsonAsset.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 #include "./Window/EditorLogWindow.h"
 
@@ -108,6 +108,7 @@ void EditorMain::DrawBase() {
 
 	instance.set_imgui_command();
 
+	// Undo / Redo
 	if (instance.input.trigger(KeyID::Z) && instance.input.press(KeyID::LControl)) {
 		if (instance.input.press(KeyID::LShift)) {
 			EditorCommandInvoker::Redo();
@@ -116,6 +117,7 @@ void EditorMain::DrawBase() {
 			EditorCommandInvoker::Undo();
 		}
 	}
+	// 保存
 	if (instance.input.trigger(KeyID::S) && instance.input.press(KeyID::LControl)) {
 		instance.sceneList.add_scene(instance.hierarchy.current_scene_name());
 

@@ -5,14 +5,9 @@
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
 
-void WorldLayerRenderNode::initialize() {
-	std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> tempGBuffer;
-	for (u32 ti = 0; ti < DeferredAdaptor::NUM_GBUFFER; ++ti) {
-		data.gBuffer.texture[ti].initialize(DeferredAdaptor::DXGI_FORMAT_LIST[ti]);
-		tempGBuffer[ti] = data.gBuffer.texture[ti];
-	}
-
-	subtree.setup(tempGBuffer);
+void WorldLayerRenderNode::setup(Data&& data_) {
+	data = std::move(data_);
+	subtree.setup(data.gBuffer.texture);
 }
 
 void WorldLayerRenderNode::stack_command() {
@@ -28,7 +23,7 @@ void WorldLayerRenderNode::stack_command() {
 	commandList->RSSetViewports(1, &data.gBuffer.viewport);
 	// シザー矩形の設定
 	commandList->RSSetScissorRects(1, &data.gBuffer.rect);
-	data.gBuffer.renderTarget.begin_write(true, depthStencilTexture);
+	data.gBuffer.renderTarget->begin_write(true, depthStencilTexture);
 	depthStencilTexture->start_write();
 
 	// ----- GBufferPass -----
@@ -72,4 +67,8 @@ void WorldLayerRenderNode::stack_command() {
 	data.layerData.worldRenderCollection->rect3dDrawManager.draw_layer(data.layerData.index);
 
 	subtree.next_node();
+}
+
+const WorldLayerRenderNode::Data& WorldLayerRenderNode::data_imm() const {
+	return data;
 }

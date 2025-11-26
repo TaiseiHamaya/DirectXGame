@@ -10,6 +10,38 @@ void RenderDAGImNodeSaver::entry_point(const std::string& sceneName, const std::
 	for (auto& [id_, _] : nodes) {
 		seen[id_] = false;
 	}
+
+	std::unordered_map<u64, std::vector<u64>> outputLinks;
+	for (auto& [id, node] : nodes) {
+		for (auto& in : std::visit([](const std::shared_ptr<ImFlow::BaseNode>& n) { return n->getIns(); }, node)) {
+			if (in->isConnected()) {
+				std::shared_ptr<ImFlow::Link> link = in->getLink().lock();
+				if (link) {
+					IRenderDagImNode* outNode = static_cast<IRenderDagImNode*>(link->left()->getParent());
+					u64 outNodeId = outNode->node_id();
+					outputLinks[outNodeId].emplace_back(id);
+				}
+			}
+		}
+	}
+
+	// WorldLayerRenderImNodeのLinkチェック
+	for (auto& [id, node] : nodes) {
+		if (std::holds_alternative<std::shared_ptr<WorldLayerRenderImNode>>(node)) {
+			i32 numWorldLayerOutputs = 0;
+			for (u64& outId : outputLinks[id]) {
+				if (std::holds_alternative<std::shared_ptr<WorldLayerRenderImNode>>(nodes.at(outId))) {
+					++numWorldLayerOutputs; // DAG内のWorldLayerRenderImNodeへの出力をカウント
+				}
+			}
+			// WorldLayerRenderImNodeが存在する場合、他の接続ノードが存在してはいけない
+			if (numWorldLayerOutputs >= 1 && outputLinks[id].size() >= 2) {
+				szgWarning("Invalid link detected in RenderDAG in EditorRenderDAG::save()");
+				return;
+			}
+		}
+	}
+
 	std::vector<EditorRenderDAG::DAGNodeType> sortedNodes;
 	std::unordered_set<u64> visiting;
 
@@ -43,7 +75,7 @@ void RenderDAGImNodeSaver::entry_point(const std::string& sceneName, const std::
 				continue;
 			}
 			std::shared_ptr<ImFlow::Link> link = in->getLink().lock();
-			// リンクロックチェック
+			// リンクチェック
 			if (!link) {
 				szgWarning("Failed to lock link in EditorRenderDAG::save()");
 				continue;
@@ -109,13 +141,12 @@ void RenderDAGImNodeSaver::entry_point(const std::string& sceneName, const std::
 		// ノードのベース情報をJson化
 		nlohmann::json nodeJson = std::visit(*this, node);
 		// 接続状況の保存
-		nodeJson["Links"] = nlohmann::json::array();
 		nlohmann::json& inLinksJson = nodeJson["Links"];
 		inLinksJson = nlohmann::json::object();
-		u64 nodeId = std::visit([](const std::shared_ptr<IRenderDagImNode>& n) { return n->node_id(); }, node);
+		u64 nodeId = std::visit([](const std::shared_ptr<IRenderDagImNode>& node) { return node->node_id(); }, node);
 		for (auto& [name, id] : outputTargetNodeIndices[nodeId]) {
 			nlohmann::json& linksJson = inLinksJson[name];
-			linksJson.emplace_back(id);
+			linksJson = id;
 		}
 		// JsonAssetに追加
 		nodesJson.emplace_back(nodeJson);
@@ -169,6 +200,8 @@ nlohmann::json RenderDAGImNodeSaver::operator()(const std::shared_ptr<PostEffect
 	const PostEffectImNode::Data& data = node->get_data();
 	json["Data"].update(data.outputSize);
 	json["Data"].update(data.peType);
+	json["Data"].update(data.isUseRuntime);
+	json["Data"].update(data.EffectTagName);
 
 	json["Debug"]["Position"]["X"] = node->getPos().x;
 	json["Debug"]["Position"]["Y"] = node->getPos().y;

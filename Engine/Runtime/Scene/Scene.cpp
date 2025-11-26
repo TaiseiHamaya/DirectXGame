@@ -12,10 +12,10 @@ void Scene::setup() {
 	// フォルダ内のワールドを全て読み込む
 	for (const std::filesystem::directory_entry& entry :
 		std::filesystem::directory_iterator(std::format("./Game/Core/Scene/{}/Worlds", sceneName))) {
-		WorldCluster world;
+		std::unique_ptr<WorldCluster> world = std::make_unique<WorldCluster>();
 
-		world.initialize();
-		world.setup(entry.path());
+		world->initialize();
+		world->setup(entry.path());
 
 		worlds.emplace_back(std::move(world));
 	}
@@ -25,17 +25,23 @@ void Scene::setup() {
 	renderDAG.setup(sceneName, this);
 }
 
+void Scene::begin_frame() {
+	for (std::unique_ptr<WorldCluster>& world : worlds) {
+		world->begin_frame();
+	}
+}
+
 void Scene::update() {
 	sceneScriptManager.prev_update();
-	for (WorldCluster& world : worlds) {
-		world.update();
+	for (std::unique_ptr<WorldCluster>& world : worlds) {
+		world->update();
 	}
 	sceneScriptManager.post_update();
 }
 
 void Scene::pre_draw() {
-	for(WorldCluster& world : worlds ) {
-		world.pre_draw();
+	for (std::unique_ptr<WorldCluster>& world : worlds) {
+		world->pre_draw();
 	}
 }
 
@@ -44,13 +50,13 @@ void Scene::draw() const {
 }
 
 void Scene::end_frame() {
-	for (WorldCluster& world : worlds) {
-		world.end_frame();
+	for (std::unique_ptr<WorldCluster>& world : worlds) {
+		world->end_frame();
 	}
 }
 
 Reference<WorldCluster> Scene::get_world(u32 index) {
-	if( index >= worlds.size() ) {
+	if (index >= worlds.size()) {
 		szgWarning("Try to reference world out of range index-\'{}\'.", index);
 		return nullptr;
 	}

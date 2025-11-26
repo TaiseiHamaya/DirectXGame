@@ -1,133 +1,188 @@
 #include "RenderNodeLoader.h"
 
-#include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
-#include "Engine/Runtime/Scene/Scene.h"
-
+#include "./PostEffectPSOLoader.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
+#include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/Module/Render/RenderNode/PostEffectNode.h"
 #include "Engine/Module/Render/RenderNode/WorldLayerRenderNode.h"
+#include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/Runtime/Scene/Scene.h"
+
+RenderNodeLoader::RenderNodeLoader() = default;
+RenderNodeLoader::~RenderNodeLoader() noexcept = default;
 
 void RenderNodeLoader::setup(Reference<Scene> scene_, Reference<RenderTargetCollection> renderTargetCollection_) {
 	scene = scene_;
 	renderTargetCollection = renderTargetCollection_;
+	pePsoLoader = std::make_unique<PostEffectPSOLoader>();
+	pePsoLoader->setup(immidiateData);
 }
 
 std::vector<std::unique_ptr<IRenderNode>> RenderNodeLoader::entry_point(const nlohmann::json& json) {
-	std::vector<std::unique_ptr<IRenderNode>> result;
+	calclate_result_node_index(json);
 
-	for (auto& [_, value] : json.items()) {
-		if (!value.contains("Type")) {
+	for (auto& node : json["Nodes"]) {
+		if (!node.contains("Type")) {
 			szgWarning("RenderNodeLoader::entry_point: Node Type is not specified.");
 			continue;
 		}
-		const std::string type = value["Type"].get<std::string>();
-		if (type == "PostEffect") {
-			result.emplace_back(load_post_effect_node(value));
+		const i32 type = node["Type"].get<i32>();
+		switch (type) {
+		case 0:
+		{
+			auto temp = load_as_world_render(node);
+			result.emplace_back(std::move(temp));
+			break;
 		}
-		else if (type == "WorldLayer") {
-			result.emplace_back(load_world_lender_layer_node(value));
+		case 1:
+		{
+			auto temp = load_as_post_effect(node);
+			result.emplace_back(std::move(temp));
+			break;
+		}
+		case 2:
+		{
+			load_as_static_texture(node);
+			break;
+		}
+		default:
+			szgWarning("RenderNodeLoader::entry_point: Unknown Node Type \'{}\'", type);
+			break;
+		}
+	}
+
+	return std::move(result);
+}
+std::unique_ptr<IRenderNode> RenderNodeLoader::load_as_post_effect(const nlohmann::json& json) {
+	std::unique_ptr<PostEffectNode> node = std::make_unique<PostEffectNode>();
+
+	const nlohmann::json& dataJson = json["Data"];
+	PostEffectNode::Data resultData{};
+	{
+		resultData.rect = {
+			0, 0,
+			dataJson["OutputSize"]["X"].get<LONG>(),
+			dataJson["OutputSize"]["Y"].get<LONG>()
+		};
+		resultData.viewport = {
+			0.0f, 0.0f,
+			static_cast<FLOAT>(dataJson["OutputSize"]["X"].get<u32>()),
+			static_cast<FLOAT>(dataJson["OutputSize"]["Y"].get<u32>()),
+			0.0f,
+			1.0f
+		};
+		resultData.postEffectPSO = pePsoLoader->entry_point(json);
+		if (resultNodeIndex <= result.size()) {
+			Reference<SwapChainRenderTargetGroup> swapChainRT = DxSwapChain::GetRenderTarget();
+			immidiateData.emplace_back(swapChainRT, nullptr);
+			resultData.outputRenderTargetGroup = swapChainRT;
 		}
 		else {
-			szgWarning("RenderNodeLoader::entry_point: Unknown Node Type \'{}\'", type);
-			continue;
+			auto [renderTargetGroup, renderTexture] = renderTargetCollection->create_render_target_group(dataJson);
+			immidiateData.emplace_back(renderTargetGroup, renderTexture);
+			resultData.outputRenderTargetGroup = renderTargetGroup;
 		}
 	}
 
-	return result;
+	node->set_data(std::move(resultData));
+
+	return node;
 }
 
-std::unique_ptr<IRenderNode> RenderNodeLoader::load_post_effect_node(const nlohmann::json& json) {
-	std::unique_ptr<PostEffectNode> result = std::make_unique<PostEffectNode>();
-	result->initialize();
-
-	PostEffectNode::Data resultData{};
-	{ // output
-		const nlohmann::json& outputJson = json["Output"];
-		const u32 renderTargetIndex = outputJson["RenderTarget"].get<u32>();
-		resultData.outRenderTargetGroup = renderTargetCollection->get_render_target(renderTargetIndex);
-	}
-	{ // rect & viewport
-		const nlohmann::json& rectJson = json["Rect"];
-		resultData.rect = {
-			rectJson["Left"].get<LONG>(),
-			rectJson["Top"].get<LONG>(),
-			rectJson["Right"].get<LONG>(),
-			rectJson["Bottom"].get<LONG>()
-		};
-		const nlohmann::json& viewportJson = json["Viewport"];
-		resultData.viewport = {
-			viewportJson["Left"].get<FLOAT>(),
-			viewportJson["Top"].get<FLOAT>(),
-			viewportJson["Width"].get<FLOAT>(),
-			viewportJson["Height"].get<FLOAT>(),
-			viewportJson["MinDepth"].get<FLOAT>(),
-			viewportJson["MaxDepth"].get<FLOAT>()
-		};
-	}
-	{ // PostEffectPSO
-		const nlohmann::json& psoJson = json["PSO"];
-
-		resultData.postEffectPSO = pePsoLoader.entry_point(psoJson);
-	}
-
-	result->set_data(std::move(resultData));
-
-	return result;
-}
-
-std::unique_ptr<IRenderNode> RenderNodeLoader::load_world_lender_layer_node(const nlohmann::json& json) {
-	std::unique_ptr<WorldLayerRenderNode> result = std::make_unique<WorldLayerRenderNode>();
+std::unique_ptr<IRenderNode> RenderNodeLoader::load_as_world_render(const nlohmann::json& json) {
+	std::unique_ptr<WorldLayerRenderNode> node = std::make_unique<WorldLayerRenderNode>();
 	WorldLayerRenderNode::Data resultData{};
 
-	result->initialize();
-
+	const nlohmann::json& dataJson = json["Data"];
+	const nlohmann::json& linkJson = json["Links"];
 	{ // GBuffer
-		const nlohmann::json& gBufferJson = json["GBuffer"];
 		resultData.gBuffer.rect = {
-			gBufferJson["Rect"]["Left"].get<LONG>(),
-			gBufferJson["Rect"]["Top"].get<LONG>(),
-			gBufferJson["Rect"]["Right"].get<LONG>(),
-			gBufferJson["Rect"]["Bottom"].get<LONG>()
+			0, 0,
+			dataJson["GBufferSize"]["X"].get<LONG>(),
+			dataJson["GBufferSize"]["Y"].get<LONG>()
 		};
 		resultData.gBuffer.viewport = {
-			gBufferJson["Viewport"]["Left"].get<FLOAT>(),
-			gBufferJson["Viewport"]["Top"].get<FLOAT>(),
-			gBufferJson["Viewport"]["Width"].get<FLOAT>(),
-			gBufferJson["Viewport"]["Height"].get<FLOAT>(),
-			gBufferJson["Viewport"]["MinDepth"].get<FLOAT>(),
-			gBufferJson["Viewport"]["MaxDepth"].get<FLOAT>()
+			dataJson["Left"].get<FLOAT>(),
+			dataJson["Top"].get<FLOAT>(),
+			dataJson["Width"].get<FLOAT>(),
+			dataJson["Height"].get<FLOAT>(),
+			dataJson["MinDepth"].get<FLOAT>(),
+			dataJson["MaxDepth"].get<FLOAT>()
 		};
 	}
 
 	{ // Layer
-		const nlohmann::json& jsonLayer = json["Layer"];
 		resultData.layerData.rect = {
-			jsonLayer["Rect"]["Left"].get<LONG>(),
-			jsonLayer["Rect"]["Top"].get<LONG>(),
-			jsonLayer["Rect"]["Right"].get<LONG>(),
-			jsonLayer["Rect"]["Bottom"].get<LONG>()
+			dataJson["TopLeft"]["X"].get<LONG>(),
+			dataJson["TopLeft"]["Y"].get<LONG>(),
+			dataJson["BottomRight"]["X"].get<LONG>(),
+			dataJson["BottomRight"]["Y"].get<LONG>()
 		};
 		resultData.layerData.viewport = {
-			jsonLayer["Viewport"]["Left"].get<FLOAT>(),
-			jsonLayer["Viewport"]["Top"].get<FLOAT>(),
-			jsonLayer["Viewport"]["Width"].get<FLOAT>(),
-			jsonLayer["Viewport"]["Height"].get<FLOAT>(),
-			jsonLayer["Viewport"]["MinDepth"].get<FLOAT>(),
-			jsonLayer["Viewport"]["MaxDepth"].get<FLOAT>()
+			0.0f, 0.0f,
+			dataJson["BottomRight"]["X"].get<r32>() - dataJson["TopLeft"]["X"].get<r32>(),
+			dataJson["BottomRight"]["Y"].get<r32>() - dataJson["TopLeft"]["Y"].get<r32>(),
+			0.0f,
+			1.0f
 		};
-		const u32 worldIndex = json["Layer"]["World"].get<u32>();
-		resultData.layerData.index = json["Layer"]["Layer"].get<u8>();
+		const u32 worldIndex = dataJson["WorldIndex"].get<u32>();
+		resultData.layerData.index = dataJson["LayerIndex"].get<u8>();
 		resultData.layerData.worldRenderCollection = scene->get_world(worldIndex)->render_collection();
 
 		resultData.layerData.camera = nullptr;
 	}
 
 	{ // output
-		const nlohmann::json& outputJson = json["Output"];
-		const u32 renderTargetIndex = outputJson["RenderTarget"].get<u32>();
-		resultData.outputRenderTargetGroup = renderTargetCollection->get_render_target(renderTargetIndex);
+		auto [gbufferRT, gbufferTexture] = renderTargetCollection->create_gbuffer(dataJson);
+		resultData.gBuffer.renderTarget = gbufferRT;
+		resultData.gBuffer.texture = gbufferTexture;
+
+		if (resultNodeIndex <= result.size()) {
+			// SwapChainに描画する場合
+			Reference<SwapChainRenderTargetGroup> swapChainRT = DxSwapChain::GetRenderTarget();
+			immidiateData.emplace_back(swapChainRT, nullptr);
+			resultData.outputRenderTargetGroup = swapChainRT;
+		}
+		else if (linkJson.contains("Base")) {
+			// Link先のTextureを継続使用
+			u64 index = linkJson["Base"];
+			immidiateData.emplace_back(immidiateData[index]);
+			resultData.outputRenderTargetGroup = immidiateData[index].renderTargetGroup;
+		}
+		else {
+			// ない場合
+			auto [renderTargetGroup, renderTexture] = renderTargetCollection->create_render_target_group(dataJson);
+			resultData.outputRenderTargetGroup = renderTargetGroup;
+			immidiateData.emplace_back(
+				renderTargetGroup,
+				renderTexture
+			);
+		}
 	}
 
-	result->set_data(std::move(resultData));
+	node->setup(std::move(resultData));
 
-	return result;
+	return node;
+}
+
+void RenderNodeLoader::load_as_static_texture([[maybe_unused]] const nlohmann::json& json) {
+	immidiateData.emplace_back(
+		nullptr,
+		nullptr
+	);
+}
+
+void RenderNodeLoader::calclate_result_node_index(const nlohmann::json& json) {
+	i32 index = json.value("ResultNode", nlohmann::json::object()).value("Connect", 0) - 1;
+
+	const nlohmann::json& nodeJson = json["Nodes"];
+	while (true) {
+		auto& node = nodeJson.at(index);
+		if (node.value("Type", 0) != 0) {
+			break;
+		}
+		index = node.value("Links", nlohmann::json::object()).value("Base", 0);
+	}
+	resultNodeIndex = index;
 }

@@ -1,23 +1,24 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include <json.hpp>
 
-#include <Library/Utility/Tools/ConstructorMacro.h>
 #include <Library/Utility/Template/Reference.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
+#include "RenderNodeLoader.h"
+
+class RenderTargetCollection;
 class PostEffectPSO;
 
 class PostEffectPSOLoader final {
 public:
-	PostEffectPSOLoader() = default;
-	~PostEffectPSOLoader() = default;
+	void setup(Reference<std::vector<RenderNodeLoader::ImmidiateData>> immidiateData_);
 
-	__CLASS_NON_COPYABLE(PostEffectPSOLoader)
-
-public:
-	std::unique_ptr<PostEffectPSO> entry_point(const nlohmann::json& psoJson);
+	std::unique_ptr<PostEffectPSO> entry_point(const nlohmann::json& json);
 
 private:
+	Reference<std::vector<RenderNodeLoader::ImmidiateData>> immidiateData;
 };

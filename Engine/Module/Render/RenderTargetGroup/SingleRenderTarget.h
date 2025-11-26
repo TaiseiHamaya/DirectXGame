@@ -20,10 +20,6 @@ public:
 	/// <param name="renderTexture"></param>
 	void initialize(Reference<RenderTexture> renderTexture);
 
-
-public:
-	void set_texture(Reference<RenderTexture> texture_);
-
 private:
 	void start_render_target(Reference<DepthStencilTexture> depthStencil) override;
 

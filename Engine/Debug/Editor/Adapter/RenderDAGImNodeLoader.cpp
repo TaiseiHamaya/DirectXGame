@@ -57,15 +57,14 @@ u64 RenderDAGImNodeLoader::entry_point(const std::string& sceneName, Reference<I
 					szgWarning("ノード内にピンが見つかりませんでした: {}", name);
 					continue;
 				}
-				for (u64 nodeIndex : connect.get<std::vector<u64>>()) {
-					ImFlow::Pin* outPin = std::visit([](std::shared_ptr<ImFlow::BaseNode> node) { return node->outPin("Output"); }, nodes[nodeIndex + 1]);
-					if (!outPin) {
-						szgWarning("接続先ノードの出力ピンが見つかりませんでした: {}", nodeIndex);
-						continue;
-					}
-
-					outPin->createLink(inPin);
+				u64 nodeIndex = connect.get<u64>();
+				ImFlow::Pin* outPin = std::visit([](std::shared_ptr<ImFlow::BaseNode> node) { return node->outPin("Output"); }, nodes[nodeIndex + 1]);
+				if (!outPin) {
+					szgWarning("接続先ノードの出力ピンが見つかりませんでした: {}", nodeIndex);
+					continue;
 				}
+
+				outPin->createLink(inPin);
 			}
 		}
 
@@ -115,6 +114,8 @@ std::shared_ptr<PostEffectImNode> RenderDAGImNodeLoader::load_as_post_effect(con
 	PostEffectImNode::Data data;
 	json.get_to(data.outputSize);
 	json.get_to(data.peType);
+	json.get_to(data.isUseRuntime);
+	json.get_to(data.EffectTagName);
 	result->set_data(data);
 	result->set_node_id(counter);
 	result->update_extra_input_pins();

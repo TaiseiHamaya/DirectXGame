@@ -15,6 +15,9 @@ void OutlineNode::initialize() {
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
+void OutlineNode::preprocess() {
+}
+
 void OutlineNode::execute_effect_command() {
 	// リード用に使用
 	baseTexture->start_read();

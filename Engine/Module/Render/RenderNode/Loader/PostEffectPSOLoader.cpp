@@ -1,69 +1,91 @@
 #include "PostEffectPSOLoader.h"
 
+#include "Engine/Application/Logger.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/Manager/RuntimeStorage/RuntimeStorage.h"
 #include "Engine/Module/Render/RenderPSO/Posteffect/ChromaticAberration/ChromaticAberrationNode.h"
 #include "Engine/Module/Render/RenderPSO/Posteffect/Grayscale/GrayscaleNode.h"
 #include "Engine/Module/Render/RenderPSO/Posteffect/Outline/OutlineNode.h"
 #include "Engine/Module/Render/RenderPSO/Posteffect/RadialBlur/RadialBlurNode.h"
+#include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
 
 #define VECTOR2_SERIALIZER
 #include <Engine/Assets/Json/JsonSerializer.h>
 
-std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::json& psoJson) {
-	if (!psoJson.contains("Type") || !psoJson["Type"].is_string()) {
+void PostEffectPSOLoader::setup(Reference<std::vector<RenderNodeLoader::ImmidiateData>> immidiateData_) {
+	immidiateData = immidiateData_;
+}
+
+std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::json& json) {
+	RuntimeStorage::ValueGroup& postEffectValueGroup = RuntimeStorage::GetValueList("PostEffect");
+	std::any value;
+
+	const PostEffectType type = json["Type"].get<PostEffectType>();
+	const nlohmann::json& dataJson = json["Data"];
+	const nlohmann::json& linkJson = json["Links"];
+	std::unique_ptr<PostEffectPSO> node = nullptr;
+	switch (type) {
+	case PostEffectType::ChromaticAberration:
+	{
+		auto temp = std::make_unique<ChromaticAberrationNode>();
+		temp->initialize();
+		temp->set_shader_texture(immidiateData->at(linkJson["Base"]).renderTexture);
+		temp->setup(dataJson["EffectTag"]);
+		node = std::move(temp);
+		if (dataJson.value("UseRuntime", false)) {
+			value = CVector2::ZERO;
+		}
+	}
+	break;
+	case PostEffectType::Grayscale:
+	{
+		auto temp = std::make_unique<GrayscaleNode>();
+		temp->initialize();
+		temp->set_shader_texture(immidiateData->at(linkJson["Base"]).renderTexture);
+		node = std::move(temp);
+		if (dataJson.value("UseRuntime", false)) {
+			value = false;
+		}
+	}
+	break;
+	case PostEffectType::Outline:
+	{
+		auto temp = std::make_unique<OutlineNode>();
+		temp->initialize();
+		temp->set_shader_texture(
+			immidiateData->at(linkJson["Base"]).renderTexture,
+			RenderingSystemValues::GetDepthStencilTexture()
+		);
+		node = std::move(temp);
+		if (dataJson.value("UseRuntime", false)) {
+			// do nothing
+		}
+	}
+	break;
+	case PostEffectType::RadialBlur:
+	{
+		auto temp = std::make_unique<RadialBlurNode>();
+		temp->initialize();
+		temp->set_shader_texture(immidiateData->at(linkJson["Base"]).renderTexture);
+		if (dataJson.value("UseRuntime", false)) {
+			value = BlurInfo{};
+		}
+	}
+	break;
+	case PostEffectType::DownSampling:
+		break;
+	case PostEffectType::TextureBlend2:
+		break;
+	case PostEffectType::TextureBlend4:
+		break;
+	default:
+		szgWarning("PostEffectPSOLoader::entry_point: Unknown PostEffectType \'{}\'", static_cast<i32>(type));
 		return nullptr;
 	}
 
-	RuntimeStorage::ValueGroup& postEffectValueGroup = RuntimeStorage::GetValue("PostEffect");
-	std::any value;
-
-	std::unique_ptr<PostEffectPSO> node = nullptr;
-	const std::string& type = psoJson["Type"].get<std::string>();
-	if (type == "ChromaticAberration") {
-		// ----- 色収差 -----
-		node = std::make_unique<ChromaticAberrationNode>();
-		node->initialize();
-
-		if (psoJson.contains("Value")) {
-			value = psoJson["Value"].get<Vector2>();
-		}
-	}
-	else if (type == "Grayscale") {
-		// ----- グレースケール -----
-		node = std::make_unique<GrayscaleNode>();
-		node->initialize();
-		
-		if (psoJson.contains("Value")) {
-			value = psoJson["Value"].get<u32>();
-		}
-	}
-	else if (type == "Outline") {
-		// ----- アウトライン -----
-		node = std::make_unique<OutlineNode>();
-		node->initialize();
-	}
-	else if (type == "RadialBlur") {
-		// ----- ラジアルブラー -----
-		node = std::make_unique<RadialBlurNode>();
-		node->initialize();
-		
-		if (psoJson.contains("Value")) {
-			BlurInfo blurInfo{};
-			blurInfo.center = psoJson["Value"].value("Center", Vector2{ 0.5f, 0.5f });
-			blurInfo.weight = psoJson["Value"].value("Weight", 0.4f);
-			blurInfo.length = psoJson["Value"].value("Length", 0.1f);
-			blurInfo.sampleCount = psoJson["Value"].value("SampleCount", 1u);
-			value = blurInfo;
-		}
+	if (value.has_value()) {
+		postEffectValueGroup[dataJson["EffectTag"].get<std::string>()] = std::move(value);
 	}
 
-	// ランタイム参照可能にするチェック
-	if (psoJson.contains("UseRuntime") && psoJson["UseRuntime"].get<bool>()) {
-		if (psoJson.contains("Name") && psoJson["Name"].is_string() && !value.has_value()) {
-			postEffectValueGroup[psoJson["Name"]] = std::move(value);
-			node->setup(psoJson["Name"]);
-		}
-	}
-
-	return nullptr;
+	return node;
 }

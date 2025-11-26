@@ -197,6 +197,8 @@ void WinApp::BeginFrame() {
 	ImGuiManager::BeginFrame();
 	EditorMain::DrawBase(); // Editorのベース描画
 #endif // _DEBUG
+
+	SceneManager2::BeginFrame();
 }
 
 void WinApp::Update() {
