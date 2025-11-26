@@ -25,7 +25,7 @@ public:
 	struct LayerData {
 		Reference<const WorldRenderCollection> worldRenderCollection;
 		u8 index;
-		Reference<Camera3D> camera;
+		u32 cameraId;
 
 		RECT rect;
 		D3D12_VIEWPORT viewport;

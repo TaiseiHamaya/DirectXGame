@@ -11,6 +11,7 @@
 #include "Engine/Module/DrawExecutor/Mesh/StaticMeshDrawManager.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
+#include "RenderNode/WorldLayerRenderNode.h"
 
 class WorldLayerRenderNode;
 class InstanceBucket;
@@ -33,6 +34,8 @@ public:
 
 	void transfer();
 
+	Reference<Camera3D> camera_at(u32 index) const;
+
 private:
 	u8 numLayer{ 0 };
 
@@ -44,4 +47,6 @@ private:
 
 	std::vector<Reference<DirectionalLightInstance>> directionalLights;
 	std::vector<Reference<PointLightInstance>> pointLights;
+
+	std::vector<Reference<Camera3D>> cameras;
 };

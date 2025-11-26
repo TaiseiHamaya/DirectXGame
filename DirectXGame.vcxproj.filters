@@ -1886,6 +1886,7 @@
     <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.cpp" />
+    <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -1899,5 +1900,6 @@
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
+    <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
   </ItemGroup>
 </Project>

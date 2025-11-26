@@ -1,5 +1,6 @@
 #include "WorldLayerRenderNode.h"
 
+#include "Engine/Application/Logger.h"
 #include "../WorldRenderCollection.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
@@ -11,7 +12,13 @@ void WorldLayerRenderNode::setup(Data&& data_) {
 }
 
 void WorldLayerRenderNode::stack_command() {
-	if (!data.layerData.camera || !data.layerData.camera->is_active()) {
+	// カメラ取得
+	Reference<Camera3D> camera = data.layerData.worldRenderCollection->camera_at(data.layerData.cameraId);
+	if (!camera) {
+		szgWarning("Camera is invalid. LayerIndex: {}", data.layerData.index);
+		return;
+	}
+	if (camera->is_active()) {
 		return;
 	}
 
@@ -29,12 +36,12 @@ void WorldLayerRenderNode::stack_command() {
 	// ----- GBufferPass -----
 	// StaticMesh
 	subtree.begin_nodes();
-	data.layerData.camera->register_world_projection(2);
+	camera->register_world_projection(2);
 	data.layerData.worldRenderCollection->staticMeshDrawManager.draw_layer(data.layerData.index);
 
 	// SkinningMesh
 	subtree.next_node();
-	data.layerData.camera->register_world_projection(2);
+	camera->register_world_projection(2);
 	data.layerData.worldRenderCollection->staticMeshDrawManager.draw_layer(data.layerData.index);
 
 	// ----- LightingPass -----
@@ -49,20 +56,20 @@ void WorldLayerRenderNode::stack_command() {
 
 	// DirectionalLighting
 	subtree.next_node();
-	data.layerData.camera->register_world_lighting(1);
+	camera->register_world_lighting(1);
 	data.layerData.worldRenderCollection->directionalLightingExecutors[data.layerData.index].draw_command();
 
 	// PointLighting
 	subtree.next_node();
-	data.layerData.camera->register_world_lighting(1);
+	camera->register_world_lighting(1);
 	data.layerData.worldRenderCollection->pointLightingExecutors[data.layerData.index].draw_command();
 
 	// ----- PrimitivePass -----
 	// Rect
 	subtree.next_node();
 	data.outputRenderTargetGroup->begin_write(false, depthStencilTexture);
-	data.layerData.camera->register_world_projection(3);
-	data.layerData.camera->register_world_lighting(4);
+	camera->register_world_projection(3);
+	camera->register_world_lighting(4);
 	data.layerData.worldRenderCollection->directionalLightingExecutors[data.layerData.index].set_command(4);
 	data.layerData.worldRenderCollection->rect3dDrawManager.draw_layer(data.layerData.index);
 

@@ -1,5 +1,8 @@
 #include "WorldCluster.h"
 
+#include <Engine/Assets/Json/JsonAsset.h>
+#include "Engine/Module/World/Loader/WorldInstanceLoader.h"
+
 void WorldCluster::initialize() {
 	worldRoot.initialize();
 	worldRenderCollection.initialize();
@@ -8,6 +11,17 @@ void WorldCluster::initialize() {
 
 void WorldCluster::setup([[maybe_unused]] const std::filesystem::path& setupFile) {
 	worldRoot.setup(instanceBucket);
+	JsonAsset json{ setupFile };
+	WorldInstanceLoader loader;
+	loader.setup(worldRoot);
+	if (json.cget().contains("Instances") && json.cget()["Instances"].is_array()) {
+		for (const nlohmann::json& instanceJson : json.cget()["Instances"]) {
+			loader.entry_point(instanceJson, nullptr);
+		}
+	}
+
+	u8 numLayer= json.cget().value<u8>("NumLayer", 0);
+	worldRenderCollection.setup(numLayer);
 }
 
 void WorldCluster::begin_frame() {

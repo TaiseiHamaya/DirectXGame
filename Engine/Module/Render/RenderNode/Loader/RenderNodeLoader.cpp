@@ -130,7 +130,7 @@ std::unique_ptr<IRenderNode> RenderNodeLoader::load_as_world_render(const nlohma
 		resultData.layerData.index = dataJson["LayerIndex"].get<u8>();
 		resultData.layerData.worldRenderCollection = scene->get_world(worldIndex)->render_collection();
 
-		resultData.layerData.camera = nullptr;
+		resultData.layerData.cameraId = dataJson["CameraId"].get<u32>();
 	}
 
 	{ // output

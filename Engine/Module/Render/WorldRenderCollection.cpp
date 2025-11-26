@@ -63,6 +63,10 @@ void WorldRenderCollection::collect_instantiated(Reference<InstanceBucket> insta
 	for (auto& instance : instanceBucket->pointLightInstance) {
 		pointLights.emplace_back(instance);
 	}
+	// Camera
+	for (auto& instance : instanceBucket->camera) {
+		cameras.emplace_back(instance);
+	}
 }
 
 void WorldRenderCollection::transfer() {
@@ -95,4 +99,11 @@ void WorldRenderCollection::transfer() {
 			}
 		}
 	}
+}
+
+Reference<Camera3D> WorldRenderCollection::camera_at(u32 index) const {
+	if (index >= cameras.size()) {
+		return nullptr;
+	}
+	return cameras[index];
 }
