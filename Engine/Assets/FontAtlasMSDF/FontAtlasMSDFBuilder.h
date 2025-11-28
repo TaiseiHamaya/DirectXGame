@@ -1,0 +1,31 @@
+#pragma once
+
+#include "../IAssetBuilder.h"
+
+#include "./FontAtlasMSDFAsset.h"
+
+#include <filesystem>
+
+class TextureAssetBuilder;
+
+class FontAtlasMSDFBuilder final : public IAssetBuilder {
+public:
+	FontAtlasMSDFBuilder(const std::filesystem::path& filePath);
+	~FontAtlasMSDFBuilder();
+
+public:
+	bool run() override;
+
+	void postprocess() override;
+
+	void transfer() override;
+
+private:
+	std::unordered_map<u32, u32> glyphMap;
+	std::vector<FontAtlasMSDFAsset::GlyphDataGpu> glyphsDataBuffer;
+
+	std::string ddsTextureName;
+
+	std::shared_ptr<FontAtlasMSDFAsset> fontAtlas; // 実データ
+	std::unique_ptr<TextureAssetBuilder> textureBuilder; // SDFテクスチャ読み込み用
+};

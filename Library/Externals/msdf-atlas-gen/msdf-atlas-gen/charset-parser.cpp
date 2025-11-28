@@ -263,7 +263,7 @@ struct CharsetLoadData {
 
 bool Charset::load(const char *filename, bool disableCharLiterals) {
     FILE* f;
-    fopen_s(&f, filename, "w");
+    fopen_s(&f, filename, "r");
     if (f) {
         CharsetLoadData userData = { this, filename, disableCharLiterals, f };
         bool success = charsetParse<CharsetLoadData::readChar, CharsetLoadData::add, CharsetLoadData::include>(&userData, disableCharLiterals, false);

@@ -611,6 +611,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\bitmap-blit.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\charset-parser.cpp" />
@@ -871,6 +875,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Scene\Scene.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager.h" />
+    <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.h" />
+    <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.h" />
+    <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.h" />
+    <ClInclude Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\config\ftconfig.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\config\ftheader.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\config\ftmodule.h" />

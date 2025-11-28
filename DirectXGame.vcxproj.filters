@@ -1823,6 +1823,10 @@
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\resolve-shape-geometry.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\save-png.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\main.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.h" />
@@ -2018,5 +2022,9 @@
     <ClInclude Include="Library\Externals\freetype\include\freetype\tttables.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\tttags.h" />
     <ClInclude Include="Library\Externals\freetype\include\ft2build.h" />
+    <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.h" />
+    <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.h" />
+    <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.h" />
+    <ClInclude Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.h" />
   </ItemGroup>
 </Project>
