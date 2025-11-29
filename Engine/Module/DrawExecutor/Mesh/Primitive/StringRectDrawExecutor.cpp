@@ -100,5 +100,6 @@ void StringRectDrawExecutor::write_to_buffer(Reference<const StringRectInstance>
 			.glyphIndex = glyph.glyphIndex,
 			.instanceIndex = stringIndex,
 		};
+		chars[beginIndex + i] = charBuffer;
 	}
 }

@@ -15,4 +15,5 @@ void StringRectDrawManager::make_instancing(u32 layer, const BlendMode& blendMod
 	executor.reinitialize(
 		blendMode, maxRenderingChar, maxInstance
 	);
+	layerExecutors[layer].emplace_back(executor);
 }
