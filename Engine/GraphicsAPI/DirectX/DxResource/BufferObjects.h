@@ -14,6 +14,15 @@ enum class LighingType : u32 {
 	HalfLambert,
 };
 
+enum class BlendMode : u32 {
+	None,
+	Alpha,
+	Add,
+	Subtract,
+	Multily,
+	Screen,
+};
+
 /// <summary>
 /// VertexBuffer
 /// </summary>

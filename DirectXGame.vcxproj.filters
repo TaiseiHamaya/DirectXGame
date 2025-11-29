@@ -1770,6 +1770,7 @@
     <ClInclude Include="Library\Utility\Tools\SmartPointer.h">
       <Filter>Library\Utility\Tools</Filter>
     </ClInclude>
+    <None Include="EngineResources\HLSL\Forward\Font\MsdfFond.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -1827,6 +1828,10 @@
     <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.cpp" />
     <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\StringRectInstance.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.h" />
@@ -2026,5 +2031,14 @@
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.h" />
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.h" />
     <ClInclude Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\StringRectInstance.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\CharRectStruct.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="EngineResources\HLSL\Forward\Font\MsdfFond.PS.hlsl" />
+    <FxCompile Include="EngineResources\HLSL\Forward\Font\MsdfFond.VS.hlsl" />
   </ItemGroup>
 </Project>

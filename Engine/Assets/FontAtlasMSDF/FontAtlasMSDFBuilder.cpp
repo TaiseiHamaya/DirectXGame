@@ -1,9 +1,15 @@
 #include "FontAtlasMSDFBuilder.h"
 
+#include <Library/Math/Vector2.h>
+#include <Library/Math/Transform2D.h>
+
 #include "../Texture/TextureAssetBuilder.h"
 #include "../Texture/TextureLibrary.h"
 #include "./FontAtlasMSDFLibrary.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+
+#define VECTOR2_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
 
 FontAtlasMSDFBuilder::FontAtlasMSDFBuilder(const std::filesystem::path& filePath_) {
 	filePath = IAssetBuilder::ResolveFilePath(filePath_, "FontAtlasMSDF");
@@ -22,19 +28,32 @@ bool FontAtlasMSDFBuilder::run() {
 
 	glyphsDataBuffer.resize(glyphsJson.size());
 
-	for (i32 i = 0;  auto& glyphJson : glyphsJson) {
-		FontAtlasMSDFAsset::GlyphDataGpu glyphData;
-		const nlohmann::json& boxJson = glyphJson["Box"];
-		glyphData.top = boxJson.value("Top", 0);
-		glyphData.left = boxJson.value("Left", 0);
-		glyphData.bottom = boxJson.value("Bottom", 0);
-		glyphData.right = boxJson.value("Right", 0);
+	for (i32 i = 0; auto& glyphJson : glyphsJson) {
+		FontAtlasMSDFAsset::GlyphDataGpu glyphBuffer;
+		FontAtlasMSDFAsset::GlyphData glyphData;
+		// テクスチャUV
+		const nlohmann::json& textureJson = glyphJson["Texture"];
+		Vector2 scale = textureJson.value("Scale", CVector2::ONE);
+		Vector2 translate = textureJson.value("Translate", CVector2::ZERO);
+		glyphBuffer.uvMatrix = Transform2D::MakeAffineMatrix(scale, 0.0f, translate);
+		// 文字の矩形
+		const nlohmann::json& boundsJson = glyphJson["BoundsBox"];
+		glyphBuffer.bounds.top = boundsJson.value("Top", 0.0f);
+		glyphBuffer.bounds.left = boundsJson.value("Left", 0.0f);
+		glyphBuffer.bounds.bottom = boundsJson.value("Bottom", 0.0f);
+		glyphBuffer.bounds.right = boundsJson.value("Right", 0.0f);
+		// 文字列にする際に使う
+		glyphData.advance = glyphJson.value("Advance", 0.0f);
+		// Codepoint
 		u32 codepoint = glyphJson["Codepoint"].get<u32>();
+		// 重複登録防止
 		if (glyphMap.contains(codepoint)) {
 			continue;
 		}
-		glyphsDataBuffer[i] = glyphData;
+		// 書き込み
+		glyphsDataBuffer[i] = { glyphData, glyphBuffer };
 		glyphMap[codepoint] = i;
+
 		++i;
 	}
 

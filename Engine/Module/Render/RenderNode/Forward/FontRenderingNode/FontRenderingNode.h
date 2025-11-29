@@ -2,19 +2,21 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/Render/RenderNode/SingleRenderTargetNode.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
+#include <Engine/Module/Render/RenderNode/SingleRenderTargetNode.h>
 
 enum class PsoBlendMode : u32;
 
-class Rect3dNode final : public SingleRenderTargetNode {
+class FontRenderingNode final : public SingleRenderTargetNode {
 public:
-	Rect3dNode();
-	~Rect3dNode() noexcept;
+	FontRenderingNode();
+	~FontRenderingNode() noexcept;
 
-	__CLASS_NON_COPYABLE(Rect3dNode)
+	__CLASS_NON_COPYABLE(FontRenderingNode)
 
 public:
+	static void BeginLoadShader();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -26,4 +28,6 @@ public:
 
 private:
 	void create_pipeline_state(PsoBlendMode blendMode);
+
+private:
 };

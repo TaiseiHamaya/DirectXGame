@@ -4,9 +4,13 @@
 
 #include <thread>
 
-#include "./FontAtlasBuilderManager.h"
+#include <Library/Math/Vector2.h>
 
+#include "./FontAtlasBuilderManager.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+
+#define VECTOR2_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
 
 using namespace msdf_atlas;
 
@@ -88,24 +92,41 @@ void FontAtlasBuilder::save_atlas_data() {
 	json.load(outputPath);
 	json.get().clear();
 
+	size_t textureWidth = scratchImage.GetMetadata().width;
+	size_t textureHeight = scratchImage.GetMetadata().height;
 	// Glyphの情報を保存
 	nlohmann::json atlasJson = nlohmann::json::array();
 	for (const GlyphGeometry& glyph : glyphs) {
 		nlohmann::json glyphJson;
 		glyphJson["Codepoint"] = glyph.getCodepoint();
-		int l, b, w, h;
-		glyph.getBoxRect(l, b, w, h);
-		glyphJson["Box"] = { {"Left", l}, {"Bottom", b}, {"Right", l + w}, {"Top", b + h} };
+		double lt, bt, rt, tt;
+		glyph.getQuadAtlasBounds(lt, bt, rt, tt);
+
+		nlohmann::json textureJson = nlohmann::json::object();
+		textureJson["Scale"] = Vector2{
+			static_cast<r32>(rt - lt) / textureWidth,
+			static_cast<r32>(tt - bt) / textureHeight,
+		};
+		textureJson["Translate"] = Vector2{
+			static_cast<r32>(lt) / textureWidth,
+			static_cast<r32>(bt) / textureHeight,
+		};
+		glyphJson["Texture"] = textureJson;
+
 		glyphJson["Index"] = glyph.getIndex();
+		glyphJson["Advance"] = glyph.getAdvance();
+		double lb, bb, rb, tb;
+		glyph.getQuadPlaneBounds(lb, bb, rb, tb);
+		glyphJson["BoundsBox"] = { {"Left", lb}, {"Bottom", bb}, {"Right", rb}, {"Top", tb} };
 		atlasJson.push_back(glyphJson);
 	}
 
 	json.get()["Glyphs"] = atlasJson;
 
-	json.get()["TextureWidth"] = scratchImage.GetMetadata().width;
-	json.get()["TextureHeight"] = scratchImage.GetMetadata().height;
+	json.get()["TextureWidth"] = textureWidth;
+	json.get()["TextureHeight"] = textureHeight;
 
-	json.get()["DDSTexture"] = ttfFilePath.stem().native() + L".dds";
+	json.get()["DDSTexture"] = ttfFilePath.stem().string() + ".dds";
 
 	json.save();
 }

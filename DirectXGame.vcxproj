@@ -203,6 +203,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="EngineResources\HLSL\Forward\Font\MsdfFond.hlsli">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="EngineResources\HLSL\FullscreenShader.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -393,6 +396,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Font\MsdfFond.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Font\MsdfFond.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Forward\Primitive\Rect3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -564,6 +573,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
@@ -615,6 +625,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.cpp" />
     <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\StringRectInstance.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\bitmap-blit.cpp" />
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\charset-parser.cpp" />
@@ -803,6 +816,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\CharRectStruct.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.h" />
@@ -879,6 +894,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.h" />
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.h" />
     <ClInclude Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.h" />
+    <ClInclude Include="Engine\Module\World\Mesh\Primitive\StringRectInstance.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.h" />
+    <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\config\ftconfig.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\config\ftheader.h" />
     <ClInclude Include="Library\Externals\freetype\include\freetype\config\ftmodule.h" />

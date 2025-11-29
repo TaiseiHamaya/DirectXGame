@@ -136,12 +136,12 @@ void PSOBuilder::shaders(ShaderType type, const std::string& shaderFilename) {
 	}
 }
 
-void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
+void PSOBuilder::blendstate(PsoBlendMode blendMode, u32 renderTarget) {
 	D3D12_RENDER_TARGET_BLEND_DESC desc{};
 	desc.BlendEnable = true;
 	desc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 	switch (blendMode) {
-	case BlendMode::None:
+	case PsoBlendMode::None:
 		desc.SrcBlend = D3D12_BLEND_ONE;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ZERO;
@@ -149,7 +149,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Alpha:
+	case PsoBlendMode::Alpha:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
@@ -157,7 +157,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Add:
+	case PsoBlendMode::Add:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ONE;
@@ -165,7 +165,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Subtract:
+	case PsoBlendMode::Subtract:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
 		desc.DestBlend = D3D12_BLEND_ONE;
@@ -173,7 +173,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Multily:
+	case PsoBlendMode::Multily:
 		desc.SrcBlend = D3D12_BLEND_ZERO;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_SRC_COLOR;
@@ -181,7 +181,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Screen:
+	case PsoBlendMode::Screen:
 		desc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ZERO;
@@ -189,7 +189,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::LightingPath:
+	case PsoBlendMode::LightingPath:
 		desc.SrcBlend = D3D12_BLEND_ONE;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ONE;
