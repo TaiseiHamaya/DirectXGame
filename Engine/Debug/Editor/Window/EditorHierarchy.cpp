@@ -44,8 +44,6 @@ void EditorHierarchy::load(std::filesystem::path file) {
 	JsonAsset json{ file };
 	scene = EditorSceneSerializer::CreateRemoteScene(json.try_emplace<nlohmann::json>("Scene"));
 
-	Reference<BaseScene> currentScene = SceneManager::GetCurrentScene();
-
 	scene->setup();
 }
 
