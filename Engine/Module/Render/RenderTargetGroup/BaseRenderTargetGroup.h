@@ -27,8 +27,6 @@ public:
 	/// </summary>
 	virtual void begin_write(const eps::bitflag<RenderNodeConfig>& config, Reference<DepthStencilTexture> depthStencil);
 
-	void set_clear_color(const Color4& color) { clearColor = color; }
-
 protected:
 	/// <summary>
 	/// レンダーターゲットの設定
@@ -48,7 +46,6 @@ protected:
 	void create_view_port(u32 width, u32 height);
 
 protected:
-	Color4 clearColor{ CColor4::BLACK };
 	std::unique_ptr<D3D12_VIEWPORT> viewPort;
 	std::unique_ptr<tagRECT> scissorRect;
 };
