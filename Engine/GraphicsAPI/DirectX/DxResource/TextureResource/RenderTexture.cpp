@@ -44,13 +44,16 @@ void RenderTexture::create_resource(DXGI_FORMAT format) {
 	desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
 	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET; // レンダーターゲットとして使用する
 
+	D3D12_CLEAR_VALUE clearValue{};
+	clearValue.Format = format;
+
 	HRESULT hr;
 	hr = DxDevice::GetDevice()->CreateCommittedResource(
 		&uploadHeapProperties,
-		D3D12_HEAP_FLAG_ALLOW_DISPLAY, // ALLOW_DISPLAYとすることでRenderTargetとして使用できる
+		D3D12_HEAP_FLAG_NONE,
 		&desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, // 最初はRead状態から開始
-		nullptr,
+		&clearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 	szgErrorIf(FAILED(hr), "Failed create offscreen resource. Width-\'{}\', Height-\'{}\', Format-\'{}\'",

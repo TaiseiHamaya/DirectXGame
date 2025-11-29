@@ -12,6 +12,10 @@ void SwapChainRenderTargetGroup::set_resource(Reference<ScreenTexture> texture, 
 	textures[index] = texture;
 }
 
+void SwapChainRenderTargetGroup::set_clear_color(const Color4& color) noexcept {
+	clearColor = color;
+}
+
 void SwapChainRenderTargetGroup::start_render_target(Reference<DepthStencilTexture> depthStencil) {
 	u32 backBufferIndex = RenderingSystemValues::NowBackbufferIndex();
 	textures[backBufferIndex]->start_write();

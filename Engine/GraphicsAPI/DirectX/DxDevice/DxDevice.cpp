@@ -80,9 +80,17 @@ void DxDevice::check_future() {
 	}
 
 	{ // DXGI Format Support
-		D3D12_FEATURE_DATA_FORMAT_SUPPORT formatSupport = { DXGI_FORMAT_R10G10B10A2_UNORM, D3D12_FORMAT_SUPPORT1_NONE, D3D12_FORMAT_SUPPORT2_NONE };
-		hr = device->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &formatSupport, sizeof(formatSupport));
-		if (FAILED(hr) || !(formatSupport.Support1 & D3D12_FORMAT_SUPPORT1_RENDER_TARGET)) {
+		D3D12_FEATURE_DATA_FORMAT_SUPPORT formatSupportRGB10UNORM = { DXGI_FORMAT_R10G10B10A2_UNORM, D3D12_FORMAT_SUPPORT1_NONE, D3D12_FORMAT_SUPPORT2_NONE };
+		hr = device->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &formatSupportRGB10UNORM, sizeof(formatSupportRGB10UNORM));
+		if (FAILED(hr) || !(formatSupportRGB10UNORM.Support1 & D3D12_FORMAT_SUPPORT1_RENDER_TARGET)) {
+			szgCritical("Your hardware isn't support.");
+		}
+		D3D12_FEATURE_DATA_FORMAT_SUPPORT formatSupportR32UINT = { DXGI_FORMAT_R32_UINT, D3D12_FORMAT_SUPPORT1_NONE, D3D12_FORMAT_SUPPORT2_NONE };
+		hr = device->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &formatSupportR32UINT, sizeof(formatSupportR32UINT));
+		if (FAILED(hr) || 
+			!(formatSupportR32UINT.Support1 & D3D12_FORMAT_SUPPORT1_RENDER_TARGET) || 
+			!(formatSupportR32UINT.Support1 & D3D12_FORMAT_SUPPORT1_SHADER_LOAD)
+			) {
 			szgCritical("Your hardware isn't support.");
 		}
 	}
