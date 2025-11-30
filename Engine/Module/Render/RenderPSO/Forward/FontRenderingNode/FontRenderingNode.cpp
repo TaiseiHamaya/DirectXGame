@@ -18,7 +18,6 @@ void FontRenderingNode::initialize() {
 }
 
 void FontRenderingNode::initialize(BlendMode blendMode) {
-	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
 	create_pipeline_state(static_cast<PsoBlendMode>(blendMode));
 	pipelineState->set_name("Rect3dNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -38,7 +37,7 @@ void FontRenderingNode::create_pipeline_state(PsoBlendMode blendMode) {
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
+	psoBuilder->depth_state(RenderingSystemValues::GetDepthStencilTexture()->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(ShaderType::Vertex, "MsdfFond.VS.hlsl");

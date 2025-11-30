@@ -54,6 +54,7 @@ inline Reference<T> WorldRoot::instantiate(Reference<WorldInstance> parent, Args
 	}
 	++nextInstanceId;
 
+	result->setup_world_root(this);
 	result->reparent(parent, false);
 	
 	instanceBucket->register_instance(result);

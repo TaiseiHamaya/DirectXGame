@@ -36,6 +36,8 @@ public:
 
 	void end_frame();
 
+	void finalize();
+
 public:
 	Reference<WorldCluster> get_world(u32 index);
 
@@ -44,9 +46,9 @@ public:
 
 protected:
 	std::string sceneName;
+	SceneScriptManager sceneScriptManager;
 
 private:
 	std::vector<std::unique_ptr<WorldCluster>> worlds;
 	RenderDAG renderDAG;
-	SceneScriptManager sceneScriptManager;
 };

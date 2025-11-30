@@ -19,6 +19,7 @@
 #include "./RenderDagImNode/WorldLayerRenderImNode.h"
 #include "Engine/Application/Logger.h"
 #include "RenderDagImNode/IRenderDagImNode.h"
+#include <Engine/Runtime/Scene/SceneManager2.h>
 
 EditorRenderDAG::EditorRenderDAG() {
 	isActive = true;
@@ -120,7 +121,13 @@ void EditorRenderDAG::draw() {
 	ImGui::Begin("Render DAG Editor", &isActive, flags);
 
 	if (ImGui::Button("Save")) {
-		RenderDAGImNodeSaver{}.entry_point("EditorTestScene", nodes);
+		Reference<Scene> scene = SceneManager2::GetCurrentScene();
+		if (scene) {
+			RenderDAGImNodeSaver{}.entry_point(std::string(scene->name()), nodes);
+		}
+		else {
+			szgWarning("No active scene found. Cannot save Render DAG.");
+		}
 	}
 
 	if (!nodes.contains(0)) {

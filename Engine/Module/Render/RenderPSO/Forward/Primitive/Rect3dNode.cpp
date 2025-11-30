@@ -32,14 +32,8 @@ void Rect3dNode::create_pipeline_state(PsoBlendMode blendMode) {
 		D3D12_TEXTURE_ADDRESS_MODE_WRAP
 	);
 
-	InputLayoutBuilder inputLayoutBuilder;
-	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
-	inputLayoutBuilder.add_element("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT);
-	inputLayoutBuilder.add_element("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT);
-
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->depth_state(RenderingSystemValues::GetDepthStencilTexture()->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
-	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(ShaderType::Vertex, "Rect3d.VS.hlsl");
