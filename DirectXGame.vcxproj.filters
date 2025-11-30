@@ -1770,7 +1770,6 @@
     <ClInclude Include="Library\Utility\Tools\SmartPointer.h">
       <Filter>Library\Utility\Tools</Filter>
     </ClInclude>
-    <None Include="EngineResources\HLSL\Forward\Font\MsdfFond.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -2036,9 +2035,5 @@
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\CharRectStruct.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="EngineResources\HLSL\Forward\Font\MsdfFond.PS.hlsl" />
-    <FxCompile Include="EngineResources\HLSL\Forward\Font\MsdfFond.VS.hlsl" />
   </ItemGroup>
 </Project>
