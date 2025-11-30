@@ -24,6 +24,13 @@ public:
 
 	void transfer() override;
 
+public:
+	/// <summary>
+	/// postprocess後のみ使用可能
+	/// </summary>
+	/// <returns></returns>
+	std::shared_ptr<const TextureAsset> texture_data() const;
+
 private:
 	[[nodiscard]] static std::variant<HRESULT, DirectX::ScratchImage> LoadTextureData(const std::filesystem::path& filePath);
 	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateResource(const DirectX::TexMetadata& metadata);

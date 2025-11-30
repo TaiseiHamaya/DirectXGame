@@ -13,6 +13,9 @@
 #include "Command/EditorSelectCommand.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Debug/Editor/Asset/FontAtlas/FontAtlasBuilderManager.h"
+
+#include "Engine/Debug/Editor/Asset/FontAtlas/FontAtlasBuilder.h"
 
 #include "./Window/EditorLogWindow.h"
 
@@ -27,9 +30,14 @@ void EditorMain::Initialize() {
 	instance.screenResult.initialize(true);
 
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
+
+	FontAtlasBuilderManager::Initialize();
+	//FontAtlasBuilder{}.entry_point("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf");
 }
 
 void EditorMain::Finalize() {
+	FontAtlasBuilderManager::Finalizce();
+
 	EditorMain& instance = GetInstance();
 
 	nlohmann::json json;

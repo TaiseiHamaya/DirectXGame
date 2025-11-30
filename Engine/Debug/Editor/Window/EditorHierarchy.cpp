@@ -44,8 +44,6 @@ void EditorHierarchy::load(const std::string& sceneName) {
 	//JsonAsset json{ std::format("./Game/Core/Scene/{}.json", sceneName) };
 	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
-	Reference<Scene> currentScene = SceneManager2::GetCurrentScene();
-
 	scene->setup();
 }
 

@@ -51,10 +51,14 @@ void TextureAssetBuilder::transfer() {
 	TextureLibrary::Transfer(filePath.filename().string(), textureData);
 }
 
+std::shared_ptr<const TextureAsset> TextureAssetBuilder::texture_data() const {
+	return textureData;
+}
+
 std::variant<HRESULT, DirectX::ScratchImage> TextureAssetBuilder::LoadTextureData(const std::filesystem::path& filePath) {
 	HRESULT hr;
 	DirectX::ScratchImage image{};
-	if (filePath.native().ends_with(L".dds")) {
+	if (filePath.extension() == L".dds") {
 		hr = DirectX::LoadFromDDSFile(filePath.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
 	}
 	else {

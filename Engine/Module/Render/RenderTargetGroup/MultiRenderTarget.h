@@ -69,6 +69,6 @@ inline void MultiRenderTarget<NumRenderTarget>::start_render_target(Reference<De
 template<u32 NumRenderTarget>
 inline void MultiRenderTarget<NumRenderTarget>::clear_render_target() {
 	for (Reference<RenderTexture>& renderTarget : renderTextures) {
-		renderTarget->get_as_rtv()->clear(clearColor);
+		renderTarget->get_as_rtv()->clear();
 	}
 }

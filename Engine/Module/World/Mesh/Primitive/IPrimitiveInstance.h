@@ -10,12 +10,6 @@
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
-enum class PrimitiveType {
-	Rect3D,
-	Circle,
-	Cylinder,
-};
-
 struct PrimitiveMaterial {
 	std::shared_ptr<const TextureAsset> texture;
 	Color4 color;
@@ -25,7 +19,7 @@ struct PrimitiveMaterial {
 };
 
 template<typename PrimitiveData>
-class IPrimitiveInstance : public IDrawInstance<PrimitiveType> {
+class IPrimitiveInstance : public IDrawInstance<BlendMode> {
 public:
 	IPrimitiveInstance() noexcept;
 	virtual ~IPrimitiveInstance() noexcept = default;

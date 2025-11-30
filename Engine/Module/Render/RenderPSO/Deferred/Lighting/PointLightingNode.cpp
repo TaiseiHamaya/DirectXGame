@@ -43,7 +43,7 @@ void PointLightingNode::create_pipeline_state() {
 	inputLayoutBuilder.add_element("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate(BlendMode::LightingPath);
+	psoBuilder->blendstate(PsoBlendMode::LightingPath);
 	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_FRONT);
 	psoBuilder->inputlayout(inputLayoutBuilder.build());
 	psoBuilder->rootsignature(rootSignatureBuilder.build());

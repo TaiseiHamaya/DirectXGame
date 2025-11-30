@@ -78,8 +78,8 @@ inline void JsonAsset::register_value(const std::string& name, T& value, [[maybe
 	value = std::move(this->try_emplace<T>(name));
 #ifdef DEBUG_FEATURES_ENABLE
 	valueEditor.register_value(
-		[&, name]() { this->write(name, value); },
-		name, value, std::forward(args)...
+		[&, name, value = &value]() { this->write(name, *value); },
+		name, &value, std::forward(args)...
 	);
 #endif // _DEBUG
 }

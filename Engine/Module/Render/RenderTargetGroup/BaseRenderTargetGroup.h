@@ -21,8 +21,6 @@ public:
 	/// </summary>
 	virtual void begin_write(bool isClear, Reference<DepthStencilTexture> depthStencil = nullptr);
 
-	void set_clear_color(const Color4& color) { clearColor = color; }
-
 protected:
 	/// <summary>
 	/// レンダーターゲットの設定
@@ -33,8 +31,5 @@ protected:
 	/// レンダーターゲットのクリア
 	/// </summary>
 	virtual void clear_render_target() = 0;
-
-protected:
-	Color4 clearColor{ CColor4::BLACK };
 };
 

@@ -20,5 +20,5 @@ void SingleRenderTarget::start_render_target(Reference<DepthStencilTexture> dept
 }
 
 void SingleRenderTarget::clear_render_target() {
-	view->clear(clearColor);
+	view->clear();
 }
