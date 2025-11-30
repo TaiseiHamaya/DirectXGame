@@ -51,12 +51,12 @@ public: // Member function
 
 public: // Getter/Setter
 	const Color4& get_color() const { return color; };
-	bool is_destroy() const { return isDestroy; };
+	bool is_ended() const { return isEnded; };
 
 	const Matrix4x4 create_uv_matrix() const;
 
 protected: // Member variable
-	bool isDestroy = false;
+	bool isEnded = false;
 
 	WorldTimer timer;
 	r32 lifetime;
