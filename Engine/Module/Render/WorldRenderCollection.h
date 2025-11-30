@@ -6,6 +6,7 @@
 
 #include "Engine/Module/DrawExecutor/LightingExecutor/DirectionalLightingExecutor.h"
 #include "Engine/Module/DrawExecutor/LightingExecutor/PointLightingExecutor.h"
+#include "Engine/Module/DrawExecutor/Mesh/Primitive/StringRectDrawManager.h"
 #include "Engine/Module/DrawExecutor/Mesh/Primitive/Rect3dDrawManager.h"
 #include "Engine/Module/DrawExecutor/Mesh/SkinningMeshDrawManager.h"
 #include "Engine/Module/DrawExecutor/Mesh/StaticMeshDrawManager.h"
@@ -42,6 +43,7 @@ private:
 	StaticMeshDrawManager staticMeshDrawManager;
 	SkinningMeshDrawManager skinningMeshDrawManager;
 	Rect3dDrawManager rect3dDrawManager;
+	StringRectDrawManager stringRectDrawManager;
 	std::vector<DirectionalLightingExecutor> directionalLightingExecutors;
 	std::vector<PointLightingExecutor> pointLightingExecutors;
 

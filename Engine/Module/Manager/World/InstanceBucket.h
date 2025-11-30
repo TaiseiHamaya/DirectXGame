@@ -11,6 +11,7 @@ class SkinningMeshInstance;
 class DirectionalLightInstance;
 class PointLightInstance;
 class Rect3d;
+class StringRectInstance;
 
 class InstanceBucket final {
 	friend class WorldRenderCollection;
@@ -34,6 +35,7 @@ private:
 	std::vector<Reference<DirectionalLightInstance>> directionalLightInstance;
 	std::vector<Reference<PointLightInstance>> pointLightInstance;
 	std::vector<Reference<Rect3d>> rect;
+	std::vector<Reference<StringRectInstance>> stringRect;
 };
 
 template<typename T>
@@ -55,5 +57,8 @@ void InstanceBucket::register_instance(Reference<T> instance) {
 	}
 	else if constexpr (std::derived_from<T, Rect3d>) {
 		rect.emplace_back(instance);
+	}
+	else if constexpr (std::derived_from<T, StringRectInstance>) {
+		stringRect.emplace_back(instance);
 	}
 }
