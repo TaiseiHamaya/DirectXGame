@@ -81,6 +81,11 @@ void WorldLayerRenderNode::stack_command() {
 	data.layerData.worldRenderCollection->directionalLightingExecutors[data.layerData.index].set_command(5);
 	data.layerData.worldRenderCollection->rect3dDrawManager.draw_layer(data.layerData.index);
 
+	// StringRect
+	subtree.next_node();
+	camera->register_world_projection(3);
+	data.layerData.worldRenderCollection->stringRectDrawManager.draw_layer(data.layerData.index);
+
 	subtree.next_node();
 }
 

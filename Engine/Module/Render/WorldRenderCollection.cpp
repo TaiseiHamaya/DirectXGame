@@ -17,6 +17,7 @@ void WorldRenderCollection::setup(u8 numLayer_) {
 	staticMeshDrawManager.initialize(numLayer);
 	skinningMeshDrawManager.initialize(numLayer);
 	rect3dDrawManager.initialize(numLayer);
+	stringRectDrawManager.initialize(numLayer);
 
 	// ライティング関連
 	directionalLightingExecutors.resize(numLayer);
@@ -33,6 +34,7 @@ void WorldRenderCollection::remove_marked_destroy() {
 	staticMeshDrawManager.remove_marked_destroy();
 	skinningMeshDrawManager.remove_marked_destroy();
 	rect3dDrawManager.remove_marked_destroy();
+	stringRectDrawManager.remove_marked_destroy();
 	std::erase_if(directionalLights, [](const Reference<DirectionalLightInstance>& instance) {
 		return instance->is_marked_destroy();
 	});
@@ -53,6 +55,10 @@ void WorldRenderCollection::collect_instantiated(Reference<InstanceBucket> insta
 	// Rect3d
 	for (auto& instance : instanceBucket->rect) {
 		rect3dDrawManager.register_instance(instance);
+	}
+	// StringRect
+	for (auto& instance : instanceBucket->stringRect) {
+		stringRectDrawManager.register_instance(instance);
 	}
 
 	// Directional Light
@@ -76,6 +82,8 @@ void WorldRenderCollection::transfer() {
 	skinningMeshDrawManager.transfer();
 	// Rect3d
 	rect3dDrawManager.transfer();
+	// StringRect
+	stringRectDrawManager.transfer();
 
 	for (auto& lightExecutor : directionalLightingExecutors) {
 		lightExecutor.begin();

@@ -7,4 +7,5 @@ void InstanceBucket::reset() {
 	directionalLightInstance.clear();
 	pointLightInstance.clear();
 	rect.clear();
+	stringRect.clear();
 }
