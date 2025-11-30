@@ -19,7 +19,7 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 		output = float4(albedo, 1);
 	}
 	else {
-		output = float4(0, 0, 0, 1);
+		discard;
 	}
 	return output;
 }

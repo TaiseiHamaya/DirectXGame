@@ -44,6 +44,10 @@ void RenderTexture::create_resource(DXGI_FORMAT format) {
 	desc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
 	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET; // レンダーターゲットとして使用する
 
+	D3D12_CLEAR_VALUE clearValue{};
+	clearValue.Format = format;
+	clearValue.Color[3] = 1.0f;
+
 	HRESULT hr;
 	hr = DxDevice::GetDevice()->CreateCommittedResource(
 		&uploadHeapProperties,

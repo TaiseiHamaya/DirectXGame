@@ -12,6 +12,7 @@
 #include "./Window/EditorHierarchy.h"
 #include "./Window/EditorInspector.h"
 #include "./Window/EditorSceneView.h"
+#include "./Window/EditorScreenResult.h"
 #include "./Window/EditorRenderDAG.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
 
@@ -42,6 +43,7 @@ private:
 	InputHandler<KeyID> input;
 
 	EditorSceneView sceneView;
+	EditorScreenResult screenResult;
 	EditorHierarchy hierarchy;
 	EditorInspector inspector;
 	EditorGizmo gizmo;

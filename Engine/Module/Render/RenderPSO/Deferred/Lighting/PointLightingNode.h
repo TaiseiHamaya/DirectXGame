@@ -15,7 +15,9 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void preprocess() override;
+	void preprocess() override {};
+
+	void stack_lighting_command();
 
 	void set_gbuffers(std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gBufferTextures_);
 

@@ -158,6 +158,7 @@ std::unique_ptr<IRenderNode> RenderNodeLoader::load_as_world_render(const nlohma
 				renderTargetGroup,
 				renderTexture
 			);
+			resultData.layerData.isClearRenderTarget = true;
 		}
 	}
 

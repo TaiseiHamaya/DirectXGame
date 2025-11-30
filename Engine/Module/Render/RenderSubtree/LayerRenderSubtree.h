@@ -8,6 +8,9 @@
 #include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
 
 class RenderTexture;
+class NonLightingPixelNode;
+class DirectionalLightingNode;
+class PointLightingNode;
 
 class LayerRenderSubtree {
 public:
@@ -18,4 +21,10 @@ public:
 
 private:
 	RenderPath renderSubtree;
+
+	i32 counter{0};
+
+	std::shared_ptr<NonLightingPixelNode> nonLightingPixelNode;
+	std::shared_ptr<DirectionalLightingNode> directionalLightingNode;
+	std::shared_ptr<PointLightingNode> pointLightingNode;
 };

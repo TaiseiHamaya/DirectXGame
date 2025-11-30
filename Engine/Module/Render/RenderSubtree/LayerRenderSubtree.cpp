@@ -24,22 +24,22 @@ void LayerRenderSubtree::setup(std::array<Reference<RenderTexture>, DeferredAdap
 	// ライティングパス
 	{
 		{
-			auto node = std::make_shared<NonLightingPixelNode>();
-			node->initialize();
-			node->set_gbuffers(gBuffer[0]);
-			nodes.emplace_back(node);
+			nonLightingPixelNode = std::make_shared<NonLightingPixelNode>();
+			nonLightingPixelNode->initialize();
+			nonLightingPixelNode->set_gbuffers(gBuffer[0]);
+			nodes.emplace_back(nonLightingPixelNode);
 		}
 		{
-			auto node = std::make_shared<DirectionalLightingNode>();
-			node->initialize();
-			node->set_gbuffers(gBuffer);
-			nodes.emplace_back(node);
+			directionalLightingNode = std::make_shared<DirectionalLightingNode>();
+			directionalLightingNode->initialize();
+			directionalLightingNode->set_gbuffers(gBuffer);
+			nodes.emplace_back(directionalLightingNode);
 		}
 		{
-			auto node = std::make_shared<PointLightingNode>();
-			node->initialize();
-			node->set_gbuffers(gBuffer);
-			nodes.emplace_back(node);
+			pointLightingNode = std::make_shared<PointLightingNode>();
+			pointLightingNode->initialize();
+			pointLightingNode->set_gbuffers(gBuffer);
+			nodes.emplace_back(pointLightingNode);
 		}
 	}
 	// Primitiveパス
@@ -54,8 +54,23 @@ void LayerRenderSubtree::setup(std::array<Reference<RenderTexture>, DeferredAdap
 
 void LayerRenderSubtree::begin_nodes() {
 	renderSubtree.begin();
+	counter = 1;
 }
 
 void LayerRenderSubtree::next_node() {
 	renderSubtree.next();
+	switch (counter) {
+	case 2:
+		nonLightingPixelNode->stack_lighting_command();
+		break;
+	case 3:
+		directionalLightingNode->stack_lighting_command();
+		break;
+	case 4:
+		pointLightingNode->stack_lighting_command();
+		break;
+	default:
+		break;
+	}
+	++counter;
 }

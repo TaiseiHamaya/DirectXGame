@@ -3,6 +3,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void PostEffectNode::stack_command() {
+	data.postEffectPSO->preprocess();
+
 	auto&& commandList = DxCommand::GetCommandList();
 	// ViewPortの設定
 	commandList->RSSetViewports(1, &data.viewport);

@@ -1,7 +1,7 @@
 #include "WorldLayerRenderNode.h"
 
-#include "Engine/Application/Logger.h"
 #include "../WorldRenderCollection.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Module/World/Camera/Camera3D.h"
@@ -22,6 +22,8 @@ void WorldLayerRenderNode::stack_command() {
 		return;
 	}
 
+	camera->transfer();
+
 	auto&& commandList = DxCommand::GetCommandList();
 	Reference<DepthStencilTexture> depthStencilTexture = RenderingSystemValues::GetDepthStencilTexture();
 
@@ -32,6 +34,7 @@ void WorldLayerRenderNode::stack_command() {
 	commandList->RSSetScissorRects(1, &data.gBuffer.rect);
 	data.gBuffer.renderTarget->begin_write(true, depthStencilTexture);
 	depthStencilTexture->start_write();
+	depthStencilTexture->get_as_dsv()->clear();
 
 	// ----- GBufferPass -----
 	// StaticMesh
@@ -46,10 +49,14 @@ void WorldLayerRenderNode::stack_command() {
 
 	// ----- LightingPass -----
 	// ViewPortの設定
-	commandList->RSSetViewports(1, &data.gBuffer.viewport);
+	commandList->RSSetViewports(1, &data.layerData.viewport);
 	// シザー矩形の設定
-	commandList->RSSetScissorRects(1, &data.gBuffer.rect);
-	data.outputRenderTargetGroup->begin_write(false, depthStencilTexture);
+	commandList->RSSetScissorRects(1, &data.layerData.rect);
+	data.outputRenderTargetGroup->begin_write(data.layerData.isClearRenderTarget, depthStencilTexture);
+
+	data.gBuffer.texture[0]->start_read();
+	data.gBuffer.texture[1]->start_read();
+	depthStencilTexture->start_read();
 
 	// NonLightingPixel
 	subtree.next_node(); // 自動実行

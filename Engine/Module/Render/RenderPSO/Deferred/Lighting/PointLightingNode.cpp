@@ -16,7 +16,7 @@ void PointLightingNode::initialize() {
 	depthTexture = RenderingSystemValues::GetDepthStencilTexture();
 }
 
-void PointLightingNode::preprocess() {
+void PointLightingNode::stack_lighting_command() {
 	for (u32 i = 0; i < DeferredAdaptor::NUM_GBUFFER; ++i) {
 		gBufferTextures[i]->start_read();
 		gBufferTextures[i]->get_as_srv()->use(i + 2);

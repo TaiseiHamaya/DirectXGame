@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -247,6 +247,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorRenderDAG.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorSceneView.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorScreenResult.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\IEditorWindow.cpp" />
@@ -491,6 +492,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
     <ClInclude Include="Engine\Application\ArgumentParser.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />

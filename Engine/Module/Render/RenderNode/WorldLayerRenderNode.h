@@ -29,6 +29,8 @@ public:
 
 		RECT rect;
 		D3D12_VIEWPORT viewport;
+
+		bool isClearRenderTarget;
 	};
 
 	struct Data {

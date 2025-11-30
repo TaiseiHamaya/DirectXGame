@@ -13,7 +13,7 @@ void NonLightingPixelNode::initialize() {
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void NonLightingPixelNode::preprocess() {
+void NonLightingPixelNode::stack_lighting_command() {
 	gBufferColorTexture->start_read();
 	auto& command = DxCommand::GetCommandList();
 	gBufferColorTexture->get_as_srv()->use(0);

@@ -14,9 +14,6 @@ public:
 	BaseLightInstance& operator=(BaseLightInstance&&) = default;
 
 public:
-	const T& light_data() const { return lightData; };
-
-public:
 	/// <summary>
 	/// ライトデータの不変参照
 	/// </summary>
@@ -28,6 +25,8 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	T& light_data_mut() { return lightData; };
+
+	void set_influence_layer(u32 layer) { layerMask = layer; }
 
 	u32 influence_layer() const { return layerMask; }
 
