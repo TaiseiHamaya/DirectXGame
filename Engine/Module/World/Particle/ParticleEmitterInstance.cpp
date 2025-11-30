@@ -77,7 +77,7 @@ void ParticleEmitterInstance::update() {
 	// 削除
 	particles.remove_if(
 		[&](Reference<Particle>& particle) {
-		if (particle->is_destroy()) {
+		if (particle->is_ended()) {
 			Reference<WorldRoot> manager = world_root_mut();
 			manager->destroy(particle);
 			return true;

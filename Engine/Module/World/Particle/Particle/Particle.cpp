@@ -106,7 +106,7 @@ void Particle::update() {
 	}
 
 	if (timer >= lifetime) {
-		isDestroy = true;
+		isEnded = true;
 	}
 }
 

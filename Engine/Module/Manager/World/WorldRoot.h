@@ -52,12 +52,14 @@ inline Reference<T> WorldRoot::instantiate(Reference<WorldInstance> parent, Args
 	if (!emplaced) {
 		szgWarning("Instantiate failed for an unknown reason. Type-\'{}\'", typeid(T).name());
 	}
-	++nextInstanceId;
 
+	result->setup_id(nextInstanceId);
 	result->setup_world_root(this);
 	result->reparent(parent, false);
 	
 	instanceBucket->register_instance(result);
+
+	++nextInstanceId;
 
 	return result;
 }
