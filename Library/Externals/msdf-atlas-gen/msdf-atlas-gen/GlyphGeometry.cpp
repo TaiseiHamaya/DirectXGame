@@ -4,6 +4,10 @@
 #include <cmath>
 #include <core/ShapeDistanceFinder.h>
 
+#pragma warning(push)
+#pragma warning(disable : 4458)
+#pragma warning(disable : 4100)
+
 namespace msdf_atlas {
 
 GlyphGeometry::GlyphGeometry() : index(), codepoint(), geometryScale(), bounds(), advance(), box() { }

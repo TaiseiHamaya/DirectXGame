@@ -34,6 +34,9 @@ void RemoteSkinningMeshInstance::update_preview(Reference<RemoteWorldObject> wor
 	debugVisual->localAffine = worldAffine;
 	debugVisual->isDraw = isDraw.cget();
 
+	if(debugVisual->keyID != meshName) {
+		return;
+	}
 	for (i32 i = 0; i < materials.size(); ++i) {
 		RemoteSkinningMeshInstance::Material& source = materials[i];
 		StaticMeshInstance::Material& write = debugVisual->materials[i];
@@ -220,7 +223,7 @@ void RemoteSkinningMeshInstance::on_spawn() {
 }
 
 void RemoteSkinningMeshInstance::on_destroy() {
-	debugVisual->set_layer(-1);
+	debugVisual->set_layer(std::numeric_limits<u32>::max());
 }
 
 void RemoteSkinningMeshInstance::default_material() {

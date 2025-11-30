@@ -1,11 +1,9 @@
 #include "SwapChainRenderTargetGroup.h"
 
-#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void SwapChainRenderTargetGroup::initialize() {
 	textures.resize(ProjectSettings::GetGraphicsSettingsImm().numBuffering);
-	create_view_port(ProjectSettings::ClientWidth(), ProjectSettings::ClientHeight());
 }
 
 void SwapChainRenderTargetGroup::set_resource(Reference<ScreenTexture> texture, u32 index) {

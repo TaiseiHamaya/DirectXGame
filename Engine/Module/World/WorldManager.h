@@ -26,7 +26,7 @@ public:
 	void erase(Reference<WorldInstance> instance);
 
 	template<std::derived_from<WorldInstance> T, typename ...Args>
-	[[nodiscard]] std::unique_ptr<T> create(Reference<const WorldInstance> parent = nullptr, Args&&... args);
+	[[nodiscard]] std::unique_ptr<T> create(Reference<WorldInstance> parent = nullptr, Args&&... args);
 
 	std::vector<std::unordered_set<Reference<WorldInstance>>>& get_world_instances();
 	const std::vector<std::unordered_set<Reference<WorldInstance>>>& get_world_instances() const;
@@ -36,7 +36,7 @@ private:
 };
 
 template<std::derived_from<WorldInstance> T, typename ...Args>
-inline std::unique_ptr<T> WorldManager::create(Reference<const WorldInstance> parent, Args&&... args) {
+inline std::unique_ptr<T> WorldManager::create(Reference<WorldInstance> parent, Args&&... args) {
 	std::unique_ptr<T> instance = std::make_unique<T>(args...);
 	Reference<WorldInstance> ref = instance;
 	ref->set_world_manager(this);

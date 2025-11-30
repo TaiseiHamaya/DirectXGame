@@ -17,8 +17,8 @@ Reference<IRemoteObject> IRemoteObject::get_parent() const {
 	return parent;
 }
 
-void IRemoteObject::Setup(Reference<EditorSceneView> sceneView) {
-	IRemoteObject::sceneView = sceneView;
+void IRemoteObject::Setup(Reference<EditorSceneView> sceneView_) {
+	IRemoteObject::sceneView = sceneView_;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -18,7 +18,7 @@ public:
 	D3D12_RESOURCE_STATES use_state() const  override { return D3D12_RESOURCE_STATE_GENERIC_READ; };
 
 public:
-	void use(u32 index) const;
+	void use(u32 paramIndex) const;
 
 private:
 

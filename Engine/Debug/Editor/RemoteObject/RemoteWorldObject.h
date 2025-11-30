@@ -56,6 +56,8 @@ private:
 
 	u32 id;
 
+	EditorValueField<u32> numLayer{ "NumLayer", 1 };
+
 private:
 	inline static u32 nextUseId{ 0 };
 };

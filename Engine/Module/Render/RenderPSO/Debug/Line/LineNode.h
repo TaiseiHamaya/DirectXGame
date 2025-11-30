@@ -1,0 +1,25 @@
+#pragma once
+
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
+
+class LineNode final : public BaseRenderNode {
+public:
+	LineNode();
+	~LineNode() noexcept;
+
+	LineNode(const LineNode&) = delete;
+	LineNode& operator=(const LineNode&) = delete;
+	LineNode(LineNode&&) = default;
+	LineNode& operator=(LineNode&&) = default;
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void initialize() override;
+
+	void preprocess() override {};
+
+private:
+	void create_pipeline_state();
+};

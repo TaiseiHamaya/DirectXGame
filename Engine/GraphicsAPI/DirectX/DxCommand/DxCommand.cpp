@@ -131,10 +131,10 @@ void DxCommand::create_fence() {
 	hr = DxDevice::GetDevice()->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&textureFence));
 	szgCriticalIf(FAILED(hr), "");
 
-	HANDLE fenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	fenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	szgCriticalIf(fenceEvent == nullptr, "Failed create fence event.");
 
-	HANDLE textureFenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	textureFenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	szgCriticalIf(textureFenceEvent == nullptr, "Failed create fence event.");
 	fenceIndex = 0;
 	textureFenceIndex = 0;

@@ -7,6 +7,9 @@
 
 #include <cstdio>
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
+
 #ifdef MSDFGEN_USE_CPP11
     #include <cstdint>
 #else

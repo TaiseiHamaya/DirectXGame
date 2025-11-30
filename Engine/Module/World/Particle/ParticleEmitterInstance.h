@@ -8,8 +8,8 @@
 
 #include "./DrawSystem/BaseParticleDrawSystem.h"
 #include "./Particle/Particle.h"
-#include "Engine/Runtime/Clock/WorldTimer.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Runtime/Clock/WorldTimer.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER
@@ -115,7 +115,7 @@ public: // Member function
 	virtual void transfer();
 	void draw() const;
 
-	virtual void on_emit(Particle* const particle) {};
+	virtual void on_emit(Particle* const) {};
 	virtual void restart();
 
 	void emit();
@@ -123,6 +123,9 @@ public: // Member function
 
 protected:
 	void emit_once();
+
+protected:
+	void on_mark_destroy() override;
 
 public:
 	bool is_end_all() const;
@@ -133,10 +136,10 @@ private:
 
 public: // Getter/Setter
 
-//#ifdef DEBUG_FEATURES_ENABLE
-//public:
-//	void debug_gui();
-//#endif // _DEBUG
+	//#ifdef DEBUG_FEATURES_ENABLE
+	//public:
+	//	void debug_gui();
+	//#endif // _DEBUG
 
 protected: // Member variable
 	WorldTimer timer;
@@ -162,7 +165,7 @@ protected: // Member variable
 
 private:
 	u32 numMaxParticle{ 0 };
-	std::list<std::unique_ptr<Particle>> particles;
+	std::list<Reference<Particle>> particles;
 	std::unique_ptr<BaseParticleDrawSystem> drawSystem;
 };
 

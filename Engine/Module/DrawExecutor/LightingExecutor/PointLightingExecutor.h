@@ -13,12 +13,12 @@ public:
 	PointLightingExecutor() = default;
 	~PointLightingExecutor() = default;
 
-	PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance);
+	PointLightingExecutor(u32 maxInstance);
 	
 	__CLASS_NON_COPYABLE(PointLightingExecutor)
 
 public:
-	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance);
+	void reinitialize(u32 maxInstance);
 	void draw_command() const override;
 	void write_to_buffer(Reference<const PointLightInstance> instance) override;
 

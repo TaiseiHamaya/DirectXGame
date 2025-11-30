@@ -5,14 +5,8 @@ public:
 	Framework() = default;
 	virtual ~Framework() = default;
 
-protected:
-	virtual void initialize();
-	virtual void finalize();
-	void begin_frame();
-	virtual void update();
-	virtual void draw() const;
-	void end_frame();
-
 public:
+	virtual void initialize() = 0;
+
 	void run();
 };

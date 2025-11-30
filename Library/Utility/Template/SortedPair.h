@@ -36,8 +36,10 @@ public:
 	constexpr SortedPair(const T& val1, const T& val2);
 
 public:
-	constexpr T& small() const { return values.first; };
-	constexpr T& big() const { return values.second; };
+	constexpr const T& small() const { return values.first; };
+	constexpr const T& big() const { return values.second; };
+	constexpr T& small() { return values.first; };
+	constexpr T& big() { return values.second; };
 
 private:
 	std::pair<T, T> values;

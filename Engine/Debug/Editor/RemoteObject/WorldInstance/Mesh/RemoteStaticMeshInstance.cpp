@@ -31,6 +31,9 @@ void RemoteStaticMeshInstance::update_preview(Reference<RemoteWorldObject> world
 	debugVisual->localAffine = worldAffine;
 	debugVisual->isDraw = isDraw.cget();
 
+	if (debugVisual->keyID != meshName) {
+		return;
+	}
 	for (i32 i = 0; i < materials.size(); ++i) {
 		RemoteStaticMeshInstance::Material& source = materials[i];
 		StaticMeshInstance::Material& write = debugVisual->materials[i];
@@ -192,7 +195,7 @@ void RemoteStaticMeshInstance::on_spawn() {
 }
 
 void RemoteStaticMeshInstance::on_destroy() {
-	debugVisual->set_layer(-1);
+	debugVisual->set_layer(std::numeric_limits<u32>::max());
 
 	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::on_destroy();
 }

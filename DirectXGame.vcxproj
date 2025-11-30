@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -73,7 +73,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NOMINMAX;ASIO_STANDALONE;_WIN32_WINNT=0x0A00;DEBUG_FEATURES_ENABLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -93,6 +93,7 @@
       <AdditionalDependencies>game.lib;Asio.lib;freetype.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(ProjectDir)Library\Externals\freetype\lib\$(Configuration);$(SolutionDir)..\generated\outputs\Asio\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
@@ -107,7 +108,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -131,6 +132,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalDependencies>game.lib;Asio.lib;freetype.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(ProjectDir)Library\Externals\freetype\lib\$(Configuration);$(SolutionDir)..\generated\outputs\Asio\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
@@ -144,7 +146,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -169,6 +171,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalDependencies>game.lib;Asio.lib;freetype.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)Library\Externals\assimp\lib\$(Configuration);$(SolutionDir)..\generated\outputs\game\$(Platform)\$(Configuration)\;$(ProjectDir)Library\Externals\freetype\lib\$(Configuration);$(SolutionDir)..\generated\outputs\Asio\$(Platform)\Release\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
@@ -181,6 +184,265 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Application\ArgumentParser.cpp" />
+    <ClCompile Include="Engine\Application\CrashHandler.cpp" />
+    <ClCompile Include="Engine\Application\Framework.cpp" />
+    <ClCompile Include="Engine\Application\Logger.cpp" />
+    <ClCompile Include="Engine\Application\ProjectSettings\ProjectSettings.cpp" />
+    <ClCompile Include="Engine\Application\WinApp.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationPlayer.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\Audio\AudioAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Audio\AudioAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Audio\AudioLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
+    <ClCompile Include="Engine\Assets\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="Engine\Assets\BackgroundLoader\BackgroundLoader.cpp" />
+    <ClCompile Include="Engine\Assets\IAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Json\JsonAsset.cpp" />
+    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMesh.cpp" />
+    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryAsset.cpp" />
+    <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Shader\ShaderLibrary.cpp" />
+    <ClCompile Include="Engine\Assets\Texture\TextureAsset.cpp" />
+    <ClCompile Include="Engine\Assets\Texture\TextureAssetBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\Texture\TextureLibrary.cpp" />
+    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilder.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorGizmo.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorHierarchyDandD.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorSceneList.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Core\EditorSelectObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\FolderObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\IRemoteObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorHierarchy.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorInspector.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorRenderDAG.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorSceneView.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorScreenResult.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\IEditorWindow.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\PostEffectImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\ResultImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\StaticTextureImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\WorldLayerRenderImNode.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
+    <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp" />
+    <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCore.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDevice\DxDevice.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\DepthStencilView.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ITextureResource.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\RenderTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\StaticTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp" />
+    <ClCompile Include="Engine\GraphicsAPI\RenderingSystemValues.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\Manager\Camera\CameraManager.cpp" />
+    <ClCompile Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.cpp" />
+    <ClCompile Include="Engine\Module\Manager\SceneScript\ISceneScript.cpp" />
+    <ClCompile Include="Engine\Module\Manager\SceneScript\SceneScriptManager.cpp" />
+    <ClCompile Include="Engine\Module\Manager\World\InstanceBucket.cpp" />
+    <ClCompile Include="Engine\Module\Manager\World\WorldCluster.cpp" />
+    <ClCompile Include="Engine\Module\Manager\World\WorldRoot.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderDAG.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\IRenderNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\BaseRenderNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Debug\Line\LineNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine\PrimitiveLineNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\DirectionalLighingNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\NonLightingPixelNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Primitive\Rect3dNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderSubtree\LayerRenderSubtree.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp" />
+    <ClCompile Include="Engine\Module\Render\WorldRenderCollection.cpp" />
+    <ClCompile Include="Engine\Module\World\Camera\Camera2D.cpp" />
+    <ClCompile Include="Engine\Module\World\Camera\Camera3D.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\Collider\BaseCollider.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\Collider\SphereCollider.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
+    <ClCompile Include="Engine\Module\World\Collision\CollisionManager.cpp" />
+    <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\SkinningMeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\StaticMeshInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\Particle\Particle\Particle.cpp" />
+    <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\WorldInstance\WorldInstance.cpp" />
+    <ClCompile Include="Engine\Module\World\WorldManager.cpp" />
+    <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp" />
+    <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
+    <ClCompile Include="Engine\Runtime\Input\Input.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\BaseScene.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\SceneManager2.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.cpp" />
+    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.cpp" />
+    <ClCompile Include="Engine\Module\World\Mesh\Primitive\StringRectInstance.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.cpp" />
+    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\bitmap-blit.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\charset-parser.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\Charset.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\csv-export.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\FontGeometry.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\glyph-generators.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\GlyphGeometry.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\GridAtlasPacker.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\image-encode.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\json-export.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\Padding.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\RectanglePacker.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\shadron-preview-generator.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\size-selectors.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\TightAtlasPacker.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\utf8.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\Workload.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\contour-combiners.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Contour.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\convergent-curve-ordering.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\DistanceMapping.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\edge-coloring.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\edge-segments.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\edge-selectors.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\EdgeHolder.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\equation-solver.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\export-svg.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\msdf-error-correction.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\MSDFErrorCorrection.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\msdfgen.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Projection.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\rasterization.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\render-sdf.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-bmp.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-fl32.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-rgba.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-tiff.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Scanline.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\sdf-error-estimation.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\shape-description.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Shape.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\import-font.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\import-svg.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\resolve-shape-geometry.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\save-png.cpp" />
+    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\main.cpp" />
+    <ClCompile Include="Library\Math\Affine.cpp" />
+    <ClCompile Include="Library\Math\Basis.cpp" />
+    <ClCompile Include="Library\Math\Color3.cpp" />
+    <ClCompile Include="Library\Math\Color4.cpp" />
+    <ClCompile Include="Library\Math\Hierarchy.cpp" />
+    <ClCompile Include="Library\Math\Matrix3x3.cpp" />
+    <ClCompile Include="Library\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Library\Math\Quaternion.cpp" />
+    <ClCompile Include="Library\Math\Transform2D.cpp" />
+    <ClCompile Include="Library\Math\Transform3D.cpp" />
+    <ClCompile Include="Library\Math\Vector2.cpp" />
+    <ClCompile Include="Library\Math\Vector3.cpp" />
+    <ClCompile Include="Library\Math\VectorConverter.cpp" />
+    <ClCompile Include="Library\Utility\Template\call_once.cpp" />
+    <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
+    <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
+    <ClCompile Include="Library\Utility\Tools\ConvertString.cpp" />
+    <ClCompile Include="Library\Utility\Tools\Easing.cpp" />
+    <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
+    <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -288,408 +550,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Library\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-    <ProjectReference Include="Library\Externals\imgui\imgui.vcxproj">
-      <Project>{31717c30-7a6f-4698-b4d3-38240817ad9e}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Deferred.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\DirectionalLighting.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\NonLighting.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\PointLighting.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLighting.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLightVolume.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\SkinningMesh.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\StaticMesh.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\ForwardAlpha.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\SkinningMesh.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMeshForward.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Primitive\Rect3d.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\FullscreenShader.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="EngineResources\HLSL\Document.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Engine\Application\ArgumentParser.cpp" />
-    <ClCompile Include="Engine\Application\CrashHandler.cpp" />
-    <ClCompile Include="Engine\Application\Framework.cpp" />
-    <ClCompile Include="Engine\Application\Logger.cpp" />
-    <ClCompile Include="Engine\Application\ProjectSettings\ProjectSettings.cpp" />
-    <ClCompile Include="Engine\Application\WinApp.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAsset.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationAssetBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationLibrary.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\NodeAnimation\NodeAnimationPlayer.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAsset.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonAssetBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\Skeleton\SkeletonLibrary.cpp" />
-    <ClCompile Include="Engine\Assets\Audio\AudioAsset.cpp" />
-    <ClCompile Include="Engine\Assets\Audio\AudioAssetBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\Audio\AudioLibrary.cpp" />
-    <ClCompile Include="Engine\Assets\Audio\AudioManager.cpp" />
-    <ClCompile Include="Engine\Assets\Audio\AudioPlayer.cpp" />
-    <ClCompile Include="Engine\Assets\BackgroundLoader\BackgroundLoader.cpp" />
-    <ClCompile Include="Engine\Assets\IAssetBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\Json\JsonAsset.cpp" />
-    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMesh.cpp" />
-    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\PolygonMesh\PolygonMeshLibrary.cpp" />
-    <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryAsset.cpp" />
-    <ClCompile Include="Engine\Assets\PrimitiveGeometry\PrimitiveGeometryLibrary.cpp" />
-    <ClCompile Include="Engine\Assets\Shader\ShaderAsset.cpp" />
-    <ClCompile Include="Engine\Assets\Shader\ShaderAssetBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\Shader\ShaderLibrary.cpp" />
-    <ClCompile Include="Engine\Assets\Texture\TextureAsset.cpp" />
-    <ClCompile Include="Engine\Assets\Texture\TextureAssetBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\Texture\TextureLibrary.cpp" />
-    <ClCompile Include="Engine\Debug\DebugValues\DebugValues.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorSceneSerializer.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorValueField.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilder.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandInvoker.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandReparent.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorCommandScope.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorCreateObjectCommand.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorDeleteObjectCommand.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorSelectCommand.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Command\EditorValueChangeCommandHandler.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Core\EditorGizmo.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Core\EditorHierarchyDandD.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Core\EditorSceneList.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Core\EditorSelectObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\EditorMain.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\EditorDeletedObjectPool.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\FolderObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\IRemoteObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteErrorObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteSceneObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\RemoteWorldObject.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera\RemoteCamera3dInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteAABBColliderInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider\RemoteSphereColliderInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteSkinningMeshInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh\RemoteStaticMeshInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\RemoteWorldInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\EditorHierarchy.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\EditorInspector.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\EditorLogWindow.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\EditorSceneView.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Window\IEditorWindow.cpp" />
-    <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp" />
-    <ClCompile Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.cpp" />
-    <ClCompile Include="Engine\Debug\ImGui\ImGuiManager\ImGuiManager.cpp" />
-    <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
-    <ClCompile Include="Engine\Debug\Profiler\TimestampProfiler.cpp" />
-    <ClCompile Include="Engine\Debug\Profiler\WorldClockProfiler.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCommand\DxCommand.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxcManager.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCompiler\DxShaderReflection.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxCore.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap\DSVDescriptorHeap.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DxDescriptorHeap.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap\RTVDescriptorHeap.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap\SRVDescriptorHeap.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxDevice\DxDevice.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\DxPipelineState.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder\PSOBuilder.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\DxResource.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\DepthStencilTexture.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\DepthStencilView.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\RenderTargetView.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView\ShaderResourceView.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ITextureResource.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\RenderTexture.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\ScreenTexture.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\StaticTexture.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\TempTexture.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\DirectX\DxSwapChain\DxSwapChain.cpp" />
-    <ClCompile Include="Engine\GraphicsAPI\RenderingSystemValues.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawExecutor.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\SkinningMeshDrawManager.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\BaseRenderNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp" />
-    <ClCompile Include="Engine\Module\World\Camera\Camera2D.cpp" />
-    <ClCompile Include="Engine\Module\World\Camera\Camera3D.cpp" />
-    <ClCompile Include="Engine\Module\World\Collision\Collider\AABBCollider.cpp" />
-    <ClCompile Include="Engine\Module\World\Collision\Collider\BaseCollider.cpp" />
-    <ClCompile Include="Engine\Module\World\Collision\Collider\SphereCollider.cpp" />
-    <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
-    <ClCompile Include="Engine\Module\World\Collision\CollisionManager.cpp" />
-    <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Light\SpotLight\SpotLightInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Mesh\IMultiMeshInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Mesh\Primitive\Rect3d.cpp" />
-    <ClCompile Include="Engine\Module\World\Mesh\SkinningMeshInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Mesh\StaticMeshInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\BaseParticleDrawSystem.cpp" />
-    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemMesh.cpp" />
-    <ClCompile Include="Engine\Module\World\Particle\DrawSystem\ParticleDrawSystemRect.cpp" />
-    <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\Particle\Particle\Particle.cpp" />
-    <ClCompile Include="Engine\Module\World\Sprite\SpriteInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\WorldInstance\WorldInstance.cpp" />
-    <ClCompile Include="Engine\Module\World\WorldManager.cpp" />
-    <ClCompile Include="Engine\Module\World\WorldRoot.cpp" />
-    <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp" />
-    <ClCompile Include="Engine\Runtime\Clock\WorldTimer.cpp" />
-    <ClCompile Include="Engine\Runtime\Input\Input.cpp" />
-    <ClCompile Include="Engine\Runtime\Scene\BaseScene.cpp" />
-    <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
-    <ClCompile Include="Engine\Runtime\Scene\SceneLoader.cpp" />
-    <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
-    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.cpp" />
-    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.cpp" />
-    <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\Asset\FontAtlas\FontAtlasBuilderManager.cpp" />
-    <ClCompile Include="Engine\Module\World\Mesh\Primitive\StringRectInstance.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.cpp" />
-    <ClCompile Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\bitmap-blit.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\charset-parser.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\Charset.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\csv-export.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\FontGeometry.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\glyph-generators.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\GlyphGeometry.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\GridAtlasPacker.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\image-encode.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\json-export.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\Padding.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\RectanglePacker.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\shadron-preview-generator.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\size-selectors.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\TightAtlasPacker.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\utf8.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\Workload.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\contour-combiners.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Contour.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\convergent-curve-ordering.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\DistanceMapping.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\edge-coloring.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\edge-segments.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\edge-selectors.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\EdgeHolder.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\equation-solver.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\export-svg.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\msdf-error-correction.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\MSDFErrorCorrection.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\msdfgen.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Projection.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\rasterization.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\render-sdf.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-bmp.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-fl32.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-rgba.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\save-tiff.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Scanline.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\sdf-error-estimation.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\shape-description.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\core\Shape.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\import-font.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\import-svg.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\resolve-shape-geometry.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\ext\save-png.cpp" />
-    <ClCompile Include="Library\Externals\msdf-atlas-gen\msdfgen\main.cpp" />
-    <ClCompile Include="Library\Math\Affine.cpp" />
-    <ClCompile Include="Library\Math\Basis.cpp" />
-    <ClCompile Include="Library\Math\Color3.cpp" />
-    <ClCompile Include="Library\Math\Color4.cpp" />
-    <ClCompile Include="Library\Math\Hierarchy.cpp" />
-    <ClCompile Include="Library\Math\Matrix3x3.cpp" />
-    <ClCompile Include="Library\Math\Matrix4x4.cpp" />
-    <ClCompile Include="Library\Math\Quaternion.cpp" />
-    <ClCompile Include="Library\Math\Transform2D.cpp" />
-    <ClCompile Include="Library\Math\Transform3D.cpp" />
-    <ClCompile Include="Library\Math\Vector2.cpp" />
-    <ClCompile Include="Library\Math\Vector3.cpp" />
-    <ClCompile Include="Library\Math\VectorConverter.cpp" />
-    <ClCompile Include="Library\Utility\Template\call_once.cpp" />
-    <ClCompile Include="Library\Utility\Template\string_hashed.cpp" />
-    <ClCompile Include="Library\Utility\Tools\ChronoUtility.cpp" />
-    <ClCompile Include="Library\Utility\Tools\ConvertString.cpp" />
-    <ClCompile Include="Library\Utility\Tools\Easing.cpp" />
-    <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
     <ClInclude Include="Engine\Application\ArgumentParser.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
     <ClInclude Include="Engine\Application\EngineSettings.h" />
@@ -759,10 +620,15 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\Window\EditorHierarchy.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorInspector.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorLogWindow.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorRenderDAG.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorSceneView.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorDebugCamera.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorWorldView\EditorWorldView.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\IEditorWindow.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\PostEffectImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\ResultImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\StaticTextureImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\WorldLayerRenderImNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiLoadManager\ImGuiLoadManager.h" />
@@ -819,33 +685,48 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\BaseRenderNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\DeferredAdaptor.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.h" />
+    <ClInclude Include="Engine\Module\Manager\Camera\CameraManager.h" />
+    <ClInclude Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.h" />
+    <ClInclude Include="Engine\Module\Manager\SceneScript\ISceneScript.h" />
+    <ClInclude Include="Engine\Module\Manager\SceneScript\SceneScriptManager.h" />
+    <ClInclude Include="Engine\Module\Manager\World\InstanceBucket.h" />
+    <ClInclude Include="Engine\Module\Manager\World\WorldCluster.h" />
+    <ClInclude Include="Engine\Module\Manager\World\WorldRoot.h" />
+    <ClInclude Include="Engine\Module\Render\RenderDAG.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\IRenderNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\PostEffectNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\BaseRenderNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Debug\Line\LineNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine\PrimitiveLineNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\DeferredAdaptor.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\DirectionalLighingNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\NonLightingPixelNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Primitive\Rect3dNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderSubtree\LayerRenderSubtree.h" />
+    <ClInclude Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.h" />
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.h" />
+    <ClInclude Include="Engine\Module\Render\WorldRenderCollection.h" />
     <ClInclude Include="Engine\Module\World\Camera\Camera2D.h" />
     <ClInclude Include="Engine\Module\World\Camera\Camera3D.h" />
     <ClInclude Include="Engine\Module\World\Collision\Collider\AABBCollider.h" />
@@ -873,7 +754,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Sprite\SpriteInstance.h" />
     <ClInclude Include="Engine\Module\World\WorldInstance\WorldInstance.h" />
     <ClInclude Include="Engine\Module\World\WorldManager.h" />
-    <ClInclude Include="Engine\Module\World\WorldRoot.h" />
     <ClInclude Include="Engine\Runtime\Clock\WorldClock.h" />
     <ClInclude Include="Engine\Runtime\Clock\WorldTimer.h" />
     <ClInclude Include="Engine\Runtime\Input\Input.h" />
@@ -882,8 +762,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h" />
     <ClInclude Include="Engine\Runtime\Scene\Scene.h" />
-    <ClInclude Include="Engine\Runtime\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager.h" />
+    <ClInclude Include="Engine\Runtime\Scene\SceneManager2.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.h" />
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFBuilder.h" />
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFLibrary.h" />
@@ -1118,6 +999,172 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Library\Utility\Tools\MathEPS.h" />
     <ClInclude Include="Library\Utility\Tools\RandomEngine.h" />
     <ClInclude Include="Library\Utility\Tools\SmartPointer.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
+    <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Library\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Library\Externals\imgui\imgui.vcxproj">
+      <Project>{31717c30-7a6f-4698-b4d3-38240817ad9e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Deferred.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\DirectionalLighting.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\NonLighting.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\PointLighting.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLighting.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLightVolume.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\SkinningMesh.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\StaticMesh.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\ForwardAlpha.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\SkinningMesh.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMeshForward.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Primitive\Rect3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\FullscreenShader.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EngineResources\HLSL\Document.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

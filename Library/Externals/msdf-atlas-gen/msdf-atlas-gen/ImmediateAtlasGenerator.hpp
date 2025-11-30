@@ -3,6 +3,9 @@
 
 #include <algorithm>
 
+#pragma warning(push)
+#pragma warning(disable : 4458)
+
 namespace msdf_atlas {
 
 template <typename T, int N, GeneratorFunction<T, N> GEN_FN, class AtlasStorage>
@@ -84,3 +87,5 @@ const std::vector<GlyphBox> &ImmediateAtlasGenerator<T, N, GEN_FN, AtlasStorage>
 }
 
 }
+
+#pragma warning(pop)

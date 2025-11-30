@@ -24,6 +24,7 @@ public:
 	/// 初期化
 	/// </summary>
 	static void Initialize();
+	
 
 	/// <summary>
 	/// フレーム開始処理
@@ -31,15 +32,27 @@ public:
 	static void BeginFrame();
 
 	/// <summary>
+	/// 更新
+	/// </summary>
+	static void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	static void Draw();
+
+	/// <summary>
 	/// フレーム終了処理
 	/// </summary>
 	static void EndFrame();
+	
 
 	/// <summary>
 	/// 終了処理
 	/// </summary>
 	static void Finalize();
 
+public:
 	/// <summary>
 	/// ウィンドウ表示
 	/// </summary>

@@ -84,6 +84,7 @@ void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shad
 	staticSampler.MaxLOD = D3D12_FLOAT32_MAX; // すべてのMipmapを使う
 	staticSampler.ShaderRegister = shaderRegister;
 	staticSampler.ShaderVisibility = visibility;
+	staticSampler.RegisterSpace = space;
 }
 
 Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
@@ -104,7 +105,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> PSOBuilder::get_rootsignature() {
 	return rootSignature;
 }
 
-void PSOBuilder::initialize_by_reflection(const DxShaderReflection& reflection) {
+void PSOBuilder::initialize_by_reflection([[maybe_unused]] const DxShaderReflection& reflection) {
 
 }
 

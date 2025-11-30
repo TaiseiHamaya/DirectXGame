@@ -34,7 +34,7 @@ void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	SceneManager& instance = GetInstance();
 	instance.factory = std::move(factory_);
 	auto initScene = instance.factory->initialize_scene();
-	szgCriticalIf(!initScene, "The initial scene crated is nullptr.");
+	szgCriticalIf(!initScene, "The created initial scene was nullptr.");
 
 	initScene->load();
 	BackgroundLoader::WaitEndExecute();
@@ -197,6 +197,7 @@ void SceneManager::NextScene() {
 
 #include <imgui.h>
 #include <format>
+#include "SceneManager2.h"
 
 void SceneManager::SetProfiler(Reference<TimestampProfiler> profiler_) {
 	GetInstance().profiler = profiler_;

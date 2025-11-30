@@ -8,7 +8,7 @@ template<class Type>
 class TimedCall {
 public:
 	TimedCall() = default;
-	TimedCall(std::function<Type>&& function_, r32 time_);
+	TimedCall(std::function<Type>&& function_, r32 time_, bool isFinished = false);
 	~TimedCall() = default;
 
 	void update();
@@ -25,11 +25,12 @@ public:
 private:
 	std::function<Type> function;
 	WorldTimer timer;
-	bool isFinished = false;
+	bool isFinished;
 };
 
 template<class Type>
-inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, r32 time_) {
+inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, r32 time_, bool isFinished_) :
+	isFinished(isFinished_) {
 	function = function_;
 	timer.set(time_);
 }
@@ -37,7 +38,7 @@ inline TimedCall<Type>::TimedCall(std::function<Type>&& function_, r32 time_) {
 template<class Type>
 inline void TimedCall<Type>::update() {
 	timer.back();
-	if (timer.time() <= 0) {
+	if (timer <= 0) {
 		isFinished = true;
 		function();
 	}

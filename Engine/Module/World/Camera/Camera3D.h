@@ -88,8 +88,8 @@ private:
 	Affine debugViewAffine;
 	bool isValidDebugCamera{ false };
 	bool useDebugCameraLighting{ true };
-	std::unique_ptr<StaticMeshInstance> debugCameraCenter;
-	std::unique_ptr<WorldInstance> debugCamera;
+	Reference<StaticMeshInstance> debugCameraCenter;
+	Reference<WorldInstance> debugCamera;
 	std::unique_ptr<PrimitiveGeometryDrawExecutor> frustumExecutor;
 	Vector3 offset;
 	InputHandler<MouseID> debugMouseInputHandler;

@@ -17,6 +17,10 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureAsset::handle() const {
 	return texture.get_srv()->handle();
 }
 
+Reference<const ShaderResourceView> TextureAsset::get_srv() const {
+	return texture.get_srv();
+}
+
 #ifdef DEBUG_FEATURES_ENABLE
 
 void TextureAsset::set_name(const std::wstring& _name) {

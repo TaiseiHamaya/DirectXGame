@@ -53,7 +53,7 @@ void ShaderResourceView::create_dds(Reference<ITextureResource> resource, DXGI_F
 	DxDevice::GetDevice()->CreateShaderResourceView(gpuResource.Get(), &srvDesc, handleCPU);
 }
 
-void ShaderResourceView::use(u32 index) const {
+void ShaderResourceView::use(u32 paramIndex) const {
 	auto&& commandList = DxCommand::GetCommandList();
-	commandList->SetGraphicsRootDescriptorTable(index, _handle);
+	commandList->SetGraphicsRootDescriptorTable(paramIndex, _handle);
 }

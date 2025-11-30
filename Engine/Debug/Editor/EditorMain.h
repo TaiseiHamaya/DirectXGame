@@ -12,6 +12,8 @@
 #include "./Window/EditorHierarchy.h"
 #include "./Window/EditorInspector.h"
 #include "./Window/EditorSceneView.h"
+#include "./Window/EditorScreenResult.h"
+#include "./Window/EditorRenderDAG.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
 
 class EditorMain final : public SingletonInterface<EditorMain> {
@@ -41,12 +43,14 @@ private:
 	InputHandler<KeyID> input;
 
 	EditorSceneView sceneView;
+	EditorScreenResult screenResult;
 	EditorHierarchy hierarchy;
 	EditorInspector inspector;
 	EditorGizmo gizmo;
 	EditorSelectObject selectObject;
 	EditorDeletedObjectPool deletedPool;
 	EditorSceneList sceneList;
+	EditorRenderDAG renderDAG;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

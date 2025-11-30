@@ -32,10 +32,6 @@ void RemoteSceneObject::update_preview(Reference<RemoteWorldObject> world, Refer
 
 void RemoteSceneObject::draw_inspector() {
 	hierarchyName.show_gui();
-
-	ImGui::Separator();
-
-	numLayer.show_gui();
 }
 
 void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -81,17 +77,19 @@ std::unique_ptr<IRemoteObject> RemoteSceneObject::move_force(Reference<const IRe
 	return nullptr;
 }
 
-void RemoteSceneObject::reparent(Reference<IRemoteObject> remoteObject) {
+void RemoteSceneObject::reparent(Reference<IRemoteObject>) {
 	szgError("RemoteSceneObject is must be root object.");
 }
 
 void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
-	auto tmp = dynamic_cast<RemoteWorldObject*>(child.release());
-	auto childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
-	if (!childPtr) {
+	IRemoteObject* ptr = child.release();
+	RemoteWorldObject* tmp = dynamic_cast<RemoteWorldObject*>(ptr);
+	if (!tmp) {
 		szgWarning("RemoteSceneObject can only add RemoteWorldObject as child.");
+		delete ptr;
 		return;
 	}
+	std::unique_ptr<RemoteWorldObject> childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
 	childPtr->reparent(this);
 	remoteWorlds.emplace_back(std::move(childPtr));
 }
@@ -104,8 +102,6 @@ nlohmann::json RemoteSceneObject::serialize() const {
 	for (const auto& world : remoteWorlds) {
 		result["Worlds"].emplace_back(world->serialize());
 	}
-
-	result.update(numLayer);
 
 	return result;
 }

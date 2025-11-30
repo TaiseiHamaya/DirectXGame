@@ -14,13 +14,13 @@
 
 #include "../RemoteObject/FolderObject.h"
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 
-#include "Engine/Runtime/Scene/SceneManager.h"
+#include "Engine/Runtime/Scene/SceneManager2.h"
 
 #include <Engine/Assets/Json/JsonAsset.h>
 
@@ -37,18 +37,23 @@ void EditorHierarchy::update_preview() {
 	scene->update_preview(nullptr, nullptr);
 }
 
-void EditorHierarchy::load(std::filesystem::path file) {
+void EditorHierarchy::load(const std::string& sceneName) {
 	savedTrigger = false;
 	isActive = true;
 
-	JsonAsset json{ file };
-	scene = EditorSceneSerializer::CreateRemoteScene(json.try_emplace<nlohmann::json>("Scene"));
+	//JsonAsset json{ std::format("./Game/Core/Scene/{}.json", sceneName) };
+	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
 	scene->setup();
 }
 
-nlohmann::json EditorHierarchy::save() const {
-	return scene->serialize();
+void EditorHierarchy::save(const std::filesystem::path& path) const {
+	for (auto& world : scene->get_remote_worlds()) {
+		JsonAsset worldJson{ path / (world->world_name() + ".json") };
+		worldJson.get().clear();
+		worldJson.get() = world->serialize();
+		worldJson.save();
+	}
 }
 
 void EditorHierarchy::draw() {
@@ -61,7 +66,6 @@ void EditorHierarchy::draw() {
 	savedTrigger = false;
 
 	// 検索ボックス
-	size_t beforSize = searchString.size();
 	ImGui::InputText("##HierarchySearch", &searchString); ImGui::SameLine();
 	if (ImGui::Button("\ue5cd")) {
 		searchString.clear();
@@ -91,6 +95,7 @@ void EditorHierarchy::draw() {
 			if (ImGui::Button("\ue5cd")) {
 				menuString.clear();
 			}
+			ImGui::SeparatorText("Instance");
 			if (ImGui::MenuItem("WorldInstance")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
@@ -101,6 +106,7 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			ImGui::SeparatorText("Rendering");
 			if (ImGui::MenuItem("StaticMeshInstance")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
@@ -121,6 +127,7 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			ImGui::SeparatorText("Camera");
 			if (ImGui::MenuItem("Camera3D")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(
@@ -131,6 +138,10 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			ImGui::SeparatorText("Light");
+
+
+			ImGui::SeparatorText("Collider");
 			if (ImGui::MenuItem("AABBColliderInstance")) {
 				if (select->get_item().object) {
 					EditorCommandInvoker::Execute(

@@ -69,7 +69,6 @@ void DxDevice::create_device() {
 }
 
 void DxDevice::check_future() {
-	auto& device = DxDevice::GetDevice();
 	HRESULT hr;
 	{ // ShaderModel Support
 		D3D12_FEATURE_DATA_SHADER_MODEL shaderModel = { D3D_SHADER_MODEL_6_6 };

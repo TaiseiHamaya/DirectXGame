@@ -4,6 +4,10 @@
 #include <cfloat>
 #include "arithmetics.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 4458)
+#pragma warning(disable : 4100)
+
 namespace msdfgen {
 
 static void initDistance(double &distance) {

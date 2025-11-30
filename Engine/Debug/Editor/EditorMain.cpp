@@ -26,6 +26,8 @@ void EditorMain::Initialize() {
 	instance.inspector.initialize();
 	instance.sceneList.initialize();
 	EditorLogWindow::Initialize(true);
+	instance.renderDAG.initialize();
+	instance.screenResult.initialize(true);
 
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 
@@ -52,6 +54,7 @@ void EditorMain::Finalize() {
 	ofstream.close();
 
 	instance.sceneList.finalize();
+	instance.renderDAG.finalize();
 }
 
 void EditorMain::Setup() {
@@ -73,8 +76,9 @@ void EditorMain::Setup() {
 	}
 
 	json.load("./Game/DebugData/Editor.json");
-	std::string sceneFileName = json.try_emplace<std::string>("LastLoadedScene");
-	instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", sceneFileName));
+	std::string sceneName = json.try_emplace<std::string>("LastLoadedScene");
+	instance.hierarchy.load(sceneName);
+	instance.renderDAG.setup(sceneName);
 }
 
 void EditorMain::DrawBase() {
@@ -87,7 +91,7 @@ void EditorMain::DrawBase() {
 		// シーンビューを未設定に設定
 		instance.sceneView.reset_force();
 		// シーンのロード
-		instance.hierarchy.load(std::format("./Game/Core/Scene/{}.json", instance.switchSceneName.value()));
+		instance.hierarchy.load(instance.switchSceneName.value());
 		instance.hierarchy.setup(instance.selectObject, instance.sceneView);
 		// 選択オブジェクトのリセット
 		instance.selectObject.set_item(nullptr);
@@ -113,6 +117,7 @@ void EditorMain::DrawBase() {
 
 	instance.set_imgui_command();
 
+	// Undo / Redo
 	if (instance.input.trigger(KeyID::Z) && instance.input.press(KeyID::LControl)) {
 		if (instance.input.press(KeyID::LShift)) {
 			EditorCommandInvoker::Redo();
@@ -121,27 +126,14 @@ void EditorMain::DrawBase() {
 			EditorCommandInvoker::Undo();
 		}
 	}
+	// 保存
 	if (instance.input.trigger(KeyID::S) && instance.input.press(KeyID::LControl)) {
 		instance.sceneList.add_scene(instance.hierarchy.current_scene_name());
 
-		nlohmann::json root;
-		root["Scene"] = instance.hierarchy.save();
+		std::filesystem::path filePath = std::format("./Game/Core/Scene/{}/Worlds/", instance.hierarchy.current_scene_name());
+		instance.hierarchy.save(filePath);
 
-		std::filesystem::path filePath = std::format("./Game/Core/Scene/{}.json", instance.hierarchy.current_scene_name());
-		auto parentPath = filePath.parent_path();
-		if (!parentPath.empty() && !std::filesystem::exists(parentPath)) {
-			std::filesystem::create_directories(parentPath);
-		}
-
-		std::ofstream ofstream{ filePath, std::ios_base::out };
-		ofstream << std::setw(1) << std::setfill('\t') << root;
-		if (ofstream.fail()) {
-			szgWarning("Failed to save scene file. ({})", filePath.string());
-		}
-		else {
-			szgInformation("Scene file saved. ({})", filePath.string());
-		}
-		ofstream.close();
+		szgInformation("Scene file saved. ({})", instance.hierarchy.current_scene_name());
 	}
 
 	instance.deletedPool.solution_sequence();
@@ -153,9 +145,11 @@ void EditorMain::Draw() {
 		return;
 	}
 
+	instance.screenResult.draw();
 	instance.sceneView.draw();
 	instance.hierarchy.draw();
 	instance.inspector.draw();
+	instance.renderDAG.draw();
 	EditorLogWindow::Draw();
 	if (instance.sceneView.is_active()) {
 		ImGuizmo::SetDrawlist(instance.sceneView.draw_list().ptr());
@@ -175,15 +169,16 @@ bool EditorMain::IsHoverEditorWindow() {
 }
 
 void EditorMain::set_imgui_command() {
-	EditorMain& instance = GetInstance();
 	// メニューバーの表示
 	if (ImGui::BeginMainMenuBar()) {
 		// Windowメニュー
 		if (ImGui::BeginMenu("Window")) {
+			screenResult.draw_menu("ScreenView");
 			sceneView.draw_menu("Scene");
 			hierarchy.draw_menu("Hierarchy");
 			inspector.draw_menu("Inspector");
 			EditorLogWindow::DrawMenu("Log");
+			renderDAG.draw_menu("RenderDAG");
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Edit")) {

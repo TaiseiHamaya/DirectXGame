@@ -27,7 +27,7 @@ void RemoteWorldObject::setup() {
 	}
 }
 
-void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+void RemoteWorldObject::update_preview(Reference<RemoteWorldObject>, Reference<Affine>) {
 	for(auto& child : children) {
 		if (child) {
 			child->update_preview(this, nullptr);
@@ -37,6 +37,10 @@ void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Refer
 
 void RemoteWorldObject::draw_inspector() {
 	hierarchyName.show_gui();
+
+	ImGui::Separator();
+
+	numLayer.show_gui();
 }
 
 void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -109,6 +113,8 @@ nlohmann::json RemoteWorldObject::serialize() const {
 			result["Instances"].emplace_back(child->serialize());
 		}
 	}
+
+	result.update(numLayer);
 
 	return result;
 }

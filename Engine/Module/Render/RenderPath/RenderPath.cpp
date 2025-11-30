@@ -1,7 +1,7 @@
 #include "RenderPath.h"
 
 #include "Engine/Application/Logger.h"
-#include "Engine/Module/Render/RenderNode/BaseRenderNode.h"
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 void RenderPath::initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list) {
 	// サイズ0のPathはバグるので止める
@@ -19,32 +19,23 @@ void RenderPath::initialize(std::initializer_list<std::shared_ptr<BaseRenderNode
 void RenderPath::use() {
 	// nowNodeのリセットしておく
 	nowNode = renderNodeList.end();
-	for (auto& renderNode : renderNodeList) {
-		//renderNode.lock()->use();
-	}
+	//for (auto& renderNode : renderNodeList) {
+	//	renderNode->use();
+	//}
 }
 
 bool RenderPath::begin() {
 	// nowNodeのリセット
 	nowNode = renderNodeList.begin();
-	if (nowNode != renderNodeList.end()) {
-		// 最初の描画処理を開始
-		(*nowNode)->begin();
-		(*nowNode)->preprocess();
-		return true;
-	}
-	else {
-		return false;
-	}
+	return next();
 }
 
 bool RenderPath::next() {
-	// 次に進める
-	++nowNode;
 	// 末尾に行っていなければ次の処理を開始
 	if (nowNode != renderNodeList.end()) {
-		(*nowNode)->begin();
-		(*nowNode)->preprocess();
+		(*nowNode)->stack_pso_command();
+		// 次に進める
+		++nowNode;
 		return true;
 	}
 	else {

@@ -6,7 +6,7 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-class WorldManager;
+class WorldRoot;
 
 class WorldInstance {
 #ifdef DEBUG_FEATURES_ENABLE
@@ -84,18 +84,6 @@ public:
 	void look_at_axis(const Vector3& point, r32 angle = 0.0f, const Vector3& axis = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
-	/// アクティブフラグの設定
-	/// </summary>
-	/// <param name="isActive_"></param>
-	void set_active(bool isActive_) { isActive = isActive_; };
-
-	/// <summary>
-	/// アクティブフラグの取得
-	/// </summary>
-	/// <returns></returns>
-	bool is_active() const { return isActive; };
-
-	/// <summary>
 	/// 階層構造の震度
 	/// </summary>
 	/// <returns></returns>
@@ -117,7 +105,8 @@ public:
 	/// Hierarchyの親アドレスの取得
 	/// </summary>
 	/// <returns>存在しなければnullptr</returns>
-	const Reference<const WorldInstance>& get_parent_address() const { return hierarchy.get_parent(); };
+	Reference<const WorldInstance> parent_imm() const noexcept;
+	Reference<WorldInstance> parent_mut() noexcept;
 
 	/// <summary>
 	/// World行列の取得
@@ -132,15 +121,33 @@ public:
 	const Vector3& world_position() const { return affine.get_origin(); };
 
 	/// <summary>
-	/// 親子付けを再設定
+	/// 親を再設定
 	/// </summary>
-	/// <param name="instance">対象のInstance</param>
-	/// <param name="isKeepPose">現在の姿勢を維持する</param>
-	void reparent(Reference<const WorldInstance> instance, bool isKeepPose = true);
+	/// <param name="parent">親のInstance</param>
+	/// <param name="isKeepPose">現在の姿勢を維持するかどうか</param>
+	void reparent(Reference<WorldInstance> parent, bool isKeepPose = true);
 
-	const Reference<WorldManager>& world_manager() const { return worldManager; };
+	// ----- Active関連 -----
+	void set_active(bool isActive_) { isActive = isActive_; };
+	bool is_active() const { return isActive; };
 
-	void set_world_manager(Reference<WorldManager> worldManager_);
+	// ----- Destroyフラグ -----
+	void mark_destroy();
+	bool is_marked_destroy() const { return isDestroy; }
+	virtual void on_mark_destroy() {};
+
+	// ----- id関連 -----
+	void setup_id(u64 id);
+	u64 instance_id() const;
+
+	// ----- WorldRoot -----
+	void setup_world_root(Reference<WorldRoot> worldRoot_);
+	Reference<WorldRoot> world_root_mut() const;
+
+private:
+	void detach_child(Reference<WorldInstance> child);
+	void attach_child(Reference<WorldInstance> child);
+	void recalculate_depth();
 
 protected:
 	Transform3D transform{}; // Transform
@@ -149,10 +156,14 @@ protected:
 private:
 	Affine affine;
 
-	Reference<WorldManager> worldManager{ nullptr };
+	Reference<WorldRoot> worldRoot;
+
 	u32 hierarchyDepth{ 0 };
+
+	u64 instanceId;
 
 protected:
 	bool isActive = true;
+	bool isDestroy{ false };
 };
 

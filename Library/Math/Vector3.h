@@ -20,15 +20,9 @@ public:
 
 public:
 	// ------------------基礎構造------------------
-	union {
-		struct {
-			r32 x; // X座標
-			r32 y; // Y座標
-			r32 z; // Z座標
-		};
-
-		std::array<r32, 3> xyz;
-	};
+	r32 x; // X座標
+	r32 y; // Y座標
+	r32 z; // Z座標
 
 public:
 	// ------------------operator------------------
@@ -280,11 +274,11 @@ inline constexpr bool Vector3::operator!=(const Vector3& opr) const noexcept {
 }
 
 inline constexpr const r32& Vector3::operator[](size_t i) const {
-	return xyz[i];
+	return *(&x + i);
 }
 
 inline constexpr r32& Vector3::operator[](size_t i) {
-	return xyz[i];
+	return *(&x + i);
 }
 
 constexpr r32 Vector3::Dot(const Vector3& input1, const Vector3& input2) noexcept {

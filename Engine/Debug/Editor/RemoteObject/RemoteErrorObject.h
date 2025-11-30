@@ -14,7 +14,7 @@ public:
 public:
 	void setup() override {};
 
-	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override {};
+	void update_preview(Reference<RemoteWorldObject>, Reference<Affine>) override {};
 
 	void draw_inspector() override;
 

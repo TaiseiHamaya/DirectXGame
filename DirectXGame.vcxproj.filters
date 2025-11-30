@@ -2,553 +2,427 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Engine">
-      <UniqueIdentifier>{78D904A1-39AD-493B-A837-DB98CCA761D6}</UniqueIdentifier>
+      <UniqueIdentifier>{BD94D18F-2881-4FD6-AA8D-936558120F62}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources">
-      <UniqueIdentifier>{889242D5-063D-4D5B-B59B-CBA9DE4D7B1A}</UniqueIdentifier>
+      <UniqueIdentifier>{CE200E13-3E9E-4967-BD3B-686A0298C273}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library">
-      <UniqueIdentifier>{14C39DFF-D114-4053-915B-319BEECC41B4}</UniqueIdentifier>
+      <UniqueIdentifier>{7E2F3EEE-00EF-4A65-BFD9-55BD7C74EF24}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL">
-      <UniqueIdentifier>{D275CE00-B6E0-4083-A390-A104FDE2FF24}</UniqueIdentifier>
+      <UniqueIdentifier>{77B60EAC-58C2-4493-962B-853F2E98A766}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Application">
-      <UniqueIdentifier>{6B906C12-80C8-4FE5-A480-4C2BC7576E7B}</UniqueIdentifier>
+      <UniqueIdentifier>{732A1EB1-4BA2-4B1B-9C88-4C3BC6ABD15F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets">
-      <UniqueIdentifier>{CCE6C20E-6277-42B5-B1BB-417267984E53}</UniqueIdentifier>
+      <UniqueIdentifier>{37488B87-8CBD-48CA-BEA0-CAD3AB874E45}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug">
-      <UniqueIdentifier>{F642219C-565E-4EA6-BE5C-501268FCA5AF}</UniqueIdentifier>
+      <UniqueIdentifier>{C49A5460-2608-4406-B845-F271DC9C0447}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI">
-      <UniqueIdentifier>{1071E5EC-A20E-4500-9AAA-7E6F3ECA0C04}</UniqueIdentifier>
+      <UniqueIdentifier>{3F49ABDD-199F-4D7E-BC57-6B81C09BB600}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module">
-      <UniqueIdentifier>{322655AF-5161-4F5B-BB43-E93C0299933E}</UniqueIdentifier>
+      <UniqueIdentifier>{34D5C7A3-D8E1-49F5-9D0F-18C22CDFD84E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Runtime">
-      <UniqueIdentifier>{BAF584C6-9FE4-4A32-A53A-E6BFD2BF896E}</UniqueIdentifier>
+      <UniqueIdentifier>{18BC6F52-2270-4DB4-8813-083FF406EE47}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Math">
-      <UniqueIdentifier>{7AF1EB0E-A4D4-4A74-A511-31356A706538}</UniqueIdentifier>
+      <UniqueIdentifier>{3BB6960D-54FB-4439-AE3F-59153F0FE8C7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Utility">
-      <UniqueIdentifier>{DE306F65-ACCF-4BC1-908E-4A8C7AB374D9}</UniqueIdentifier>
+      <UniqueIdentifier>{DA43F3EE-40AF-4F78-81B2-196DB49819DA}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Debug">
-      <UniqueIdentifier>{E1E4222A-8E1F-4546-81C5-017B515E879D}</UniqueIdentifier>
+      <UniqueIdentifier>{209A2D56-41F5-43DE-84C2-65093E629B85}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Deferred">
-      <UniqueIdentifier>{FE4A1B1A-AB48-40D8-9E4A-2B1C18F7FD5A}</UniqueIdentifier>
+      <UniqueIdentifier>{37C20D89-3286-438F-AB02-E4DA18A74826}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Forward">
-      <UniqueIdentifier>{70B3C7F6-1A4B-4501-83E3-92049CB79670}</UniqueIdentifier>
+      <UniqueIdentifier>{0E026757-E1D3-4881-8088-1C677023786F}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Misc">
-      <UniqueIdentifier>{44679D0D-4A3F-408A-B902-EC3F0FBD5D07}</UniqueIdentifier>
+      <UniqueIdentifier>{9C42B8C2-DF7B-4CFF-8530-27C5D1E2E715}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Posteffect">
-      <UniqueIdentifier>{C2419B3C-7D99-4210-B6A4-5C7F425BAA9D}</UniqueIdentifier>
+      <UniqueIdentifier>{7B55E3D8-CBC5-4E84-947D-B50BC21686E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Sprite">
-      <UniqueIdentifier>{C8137D4F-EAAF-47C9-8DF6-55F6DBF2FA1B}</UniqueIdentifier>
+      <UniqueIdentifier>{1177770A-7845-4C52-B24B-7F20E8A803BA}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Tools">
-      <UniqueIdentifier>{CBB91F69-770E-405D-9B8B-68945AFEF9B6}</UniqueIdentifier>
+      <UniqueIdentifier>{F6C94573-0884-427B-8F86-29F1A047A1B0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Application\ProjectSettings">
-      <UniqueIdentifier>{E70FAE88-7E24-4461-97B2-F876217FE601}</UniqueIdentifier>
+      <UniqueIdentifier>{86ED7204-9713-4E78-ABC4-72518EA0D34B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Animation">
-      <UniqueIdentifier>{3FD58830-BB58-4263-8726-C86770FD16AF}</UniqueIdentifier>
+      <UniqueIdentifier>{26018DA9-C313-4EAE-83E7-6E86A91CA347}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Audio">
-      <UniqueIdentifier>{4909162F-8E5D-4C0F-852B-B74DA2DA416A}</UniqueIdentifier>
+      <UniqueIdentifier>{99CF5FD5-FBA3-480A-B56B-F7D0EDB4C6AB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\BackgroundLoader">
-      <UniqueIdentifier>{259847CA-701D-492F-BFF8-6966420A9968}</UniqueIdentifier>
+      <UniqueIdentifier>{0C7FDB0E-6168-4E55-BF99-D30162602B43}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Json">
-      <UniqueIdentifier>{5AA2B562-8E67-4E61-B740-76BBB444A48F}</UniqueIdentifier>
+      <UniqueIdentifier>{33615255-6A09-4277-A176-A0D7D408CE13}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\PolygonMesh">
-      <UniqueIdentifier>{7D361586-AA01-4DFF-92BC-C8345E895881}</UniqueIdentifier>
+      <UniqueIdentifier>{070F1931-8E7E-479F-8B0E-91549DA02CBF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\PrimitiveGeometry">
-      <UniqueIdentifier>{08BD7BBF-FAD0-4E54-B904-5F57A2BE55B8}</UniqueIdentifier>
+      <UniqueIdentifier>{997FD395-1CF3-4D48-BC4D-3628DA516805}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Shader">
-      <UniqueIdentifier>{3FB13119-E3B2-4B7C-A09B-B0E54800DA90}</UniqueIdentifier>
+      <UniqueIdentifier>{34C782EF-E4CF-4058-978B-9504A2F9AE08}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Texture">
-      <UniqueIdentifier>{1ED4D13C-F1E9-4E35-82CB-B07CEB7F9509}</UniqueIdentifier>
+      <UniqueIdentifier>{83B97D3C-F915-417F-879B-3206C1E0B05A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\DebugValues">
-      <UniqueIdentifier>{D2DAF257-476D-46FA-BB64-BF6A8443B400}</UniqueIdentifier>
+      <UniqueIdentifier>{3EF8F760-A93D-4C24-ADF7-E405F991F558}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor">
-      <UniqueIdentifier>{A18F573E-B373-462A-BF8D-41915391E3B7}</UniqueIdentifier>
+      <UniqueIdentifier>{4FE72B4D-1AB2-453A-AC6B-D7649CC60A2D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\ImGui">
-      <UniqueIdentifier>{EF5F5FAA-7175-4271-B599-FF0EA93E9404}</UniqueIdentifier>
+      <UniqueIdentifier>{2051DF2B-4D9C-409A-9A6E-5489CE1D48B0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Profiler">
-      <UniqueIdentifier>{E7F501F0-83BF-4ECB-8A10-44ACE16D16A3}</UniqueIdentifier>
+      <UniqueIdentifier>{140FF9C2-3AE7-4409-BF37-748C312DB70A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX">
-      <UniqueIdentifier>{E14B37A3-F2C1-4844-AC6E-25A3E99FECBE}</UniqueIdentifier>
+      <UniqueIdentifier>{27702700-00FC-4C1F-933A-67ACB4BBAD24}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\DrawExecutor">
-      <UniqueIdentifier>{E043B9A2-0AA5-419A-9CFE-C7DC00CE5CA2}</UniqueIdentifier>
+      <UniqueIdentifier>{F3F1E247-479A-476E-8FDA-5BDF73A0B573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Manager">
+      <UniqueIdentifier>{4C37E3BA-F268-4BED-81A4-DF468863D892}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\Render">
-      <UniqueIdentifier>{D8694BF6-847B-4962-A438-8A18179F7E99}</UniqueIdentifier>
+      <UniqueIdentifier>{84C1BEAD-812F-43C4-986C-5247055E707F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World">
-      <UniqueIdentifier>{E076E71C-E573-4DF2-A29F-BD524B7A6D41}</UniqueIdentifier>
+      <UniqueIdentifier>{AB23BA6A-2D41-4638-8930-DAF69759F88B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Runtime\Clock">
-      <UniqueIdentifier>{69C941A0-E21B-41B1-97C4-EED1897A9A78}</UniqueIdentifier>
+      <UniqueIdentifier>{A6B16E1C-9E6E-4EBD-90F8-1087908AC86E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Runtime\Input">
-      <UniqueIdentifier>{62F68B5C-AF76-4B0A-ABDA-0B111C1C956C}</UniqueIdentifier>
+      <UniqueIdentifier>{8F153099-D183-4208-AA0A-F1DD0A1FAF52}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Runtime\Scene">
-      <UniqueIdentifier>{D3174B64-0188-4839-8D65-E1111B6552A8}</UniqueIdentifier>
+      <UniqueIdentifier>{6E68415C-B9D1-45E9-80D3-15EBE65C98FE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Utility\Template">
-      <UniqueIdentifier>{BE58DA78-2B80-4A6C-A2C0-242CBB21B360}</UniqueIdentifier>
+      <UniqueIdentifier>{2C522220-94A5-414F-9523-B2E28D1517D9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Library\Utility\Tools">
-      <UniqueIdentifier>{8E38059D-3A25-4EB4-B9E2-3C2950CB22D1}</UniqueIdentifier>
+      <UniqueIdentifier>{891426BF-819D-4581-ACCB-B42D59D10C42}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Debug\NormalColor">
-      <UniqueIdentifier>{7D6C48DB-2657-4FD7-A239-2B88A0A7330F}</UniqueIdentifier>
+      <UniqueIdentifier>{BA3CF187-472D-42C3-AF4B-7D6AC15EC28C}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Debug\Wireframe">
-      <UniqueIdentifier>{1E5CF3AE-ECE1-4E8D-89B9-1BB23C6AAF7C}</UniqueIdentifier>
+      <UniqueIdentifier>{1A479070-BF6B-4D7E-9041-73A36ED60E4C}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Deferred\Lighting">
-      <UniqueIdentifier>{68AAE7A0-CEF6-4D04-8D19-0B7720BB2315}</UniqueIdentifier>
+      <UniqueIdentifier>{BB59C6AA-4893-42C4-A3AB-883364EA78F2}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Deferred\Mesh">
-      <UniqueIdentifier>{CAD98941-A9B5-4304-946B-432C224E8FC2}</UniqueIdentifier>
+      <UniqueIdentifier>{8727CED6-8B06-44C6-99FD-6556B0CB394C}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Forward\Mesh">
-      <UniqueIdentifier>{BF76FB5F-B425-4FFB-A400-33189C046AE1}</UniqueIdentifier>
+      <UniqueIdentifier>{FDDA2BCF-C6DE-42ED-BF42-3F2080E800EE}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Forward\Particle">
-      <UniqueIdentifier>{814904F4-73B7-4603-AB30-4062DE73FC11}</UniqueIdentifier>
+      <UniqueIdentifier>{7EE914EA-FFD4-48A3-8A60-4A77E8B8EA6B}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Forward\Primitive">
-      <UniqueIdentifier>{6147FFD3-F01C-4FDF-80F4-8222DD521DAB}</UniqueIdentifier>
+      <UniqueIdentifier>{58879FD1-6D43-4FCE-A217-4515A004A92A}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Misc\PrimitiveGeometry">
-      <UniqueIdentifier>{EC7EA38E-BA3B-46AE-B08E-9E4C981DDBD9}</UniqueIdentifier>
+      <UniqueIdentifier>{CEF527BF-F80C-4EAC-976E-86DB46B4A4F3}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Posteffect\ChromaticAberration">
-      <UniqueIdentifier>{3520092F-C4E6-485D-9ECA-4E39CD8257E3}</UniqueIdentifier>
+      <UniqueIdentifier>{5A9F116F-A1D5-4895-8434-39B4858A3D59}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Posteffect\Grayscale">
-      <UniqueIdentifier>{A0CA3DEF-B6D1-42A0-ADFF-CF03ADB2BE79}</UniqueIdentifier>
+      <UniqueIdentifier>{57BC9B0B-712B-4739-AF3C-99683F237C90}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Posteffect\Outline">
-      <UniqueIdentifier>{BFF4B054-D278-4AA1-83DB-1548DFBA4BD0}</UniqueIdentifier>
+      <UniqueIdentifier>{CCF28B1F-C48C-45DB-9C73-D0D34B2FD22C}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Posteffect\RadialBlur">
-      <UniqueIdentifier>{696BEC5D-6C21-44BC-B437-437BA257DCB0}</UniqueIdentifier>
+      <UniqueIdentifier>{04C9E2D3-AE73-45DF-A480-19253DB483C7}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Tools\Lighing">
-      <UniqueIdentifier>{389B564E-7F32-4895-8807-8D59CD157983}</UniqueIdentifier>
+      <UniqueIdentifier>{24451D4F-3893-40B1-AA8A-77FEE1DC4A50}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Animation\NodeAnimation">
-      <UniqueIdentifier>{91AC069C-BC73-40FE-9EFA-76339DC68C03}</UniqueIdentifier>
+      <UniqueIdentifier>{FC665B1B-FDD6-453B-BA59-27C6AB5DBF9E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Assets\Animation\Skeleton">
-      <UniqueIdentifier>{FA8AD26D-3F52-42D2-9676-4445DC4A8126}</UniqueIdentifier>
+      <UniqueIdentifier>{32710813-06FD-459A-9142-D4C364E5F367}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\Adapter">
-      <UniqueIdentifier>{51A7A83A-1CEC-4405-9D8B-647142A5A428}</UniqueIdentifier>
+      <UniqueIdentifier>{0ED68FEA-F4DC-4996-B4C4-949AD651453C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\Command">
-      <UniqueIdentifier>{9D60A6D5-5CF4-4361-AF84-1172DF87CB06}</UniqueIdentifier>
+      <UniqueIdentifier>{DB5308E4-7E95-45B6-8E17-0E1D36335396}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\Core">
-      <UniqueIdentifier>{DB434727-7DB6-4368-90B5-3914B4E09DCC}</UniqueIdentifier>
+      <UniqueIdentifier>{E0DD3B99-9AA5-48A7-BEC9-6E200842DF2F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\RemoteObject">
-      <UniqueIdentifier>{7099FCB6-A883-4D98-B01D-32D01C529E0B}</UniqueIdentifier>
+      <UniqueIdentifier>{43C639D8-D710-4C33-B8C4-464ED2C88484}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\Window">
-      <UniqueIdentifier>{DC331D51-EEC0-498B-92B5-4546B403FF4D}</UniqueIdentifier>
+      <UniqueIdentifier>{B9F8E6F6-670A-41A2-96E4-9177C7E343CE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\ImGui\ImGuiJsonEditor">
-      <UniqueIdentifier>{CE51FA78-8FEF-4EBE-942A-9999CDA5E200}</UniqueIdentifier>
+      <UniqueIdentifier>{37A4C600-42C9-44C2-9B5B-DF729D68EDD1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\ImGui\ImGuiLoadManager">
-      <UniqueIdentifier>{5D8A90A1-4D2F-4D13-B844-4943A2DDADF6}</UniqueIdentifier>
+      <UniqueIdentifier>{6C58D478-9C4D-49B6-8BAD-E9E84185E82D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\ImGui\ImGuiManager">
-      <UniqueIdentifier>{8B0E8968-5EC1-47AC-8275-A5C6FEA6CC6D}</UniqueIdentifier>
+      <UniqueIdentifier>{4738838A-8015-4C35-898C-DFA72BE71050}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\ImGui\ImGuiTK">
-      <UniqueIdentifier>{4A6D28F6-EFA4-4D2D-83DB-A18FED761A95}</UniqueIdentifier>
+      <UniqueIdentifier>{C9146D9F-FF73-4B3B-9231-455959B4601B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxCommand">
-      <UniqueIdentifier>{3549EC08-FE5C-4B77-B8BC-A330C8814B54}</UniqueIdentifier>
+      <UniqueIdentifier>{70794334-C696-482F-9BC5-70DE2585A9D3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxCompiler">
-      <UniqueIdentifier>{05671266-3194-41DC-9A75-6B6F07EA417A}</UniqueIdentifier>
+      <UniqueIdentifier>{8013F480-8118-4788-9AD0-ECD8AF29EFED}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap">
-      <UniqueIdentifier>{74EF0B7E-B4C1-4921-8C9D-92B42B591E5F}</UniqueIdentifier>
+      <UniqueIdentifier>{FF1344F2-3BF5-49E0-BDEC-436EE24ECB57}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxDevice">
-      <UniqueIdentifier>{03AD9DA5-D588-4663-97C4-2F414EC32981}</UniqueIdentifier>
+      <UniqueIdentifier>{EC9E6F67-8A0D-4AFA-AB3F-5248632A0727}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxPipelineState">
-      <UniqueIdentifier>{62F25D4B-8C28-4675-B0CD-993A3F050323}</UniqueIdentifier>
+      <UniqueIdentifier>{C570A1EB-60FC-4AA7-BA61-7E455CE50645}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource">
-      <UniqueIdentifier>{D33B6647-6AFA-42CA-BBE5-DEF5C8643EA6}</UniqueIdentifier>
+      <UniqueIdentifier>{8F744BCB-9100-42C5-948A-0C66A08FA920}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxSwapChain">
-      <UniqueIdentifier>{BA839531-9214-4E13-A0D5-F716E51DE70B}</UniqueIdentifier>
+      <UniqueIdentifier>{0BA0E57B-D66B-4BD2-B07E-F8949E9A7634}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\DrawExecutor\LightingExecutor">
-      <UniqueIdentifier>{ECD1076F-6082-4DCE-9A09-2670C03CF4A6}</UniqueIdentifier>
+      <UniqueIdentifier>{413935F9-BAA0-457B-8B5B-C618E23E75B0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\DrawExecutor\Mesh">
-      <UniqueIdentifier>{C4CE390A-0660-43F1-A8E3-F3EB5FA5BCD1}</UniqueIdentifier>
+      <UniqueIdentifier>{942C73C8-FA3B-4ED4-816B-BEEE58E478F4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor">
-      <UniqueIdentifier>{436D84E2-86AA-427D-9038-F5ECD2DAF671}</UniqueIdentifier>
+      <UniqueIdentifier>{6A710A55-E96A-400D-A469-5CEFA5C5A524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Manager\Camera">
+      <UniqueIdentifier>{736888D6-176C-422A-9831-795021C3EB1C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Manager\RuntimeStorage">
+      <UniqueIdentifier>{C7E87BD8-11B3-4919-876F-0359A963FED2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Manager\SceneScript">
+      <UniqueIdentifier>{E38FFF7F-A701-4035-8D3F-8CF0486EE980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Manager\World">
+      <UniqueIdentifier>{33B18106-F36D-4430-88CA-361CE8637D14}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\Render\RenderNode">
-      <UniqueIdentifier>{4C3BC2CB-4DB6-4A61-9247-B2EC1B7B9328}</UniqueIdentifier>
+      <UniqueIdentifier>{6029D39A-24F8-45F5-99D2-56B28F1AE56F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Render\RenderPSO">
+      <UniqueIdentifier>{E7A57334-AAEF-42F6-A6FB-84EF6377A297}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\Render\RenderPath">
-      <UniqueIdentifier>{75FA7A18-F250-4335-B2B2-CC4EAF0944B2}</UniqueIdentifier>
+      <UniqueIdentifier>{EEB67638-155F-4845-B14A-B8D57D59E00C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Render\RenderSubtree">
+      <UniqueIdentifier>{F32E23A1-377E-44F8-8B78-5C37876CAFC1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Render\RenderTargetCollection">
+      <UniqueIdentifier>{9095116B-4CF6-4F49-BD4A-1DE22E1351E6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\Render\RenderTargetGroup">
-      <UniqueIdentifier>{7F501E22-C713-4200-8BB6-BB6662832111}</UniqueIdentifier>
+      <UniqueIdentifier>{49B1065B-E283-4476-9ADC-AE494A91C505}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Camera">
-      <UniqueIdentifier>{B71141BA-3223-4D58-B926-FC792ED848C2}</UniqueIdentifier>
+      <UniqueIdentifier>{08A77245-EBAE-43B5-82D2-0393FDBE6874}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Collision">
-      <UniqueIdentifier>{A607B6D2-3F30-4DE9-9B7F-67FEA641B00B}</UniqueIdentifier>
+      <UniqueIdentifier>{985C2A48-DA7A-4C12-8E03-636C582C0F32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Light">
-      <UniqueIdentifier>{38D1C604-C46B-46F9-9151-442431372FC6}</UniqueIdentifier>
+      <UniqueIdentifier>{84CFDB8F-D433-4C5E-B7DB-329A52EEC156}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Mesh">
-      <UniqueIdentifier>{3B6E8182-0130-4C35-8EC1-1191566895B8}</UniqueIdentifier>
+      <UniqueIdentifier>{B3530568-20A2-4262-B1B1-E992EB96F3DF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Particle">
-      <UniqueIdentifier>{03025F05-2139-4D6F-9190-9B76B357D3D8}</UniqueIdentifier>
+      <UniqueIdentifier>{B71F8534-DE09-469D-BEBB-2A60D81CBA04}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Sprite">
-      <UniqueIdentifier>{57FF8BB5-6D93-4CEF-9B8C-E0EDF69629FC}</UniqueIdentifier>
+      <UniqueIdentifier>{F3EFE754-2163-4E11-BF10-673353704602}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\WorldInstance">
-      <UniqueIdentifier>{F428C9C9-A8B0-4EEE-9E68-0D8DBDF823F0}</UniqueIdentifier>
+      <UniqueIdentifier>{47768937-A8AD-430E-98E9-C6CA6C1851E6}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard">
-      <UniqueIdentifier>{13A391C2-9515-41DF-9F48-854294E80361}</UniqueIdentifier>
+      <UniqueIdentifier>{0B542212-C94D-429A-920A-D70ED0FDE8AD}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineResources\HLSL\Forward\Particle\ParticleMesh">
-      <UniqueIdentifier>{D8070CFF-E337-4548-A840-C0E43E3CB86C}</UniqueIdentifier>
+      <UniqueIdentifier>{A546F5AB-1031-4A06-84C6-C0FC76924D58}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\RemoteObject\WorldInstance">
-      <UniqueIdentifier>{398DE896-A7F9-4BC9-815F-6451865D4BAE}</UniqueIdentifier>
+      <UniqueIdentifier>{ADA846FA-352C-4A42-8F52-AD9E318D56AD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\Window\EditorWorldView">
-      <UniqueIdentifier>{92971306-F1D6-4517-9441-5D653A2D5C55}</UniqueIdentifier>
+      <UniqueIdentifier>{E30CD8BF-62A6-4B92-A85E-551C900BBAD9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\DSVDescroptorHeap">
-      <UniqueIdentifier>{CDBF4579-E2E6-48CF-BA02-D334409FB363}</UniqueIdentifier>
+      <UniqueIdentifier>{729E0D4E-18C0-4005-9014-A1DE4A626CBB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\RTVDescriptorHeap">
-      <UniqueIdentifier>{042DE81B-DF74-477B-A1D2-7EF7FF275E25}</UniqueIdentifier>
+      <UniqueIdentifier>{5B3A77AB-D965-4C82-BF7E-9042E362CEBD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxDescriptorHeap\SRVDescriptorHeap">
-      <UniqueIdentifier>{BA3473E1-BE5D-4D1F-9F5B-31C9020C9D68}</UniqueIdentifier>
+      <UniqueIdentifier>{BD504EF1-501D-4B0F-B253-8A5280570F98}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxPipelineState\PSOBuilder">
-      <UniqueIdentifier>{FB7B7BE4-57DB-494B-8189-AD76BCF5627F}</UniqueIdentifier>
+      <UniqueIdentifier>{D29F6EF2-926F-4355-B951-EEB639B8E6F9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource\ConstantBuffer">
-      <UniqueIdentifier>{80268CE1-3DB5-4A6D-B159-21A39617920E}</UniqueIdentifier>
+      <UniqueIdentifier>{C19991F1-8AF7-48CD-A3A2-78439B7930B5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource\IndexBuffer">
-      <UniqueIdentifier>{74C8A4E4-97F4-4054-9CA8-538DE2AB30CC}</UniqueIdentifier>
+      <UniqueIdentifier>{574E4DEA-154C-4749-B547-652123ABC12C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource\StructuredBuffer">
-      <UniqueIdentifier>{AB72A6D5-88E0-44AF-B636-084572E3EF54}</UniqueIdentifier>
+      <UniqueIdentifier>{BC9EBBE8-9491-40B3-9208-5F6DA03B4DCD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource">
-      <UniqueIdentifier>{D99FD956-AADA-473B-BA87-507F4B88A221}</UniqueIdentifier>
+      <UniqueIdentifier>{45487841-73CF-49EF-ABC9-338704781785}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource\VertexBuffer">
-      <UniqueIdentifier>{8F7ADB67-11A8-41CD-A350-5FD8C35E5747}</UniqueIdentifier>
+      <UniqueIdentifier>{B937FFBA-AC35-4F26-9471-3041B6B69CCB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\DrawExecutor\Mesh\Forward">
-      <UniqueIdentifier>{94F4D69C-2A89-4377-B8AA-FBAF16AEDD3D}</UniqueIdentifier>
+      <UniqueIdentifier>{B9EFE2F0-D495-4956-AC78-23D341F0EE6D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\DrawExecutor\Mesh\Primitive">
-      <UniqueIdentifier>{67B921A7-2E12-4955-8916-3CC0F6760706}</UniqueIdentifier>
+      <UniqueIdentifier>{EB5D7ECA-8270-49C2-9F71-810F0A3044A7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\2D">
-      <UniqueIdentifier>{4AD7E46B-A7D7-404E-8925-ABD9A7557574}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderNode\Loader">
+      <UniqueIdentifier>{5854B763-0573-40F6-A571-F4324EB1C126}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Debug">
-      <UniqueIdentifier>{3FEFF88A-F1FD-4AE3-AE11-1752E07FCFB4}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\2D">
+      <UniqueIdentifier>{195DA38D-02F3-4BF4-A0C0-C80C47917C24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Deferred">
-      <UniqueIdentifier>{2668207B-D75E-47ED-8264-BD137E9AC7C4}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Debug">
+      <UniqueIdentifier>{1229CCFA-0099-4ED5-8112-497C4AFA3BD3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward">
-      <UniqueIdentifier>{503EAD7B-068C-489E-A209-2E57EE77FC3E}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Deferred">
+      <UniqueIdentifier>{F8908711-B84F-4C69-AA92-C7AA74802423}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Posteffect">
-      <UniqueIdentifier>{E63448CF-D127-4D05-A0CB-B866FC9EAC90}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward">
+      <UniqueIdentifier>{F730E4DE-4C7A-48C9-8504-7F70D287A8FB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Render\RenderPSO\Posteffect">
+      <UniqueIdentifier>{B853E875-1F03-4543-8CAA-2F6916F2A9D8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Collision\Collider">
-      <UniqueIdentifier>{71A45325-CE2A-43BB-9970-CBFFB934D792}</UniqueIdentifier>
+      <UniqueIdentifier>{E06C96BD-82AF-45C8-94DC-2C272D470587}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Light\DirectionalLight">
-      <UniqueIdentifier>{A0D0B23C-0750-4FA1-A50F-6189E978ACA8}</UniqueIdentifier>
+      <UniqueIdentifier>{93538B66-5496-4221-9625-AC81A31112A8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Light\PointLight">
-      <UniqueIdentifier>{1A20FF50-DEC9-4896-B8FF-987EE337040C}</UniqueIdentifier>
+      <UniqueIdentifier>{84FD3EBF-74BF-456C-BBCE-7D7AD3D9E902}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Light\SpotLight">
-      <UniqueIdentifier>{ADE8BF34-AF71-4A38-8720-781827D5CDE4}</UniqueIdentifier>
+      <UniqueIdentifier>{CE76198D-83BA-45D3-A5EF-1281304303B7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Mesh\Primitive">
-      <UniqueIdentifier>{77685895-0EB2-4135-83B1-86E9E52BA486}</UniqueIdentifier>
+      <UniqueIdentifier>{5DD900F4-4442-4630-A031-6C2FC46B90B0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Particle\DrawSystem">
-      <UniqueIdentifier>{103DB6C6-147F-4246-BE3E-587B7F82991F}</UniqueIdentifier>
+      <UniqueIdentifier>{9C5E820E-C3D2-4274-8099-5852EF84EF1F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\World\Particle\Particle">
-      <UniqueIdentifier>{43EB5915-7A57-479B-9A5C-3DF5D7C99778}</UniqueIdentifier>
+      <UniqueIdentifier>{09E84219-EC07-4E9A-98C4-3AFB0E1B2A7B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Camera">
-      <UniqueIdentifier>{0498F019-A5B2-484B-B6BC-93FB561F7CA4}</UniqueIdentifier>
+      <UniqueIdentifier>{EF2D9ED3-C05E-44D5-9C5C-C519A36E1189}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Collider">
-      <UniqueIdentifier>{82F23C00-1D59-444C-AB98-66CAB31A0A12}</UniqueIdentifier>
+      <UniqueIdentifier>{3E071FDF-7EEE-4A0A-86AF-5CCB298B6B50}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Mesh">
-      <UniqueIdentifier>{4D2813EE-7ED7-4AAB-A053-FB02FABC567C}</UniqueIdentifier>
+      <UniqueIdentifier>{D48DD67D-C3E1-4E8F-B291-1DA63B8EAD6A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GraphicsAPI\DirectX\DxResource\TextureResource\IResourceView">
-      <UniqueIdentifier>{54DF2BC8-1043-42BD-AE39-CB88EF7E502D}</UniqueIdentifier>
+      <UniqueIdentifier>{4A8C9471-2354-451F-98C6-2EA0CB69C660}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\2D\Sprite">
-      <UniqueIdentifier>{E7EE7214-D829-4F9E-835F-7A0B66C35816}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\2D\Sprite">
+      <UniqueIdentifier>{BFA5D836-5ABD-4F76-99F2-18510981BA2E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Debug\Line">
-      <UniqueIdentifier>{97DFE754-545A-4ABC-B4B4-9A9F0897FDA7}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Debug\Line">
+      <UniqueIdentifier>{BF02C1D9-C23B-4F2C-8480-A4ED13649820}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine">
-      <UniqueIdentifier>{03F335F9-DDD4-4B61-B31A-AD448B2F7392}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine">
+      <UniqueIdentifier>{56BB738A-C9BC-49BF-BA58-31EBD7D9594D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Deferred\Lighting">
-      <UniqueIdentifier>{75F869FC-6BE1-4B2C-9C58-E6E60D2BEA6E}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Deferred\Lighting">
+      <UniqueIdentifier>{52A05DB1-37C0-4505-957F-C4EFD54E6D7B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Deferred\Mesh">
-      <UniqueIdentifier>{79E07769-BFD3-4AC1-AD10-E686228D6896}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Deferred\Mesh">
+      <UniqueIdentifier>{D1E5B0BB-627D-4F52-A911-48BD5328B6B8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward\Mesh">
-      <UniqueIdentifier>{5145A7D4-5A2D-4CE2-91CB-88E97689B783}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward\Mesh">
+      <UniqueIdentifier>{A57D756C-779C-4CC6-8D1A-72AA6DD6D73F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward\Particle">
-      <UniqueIdentifier>{76FD3ABE-4905-44BD-A7CD-3792A5188A51}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward\Particle">
+      <UniqueIdentifier>{CD008E49-8E5B-4FBB-8D46-5945F4EECC7E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward\Primitive">
-      <UniqueIdentifier>{EB19E80F-01C4-4FB8-A799-A89F3CC239C2}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward\Primitive">
+      <UniqueIdentifier>{33F34F61-9AB4-4D7C-A033-48C59B4E0E79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration">
-      <UniqueIdentifier>{8491279E-A9A4-4ADC-ABEA-3B9FB098D3C2}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration">
+      <UniqueIdentifier>{CEF39BA3-A912-4DBA-9DFE-920675DC7C35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale">
-      <UniqueIdentifier>{BACD2FF4-3612-4AB7-9E32-739B1F93F842}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale">
+      <UniqueIdentifier>{5B3A6DC0-697F-472B-8F04-4D519A5C2A96}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Posteffect\Outline">
-      <UniqueIdentifier>{E2C6BA06-FA3F-4F94-8355-94A274F11C1A}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Posteffect\Outline">
+      <UniqueIdentifier>{D5298CEF-A00F-4F2A-ABEC-BEC68D1ED707}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur">
-      <UniqueIdentifier>{F8FC1DD4-04DA-413D-AF1E-FAA8C1C39A57}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur">
+      <UniqueIdentifier>{06158890-B78E-454D-A1C6-7F7E70FD9F73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode">
-      <UniqueIdentifier>{F45683F4-2DAC-4732-B37A-99C373D67444}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode">
+      <UniqueIdentifier>{C623A21F-BBD6-46EA-83D7-86376BE0D1AA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode">
-      <UniqueIdentifier>{94A5A07C-326E-4D0F-81DC-6CBEF51E0B52}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode">
+      <UniqueIdentifier>{EAC85C4D-5E20-4556-8E7B-353EEAC87ADA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode">
-      <UniqueIdentifier>{921869A8-41AA-4561-90A5-D0E2CB3A2CD6}</UniqueIdentifier>
+    <Filter Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode">
+      <UniqueIdentifier>{4A975718-EAA9-4F03-89DE-BE233F103029}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
-      <Filter>EngineResources\HLSL\Debug\NormalColor</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Deferred\Deferred.hlsli">
-      <Filter>EngineResources\HLSL\Deferred</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Forward\Forward.hlsli">
-      <Filter>EngineResources\HLSL\Forward</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
-      <Filter>EngineResources\HLSL\Forward\Particle\ParticleBillboard</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.hlsli">
-      <Filter>EngineResources\HLSL\Forward\Particle\ParticleMesh</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\FullscreenShader.hlsli">
-      <Filter>EngineResources\HLSL</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.hlsli">
-      <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
-      <Filter>EngineResources\HLSL\Posteffect\ChromaticAberration</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
-      <Filter>EngineResources\HLSL\Posteffect\Grayscale</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
-      <Filter>EngineResources\HLSL\Posteffect\RadialBlur</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli">
-      <Filter>EngineResources\HLSL\Sprite</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\Lighing\CalcLighting.hlsli">
-      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\Lighing\DirectionalLighting.hlsli">
-      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\Lighing\PointLighting.hlsli">
-      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\Lighing\SpotLighting.hlsli">
-      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\MathTool.hlsli">
-      <Filter>EngineResources\HLSL\Tools</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\PackA2.hlsli">
-      <Filter>EngineResources\HLSL\Tools</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\PackNormalV2.hlsli">
-      <Filter>EngineResources\HLSL\Tools</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\PackShininess.hlsli">
-      <Filter>EngineResources\HLSL\Tools</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\ToLinearZBuffer.hlsli">
-      <Filter>EngineResources\HLSL\Tools</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Tools\UnormNormal.hlsli">
-      <Filter>EngineResources\HLSL\Tools</Filter>
-    </None>
-    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
-      <Filter>EngineResources\HLSL\Debug\NormalColor</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
-      <Filter>EngineResources\HLSL\Debug\NormalColor</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
-      <Filter>EngineResources\HLSL\Debug\Wireframe</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
-      <Filter>EngineResources\HLSL\Debug\Wireframe</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Deferred.PS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\DirectionalLighting.PS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\NonLighting.PS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\PointLighting.PS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLighting.PS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLightVolume.VS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\SkinningMesh.VS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Mesh</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\StaticMesh.VS.hlsl">
-      <Filter>EngineResources\HLSL\Deferred\Mesh</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
-      <Filter>EngineResources\HLSL\Forward</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\ForwardAlpha.PS.hlsl">
-      <Filter>EngineResources\HLSL\Forward</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\SkinningMesh.VS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Mesh</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMeshForward.VS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Mesh</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Particle\ParticleBillboard</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Particle\ParticleBillboard</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Particle\ParticleMesh</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Particle\ParticleMesh</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Forward\Primitive\Rect3d.VS.hlsl">
-      <Filter>EngineResources\HLSL\Forward\Primitive</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\FullscreenShader.VS.hlsl">
-      <Filter>EngineResources\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.PS.hlsl">
-      <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.VS.hlsl">
-      <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
-      <Filter>EngineResources\HLSL\Posteffect\ChromaticAberration</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
-      <Filter>EngineResources\HLSL\Posteffect\Grayscale</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
-      <Filter>EngineResources\HLSL\Posteffect\Outline</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
-      <Filter>EngineResources\HLSL\Posteffect\RadialBlur</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
-      <Filter>EngineResources\HLSL\Sprite</Filter>
-    </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
-      <Filter>EngineResources\HLSL\Sprite</Filter>
-    </FxCompile>
     <ClCompile Include="Engine\Application\ArgumentParser.cpp">
       <Filter>Engine\Application</Filter>
     </ClCompile>
@@ -867,76 +741,115 @@
     <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp">
       <Filter>Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\2D\Sprite</Filter>
+    <ClCompile Include="Engine\Module\Manager\Camera\CameraManager.cpp">
+      <Filter>Engine\Module\Manager\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\BaseRenderNode.cpp">
+    <ClCompile Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.cpp">
+      <Filter>Engine\Module\Manager\RuntimeStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Manager\SceneScript\ISceneScript.cpp">
+      <Filter>Engine\Module\Manager\SceneScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Manager\SceneScript\SceneScriptManager.cpp">
+      <Filter>Engine\Module\Manager\SceneScript</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Manager\World\InstanceBucket.cpp">
+      <Filter>Engine\Module\Manager\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Manager\World\WorldCluster.cpp">
+      <Filter>Engine\Module\Manager\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Manager\World\WorldRoot.cpp">
+      <Filter>Engine\Module\Manager\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderDAG.cpp">
+      <Filter>Engine\Module\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderNode\IRenderNode.cpp">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Debug\Line</Filter>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp">
+      <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Debug\PrimitiveLine</Filter>
+    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp">
+      <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\Grayscale</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\Outline</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.cpp">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\RadialBlur</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.cpp">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
-      <Filter>Engine\Module\Render\RenderTargetGroup</Filter>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\2D\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\MultiRenderTarget.cpp">
+    <ClCompile Include="Engine\Module\Render\RenderPSO\BaseRenderNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Debug\Line\LineNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Debug\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine\PrimitiveLineNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Debug\PrimitiveLine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\DirectionalLighingNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\NonLightingPixelNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Primitive\Rect3dNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp">
+      <Filter>Engine\Module\Render\RenderPSO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Grayscale</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Outline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.cpp">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\RadialBlur</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderSubtree\LayerRenderSubtree.cpp">
+      <Filter>Engine\Module\Render\RenderSubtree</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.cpp">
+      <Filter>Engine\Module\Render\RenderTargetCollection</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.cpp">
       <Filter>Engine\Module\Render\RenderTargetGroup</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SingleRenderTarget.cpp">
@@ -944,6 +857,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.cpp">
       <Filter>Engine\Module\Render\RenderTargetGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Render\WorldRenderCollection.cpp">
+      <Filter>Engine\Module\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\World\Camera\Camera2D.cpp">
       <Filter>Engine\Module\World\Camera</Filter>
@@ -1011,9 +927,6 @@
     <ClCompile Include="Engine\Module\World\WorldManager.cpp">
       <Filter>Engine\Module\World</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\World\WorldRoot.cpp">
-      <Filter>Engine\Module\World</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Runtime\Clock\WorldClock.cpp">
       <Filter>Engine\Runtime\Clock</Filter>
     </ClCompile>
@@ -1029,10 +942,10 @@
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Runtime\Scene\SceneLoader.cpp">
+    <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp">
+    <ClCompile Include="Engine\Runtime\Scene\SceneManager2.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Library\Math\Affine.cpp">
@@ -1092,6 +1005,69 @@
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp">
       <Filter>Library\Utility\Tools</Filter>
     </ClCompile>
+    <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
+      <Filter>EngineResources\HLSL\Debug\NormalColor</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Deferred\Deferred.hlsli">
+      <Filter>EngineResources\HLSL\Deferred</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Forward\Forward.hlsli">
+      <Filter>EngineResources\HLSL\Forward</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.hlsli">
+      <Filter>EngineResources\HLSL\Forward\Particle\ParticleBillboard</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.hlsli">
+      <Filter>EngineResources\HLSL\Forward\Particle\ParticleMesh</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\FullscreenShader.hlsli">
+      <Filter>EngineResources\HLSL</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.hlsli">
+      <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
+      <Filter>EngineResources\HLSL\Posteffect\ChromaticAberration</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
+      <Filter>EngineResources\HLSL\Posteffect\Grayscale</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
+      <Filter>EngineResources\HLSL\Posteffect\RadialBlur</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli">
+      <Filter>EngineResources\HLSL\Sprite</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\Lighing\CalcLighting.hlsli">
+      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\Lighing\DirectionalLighting.hlsli">
+      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\Lighing\PointLighting.hlsli">
+      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\Lighing\SpotLighting.hlsli">
+      <Filter>EngineResources\HLSL\Tools\Lighing</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\MathTool.hlsli">
+      <Filter>EngineResources\HLSL\Tools</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\PackA2.hlsli">
+      <Filter>EngineResources\HLSL\Tools</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\PackNormalV2.hlsli">
+      <Filter>EngineResources\HLSL\Tools</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\PackShininess.hlsli">
+      <Filter>EngineResources\HLSL\Tools</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\ToLinearZBuffer.hlsli">
+      <Filter>EngineResources\HLSL\Tools</Filter>
+    </None>
+    <None Include="EngineResources\HLSL\Tools\UnormNormal.hlsli">
+      <Filter>EngineResources\HLSL\Tools</Filter>
+    </None>
     <ClInclude Include="Engine\Application\ArgumentParser.h">
       <Filter>Engine\Application</Filter>
     </ClInclude>
@@ -1470,74 +1446,116 @@
     <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h">
       <Filter>Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\2D\Sprite\SpriteNode.h">
-      <Filter>Engine\Module\Render\RenderNode\2D\Sprite</Filter>
+    <ClInclude Include="Engine\Module\Manager\Camera\CameraManager.h">
+      <Filter>Engine\Module\Manager\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\BaseRenderNode.h">
+    <ClInclude Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.h">
+      <Filter>Engine\Module\Manager\RuntimeStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Manager\SceneScript\ISceneScript.h">
+      <Filter>Engine\Module\Manager\SceneScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Manager\SceneScript\SceneScriptManager.h">
+      <Filter>Engine\Module\Manager\SceneScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Manager\World\InstanceBucket.h">
+      <Filter>Engine\Module\Manager\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Manager\World\WorldCluster.h">
+      <Filter>Engine\Module\Manager\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Manager\World\WorldRoot.h">
+      <Filter>Engine\Module\Manager\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderDAG.h">
+      <Filter>Engine\Module\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderNode\IRenderNode.h">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\Line\LineNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Debug\Line</Filter>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h">
+      <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Debug\PrimitiveLine\PrimitiveLineNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Debug\PrimitiveLine</Filter>
+    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h">
+      <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\DeferredAdaptor.h">
-      <Filter>Engine\Module\Render\RenderNode\Deferred</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\DirectionalLighingNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\NonLightingPixelNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Lighting\PointLightingNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\SkinningMeshNodeDeferred.h">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Deferred\Mesh\StaticMeshNodeDeferred.h">
-      <Filter>Engine\Module\Render\RenderNode\Deferred\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\SkinningMeshNodeForward.h">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Mesh\StaticMeshNodeForward.h">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Particle\ParticleBillboardNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Particle\ParticleMeshNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Particle\ParticleSpriteNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\Primitive\Rect3dNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Forward\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\MultiRenderTargetNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\PostEffectNode.h">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration\ChromaticAberrationNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\ChromaticAberration</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Grayscale\GrayscaleNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\Grayscale</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\Outline\OutlineNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\Outline</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Posteffect\RadialBlur\RadialBlurNode.h">
-      <Filter>Engine\Module\Render\RenderNode\Posteffect\RadialBlur</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\SingleRenderTargetNode.h">
+    <ClInclude Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.h">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Module\Render\RenderPath</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\2D\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\BaseRenderNode.h">
+      <Filter>Engine\Module\Render\RenderPSO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Debug\Line\LineNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Debug\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine\PrimitiveLineNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Debug\PrimitiveLine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\DeferredAdaptor.h">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\DirectionalLighingNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\NonLightingPixelNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.h">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.h">
+      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.h">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.h">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Primitive\Rect3dNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Forward\Primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h">
+      <Filter>Engine\Module\Render\RenderPSO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Grayscale</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Outline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.h">
+      <Filter>Engine\Module\Render\RenderPSO\Posteffect\RadialBlur</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderSubtree\LayerRenderSubtree.h">
+      <Filter>Engine\Module\Render\RenderSubtree</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\RenderTargetCollection\RenderTargetCollection.h">
+      <Filter>Engine\Module\Render\RenderTargetCollection</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\BaseRenderTargetGroup.h">
       <Filter>Engine\Module\Render\RenderTargetGroup</Filter>
@@ -1550,6 +1568,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderTargetGroup\SwapChainRenderTargetGroup.h">
       <Filter>Engine\Module\Render\RenderTargetGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Render\WorldRenderCollection.h">
+      <Filter>Engine\Module\Render</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\World\Camera\Camera2D.h">
       <Filter>Engine\Module\World\Camera</Filter>
@@ -1632,9 +1653,6 @@
     <ClInclude Include="Engine\Module\World\WorldManager.h">
       <Filter>Engine\Module\World</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\World\WorldRoot.h">
-      <Filter>Engine\Module\World</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Runtime\Clock\WorldClock.h">
       <Filter>Engine\Runtime\Clock</Filter>
     </ClInclude>
@@ -1659,10 +1677,10 @@
     <ClInclude Include="Engine\Runtime\Scene\Scene.h">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Runtime\Scene\SceneLoader.h">
+    <ClInclude Include="Engine\Runtime\Scene\SceneManager.h">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Runtime\Scene\SceneManager.h">
+    <ClInclude Include="Engine\Runtime\Scene\SceneManager2.h">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Library\Math\Affine.h">
@@ -1770,9 +1788,121 @@
     <ClInclude Include="Library\Utility\Tools\SmartPointer.h">
       <Filter>Library\Utility\Tools</Filter>
     </ClInclude>
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.PS.hlsl">
+      <Filter>EngineResources\HLSL\Debug\NormalColor</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.VS.hlsl">
+      <Filter>EngineResources\HLSL\Debug\NormalColor</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.PS.hlsl">
+      <Filter>EngineResources\HLSL\Debug\Wireframe</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Debug\Wireframe\Wireframe3d.VS.hlsl">
+      <Filter>EngineResources\HLSL\Debug\Wireframe</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Deferred.PS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\DirectionalLighting.PS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\NonLighting.PS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\PointLighting.PS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLighting.PS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Lighting\SpotLightVolume.VS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Lighting</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\SkinningMesh.VS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Mesh</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Deferred\Mesh\StaticMesh.VS.hlsl">
+      <Filter>EngineResources\HLSL\Deferred\Mesh</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Forward.PS.hlsl">
+      <Filter>EngineResources\HLSL\Forward</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\ForwardAlpha.PS.hlsl">
+      <Filter>EngineResources\HLSL\Forward</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\SkinningMesh.VS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Mesh</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Mesh\StaticMeshForward.VS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Mesh</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.PS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Particle\ParticleBillboard</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleBillboard\ParticleBillboard.VS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Particle\ParticleBillboard</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.PS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Particle\ParticleMesh</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Particle\ParticleMesh\ParticleMesh.VS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Particle\ParticleMesh</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Forward\Primitive\Rect3d.VS.hlsl">
+      <Filter>EngineResources\HLSL\Forward\Primitive</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\FullscreenShader.VS.hlsl">
+      <Filter>EngineResources\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.PS.hlsl">
+      <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.VS.hlsl">
+      <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
+      <Filter>EngineResources\HLSL\Posteffect\ChromaticAberration</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
+      <Filter>EngineResources\HLSL\Posteffect\Grayscale</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
+      <Filter>EngineResources\HLSL\Posteffect\Outline</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
+      <Filter>EngineResources\HLSL\Posteffect\RadialBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
+      <Filter>EngineResources\HLSL\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.VS.hlsl">
+      <Filter>EngineResources\HLSL\Sprite</Filter>
+    </FxCompile>
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\PostEffectImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\ResultImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\StaticTextureImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\WorldLayerRenderImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorRenderDAG.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.cpp" />
+    <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Window\EditorScreenResult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\PostEffectImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\ResultImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\StaticTextureImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\WorldLayerRenderImNode.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorRenderDAG.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
+    <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />

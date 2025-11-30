@@ -26,7 +26,6 @@ public:
 
 public:
 	void update_affine() override;
-	void transfer() override;
 
 public:
 	Matrix4x4 transform_matrix() const;

@@ -52,7 +52,7 @@ void RemoteErrorObject::reparent(Reference<IRemoteObject> remoteObject) {
 	parent = remoteObject;
 }
 
-void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject> child) {
+void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject>) {
 	szgWarning("RemoteErrorObject cannot have children.");
 }
 

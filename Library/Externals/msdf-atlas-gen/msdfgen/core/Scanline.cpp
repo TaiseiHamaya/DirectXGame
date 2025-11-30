@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include "arithmetics.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 4458)
+
 namespace msdfgen {
 
 static int compareIntersections(const void *a, const void *b) {

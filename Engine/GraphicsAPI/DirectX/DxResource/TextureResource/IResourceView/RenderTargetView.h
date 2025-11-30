@@ -18,7 +18,7 @@ public:
 	void create(Reference<ITextureResource> resource, DXGI_FORMAT format) override;
 	D3D12_RESOURCE_STATES use_state() const override { return D3D12_RESOURCE_STATE_RENDER_TARGET; };
 
-	void clear(const Color4& color = CColor4::ZERO) const;
+	void clear(const Color4& color = CColor4::BLACK) const;
 
 private:
 

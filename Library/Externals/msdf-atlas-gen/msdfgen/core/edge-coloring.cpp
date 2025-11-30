@@ -9,6 +9,10 @@
 #include <queue>
 #include "arithmetics.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 4457)
+#pragma warning(disable : 4456)
+
 namespace msdfgen {
 
 /**

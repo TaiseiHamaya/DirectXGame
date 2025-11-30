@@ -75,11 +75,38 @@ public: // -------------------- その他関数 --------------------
 	/// <summary>
 	/// 関連付けの削除
 	/// </summary>
-	void unref() noexcept { reference = nullptr; };
+	[[deprecated("Use new reset() function")]]
+	void unref() noexcept;
+
+	/// <summary>
+	/// 関連付けの削除
+	/// </summary>
+	void reset() noexcept;
+
+	/// <summary>
+	/// 値がnullptrかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool is_null() const noexcept;
 
 private:
 	T* reference{ nullptr };
 };
+
+template<typename T>
+inline void Reference<T>::unref() noexcept {
+	reference = nullptr;
+}
+
+template<typename T>
+inline void Reference<T>::reset() noexcept {
+	reference = nullptr;
+}
+
+template<typename T>
+inline bool Reference<T>::is_null() const noexcept {
+	return reference == nullptr;
+}
 
 // -------------------- 等価演算子 --------------------
 

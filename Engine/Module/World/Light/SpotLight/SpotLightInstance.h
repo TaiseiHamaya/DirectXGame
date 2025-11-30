@@ -29,6 +29,5 @@ public:
 	SpotLightInstance& operator=(SpotLightInstance&&) = default;
 
 public:
-	void transfer() override;
 };
 

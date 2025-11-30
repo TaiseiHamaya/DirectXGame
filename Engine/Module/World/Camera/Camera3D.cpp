@@ -4,7 +4,7 @@
 
 #include <Library/Math/VectorConverter.h>
 
-#include "../WorldManager.h"
+#include "Engine/Module/Manager/World/WorldRoot.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
@@ -24,9 +24,9 @@ void Camera3D::initialize() {
 #ifdef DEBUG_FEATURES_ENABLE
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
-	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, "CameraAxis.obj");
+	debugCameraCenter = world_root_mut()->instantiate<StaticMeshInstance>(nullptr, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
-	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
+	debugCamera = world_root_mut()->instantiate<WorldInstance>(debugCameraCenter);
 	frustumExecutor = 
 		std::make_unique<PrimitiveGeometryDrawExecutor>(
 			PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 1

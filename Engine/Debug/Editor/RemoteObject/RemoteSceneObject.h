@@ -6,7 +6,7 @@
 
 #include <vector>
 
-class BaseScene;
+class Scene;
 class RemoteWorldObject;
 class EditorSceneView;
 
@@ -51,11 +51,9 @@ public:
 	const std::vector<std::unique_ptr<RemoteWorldObject>>& get_remote_worlds() const;
 
 private:
-	Reference<BaseScene> self;
+	Reference<Scene> self;
 
 	std::vector<std::unique_ptr<RemoteWorldObject>> remoteWorlds;
-
-	EditorValueField<u32> numLayer{ "NumLayer", 1 };
 };
 
 #endif // DEBUG_FEATURES_ENABLE
