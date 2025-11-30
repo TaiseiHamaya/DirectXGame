@@ -32,6 +32,7 @@ public:
 	const T& operator[](u32 i) const;
 	const u32& size() const { return arraySize; }
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_handle_gpu() const { return gpuHandle; };
+	const std::optional<u32>& index() const { return heapIndex; }
 
 private:
 	void create_resource();

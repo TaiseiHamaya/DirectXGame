@@ -42,7 +42,7 @@ private:
 	std::vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;
 };
 
-enum class BlendMode {
+enum class PsoBlendMode : u32 {
 	None,
 	Alpha,
 	Add,
@@ -69,7 +69,7 @@ public:
 	void rootsignature(const Microsoft::WRL::ComPtr<ID3D12RootSignature>& rootSignature_);
 	void inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout);
 	void shaders(ShaderType type, const std::string& shaderFilename);
-	void blendstate(BlendMode blendMode = BlendMode::None, u32 renderTarget = 0);
+	void blendstate(PsoBlendMode blendMode = PsoBlendMode::None, u32 renderTarget = 0);
 	void blendstate_only_write();
 	void blendstate(D3D12_RENDER_TARGET_BLEND_DESC blendDesc, u32 renderTarget = 0);
 	void rasterizerstate(D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK);

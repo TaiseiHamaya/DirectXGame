@@ -8,13 +8,17 @@ Rect3dNode::Rect3dNode() = default;
 Rect3dNode::~Rect3dNode() noexcept = default;
 
 void Rect3dNode::initialize() {
+	initialize(BlendMode::Alpha);
+}
+
+void Rect3dNode::initialize(BlendMode blendMode) {
 	depthStencil = RenderingSystemValues::GetDepthStencilTexture();
-	create_pipeline_state();
+	create_pipeline_state(static_cast<PsoBlendMode>(blendMode));
 	pipelineState->set_name("Rect3dNode");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
-void Rect3dNode::create_pipeline_state() {
+void Rect3dNode::create_pipeline_state(PsoBlendMode blendMode) {
 	RootSignatureBuilder rootSignatureBuilder;
 	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1, 0); // 0 : transform(S0T0, V)
 	rootSignatureBuilder.add_structured(D3D12_SHADER_VISIBILITY_VERTEX, 1, 1, 0); // 1 : rect data(S0T1, V)
@@ -42,7 +46,7 @@ void Rect3dNode::create_pipeline_state() {
 	psoBuilder->shaders(ShaderType::Vertex, "Rect3d.VS.hlsl");
 	psoBuilder->shaders(ShaderType::Pixel, "ForwardAlpha.PS.hlsl");
 	psoBuilder->primitivetopologytype();
-	psoBuilder->blendstate(BlendMode::Alpha);
+	psoBuilder->blendstate(blendMode);
 	psoBuilder->rendertarget();
 
 	pipelineState = std::make_unique<DxPipelineState>();

@@ -29,7 +29,7 @@ void NonLightingPixelNode::create_pipeline_state() {
 	rootSignatureBuilder.add_texture(D3D12_SHADER_VISIBILITY_PIXEL, 0); // 0 : Albedo
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->blendstate(BlendMode::None);
+	psoBuilder->blendstate(PsoBlendMode::None);
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(ShaderType::Vertex, "FullscreenShader.VS.hlsl");
