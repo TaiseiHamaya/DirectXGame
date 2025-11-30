@@ -59,14 +59,17 @@
     <MultiProcFXC>true</MultiProcFXC>
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(SolutionName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(SolutionName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
     <OutDir>$(SolutionDir)..\generated\outputs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\generated\obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(SolutionName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
