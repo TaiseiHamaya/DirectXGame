@@ -1,5 +1,7 @@
 #include "../include/ImNodeFlow.h"
 
+#ifndef IMGUI_DISABLE
+
 namespace ImFlow {
     // -----------------------------------------------------------------------------------------------------------------
     // LINK
@@ -337,3 +339,5 @@ namespace ImFlow {
         m_context.end();
     }
 }
+
+#endif // IMGUI_DISABLE

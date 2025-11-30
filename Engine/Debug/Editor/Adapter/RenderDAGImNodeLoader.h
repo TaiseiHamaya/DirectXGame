@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <memory>
 
 #include <ImNodeFlow/include/ImNodeFlow.h>
@@ -30,3 +32,5 @@ private:
 	u64 counter{ 1 };
 	Reference<ImFlow::ImNodeFlow> imNodeFlow;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

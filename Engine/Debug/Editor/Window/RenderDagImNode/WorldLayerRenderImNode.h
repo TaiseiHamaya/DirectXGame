@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IRenderDagImNode.h"
 
 #include <Library/Math/Vector2.h>
@@ -47,3 +49,5 @@ public:
 private:
 	Data data;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

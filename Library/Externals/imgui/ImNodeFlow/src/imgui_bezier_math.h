@@ -13,6 +13,7 @@
 # define __IMGUI_BEZIER_MATH_H__
 # pragma once
 
+#ifndef IMGUI_DISABLE
 
 //------------------------------------------------------------------------------
 # include "imgui_extra_math.h"
@@ -141,4 +142,6 @@ template <typename F> inline void ImCubicBezierFixedStep(F& callback, const ImCu
 
 
 //------------------------------------------------------------------------------
+#endif // IMGUI_DISABLE
+
 # endif // __IMGUI_BEZIER_MATH_H__

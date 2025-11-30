@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef IMGUI_DISABLE
+
 #include "../include/ImNodeFlow.h"
 
 namespace ImFlow
@@ -359,3 +361,5 @@ namespace ImFlow
                                      [](const std::weak_ptr<Link>& l) { return l.expired(); }), m_links.end());
     }
 }
+
+#endif // IMGUI_DISABLE

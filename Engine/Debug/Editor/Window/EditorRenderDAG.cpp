@@ -1,5 +1,7 @@
 #include "EditorRenderDAG.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -150,3 +152,5 @@ void EditorRenderDAG::generate_result_node() {
 	nodes.emplace(0, resultNode);
 	resultNode->set_node_id(0);
 }
+
+#endif // DEBUG_FEATURES_ENABLE

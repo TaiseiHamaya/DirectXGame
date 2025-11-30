@@ -1,5 +1,7 @@
 #include "RenderDAGImNodeSaver.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <unordered_set>
 
 #include "Engine/Application/Logger.h"
@@ -225,3 +227,5 @@ nlohmann::json RenderDAGImNodeSaver::operator()(const std::shared_ptr<StaticText
 nlohmann::json RenderDAGImNodeSaver::operator()(const std::shared_ptr<ResultImNode>&) {
 	return {};
 }
+
+#endif // DEBUG_FEATURES_ENABLE

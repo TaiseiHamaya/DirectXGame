@@ -1,5 +1,7 @@
 #include "ResultImNode.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 ResultImNode::ResultImNode() {
 	setTitle("ScreenOut");
 	setStyle(ImFlow::NodeStyle::brown());
@@ -8,3 +10,5 @@ ResultImNode::ResultImNode() {
 
 void ResultImNode::draw() {
 }
+
+#endif DEBUG_FEATURES_ENABLE

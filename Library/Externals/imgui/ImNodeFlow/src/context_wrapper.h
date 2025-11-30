@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef IMGUI_DISABLE
+
 #include <imgui.h>
 #include <imgui_internal.h>
 
@@ -216,3 +218,5 @@ inline void ContainedContext::end()
     ImGui::EndChild();
     ImGui::PopID();
 }
+
+#endif // IMGUI_DISABLE
