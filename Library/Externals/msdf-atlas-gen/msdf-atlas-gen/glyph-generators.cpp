@@ -1,6 +1,9 @@
 
 #include "glyph-generators.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4100)
+
 namespace msdf_atlas {
 
 void scanlineGenerator(const msdfgen::BitmapRef<float, 1> &output, const GlyphGeometry &glyph, const GeneratorAttributes &attribs) {

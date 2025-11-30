@@ -4,6 +4,9 @@
 #include <vector>
 #include "arithmetics.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 4127)
+
 namespace msdfgen {
 
 void rasterize(const BitmapRef<float, 1> &output, const Shape &shape, const Projection &projection, FillRule fillRule) {

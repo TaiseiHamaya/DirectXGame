@@ -8,6 +8,7 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4267)
+#pragma warning(disable : 4458)
 
 namespace msdf_atlas {
 

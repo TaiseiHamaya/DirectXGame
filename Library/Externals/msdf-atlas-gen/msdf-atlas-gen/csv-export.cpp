@@ -4,6 +4,9 @@
 #include <cstdio>
 #include "GlyphGeometry.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4100)
+
 namespace msdf_atlas {
 
 bool exportCSV(const FontGeometry *fonts, int fontCount, int atlasWidth, int atlasHeight, YDirection yDirection, const char *filename) {

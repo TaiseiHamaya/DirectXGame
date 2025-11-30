@@ -4,6 +4,9 @@
 #include <vector>
 #include "RectanglePacker.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4505)
+
 namespace msdf_atlas {
 
 static void copyRectanglePlacement(Rectangle &dst, const Rectangle &src) {
@@ -59,3 +62,5 @@ std::pair<int, int> packRectangles(RectangleType *rectangles, int count, int spa
 }
 
 }
+
+#pragma warning(pop)

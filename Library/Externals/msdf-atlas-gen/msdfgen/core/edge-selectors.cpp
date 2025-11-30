@@ -3,6 +3,10 @@
 
 #include "arithmetics.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 4458)
+#pragma warning(disable : 4100)
+
 namespace msdfgen {
 
 #define DISTANCE_DELTA_FACTOR 1.001

@@ -4,6 +4,9 @@
 #include "arithmetics.hpp"
 #include "equation-solver.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4100)
+
 namespace msdfgen {
 
 EdgeSegment *EdgeSegment::create(Point2 p0, Point2 p1, EdgeColor edgeColor) {

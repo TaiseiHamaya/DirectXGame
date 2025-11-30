@@ -5,6 +5,9 @@
 #include <string>
 #include "utf8.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4100)
+
 namespace msdf_atlas {
 
 static char escapedChar(char c) {

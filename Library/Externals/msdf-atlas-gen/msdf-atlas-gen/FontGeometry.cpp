@@ -3,6 +3,9 @@
 
 #define DEFAULT_FONT_UNITS_PER_EM 2048.0
 
+#pragma warning(push)
+#pragma warning(disable : 4458)
+
 namespace msdf_atlas {
 
 FontGeometry::GlyphRange::GlyphRange() : glyphs(), rangeStart(), rangeEnd() { }
