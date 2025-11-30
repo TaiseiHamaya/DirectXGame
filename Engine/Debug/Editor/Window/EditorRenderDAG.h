@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IEditorWindow.h"
 
 #include <memory>
@@ -45,3 +47,5 @@ private:
 	std::unique_ptr<ImFlow::ImNodeFlow> imNodeFlow{};
 	std::unordered_map<u64, DAGNodeType> nodes;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

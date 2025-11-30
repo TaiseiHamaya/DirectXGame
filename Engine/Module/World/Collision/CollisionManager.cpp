@@ -54,12 +54,11 @@ void CollisionManager::remove_marked_destroy() {
 
 	// 要素0のレイヤーリストを削除
 	std::erase_if(colliderList, [&](const std::pair<std::string, Colliders>& list) {
-		auto& key = list.first;
 		auto& value = list.second;
 
 		if (value.aabbColliders.empty() && value.sphereColliders.empty()) {
 #ifdef DEBUG_FEATURES_ENABLE
-			keyList.erase(key);
+			keyList.erase(list.first);
 #endif // _DEBUG
 			return true;
 		}

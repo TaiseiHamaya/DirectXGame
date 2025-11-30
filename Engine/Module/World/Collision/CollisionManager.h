@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <Library/Utility/Template/Reference.h>
 
@@ -13,7 +14,6 @@ class SphereCollider;
 class AABBCollider;
 
 #ifdef DEBUG_FEATURES_ENABLE
-#include <unordered_set>
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
 #endif // _DEBUG
 
@@ -27,7 +27,7 @@ private:
 public:
 	CollisionManager();
 	~CollisionManager() = default;
-	
+
 	__CLASS_NON_COPYABLE(CollisionManager)
 
 public:

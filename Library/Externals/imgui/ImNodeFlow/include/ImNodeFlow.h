@@ -2,6 +2,8 @@
 #define IM_NODE_FLOW
 #pragma once
 
+#ifndef IMGUI_DISABLE
+
 #include <iostream>
 #include <string>
 #include <utility>
@@ -1253,5 +1255,7 @@ namespace ImFlow
 #include "../src/ImNodeFlow.inl"
 
 #pragma warning(pop)
+
+#endif // IMGUI_DISABLE
 
 #endif

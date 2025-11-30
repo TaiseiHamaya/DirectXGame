@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IRenderDagImNode.h"
 
 #include <Library/Math/Vector2.h>
@@ -40,3 +42,5 @@ private:
 private:
 	static std::vector<std::string> peName;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

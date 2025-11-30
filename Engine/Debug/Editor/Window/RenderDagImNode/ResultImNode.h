@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IRenderDagImNode.h"
 
 class ResultImNode final : public IRenderDagImNode {
@@ -12,3 +14,5 @@ public:
 
 private:
 };
+
+#endif // DEBUG_FEATURES_ENABLE

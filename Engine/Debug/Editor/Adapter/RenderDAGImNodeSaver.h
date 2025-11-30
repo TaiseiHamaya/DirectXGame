@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <json.hpp>
 
 #include <string>
@@ -23,3 +25,5 @@ public:
 
 	nlohmann::json operator()(const std::shared_ptr<ResultImNode>&);
 };
+
+#endif // DEBUG_FEATURES_ENABLE

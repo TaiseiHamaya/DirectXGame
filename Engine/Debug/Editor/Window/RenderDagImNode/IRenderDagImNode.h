@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <ImNodeFlow/include/ImNodeFlow.h>
 
 class IRenderDagImNode : public ImFlow::BaseNode {
@@ -13,3 +15,5 @@ public:
 protected:
 	u64 nodeId;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

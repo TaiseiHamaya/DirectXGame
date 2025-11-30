@@ -13,6 +13,7 @@
 # define __IMGUI_BEZIER_MATH_INL__
 # pragma once
 
+#ifndef IMGUI_DISABLE
 
 //------------------------------------------------------------------------------
 # include "imgui_bezier_math.h"
@@ -672,4 +673,6 @@ inline void ImCubicBezierFixedStep(F& callback, const ImCubicBezierPoints& curve
 
 
 //------------------------------------------------------------------------------
+#endif // IMGUI_DISABLE
+
 # endif // __IMGUI_BEZIER_MATH_INL__

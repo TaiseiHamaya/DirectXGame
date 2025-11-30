@@ -13,6 +13,7 @@
 # define __IMGUI_EXTRA_MATH_INL__
 # pragma once
 
+#ifndef IMGUI_DISABLE
 
 //------------------------------------------------------------------------------
 # include "imgui_extra_math.h"
@@ -190,4 +191,6 @@ inline ImLine ImRect_ClosestLine(const ImRect& rect_a, const ImRect& rect_b, flo
 
 
 //------------------------------------------------------------------------------
+#endif // IMGUI_DISABLE
+
 # endif // __IMGUI_EXTRA_MATH_INL__

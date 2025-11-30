@@ -1,5 +1,7 @@
 #include "RenderDAGImNodeLoader.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <vector>
 
 #include "../Window/RenderDagImNode/PostEffectImNode.h"
@@ -135,3 +137,5 @@ std::shared_ptr<StaticTextureImNode> RenderDAGImNodeLoader::load_as_static_textu
 	result->set_node_id(counter);
 	return result;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

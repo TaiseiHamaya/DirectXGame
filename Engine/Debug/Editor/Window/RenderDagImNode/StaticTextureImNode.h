@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "IRenderDagImNode.h"
 
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
@@ -26,3 +28,5 @@ public:
 private:
 	Data data;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

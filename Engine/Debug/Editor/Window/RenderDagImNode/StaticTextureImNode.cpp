@@ -1,5 +1,7 @@
 #include "StaticTextureImNode.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 StaticTextureImNode::StaticTextureImNode() {
 	setTitle("StaticTexture");
 	setStyle(ImFlow::NodeStyle::green());
@@ -21,3 +23,5 @@ const StaticTextureImNode::Data& StaticTextureImNode::get_data() const {
 void StaticTextureImNode::set_data(const Data& data_) {
 	data = data_;
 }
+
+#endif // DEBUG_FEATURES_ENABLE

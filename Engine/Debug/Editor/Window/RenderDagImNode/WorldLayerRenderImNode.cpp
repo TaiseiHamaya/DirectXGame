@@ -1,5 +1,7 @@
 #include "WorldLayerRenderImNode.h"
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 WorldLayerRenderImNode::WorldLayerRenderImNode() {
 	setTitle("WorldLayerRender");
 	setStyle(ImFlow::NodeStyle::red());
@@ -55,3 +57,5 @@ void WorldLayerRenderImNode::set_data(const Data& data_) {
 const WorldLayerRenderImNode::Data& WorldLayerRenderImNode::get_data() const {
 	return data;
 }
+
+#endif // DEBUG_FEATURES_ENABLE
