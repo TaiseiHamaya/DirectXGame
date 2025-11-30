@@ -75,7 +75,8 @@ void StringRectDrawExecutor::write_to_buffer(Reference<const StringRectInstance>
 	StringBuffer stringBuffer{
 		.world = transformAffine.to_matrix(),
 		.fontSize = instance->font_size(),
-		.offset = instance->pivot_imm(),
+		.fontScale = instance->font_scale(),
+		.offset = instance->offset_imm(),
 		.glyphBindlessIndex = instance->glyph_bindless_index().value(),
 	};
 	strings[stringIndex] = stringBuffer;
@@ -95,7 +96,7 @@ void StringRectDrawExecutor::write_to_buffer(Reference<const StringRectInstance>
 	for (u32 i = 0; i < numChars; ++i) {
 		const GlyphRenderingData& glyph = glyphData[i];
 		CharBuffer charBuffer{
-			.rectOffset = Vector2{ glyph.topLeft.x + offsetX, glyph.topLeft.y },
+			.rectOffset = Vector2{ glyph.bottomLeft.x + offsetX, glyph.bottomLeft.y },
 			.size = glyph.size,
 			.glyphIndex = glyph.glyphIndex,
 			.instanceIndex = stringIndex,

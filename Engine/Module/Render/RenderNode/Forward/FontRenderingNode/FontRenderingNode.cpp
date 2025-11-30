@@ -39,7 +39,7 @@ void FontRenderingNode::create_pipeline_state(PsoBlendMode blendMode) {
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
 	psoBuilder->depth_state(depthStencil->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
-	psoBuilder->rasterizerstate(D3D12_FILL_MODE_SOLID, D3D12_CULL_MODE_NONE);
+	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
 	psoBuilder->shaders(ShaderType::Vertex, "MsdfFond.VS.hlsl");
 	psoBuilder->shaders(ShaderType::Pixel, "MsdfFond.PS.hlsl");

@@ -5,7 +5,8 @@
 #include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Module/World/Mesh/Primitive/CharRectStruct.h"
 
-FontAtlasMSDFAsset::FontAtlasMSDFAsset(std::vector<std::pair<GlyphData, GlyphDataGpu>>&& glyphsData_, std::unordered_map<u32, u32>&& glyphMap_, std::shared_ptr<const TextureAsset> texture_) :
+FontAtlasMSDFAsset::FontAtlasMSDFAsset(Data data_, std::vector<std::pair<GlyphData, GlyphDataGpu>>&& glyphsData_, std::unordered_map<u32, u32>&& glyphMap_, std::shared_ptr<const TextureAsset> texture_) :
+	data(data_),
 	glyphMap(std::move(glyphMap_)),
 	textureAsset(texture_) {
 	glyphBuffers.initialize(static_cast<u32>(glyphsData_.size()));
@@ -29,13 +30,25 @@ std::optional<u32> FontAtlasMSDFAsset::texture_bindless_index() const {
 	return textureAsset->index();
 }
 
-std::vector<GlyphRenderingData> FontAtlasMSDFAsset::calculate_glyph(std::string_view string) const {
+r32 FontAtlasMSDFAsset::base_scale() const {
+	return data.baseScale;
+}
+
+r32 FontAtlasMSDFAsset::line_height() const {
+	return data.lineHeight;
+}
+
+std::vector<GlyphRenderingData> FontAtlasMSDFAsset::calculate_glyph(std::string_view string, r32 fontSize) const {
 	std::vector<u32> codepoints;
 	msdf_atlas::utf8Decode(codepoints, string.data());
 
 	std::vector<u32> indices;
 	for (u32& codepoint : codepoints) {
-		if (glyphMap.contains(codepoint)) {
+		// 改行文字の場合
+		if (codepoint == 10) {
+			indices.emplace_back(std::numeric_limits<u32>::max());
+		}
+		else if (glyphMap.contains(codepoint)) {
 			indices.emplace_back(glyphMap.at(codepoint));
 		}
 		else {
@@ -44,23 +57,42 @@ std::vector<GlyphRenderingData> FontAtlasMSDFAsset::calculate_glyph(std::string_
 	}
 	std::vector<GlyphRenderingData> result(indices.size());
 	r32 advancedX = 0.0f;
+	r32 offsetY = 0.0f;
 	for (i32 i = 0; i < static_cast<i32>(codepoints.size()); ++i) {
 		u32 index = indices[i];
+
+		if (index == std::numeric_limits<u32>::max()) {
+			advancedX = 0.0f;
+			offsetY += fontSize / data.baseScale * data.lineHeight;
+			continue;
+		}
+
 		const GlyphDataGpu& glyphBuffer = glyphBuffers[index];
 		const GlyphData& glyphData = glyphsData[index];
 
 		GlyphRenderingData& write = result[i];
 		write.glyphIndex = index;
-		write.topLeft = Vector2{
-			advancedX + glyphBuffer.bounds.left,
-			glyphBuffer.bounds.top
+		write.bottomLeft = Vector2{
+			advancedX,
+			glyphBuffer.bounds.bottom - offsetY
 		};
 		write.size = Vector2{
 			glyphBuffer.bounds.right - glyphBuffer.bounds.left,
 			glyphBuffer.bounds.top - glyphBuffer.bounds.bottom
 		};
-		advancedX += glyphData.advance;
+		advancedX -= glyphData.advance;
 	}
 
 	return result;
+}
+
+Vector2 FontAtlasMSDFAsset::calculate_offset(const std::vector<GlyphRenderingData>& glyph, const Vector2& pivot, r32 fontSize) const {
+	r32 advancedX = 0.0f;
+	for (i32 i = 0; i < static_cast<i32>(glyph.size()); ++i) {
+		u32 index = glyph[i].glyphIndex;
+		const GlyphData& glyphData = glyphsData[index];
+		advancedX += glyphData.advance;
+	}
+	Vector2 base = { advancedX, fontSize / data.baseScale * data.lineHeight };
+	return Vector2::Multiply(base, pivot);
 }

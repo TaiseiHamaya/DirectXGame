@@ -57,6 +57,8 @@ bool FontAtlasMSDFBuilder::run() {
 		++i;
 	}
 
+	data.baseScale = json.get().value("BaseFontScale", 1.0f);
+	data.lineHeight = json.get().value("LineHeight", 0.0f);
 	ddsTextureName = json.get().value("DDSTexture", filePath.stem().string() + ".dds");
 
 	textureBuilder = std::make_unique<TextureAssetBuilder>(filePath.parent_path() / ddsTextureName);
@@ -70,6 +72,7 @@ void FontAtlasMSDFBuilder::postprocess() {
 	textureBuilder->postprocess();
 	auto texture = textureBuilder->texture_data();
 	fontAtlas = std::make_shared<FontAtlasMSDFAsset>(
+		data,
 		std::move(glyphsDataBuffer),
 		std::move(glyphMap),
 		texture

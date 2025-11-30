@@ -7,31 +7,41 @@ StringRectInstance::StringRectInstance() noexcept = default;
 StringRectInstance::~StringRectInstance() noexcept = default;
 
 void StringRectInstance::initialize(const std::string& msdfFont, r32 fontSize_, const Vector2& pivot_) {
-	data.fondSize = fontSize_;
+	data.fontSize = fontSize_;
 	data.pivot = pivot_;
 	fontAtlas = FontAtlasMSDFLibrary::Get(msdfFont);
 }
 
 void StringRectInstance::set_font_size(r32 fontSize) {
-	data.fondSize = fontSize;
+	data.fontSize = fontSize;
 }
 
 r32 StringRectInstance::font_size() const {
-	return data.fondSize;
+	return data.fontSize;
+}
+
+r32 StringRectInstance::font_scale() const {
+	return data.fontSize / fontAtlas->base_scale();
 }
 
 void StringRectInstance::set_pivot(const Vector2& pivot) {
 	data.pivot = pivot;
+	data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
 }
 
 const Vector2& StringRectInstance::pivot_imm() const {
 	return data.pivot;
 }
 
+const Vector2& StringRectInstance::offset_imm() const {
+	return data.offset;
+}
+
 void StringRectInstance::set_string(std::string_view string_) {
 	string = string_;
 	charRenderingData.clear();
-	charRenderingData = fontAtlas->calculate_glyph(string);
+	charRenderingData = fontAtlas->calculate_glyph(string, data.fontSize);
+	data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
 }
 
 const std::string& StringRectInstance::string_imm() const {
@@ -59,3 +69,29 @@ std::optional<u32> StringRectInstance::glyph_bindless_index() const {
 	}
 	return fontAtlas->glyph_bindless_index();
 }
+
+#ifdef DEBUG_FEATURES_ENABLE
+
+#include <imgui.h>
+#include <imgui_stdlib.h>
+
+void StringRectInstance::debug_gui() {
+	transform.debug_gui();
+
+	ImGui::Separator();
+
+	material.color.debug_gui();
+
+	ImGui::Separator();
+
+	ImGui::DragFloat("Font Size", &data.fontSize, 0.1f, 0.0f, 100000.0f);
+	if (ImGui::DragFloat2("Pivot", &data.pivot.x, 0.1f, -1000.0f, 1000.0f)) {
+		data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
+	}
+	if (ImGui::InputTextMultiline("String", &string)) {
+		charRenderingData = fontAtlas->calculate_glyph(string, data.fontSize);
+		data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
+	}
+}
+
+#endif // DEBUG_FEATURES_ENABLE

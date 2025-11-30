@@ -27,6 +27,7 @@ public:
 	struct StringBuffer {
 		Matrix4x4 world;
 		float fontSize;
+		float fontScale;
 		Vector2 offset;
 		u32 glyphBindlessIndex;
 	};

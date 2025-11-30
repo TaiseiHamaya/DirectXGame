@@ -23,6 +23,7 @@ public:
 private:
 	std::unordered_map<u32, u32> glyphMap;
 	std::vector<std::pair<FontAtlasMSDFAsset::GlyphData, FontAtlasMSDFAsset::GlyphDataGpu>> glyphsDataBuffer;
+	FontAtlasMSDFAsset::Data data;
 
 	std::string ddsTextureName;
 

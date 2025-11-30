@@ -29,12 +29,12 @@ void FontAtlasBuilder::load_glyphs() {
 	if (!font) {
 		return;
 	}
+
 	FontGeometry fontGeometry(&glyphs);
-	fontGeometry.loadCharset(font, 1.0, FontAtlasBuilderManager::Charset());
+	fontGeometry.loadCharset(font, 1.0f, FontAtlasBuilderManager::Charset());
 	for (GlyphGeometry& glyph : glyphs) {
 		glyph.edgeColoring(&msdfgen::edgeColoringInkTrap, 3.0, 0);
 	}
-
 
 	TightAtlasPacker packer;
 	constexpr int atlasSize = 1024;
@@ -43,6 +43,9 @@ void FontAtlasBuilder::load_glyphs() {
 	packer.setPixelRange(2.0);
 	packer.setUnitRange(1.0);
 	packer.pack(glyphs.data(), static_cast<int>(glyphs.size()));
+
+	baseFontScale = static_cast<r32>(packer.getScale());
+	lineHeight = static_cast<r32>(fontGeometry.getMetrics().lineHeight);
 
 	// 実際の生成
 	generator.resize(atlasSize, atlasSize);
@@ -125,6 +128,9 @@ void FontAtlasBuilder::save_atlas_data() {
 
 	json.get()["TextureWidth"] = textureWidth;
 	json.get()["TextureHeight"] = textureHeight;
+
+	json.get()["BaseFontScale"] = baseFontScale;
+	json.get()["LineHeight"] = lineHeight;
 
 	json.get()["DDSTexture"] = ttfFilePath.stem().string() + ".dds";
 

@@ -19,6 +19,7 @@ struct GlyphData {
 struct StringBuffer {
 	float4x4 world;
 	float fontSize;
+	float fontScale;
 	float2 offset;
 	uint glyphBindless;
 };

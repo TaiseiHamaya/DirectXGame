@@ -33,14 +33,15 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float3 uv = mul(float3(input.texcoord, 1.0f), glyph.uvMatrix);
 	
 	float4 mtsdf = texture.Sample(gSampler, uv.xy / uv.z);
-	float dist = median3(mtsdf.rgb);
-	float screenPxDistance = input.fontSize * (dist - 0.5f);
-	float opacity = clamp(screenPxDistance + 0.5f, 0.0f, 1.0f);
+	float dist = median3(mtsdf.rgb) - 0.5f;
+	float fw = fwidth(dist);
+	fw = max(fw, 1e-6);
+	float alpha = saturate(dist / fw + 0.5);
 
-	clip(opacity - 0.01f);
+	clip(alpha - 0.01f);
 	
 	// 出力
 	output.color.rgb = material.color.rgb;
-	output.color.a = opacity * material.color.a;
+	output.color.a = alpha * material.color.a;
 	return output;
 }
