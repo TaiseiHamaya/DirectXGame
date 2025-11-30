@@ -322,6 +322,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\FontRenderingNode\FontRenderingNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp" />
@@ -676,7 +677,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\DirectionalLightingExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\LightingExecutor\PointLightingExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Forward\StaticMeshDrawExecutorForward.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Forward\FontRenderingNode\FontRenderingNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\FontRenderingNode\FontRenderingNode.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\CharRectStruct.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\Rect3dDrawManager.h" />

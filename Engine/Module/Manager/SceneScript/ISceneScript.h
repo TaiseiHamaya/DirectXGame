@@ -10,6 +10,8 @@ public:
 	__CLASS_NON_COPYABLE(ISceneScript)
 
 public:
-	virtual void prev_update() = 0;
-	virtual void post_update() = 0;
+	virtual void finalize() {};
+
+	virtual void prev_update() {};
+	virtual void post_update() {};
 };

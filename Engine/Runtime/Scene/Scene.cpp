@@ -10,8 +10,13 @@ void Scene::initialize() {
 
 void Scene::setup() {
 	// フォルダ内のワールドを全て読み込む
+	std::filesystem::path filePath = std::format("./Game/Core/Scene/{}/Worlds", sceneName);
+	if (std::filesystem::exists(filePath) == false) {
+		szgWarning("Scene-\'{}\' world setup folder not found.", sceneName);
+		return;
+	}
 	for (const std::filesystem::directory_entry& entry :
-		std::filesystem::directory_iterator(std::format("./Game/Core/Scene/{}/Worlds", sceneName))) {
+		std::filesystem::directory_iterator(filePath)) {
 		std::unique_ptr<WorldCluster> world = std::make_unique<WorldCluster>();
 
 		world->initialize();
@@ -53,6 +58,10 @@ void Scene::end_frame() {
 	for (std::unique_ptr<WorldCluster>& world : worlds) {
 		world->end_frame();
 	}
+}
+
+void Scene::finalize() {
+	sceneScriptManager.finalize();
 }
 
 Reference<WorldCluster> Scene::get_world(u32 index) {

@@ -18,6 +18,7 @@ void WorldRoot::update() {
 
 void WorldRoot::update_affine() {
 	for (auto& [_, instance] : worldInstances) {
+		instance->fixed_update();
 		instance->update_affine();
 	}
 }

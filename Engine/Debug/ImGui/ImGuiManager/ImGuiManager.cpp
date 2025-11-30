@@ -13,6 +13,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 #include <imgui.h>
 #include <imgui_impl_dx12.h>
@@ -81,9 +82,8 @@ void ImGuiManager::BeginFrame() {
 }
 
 void ImGuiManager::EndFrame() {
-	Reference<ScreenTexture> screen = DxSwapChain::GetWriteBufferTexture();
-	screen->start_write();
-
+	DxSwapChain::GetRenderTarget()->begin_write(false, nullptr);
+	
 	ImGui::Render();
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DxCommand::GetCommandList().Get());
 }

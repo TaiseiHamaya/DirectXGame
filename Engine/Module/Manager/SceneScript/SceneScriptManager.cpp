@@ -24,3 +24,11 @@ void SceneScriptManager::post_update() {
 		}
 	}
 }
+
+void SceneScriptManager::finalize() {
+	for (auto& script : scripts) {
+		if (script) {
+			script->finalize();
+		}
+	}
+}

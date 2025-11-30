@@ -3,11 +3,11 @@
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
-#include <Engine/Module/Render/RenderNode/SingleRenderTargetNode.h>
+#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
 
 enum class PsoBlendMode : u32;
 
-class FontRenderingNode final : public SingleRenderTargetNode {
+class FontRenderingNode final : public BaseRenderNode {
 public:
 	FontRenderingNode();
 	~FontRenderingNode() noexcept;

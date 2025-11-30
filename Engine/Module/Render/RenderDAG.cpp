@@ -16,6 +16,11 @@ void RenderDAG::setup(const std::string& sceneName, Reference<Scene> scene) {
 	RenderNodeLoader loader;
 	loader.setup(scene, renderTargetCollection);
 
+	if(json.cget().is_null()) {
+		szgWarning("RenderDAG::setup: Failed to load RenderPath.json: {}", sceneName);
+		return;
+	}
+
 	renderGraph = loader.entry_point(json.get());
 }
 

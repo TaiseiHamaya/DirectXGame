@@ -143,6 +143,9 @@ std::unique_ptr<IRenderNode> RenderNodeLoader::load_as_world_render(const nlohma
 			Reference<SwapChainRenderTargetGroup> swapChainRT = DxSwapChain::GetRenderTarget();
 			immidiateData.emplace_back(swapChainRT, nullptr);
 			resultData.outputRenderTargetGroup = swapChainRT;
+			if (!linkJson.contains("Base")) {
+				resultData.layerData.isClearRenderTarget = true;
+			}
 		}
 		else if (linkJson.contains("Base")) {
 			// Link先のTextureを継続使用
@@ -183,7 +186,12 @@ void RenderNodeLoader::calclate_result_node_index(const nlohmann::json& json) {
 		if (node.value("Type", 0) != 0) {
 			break;
 		}
-		index = node.value("Links", nlohmann::json::object()).value("Base", 0);
+		const nlohmann::json& linksJson = node.value("Links", nlohmann::json::object());
+		if (!linksJson.contains("Base")) {
+			break;
+		}
+		index = linksJson["Base"].get<i32>();
+
 	}
 	resultNodeIndex = index;
 }

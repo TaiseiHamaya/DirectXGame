@@ -1,6 +1,9 @@
 #include "Rect3dDrawManager.h"
 
 void Rect3dDrawManager::make_instancing(u32 layer, const BlendMode& blendMode, u32 maxInstance) {
+	if (layer >= maxLayer) {
+		return;
+	}
 	auto key = std::make_pair(layer, blendMode);
 	if (executors.contains(key)) {
 		return;
@@ -11,4 +14,6 @@ void Rect3dDrawManager::make_instancing(u32 layer, const BlendMode& blendMode, u
 	executor.reinitialize(
 		blendMode, maxInstance
 	);
+
+	layerExecutors[layer].emplace_back(executor);
 }

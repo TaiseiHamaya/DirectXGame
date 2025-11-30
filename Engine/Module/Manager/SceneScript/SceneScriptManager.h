@@ -20,6 +20,8 @@ public:
 	void prev_update();
 	void post_update();
 
+	void finalize();
+
 private:
 	std::vector<std::unique_ptr<ISceneScript>> scripts;
 };

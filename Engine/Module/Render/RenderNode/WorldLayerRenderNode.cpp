@@ -74,6 +74,7 @@ void WorldLayerRenderNode::stack_command() {
 	// ----- PrimitivePass -----
 	// Rect
 	subtree.next_node();
+	depthStencilTexture->start_write();
 	data.outputRenderTargetGroup->begin_write(false, depthStencilTexture);
 	camera->register_world_projection(3);
 	camera->register_world_lighting(4);

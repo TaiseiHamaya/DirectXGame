@@ -15,7 +15,12 @@ u64 RenderDAGImNodeLoader::entry_point(const std::string& sceneName, Reference<I
 	JsonAsset input{ "./Game/Core/Scene/" + sceneName + "/RenderPath.json" };
 	counter = imNodeFlow->getNodesCount();
 
-	for (const auto& node : input.cget()["Nodes"]) {
+	if (input.get().is_null()) {
+		szgWarning("RenderPath.jsonの読み込みに失敗しました: {}", sceneName);
+		return counter;
+	}
+
+	for (const auto& node : input.get().value("Nodes", nlohmann::json::array())) {
 		ImFlow::BaseNode* imNode{ nullptr };
 		switch (node["Type"].get<i32>()) {
 		case 0:

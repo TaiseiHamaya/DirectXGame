@@ -38,6 +38,12 @@ void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 
 void SceneManager2::Finalize() noexcept {
 	SceneManager2& instance = GetInstance();
+	for (auto& scene : instance.sceneStack) {
+		if (!scene) {
+			continue;
+		}
+		scene->finalize();
+	}
 	instance.sceneStack.clear();
 	instance.factory.reset();
 }
@@ -137,6 +143,7 @@ void SceneManager2::PopScene(r32 interval, size_t numPopScenes) {
 
 	std::swap(instance.sceneStack.back(), instance.sceneStack[targetIndex]);
 	for (size_t i = 0; i + 1 < numPopScenes; i++) {
+		instance.sceneStack.back()->finalize();
 		instance.sceneStack.pop_back();
 	}
 
@@ -159,7 +166,7 @@ void SceneManager2::OnNextScene() {
 	}
 	// 入れ替える場合
 	else {
-		//instance.sceneStack.back()->finalize();
+		instance.sceneStack.back()->finalize();
 		instance.sceneStack.pop_back();
 	}
 
