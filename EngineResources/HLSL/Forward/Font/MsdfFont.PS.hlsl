@@ -1,4 +1,4 @@
-#include "MsdfFond.hlsli"
+#include "MsdfFont.hlsli"
 
 struct Material {
 	float4 color;
@@ -20,7 +20,6 @@ float median3(float3 v) {
 	return max(min(v.x, v.y), min(max(v.x, v.y), v.z));
 }
 
-[earlydepthstencil]
 PixelShaderOutput main(VertexShaderOutput input) {
 	PixelShaderOutput output;
 	
@@ -37,7 +36,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float fw = fwidth(dist);
 	fw = max(fw, 1e-6);
 	float alpha = saturate(dist / fw + 0.5);
-
+	
 	clip(alpha - 0.01f);
 	
 	// 出力

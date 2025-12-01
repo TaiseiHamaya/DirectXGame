@@ -20,6 +20,9 @@ struct CharRectData {
 };
 
 class StringRectInstance : public IPrimitiveInstance<StringData> {
+#ifdef DEBUG_FEATURES_ENABLE
+	friend class RemoteStringRectInstance;
+#endif // DEBUG_FEATURES_ENABLE
 public:
 	StringRectInstance() noexcept;
 	virtual ~StringRectInstance() noexcept;
@@ -33,6 +36,8 @@ public:
 	void set_font_size(r32 fontSize);
 	r32 font_size() const;
 	r32 font_scale() const;
+
+	void set_font(const std::string& fontName);
 
 	void set_pivot(const Vector2& pivot);
 	const Vector2& pivot_imm() const;

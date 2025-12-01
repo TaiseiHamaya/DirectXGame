@@ -59,7 +59,7 @@ void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject>) {
 nlohmann::json RemoteErrorObject::serialize() const {
 	nlohmann::json result;
 
-	result["Type"] = 99;
+	result["Type"] = instance_type();
 	result.update(hierarchyName);
 
 	return result;

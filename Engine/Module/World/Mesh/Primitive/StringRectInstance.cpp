@@ -24,8 +24,20 @@ r32 StringRectInstance::font_scale() const {
 	return data.fontSize / fontAtlas->base_scale();
 }
 
+void StringRectInstance::set_font(const std::string& fontName) {
+	fontAtlas = FontAtlasMSDFLibrary::Get(fontName);
+	if (!fontAtlas) {
+		return;
+	}
+	charRenderingData = fontAtlas->calculate_glyph(string, data.fontSize);
+	data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
+}
+
 void StringRectInstance::set_pivot(const Vector2& pivot) {
 	data.pivot = pivot;
+	if (!fontAtlas) {
+		return;
+	}
 	data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
 }
 
@@ -40,6 +52,9 @@ const Vector2& StringRectInstance::offset_imm() const {
 void StringRectInstance::set_string(std::string_view string_) {
 	string = string_;
 	charRenderingData.clear();
+	if (!fontAtlas) {
+		return;
+	}
 	charRenderingData = fontAtlas->calculate_glyph(string, data.fontSize);
 	data.offset = fontAtlas->calculate_offset(charRenderingData, data.pivot, data.fontSize);
 }

@@ -33,7 +33,7 @@ nlohmann::json RemoteCamera3dInstance::serialize() const {
 	result.update(aspectRatio);
 	result.update(nearClip);
 	result.update(farClip);
-	result["Type"] = 20;
+	result["Type"] = instance_type();
 	result["Children"] = nlohmann::json::array();
 	for (const auto& child : children) {
 		result["Children"].emplace_back(child->serialize());

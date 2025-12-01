@@ -23,6 +23,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::SphereColliderInstance; }
+
 private:
 	EditorValueField<r32> radius{ "Radius", 1.0f };
 };

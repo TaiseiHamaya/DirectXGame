@@ -7,6 +7,7 @@
 #include <imgui.h>
 
 #include "./Core/EditorHierarchyDandD.h"
+#include "./Window/EditorLogWindow.h"
 #include "Command/EditorCommandInvoker.h"
 #include "Command/EditorCreateObjectCommand.h"
 #include "Command/EditorDeleteObjectCommand.h"
@@ -16,8 +17,6 @@
 #include "Engine/Debug/Editor/Asset/FontAtlas/FontAtlasBuilderManager.h"
 
 #include "Engine/Debug/Editor/Asset/FontAtlas/FontAtlasBuilder.h"
-
-#include "./Window/EditorLogWindow.h"
 
 void EditorMain::Initialize() {
 	EditorMain& instance = GetInstance();

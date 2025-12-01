@@ -741,9 +741,6 @@
     <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp">
       <Filter>Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Manager\Camera\CameraManager.cpp">
-      <Filter>Engine\Module\Manager\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.cpp">
       <Filter>Engine\Module\Manager\RuntimeStorage</Filter>
     </ClCompile>
@@ -1446,9 +1443,6 @@
     <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h">
       <Filter>Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Manager\Camera\CameraManager.h">
-      <Filter>Engine\Module\Manager\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.h">
       <Filter>Engine\Module\Manager\RuntimeStorage</Filter>
     </ClInclude>
@@ -1889,6 +1883,10 @@
     <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorScreenResult.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\FontRenderingNode\FontRenderingNode.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -1904,6 +1902,11 @@
     <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
     <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.h" />
+    <ClInclude Include="Engine\Module\World\WorldInstanceType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />

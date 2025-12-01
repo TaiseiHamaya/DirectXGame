@@ -30,7 +30,8 @@ public:
 	void register_primitive(const std::string& name, const Affine& affine);
 
 	void update();
-	void set_camera_command();
+	void register_world_projection(u32 index);
+	void register_world_lighting(u32 index);
 	void draw_lines();
 	std::tuple<bool, Vector2, Vector2> draw_editor(const TempTexture& texture);
 

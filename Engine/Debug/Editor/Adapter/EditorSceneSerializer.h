@@ -26,12 +26,21 @@ public:
 
 private:
 	static std::unique_ptr<IRemoteObject> CreateRemoteFolder(const nlohmann::json& json);
+
 	static std::unique_ptr<IRemoteObject> CreateRemoteInstance(const nlohmann::json& json);
+
 	static std::unique_ptr<IRemoteObject> CreateRemoteStaticMeshInstance(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteSkinningMeshInstance(const nlohmann::json& json);
+	static std::unique_ptr<IRemoteObject> CreateRemoteRedct3dInstance(const nlohmann::json& json);
+	static std::unique_ptr<IRemoteObject> CreateRemoteStringRectInstance(const nlohmann::json& json);
+
 	static std::unique_ptr<IRemoteObject> CreateRemoteCamera3DInstance(const nlohmann::json& json);
+
 	static std::unique_ptr<IRemoteObject> CreateRemoteSphereColliderInstance(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemoteAABBColliderInstance(const nlohmann::json& json);
+
+	static std::unique_ptr<IRemoteObject> CreateRemoteDirectionalLightInstance(const nlohmann::json& json);
+	static std::unique_ptr<IRemoteObject> CreateRemotePointLightInstance(const nlohmann::json& json);
 };
 
 #endif // DEBUG_FEATURES_ENABLE

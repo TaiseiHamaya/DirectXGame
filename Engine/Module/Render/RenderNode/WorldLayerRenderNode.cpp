@@ -68,7 +68,8 @@ void WorldLayerRenderNode::stack_command() {
 
 	// PointLighting
 	subtree.next_node();
-	camera->register_world_lighting(1);
+	camera->register_world_projection(1);
+	camera->register_world_lighting(6);
 	data.layerData.worldRenderCollection->pointLightingExecutors[data.layerData.index].draw_command();
 
 	// ----- PrimitivePass -----

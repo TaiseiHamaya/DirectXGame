@@ -23,10 +23,4 @@ public:
 	PointLightInstance& operator=(const PointLightInstance&&) = delete;
 	PointLightInstance(PointLightInstance&&) = default;
 	PointLightInstance& operator=(PointLightInstance&&) = default;
-
-public:
-	void update_affine() override;
-
-public:
-	Matrix4x4 transform_matrix() const;
 };

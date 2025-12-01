@@ -12,6 +12,7 @@
 
 #include "../Core/EditorSelectObject.h"
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+#include "Engine/Module/World/WorldInstanceType.h"
 
 class Affine;
 class EditorSceneView;
@@ -48,6 +49,8 @@ public:
 	virtual void on_spawn() = 0;
 
 	virtual void on_destroy() = 0;
+
+	virtual constexpr InstanceType instance_type() const = 0;
 
 public:
 	Reference<IRemoteObject> get_parent() const;

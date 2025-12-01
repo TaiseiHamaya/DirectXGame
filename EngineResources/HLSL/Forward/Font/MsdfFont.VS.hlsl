@@ -1,4 +1,4 @@
-#include "MsdfFond.hlsli"
+#include "MsdfFont.hlsli"
 
 static const float2 Positions[] = {
 	float2(0.0f, 0.0f),

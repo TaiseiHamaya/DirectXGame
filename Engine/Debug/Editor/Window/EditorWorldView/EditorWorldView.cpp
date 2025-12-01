@@ -19,11 +19,14 @@ void EditorWorldView::initialize() {
 	primitive.emplace("Frustum", std::make_unique<PrimitiveGeometryDrawExecutor>(
 		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 16
 	));
-	primitive.emplace("AABBCollider", std::make_unique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("AABBCollider"), 1024
+	primitive.emplace("Box", std::make_unique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Box"), 1024
 	));
-	primitive.emplace("SphereCollider", std::make_unique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
+	primitive.emplace("Sphere", std::make_unique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Sphare"), 1024
+	));
+	primitive.emplace("Line", std::make_unique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Line"), 1024
 	));
 }
 
@@ -53,9 +56,12 @@ void EditorWorldView::update() {
 	cameraInstance->transfer();
 }
 
-void EditorWorldView::set_camera_command() {
-	cameraInstance->register_world_projection(2);
-	cameraInstance->register_world_lighting(3);
+void EditorWorldView::register_world_projection(u32 index) {
+	cameraInstance->register_world_projection(index);
+}
+
+void EditorWorldView::register_world_lighting(u32 index) {
+	cameraInstance->register_world_lighting(index);
 }
 
 void EditorWorldView::draw_lines() {

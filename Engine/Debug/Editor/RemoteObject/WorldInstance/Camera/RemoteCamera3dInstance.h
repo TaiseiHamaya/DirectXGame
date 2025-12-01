@@ -23,6 +23,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::CameraInstance; }
+
 private:
 	EditorValueField<r32> fovY{ "FOV Y", 0.45f };
 	EditorValueField<r32> aspectRatio{ "AspectRatio", 1.7777f };

@@ -16,8 +16,15 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			if (ImGui::Button("\ue5d5##Scale")) {
 				scale = CVector3::BASIS;
 			}
-			result.set(ImGui::IsItemDeactivated(), 1);
-			result.set(ImGui::IsItemActivated(), 0);
+			if (ImGui::IsItemDeactivated()) {
+				result = 0b10;
+			}
+			else if (ImGui::IsItemActivated()) {
+				result = 0b01;
+			}
+			else if (ImGui::IsItemActive()) {
+				result = 0b11;
+			}
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(150);
 			result |= scaleObj.show_gui(scale);
@@ -37,8 +44,15 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			if (ImGui::Button("\ue5d5##Rotate")) {
 				rotate = CQuaternion::IDENTITY;
 			}
-			result.set(ImGui::IsItemDeactivated(), 1);
-			result.set(ImGui::IsItemActivated(), 0);
+			if (ImGui::IsItemDeactivated()) {
+				result = 0b10;
+			}
+			else if (ImGui::IsItemActivated()) {
+				result = 0b01;
+			}
+			else if (ImGui::IsItemActive()) {
+				result = 0b11;
+			}
 
 			ImGui::SameLine();
 			ImGui::Indent(29.f);
@@ -60,8 +74,15 @@ void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform
 			if (ImGui::Button("\ue5d5##Translate")) {
 				translate = CVector3::ZERO;
 			}
-			result.set(ImGui::IsItemDeactivated(), 1);
-			result.set(ImGui::IsItemActivated(), 0);
+			if (ImGui::IsItemDeactivated()) {
+				result = 0b10;
+			}
+			else if (ImGui::IsItemActivated()) {
+				result = 0b01;
+			}
+			else if (ImGui::IsItemActive()) {
+				result = 0b11;
+			}
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(150);
 			result |= translateObj.show_gui(translate);
@@ -91,8 +112,15 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 			if (ImGui::Button("\ue5d5##Scale")) {
 				scale = CVector2::BASIS;
 			}
-			result.set(ImGui::IsItemDeactivated(), 1);
-			result.set(ImGui::IsItemActivated(), 0);
+			if (ImGui::IsItemDeactivated()) {
+				result = 0b10;
+			}
+			else if (ImGui::IsItemActivated()) {
+				result = 0b01;
+			}
+			else if (ImGui::IsItemActive()) {
+				result = 0b11;
+			}
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(150);
 			result |= scaleObj.show_gui(scale);
@@ -112,8 +140,15 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 			if (ImGui::Button("\ue5d5##Rotate")) {
 				rotate = 0;
 			}
-			result.set(ImGui::IsItemDeactivated(), 1);
-			result.set(ImGui::IsItemActivated(), 0);
+			if (ImGui::IsItemDeactivated()) {
+				result = 0b10;
+			}
+			else if (ImGui::IsItemActivated()) {
+				result = 0b01;
+			}
+			else if (ImGui::IsItemActive()) {
+				result = 0b11;
+			}
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(150);
 			result |= rotateObj.show_gui(rotate);
@@ -133,8 +168,15 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 			if (ImGui::Button("\ue5d5##Translate")) {
 				translate = CVector2::ZERO;
 			}
-			result.set(ImGui::IsItemDeactivated(), 1);
-			result.set(ImGui::IsItemActivated(), 0);
+			if (ImGui::IsItemDeactivated()) {
+				result = 0b10;
+			}
+			else if (ImGui::IsItemActivated()) {
+				result = 0b01;
+			}
+			else if (ImGui::IsItemActive()) {
+				result = 0b11;
+			}
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(150);
 			result |= translateObj.show_gui(translate);

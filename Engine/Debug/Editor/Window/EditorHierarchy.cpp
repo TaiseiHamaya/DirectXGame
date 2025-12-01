@@ -16,9 +16,13 @@
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Light/RemoteDirectionalLightInstance.h"
+#include "../RemoteObject/WorldInstance/Light/RemotePointLightInstane.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Primitive/RemoteRect3dInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
+#include "../RemoteObject/WorldInstance/StringRect/RemoteStringRectInstance.h"
 
 #include "Engine/Runtime/Scene/SceneManager2.h"
 
@@ -127,6 +131,27 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+			if (ImGui::MenuItem("Rect3dInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteRect3dInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("StringRectInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteStringRectInstance>()
+						)
+					);
+				}
+			}
+
 			ImGui::SeparatorText("Camera");
 			if (ImGui::MenuItem("Camera3D")) {
 				if (select->get_item().object) {
@@ -138,7 +163,28 @@ void EditorHierarchy::draw() {
 					);
 				}
 			}
+
 			ImGui::SeparatorText("Light");
+			if (ImGui::MenuItem("DirectionalLightInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemoteDirectionalLightInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("PointLightInstance")) {
+				if (select->get_item().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item().object,
+							std::make_unique<RemotePointLightInstane>()
+						)
+					);
+				}
+			}
 
 
 			ImGui::SeparatorText("Collider");

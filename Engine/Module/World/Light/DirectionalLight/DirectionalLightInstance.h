@@ -11,6 +11,9 @@ struct DirectionalLightData {
 };
 
 class DirectionalLightInstance : public BaseLightInstance<DirectionalLightData> {
+#ifdef DEBUG_FEATURES_ENABLE
+	friend class RemoteDirectionalLightInstance;
+#endif // DEBUG_FEATURES_ENABLE
 public:
 	DirectionalLightInstance() = default;
 	virtual ~DirectionalLightInstance() = default;

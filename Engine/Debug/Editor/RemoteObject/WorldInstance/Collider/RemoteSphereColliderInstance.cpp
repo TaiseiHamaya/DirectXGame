@@ -7,7 +7,7 @@
 void RemoteSphereColliderInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
 	IRemoteInstance<SphereCollider, void*>::update_preview(world, parentAffine);
 	Affine primitiveAffine = Affine::FromScale(Vector3{ radius.cget(), radius.cget(), radius.cget() }) * Affine::FromTranslate(worldAffine.get_origin());
-	sceneView->write_primitive(world, "SphereCollider", primitiveAffine);
+	sceneView->write_primitive(world, "Sphere", primitiveAffine);
 }
 
 void RemoteSphereColliderInstance::draw_inspector() {
@@ -28,7 +28,7 @@ nlohmann::json RemoteSphereColliderInstance::serialize() const {
 	result.update(transform);
 	result.update(hierarchyName);
 	result.update(radius);
-	result["Type"] = 30;
+	result["Type"] = instance_type();
 	result["Children"] = nlohmann::json::array();
 	for (const auto& child : children) {
 		result["Children"].emplace_back(child->serialize());

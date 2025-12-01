@@ -43,6 +43,8 @@ public:
 
 	void on_destroy() override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::DebugScene; }
+
 public:
 	size_t world_size() const;
 

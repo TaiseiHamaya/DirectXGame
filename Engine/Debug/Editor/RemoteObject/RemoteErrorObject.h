@@ -32,6 +32,8 @@ public:
 
 	void on_destroy() override {};
 
+	constexpr InstanceType instance_type() const { return InstanceType::ErrorInstance; }
+
 private:
 	std::string errorMessage;
 };
