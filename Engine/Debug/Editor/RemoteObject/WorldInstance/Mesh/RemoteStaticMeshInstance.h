@@ -43,6 +43,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::StaticMeshInstance; }
+
 	void on_spawn() override;
 
 	void on_destroy() override;
@@ -51,8 +53,8 @@ private:
 	void default_material();
 
 private:
-	EditorValueField<bool> isDraw{ "IsDraw" };
-	EditorValueField<u32> layer{ "Layer" };
+	EditorValueField<bool> isDraw{ "IsDraw", true };
+	EditorValueField<u32> layer{ "Layer", 0 };
 
 	std::string meshName;
 	std::vector<Material> materials;

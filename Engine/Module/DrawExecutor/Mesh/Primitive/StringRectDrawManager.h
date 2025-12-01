@@ -3,7 +3,6 @@
 #include "../../BaseDrawManager.h"
 #include "./StringRectDrawExecutor.h"
 
-#include "Engine/Module/World/Mesh/Primitive/IPrimitiveInstance.h"
 #include "Engine/Module/World/Mesh/Primitive/StringRectInstance.h"
 
 class StringRectDrawManager : public BaseDrawManager<StringRectDrawExecutor, BlendMode> {

@@ -5,6 +5,10 @@ void StringRectDrawManager::make_instancing(u32 layer, const BlendMode& blendMod
 }
 
 void StringRectDrawManager::make_instancing(u32 layer, const BlendMode& blendMode, u32 maxRenderingChar, u32 maxInstance) {
+	if (layer >= maxLayer) {
+		// TODO: エラーログを出す
+		return;
+	}
 	auto key = std::make_pair(layer, blendMode);
 	if (executors.contains(key)) {
 		return;

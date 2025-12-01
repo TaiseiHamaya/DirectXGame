@@ -168,7 +168,7 @@ nlohmann::json RemoteStaticMeshInstance::serialize() const {
 
 	json.update(hierarchyName);
 	json.update(transform);
-	json["Type"] = 10;
+	json["Type"] = instance_type();
 	json.update(isDraw);
 	json.update(layer);
 	json["MeshName"] = meshName;

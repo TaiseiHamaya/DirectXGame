@@ -7,8 +7,7 @@
 #include <Library/Utility/Template/Reference.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
-#include "Engine/Module/World/Mesh/Primitive/IPrimitiveInstance.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
 class StringRectInstance;
 struct StringData;

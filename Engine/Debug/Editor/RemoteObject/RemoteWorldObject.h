@@ -45,6 +45,8 @@ public:
 
 	void on_destroy() override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::DebugWorldRoot; }
+
 	const std::string& world_name() const;
 
 	u32 get_id() const;

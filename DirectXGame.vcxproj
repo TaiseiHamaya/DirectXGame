@@ -299,7 +299,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.cpp" />
     <ClCompile Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.cpp" />
-    <ClCompile Include="Engine\Module\Manager\Camera\CameraManager.cpp" />
     <ClCompile Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.cpp" />
     <ClCompile Include="Engine\Module\Manager\SceneScript\ISceneScript.cpp" />
     <ClCompile Include="Engine\Module\Manager\SceneScript\SceneScriptManager.cpp" />
@@ -444,6 +443,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Utility\Tools\Easing.cpp" />
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -551,6 +554,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\World\WorldInstanceType.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
     <ClInclude Include="Engine\Application\ArgumentParser.h" />
     <ClInclude Include="Engine\Application\CrashHandler.h" />
@@ -686,7 +690,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\StaticMeshDrawManager.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\PrimitiveGeometryDrawExecutor\PrimitiveGeometryDrawExecutor.h" />
-    <ClInclude Include="Engine\Module\Manager\Camera\CameraManager.h" />
     <ClInclude Include="Engine\Module\Manager\RuntimeStorage\RuntimeStorage.h" />
     <ClInclude Include="Engine\Module\Manager\SceneScript\ISceneScript.h" />
     <ClInclude Include="Engine\Module\Manager\SceneScript\SceneScriptManager.h" />
@@ -1003,6 +1006,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
     <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Library\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

@@ -11,10 +11,10 @@ CollisionManager::CollisionManager() {
 #ifdef DEBUG_FEATURES_ENABLE
 
 	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Sphere"), 1024
 	);
 	aabbDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("AABBCollider"), 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Box"), 1024
 	);
 
 #endif // _DEBUG

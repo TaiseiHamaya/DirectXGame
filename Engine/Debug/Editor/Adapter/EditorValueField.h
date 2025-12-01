@@ -33,7 +33,7 @@ public:
 	__CLASS_DEFAULT_ALL(EditorValueField<T>)
 
 public:
-	void show_gui() {
+	std::bitset<2> show_gui() {
 		T temp = value;
 		std::bitset<2> result = showObject.show_gui(temp);
 		if (result == 0b01) {
@@ -43,6 +43,7 @@ public:
 		if (result == 0b10) {
 			EditorValueChangeCommandHandler::End();
 		}
+		return result;
 	}
 
 	friend struct nlohmann::adl_serializer<EditorValueField<T>>;
@@ -66,6 +67,10 @@ public:
 	EditorValueField<T>& operator=(const T& rhs) {
 		set(rhs);
 		return *this;
+	}
+
+	operator T() const {
+		return value;
 	}
 
 private:
@@ -145,6 +150,12 @@ public:
 		return *this;
 	}
 
+	operator Transform3D() const {
+		Transform3D result;
+		result.copy(value);
+		return result;
+	}
+
 	friend struct nlohmann::adl_serializer<EditorValueField<Transform3D>>;
 
 private:
@@ -222,6 +233,12 @@ public:
 	EditorValueField<Transform2D>& operator=(const Transform2D& rhs) {
 		set(rhs);
 		return *this;
+	}
+
+	operator Transform2D() const {
+		Transform2D result;
+		result.copy(value);
+		return result;
 	}
 
 	friend struct nlohmann::adl_serializer<EditorValueField<Transform2D>>;

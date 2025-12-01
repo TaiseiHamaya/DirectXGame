@@ -23,6 +23,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::AABBColliderInstance; }
+
 private:
 	EditorValueField<Vector3> size{ "Size", CVector3::ONE * 2 };
 	EditorValueField<Vector3> offset{ "Offset", CVector3::ONE * 0.5f };

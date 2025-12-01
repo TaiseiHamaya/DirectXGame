@@ -9,8 +9,8 @@ FontRenderingNode::FontRenderingNode() = default;
 FontRenderingNode::~FontRenderingNode() noexcept = default;
 
 void FontRenderingNode::BeginLoadShader() {
-	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFond.VS.hlsl");
-	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFond.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.PS.hlsl");
 }
 
 void FontRenderingNode::initialize() {
@@ -37,11 +37,14 @@ void FontRenderingNode::create_pipeline_state(PsoBlendMode blendMode) {
 	);
 
 	std::unique_ptr<PSOBuilder> psoBuilder = std::make_unique<PSOBuilder>();
-	psoBuilder->depth_state(RenderingSystemValues::GetDepthStencilTexture()->get_as_dsv()->get_format(), D3D12_DEPTH_WRITE_MASK_ZERO);
+	psoBuilder->depth_state(
+		RenderingSystemValues::GetDepthStencilTexture()->get_as_dsv()->get_format(), 
+		blendMode == PsoBlendMode::None ? D3D12_DEPTH_WRITE_MASK_ALL : D3D12_DEPTH_WRITE_MASK_ZERO
+	);
 	psoBuilder->rasterizerstate();
 	psoBuilder->rootsignature(rootSignatureBuilder.build());
-	psoBuilder->shaders(ShaderType::Vertex, "MsdfFond.VS.hlsl");
-	psoBuilder->shaders(ShaderType::Pixel, "MsdfFond.PS.hlsl");
+	psoBuilder->shaders(ShaderType::Vertex, "MsdfFont.VS.hlsl");
+	psoBuilder->shaders(ShaderType::Pixel, "MsdfFont.PS.hlsl");
 	psoBuilder->primitivetopologytype();
 	psoBuilder->blendstate(blendMode);
 	psoBuilder->rendertarget();

@@ -36,7 +36,14 @@ void PointLightingExecutor::write_to_buffer(Reference<const PointLightInstance> 
 	if (instanceCounter >= maxInstance) {
 		return;
 	}
-	matrices[instanceCounter] = instance->transform_matrix();
+	r32 radius = instance->light_data_imm().radius + 0.1f;
+	Vector3 scale = { radius, radius, radius };
+	matrices[instanceCounter] = Affine::FromSRT(
+		scale, 
+		CQuaternion::IDENTITY,
+		instance->world_affine().get_origin()
+	).to_matrix();
 	lightData[instanceCounter] = instance->light_data_imm();
+	lightData[instanceCounter].position = instance->world_affine().get_origin();
 	++instanceCounter;
 }

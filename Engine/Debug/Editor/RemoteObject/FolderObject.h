@@ -32,6 +32,8 @@ public:
 
 	void on_destroy() override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::DebugFolder; }
+
 private:
 	std::vector<std::unique_ptr<IRemoteObject>> children;
 };

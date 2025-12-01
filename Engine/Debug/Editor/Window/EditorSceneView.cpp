@@ -16,6 +16,8 @@
 #include "Engine/Module/Render/RenderPSO/Forward/Mesh/StaticMeshNodeForward.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
+#include "Engine/Module/Render/RenderPSO/Forward/Primitive/Rect3dNode.h"
+#include "Engine/Module/Render/RenderPSO/Forward/FontRenderingNode/FontRenderingNode.h"
 
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
@@ -25,13 +27,21 @@ void EditorSceneView::initialize(bool isActive_) {
 	std::shared_ptr<StaticMeshNodeForward> staticMeshNode = std::make_shared<StaticMeshNodeForward>();
 	staticMeshNode->initialize();
 
+	std::shared_ptr<Rect3dNode> rect3dNode = std::make_shared<Rect3dNode>();
+	rect3dNode->initialize(BlendMode::None);
+
+	std::shared_ptr<FontRenderingNode> stringRectNode = std::make_shared<FontRenderingNode>();
+	stringRectNode->initialize(BlendMode::None);
+
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode = std::make_shared<PrimitiveLineNode>();
 	primitiveLineNode->initialize();
 
 	staticMeshDrawManager.initialize(1);
+	rect3dDrawManager.initialize(1);
+	stringRectDrawManager.initialize(1);
 	directionalLightingExecutor.reinitialize(1);
 	renderPath.initialize(
-		{ staticMeshNode,primitiveLineNode }
+		{ staticMeshNode, rect3dNode, stringRectNode, primitiveLineNode }
 	);
 
 	EditorDebugCamera::Setup(this);
@@ -50,6 +60,8 @@ void EditorSceneView::update() {
 		directionalLightingExecutor.begin();
 		directionalLightingExecutor.write_to_buffer(lightInstance);
 		staticMeshDrawManager.transfer();
+		rect3dDrawManager.transfer();
+		stringRectDrawManager.transfer();
 	}
 }
 
@@ -85,12 +97,25 @@ void EditorSceneView::draw_scene() {
 		commandList->RSSetScissorRects(1, &scissorRect);
 
 		// Mesh
-		view.set_camera_command();
+		view.register_world_projection(2);
+		view.register_world_lighting(3);
 		directionalLightingExecutor.set_command(4);
 		staticMeshDrawManager.draw_layer(layer);
 
+		// Rect3d
 		renderPath.next();
+		view.register_world_projection(3);
+		view.register_world_lighting(4);
+		directionalLightingExecutor.set_command(5);
+		rect3dDrawManager.draw_layer(layer);
+
+		// StringRect
+		renderPath.next();
+		view.register_world_projection(3);
+		stringRectDrawManager.draw_layer(layer);
+
 		// lines
+		renderPath.next();
 		view.draw_lines();
 
 		renderPath.next();
@@ -145,6 +170,20 @@ void EditorSceneView::create_mesh_instancing(Reference<const RemoteWorldObject> 
 void EditorSceneView::register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance) {
 	create_mesh_instancing(world, instance->key_id());
 	staticMeshDrawManager.register_instance(instance);
+}
+
+void EditorSceneView::register_rect(Reference<const RemoteWorldObject> world, Reference<const Rect3d> rect) {
+	if (worldViews.contains(world->get_id())) {
+		rect3dDrawManager.make_instancing(worldViews.at(world->get_id()).layer, rect->key_id(), 1024);
+	}
+	rect3dDrawManager.register_instance(rect);
+}
+
+void EditorSceneView::register_string(Reference<const RemoteWorldObject> world, Reference<const StringRectInstance> stringRect) {
+	if (worldViews.contains(world->get_id())) {
+		stringRectDrawManager.make_instancing(worldViews.at(world->get_id()).layer, stringRect->key_id(), 1024);
+	}
+	stringRectDrawManager.register_instance(stringRect);
 }
 
 void EditorSceneView::write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine) {

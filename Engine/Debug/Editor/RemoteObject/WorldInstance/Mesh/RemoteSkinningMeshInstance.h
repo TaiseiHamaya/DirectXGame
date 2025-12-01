@@ -45,6 +45,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::SkinningMeshInstance; }
+
 	void on_spawn() override;
 
 	void on_destroy() override;

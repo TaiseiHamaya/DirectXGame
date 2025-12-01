@@ -10,6 +10,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
 #include "Engine/Module/DrawExecutor/LightingExecutor/DirectionalLightingExecutor.h"
 #include "Engine/Module/DrawExecutor/Mesh/StaticMeshDrawManager.h"
+#include "Engine/Module/DrawExecutor/Mesh/Primitive/Rect3dDrawManager.h"
+#include "Engine/Module/DrawExecutor/Mesh/Primitive/StringRectDrawManager.h"
 #include "Engine/Module/Render/RenderPath/RenderPath.h"
 
 #include <Library/Math/Vector2.h>
@@ -50,6 +52,8 @@ public:
 
 	void create_mesh_instancing(Reference<const RemoteWorldObject> world, const std::string& meshName);
 	void register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance);
+	void register_rect(Reference<const RemoteWorldObject> world, Reference<const Rect3d> rect);
+	void register_string(Reference<const RemoteWorldObject> world, Reference<const StringRectInstance> stringRect);
 	void write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine);
 
 	std::optional<u32> get_layer(Reference<const RemoteWorldObject> world) const;
@@ -84,6 +88,8 @@ private:
 	std::unique_ptr<DirectionalLightInstance> lightInstance;
 	DirectionalLightingExecutor directionalLightingExecutor;
 	StaticMeshDrawManager staticMeshDrawManager;
+	Rect3dDrawManager rect3dDrawManager;
+	StringRectDrawManager stringRectDrawManager;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

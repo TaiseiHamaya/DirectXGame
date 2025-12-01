@@ -22,7 +22,7 @@ nlohmann::json RemoteWorldInstance::serialize() const {
 
 	result.update(transform);
 	result.update(hierarchyName);
-	result["Type"] = 0;
+	result["Type"] = instance_type();
 	result["Children"] = nlohmann::json::array();
 	for (const auto& child : children) {
 		result["Children"].emplace_back(child->serialize());

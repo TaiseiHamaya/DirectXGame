@@ -37,8 +37,12 @@ extern "C" HANDLE WINAPI GetProcessHandleFromHwnd(_In_ HWND hwnd);
 
 #include <imgui.h>
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-#endif // _DEBUG
+
+#include <pix_win.h>
+
 #include <Engine/Debug/Editor/Window/EditorLogWindow.h>
+
+#endif // DEBUG_FEATURES_ENABLE
 
 // ウィンドウプロシージャ
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -150,16 +154,27 @@ void WinApp::Initialize() {
 	// Shader
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
+
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Mesh/StaticMeshForward.VS.hlsl");
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Forward.PS.hlsl");
 
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Primitive/Rect3d.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/ForwardAlpha.PS.hlsl");
+
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.PS.hlsl");
+
 	PrimitiveGeometryLibrary::Transfer(
-		"SphereCollider",
-		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Collider/Sphere.json")
+		"Spehre",
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Sphere.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
-		"AABBCollider",
-		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Collider/AABB.json")
+		"Box",
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Box.json")
+	);
+	PrimitiveGeometryLibrary::Transfer(
+		"Line",
+		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Line.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
 		"Frustum",
@@ -195,7 +210,12 @@ void WinApp::BeginFrame() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::BeginFrame();
+
+	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "SceneView");
+
 	EditorMain::DrawBase(); // Editorのベース描画
+	
+	PIXEndEvent(DxCommand::GetCommandList().Get());
 #endif // _DEBUG
 
 	SceneManager2::BeginFrame();
@@ -218,6 +238,7 @@ void WinApp::Draw() {
 #ifdef DEBUG_FEATURES_ENABLE
 	auto& instance = GetInstance();
 	instance.profiler.timestamp("PreDraw");
+
 #endif // DEBUG_FEATURES_ENABLE
 
 	// 描画前処理
@@ -225,10 +246,16 @@ void WinApp::Draw() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 	instance.profiler.timestamp("Draw");
+
+	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "SceneRendering");
 #endif // DEBUG_FEATURES_ENABLE
 
 	// コマンドを積む
 	SceneManager2::Draw();
+
+#ifdef DEBUG_FEATURES_ENABLE
+	PIXEndEvent(DxCommand::GetCommandList().Get());
+#endif // DEBUG_FEATURES_ENABLE
 }
 
 void WinApp::EndFrame() {
@@ -246,10 +273,14 @@ void WinApp::EndFrame() {
 	ImGui::End();
 
 	// エディター描画
+	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "Editor");
 	EditorMain::Draw();
+	PIXEndEvent(DxCommand::GetCommandList().Get());
 
 	// ImGuiのコマンドを積む
+	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "ImGui");
 	ImGuiManager::EndFrame();
+	PIXEndEvent(DxCommand::GetCommandList().Get());
 #endif // _DEBUG
 
 	// 描画実行とWait
