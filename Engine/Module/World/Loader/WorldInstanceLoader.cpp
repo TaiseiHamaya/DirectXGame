@@ -182,11 +182,12 @@ void WorldInstanceLoader::create_rect3d_instance(const nlohmann::json& json, Ref
 	instance->set_draw(json.value("IsDraw", true));
 	instance->set_layer(json.value("Layer", 0u));
 
-	instance->get_material().texture = TextureLibrary::GetTexture(json.value("Texture", ""));
-	instance->get_material().color = json.value("Color", CColor4::WHITE);
-	instance->get_material().uvTransform.copy(json.value("UV Transform", Transform2D{}));
-	instance->get_material().lightingType = json.value("LightingType", LighingType::None);
-	instance->get_material().shininess = json.value("Shininess", 50.0f);
+	nlohmann::json materialJson = json.value("Material", nlohmann::json::object());
+	instance->get_material().texture = TextureLibrary::GetTexture(materialJson.value("Texture", ""));
+	instance->get_material().color = materialJson.value("Color", CColor4::WHITE);
+	instance->get_material().uvTransform.copy(materialJson.value("UV Transform", Transform2D{}));
+	instance->get_material().lightingType = materialJson.value("LightingType", LighingType::None);
+	instance->get_material().shininess = materialJson.value("Shininess", 50.0f);
 
 	if (json.contains("Children") && json["Children"].is_array()) {
 		for (const nlohmann::json& instanceJson : json["Children"]) {

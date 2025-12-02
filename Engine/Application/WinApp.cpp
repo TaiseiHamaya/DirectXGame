@@ -180,6 +180,9 @@ void WinApp::Initialize() {
 		"Frustum",
 		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Frustum.json")
 	);
+
+	// Texture
+	TextureLibrary::RegisterLoadQue("./DirectXGame/EditorResources/Texture/EngineIcon_DirectionalLight.png");
 #endif // _DEBUG
 
 	// 待機

@@ -5,8 +5,9 @@
 #include "../IRemoteInstance.h"
 
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
+#include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
-class RemoteDirectionalLightInstance : public IRemoteInstance<DirectionalLightInstance> {
+class RemoteDirectionalLightInstance final : public IRemoteInstance<DirectionalLightInstance, Rect3d> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -17,6 +18,8 @@ public:
 	__CLASS_DEFAULT_ALL(RemoteDirectionalLightInstance)
 
 public:
+	void setup() override;
+
 	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
 
 	void draw_inspector() override;
@@ -31,6 +34,8 @@ private:
 	EditorValueField<Vector3> direction{ "Direction", CVector3::DOWN };
 
 	EditorValueField<u32> influenceLayer{ "Influence Layer", 1 };
+
+	std::unique_ptr<DirectionalLightInstance> instance;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

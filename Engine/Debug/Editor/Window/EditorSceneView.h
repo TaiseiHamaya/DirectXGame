@@ -41,27 +41,31 @@ public:
 	void draw_scene();
 	void draw() override;
 
-	bool is_hovered_window();
+	void reset_force();
 
-	const Vector2& view_origin() const;
-	const Vector2& view_size() const;
-
-	Reference<ImDrawList> draw_list() const;
-
+public:
 	void register_world(Reference<RemoteWorldObject> world);
 
 	void create_mesh_instancing(Reference<const RemoteWorldObject> world, const std::string& meshName);
 	void register_mesh(Reference<const RemoteWorldObject> world, Reference<const StaticMeshInstance> instance);
 	void register_rect(Reference<const RemoteWorldObject> world, Reference<const Rect3d> rect);
 	void register_string(Reference<const RemoteWorldObject> world, Reference<const StringRectInstance> stringRect);
+	void register_directional_light(Reference<const RemoteWorldObject> world, Reference<const DirectionalLightInstance> lightInstance);
 	void write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine);
 
+public:
 	std::optional<u32> get_layer(Reference<const RemoteWorldObject> world) const;
 
 	Reference<EditorWorldView> get_world_view(Reference<const RemoteWorldObject> worldRef);
 	Reference<EditorWorldView> get_current_world_view();
 
-	void reset_force();
+	bool is_hovered_window();
+	const Vector2& view_origin() const;
+	const Vector2& view_size() const;
+
+	Reference<ImDrawList> draw_list() const;
+
+	Reference<const EditorDebugCamera> query_debug_camera();
 
 private:
 	void copy_screen();
@@ -84,12 +88,15 @@ private:
 
 	// 描画用データ
 	TempTexture screenResultTexture;
+	
 	RenderPath renderPath;
-	std::unique_ptr<DirectionalLightInstance> lightInstance;
+
 	DirectionalLightingExecutor directionalLightingExecutor;
 	StaticMeshDrawManager staticMeshDrawManager;
 	Rect3dDrawManager rect3dDrawManager;
 	StringRectDrawManager stringRectDrawManager;
+
+	std::vector<std::vector<Reference<const DirectionalLightInstance>>> directionalLights;
 };
 
 #endif // DEBUG_FEATURES_ENABLE

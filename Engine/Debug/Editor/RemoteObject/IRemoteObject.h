@@ -17,6 +17,7 @@
 class Affine;
 class EditorSceneView;
 class RemoteWorldObject;
+class EditorDebugCamera;
 
 class IRemoteObject {
 	friend class EditorSceneSerializer;

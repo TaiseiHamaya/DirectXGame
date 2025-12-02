@@ -56,7 +56,7 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<con
 
 	// SetCamera
 	{
-		Reference<const Camera3D> camera = world->get_camera();
+		Reference<const EditorDebugCamera> camera = world->get_camera();
 		view = camera->view_affine().to_matrix();
 		proj = camera->proj_matrix();
 	}

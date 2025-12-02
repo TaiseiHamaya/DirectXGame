@@ -40,7 +40,6 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 view = mul(float4(ndc, 1.0f), gCamera.projInv);
 	float4 worldH = mul(view, gCamera.viewInv);
 	pixel.world = worldH.xyz / worldH.w;
-	pixel.color = albedoShading.rgb;
 	
 	DirectionalLightBuffer directionalLight = gDirectionalLight[input.instance];
 
