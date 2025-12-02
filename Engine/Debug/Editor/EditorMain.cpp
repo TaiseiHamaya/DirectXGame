@@ -20,7 +20,6 @@
 
 void EditorMain::Initialize() {
 	EditorMain& instance = GetInstance();
-	instance.isActiveEditor = true;
 	instance.sceneView.initialize(true);
 	instance.inspector.initialize();
 	instance.sceneList.initialize();
