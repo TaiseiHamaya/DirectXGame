@@ -11,10 +11,6 @@ JsonAsset::JsonAsset(const std::filesystem::path& file) {
 }
 
 void JsonAsset::load(const std::filesystem::path& file) {
-	if (file.extension() != ".json") {
-		szgWarning(L"This file's extension is not .json. File\'{}\'", file.native());
-	}
-
 	filePath = IAssetBuilder::ResolveFilePath(file, "json");
 
 	if (!std::filesystem::exists(filePath)) {

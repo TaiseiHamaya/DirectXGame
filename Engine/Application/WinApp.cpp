@@ -149,14 +149,17 @@ void WinApp::Initialize() {
 		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Primitive/Rect3D.json")
 	);
 
-#ifdef DEBUG_FEATURES_ENABLE
-	// デバッグ用アセットのロード
 	// Shader
-	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
-	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Deferred/Mesh/StaticMesh.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Deferred/Mesh/SkinningMesh.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Deferred/Deferred.PS.hlsl");
 
-	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Mesh/StaticMeshForward.VS.hlsl");
-	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Forward.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/FullscreenShader.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.VS.hlsl");
+
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Deferred/Lighting/NonLighting.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Deferred/Lighting/DirectionalLighting.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Deferred/Lighting/PointLighting.PS.hlsl");
 
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Primitive/Rect3d.VS.hlsl");
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/ForwardAlpha.PS.hlsl");
@@ -164,6 +167,14 @@ void WinApp::Initialize() {
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.VS.hlsl");
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.PS.hlsl");
 
+#ifdef DEBUG_FEATURES_ENABLE
+	// デバッグ用アセットのロード
+	// Shader
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Mesh/StaticMeshForward.VS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Forward.PS.hlsl");
+	ShaderLibrary::RegisterLoadQue("[[szg]]/Misc/PrimitiveGeometry/PrimitiveGeometry.PS.hlsl");
+
+	// primitive
 	PrimitiveGeometryLibrary::Transfer(
 		"Sphere",
 		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Sphere.json")
