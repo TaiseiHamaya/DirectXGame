@@ -47,6 +47,9 @@ void StringRectDrawExecutor::write_to_buffer(Reference<const StringRectInstance>
 	u32 stringIndex;
 	const std::vector<GlyphRenderingData>& glyphData = instance->glyph_data_imm();
 	u32 numChars = static_cast<u32>(glyphData.size());
+	if (numChars == 0) {
+		return;
+	}
 
 	{
 		std::lock_guard<std::mutex> lock{ writeBufferMutex };
