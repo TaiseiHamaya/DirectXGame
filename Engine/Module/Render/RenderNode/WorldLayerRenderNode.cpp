@@ -70,6 +70,7 @@ void WorldLayerRenderNode::stack_command() {
 	subtree.next_node();
 	camera->register_world_projection(1);
 	camera->register_world_lighting(6);
+	data.layerData.outputTextureSize.stack_command(7);
 	data.layerData.worldRenderCollection->pointLightingExecutors[data.layerData.index].draw_command();
 
 	// ----- PrimitivePass -----

@@ -8,7 +8,7 @@
 #include "Engine/Assets/Json/JsonSerializer.h"
 
 void RemoteDirectionalLightInstance::setup() {
-	IRemoteInstance<DirectionalLightInstance, Rect3d>::setup();
+	RemoteInstanceType::setup();
 	debugVisual = std::make_unique<Rect3d>();
 	debugVisual->initialize(CVector2::ONE * 0.5f, Vector2{ 0.5f, 0.5f });
 	debugVisual->get_material().lightingType = LighingType::None;
@@ -96,6 +96,7 @@ void RemoteDirectionalLightInstance::draw_inspector() {
 		direction = -CVector3::BASIS_Z;
 	}
 
+	ImGui::Separator();
 	ImGui::Text("Influence Layer");
 	for (i32 i = 0; i < sizeof(u32) * 4; ++i) {
 		bool isActive = influenceLayer & (1u << i);

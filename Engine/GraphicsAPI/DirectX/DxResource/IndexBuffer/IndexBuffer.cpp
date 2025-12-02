@@ -28,8 +28,8 @@ void IndexBuffer::create_resource() {
 }
 
 void IndexBuffer::unmap() {
-	if (data) {
+	if (resource) {
 		resource->Unmap(0, nullptr);
-		data = nullptr;
 	}
+	data = std::span<u32>();
 }

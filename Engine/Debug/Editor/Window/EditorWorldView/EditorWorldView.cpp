@@ -23,7 +23,7 @@ void EditorWorldView::initialize() {
 		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Box"), 1024
 	));
 	primitive.emplace("Sphere", std::make_unique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Sphare"), 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Sphere"), 1024
 	));
 	primitive.emplace("Line", std::make_unique<PrimitiveGeometryDrawExecutor>(
 		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Line"), 1024

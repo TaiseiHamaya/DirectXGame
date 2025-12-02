@@ -16,7 +16,7 @@
 
 SpriteInstance::SpriteInstance() :
 	material(std::make_unique<ConstantBuffer<SpriteMaterial>>(SpriteMaterial{ Color4{ 1.0f,1.0f,1.0f,1.0f }, CMatrix4x4::IDENTITY })),
-	color(material->get_data()->color),
+	color(material->data_mut()->color),
 	transformMatrix(std::make_unique<ConstantBuffer<Matrix4x4>>()),
 	transform(std::make_unique<Transform2D>()),
 	uvTransform(std::make_unique<Transform2D>()) {
@@ -42,8 +42,8 @@ const Transform2D& SpriteInstance::get_transform() noexcept {
 }
 
 void SpriteInstance::transfer() noexcept {
-	*transformMatrix->get_data() = transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix();
-	material->get_data()->uvTransform = uvTransform->get_matrix4x4_transform();
+	*transformMatrix->data_mut() = transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix();
+	material->data_mut()->uvTransform = uvTransform->get_matrix4x4_transform();
 }
 
 void SpriteInstance::draw() const {

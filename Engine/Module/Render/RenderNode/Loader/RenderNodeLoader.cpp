@@ -9,6 +9,9 @@
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 #include "Engine/Runtime/Scene/Scene.h"
 
+#define VECTOR2_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
+
 RenderNodeLoader::RenderNodeLoader() = default;
 RenderNodeLoader::~RenderNodeLoader() noexcept = default;
 
@@ -126,6 +129,8 @@ std::unique_ptr<IRenderNode> RenderNodeLoader::load_as_world_render(const nlohma
 			0.0f,
 			1.0f
 		};
+		resultData.layerData.outputTextureSize =
+			dataJson.value("OutputSize", Vector2{ 1920, 1080 });
 		const u32 worldIndex = dataJson["WorldIndex"].get<u32>();
 		resultData.layerData.index = dataJson["LayerIndex"].get<u8>();
 		resultData.layerData.worldRenderCollection = scene->get_world(worldIndex)->render_collection();

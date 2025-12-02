@@ -16,7 +16,7 @@ GrayscaleNode::~GrayscaleNode() = default;
 void GrayscaleNode::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*isGray.get_data() = false;
+	*isGray.data_mut() = false;
 }
 
 void GrayscaleNode::preprocess() {
@@ -28,7 +28,7 @@ void GrayscaleNode::preprocess() {
 	if (strangeValue.is_null()) {
 		return;
 	}
-	*isGray.get_data() = std::any_cast<bool>(*strangeValue);
+	*isGray.data_mut() = std::any_cast<bool>(*strangeValue);
 }
 
 void GrayscaleNode::execute_effect_command() {
@@ -68,6 +68,6 @@ void GrayscaleNode::create_pipeline_state() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 void GrayscaleNode::debug_gui() {
-	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.get_data()));
+	ImGui::Checkbox("IsGray", reinterpret_cast<bool*>(isGray.data_mut().ptr()));
 }
 #endif // _DEBUG

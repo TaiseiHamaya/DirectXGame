@@ -165,7 +165,7 @@ void WinApp::Initialize() {
 	ShaderLibrary::RegisterLoadQue("[[szg]]/Forward/Font/MsdfFont.PS.hlsl");
 
 	PrimitiveGeometryLibrary::Transfer(
-		"Spehre",
+		"Sphere",
 		std::make_shared<PrimitiveGeometryAsset>("[[szg]]/PrimitiveGeometry/Sphere.json")
 	);
 	PrimitiveGeometryLibrary::Transfer(
@@ -214,7 +214,7 @@ void WinApp::BeginFrame() {
 #ifdef DEBUG_FEATURES_ENABLE
 	ImGuiManager::BeginFrame();
 
-	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "SceneView");
+	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "EditorScene");
 
 	EditorMain::DrawBase(); // Editorのベース描画
 	
@@ -276,7 +276,7 @@ void WinApp::EndFrame() {
 	ImGui::End();
 
 	// エディター描画
-	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "Editor");
+	PIXBeginEvent(DxCommand::GetCommandList().Get(), 0, "EditorScreen");
 	EditorMain::Draw();
 	PIXEndEvent(DxCommand::GetCommandList().Get());
 

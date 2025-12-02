@@ -7,11 +7,28 @@
 #define COLOR3_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+void RemotePointLightInstane::setup() {
+	RemoteInstanceType::setup();
+	debugVisual = std::make_unique<Rect3d>();
+	debugVisual->initialize(CVector2::ONE * 0.5f, Vector2{ 0.5f, 0.5f });
+	debugVisual->get_material().lightingType = LighingType::None;
+	debugVisual->get_material().texture = TextureLibrary::GetTexture("EngineIcon_DirectionalLight.png");
+
+	sceneView->register_rect(query_world(), debugVisual);
+}
+
 void RemotePointLightInstane::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
-	IRemoteInstance<PointLightInstance, void*>::update_preview(world, parentAffine);
+	RemoteInstanceType::update_preview(world, parentAffine);
 
 	Affine primitiveAffine = Affine::FromScale(Vector3{ radius.cget(), radius.cget(), radius.cget() }) * Affine::FromTranslate(worldAffine.get_origin());
 	sceneView->write_primitive(world, "Sphere", primitiveAffine);
+
+	Reference<const EditorDebugCamera> camera = sceneView->query_debug_camera();
+	if (camera) {
+		debugVisual->look_at(camera);
+	}
+	debugVisual->get_transform().set_translate(worldAffine.get_origin());
+	debugVisual->update_affine();
 }
 
 void RemotePointLightInstane::draw_inspector() {
@@ -28,14 +45,25 @@ void RemotePointLightInstane::draw_inspector() {
 	radius.show_gui();
 	decay.show_gui();
 
+	ImGui::Separator();
 	ImGui::Text("Influence Layer");
-	for (i32 i = 0; i < sizeof(u32); ++i) {
-		if (ImGui::Button(std::format("{}", i).c_str())) {
+	for (i32 i = 0; i < sizeof(u32) * 4; ++i) {
+		bool isActive = influenceLayer & (1u << i);
+		if (isActive) {
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.10f, 0.60f, 0.12f, 1.00f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.21f, 0.22f, 0.23f, 0.40f });
+		}
+		else {
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.05f, 0.05f, 0.05f, 0.0f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.02f, 0.02f, 0.02f, 1.00f });
+		}
+		if (ImGui::Button(std::format("{}", i).c_str(), ImVec2{ 25,0 })) {
 			influenceLayer = influenceLayer ^ (1u << i);
 		}
 		if (i % 8 != 7) {
 			ImGui::SameLine();
 		}
+		ImGui::PopStyleColor(2);
 	}
 }
 

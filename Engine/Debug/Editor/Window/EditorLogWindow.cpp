@@ -92,7 +92,7 @@ void EditorLogWindow::draw() {
 			continue;
 		}
 		ImGui::TextColored(
-			std::bit_cast<ImVec4, std::array<r32, 4>>(logState.color),
+			std::bit_cast<ImVec4>(logState.color),
 			std::format("{} {}", logState.icon, log.message).c_str()
 		);
 	}

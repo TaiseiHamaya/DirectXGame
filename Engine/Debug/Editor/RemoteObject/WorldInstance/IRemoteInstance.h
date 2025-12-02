@@ -26,6 +26,9 @@ public:
 	__CLASS_DEFAULT_ALL(IRemoteInstance)
 
 public:
+	using RemoteInstanceType = IRemoteInstance<RuntimeType, DebugVisualType>;
+
+public:
 	virtual void setup() override;
 
 	virtual void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;

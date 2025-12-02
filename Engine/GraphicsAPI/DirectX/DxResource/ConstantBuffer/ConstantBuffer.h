@@ -4,9 +4,11 @@
 #include <typeinfo>
 
 #include <Library/Utility/Tools/ConvertString.h>
+#include <Library/Utility/Template/Reference.h>
 
 #include "../ConceptCPUBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 template<ConceptCPUBufferACE T>
 class ConstantBuffer : public DxResource {
@@ -20,12 +22,18 @@ public:
 	ConstantBuffer& operator=(ConstantBuffer&&) = default;
 
 public:
-	const T* const get_data() const noexcept;
-	T* const get_data() noexcept;
+	operator T& ();
+
+public:
+	Reference<const T> data_imm() const noexcept;
+	Reference<T> data_mut() noexcept;
+
 	void unmap();
 
+	void stack_command(u32 index) const;
+
 protected:
-	T* data;
+	Reference<T> data;
 	UINT memorySize;
 };
 
@@ -33,7 +41,9 @@ template<ConceptCPUBufferACE T>
 inline ConstantBuffer<T>::ConstantBuffer() noexcept(false) {
 	memorySize = sizeof(T);
 	resource = CreateBufferResource(memorySize);
-	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
+	T* temp;
+	resource->Map(0, nullptr, reinterpret_cast<void**>(&temp));
+	data = temp;
 	*data = T{};
 	std::wstring typeName = ConvertString(typeid(T).name());
 	if constexpr (std::is_class_v<T> || std::is_enum_v<T>) {
@@ -53,19 +63,29 @@ inline ConstantBuffer<T>::~ConstantBuffer() noexcept {
 }
 
 template<ConceptCPUBufferACE T>
-inline const T* const ConstantBuffer<T>::get_data() const noexcept {
+inline ConstantBuffer<T>::operator T& () {
+	return *data;
+}
+
+template<ConceptCPUBufferACE T>
+inline Reference<const T> ConstantBuffer<T>::data_imm() const noexcept {
 	return data;
 }
 
 template<ConceptCPUBufferACE T>
-inline T* const ConstantBuffer<T>::get_data() noexcept {
+inline Reference<T> ConstantBuffer<T>::data_mut() noexcept {
 	return data;
 }
 
 template<ConceptCPUBufferACE T>
 inline void ConstantBuffer<T>::unmap() {
-	if (data) {
+	if (resource) {
 		resource->Unmap(0, nullptr);
-		data = nullptr;
 	}
+	data.reset();
+}
+
+template<ConceptCPUBufferACE T>
+inline void ConstantBuffer<T>::stack_command(u32 index) const {
+	DxCommand::GetCommandList()->SetGraphicsRootConstantBufferView(index, resource->GetGPUVirtualAddress());
 }
