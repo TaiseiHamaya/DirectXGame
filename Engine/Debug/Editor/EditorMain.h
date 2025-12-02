@@ -36,7 +36,7 @@ private:
 	void set_imgui_command();
 
 private:
-	bool isActiveEditor{};
+	bool isActiveEditor{ true };
 
 	std::optional<std::string> switchSceneName;
 
