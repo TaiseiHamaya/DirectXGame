@@ -16,7 +16,7 @@ RadialBlurNode::~RadialBlurNode() noexcept = default;
 void RadialBlurNode::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*blurInfo.get_data() = BlurInfo{
+	*blurInfo.data_mut() = BlurInfo{
 		Vector2{0.5f, 0.5f},
 		0.4f,
 		0.1f,
@@ -33,7 +33,7 @@ void RadialBlurNode::preprocess() {
 	if (strangeValue.is_null()) {
 		return;
 	}
-	*blurInfo.get_data() = std::any_cast<BlurInfo>(*strangeValue);
+	*blurInfo.data_mut() = std::any_cast<BlurInfo>(*strangeValue);
 }
 
 void RadialBlurNode::execute_effect_command() {
@@ -76,10 +76,10 @@ void RadialBlurNode::create_pipeline_state() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 void RadialBlurNode::debug_gui() {
-	ImGui::DragFloat2("Center", &blurInfo.get_data()->center.x, 0.01f, 0.0f, 1.0f, "%.4f");
-	ImGui::DragFloat("Weight", &blurInfo.get_data()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
-	ImGui::DragFloat("Length", &blurInfo.get_data()->length, 0.001f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat2("Center", &blurInfo.data_mut()->center.x, 0.01f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Weight", &blurInfo.data_mut()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Length", &blurInfo.data_mut()->length, 0.001f, 0.0f, 1.0f, "%.4f");
 	u32 min = 1, max = 16;
-	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, &blurInfo.get_data()->sampleCount, 0.02f, &min, &max);
+	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, &blurInfo.data_mut()->sampleCount, 0.02f, &min, &max);
 }
 #endif // _DEBUG

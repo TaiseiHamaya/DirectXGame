@@ -5,8 +5,9 @@
 #include "../IRemoteInstance.h"
 
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
+#include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
-class RemotePointLightInstane final : public IRemoteInstance<PointLightInstance> {
+class RemotePointLightInstane final : public IRemoteInstance<PointLightInstance, Rect3d> {
 public:
 	friend class EditorSceneSerializer;
 
@@ -17,6 +18,8 @@ public:
 	__CLASS_DEFAULT_ALL(RemotePointLightInstane)
 
 public:
+	void setup() override;
+
 	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
 
 	void draw_inspector() override;

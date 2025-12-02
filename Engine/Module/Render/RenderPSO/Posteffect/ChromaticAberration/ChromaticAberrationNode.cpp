@@ -17,7 +17,7 @@ ChromaticAberrationNode::~ChromaticAberrationNode() noexcept = default;
 void ChromaticAberrationNode::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*aberrationLevel.get_data() = CVector2::ZERO;
+	*aberrationLevel.data_mut() = CVector2::ZERO;
 }
 
 void ChromaticAberrationNode::preprocess() {
@@ -29,7 +29,7 @@ void ChromaticAberrationNode::preprocess() {
 	if (strangeValue.is_null()) {
 		return;
 	}
-	*aberrationLevel.get_data() = std::any_cast<Vector2>(*strangeValue);
+	*aberrationLevel.data_mut() = std::any_cast<Vector2>(*strangeValue);
 }
 
 void ChromaticAberrationNode::execute_effect_command() {
@@ -70,7 +70,7 @@ void ChromaticAberrationNode::create_pipeline_state() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 void ChromaticAberrationNode::debug_gui() {
-	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.get_data()->x, 0.1f / ProjectSettings::ClientWidth(), -0.5f, 0.5f, "%.4f");
-	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.get_data()->y, 0.1f / ProjectSettings::ClientHeight(), -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.data_mut()->x, 0.1f / ProjectSettings::ClientWidth(), -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.data_mut()->y, 0.1f / ProjectSettings::ClientHeight(), -0.5f, 0.5f, "%.4f");
 }
 #endif // _DEBUG

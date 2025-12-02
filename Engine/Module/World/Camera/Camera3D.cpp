@@ -61,23 +61,23 @@ void Camera3D::transfer() {
 	}
 
 	if (isValidDebugCamera && useDebugCameraLighting) {
-		lightingBuffer.get_data()->viewInv = debugViewAffine.inverse_fast().to_matrix();
-		lightingBuffer.get_data()->position = debugCamera->world_position();
-		lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+		lightingBuffer.data_mut()->viewInv = debugViewAffine.inverse_fast().to_matrix();
+		lightingBuffer.data_mut()->position = debugCamera->world_position();
+		lightingBuffer.data_mut()->projInv = projectionMatrix.inverse();
 	}
 	else {
-		lightingBuffer.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
-		lightingBuffer.get_data()->position = world_position();
-		lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+		lightingBuffer.data_mut()->viewInv = viewAffine.inverse_fast().to_matrix();
+		lightingBuffer.data_mut()->position = world_position();
+		lightingBuffer.data_mut()->projInv = projectionMatrix.inverse();
 	}
 
 	if (isValidDebugCamera) {
-		vpBuffers.get_data()->view = debugViewAffine.to_matrix();
-		vpBuffers.get_data()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
+		vpBuffers.data_mut()->view = debugViewAffine.to_matrix();
+		vpBuffers.data_mut()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
 	}
 	else {
-		vpBuffers.get_data()->view = viewAffine.to_matrix();
-		vpBuffers.get_data()->viewProjection = vpMatrix;
+		vpBuffers.data_mut()->view = viewAffine.to_matrix();
+		vpBuffers.data_mut()->viewProjection = vpMatrix;
 	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
@@ -234,7 +234,7 @@ void Camera3D::debug_draw_frustum() const {
 }
 
 const Matrix4x4& Camera3D::vp_matrix_debug() const {
-	return vpBuffers.get_data()->viewProjection;
+	return vpBuffers.data_imm()->viewProjection;
 }
 
 const Affine& Camera3D::debug_view_affine() const {

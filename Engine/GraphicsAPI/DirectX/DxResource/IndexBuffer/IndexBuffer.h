@@ -2,6 +2,7 @@
 
 #include <concepts>
 #include <memory>
+#include <span>
 #include <type_traits>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
@@ -40,7 +41,7 @@ private:
 	void unmap();
 
 private:
-	u32* data;
+	std::span<u32> data;
 	u32 size{};
 	UINT memorySize;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
@@ -61,8 +62,10 @@ inline void IndexBuffer::write(const T& indexes_array) {
 		create_resource();
 	}
 	// Map
-	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
+	u32* temp;
+	resource->Map(0, nullptr, reinterpret_cast<void**>(&temp));
+	data = std::span<u32>{ temp, size };
 	// コピー
-	std::memcpy(data, std::to_address(indexes_array.begin()), memorySize);
+	std::memcpy(data.data(), std::to_address(indexes_array.begin()), memorySize);
 	unmap();
 }

@@ -69,7 +69,7 @@ public:
 		return *this;
 	}
 
-	operator T() const {
+	operator const T&() const noexcept {
 		return value;
 	}
 
@@ -150,10 +150,8 @@ public:
 		return *this;
 	}
 
-	operator Transform3D() const {
-		Transform3D result;
-		result.copy(value);
-		return result;
+	operator const Transform3D&() const {
+		return value;
 	}
 
 	friend struct nlohmann::adl_serializer<EditorValueField<Transform3D>>;
@@ -235,10 +233,8 @@ public:
 		return *this;
 	}
 
-	operator Transform2D() const {
-		Transform2D result;
-		result.copy(value);
-		return result;
+	operator const Transform2D& () const {
+		return value;
 	}
 
 	friend struct nlohmann::adl_serializer<EditorValueField<Transform2D>>;

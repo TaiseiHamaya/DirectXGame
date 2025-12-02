@@ -12,18 +12,24 @@ struct Camera {
 	float4x4 projInv;
 };
 
+struct OutputTextureSize {
+	float2 size;
+	uint2 padding;
+};
+
 Texture2D<float4> gAlbedoShading : register(t0);
 Texture2D<uint> gNormal : register(t1);
 Texture2D<float> gDepth : register(t2);
 
 StructuredBuffer<PointLightBuffer> gPointLight : register(t3);
 ConstantBuffer<Camera> gCamera : register(b0);
+ConstantBuffer<OutputTextureSize> gOutputSize : register(b1);
 
 [earlydepthstencil]
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output = float4(0, 0, 0, 0);
 	
-	const float2 texcoord = input.position.xy / float2(1280, 720);
+	const float2 texcoord = input.position.xy / gOutputSize.size;
 	
 	// sampling
 	float4 albedoShading = gAlbedoShading.Load(input.position.xyz);

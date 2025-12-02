@@ -42,7 +42,7 @@ public:
 	/// </summary>
 	void set_shader_texture(Reference<RenderTexture> baseTexture_);
 
-	BlurInfo& data() { return *blurInfo.get_data(); }
+	BlurInfo& data() { return *blurInfo.data_mut(); }
 
 private:
 	/// <summary>
