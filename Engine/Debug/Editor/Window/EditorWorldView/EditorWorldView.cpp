@@ -113,7 +113,7 @@ void EditorWorldView::camera_gui() {
 	cameraInstance->debug_gui();
 }
 
-Reference<const Camera3D> EditorWorldView::get_camera() const {
+Reference<const EditorDebugCamera> EditorWorldView::get_camera() const {
 	return cameraInstance;
 }
 

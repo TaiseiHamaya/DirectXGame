@@ -13,17 +13,15 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/Module/Render/RenderPSO/Debug/PrimitiveLine/PrimitiveLineNode.h"
-#include "Engine/Module/Render/RenderPSO/Forward/Mesh/StaticMeshNodeForward.h"
-#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
-#include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
-#include "Engine/Module/Render/RenderPSO/Forward/Primitive/Rect3dNode.h"
 #include "Engine/Module/Render/RenderPSO/Forward/FontRenderingNode/FontRenderingNode.h"
+#include "Engine/Module/Render/RenderPSO/Forward/Mesh/StaticMeshNodeForward.h"
+#include "Engine/Module/Render/RenderPSO/Forward/Primitive/Rect3dNode.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
 	screenResultTexture.initialize();
 
-	lightInstance = std::make_unique<DirectionalLightInstance>();
 	std::shared_ptr<StaticMeshNodeForward> staticMeshNode = std::make_shared<StaticMeshNodeForward>();
 	staticMeshNode->initialize();
 
@@ -39,10 +37,11 @@ void EditorSceneView::initialize(bool isActive_) {
 	staticMeshDrawManager.initialize(1);
 	rect3dDrawManager.initialize(1);
 	stringRectDrawManager.initialize(1);
-	directionalLightingExecutor.reinitialize(1);
+	directionalLightingExecutor.reinitialize(3);
 	renderPath.initialize(
 		{ staticMeshNode, rect3dNode, stringRectNode, primitiveLineNode }
 	);
+	directionalLights.resize(32);
 
 	EditorDebugCamera::Setup(this);
 }
@@ -58,7 +57,12 @@ void EditorSceneView::update() {
 
 		view.update();
 		directionalLightingExecutor.begin();
-		directionalLightingExecutor.write_to_buffer(lightInstance);
+		for (auto& lightInstance : directionalLights[selectWorldId.value()]) {
+			if (!lightInstance->is_active()) {
+				continue;
+			}
+			directionalLightingExecutor.write_to_buffer(lightInstance);
+		}
 		staticMeshDrawManager.transfer();
 		rect3dDrawManager.transfer();
 		stringRectDrawManager.transfer();
@@ -76,8 +80,8 @@ void EditorSceneView::draw_scene() {
 
 		// 描画フェーズ
 		renderPath.begin();
-		auto swapChainBuffer = DxSwapChain::GetRenderTarget();
-		auto depthStencilTexture = RenderingSystemValues::GetDepthStencilTexture();
+		Reference<SwapChainRenderTargetGroup> swapChainBuffer = DxSwapChain::GetRenderTarget();
+		Reference<DepthStencilTexture> depthStencilTexture = RenderingSystemValues::GetDepthStencilTexture();
 		swapChainBuffer->begin_write(true, depthStencilTexture);
 		depthStencilTexture->start_write();
 		depthStencilTexture->get_as_dsv()->clear();
@@ -127,22 +131,11 @@ void EditorSceneView::draw() {
 	set_imgui_command();
 }
 
-bool EditorSceneView::is_hovered_window() {
-	return
-		(isActive && isHoverWindow) ||
-		!ImGui::GetIO().WantCaptureMouse;
-}
-
-const Vector2& EditorSceneView::view_origin() const {
-	return origin;
-}
-
-const Vector2& EditorSceneView::view_size() const {
-	return size;
-}
-
-Reference<ImDrawList> EditorSceneView::draw_list() const {
-	return drawList;
+void EditorSceneView::reset_force() {
+	selectWorldId.reset();
+	worldViews.clear();
+	staticMeshDrawManager = StaticMeshDrawManager{};
+	layerSize = 0;
 }
 
 void EditorSceneView::register_world(Reference<RemoteWorldObject> world) {
@@ -186,6 +179,14 @@ void EditorSceneView::register_string(Reference<const RemoteWorldObject> world, 
 	stringRectDrawManager.register_instance(stringRect);
 }
 
+void EditorSceneView::register_directional_light(Reference<const RemoteWorldObject> world, Reference<const DirectionalLightInstance> lightInstance) {
+	if (!worldViews.contains(world->get_id())) {
+		return;
+	}
+	u32 worldId = world->get_id();
+	directionalLights[worldId].emplace_back(lightInstance);
+}
+
 void EditorSceneView::write_primitive(Reference<const RemoteWorldObject> world, const std::string& primitiveName, const Affine& affine) {
 	if (!worldViews.contains(world->get_id())) {
 		szgWarning("");
@@ -215,11 +216,29 @@ Reference<EditorWorldView> EditorSceneView::get_current_world_view() {
 	return worldViews[selectWorldId.value()].view;
 }
 
-void EditorSceneView::reset_force() {
-	selectWorldId.reset();
-	worldViews.clear();
-	staticMeshDrawManager = StaticMeshDrawManager{};
-	layerSize = 0;
+bool EditorSceneView::is_hovered_window() {
+	return
+		(isActive && isHoverWindow) ||
+		!ImGui::GetIO().WantCaptureMouse;
+}
+
+const Vector2& EditorSceneView::view_origin() const {
+	return origin;
+}
+
+const Vector2& EditorSceneView::view_size() const {
+	return size;
+}
+
+Reference<ImDrawList> EditorSceneView::draw_list() const {
+	return drawList;
+}
+
+Reference<const EditorDebugCamera> EditorSceneView::query_debug_camera() {
+	if (selectWorldId.has_value() && worldViews.contains(selectWorldId.value())) {
+		return worldViews[selectWorldId.value()].view.get_camera();
+	}
+	return nullptr;
 }
 
 void EditorSceneView::copy_screen() {

@@ -7,8 +7,20 @@
 #define COLOR3_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+void RemoteDirectionalLightInstance::setup() {
+	IRemoteInstance<DirectionalLightInstance, Rect3d>::setup();
+	debugVisual = std::make_unique<Rect3d>();
+	debugVisual->initialize(CVector2::ONE * 0.5f, Vector2{ 0.5f, 0.5f });
+	debugVisual->get_material().lightingType = LighingType::None;
+	debugVisual->get_material().texture = TextureLibrary::GetTexture("EngineIcon_DirectionalLight.png");
+
+	instance = std::make_unique<DirectionalLightInstance>();
+	sceneView->register_directional_light(query_world(), instance);
+	sceneView->register_rect(query_world(), debugVisual);
+}
+
 void RemoteDirectionalLightInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
-	IRemoteInstance<DirectionalLightInstance>::update_preview(world, parentAffine);
+	IRemoteInstance<DirectionalLightInstance, Rect3d>::update_preview(world, parentAffine);
 
 	Affine affine;
 	affine = Affine::FromSRT(
@@ -16,7 +28,24 @@ void RemoteDirectionalLightInstance::update_preview(Reference<RemoteWorldObject>
 		Quaternion::LookForward(direction),
 		worldAffine.get_origin()
 	);
+
 	sceneView->write_primitive(world, "Line", affine);
+
+	instance->light_data_mut().color = color;
+	instance->light_data_mut().direction = direction;
+	instance->light_data_mut().intensity = intensity;
+
+	instance->get_transform().set_scale(worldAffine.get_basis().to_scale());
+	instance->get_transform().set_quaternion(worldAffine.get_basis().to_quaternion());
+	instance->get_transform().set_translate(worldAffine.get_origin());
+	instance->update_affine();
+
+	Reference<const EditorDebugCamera> camera = sceneView->query_debug_camera();
+	if (camera) {
+		debugVisual->look_at(camera);
+	}
+	debugVisual->get_transform().set_translate(worldAffine.get_origin());
+	debugVisual->update_affine();
 }
 
 void RemoteDirectionalLightInstance::draw_inspector() {

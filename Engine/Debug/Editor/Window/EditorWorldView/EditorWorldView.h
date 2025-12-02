@@ -36,7 +36,7 @@ public:
 	std::tuple<bool, Vector2, Vector2> draw_editor(const TempTexture& texture);
 
 	void camera_gui();
-	Reference<const Camera3D> get_camera() const;
+	Reference<const EditorDebugCamera> get_camera() const;
 
 	bool is_select_tab() const;
 	Reference<RemoteWorldObject> remote_world() const;

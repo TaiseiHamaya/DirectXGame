@@ -41,6 +41,7 @@ float4 main(VertexShaderOutput input) : SV_Target0 {
 	
 	gDirectionalLight.GetDimensions(numStructs, stride);
 	// ライティングなし
+	[branch]
 	if (material.lightingType == 0) {
 		output.rgb = pixel.color;
 		output.a = alpha;
