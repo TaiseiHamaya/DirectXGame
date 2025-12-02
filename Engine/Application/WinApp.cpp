@@ -202,8 +202,10 @@ void WinApp::Initialize() {
 	SceneManager2::Initialize();
 
 #ifdef DEBUG_FEATURES_ENABLE
+	if (ArgumentParser::Contains("--editor-disable")) {
+		EditorMain::SetActiveEditor(false);
+	}
 	EditorMain::Initialize();
-	//SceneManager::SetProfiler(instance.profiler);
 #endif // _DEBUG
 
 	szgInformation("Complete initialize application.");
