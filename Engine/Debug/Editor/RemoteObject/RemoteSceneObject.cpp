@@ -32,6 +32,12 @@ void RemoteSceneObject::update_preview(Reference<RemoteWorldObject> world, Refer
 
 void RemoteSceneObject::draw_inspector() {
 	hierarchyName.show_gui();
+	
+	ImGui::Separator();
+
+	if (ImGui::Button("Open RenderDAG")) {
+		// TODO: 書く
+	}
 }
 
 void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -39,9 +45,9 @@ void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
-		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+		ImGuiTreeNodeFlags_OpenOnArrow; // 矢印で開く
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}

@@ -7,8 +7,6 @@
 void EditorValueChangeCommandHandler::Start(std::function<void(void)> endCallFunc) {
 	auto& instance = GetInstance();
 	if (instance.endCallFunc) {
-		szgWarning("Change command was called but the previous command has not yet finished.");
-
 		End();
 	}
 

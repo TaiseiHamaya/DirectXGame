@@ -30,6 +30,10 @@ void PostEffectImNode::draw() {
 	data.outputSize.show_gui();
 	data.isUseRuntime.show_gui();
 
+	if (data.isUseRuntime) {
+		data.effectTagName.show_gui();
+	}
+
 	if (ImGui::BeginCombo("Type", peName[data.peType.cget()].c_str())) {
 		for (u32 i = 0; i < peName.size(); ++i) {
 			bool isSelected = data.peType.cget() == i;

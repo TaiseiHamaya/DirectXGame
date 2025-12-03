@@ -374,6 +374,11 @@ bool WinApp::IsEndApp() noexcept {
 	if (SceneManager2::IsEndProgram()) {
 		return true;
 	}
+#ifdef DEBUG_FEATURES_ENABLE
+	if (EditorMain::IsEndApplicationForce()) {
+		return true;
+	}
+#endif // DEBUG_FEATURES_ENABLE
 	return false;
 }
 

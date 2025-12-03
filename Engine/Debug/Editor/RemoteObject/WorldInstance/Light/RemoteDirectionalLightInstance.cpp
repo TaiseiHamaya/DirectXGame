@@ -20,7 +20,7 @@ void RemoteDirectionalLightInstance::setup() {
 }
 
 void RemoteDirectionalLightInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
-	IRemoteInstance<DirectionalLightInstance, Rect3d>::update_preview(world, parentAffine);
+	RemoteInstanceType::update_preview(world, parentAffine);
 
 	Affine affine;
 	affine = Affine::FromSRT(

@@ -22,7 +22,7 @@ public:
 		EditorValueField<u32> peType{ "Type" };
 		EditorValueField<Vector2> outputSize{ "OutputSize", ProjectSettings::ClientSize() };
 		EditorValueField<bool> isUseRuntime{ "UseRuntime", false };
-		EditorValueField<std::string> EffectTagName{ "EffectTag", "" };
+		EditorValueField<std::string> effectTagName{ "EffectTag", "" };
 		std::vector<u64> extraInputs;
 	};
 

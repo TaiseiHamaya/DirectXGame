@@ -28,6 +28,7 @@ void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
 		ImGuiTreeNodeFlags_Leaf;
 	if (isSelected) {
