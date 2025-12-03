@@ -66,7 +66,7 @@ void ImGuiManager::Initialize() {
 }
 
 void ImGuiManager::Finalize() {
-	// TODO : ゲーム終了時にフレーム終了処理が呼ばれていない
+	BeginFrame();
 	ImGui::EndFrame();
 	// ImGui終了処理
 	ImGui_ImplDX12_Shutdown();
