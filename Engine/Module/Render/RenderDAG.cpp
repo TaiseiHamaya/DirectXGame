@@ -4,7 +4,7 @@
 
 #include "Engine/Assets/Json/JsonAsset.h"
 #include "Engine/Module/Render/RenderNode/IRenderNode.h"
-#include "Engine/Module/Render/RenderNode/Loader/RenderNodeLoader.h"
+#include "Engine/Loader/RenderPath/RenderNodeLoader.h"
 #include "Engine/Runtime/Scene/Scene.h"
 
 RenderDAG::RenderDAG() = default;

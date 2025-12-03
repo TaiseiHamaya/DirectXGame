@@ -11,7 +11,6 @@
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorCreateObjectCommand.h"
 #include "../Command/EditorDeleteObjectCommand.h"
-
 #include "../RemoteObject/FolderObject.h"
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
@@ -23,10 +22,7 @@
 #include "../RemoteObject/WorldInstance/Primitive/RemoteRect3dInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
 #include "../RemoteObject/WorldInstance/StringRect/RemoteStringRectInstance.h"
-
-#include "Engine/Runtime/Scene/SceneManager2.h"
-
-#include <Engine/Assets/Json/JsonAsset.h>
+#include "Engine/Assets/Json/JsonAsset.h"
 
 void EditorHierarchy::setup(Reference<EditorSelectObject> select_, Reference<EditorSceneView> sceneView_) {
 	select = select_;
@@ -45,7 +41,6 @@ void EditorHierarchy::load(const std::string& sceneName) {
 	savedTrigger = false;
 	isActive = true;
 
-	//JsonAsset json{ std::format("./Game/Core/Scene/{}.json", sceneName) };
 	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
 	scene->setup();

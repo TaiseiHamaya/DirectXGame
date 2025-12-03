@@ -1,7 +1,7 @@
 #include "WorldCluster.h"
 
-#include <Engine/Assets/Json/JsonAsset.h>
-#include "Engine/Module/World/Loader/WorldInstanceLoader.h"
+#include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Loader/WorldInstanceLoader.h"
 
 void WorldCluster::initialize() {
 	worldRoot.initialize();

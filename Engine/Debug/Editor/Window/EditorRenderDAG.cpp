@@ -5,7 +5,6 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -19,9 +18,9 @@
 #include "./RenderDagImNode/ResultImNode.h"
 #include "./RenderDagImNode/StaticTextureImNode.h"
 #include "./RenderDagImNode/WorldLayerRenderImNode.h"
+#include "./RenderDagImNode/IRenderDagImNode.h"
 #include "Engine/Application/Logger.h"
-#include "RenderDagImNode/IRenderDagImNode.h"
-#include <Engine/Runtime/Scene/SceneManager2.h>
+#include "Engine/Runtime/Scene/SceneManager2.h"
 
 EditorRenderDAG::EditorRenderDAG() {
 	isActive = true;
@@ -106,7 +105,7 @@ void EditorRenderDAG::initialize() {
 	nodeCounter = 1;
 }
 
-void EditorRenderDAG::setup(const std::string& sceneName) {
+void EditorRenderDAG::load(const std::string& sceneName) {
 	nodeCounter = RenderDAGImNodeLoader{}.entry_point(sceneName, imNodeFlow, nodes);
 }
 

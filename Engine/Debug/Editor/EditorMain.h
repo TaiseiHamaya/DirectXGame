@@ -4,16 +4,15 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
-#include <Engine/Runtime/Input/InputHandler.h>
-
 #include "./Core/EditorGizmo.h"
 #include "./Core/EditorSceneList.h"
 #include "./Core/EditorSelectObject.h"
 #include "./Window/EditorHierarchy.h"
 #include "./Window/EditorInspector.h"
+#include "./Window/EditorRenderDAG.h"
 #include "./Window/EditorSceneView.h"
 #include "./Window/EditorScreenResult.h"
-#include "./Window/EditorRenderDAG.h"
+#include "Engine/Runtime/Input/InputHandler.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
 
 class EditorMain final : public SingletonInterface<EditorMain> {

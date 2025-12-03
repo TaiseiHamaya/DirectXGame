@@ -765,10 +765,10 @@
     <ClCompile Include="Engine\Module\Render\RenderNode\IRenderNode.cpp">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp">
+    <ClCompile Include="Engine\Loader\RenderPath\PostEffectPSOLoader.cpp">
       <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp">
+    <ClCompile Include="Engine\Loader\RenderPath\RenderNodeLoader.cpp">
       <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp">
@@ -1467,10 +1467,10 @@
     <ClInclude Include="Engine\Module\Render\RenderNode\IRenderNode.h">
       <Filter>Engine\Module\Render\RenderNode</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h">
+    <ClInclude Include="Engine\Loader\RenderPath\PostEffectPSOLoader.h">
       <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h">
+    <ClInclude Include="Engine\Loader\RenderPath\RenderNodeLoader.h">
       <Filter>Engine\Module\Render\RenderNode\Loader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderNode\PostEffectNode.h">
@@ -1880,7 +1880,7 @@
     <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.cpp" />
-    <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
+    <ClCompile Include="Engine\Loader\WorldInstanceLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorScreenResult.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\FontRenderingNode\FontRenderingNode.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.cpp" />
@@ -1900,7 +1900,7 @@
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
-    <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
+    <ClInclude Include="Engine\Loader\WorldInstanceLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.h" />

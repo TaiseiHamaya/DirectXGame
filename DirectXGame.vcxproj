@@ -307,8 +307,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\Manager\World\WorldRoot.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderDAG.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\IRenderNode.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.cpp" />
+    <ClCompile Include="Engine\Loader\RenderPath\PostEffectPSOLoader.cpp" />
+    <ClCompile Include="Engine\Loader\RenderPath\RenderNodeLoader.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\PostEffectNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp" />
@@ -442,11 +442,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Utility\Tools\ConvertString.cpp" />
     <ClCompile Include="Library\Utility\Tools\Easing.cpp" />
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
-    <ClCompile Include="Engine\Module\World\Loader\WorldInstanceLoader.cpp" />
+    <ClCompile Include="Engine\Loader\WorldInstanceLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.cpp" />
+    <ClCompile Include="Engine\Loader\SceneAssetLoader.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -698,8 +699,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\Manager\World\WorldRoot.h" />
     <ClInclude Include="Engine\Module\Render\RenderDAG.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\IRenderNode.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\PostEffectPSOLoader.h" />
-    <ClInclude Include="Engine\Module\Render\RenderNode\Loader\RenderNodeLoader.h" />
+    <ClInclude Include="Engine\Loader\RenderPath\PostEffectPSOLoader.h" />
+    <ClInclude Include="Engine\Loader\RenderPath\RenderNodeLoader.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\PostEffectNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\WorldLayerRenderNode.h" />
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h" />
@@ -1005,11 +1006,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Library\Utility\Tools\SmartPointer.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
-    <ClInclude Include="Engine\Module\World\Loader\WorldInstanceLoader.h" />
+    <ClInclude Include="Engine\Loader\WorldInstanceLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.h" />
+    <ClInclude Include="Engine\Loader\SceneAssetLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Library\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

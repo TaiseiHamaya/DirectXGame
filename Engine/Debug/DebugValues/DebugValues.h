@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <Engine/Module/World/Mesh/StaticMeshInstance.h>
+#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
 class DebugValues {
 private:
