@@ -81,9 +81,9 @@ inline void IRemoteInstance<RuntimeType, DebugVisualType>::draw_hierarchy(Refere
 	bool isSelected = select->is_selected(this);
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
-		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+		ImGuiTreeNodeFlags_OpenOnArrow; // 矢印で開く
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}

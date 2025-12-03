@@ -121,8 +121,12 @@ std::shared_ptr<PostEffectImNode> RenderDAGImNodeLoader::load_as_post_effect(con
 	PostEffectImNode::Data data;
 	json.get_to(data.outputSize);
 	json.get_to(data.peType);
-	json.get_to(data.isUseRuntime);
-	json.get_to(data.EffectTagName);
+	if (json.value("EffectTag", nlohmann::json{ nullptr }).is_null()) {
+		data.isUseRuntime = false;
+	}
+	else {
+		json.get_to(data.effectTagName);
+	}
 	result->set_data(data);
 	result->set_node_id(counter);
 	result->update_extra_input_pins();
