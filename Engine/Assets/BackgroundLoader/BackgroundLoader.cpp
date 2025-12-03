@@ -52,6 +52,7 @@ void BackgroundLoader::initialize() noexcept(false) {
 	isEndProgram = false;
 	// ロード用スレッド作成
 	loadFunc = std::thread{ std::bind(&BackgroundLoader::load_manager, this) };
+	SetThreadDescription(loadFunc.native_handle(), L"Load Thread");
 }
 
 void BackgroundLoader::load_manager() {

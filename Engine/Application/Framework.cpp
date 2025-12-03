@@ -10,13 +10,13 @@ void Framework::run() {
 	WinApp::ShowAppWindow();
 
 	while (true) {
-		WinApp::BeginFrame();
-
 		WinApp::ProcessMessage();
 
 		if (WinApp::IsEndApp()) {
 			break;
 		}
+
+		WinApp::BeginFrame();
 
 		WinApp::Update();
 
