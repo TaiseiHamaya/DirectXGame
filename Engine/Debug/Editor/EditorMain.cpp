@@ -6,6 +6,7 @@
 
 #include <imgui.h>
 
+#include "Engine/Application/WinApp.h"
 #include "./Core/EditorHierarchyDandD.h"
 #include "./Window/EditorLogWindow.h"
 #include "Command/EditorCommandInvoker.h"
@@ -166,11 +167,23 @@ bool EditorMain::IsHoverEditorWindow() {
 	return instance.sceneView.is_hovered_window();
 }
 
+bool EditorMain::IsEndApplicationForce() {
+	EditorMain& instance = GetInstance();
+	return instance.isEndApplicaitonForce;
+}
+
 void EditorMain::set_imgui_command() {
 	// メニューバーの表示
+	r32 menuHight{ 0 };
 	if (ImGui::BeginMainMenuBar()) {
 		// Windowメニュー
-		if (ImGui::BeginMenu("Window")) {
+		bool isOpen;
+		menuHight = ImGui::GetWindowSize().y;
+		ImGui::SetCursorPos({ 1.0f,1.0f });
+		ImGui::PushFont(nullptr, menuHight * 0.5f);
+		isOpen = ImGui::BeginMenu("Window");
+		ImGui::PopFont();
+		if (isOpen) {
 			screenResult.draw_menu("ScreenView");
 			sceneView.draw_menu("Scene");
 			hierarchy.draw_menu("Hierarchy");
@@ -179,7 +192,10 @@ void EditorMain::set_imgui_command() {
 			renderDAG.draw_menu("RenderDAG");
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Edit")) {
+		ImGui::PushFont(nullptr, menuHight * 0.5f);
+		isOpen = ImGui::BeginMenu("Edit");
+		ImGui::PopFont();
+		if (isOpen) {
 			if (ImGui::BeginMenu("Scene")) {
 				std::string currentSceneName = hierarchy.current_scene_name();
 				if (sceneList.scene_list_gui(currentSceneName)) {
@@ -189,6 +205,50 @@ void EditorMain::set_imgui_command() {
 			}
 			ImGui::EndMenu();
 		}
+
+		ImGui::PushFont(nullptr, menuHight * 0.75f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+		ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_WindowBg));
+
+		// 最小化
+		ImGui::SameLine();
+		ImGui::SetCursorPos({ ImGui::GetWindowSize().x - menuHight * 2 , 0.0f });
+		if (ImGui::Button("\ue931")) {
+			ShowWindow(WinApp::GetWndHandle(), SW_MINIMIZE);
+		}
+
+		// 最大化
+		ImGui::SameLine();
+		ImGui::SetCursorPos({ ImGui::GetWindowSize().x - menuHight, 0.0f });
+		if (ImGui::Button("\ue5cd")) {
+			ImGui::OpenPopup("未保存の項目があります");
+		}
+
+		ImGui::PopStyleColor();
+		ImGui::PopStyleVar();
+		ImGui::PopFont();
+
+		// 終了確認ポップアップ
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+		if (ImGui::BeginPopupModal("未保存の項目があります", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.235f, 0.471f, 0.847f, 0.5f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.067f, 0.333f, 0.8f, 0.5f });
+			if (ImGui::Button("保存して終了")) {
+				isEndApplicaitonForce = true;
+			}
+			ImGui::PopStyleColor(2);
+			ImGui::SameLine();
+			if (ImGui::Button("保存しないで終了")) {
+				isEndApplicaitonForce = true;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("キャンセル")) {
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
 		ImGui::EndMainMenuBar();
 	}
 
@@ -208,8 +268,9 @@ void EditorMain::set_imgui_command() {
 
 	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
-	ImGui::SetCursorScreenPos({ 0, 19 });
-	ImGui::DockSpace(dockSpaceId, ImVec2(ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y - 19), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGui::SetCursorPos({ 0.0f, menuHight });
+	ImVec2 editorSize = { ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y - 19 };
+	ImGui::DockSpace(dockSpaceId, editorSize, ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
 }

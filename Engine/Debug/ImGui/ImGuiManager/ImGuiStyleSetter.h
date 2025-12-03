@@ -75,4 +75,5 @@ void SetImGuiStyle() {
 	style.GrabMinSize = 10.0f;
 	style.DockingSeparatorSize = 1.0f;
 	style.SeparatorTextBorderSize = 2.0f;
+	style.DisplaySafeAreaPadding.y = 15.0f;
 }
