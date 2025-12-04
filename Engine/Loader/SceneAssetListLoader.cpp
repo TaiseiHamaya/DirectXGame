@@ -1,0 +1,28 @@
+#include "SceneAssetListLoader.h"
+
+#include "Engine/Assets/Json/JsonAsset.h"
+
+SceneAssetCollection SceneAssetListLoader::load(const std::string& sceneName) {
+	SceneAssetCollection::AssetListType assets{};
+	SceneAssetCollection::AssetListType lazyAssets{};
+
+	JsonAsset json{ std::format("./Game/Core/Scene/{}/Assets.json", sceneName) };
+
+	load_asset_list(assets, json.cget());
+	load_asset_list(lazyAssets, json.cget().value("LazyLoadAssets", nlohmann::json::object()));
+
+	SceneAssetCollection collection{ assets, lazyAssets };
+
+	return collection;
+}
+
+void SceneAssetListLoader::load_asset_list(SceneAssetCollection::AssetListType& assets, const nlohmann::json& json) {
+	for (i32 i = 0; i < SceneAssetCollection::AssetType::Max; ++i) {
+		auto& assetSet = assets[i];
+
+		const nlohmann::json& assetArray = json.value(AssetTypeNames[i], nlohmann::json::array());
+		for (const std::filesystem::path& assetPath : assetArray.get<std::vector<std::filesystem::path>>()) {
+			assetSet.emplace(assetPath);
+		}
+	}
+}

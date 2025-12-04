@@ -10,9 +10,10 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "IRemoteObject.h"
-#include "RemoteWorldObject.h"
+#include "../EditorMain.h"
 #include "../Window/EditorRenderDAG.h"
+#include "./IRemoteObject.h"
+#include "./RemoteWorldObject.h"
 
 RemoteSceneObject::RemoteSceneObject() = default;
 RemoteSceneObject::~RemoteSceneObject() = default;
@@ -46,7 +47,7 @@ void RemoteSceneObject::draw_inspector() {
 
 	ImGui::SameLine();
 	if (ImGui::Button("Hot Reload", ImVec2{ 80, 0 })) {
-
+		EditorMain::SetHotReload();
 	}
 }
 

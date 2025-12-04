@@ -1,7 +1,4 @@
-struct PixelShaderInput {
-	float4 position : SV_POSITION;
-	float2 texcoord : TEXCOORD0;
-};
+#include "FullscreenShader.hlsli"
 
 Texture2D<float4> gTexture : register(t0);
 Texture2D<float> gDepth : register(t1);
@@ -32,7 +29,7 @@ float ZBufferToLinear(float ndcZ, float near, float far) {
 	return ndcZ * near / (far - ndcZ * (far - near));
 }
 
-float4 main(PixelShaderInput input) : SV_TARGET0 {
+float4 main(VertexShaderOutput input) : SV_TARGET0 {
 	float2 difference = float2(0.0f, 0.0f);
 		
 	for (int x = 0; x < 3; ++x) {

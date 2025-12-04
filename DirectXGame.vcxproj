@@ -184,6 +184,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorAssetSaver.cpp" />
     <ClCompile Include="Engine\Application\ArgumentParser.cpp" />
     <ClCompile Include="Engine\Application\CrashHandler.cpp" />
     <ClCompile Include="Engine\Application\Framework.cpp" />
@@ -447,7 +448,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.cpp" />
-    <ClCompile Include="Engine\Loader\SceneAssetLoader.cpp" />
+    <ClCompile Include="Engine\Loader\SceneAssetListLoader.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\SceneAssetCollection.cpp" />
     <None Include="EngineResources\HLSL\Debug\NormalColor\NormalColor.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
@@ -479,21 +481,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -555,6 +542,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorAssetSaver.h" />
+    <ClInclude Include="Engine\Loader\RenderPath\RenderNodeType.h" />
     <ClInclude Include="Engine\Module\World\WorldInstanceType.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\EditorScreenResult.h" />
     <ClInclude Include="Engine\Application\ArgumentParser.h" />
@@ -1011,7 +1000,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.h" />
-    <ClInclude Include="Engine\Loader\SceneAssetLoader.h" />
+    <ClInclude Include="Engine\Loader\SceneAssetListLoader.h" />
+    <ClInclude Include="Engine\Runtime\Scene\SceneAssetCollection.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Library\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -1142,22 +1132,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\ChromaticAberration.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\Grayscale.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\Outline.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\RadialBlur.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

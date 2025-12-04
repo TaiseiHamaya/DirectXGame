@@ -2,7 +2,14 @@
 
 #include <filesystem>
 
-void Scene::load_asset() {
+#include "Engine/Loader/SceneAssetListLoader.h"
+
+void Scene::load_assets() {
+	assetCollection = SceneAssetListLoader{}.load(sceneName);
+	assetCollection.load_assets();
+}
+
+void Scene::custom_load_asset() {
 }
 
 void Scene::initialize() {

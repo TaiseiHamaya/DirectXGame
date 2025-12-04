@@ -1023,15 +1023,6 @@
     <None Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.hlsli">
       <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
     </None>
-    <None Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.hlsli">
-      <Filter>EngineResources\HLSL\Posteffect\ChromaticAberration</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.hlsli">
-      <Filter>EngineResources\HLSL\Posteffect\Grayscale</Filter>
-    </None>
-    <None Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.hlsli">
-      <Filter>EngineResources\HLSL\Posteffect\RadialBlur</Filter>
-    </None>
     <None Include="EngineResources\HLSL\Sprite\Sprite.hlsli">
       <Filter>EngineResources\HLSL\Sprite</Filter>
     </None>
@@ -1854,16 +1845,16 @@
     <FxCompile Include="EngineResources\HLSL\Misc\PrimitiveGeometry\PrimitiveGeometry.VS.hlsl">
       <Filter>EngineResources\HLSL\Misc\PrimitiveGeometry</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\ChromaticAberration\ChromaticAberration.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\ChromaticAberration.PS.hlsl">
       <Filter>EngineResources\HLSL\Posteffect\ChromaticAberration</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Grayscale\Grayscale.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\Grayscale.PS.hlsl">
       <Filter>EngineResources\HLSL\Posteffect\Grayscale</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\Outline\Outline.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\Outline.PS.hlsl">
       <Filter>EngineResources\HLSL\Posteffect\Outline</Filter>
     </FxCompile>
-    <FxCompile Include="EngineResources\HLSL\Posteffect\RadialBlur\RadialBlur.PS.hlsl">
+    <FxCompile Include="EngineResources\HLSL\PostEffect\RadialBlur.PS.hlsl">
       <Filter>EngineResources\HLSL\Posteffect\RadialBlur</Filter>
     </FxCompile>
     <FxCompile Include="EngineResources\HLSL\Sprite\Sprite.PS.hlsl">
@@ -1887,6 +1878,9 @@
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.cpp" />
+    <ClCompile Include="Engine\Loader\SceneAssetListLoader.cpp" />
+    <ClCompile Include="Engine\Runtime\Scene\SceneAssetCollection.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\Adapter\EditorAssetSaver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -1907,6 +1901,10 @@
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.h" />
     <ClInclude Include="Engine\Module\World\WorldInstanceType.h" />
+    <ClInclude Include="Engine\Loader\SceneAssetListLoader.h" />
+    <ClInclude Include="Engine\Runtime\Scene\SceneAssetCollection.h" />
+    <ClInclude Include="Engine\Debug\Editor\Adapter\EditorAssetSaver.h" />
+    <ClInclude Include="Engine\Loader\RenderPath\RenderNodeType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />

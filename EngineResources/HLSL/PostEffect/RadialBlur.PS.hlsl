@@ -1,4 +1,4 @@
-#include "RadialBlur.hlsli"
+#include "FullscreenShader.hlsli"
 
 struct BlurInfo {
 	float2 center;

@@ -33,6 +33,10 @@ public:
 
 	static bool IsEndApplicationForce();
 
+	static void SeveScene();
+
+	static void SetHotReload();
+
 private:
 	void set_imgui_command();
 
@@ -40,7 +44,9 @@ private:
 	bool isActiveEditor{ true };
 
 	bool isClosedEditor{ false };
-	bool isEndApplicaitonForce{ false };
+	bool isEndApplicationForce{ false };
+
+	bool isHotReload{ false };
 
 	std::optional<std::string> switchSceneName;
 

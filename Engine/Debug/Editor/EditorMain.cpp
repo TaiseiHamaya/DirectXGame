@@ -6,7 +6,6 @@
 
 #include <imgui.h>
 
-#include "Engine/Application/WinApp.h"
 #include "./Core/EditorHierarchyDandD.h"
 #include "./Window/EditorLogWindow.h"
 #include "Command/EditorCommandInvoker.h"
@@ -14,8 +13,11 @@
 #include "Command/EditorDeleteObjectCommand.h"
 #include "Command/EditorSelectCommand.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
+#include "Engine/Application/WinApp.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Debug/Editor/Adapter/EditorAssetSaver.h"
 #include "Engine/Debug/Editor/Asset/FontAtlas/FontAtlasBuilderManager.h"
+#include "Engine/Runtime/Scene/SceneManager2.h"
 
 #include "Engine/Debug/Editor/Asset/FontAtlas/FontAtlasBuilder.h"
 
@@ -86,6 +88,16 @@ void EditorMain::DrawBase() {
 		return;
 	}
 
+	// ホットリロード
+	if (instance.isHotReload) {
+		Reference<Scene> currentScene = SceneManager2::GetCurrentScene();
+		if (currentScene) {
+			currentScene->load_assets();
+			currentScene->renderDAG.setup(currentScene->name(), currentScene);
+		}
+		instance.isHotReload = false;
+	}
+
 	if (instance.switchSceneName.has_value()) {
 		// シーンビューを未設定に設定
 		instance.sceneView.reset_force();
@@ -128,11 +140,7 @@ void EditorMain::DrawBase() {
 	// 保存
 	if (instance.input.trigger(KeyID::S) && instance.input.press(KeyID::LControl)) {
 		instance.sceneList.add_scene(instance.hierarchy.current_scene_name());
-
-		std::filesystem::path filePath = std::format("./Game/Core/Scene/{}/Worlds/", instance.hierarchy.current_scene_name());
-		instance.hierarchy.save(filePath);
-
-		szgInformation("Scene file saved. ({})", instance.hierarchy.current_scene_name());
+		SeveScene();
 	}
 
 	instance.deletedPool.solution_sequence();
@@ -169,7 +177,27 @@ bool EditorMain::IsHoverEditorWindow() {
 
 bool EditorMain::IsEndApplicationForce() {
 	EditorMain& instance = GetInstance();
-	return instance.isEndApplicaitonForce;
+	return instance.isEndApplicationForce;
+}
+
+void EditorMain::SeveScene() {
+	EditorMain& instance = GetInstance();
+
+	std::filesystem::path sceneDirectory = std::format("./Game/Core/Scene/{}/", instance.hierarchy.current_scene_name());
+	instance.hierarchy.save(sceneDirectory);
+
+	instance.renderDAG.save(sceneDirectory);
+
+	EditorAssetSaver saver;
+	saver.setup(instance.renderDAG, instance.hierarchy.scene_imm());
+	saver.save(sceneDirectory);
+
+	szgInformation("Scene file saved. ({})", instance.hierarchy.current_scene_name());
+}
+
+void EditorMain::SetHotReload() {
+	EditorMain& instance = GetInstance();
+	instance.isHotReload = true;
 }
 
 void EditorMain::set_imgui_command() {
@@ -235,12 +263,13 @@ void EditorMain::set_imgui_command() {
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.235f, 0.471f, 0.847f, 0.5f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.067f, 0.333f, 0.8f, 0.5f });
 			if (ImGui::Button("保存して終了")) {
-				isEndApplicaitonForce = true;
+				SeveScene();
+				isEndApplicationForce = true;
 			}
 			ImGui::PopStyleColor(2);
 			ImGui::SameLine();
 			if (ImGui::Button("保存しないで終了")) {
-				isEndApplicaitonForce = true;
+				isEndApplicationForce = true;
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("キャンセル")) {
