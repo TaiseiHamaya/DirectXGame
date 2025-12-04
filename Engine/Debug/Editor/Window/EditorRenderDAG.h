@@ -35,11 +35,17 @@ public:
 
 public:
 	void initialize();
+
 	void load(const std::string& sceneName);
+	
 	void finalize();
 
 	void draw() override;
 
+	/// <summary>
+	/// "filePath / RenderPath.json"に出力
+	/// </summary>
+	/// <param name="filePath"></param>
 	void save(const std::filesystem::path& filePath);
 
 public:

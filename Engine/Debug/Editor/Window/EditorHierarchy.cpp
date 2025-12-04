@@ -16,7 +16,7 @@
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Light/RemoteDirectionalLightInstance.h"
-#include "../RemoteObject/WorldInstance/Light/RemotePointLightInstane.h"
+#include "../RemoteObject/WorldInstance/Light/RemotePointLightInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Primitive/RemoteRect3dInstance.h"
@@ -175,7 +175,7 @@ void EditorHierarchy::draw() {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
 							select->get_item().object,
-							std::make_unique<RemotePointLightInstane>()
+							std::make_unique<RemotePointLightInstance>()
 						)
 					);
 				}

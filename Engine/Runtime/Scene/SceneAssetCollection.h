@@ -38,8 +38,21 @@ public:
 	SceneAssetCollection(const AssetListType& assets, const AssetListType& lazyLoadAssets);
 
 public:
+	/// <summary>
+	/// 通常ロードの開始
+	/// </summary>
 	void load_assets() const;
 
+	/// <summary>
+	/// 遅延ロードの開始
+	/// </summary>
+	void load_lazy_assets() const;
+
+private:
+	/// <summary>
+	/// BackgroundLoaderに登録する
+	/// </summary>
+	/// <param name="assets"></param>
 	static void RegisterLoadQueue(const AssetListType& assets);
 
 private:

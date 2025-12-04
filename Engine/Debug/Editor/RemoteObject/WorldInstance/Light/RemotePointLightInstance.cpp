@@ -1,13 +1,13 @@
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include "RemotePointLightInstane.h"
+#include "RemotePointLightInstance.h"
 
 #include "../../../Window/EditorSceneView.h"
 
 #define COLOR3_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
-void RemotePointLightInstane::setup() {
+void RemotePointLightInstance::setup() {
 	RemoteInstanceType::setup();
 	debugVisual = std::make_unique<Rect3d>();
 	debugVisual->initialize(CVector2::ONE * 0.5f, Vector2{ 0.5f, 0.5f });
@@ -17,7 +17,7 @@ void RemotePointLightInstane::setup() {
 	sceneView->register_rect(query_world(), debugVisual);
 }
 
-void RemotePointLightInstane::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+void RemotePointLightInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
 	RemoteInstanceType::update_preview(world, parentAffine);
 
 	Affine primitiveAffine = Affine::FromScale(Vector3{ radius.cget(), radius.cget(), radius.cget() }) * Affine::FromTranslate(worldAffine.get_origin());
@@ -31,7 +31,7 @@ void RemotePointLightInstane::update_preview(Reference<RemoteWorldObject> world,
 	debugVisual->update_affine();
 }
 
-void RemotePointLightInstane::draw_inspector() {
+void RemotePointLightInstance::draw_inspector() {
 	ImGui::Text("Type : PointLight");
 
 	hierarchyName.show_gui();
@@ -67,7 +67,7 @@ void RemotePointLightInstane::draw_inspector() {
 	}
 }
 
-nlohmann::json RemotePointLightInstane::serialize() const {
+nlohmann::json RemotePointLightInstance::serialize() const {
 	nlohmann::json result;
 
 	result.update(transform);
@@ -84,6 +84,14 @@ nlohmann::json RemotePointLightInstane::serialize() const {
 	}
 
 	return result;
+}
+
+void RemotePointLightInstance::on_spawn() {
+	debugVisual->set_active(true);
+}
+
+void RemotePointLightInstance::on_destroy() {
+	debugVisual->set_active(false);
 }
 
 #endif // DEBUG_FEATURES_ENABLE

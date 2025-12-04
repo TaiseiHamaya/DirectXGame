@@ -7,15 +7,15 @@
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 #include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
-class RemotePointLightInstane final : public IRemoteInstance<PointLightInstance, Rect3d> {
+class RemotePointLightInstance final : public IRemoteInstance<PointLightInstance, Rect3d> {
 public:
 	friend class EditorSceneSerializer;
 
 public:
-	RemotePointLightInstane() = default;
-	~RemotePointLightInstane() = default;
+	RemotePointLightInstance() = default;
+	~RemotePointLightInstance() = default;
 
-	__CLASS_DEFAULT_ALL(RemotePointLightInstane)
+	__CLASS_DEFAULT_ALL(RemotePointLightInstance)
 
 public:
 	void setup() override;
@@ -25,6 +25,10 @@ public:
 	void draw_inspector() override;
 
 	nlohmann::json serialize() const override;
+
+	void on_spawn() override;
+
+	void on_destroy() override;
 
 	constexpr InstanceType instance_type() const { return InstanceType::PointLightInstance; }
 

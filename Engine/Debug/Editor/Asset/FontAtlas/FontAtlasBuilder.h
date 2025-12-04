@@ -11,8 +11,19 @@ public:
 	void entry_point(const std::filesystem::path& path);
 
 private:
+	/// <summary>
+	/// フォントデータの読み込み
+	/// </summary>
 	void load_glyphs();
+
+	/// <summary>
+	/// mtsdfテクスチャをdds形式で保存
+	/// </summary>
 	void save_mtsdf_texture();
+
+	/// <summary>
+	/// mtsdfテクスチャのatlasデータの保存
+	/// </summary>
 	void save_atlas_data();
 
 private:

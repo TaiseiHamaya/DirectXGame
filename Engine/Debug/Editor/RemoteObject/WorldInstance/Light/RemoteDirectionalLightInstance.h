@@ -26,6 +26,10 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	void on_spawn() override;
+
+	void on_destroy() override;
+
 	constexpr InstanceType instance_type() const { return InstanceType::DirectionalLightInstance; }
 
 private:

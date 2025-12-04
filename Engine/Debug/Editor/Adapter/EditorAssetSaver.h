@@ -19,6 +19,11 @@ public:
 
 public:
 	void setup(Reference<const EditorRenderDAG> dagEditor_, Reference<const RemoteSceneObject> scene_);
+
+	/// <summary>
+	/// "filePath / Assets.json"に出力
+	/// </summary>
+	/// <param name="filePath"></param>
 	void save(const std::filesystem::path& filePath);
 
 private:

@@ -31,7 +31,7 @@ public:
 	virtual void update() {};
 
 	/// <summary>
-	/// Affine更新直前処理
+	/// update_affineの直前に呼ばれる
 	/// </summary>
 	virtual void fixed_update() {};
 
@@ -41,7 +41,7 @@ public:
 	virtual void update_affine();
 
 	/// <summary>
-	/// 遅延更新処理
+	/// 全てのInstanceのAffine行列の更新後に呼ばれる
 	/// </summary>
 	virtual void late_update() {};
 
@@ -58,7 +58,7 @@ public:
 	/// </summary>
 	/// <param name="target">向く方向</param>
 	/// <param name="upward">上方向</param>
-	void look_at(Reference<const WorldInstance> rhs, r32 angle = 0.0f, const Vector3& upward = CVector3::BASIS_Y) noexcept;
+	void look_at(Reference<const WorldInstance> target, r32 angle = 0.0f, const Vector3& upward = CVector3::BASIS_Y) noexcept;
 
 	/// <summary>
 	/// pointの方向を向く

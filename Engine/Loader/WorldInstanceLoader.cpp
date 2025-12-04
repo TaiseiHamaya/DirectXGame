@@ -205,7 +205,7 @@ void WorldInstanceLoader::create_string_rect_instance(const nlohmann::json& json
 		json.value("Pivot", CVector2::ZERO)
 	);
 
-	instance->set_string(json.value("Text", ""));
+	instance->reset_string(json.value("Text", ""));
 	instance->set_layer(json.value("Layer", 0u));
 	instance->set_draw(json.value("IsDraw", true));
 	instance->get_material().color = json.value("Color", CColor4::WHITE);

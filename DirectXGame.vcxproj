@@ -445,7 +445,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Library\Utility\Tools\RandomEngine.cpp" />
     <ClCompile Include="Engine\Loader\WorldInstanceLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.cpp" />
-    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.cpp" />
+    <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.cpp" />
     <ClCompile Include="Engine\Loader\SceneAssetListLoader.cpp" />
@@ -997,7 +997,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeSaver.h" />
     <ClInclude Include="Engine\Loader\WorldInstanceLoader.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.h" />
-    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstane.h" />
+    <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.h" />
     <ClInclude Include="Engine\Debug\Editor\RemoteObject\WorldInstance\StringRect\RemoteStringRectInstance.h" />
     <ClInclude Include="Engine\Loader\SceneAssetListLoader.h" />
@@ -1132,12 +1132,32 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\PostEffect\Bloom.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\PostEffect\ChromaticAberration.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\PostEffect\GaussianBlur.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="EngineResources\HLSL\PostEffect\Grayscale.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\PostEffect\LuminanceExtraction.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="EngineResources\HLSL\PostEffect\MargeTexture4.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

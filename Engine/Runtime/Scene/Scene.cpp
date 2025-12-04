@@ -13,17 +13,17 @@ void Scene::custom_load_asset() {
 }
 
 void Scene::initialize() {
+	assetCollection.load_lazy_assets();
 }
 
 void Scene::setup() {
 	// フォルダ内のワールドを全て読み込む
 	std::filesystem::path filePath = std::format("./Game/Core/Scene/{}/Worlds", sceneName);
-	if (std::filesystem::exists(filePath) == false) {
+	if (std::filesystem::exists(filePath) == false) { // ファイルが存在しない
 		szgWarning("Scene-\'{}\' world setup folder not found.", sceneName);
 		return;
 	}
-	for (const std::filesystem::directory_entry& entry :
-		std::filesystem::directory_iterator(filePath)) {
+	for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(filePath)) {
 		std::unique_ptr<WorldCluster> world = std::make_unique<WorldCluster>();
 
 		world->initialize();

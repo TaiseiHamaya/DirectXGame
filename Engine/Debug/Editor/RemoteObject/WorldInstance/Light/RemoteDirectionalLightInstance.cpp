@@ -136,4 +136,14 @@ nlohmann::json RemoteDirectionalLightInstance::serialize() const {
 	return result;
 }
 
+void RemoteDirectionalLightInstance::on_spawn() {
+	debugVisual->set_active(true);
+	instance->set_active(true);
+}
+
+void RemoteDirectionalLightInstance::on_destroy() {
+	debugVisual->set_active(false);
+	instance->set_active(false);
+}
+
 #endif // DEBUG_FEATURES_ENABLE

@@ -6,19 +6,22 @@
 
 #include <Library/Externals/msdf-atlas-gen/msdf-atlas-gen/msdf-atlas-gen.h>
 
+/// <summary>
+/// freetype/msdfgen/msdf-atlas-genのハンドラ管理クラス
+/// </summary>
 class FontAtlasBuilderManager final : public SingletonInterface<FontAtlasBuilderManager> {
 	__CLASS_SINGLETON_INTERFACE(FontAtlasBuilderManager)
 
 public:
 	static void Initialize();
-	static void Finalizce();
+	static void Finalize();
 
 public:
 	static msdfgen::FreetypeHandle* FreetypeHandle();
 	static const msdf_atlas::Charset& Charset();
 
 private:
-	msdf_atlas::Charset charaset;
+	msdf_atlas::Charset charset;
 	msdfgen::FreetypeHandle* freetype;
 };
 

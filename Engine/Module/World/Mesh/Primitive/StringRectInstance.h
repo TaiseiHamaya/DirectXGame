@@ -43,12 +43,42 @@ public:
 	const Vector2& pivot_imm() const;
 	const Vector2& offset_imm() const;
 	
-	void set_string(std::string_view string_);
+	/// <summary>
+	/// 文字列の再生成
+	/// </summary>
+	/// <param name="string_"></param>
+	void reset_string(std::string_view string_);
+
+	/// <summary>
+	/// 文字列を末尾に追加
+	/// </summary>
+	/// <param name="append_"></param>
+	void append(const std::string& append_);
+
+	/// <summary>
+	/// 文字を末尾に追加
+	/// </summary>
+	/// <param name="c"></param>
+	void append(char c);
+
+	/// <summary>
+	/// 不変参照で文字列を取得
+	/// </summary>
+	/// <returns></returns>
 	const std::string& string_imm() const;
 
 	const std::vector<GlyphRenderingData>& glyph_data_imm() const;
 
+	/// <summary>
+	/// MSDF TextureのBindlessIndexの取得
+	/// </summary>
+	/// <returns></returns>
 	u32 font_texture_index() const;
+
+	/// <summary>
+	/// GlyphのBindlessIndexの取得
+	/// </summary>
+	/// <returns></returns>
 	std::optional<u32> glyph_bindless_index() const;
 
 private:

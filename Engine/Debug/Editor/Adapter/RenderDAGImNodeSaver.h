@@ -13,6 +13,9 @@
 #include "../Window/RenderDagImNode/WorldLayerRenderImNode.h"
 #include "Engine/Debug/Editor/Window/EditorRenderDAG.h"
 
+/// <summary>
+/// RenderPath保存用関数オブジェクト
+/// </summary>
 class RenderDAGImNodeSaver {
 public:
 	void entry_point(const std::filesystem::path& filePath, const std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes);

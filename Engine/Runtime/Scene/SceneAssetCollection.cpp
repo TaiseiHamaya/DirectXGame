@@ -19,11 +19,14 @@ SceneAssetCollection::SceneAssetCollection(const AssetListType& assets_, const A
 
 void SceneAssetCollection::load_assets() const {
 	RegisterLoadQueue(assets);
-	BackgroundLoader::WaitEndExecute();
+}
+
+void SceneAssetCollection::load_lazy_assets() const {
 	RegisterLoadQueue(lazyLoadAssets);
 }
 
 void SceneAssetCollection::RegisterLoadQueue(const AssetListType& assets) {
+	// 関数オブジェクトの配列
 	const std::array<std::function<void(const std::filesystem::path&)>, AssetType::Max> loadFunc{
 		TextureLibrary::RegisterLoadQue,
 		PolygonMeshLibrary::RegisterLoadQue,
@@ -35,7 +38,7 @@ void SceneAssetCollection::RegisterLoadQueue(const AssetListType& assets) {
 	};
 
 	for (u32 i = 0; i < AssetType::Max; ++i) {
-		const auto& assetSet = assets[i];
+		const std::unordered_set<std::filesystem::path>& assetSet = assets[i];
 		for (const std::filesystem::path& assetPath : assetSet) {
 			loadFunc[i](assetPath);
 		}

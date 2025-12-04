@@ -37,7 +37,7 @@ void EditorMain::Initialize() {
 }
 
 void EditorMain::Finalize() {
-	FontAtlasBuilderManager::Finalizce();
+	FontAtlasBuilderManager::Finalize();
 
 	EditorMain& instance = GetInstance();
 

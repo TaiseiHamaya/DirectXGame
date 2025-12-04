@@ -21,6 +21,10 @@ void EditorAssetSaver::save(const std::filesystem::path& filePath) {
 }
 
 void EditorAssetSaver::collect_shaders() {
+	if (!dagEditor) {
+		return;
+	}
+
 	const std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes = dagEditor->nodes_imm();
 
 	for (const auto& [id, node] : nodes) {
