@@ -8,6 +8,7 @@
 
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 
 #include <string>
 #include <vector>
@@ -35,6 +36,8 @@ public:
 public:
 	const Data& get_data() const;
 	void set_data(const Data& data_);
+
+	PostEffectType post_effect_type() const;
 
 private:
 	Data data;

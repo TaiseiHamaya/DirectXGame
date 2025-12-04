@@ -2,6 +2,7 @@
 
 #include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 #include "Engine/Module/Manager/RuntimeStorage/RuntimeStorage.h"
 #include "Engine/Module/Render/RenderPSO/Posteffect/ChromaticAberration/ChromaticAberrationNode.h"
 #include "Engine/Module/Render/RenderPSO/Posteffect/Grayscale/GrayscaleNode.h"
@@ -11,25 +12,27 @@
 #define VECTOR2_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
-void PostEffectPSOLoader::setup(Reference<std::vector<RenderNodeLoader::ImmidiateData>> immidiateData_) {
-	immidiateData = immidiateData_;
+void PostEffectPSOLoader::setup(Reference<std::vector<RenderNodeLoader::ImmidiateData>> immediateData_) {
+	immediateData = immediateData_;
 }
 
 std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::json& json) {
 	RuntimeStorage::ValueGroup& postEffectValueGroup = RuntimeStorage::GetValueList("PostEffect");
 	std::any value;
+	std::unique_ptr<PostEffectPSO> node = nullptr;
 
-	const PostEffectType type = json["Type"].get<PostEffectType>();
 	const nlohmann::json& dataJson = json["Data"];
 	const nlohmann::json& linkJson = json["Links"];
-	std::unique_ptr<PostEffectPSO> node = nullptr;
+	const PostEffectType type = dataJson["Type"].get<PostEffectType>();
 	switch (type) {
 	case PostEffectType::ChromaticAberration:
 	{
 		auto temp = std::make_unique<ChromaticAberrationNode>();
 		temp->initialize();
-		temp->set_shader_texture(immidiateData->at(linkJson["Base"]).renderTexture);
-		temp->setup(dataJson["EffectTag"]);
+		temp->set_shader_texture(immediateData->at(linkJson["Base"]).renderTexture);
+		if (!dataJson["EffectTag"].is_null()) {
+			temp->setup(dataJson.value("EffectTag", ""));
+		}
 		node = std::move(temp);
 		if (dataJson.value("UseRuntime", false)) {
 			value = CVector2::ZERO;
@@ -40,7 +43,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 	{
 		auto temp = std::make_unique<GrayscaleNode>();
 		temp->initialize();
-		temp->set_shader_texture(immidiateData->at(linkJson["Base"]).renderTexture);
+		temp->set_shader_texture(immediateData->at(linkJson["Base"]).renderTexture);
 		node = std::move(temp);
 		if (dataJson.value("UseRuntime", false)) {
 			value = false;
@@ -52,7 +55,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 		auto temp = std::make_unique<OutlineNode>();
 		temp->initialize();
 		temp->set_shader_texture(
-			immidiateData->at(linkJson["Base"]).renderTexture,
+			immediateData->at(linkJson["Base"]).renderTexture,
 			RenderingSystemValues::GetDepthStencilTexture()
 		);
 		node = std::move(temp);
@@ -65,7 +68,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 	{
 		auto temp = std::make_unique<RadialBlurNode>();
 		temp->initialize();
-		temp->set_shader_texture(immidiateData->at(linkJson["Base"]).renderTexture);
+		temp->set_shader_texture(immediateData->at(linkJson["Base"]).renderTexture);
 		if (dataJson.value("UseRuntime", false)) {
 			value = BlurInfo{};
 		}

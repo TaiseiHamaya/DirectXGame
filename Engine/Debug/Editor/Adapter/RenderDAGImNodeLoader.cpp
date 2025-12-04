@@ -9,6 +9,7 @@
 #include "../Window/RenderDagImNode/StaticTextureImNode.h"
 #include "../Window/RenderDagImNode/WorldLayerRenderImNode.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 
 u64 RenderDAGImNodeLoader::entry_point(const std::string& sceneName, Reference<ImFlow::ImNodeFlow> imNodeFlow_, std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes) {
 	imNodeFlow = imNodeFlow_;
@@ -24,22 +25,23 @@ u64 RenderDAGImNodeLoader::entry_point(const std::string& sceneName, Reference<I
 
 	for (const auto& node : input.get().value("Nodes", nlohmann::json::array())) {
 		ImFlow::BaseNode* imNode{ nullptr };
-		switch (node["Type"].get<i32>()) {
-		case 0:
+		const RenderNodeType type = node.value("Type", RenderNodeType::Unknown);
+		switch (type) {
+		case RenderNodeType::WorldLayer:
 		{
 			auto temp = load_as_world_render(node["Data"]);
 			nodes.emplace(counter, temp);
 			imNode = temp.get();
 			break;
 		}
-		case 1:
+		case RenderNodeType::PostEffect:
 		{
 			auto temp = load_as_post_effect(node["Data"]);
 			nodes.emplace(counter, temp);
 			imNode = temp.get();
 			break;
 		}
-		case 2:
+		case RenderNodeType::StaticTexture:
 		{
 			auto temp = load_as_static_texture(node["Data"]);
 			nodes.emplace(counter, temp);

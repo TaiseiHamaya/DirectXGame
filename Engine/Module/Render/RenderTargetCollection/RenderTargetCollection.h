@@ -23,6 +23,8 @@ public:
 	std::pair<Reference<BaseRenderTargetGroup>, Reference<RenderTexture>> create_render_target_group(const nlohmann::json& json);
 	std::pair<Reference<DeferredAdaptor::GBuffersType>, std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER>> create_gbuffer(const nlohmann::json& json);
 
+	void clear();
+
 private:
 	std::vector<std::unique_ptr<BaseRenderTargetGroup>> renderTargets;
 	std::vector<std::unique_ptr<RenderTexture>> renderTextures;

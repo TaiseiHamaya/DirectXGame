@@ -7,17 +7,6 @@
 
 #include "./BaseRenderNode.h"
 
-enum class PostEffectType {
-	None,
-	ChromaticAberration,
-	Grayscale,
-	Outline,
-	RadialBlur,
-	DownSampling,
-	TextureBlend2,
-	TextureBlend4,
-};
-
 class PostEffectPSO : public BaseRenderNode {
 public:
 	PostEffectPSO() = default;

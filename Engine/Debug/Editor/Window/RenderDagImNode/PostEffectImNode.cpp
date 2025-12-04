@@ -2,7 +2,7 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
-#include "Engine/Module/Render/RenderPSO/PostEffectPSO.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 
 std::vector<std::string> PostEffectImNode::peName{
 	"None",
@@ -91,6 +91,10 @@ const PostEffectImNode::Data& PostEffectImNode::get_data() const {
 
 void PostEffectImNode::set_data(const Data& data_) {
 	data = data_;
+}
+
+PostEffectType PostEffectImNode::post_effect_type() const {
+	return static_cast<PostEffectType>(data.peType.cget());
 }
 
 #endif // DEBUG_FEATURES_ENABLE

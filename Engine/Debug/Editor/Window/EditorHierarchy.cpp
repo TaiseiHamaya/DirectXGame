@@ -48,7 +48,7 @@ void EditorHierarchy::load(const std::string& sceneName) {
 
 void EditorHierarchy::save(const std::filesystem::path& path) const {
 	for (auto& world : scene->get_remote_worlds()) {
-		JsonAsset worldJson{ path / (world->world_name() + ".json") };
+		JsonAsset worldJson{ path / "Worlds" / (world->world_name() + ".json") };
 		worldJson.get().clear();
 		worldJson.get() = world->serialize();
 		worldJson.save();
@@ -247,12 +247,16 @@ void EditorHierarchy::draw() {
 	ImGui::End();
 }
 
-std::string EditorHierarchy::current_scene_name() {
+std::string EditorHierarchy::current_scene_name() const {
 	return scene->name();
 }
 
 const std::vector<std::unique_ptr<RemoteWorldObject>>& EditorHierarchy::world_list() const {
 	return scene->get_remote_worlds();
+}
+
+Reference<const RemoteSceneObject> EditorHierarchy::scene_imm() const {
+	return scene;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

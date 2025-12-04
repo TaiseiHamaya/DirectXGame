@@ -3,6 +3,7 @@
 #include "./PostEffectPSOLoader.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 #include "Engine/Module/Render/RenderNode/PostEffectNode.h"
 #include "Engine/Module/Render/RenderNode/WorldLayerRenderNode.h"
 #include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
@@ -30,27 +31,27 @@ std::vector<std::unique_ptr<IRenderNode>> RenderNodeLoader::entry_point(const nl
 			szgWarning("RenderNodeLoader::entry_point: Node Type is not specified.");
 			continue;
 		}
-		const i32 type = node["Type"].get<i32>();
+		const RenderNodeType type = node.value("Type", RenderNodeType::Unknown);
 		switch (type) {
-		case 0:
+		case RenderNodeType::WorldLayer:
 		{
 			auto temp = load_as_world_render(node);
 			result.emplace_back(std::move(temp));
 			break;
 		}
-		case 1:
+		case RenderNodeType::PostEffect:
 		{
 			auto temp = load_as_post_effect(node);
 			result.emplace_back(std::move(temp));
 			break;
 		}
-		case 2:
+		case RenderNodeType::StaticTexture:
 		{
 			load_as_static_texture(node);
 			break;
 		}
 		default:
-			szgWarning("RenderNodeLoader::entry_point: Unknown Node Type \'{}\'", type);
+			szgWarning("RenderNodeLoader::entry_point: Unknown Node Type \'{}\'", static_cast<i32>(type));
 			break;
 		}
 	}
@@ -188,7 +189,7 @@ void RenderNodeLoader::calclate_result_node_index(const nlohmann::json& json) {
 	const nlohmann::json& nodeJson = json["Nodes"];
 	while (true) {
 		auto& node = nodeJson.at(index);
-		if (node.value("Type", 0) != 0) {
+		if (node.value("Type", RenderNodeType::Unknown) != RenderNodeType::WorldLayer) {
 			break;
 		}
 		const nlohmann::json& linksJson = node.value("Links", nlohmann::json::object());

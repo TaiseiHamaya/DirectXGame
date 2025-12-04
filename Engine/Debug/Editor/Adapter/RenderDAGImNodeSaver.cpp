@@ -6,8 +6,9 @@
 
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 
-void RenderDAGImNodeSaver::entry_point(const std::string& sceneName, const std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes) {
+void RenderDAGImNodeSaver::entry_point(const std::filesystem::path& filePath, const std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes) {
 	std::unordered_map<u64, bool> seen;
 	for (auto& [id_, _] : nodes) {
 		seen[id_] = false;
@@ -132,7 +133,7 @@ void RenderDAGImNodeSaver::entry_point(const std::string& sceneName, const std::
 	}
 
 	// ---------- 保存 ----------
-	JsonAsset output{ "./Game/Core/Scene/" + sceneName + "/RenderPath.json" }; // 書き出し用ファイル
+	JsonAsset output{ filePath / "RenderPath.json" }; // 書き出し用ファイル
 	// 既にある内容を削除
 	output.get().clear();
 	nlohmann::json& outputJson = output.get();
@@ -172,7 +173,7 @@ nlohmann::json RenderDAGImNodeSaver::operator()(const std::shared_ptr<WorldLayer
 		return {};
 	}
 	nlohmann::json json;
-	json["Type"] = 0;
+	json["Type"] = RenderNodeType::WorldLayer;
 	const WorldLayerRenderImNode::Data& data = node->get_data();
 	json["Data"].update(data.outputSize);
 	json["Data"].update(data.worldIndex);
@@ -198,7 +199,7 @@ nlohmann::json RenderDAGImNodeSaver::operator()(const std::shared_ptr<PostEffect
 		return {};
 	}
 	nlohmann::json json;
-	json["Type"] = 1;
+	json["Type"] = RenderNodeType::PostEffect;
 	const PostEffectImNode::Data& data = node->get_data();
 	json["Data"].update(data.outputSize);
 	json["Data"].update(data.peType);
@@ -219,7 +220,7 @@ nlohmann::json RenderDAGImNodeSaver::operator()(const std::shared_ptr<StaticText
 		return {};
 	}
 	nlohmann::json json;
-	json["Type"] = 2;
+	json["Type"] = RenderNodeType::StaticTexture;
 	const StaticTextureImNode::Data& data = node->get_data();
 	json["Data"].update(data.textureFilename);
 

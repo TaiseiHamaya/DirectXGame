@@ -256,7 +256,8 @@ void EditorMain::set_imgui_command() {
 		ImGuiWindowFlags_MenuBar | // メニューバーを表示
 		ImGuiWindowFlags_NoDocking | // ドッキングしない
 		ImGuiWindowFlags_NoTitleBar | // タイトルバーなし
-		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoMove | // 移動しない
+		ImGuiWindowFlags_NoScrollWithMouse | // スクロールしない
 		ImGuiWindowFlags_NoResize | // リサイズしない
 		ImGuiWindowFlags_NoScrollbar | // スクロールバーなし
 		ImGuiWindowFlags_NoBringToFrontOnFocus; // 最背面
@@ -269,7 +270,7 @@ void EditorMain::set_imgui_command() {
 	// メインのドックスペースを追加
 	ImGuiID dockSpaceId = ImGui::GetID("EditorMain");
 	ImGui::SetCursorPos({ 0.0f, menuHight });
-	ImVec2 editorSize = { ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y - 19 };
+	ImVec2 editorSize = { ProjectSettings::ClientSize().x, ProjectSettings::ClientSize().y - menuHight };
 	ImGui::DockSpace(dockSpaceId, editorSize, ImGuiDockNodeFlags_PassthruCentralNode);
 
 	ImGui::End();
