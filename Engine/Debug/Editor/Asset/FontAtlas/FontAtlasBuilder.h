@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <filesystem>
 #include <vector>
 
@@ -36,3 +38,5 @@ private:
 
 	DirectX::ScratchImage scratchImage;
 };
+
+#endif // DEBUG_FEATURES_ENABLE

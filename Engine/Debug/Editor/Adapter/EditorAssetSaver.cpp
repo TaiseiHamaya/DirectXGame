@@ -1,3 +1,5 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include "EditorAssetSaver.h"
 
 #include <memory>
@@ -94,3 +96,5 @@ void EditorAssetSaver::save_to_json(const std::filesystem::path& filePath) {
 
 	json.save();
 }
+
+#endif // DEBUG_FEATURES_ENABLE

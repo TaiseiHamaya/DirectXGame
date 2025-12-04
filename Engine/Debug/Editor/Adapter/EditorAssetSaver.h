@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_FEATURES_ENABLE
+
 #include <filesystem>
 
 #include <Library/Utility/Template/Reference.h>
@@ -37,3 +39,5 @@ private:
 
 	SceneAssetCollection sceneAssetCollection;
 };
+
+#endif // DEBUG_FEATURES_ENABLE
