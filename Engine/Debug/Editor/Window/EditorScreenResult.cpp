@@ -6,11 +6,11 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 
 void EditorScreenResult::initialize(bool isActive_) {
 	isActive = isActive_;
-	
+
 	screenResultCpy.initialize();
 }
 
@@ -45,7 +45,7 @@ void EditorScreenResult::set_imgui_command() {
 	float aspectY = winSize.y / 9;
 
 	ImVec2 imgSize = aspectX > aspectY ?
-		ImVec2{ winSize.y / 9 * 16, winSize.y } :	
+		ImVec2{ winSize.y / 9 * 16, winSize.y } :
 		ImVec2{ winSize.x, winSize.x / 16 * 9 };
 
 	ImVec2 cursorPos = {
