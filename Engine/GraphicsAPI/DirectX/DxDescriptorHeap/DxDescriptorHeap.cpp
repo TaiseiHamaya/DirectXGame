@@ -27,7 +27,7 @@ const u32 DxDescriptorHeap::use_heap_index() noexcept {
 }
 
 void DxDescriptorHeap::release_heap(u32 index) {
-	releasedHeap.emplace_front(index);
+	releasedHeap.emplace_back(index);
 }
 
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT heapSize, bool shaderVisible) {

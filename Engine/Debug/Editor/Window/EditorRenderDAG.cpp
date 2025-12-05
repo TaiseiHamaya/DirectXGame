@@ -5,7 +5,6 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -19,9 +18,8 @@
 #include "./RenderDagImNode/ResultImNode.h"
 #include "./RenderDagImNode/StaticTextureImNode.h"
 #include "./RenderDagImNode/WorldLayerRenderImNode.h"
+#include "./RenderDagImNode/IRenderDagImNode.h"
 #include "Engine/Application/Logger.h"
-#include "RenderDagImNode/IRenderDagImNode.h"
-#include <Engine/Runtime/Scene/SceneManager2.h>
 
 EditorRenderDAG::EditorRenderDAG() {
 	isActive = true;
@@ -106,7 +104,7 @@ void EditorRenderDAG::initialize() {
 	nodeCounter = 1;
 }
 
-void EditorRenderDAG::setup(const std::string& sceneName) {
+void EditorRenderDAG::load(const std::string& sceneName) {
 	nodeCounter = RenderDAGImNodeLoader{}.entry_point(sceneName, imNodeFlow, nodes);
 }
 
@@ -122,16 +120,6 @@ void EditorRenderDAG::draw() {
 	int flags = 0;
 	ImGui::Begin("Render DAG Editor", &isActive, flags);
 
-	if (ImGui::Button("Save")) {
-		Reference<Scene> scene = SceneManager2::GetCurrentScene();
-		if (scene) {
-			RenderDAGImNodeSaver{}.entry_point(std::string(scene->name()), nodes);
-		}
-		else {
-			szgWarning("No active scene found. Cannot save Render DAG.");
-		}
-	}
-
 	if (!nodes.contains(0)) {
 		szgWarning("Don't delete ScreenOutNode!");
 		generate_result_node();
@@ -145,6 +133,14 @@ void EditorRenderDAG::draw() {
 	imNodeFlow->update();
 
 	ImGui::End();
+}
+
+void EditorRenderDAG::save(const std::filesystem::path& filePath) {
+	RenderDAGImNodeSaver{}.entry_point(filePath, nodes);
+}
+
+const std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& EditorRenderDAG::nodes_imm() const {
+	return nodes;
 }
 
 void EditorRenderDAG::generate_result_node() {

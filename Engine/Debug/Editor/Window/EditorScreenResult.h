@@ -14,6 +14,7 @@ public:
 
 private:
 	void copy_screen_result();
+
 	void set_imgui_command();
 
 private:

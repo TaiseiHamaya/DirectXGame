@@ -10,7 +10,7 @@
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Light/RemoteDirectionalLightInstance.h"
-#include "../RemoteObject/WorldInstance/Light/RemotePointLightInstane.h"
+#include "../RemoteObject/WorldInstance/Light/RemotePointLightInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Primitive/RemoteRect3dInstance.h"
@@ -336,7 +336,7 @@ std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemoteDirectionalLig
 }
 
 std::unique_ptr<IRemoteObject> EditorSceneSerializer::CreateRemotePointLightInstance(const nlohmann::json& json) {
-	std::unique_ptr<RemotePointLightInstane> result = std::make_unique<RemotePointLightInstane>();
+	std::unique_ptr<RemotePointLightInstance> result = std::make_unique<RemotePointLightInstance>();
 	json.get_to(result->hierarchyName);
 	if (json.contains("Children") && json["Children"].is_array()) {
 		for (const nlohmann::json& instance : json["Children"]) {

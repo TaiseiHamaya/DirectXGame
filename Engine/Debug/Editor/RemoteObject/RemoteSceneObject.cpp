@@ -10,9 +10,10 @@
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "IRemoteObject.h"
-#include "RemoteWorldObject.h"
-#include "../Window/EditorSceneView.h"
+#include "../EditorMain.h"
+#include "../Window/EditorRenderDAG.h"
+#include "./IRemoteObject.h"
+#include "./RemoteWorldObject.h"
 
 RemoteSceneObject::RemoteSceneObject() = default;
 RemoteSceneObject::~RemoteSceneObject() = default;
@@ -32,11 +33,21 @@ void RemoteSceneObject::update_preview(Reference<RemoteWorldObject> world, Refer
 
 void RemoteSceneObject::draw_inspector() {
 	hierarchyName.show_gui();
-	
+
 	ImGui::Separator();
 
-	if (ImGui::Button("Open RenderDAG")) {
-		// TODO: 書く
+	ImGui::Text("RenderDAG");
+	ImGui::SameLine();
+	if (ImGui::Button("Edit", ImVec2{ 80, 0 })) {
+		if (renderDAGEditor) {
+			renderDAGEditor->set_active(true);
+		}
+		ImGui::SetWindowFocus("Render DAG Editor");
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Hot Reload", ImVec2{ 80, 0 })) {
+		EditorMain::SetHotReload();
 	}
 }
 
@@ -143,6 +154,10 @@ std::string RemoteSceneObject::name() const {
 
 const std::vector<std::unique_ptr<RemoteWorldObject>>& RemoteSceneObject::get_remote_worlds() const {
 	return remoteWorlds;
+}
+
+void RemoteSceneObject::set_editor(Reference<EditorRenderDAG> renderDAGEditor_) {
+	renderDAGEditor = renderDAGEditor_;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

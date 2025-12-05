@@ -47,7 +47,21 @@ public:
 	r32 line_height() const;
 
 public:
+	/// <summary>
+	/// 文字列から描画用データを返す
+	/// </summary>
+	/// <param name="string">描画する文字列</param>
+	/// <param name="fontSize">フォントサイズ</param>
+	/// <returns></returns>
 	std::vector<GlyphRenderingData> calculate_glyph(std::string_view string, r32 fontSize) const;
+
+	/// <summary>
+	/// 描画のオフセットを計算する
+	/// </summary>
+	/// <param name="glyph">文字列データ</param>
+	/// <param name="pivot"></param>
+	/// <param name="fontSize"></param>
+	/// <returns></returns>
 	Vector2 calculate_offset(const std::vector<GlyphRenderingData>& glyph, const Vector2& pivot, r32 fontSize) const;
 
 private:

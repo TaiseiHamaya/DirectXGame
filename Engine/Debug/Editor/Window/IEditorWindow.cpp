@@ -20,4 +20,8 @@ bool IEditorWindow::is_active() const {
 	return isActive;
 }
 
+void IEditorWindow::set_active(bool active) {
+	isActive = active;
+}
+
 #endif // DEBUG_FEATURES_ENABLE

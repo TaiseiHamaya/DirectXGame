@@ -5,12 +5,12 @@
 #include <Library/Utility/Template/Reference.h>
 
 #include "../RenderPath/RenderPath.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 
 class RenderTexture;
-class NonLightingPixelNode;
-class DirectionalLightingNode;
-class PointLightingNode;
+class NonLightingPixelPipeline;
+class DirectionalLightingPipeline;
+class PointLightingPipeline;
 
 class LayerRenderSubtree {
 public:
@@ -24,7 +24,7 @@ private:
 
 	i32 counter{0};
 
-	std::shared_ptr<NonLightingPixelNode> nonLightingPixelNode;
-	std::shared_ptr<DirectionalLightingNode> directionalLightingNode;
-	std::shared_ptr<PointLightingNode> pointLightingNode;
+	std::shared_ptr<NonLightingPixelPipeline> nonLightingPixelNode;
+	std::shared_ptr<DirectionalLightingPipeline> directionalLightingNode;
+	std::shared_ptr<PointLightingPipeline> pointLightingNode;
 };

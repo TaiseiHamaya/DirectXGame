@@ -1,6 +1,6 @@
 #include "StringRectInstance.h"
 
-#include <Engine/Assets/FontAtlasMSDF/FontAtlasMSDFLibrary.h>
+#include "Engine/Assets/FontAtlasMSDF/FontAtlasMSDFLibrary.h"
 
 StringRectInstance::StringRectInstance() noexcept = default;
 
@@ -49,7 +49,7 @@ const Vector2& StringRectInstance::offset_imm() const {
 	return data.offset;
 }
 
-void StringRectInstance::set_string(std::string_view string_) {
+void StringRectInstance::reset_string(std::string_view string_) {
 	string = string_;
 	charRenderingData.clear();
 	if (!fontAtlas) {
@@ -61,6 +61,20 @@ void StringRectInstance::set_string(std::string_view string_) {
 
 const std::string& StringRectInstance::string_imm() const {
 	return string;
+}
+
+void StringRectInstance::append(const std::string& append_) {
+	auto temp = fontAtlas->calculate_glyph(append_, data.fontSize);
+	data.offset += fontAtlas->calculate_offset(temp, data.pivot, data.fontSize);
+	charRenderingData.insert(charRenderingData.end(), temp.begin(), temp.end());
+	string += append_;
+}
+
+void StringRectInstance::append(char c) {
+	auto temp = fontAtlas->calculate_glyph(std::string(1, c), data.fontSize);
+	data.offset += fontAtlas->calculate_offset(temp, data.pivot, data.fontSize);
+	charRenderingData.emplace_back(temp[0]);
+	string += c;
 }
 
 const std::vector<GlyphRenderingData>& StringRectInstance::glyph_data_imm() const {

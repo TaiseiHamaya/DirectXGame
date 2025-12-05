@@ -1,0 +1,97 @@
+#ifdef DEBUG_FEATURES_ENABLE
+
+#include "RemotePointLightInstance.h"
+
+#include "../../../Window/EditorSceneView.h"
+
+#define COLOR3_SERIALIZER
+#include "Engine/Assets/Json/JsonSerializer.h"
+
+void RemotePointLightInstance::setup() {
+	RemoteInstanceType::setup();
+	debugVisual = std::make_unique<Rect3d>();
+	debugVisual->initialize(CVector2::ONE * 0.5f, Vector2{ 0.5f, 0.5f });
+	debugVisual->get_material().lightingType = LighingType::None;
+	debugVisual->get_material().texture = TextureLibrary::GetTexture("EngineIcon_DirectionalLight.png");
+
+	sceneView->register_rect(query_world(), debugVisual);
+}
+
+void RemotePointLightInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+	RemoteInstanceType::update_preview(world, parentAffine);
+
+	Affine primitiveAffine = Affine::FromScale(Vector3{ radius.cget(), radius.cget(), radius.cget() }) * Affine::FromTranslate(worldAffine.get_origin());
+	sceneView->write_primitive(world, "Sphere", primitiveAffine);
+
+	Reference<const EditorDebugCamera> camera = sceneView->query_debug_camera();
+	if (camera) {
+		debugVisual->look_at(camera);
+	}
+	debugVisual->get_transform().set_translate(worldAffine.get_origin());
+	debugVisual->update_affine();
+}
+
+void RemotePointLightInstance::draw_inspector() {
+	ImGui::Text("Type : PointLight");
+
+	hierarchyName.show_gui();
+	ImGui::Separator();
+
+	transform.show_gui();
+
+	ImGui::Separator();
+	color.show_gui();
+	intensity.show_gui();
+	radius.show_gui();
+	decay.show_gui();
+
+	ImGui::Separator();
+	ImGui::Text("Influence Layer");
+	for (i32 i = 0; i < sizeof(u32) * 4; ++i) {
+		bool isActive = influenceLayer & (1u << i);
+		if (isActive) {
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.10f, 0.60f, 0.12f, 1.00f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.21f, 0.22f, 0.23f, 0.40f });
+		}
+		else {
+			ImGui::PushStyleColor(ImGuiCol_Border, ImVec4{ 0.05f, 0.05f, 0.05f, 0.0f });
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.02f, 0.02f, 0.02f, 1.00f });
+		}
+		if (ImGui::Button(std::format("{}", i).c_str(), ImVec2{ 25,0 })) {
+			influenceLayer = influenceLayer ^ (1u << i);
+		}
+		if (i % 8 != 7) {
+			ImGui::SameLine();
+		}
+		ImGui::PopStyleColor(2);
+	}
+}
+
+nlohmann::json RemotePointLightInstance::serialize() const {
+	nlohmann::json result;
+
+	result.update(transform);
+	result.update(hierarchyName);
+	result.update(color);
+	result.update(intensity);
+	result.update(radius);
+	result.update(decay);
+	result.update(influenceLayer);
+	result["Type"] = instance_type();
+	result["Children"] = nlohmann::json::array();
+	for (const auto& child : children) {
+		result["Children"].emplace_back(child->serialize());
+	}
+
+	return result;
+}
+
+void RemotePointLightInstance::on_spawn() {
+	debugVisual->set_active(true);
+}
+
+void RemotePointLightInstance::on_destroy() {
+	debugVisual->set_active(false);
+}
+
+#endif // DEBUG_FEATURES_ENABLE

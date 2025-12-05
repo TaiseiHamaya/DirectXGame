@@ -20,7 +20,7 @@ public:
 	__CLASS_NON_COPYABLE(RenderDAG)
 
 public:
-	void setup(const std::string& sceneName, Reference<Scene> scene);
+	void setup(std::string_view sceneName, Reference<Scene> scene);
 
 	void render_entry_point() const;
 

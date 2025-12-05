@@ -8,6 +8,7 @@
 
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+#include "Engine/Loader/RenderPath/RenderNodeType.h"
 
 #include <string>
 #include <vector>
@@ -36,11 +37,23 @@ public:
 	const Data& get_data() const;
 	void set_data(const Data& data_);
 
+	PostEffectType post_effect_type() const;
+
 private:
 	Data data;
 
 private:
-	static std::vector<std::string> peName;
+	static constexpr std::array<string_literal, static_cast<i32>(PostEffectType::Max)> postEffectName{
+		"Unknown",
+		"ブルーム",
+		"色収差",
+		"ガウシアンブラー",
+		"グレースケール",
+		"輝度抽出",
+		"テクスチャ合成4",
+		"Outline",
+		"ラジアルブラー",
+	};
 };
 
 #endif // DEBUG_FEATURES_ENABLE

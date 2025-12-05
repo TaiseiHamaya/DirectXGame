@@ -6,11 +6,17 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+#include "./SceneAssetCollection.h"
 #include "Engine/Module/Manager/SceneScript/SceneScriptManager.h"
 #include "Engine/Module/Manager/World/WorldCluster.h"
 #include "Engine/Module/Render/RenderDAG.h"
 
 class Scene {
+#ifdef DEBUG_FEATURES_ENABLE
+	friend class RemoteSceneObject;
+	friend class EditorMain;
+#endif // DEBUG_FEATURES_ENABLE
+
 public:
 	Scene() = default;
 	virtual ~Scene() = default;
@@ -18,7 +24,9 @@ public:
 	__CLASS_NON_COPYABLE(Scene)
 
 public:
-	virtual void load_asset();
+	void load_assets();
+
+	virtual void custom_load_asset();
 
 	void initialize();
 
@@ -51,4 +59,5 @@ protected:
 private:
 	std::vector<std::unique_ptr<WorldCluster>> worlds;
 	RenderDAG renderDAG;
+	SceneAssetCollection assetCollection;
 };

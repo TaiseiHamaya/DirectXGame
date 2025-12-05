@@ -24,7 +24,8 @@ void SceneManager2::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 		return;
 	}
 
-	scene->load_asset();
+	scene->load_assets();
+	scene->custom_load_asset();
 
 	instance.sceneStack.emplace_back(std::move(scene));
 
@@ -107,7 +108,7 @@ void SceneManager2::SceneChange(u32 nextSceneIndex, r32 interval, bool isStackSc
 	auto nextScene = instance.factory->create_scene2(nextSceneIndex);
 
 	// アセットロード
-	nextScene->load_asset();
+	nextScene->custom_load_asset();
 
 	// シーンスタック
 	std::swap(instance.sceneStack.back(), nextScene);

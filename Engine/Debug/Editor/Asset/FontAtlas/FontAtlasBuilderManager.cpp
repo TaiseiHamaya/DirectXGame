@@ -8,10 +8,10 @@ void FontAtlasBuilderManager::Initialize() {
 		return;
 	}
 	instance.freetype = msdfgen::initializeFreetype();
-	instance.charaset.load("./DirectXGame/EditorResources/charset.txt");
+	instance.charset.load("./DirectXGame/EditorResources/charset.txt");
 }
 
-void FontAtlasBuilderManager::Finalizce() {
+void FontAtlasBuilderManager::Finalize() {
 	auto& instance = GetInstance();
 	deinitializeFreetype(instance.freetype);
 }
@@ -23,7 +23,7 @@ msdfgen::FreetypeHandle* FontAtlasBuilderManager::FreetypeHandle() {
 
 const msdf_atlas::Charset& FontAtlasBuilderManager::Charset() {
 	auto& instance = GetInstance();
-	return instance.charaset;
+	return instance.charset;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

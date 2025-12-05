@@ -4,6 +4,7 @@
 
 #include "IEditorWindow.h"
 
+#include <filesystem>
 #include <memory>
 #include <unordered_map>
 #include <variant>
@@ -14,6 +15,7 @@ class WorldLayerRenderImNode;
 class PostEffectImNode;
 class StaticTextureImNode;
 class ResultImNode;
+class EditorHierarchy;
 
 class EditorRenderDAG final : public IEditorWindow {
 public:
@@ -33,10 +35,21 @@ public:
 
 public:
 	void initialize();
-	void setup(const std::string& sceneName);
+
+	void load(const std::string& sceneName);
+	
 	void finalize();
 
 	void draw() override;
+
+	/// <summary>
+	/// "filePath / RenderPath.json"に出力
+	/// </summary>
+	/// <param name="filePath"></param>
+	void save(const std::filesystem::path& filePath);
+
+public:
+	const std::unordered_map<u64, DAGNodeType>& nodes_imm() const;
 
 private:
 	void generate_result_node();

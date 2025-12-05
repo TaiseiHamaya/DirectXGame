@@ -9,7 +9,7 @@
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 class RenderTargetCollection {
@@ -22,6 +22,8 @@ public:
 public:
 	std::pair<Reference<BaseRenderTargetGroup>, Reference<RenderTexture>> create_render_target_group(const nlohmann::json& json);
 	std::pair<Reference<DeferredAdaptor::GBuffersType>, std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER>> create_gbuffer(const nlohmann::json& json);
+
+	void clear();
 
 private:
 	std::vector<std::unique_ptr<BaseRenderTargetGroup>> renderTargets;

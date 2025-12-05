@@ -12,26 +12,26 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
-#include "Engine/Module/Render/RenderPSO/Debug/PrimitiveLine/PrimitiveLineNode.h"
-#include "Engine/Module/Render/RenderPSO/Forward/FontRenderingNode/FontRenderingNode.h"
-#include "Engine/Module/Render/RenderPSO/Forward/Mesh/StaticMeshNodeForward.h"
-#include "Engine/Module/Render/RenderPSO/Forward/Primitive/Rect3dNode.h"
+#include "Engine/Module/Render/RenderPipeline/Debug/PrimitiveLine/PrimitiveLinePipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Forward/FontRenderingNode/FontRenderingPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Forward/Mesh/StaticMeshForwardPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Forward/Primitive/Rect3dPipeline.h"
 #include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 void EditorSceneView::initialize(bool isActive_) {
 	isActive = isActive_;
 	screenResultTexture.initialize();
 
-	std::shared_ptr<StaticMeshNodeForward> staticMeshNode = std::make_shared<StaticMeshNodeForward>();
+	std::shared_ptr<StaticMeshForwardPipeline> staticMeshNode = std::make_shared<StaticMeshForwardPipeline>();
 	staticMeshNode->initialize();
 
-	std::shared_ptr<Rect3dNode> rect3dNode = std::make_shared<Rect3dNode>();
+	std::shared_ptr<Rect3dPipeline> rect3dNode = std::make_shared<Rect3dPipeline>();
 	rect3dNode->initialize(BlendMode::None);
 
-	std::shared_ptr<FontRenderingNode> stringRectNode = std::make_shared<FontRenderingNode>();
+	std::shared_ptr<FontRenderingPipeline> stringRectNode = std::make_shared<FontRenderingPipeline>();
 	stringRectNode->initialize(BlendMode::None);
 
-	std::shared_ptr<PrimitiveLineNode> primitiveLineNode = std::make_shared<PrimitiveLineNode>();
+	std::shared_ptr<PrimitiveLinePipeline> primitiveLineNode = std::make_shared<PrimitiveLinePipeline>();
 	primitiveLineNode->initialize();
 
 	staticMeshDrawManager.initialize(1);

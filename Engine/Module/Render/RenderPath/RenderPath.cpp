@@ -1,15 +1,15 @@
 #include "RenderPath.h"
 
 #include "Engine/Application/Logger.h"
-#include "Engine/Module/Render/RenderPSO/BaseRenderNode.h"
+#include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
-void RenderPath::initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list) {
+void RenderPath::initialize(std::vector<std::shared_ptr<BaseRenderPipeline>>&& list) {
 	// サイズ0のPathはバグるので止める
 	szgErrorIf(list.empty(), "The array size of RenderPath must be at least 1.");
 	renderNodeList = std::move(list);
 }
 
-void RenderPath::initialize(std::initializer_list<std::shared_ptr<BaseRenderNode>>&& list) {
+void RenderPath::initialize(std::initializer_list<std::shared_ptr<BaseRenderPipeline>>&& list) {
 	// サイズ0のPathはバグるので止める
 	szgErrorIf(list.size() == 0, "The array size of RenderPath must be at least 1.");
 	// 全て転送

@@ -9,8 +9,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
-#include <Engine/Module/Render/RenderPSO/PostEffectPSO.h>
-#include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
+#include "Engine/Module/Render/RenderPipeline/IPostEffectPipeline.h"
+#include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 class PostEffectNode final : public IRenderNode {
 public:
@@ -20,7 +20,7 @@ public:
 		RECT rect;
 		D3D12_VIEWPORT viewport;
 
-		std::unique_ptr<PostEffectPSO> postEffectPSO;
+		std::unique_ptr<IPostEffectPipeline> postEffectPSO;
 	};
 
 public:

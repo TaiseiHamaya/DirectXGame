@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-class BaseRenderNode;
+class BaseRenderPipeline;
 
 class RenderPath final {
 public:
@@ -21,13 +21,13 @@ public:
 	/// vector配列で初期化
 	/// </summary>
 	/// <param name="list"></param>
-	void initialize(std::vector<std::shared_ptr<BaseRenderNode>>&& list);
+	void initialize(std::vector<std::shared_ptr<BaseRenderPipeline>>&& list);
 
 	/// <summary>
 	/// initializer_listで初期化
 	/// </summary>
 	/// <param name="list"></param>
-	void initialize(std::initializer_list<std::shared_ptr<BaseRenderNode>>&& list);
+	void initialize(std::initializer_list<std::shared_ptr<BaseRenderPipeline>>&& list);
 
 	/// <summary>
 	/// 使用禁止
@@ -53,6 +53,6 @@ public:
 	bool is_end();
 
 private:
-	std::vector<std::shared_ptr<BaseRenderNode>>::iterator nowNode;
-	std::vector<std::shared_ptr<BaseRenderNode>> renderNodeList;
+	std::vector<std::shared_ptr<BaseRenderPipeline>>::iterator nowNode;
+	std::vector<std::shared_ptr<BaseRenderPipeline>> renderNodeList;
 };

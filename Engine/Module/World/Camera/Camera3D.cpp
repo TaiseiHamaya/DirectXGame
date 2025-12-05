@@ -4,14 +4,14 @@
 
 #include <Library/Math/VectorConverter.h>
 
-#include "Engine/Module/Manager/World/WorldRoot.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/Module/Manager/World/WorldRoot.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
-#include <Engine/Runtime/Input/Input.h>
-#include <Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h>
+#include "Engine/Runtime/Input/Input.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #endif // _DEBUG
 
 void Camera3D::initialize() {
@@ -27,7 +27,7 @@ void Camera3D::initialize() {
 	debugCameraCenter = world_root_mut()->instantiate<StaticMeshInstance>(nullptr, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
 	debugCamera = world_root_mut()->instantiate<WorldInstance>(debugCameraCenter);
-	frustumExecutor = 
+	frustumExecutor =
 		std::make_unique<PrimitiveGeometryDrawExecutor>(
 			PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 1
 		);

@@ -8,7 +8,7 @@
 
 class Scene;
 class RemoteWorldObject;
-class EditorSceneView;
+class EditorRenderDAG;
 
 class RemoteSceneObject final : public IRemoteObject {
 public:
@@ -52,10 +52,14 @@ public:
 
 	const std::vector<std::unique_ptr<RemoteWorldObject>>& get_remote_worlds() const;
 
+	void set_editor(Reference<EditorRenderDAG> renderDAGEditor_);
+
 private:
 	Reference<Scene> self;
 
 	std::vector<std::unique_ptr<RemoteWorldObject>> remoteWorlds;
+
+	Reference<EditorRenderDAG> renderDAGEditor;
 };
 
 #endif // DEBUG_FEATURES_ENABLE
