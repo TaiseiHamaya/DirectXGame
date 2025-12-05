@@ -7,7 +7,7 @@ env:
   BATCH_FILE_URL: https://raw.githubusercontent.com/TaiseiHamaya/DirectXGame/refs/heads/master/ProjectGeneratorTool/CreateSolution.ps1
   
 on:
-  push:
+  pull_request:
     branches:
       - master
 
@@ -43,4 +43,4 @@ jobs:
           title: Build Result(${{ needs.build.result }})
           username: GitHub
           avatar_url: https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png
-          status: ${{ needs.build.result  }}
+          status: ${{ needs.build.result }}
