@@ -7,14 +7,15 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
 
-struct BlurInfo {
-	Vector2 center;
-	r32 weight;
-	r32 length;
-	u32 sampleCount;
-};
-
 class RadialBlurPipeline : public IPostEffectPipeline {
+public:
+	struct Data {
+		Vector2 center;
+		r32 weight;
+		r32 length;
+		u32 sampleCount;
+	};
+
 public:
 	RadialBlurPipeline();
 	~RadialBlurPipeline() noexcept;
@@ -30,7 +31,7 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void preprocess() override;
+	void preprocess() override {};
 
 	/// <summary>
 	/// 描画
@@ -42,7 +43,7 @@ public:
 	/// </summary>
 	void set_shader_texture(Reference<RenderTexture> baseTexture_);
 
-	BlurInfo& data() { return *blurInfo.data_mut(); }
+	Reference<Data> data_mut() noexcept;
 
 private:
 	/// <summary>
@@ -58,5 +59,5 @@ public:
 private:
 	Reference<RenderTexture> baseTexture;
 
-	ConstantBuffer<BlurInfo> blurInfo;
+	ConstantBuffer<Data> data;
 };

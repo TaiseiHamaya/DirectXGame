@@ -12,7 +12,7 @@ void WorldManager::update_matrix() {
 	for (auto& depth : worldInstances) {
 		std::for_each(
 			std::execution::par, depth.begin(), depth.end(),
-			[](const Reference<WorldInstance>& instance) {
+			[](Reference<WorldInstance> instance) {
 			instance->fixed_update();
 			instance->update_affine();
 		});

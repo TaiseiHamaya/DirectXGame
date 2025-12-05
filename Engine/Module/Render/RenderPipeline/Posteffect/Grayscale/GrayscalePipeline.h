@@ -9,6 +9,11 @@
 
 class GrayscalePipeline : public IPostEffectPipeline {
 public:
+	struct Data {
+		u32 isGray{ true };
+	};
+
+public:
 	GrayscalePipeline();
 	~GrayscalePipeline();
 
@@ -23,17 +28,20 @@ public:
 	/// </summary>
 	void initialize() override;
 
-	void preprocess() override;
+	void preprocess() override {};
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	void execute_effect_command();
 
+public:
 	/// <summary>
 	/// 描画時に使用するテクスチャリソースを設定
 	/// </summary>
 	void set_shader_texture(Reference<RenderTexture> baseTexture_);
+
+	Reference<Data> data_mut() noexcept;
 
 private:
 	/// <summary>
@@ -48,5 +56,5 @@ public:
 
 private:
 	Reference<RenderTexture> baseTexture;
-	ConstantBuffer<u32> isGray{};
+	ConstantBuffer<Data> isGray{};
 };

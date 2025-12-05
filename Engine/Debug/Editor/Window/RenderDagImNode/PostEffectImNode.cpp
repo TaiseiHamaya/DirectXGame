@@ -4,17 +4,6 @@
 
 #include "Engine/Loader/RenderPath/RenderNodeType.h"
 
-std::vector<std::string> PostEffectImNode::peName{
-	"None",
-	"色収差",
-	"グレースケール",
-	"アウトライン",
-	"ラジアルブラー",
-	"ダウンサンプリング",
-	"テクスチャ合成2",
-	"テクスチャ合成4",
-};
-
 PostEffectImNode::PostEffectImNode() {
 	setTitle("PostEffect");
 	setStyle(ImFlow::NodeStyle::cyan());
@@ -34,10 +23,10 @@ void PostEffectImNode::draw() {
 		data.effectTagName.show_gui();
 	}
 
-	if (ImGui::BeginCombo("Type", peName[data.peType.cget()].c_str())) {
-		for (u32 i = 0; i < peName.size(); ++i) {
+	if (ImGui::BeginCombo("Type", postEffectName[data.peType.cget()])) {
+		for (u32 i = 0; i < postEffectName.size(); ++i) {
 			bool isSelected = data.peType.cget() == i;
-			if (ImGui::Selectable(peName[i].c_str(), isSelected)) {
+			if (ImGui::Selectable(postEffectName[i], isSelected)) {
 				if (isSelected) {
 					continue;
 				}
@@ -54,8 +43,8 @@ void PostEffectImNode::draw() {
 
 void PostEffectImNode::remove_extra_input_pins() {
 	switch (static_cast<PostEffectType>(data.peType.cget())) {
-	case PostEffectType::TextureBlend2:
-		dropIN("MixTexture");
+	case PostEffectType::Bloom:
+		dropIN("CombinedTexture");
 		break;
 	case PostEffectType::TextureBlend4:
 		dropIN("MixTexture1");
@@ -69,9 +58,9 @@ void PostEffectImNode::remove_extra_input_pins() {
 
 void PostEffectImNode::update_extra_input_pins() {
 	switch (static_cast<PostEffectType>(data.peType.cget())) {
-	case PostEffectType::TextureBlend2:
+	case PostEffectType::Bloom:
 		data.extraInputs.resize(1, 0);
-		addIN<u64>("MixTexture", 0ull, ImFlow::ConnectionFilter::SameType());
+		addIN<u64>("CombinedTexture", 0ull, ImFlow::ConnectionFilter::SameType());
 		break;
 	case PostEffectType::TextureBlend4:
 		data.extraInputs.resize(3, 0);

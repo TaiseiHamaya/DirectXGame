@@ -10,7 +10,7 @@
 /// </summary>
 class GaussianBlurPipeline : public IPostEffectPipeline {
 public:
-	struct GaussianBlurInfo {
+	struct Data {
 		r32 dispersion;
 		r32 length;
 		u32 sampleCount;
@@ -40,6 +40,8 @@ public:
 public:
 	void set_parameters(r32 dispersion, r32 length, u32 sampleCount);
 
+	Reference<Data> data_mut() noexcept;
+
 private:
 	void create_pipeline_state();
 
@@ -51,5 +53,5 @@ public:
 private:
 	Reference<RenderTexture> baseTexture;
 
-	ConstantBuffer<GaussianBlurInfo> blurInfo;
+	ConstantBuffer<Data> data;
 };

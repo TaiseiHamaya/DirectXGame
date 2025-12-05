@@ -10,6 +10,11 @@
 /// </summary>
 class BloomPipeline : public IPostEffectPipeline {
 public:
+	struct Data {
+		r32 weight;
+	};
+
+public:
 	BloomPipeline() = default;
 	~BloomPipeline() noexcept = default;
 
@@ -31,6 +36,8 @@ public:
 	void set_base_texture(Reference<RenderTexture> baseTexture);
 	void set_blur_texture(Reference<RenderTexture> blurTexture);
 
+	Reference<Data> data_mut() noexcept;
+
 private:
 	void create_pipeline_state();
 
@@ -43,8 +50,5 @@ private:
 	Reference<RenderTexture> baseTexture;
 	Reference<RenderTexture> blurTexture;
 
-	struct BloomInfo {
-		float weight;
-	};
-	ConstantBuffer<BloomInfo> bloomInfo;
+	ConstantBuffer<Data> data;
 };

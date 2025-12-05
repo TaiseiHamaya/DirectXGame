@@ -17,7 +17,7 @@ void RadialBlurPipeline::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("RadialBlurPipeline");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*blurInfo.data_mut() = BlurInfo{
+	*data.data_mut() = Data{
 		Vector2{0.5f, 0.5f},
 		0.4f,
 		0.1f,
@@ -25,29 +25,21 @@ void RadialBlurPipeline::initialize() {
 	};
 }
 
-void RadialBlurPipeline::preprocess() {
-	if (!groupName.has_value()) {
-		return;
-	}
-
-	Reference<const std::any> strangeValue = RuntimeStorage::GetValueImm("PostEffect", groupName.value());
-	if (strangeValue.is_null()) {
-		return;
-	}
-	*blurInfo.data_mut() = std::any_cast<BlurInfo>(*strangeValue);
-}
-
 void RadialBlurPipeline::execute_effect_command() {
 	baseTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootConstantBufferView(0, blurInfo.get_resource()->GetGPUVirtualAddress());
+	command->SetGraphicsRootConstantBufferView(0, data.get_resource()->GetGPUVirtualAddress());
 	baseTexture->get_as_srv()->use(1);
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
 void RadialBlurPipeline::set_shader_texture(Reference<RenderTexture> baseTexture_) {
 	baseTexture = baseTexture_;
+}
+
+Reference<RadialBlurPipeline::Data> RadialBlurPipeline::data_mut() noexcept {
+	return data.data_mut();
 }
 
 void RadialBlurPipeline::create_pipeline_state() {
@@ -77,10 +69,10 @@ void RadialBlurPipeline::create_pipeline_state() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 void RadialBlurPipeline::debug_gui() {
-	ImGui::DragFloat2("Center", &blurInfo.data_mut()->center.x, 0.01f, 0.0f, 1.0f, "%.4f");
-	ImGui::DragFloat("Weight", &blurInfo.data_mut()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
-	ImGui::DragFloat("Length", &blurInfo.data_mut()->length, 0.001f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat2("Center", &data.data_mut()->center.x, 0.01f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Weight", &data.data_mut()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Length", &data.data_mut()->length, 0.001f, 0.0f, 1.0f, "%.4f");
 	u32 min = 1, max = 16;
-	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, &blurInfo.data_mut()->sampleCount, 0.02f, &min, &max);
+	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, &data.data_mut()->sampleCount, 0.02f, &min, &max);
 }
 #endif // _DEBUG

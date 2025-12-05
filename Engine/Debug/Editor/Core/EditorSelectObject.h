@@ -28,7 +28,7 @@ public:
 
 public:
 	void set_item(Reference<IRemoteObject> object_, EditorSelectObjectBody::TransformData transform_ = {});
-	const EditorSelectObjectBody& get_item();
+	EditorSelectObjectBody& get_item_mut();
 
 	bool is_selected(Reference<const IRemoteObject> rhs) const;
 

@@ -4,7 +4,6 @@
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
-#include "Engine/Module/Manager/RuntimeStorage/RuntimeStorage.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
@@ -17,32 +16,23 @@ ChromaticAberrationPipeline::~ChromaticAberrationPipeline() noexcept = default;
 void ChromaticAberrationPipeline::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*aberrationLevel.data_mut() = CVector2::ZERO;
-}
-
-void ChromaticAberrationPipeline::preprocess() {
-	if (!groupName.has_value()) {
-		return;
-	}
-
-	Reference<const std::any> strangeValue = RuntimeStorage::GetValueImm("PostEffect", groupName.value());
-	if (strangeValue.is_null()) {
-		return;
-	}
-	*aberrationLevel.data_mut() = std::any_cast<Vector2>(*strangeValue);
 }
 
 void ChromaticAberrationPipeline::execute_effect_command() {
 	baseTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootConstantBufferView(0, aberrationLevel.get_resource()->GetGPUVirtualAddress());
+	command->SetGraphicsRootConstantBufferView(0, data.get_resource()->GetGPUVirtualAddress());
 	baseTexture->get_as_srv()->use(1);
 	command->DrawInstanced(3, 1, 0, 0);
 }
 
 void ChromaticAberrationPipeline::set_shader_texture(Reference<RenderTexture> baseTexture_) {
 	baseTexture = baseTexture_;
+}
+
+Reference<ChromaticAberrationPipeline::Data> ChromaticAberrationPipeline::data_mut() noexcept {
+	return data.data_mut();
 }
 
 void ChromaticAberrationPipeline::create_pipeline_state() {
@@ -70,7 +60,7 @@ void ChromaticAberrationPipeline::create_pipeline_state() {
 
 #ifdef DEBUG_FEATURES_ENABLE
 void ChromaticAberrationPipeline::debug_gui() {
-	ImGui::DragFloat("AberrationLevelX", &aberrationLevel.data_mut()->x, 0.1f / ProjectSettings::ClientWidth(), -0.5f, 0.5f, "%.4f");
-	ImGui::DragFloat("AberrationLevelY", &aberrationLevel.data_mut()->y, 0.1f / ProjectSettings::ClientHeight(), -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelX", &data.data_mut()->aberrationLevel.x, 0.1f / ProjectSettings::ClientWidth(), -0.5f, 0.5f, "%.4f");
+	ImGui::DragFloat("AberrationLevelY", &data.data_mut()->aberrationLevel.y, 0.1f / ProjectSettings::ClientHeight(), -0.5f, 0.5f, "%.4f");
 }
 #endif // _DEBUG

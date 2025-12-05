@@ -8,15 +8,15 @@ void GaussianBlurPipeline::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("GaussianBlurPipeline");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	blurInfo.data_mut()->dispersion = 0.4f;
-	blurInfo.data_mut()->length = 10.0f;
-	blurInfo.data_mut()->sampleCount = 4;
+	data.data_mut()->dispersion = 0.4f;
+	data.data_mut()->length = 10.0f;
+	data.data_mut()->sampleCount = 4;
 }
 
 void GaussianBlurPipeline::execute_effect_command() {
 	baseTexture->start_read();
 	auto&& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootConstantBufferView(0, blurInfo.get_resource()->GetGPUVirtualAddress());
+	command->SetGraphicsRootConstantBufferView(0, data.get_resource()->GetGPUVirtualAddress());
 	baseTexture->get_as_srv()->use(1);
 	command->DrawInstanced(3, 1, 0, 0);
 }
@@ -26,11 +26,15 @@ void GaussianBlurPipeline::set_base_texture(Reference<RenderTexture> baseTexture
 }
 
 void GaussianBlurPipeline::set_parameters(r32 dispersion, r32 length, u32 sampleCount) {
-	*blurInfo.data_mut() = {
+	*data.data_mut() = {
 		.dispersion = dispersion,
 		.length = length,
 		.sampleCount = sampleCount
 	};
+}
+
+Reference<GaussianBlurPipeline::Data> GaussianBlurPipeline::data_mut() noexcept {
+	return data.data_mut();
 }
 
 void GaussianBlurPipeline::create_pipeline_state() {
@@ -60,10 +64,10 @@ void GaussianBlurPipeline::create_pipeline_state() {
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void GaussianBlurPipeline::debug_gui() {
-	ImGui::DragFloat("Weight", &blurInfo.data_mut()->dispersion, 0.001f, 0.0f, 1.0f, "%.4f");
-	ImGui::DragFloat("Length", &blurInfo.data_mut()->length, 0.01f);
+	ImGui::DragFloat("Weight", &data.data_mut()->dispersion, 0.001f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Length", &data.data_mut()->length, 0.01f);
 	constexpr u32 min = 1;
 	constexpr u32 max = 16;
-	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, reinterpret_cast<int*>(&blurInfo.data_mut()->sampleCount), 0.02f, &min, &max);
+	ImGui::DragScalar("SampleCount", ImGuiDataType_U32, reinterpret_cast<int*>(&data.data_mut()->sampleCount), 0.02f, &min, &max);
 }
 #endif // DEBUG_FEATURES_ENABLE

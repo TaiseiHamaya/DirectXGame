@@ -8,15 +8,17 @@
 /// <summary>
 /// 色収差
 /// </summary>
-class LuminanceExtractionPipeline : public IPostEffectPipeline {
+class LuminanceExtractionPipeline final : public IPostEffectPipeline {
+public:
+	struct Data {
+		r32 intensity;
+	};
+
 public:
 	LuminanceExtractionPipeline() = default;
-	~LuminanceExtractionPipeline() noexcept = default;
+	~LuminanceExtractionPipeline() override = default;
 
-	LuminanceExtractionPipeline(const LuminanceExtractionPipeline&) = delete;
-	LuminanceExtractionPipeline& operator=(const LuminanceExtractionPipeline&) = delete;
-	LuminanceExtractionPipeline(LuminanceExtractionPipeline&&) = default;
-	LuminanceExtractionPipeline& operator=(LuminanceExtractionPipeline&&) = default;
+	__CLASS_NON_COPYABLE(LuminanceExtractionPipeline)
 
 public:
 	/// <summary>
@@ -26,23 +28,18 @@ public:
 
 	void preprocess() override {};
 
-	void execute_effect_command() const;
+	void execute_effect_command() override;
 
+public:
 	void set_texture_resource(Reference<RenderTexture> baseTexture_);
+
+	Reference<Data> data_mut() noexcept;
 
 private:
 	void create_pipeline_state();
 
-#ifdef DEBUG_FEATURES_ENABLE
-public:
-	void debug_gui();
-#endif // DEBUG_FEATURES_ENABLE
-
 private:
 	Reference<RenderTexture> baseTexture;
 
-	struct LuminanceExtractionInfo {
-		r32 intensity;
-	};
-	ConstantBuffer<LuminanceExtractionInfo> luminanceExtractionInfo;
+	ConstantBuffer<Data> data;
 };

@@ -67,8 +67,10 @@ public: // -------------------- 型変換付きキャスト --------------------
 public: // -------------------- その他関数 --------------------
 	operator bool() const noexcept { return reference; };
 	bool operator!() const noexcept { return !static_cast<bool>(*this); };
-	T* operator->() const noexcept { return reference; };
-	T* ptr() const noexcept { return reference; };
+	T* operator->() noexcept { return reference; };
+	const T* operator->() const noexcept { return reference; };
+	T* ptr() noexcept { return reference; };
+	const T* ptr() const noexcept { return reference; };
 	const T& operator*() const { return *reference; }
 	T& operator*() { return *reference; }
 

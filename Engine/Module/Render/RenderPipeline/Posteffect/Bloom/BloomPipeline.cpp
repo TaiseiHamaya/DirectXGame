@@ -8,7 +8,7 @@ void BloomPipeline::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("BloomPipeline");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	bloomInfo.data_mut()->weight = 1.0f;
+	data.data_mut()->weight = 1.0f;
 }
 
 void BloomPipeline::execute_effect_command() {
@@ -16,7 +16,7 @@ void BloomPipeline::execute_effect_command() {
 	blurTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootConstantBufferView(0, bloomInfo.get_resource()->GetGPUVirtualAddress());
+	command->SetGraphicsRootConstantBufferView(0, data.get_resource()->GetGPUVirtualAddress());
 	baseTexture->get_as_srv()->use(1);
 	blurTexture->get_as_srv()->use(2);
 	command->DrawInstanced(3, 1, 0, 0);
@@ -28,6 +28,10 @@ void BloomPipeline::set_base_texture(Reference<RenderTexture> baseTexture_) {
 
 void BloomPipeline::set_blur_texture(Reference<RenderTexture> blurTexture_) {
 	blurTexture = blurTexture_;
+}
+
+Reference<BloomPipeline::Data> BloomPipeline::data_mut() noexcept {
+	return data.data_mut();
 }
 
 void BloomPipeline::create_pipeline_state() {
@@ -58,6 +62,6 @@ void BloomPipeline::create_pipeline_state() {
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
 void BloomPipeline::debug_gui() {
-	ImGui::DragFloat("Weight", &bloomInfo.data_mut()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
+	ImGui::DragFloat("Weight", &data.data_mut()->weight, 0.001f, 0.0f, 1.0f, "%.4f");
 }
 #endif // DEBUG_FEATURES_ENABLE

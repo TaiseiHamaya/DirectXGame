@@ -879,9 +879,6 @@
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp">
-      <Filter>Engine\Runtime\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Runtime\Scene\SceneManager2.cpp">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClCompile>
@@ -1537,9 +1534,6 @@
       <Filter>Engine\Runtime\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Runtime\Scene\Scene.h">
-      <Filter>Engine\Runtime\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Runtime\Scene\SceneManager.h">
       <Filter>Engine\Runtime\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Runtime\Scene\SceneManager2.h">

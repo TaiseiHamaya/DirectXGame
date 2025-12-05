@@ -9,6 +9,11 @@
 
 class ChromaticAberrationPipeline : public IPostEffectPipeline {
 public:
+	struct Data {
+		Vector2 aberrationLevel;
+	};
+
+public:
 	ChromaticAberrationPipeline();
 	virtual ~ChromaticAberrationPipeline() noexcept;
 
@@ -20,7 +25,7 @@ public:
 public:
 	void initialize() override;
 
-	void preprocess() override;
+	void preprocess() override {};
 
 	/// <summary>
 	/// 描画
@@ -31,6 +36,8 @@ public:
 	/// 描画時に使用するテクスチャリソースを設定
 	/// </summary>
 	void set_shader_texture(Reference<RenderTexture> baseTexture_);
+
+	Reference<Data> data_mut() noexcept;
 
 private:
 	/// <summary>
@@ -45,5 +52,5 @@ public:
 
 private:
 	Reference<RenderTexture> baseTexture;
-	ConstantBuffer<Vector2> aberrationLevel{};
+	ConstantBuffer<Data> data;
 };

@@ -16,19 +16,7 @@ GrayscalePipeline::~GrayscalePipeline() = default;
 void GrayscalePipeline::initialize() {
 	create_pipeline_state();
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	*isGray.data_mut() = false;
-}
-
-void GrayscalePipeline::preprocess() {
-	if (!groupName.has_value()) {
-		return;
-	}
-
-	Reference<const std::any> strangeValue = RuntimeStorage::GetValueImm("PostEffect", groupName.value());
-	if (strangeValue.is_null()) {
-		return;
-	}
-	*isGray.data_mut() = std::any_cast<bool>(*strangeValue);
+	pipelineState->set_name("GrayscalePipeline");
 }
 
 void GrayscalePipeline::execute_effect_command() {
@@ -42,6 +30,10 @@ void GrayscalePipeline::execute_effect_command() {
 
 void GrayscalePipeline::set_shader_texture(Reference<RenderTexture> baseTexture_) {
 	baseTexture = baseTexture_;
+}
+
+Reference<GrayscalePipeline::Data> GrayscalePipeline::data_mut() noexcept {
+	return isGray.data_mut();
 }
 
 void GrayscalePipeline::create_pipeline_state() {

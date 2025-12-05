@@ -30,7 +30,7 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<con
 	}
 
 	// get select
-	auto& item = select->get_item();
+	auto& item = select->get_item_mut();
 
 	// null check
 	if (!item.object || !item.transformData.affine || !item.transformData.transform) {

@@ -39,35 +39,29 @@ void EditorAssetSaver::collect_shaders() {
 		PostEffectType peType = postEffectNode->post_effect_type();
 		std::filesystem::path pixelShaderFile;
 		switch (peType) {
+		case PostEffectType::Bloom:
+			pixelShaderFile = L"[[szg]]/PostEffect/Bloom.PS.hlsl";
+			break;
 		case PostEffectType::ChromaticAberration:
 			pixelShaderFile = L"[[szg]]/PostEffect/ChromaticAberration.PS.hlsl";
 			break;
+		case PostEffectType::GaussianBlur:
+			pixelShaderFile = L"[[szg]]/PostEffect/GaussianBlur.PS.hlsl";
+			break;
 		case PostEffectType::Grayscale:
 			pixelShaderFile = L"[[szg]]/PostEffect/Grayscale.PS.hlsl";
+			break;
+		case PostEffectType::LuminanceExtraction:
+			pixelShaderFile = L"[[szg]]/PostEffect/LuminanceExtraction.PS.hlsl";
+			break;
+		case PostEffectType::TextureBlend4:
+			pixelShaderFile = L"[[szg]]/PostEffect/MargeTexture4.PS.hlsl";
 			break;
 		case PostEffectType::Outline:
 			pixelShaderFile = L"[[szg]]/PostEffect/Outline.PS.hlsl";
 			break;
 		case PostEffectType::RadialBlur:
 			pixelShaderFile = L"[[szg]]/PostEffect/RadialBlur.PS.hlsl";
-			break;
-		case PostEffectType::DownSampling:
-			pixelShaderFile = L"[[szg]]/PostEffect/CopyTexture.PS.hlsl";
-			break;
-		case PostEffectType::TextureBlend2:
-			// TODO: まだない
-			break;
-		case PostEffectType::TextureBlend4:
-			pixelShaderFile = L"[[szg]]/PostEffect/MargeTexture4.PS.hlsl";
-			break;
-		case PostEffectType::LuminanceExtraction:
-			pixelShaderFile = L"[[szg]]/PostEffect/LuminanceExtraction/LuminanceExtraction.PS.hlsl";
-			break;
-		case PostEffectType::GaussianBlur:
-			pixelShaderFile = L"[[szg]]/PostEffect/GaussianBlur/GaussianBlur.PS.hlsl";
-			break;
-		case PostEffectType::Bloom:
-			pixelShaderFile = L"[[szg]]/PostEffect/Bloom/Bloom.PS.hlsl";
 			break;
 		default:
 			continue;

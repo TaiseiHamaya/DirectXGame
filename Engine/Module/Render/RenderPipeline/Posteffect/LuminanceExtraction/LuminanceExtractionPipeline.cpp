@@ -8,21 +8,24 @@ void LuminanceExtractionPipeline::initialize() {
 	create_pipeline_state();
 	pipelineState->set_name("LuminanceExtractionPipeline");
 	primitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	luminanceExtractionInfo.data_mut()->intensity = 0.55f;
+	data.data_mut()->intensity = 0.55f;
 }
 
-void LuminanceExtractionPipeline::execute_effect_command() const {
+void LuminanceExtractionPipeline::execute_effect_command() {
 	baseTexture->start_read();
 
 	auto&& command = DxCommand::GetCommandList();
-	command->SetGraphicsRootConstantBufferView(0, luminanceExtractionInfo.get_resource()->GetGPUVirtualAddress());
+	command->SetGraphicsRootConstantBufferView(0, data.get_resource()->GetGPUVirtualAddress());
 	baseTexture->get_as_srv()->use(1);
 	command->DrawInstanced(3, 1, 0, 0);
-
 }
 
 void LuminanceExtractionPipeline::set_texture_resource(Reference<RenderTexture> baseTexture_) {
 	baseTexture = baseTexture_;
+}
+
+Reference<LuminanceExtractionPipeline::Data> LuminanceExtractionPipeline::data_mut() noexcept {
+	return data.data_mut();
 }
 
 void LuminanceExtractionPipeline::create_pipeline_state() {
@@ -42,10 +45,3 @@ void LuminanceExtractionPipeline::create_pipeline_state() {
 	pipelineState = std::make_unique<DxPipelineState>();
 	pipelineState->initialize(psoBuilder->get_rootsignature(), psoBuilder->build());
 }
-
-#ifdef DEBUG_FEATURES_ENABLE
-#include <imgui.h>
-void LuminanceExtractionPipeline::debug_gui() {
-	ImGui::DragFloat("Intensity", &luminanceExtractionInfo.data_mut()->intensity, 0.001f, 0.0f, 1.0f, "%.4f");
-}
-#endif // DEBUG_FEATURES_ENABLE

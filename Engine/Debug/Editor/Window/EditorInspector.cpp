@@ -23,7 +23,7 @@ void EditorInspector::draw() {
 	int flags = 0;
 	ImGui::Begin("Inspector", &isActive, flags);
 
-	Reference<IRemoteObject> select = selectObject->get_item().object;
+	Reference<IRemoteObject> select = selectObject->get_item_mut().object;
 
 	if (select) {
 		select->draw_inspector();
