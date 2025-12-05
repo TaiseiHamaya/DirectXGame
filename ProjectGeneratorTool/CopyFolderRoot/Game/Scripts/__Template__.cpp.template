@@ -1,9 +1,9 @@
 #include "__Template__.h"
 
-#include <Engine/Runtime/Scene/SceneManager.h>
+#include <Engine/Runtime/Scene/SceneManager2.h>
 
 #include "./Scene/Factory__Template__.h"
 
 void __Template__::initialize() {
-	SceneManager::Setup(std::make_unique<Factory__Template__>());
+	SceneManager2::Setup(std::make_unique<Factory__Template__>());
 }
