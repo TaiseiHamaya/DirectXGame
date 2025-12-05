@@ -366,7 +366,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Runtime\Input\Input.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\Scene.cpp" />
-    <ClCompile Include="Engine\Runtime\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneManager2.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.cpp" />
     <ClCompile Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.cpp" />
@@ -766,7 +765,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Runtime\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Runtime\Scene\BaseSceneFactory.h" />
     <ClInclude Include="Engine\Runtime\Scene\Scene.h" />
-    <ClInclude Include="Engine\Runtime\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Runtime\Scene\SceneManager2.h" />
     <ClInclude Include="Engine\Debug\Editor\Window\RenderDagImNode\IRenderDagImNode.h" />
     <ClInclude Include="Engine\Assets\FontAtlasMSDF\FontAtlasMSDFAsset.h" />
