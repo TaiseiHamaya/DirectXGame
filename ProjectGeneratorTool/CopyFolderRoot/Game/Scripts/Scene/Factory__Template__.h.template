@@ -7,6 +7,10 @@ enum SceneList__Template__ {
 
 class Factory__Template__ final : public BaseSceneFactory {
 public:
-	std::unique_ptr<BaseScene> initialize_scene();
-	std::unique_ptr<BaseScene> create_scene(i32 next);
+	[[deprecated]] std::unique_ptr<BaseScene> initialize_scene();
+	[[deprecated]] std::unique_ptr<BaseScene> create_scene(i32 next);
+
+public:
+	std::unique_ptr<Scene> initialize_scene2() override;
+	std::unique_ptr<Scene> create_scene2(int32_t next) override;
 };

@@ -16,7 +16,7 @@ class TimestampProfiler;
 /// <summary>
 /// シーン管理用クラス
 /// </summary>
-class SceneManager final {
+class [[deprecated]] SceneManager final {
 private:
 	SceneManager() = default;
 	~SceneManager() = default;
