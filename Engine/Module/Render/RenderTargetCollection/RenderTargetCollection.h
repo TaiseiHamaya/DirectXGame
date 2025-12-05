@@ -9,7 +9,7 @@
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
 class RenderTargetCollection {

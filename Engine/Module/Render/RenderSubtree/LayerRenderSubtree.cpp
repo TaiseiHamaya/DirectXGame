@@ -1,42 +1,42 @@
 #include "LayerRenderSubtree.h"
 
-#include "Engine/Module/Render/RenderPSO/Deferred/Lighting/DirectionalLighingNode.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/Lighting/NonLightingPixelNode.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/Lighting/PointLightingNode.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/Mesh/SkinningMeshNodeDeferred.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/Mesh/StaticMeshNodeDeferred.h"
-#include "Engine/Module/Render/RenderPSO/Forward/Primitive/Rect3dNode.h"
-#include "Engine/Module/Render/RenderPSO/Forward/FontRenderingNode/FontRenderingNode.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/Lighting/DirectionalLightingPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/Lighting/NonLightingPixelPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/Lighting/PointLightingPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/Mesh/SkinningMeshDeferredPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/Mesh/StaticMeshDeferredPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Forward/FontRenderingNode/FontRenderingPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Forward/Primitive/Rect3dPipeline.h"
 
 void LayerRenderSubtree::setup(std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gBuffer) {
-	std::vector<std::shared_ptr<BaseRenderNode>> nodes;
+	std::vector<std::shared_ptr<BaseRenderPipeline>> nodes;
 	//// WriteGBuffer
 	{
-		auto node = std::make_shared<StaticMeshNodeDeferred>();
+		auto node = std::make_shared<StaticMeshDeferredPipeline>();
 		node->initialize();
 		nodes.emplace_back(node);
 	}
 	{
-		auto node = std::make_shared<SkinningMeshNodeDeferred>();
+		auto node = std::make_shared<SkinningMeshDeferredPipeline>();
 		node->initialize();
 		nodes.emplace_back(node);
 	}
 	// ライティングパス
 	{
 		{
-			nonLightingPixelNode = std::make_shared<NonLightingPixelNode>();
+			nonLightingPixelNode = std::make_shared<NonLightingPixelPipeline>();
 			nonLightingPixelNode->initialize();
 			nonLightingPixelNode->set_gbuffers(gBuffer[0]);
 			nodes.emplace_back(nonLightingPixelNode);
 		}
 		{
-			directionalLightingNode = std::make_shared<DirectionalLightingNode>();
+			directionalLightingNode = std::make_shared<DirectionalLightingPipeline>();
 			directionalLightingNode->initialize();
 			directionalLightingNode->set_gbuffers(gBuffer);
 			nodes.emplace_back(directionalLightingNode);
 		}
 		{
-			pointLightingNode = std::make_shared<PointLightingNode>();
+			pointLightingNode = std::make_shared<PointLightingPipeline>();
 			pointLightingNode->initialize();
 			pointLightingNode->set_gbuffers(gBuffer);
 			nodes.emplace_back(pointLightingNode);
@@ -44,12 +44,12 @@ void LayerRenderSubtree::setup(std::array<Reference<RenderTexture>, DeferredAdap
 	}
 	// Primitiveパス
 	{
-		auto node = std::make_shared<Rect3dNode>();
+		auto node = std::make_shared<Rect3dPipeline>();
 		node->initialize();
 		nodes.emplace_back(node);
 	}
 	{
-		auto node = std::make_shared<FontRenderingNode>();
+		auto node = std::make_shared<FontRenderingPipeline>();
 		node->initialize();
 		nodes.emplace_back(node);
 	}

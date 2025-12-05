@@ -4,10 +4,10 @@
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Loader/RenderPath/RenderNodeType.h"
 #include "Engine/Module/Manager/RuntimeStorage/RuntimeStorage.h"
-#include "Engine/Module/Render/RenderPSO/Posteffect/ChromaticAberration/ChromaticAberrationNode.h"
-#include "Engine/Module/Render/RenderPSO/Posteffect/Grayscale/GrayscaleNode.h"
-#include "Engine/Module/Render/RenderPSO/Posteffect/Outline/OutlineNode.h"
-#include "Engine/Module/Render/RenderPSO/Posteffect/RadialBlur/RadialBlurNode.h"
+#include "Engine/Module/Render/RenderPipeline/Posteffect/ChromaticAberration/ChromaticAberrationPipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Posteffect/Grayscale/GrayscalePipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Posteffect/Outline/OutlinePipeline.h"
+#include "Engine/Module/Render/RenderPipeline/Posteffect/RadialBlur/RadialBlurPipeline.h"
 
 #define VECTOR2_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
@@ -16,10 +16,10 @@ void PostEffectPSOLoader::setup(Reference<std::vector<RenderNodeLoader::Immidiat
 	immediateData = immediateData_;
 }
 
-std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::json& json) {
+std::unique_ptr<IPostEffectPipeline> PostEffectPSOLoader::entry_point(const nlohmann::json& json) {
 	RuntimeStorage::ValueGroup& postEffectValueGroup = RuntimeStorage::GetValueList("PostEffect");
 	std::any value;
-	std::unique_ptr<PostEffectPSO> node = nullptr;
+	std::unique_ptr<IPostEffectPipeline> node = nullptr;
 
 	const nlohmann::json& dataJson = json["Data"];
 	const nlohmann::json& linkJson = json["Links"];
@@ -27,7 +27,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 	switch (type) {
 	case PostEffectType::ChromaticAberration:
 	{
-		auto temp = std::make_unique<ChromaticAberrationNode>();
+		auto temp = std::make_unique<ChromaticAberrationPipeline>();
 		temp->initialize();
 		temp->set_shader_texture(immediateData->at(linkJson["Base"]).renderTexture);
 		if (!dataJson["EffectTag"].is_null()) {
@@ -41,7 +41,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 	break;
 	case PostEffectType::Grayscale:
 	{
-		auto temp = std::make_unique<GrayscaleNode>();
+		auto temp = std::make_unique<GrayscalePipeline>();
 		temp->initialize();
 		temp->set_shader_texture(immediateData->at(linkJson["Base"]).renderTexture);
 		node = std::move(temp);
@@ -52,7 +52,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 	break;
 	case PostEffectType::Outline:
 	{
-		auto temp = std::make_unique<OutlineNode>();
+		auto temp = std::make_unique<OutlinePipeline>();
 		temp->initialize();
 		temp->set_shader_texture(
 			immediateData->at(linkJson["Base"]).renderTexture,
@@ -66,7 +66,7 @@ std::unique_ptr<PostEffectPSO> PostEffectPSOLoader::entry_point(const nlohmann::
 	break;
 	case PostEffectType::RadialBlur:
 	{
-		auto temp = std::make_unique<RadialBlurNode>();
+		auto temp = std::make_unique<RadialBlurPipeline>();
 		temp->initialize();
 		temp->set_shader_texture(immediateData->at(linkJson["Base"]).renderTexture);
 		if (dataJson.value("UseRuntime", false)) {

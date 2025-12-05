@@ -1,6 +1,6 @@
 #include "RenderTargetCollection.h"
 
-#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 #include <Engine/Application/Logger.h>
 

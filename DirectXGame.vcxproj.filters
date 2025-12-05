@@ -780,66 +780,6 @@
     <ClCompile Include="Engine\Module\Render\RenderPath\RenderPath.cpp">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\2D\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\BaseRenderNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Debug\Line\LineNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Debug\Line</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine\PrimitiveLineNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Debug\PrimitiveLine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\DirectionalLighingNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\NonLightingPixelNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\Primitive\Rect3dNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Primitive</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\PostEffectPSO.cpp">
-      <Filter>Engine\Module\Render\RenderPSO</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Grayscale</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Outline</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.cpp">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\RadialBlur</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Render\RenderSubtree\LayerRenderSubtree.cpp">
       <Filter>Engine\Module\Render\RenderSubtree</Filter>
     </ClCompile>
@@ -1473,69 +1413,6 @@
     <ClInclude Include="Engine\Module\Render\RenderPath\RenderPath.h">
       <Filter>Engine\Module\Render\RenderPath</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\2D\Sprite\SpriteNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\2D\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\BaseRenderNode.h">
-      <Filter>Engine\Module\Render\RenderPSO</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Debug\Line\LineNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Debug\Line</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Debug\PrimitiveLine\PrimitiveLineNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Debug\PrimitiveLine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\DeferredAdaptor.h">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\DirectionalLighingNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\NonLightingPixelNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Lighting\PointLightingNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\SkinningMeshNodeDeferred.h">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Deferred\Mesh\StaticMeshNodeDeferred.h">
-      <Filter>Engine\Module\Render\RenderPSO\Deferred\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\SkinningMeshNodeForward.h">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Mesh\StaticMeshNodeForward.h">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode\ParticleBillboardNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleBillboardNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode\ParticleMeshNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleMeshNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Particle\ParticleSpriteNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\Primitive\Rect3dNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Forward\Primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\PostEffectPSO.h">
-      <Filter>Engine\Module\Render\RenderPSO</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration\ChromaticAberrationNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\ChromaticAberration</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Grayscale\GrayscaleNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Grayscale</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\Outline\OutlineNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\Outline</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Posteffect\RadialBlur\RadialBlurNode.h">
-      <Filter>Engine\Module\Render\RenderPSO\Posteffect\RadialBlur</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Render\RenderSubtree\LayerRenderSubtree.h">
       <Filter>Engine\Module\Render\RenderSubtree</Filter>
     </ClInclude>
@@ -1873,7 +1750,6 @@
     <ClCompile Include="Engine\Debug\Editor\Adapter\RenderDAGImNodeLoader.cpp" />
     <ClCompile Include="Engine\Loader\WorldInstanceLoader.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Window\EditorScreenResult.cpp" />
-    <ClCompile Include="Engine\Module\Render\RenderPSO\Forward\FontRenderingNode\FontRenderingNode.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemoteDirectionalLightInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Light\RemotePointLightInstance.cpp" />
     <ClCompile Include="Engine\Debug\Editor\RemoteObject\WorldInstance\Primitive\RemoteRect3dInstance.cpp" />
@@ -1881,6 +1757,30 @@
     <ClCompile Include="Engine\Loader\SceneAssetListLoader.cpp" />
     <ClCompile Include="Engine\Runtime\Scene\SceneAssetCollection.cpp" />
     <ClCompile Include="Engine\Debug\Editor\Adapter\EditorAssetSaver.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Debug\Line\LinePipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Debug\PrimitiveLine\PrimitiveLinePipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Deferred\Lighting\DirectionalLightingPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Deferred\Lighting\NonLightingPixelPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Deferred\Lighting\PointLightingPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Deferred\Mesh\SkinningMeshDeferredPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Deferred\Mesh\StaticMeshDeferredPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\FontRenderingNode\FontRenderingPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\Mesh\SkinningMeshForwardPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\Mesh\StaticMeshForwardPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\Particle\ParticleBillboardNode\ParticleBillboardPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\Particle\ParticleMeshNode\ParticleMeshPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Forward\Primitive\Rect3dPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\Bloom\BloomPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\ChromaticAberration\ChromaticAberrationPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\GaussianBlur\GaussianBlurPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\Grayscale\GrayscalePipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\LuminanceExtraction\LuminanceExtractionPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\MargeTexture4\MargeTexture4Pipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\Outline\OutlinePipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\Posteffect\RadialBlur\RadialBlurPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\BaseRenderPipeline.cpp" />
+    <ClCompile Include="Engine\Module\Render\RenderPipeline\IPostEffectPipeline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="EngineResources\HLSL\Document.txt" />
@@ -1905,6 +1805,31 @@
     <ClInclude Include="Engine\Runtime\Scene\SceneAssetCollection.h" />
     <ClInclude Include="Engine\Debug\Editor\Adapter\EditorAssetSaver.h" />
     <ClInclude Include="Engine\Loader\RenderPath\RenderNodeType.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Debug\Line\LinePipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Debug\PrimitiveLine\PrimitiveLinePipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Deferred\Lighting\DirectionalLightingPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Deferred\Lighting\NonLightingPixelPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Deferred\Lighting\PointLightingPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Deferred\Mesh\SkinningMeshDeferredPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Deferred\Mesh\StaticMeshDeferredPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Deferred\DeferredAdaptor.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\FontRenderingNode\FontRenderingPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\Mesh\SkinningMeshForwardPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\Mesh\StaticMeshForwardPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\Particle\ParticleBillboardNode\ParticleBillboardPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\Particle\ParticleMeshNode\ParticleMeshPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\Particle\ParticleSpriteNode\ParticleSpriteNode.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Forward\Primitive\Rect3dPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\Bloom\BloomPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\ChromaticAberration\ChromaticAberrationPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\GaussianBlur\GaussianBlurPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\Grayscale\GrayscalePipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\LuminanceExtraction\LuminanceExtractionPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\MargeTexture4\MargeTexture4Pipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\Outline\OutlinePipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\Posteffect\RadialBlur\RadialBlurPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\BaseRenderPipeline.h" />
+    <ClInclude Include="Engine\Module\Render\RenderPipeline\IPostEffectPipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library\Externals\msdf-atlas-gen\msdf-atlas-gen\artery-font-export.cpp" />
@@ -2165,7 +2090,6 @@
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawExecutor.h" />
     <ClInclude Include="Engine\Module\DrawExecutor\Mesh\Primitive\StringRectDrawManager.h" />
     <ClInclude Include="Engine\Module\World\Mesh\Primitive\CharRectStruct.h" />
-    <ClInclude Include="Engine\Module\Render\RenderPSO\Forward\FontRenderingNode\FontRenderingNode.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\PostEffect\MargeTexture4.PS.hlsl" />

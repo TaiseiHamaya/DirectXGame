@@ -7,7 +7,7 @@
 #include <Library/Utility/Template/Reference.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
-#include "Engine/Module/Render/RenderPSO/Deferred/DeferredAdaptor.h"
+#include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderSubtree/LayerRenderSubtree.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
