@@ -1,5 +1,7 @@
 #include "TextureAsset.h"
 
+using namespace szg;
+
 #include <Library/Utility/Tools/ConvertString.h>
 
 TextureAsset::TextureAsset(Microsoft::WRL::ComPtr<ID3D12Resource> resource, bool isCubemap) {

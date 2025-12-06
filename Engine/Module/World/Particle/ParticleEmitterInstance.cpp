@@ -1,5 +1,7 @@
 #include "ParticleEmitterInstance.h"
 
+using namespace szg;
+
 #include <Library/Math/Definition.h>
 #include <Library/Utility/Tools/RandomEngine.h>
 
@@ -41,12 +43,12 @@ ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile,
 	default:
 		break;
 	}
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(isLoop));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(isParentEmitter));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(duration));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(emission));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(particleInit));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(particleFinal));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(isLoop));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(isParentEmitter));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(duration));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(emission));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(particleInit));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(particleFinal));
 	create_draw_system();
 }
 

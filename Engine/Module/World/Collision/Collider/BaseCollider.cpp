@@ -1,5 +1,7 @@
 #include "BaseCollider.h"
 
+using namespace szg;
+
 BaseCollider::BaseCollider() : 
 	WorldInstance() {
 	groupName = nullptr;

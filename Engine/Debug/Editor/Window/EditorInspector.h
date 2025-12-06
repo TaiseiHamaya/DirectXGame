@@ -6,6 +6,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class EditorSelectObject;
 
 class EditorInspector : public IEditorWindow {
@@ -18,5 +20,7 @@ public:
 private:
 	Reference<EditorSelectObject> selectObject;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

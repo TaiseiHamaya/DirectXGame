@@ -2,6 +2,8 @@
 
 #include "RemoteAABBColliderInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 
 void RemoteAABBColliderInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {

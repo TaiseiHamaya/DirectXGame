@@ -1,5 +1,7 @@
 #include "SceneAssetListLoader.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Json/JsonAsset.h"
 
 SceneAssetCollection SceneAssetListLoader::load(const std::string& sceneName) {

@@ -8,6 +8,8 @@
 /// <summary>
 /// 色収差
 /// </summary>
+namespace szg {
+
 class LuminanceExtractionPipeline final : public IPostEffectPipeline {
 public:
 	struct Data {
@@ -18,7 +20,7 @@ public:
 	LuminanceExtractionPipeline() = default;
 	~LuminanceExtractionPipeline() override = default;
 
-	__CLASS_NON_COPYABLE(LuminanceExtractionPipeline)
+	SZG_CLASS_MOVE_ONLY(LuminanceExtractionPipeline)
 
 public:
 	/// <summary>
@@ -43,3 +45,5 @@ private:
 
 	ConstantBuffer<Data> data;
 };
+
+}; // szg

@@ -18,7 +18,7 @@ public:
 };
 
 /// SingletonInterfaceを使用するクラスでのコンストラクタマクロ
-#define __CLASS_SINGLETON_INTERFACE(CLASS_NAME)\
+#define SZG_CLASS_SINGLETON(CLASS_NAME)\
 	friend class SingletonInterface<CLASS_NAME>;\
 private:\
 	CLASS_NAME() = default;\

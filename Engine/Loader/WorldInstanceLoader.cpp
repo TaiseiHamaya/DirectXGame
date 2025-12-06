@@ -1,5 +1,7 @@
 #include "WorldInstanceLoader.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Module/Manager/World/WorldRoot.h"
 #include "Engine/Module/World/Camera/Camera3D.h"

@@ -10,6 +10,8 @@
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
+namespace szg {
+
 struct PrimitiveMaterial {
 	std::shared_ptr<const TextureAsset> texture;
 	Color4 color;
@@ -24,7 +26,7 @@ public:
 	IPrimitiveInstance() noexcept;
 	virtual ~IPrimitiveInstance() noexcept = default;
 
-	__CLASS_NON_COPYABLE(IPrimitiveInstance)
+	SZG_CLASS_MOVE_ONLY(IPrimitiveInstance)
 
 public:
 	PrimitiveMaterial& get_material() { return material; }
@@ -68,3 +70,5 @@ inline IPrimitiveInstance<PrimitiveData>::IPrimitiveInstance() noexcept :
 //	ImGui::DragFloat("Shininess", &material.shininess, 0.1f, 0.0f, std::numeric_limits<r32>::max());
 //}
 //#endif // DEBUG_FEATURES_ENABLE
+
+}; // szg

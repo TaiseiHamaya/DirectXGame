@@ -4,6 +4,8 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
+namespace szg {
+
 class BaseCollider : public WorldInstance {
 public:
 	BaseCollider();
@@ -38,3 +40,5 @@ Enter, Exitが設定されていなく衝突した場合、OnCollisionが呼び�
 この判定はColliderインスタンスごとに判定が行われる
 
 */
+
+}; // szg

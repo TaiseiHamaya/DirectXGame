@@ -1,5 +1,7 @@
 #include "PSOBuilder.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/Shader/ShaderAsset.h"
 #include "Engine/Assets/Shader/ShaderLibrary.h"

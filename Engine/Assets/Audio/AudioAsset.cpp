@@ -1,5 +1,7 @@
 #include "AudioAsset.h"
 
+using namespace szg;
+
 AudioAsset::AudioAsset(WAVEFORMATEXTENSIBLE format_, std::vector<u8> buffer_, u32 bufferSize_) :
 	waveFormat(format_),
 	buffer(buffer_),

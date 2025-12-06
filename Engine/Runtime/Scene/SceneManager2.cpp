@@ -1,5 +1,7 @@
 #include "SceneManager2.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"

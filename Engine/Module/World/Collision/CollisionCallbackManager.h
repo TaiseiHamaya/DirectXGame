@@ -11,6 +11,8 @@
 
 #include "Collider/BaseCollider.h"
 
+namespace szg {
+
 class CollisionCallbackManager {
 protected:
 	using CallbackTarget = Reference<BaseCollider>; // 対象
@@ -27,7 +29,7 @@ public:
 	CollisionCallbackManager() = default;
 	virtual ~CollisionCallbackManager() = default;
 
-	__CLASS_NON_COPYABLE(CollisionCallbackManager)
+	SZG_CLASS_MOVE_ONLY(CollisionCallbackManager)
 
 public:
 	void begin_callback();
@@ -41,8 +43,8 @@ private:
 	std::unordered_map<CollisionRecentKeyType, std::bitset<2>> collisionRecent;
 };
 
-#define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
-#define __CALLBACK_ARGUMENT_DEFAULT(first, second) CallbackTarget first, CallbackTarget second
+#define SZG_CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
+#define SZG_CALLBACK_ARGUMENT_DEFAULT(first, second) CallbackTarget first, CallbackTarget second
 
 /*
 Callbackメモ
@@ -51,3 +53,5 @@ callback用関数で呼び出される引数の順序は、
 CollisionManager::collisionの引数順序と同じ
 
 */
+
+}; // szg

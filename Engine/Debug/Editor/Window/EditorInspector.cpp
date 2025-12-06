@@ -2,6 +2,8 @@
 
 #include "EditorInspector.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
 #include "../Core/EditorSelectObject.h"

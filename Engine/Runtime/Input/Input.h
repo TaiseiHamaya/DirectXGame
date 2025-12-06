@@ -13,6 +13,8 @@
 
 #include "./InputEnum.h"
 
+namespace szg {
+
 class Input {
 private:
 	Input() = default;
@@ -177,3 +179,5 @@ public:
 private:
 	static void NormalizeOneOrOver(Vector2& vector);
 };
+
+}; // szg

@@ -2,6 +2,8 @@
 
 #include "IRenderDagImNode.h"
 
+using namespace szg;
+
 void IRenderDagImNode::set_node_id(u64 nodeId_) {
 	nodeId = nodeId_;
 }

@@ -15,6 +15,8 @@
 #define COLOR3_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+namespace szg {
+
 class StaticMeshInstance;
 
 class RemoteStaticMeshInstance final : public IRemoteInstance<StaticMeshInstance, StaticMeshInstance> {
@@ -59,5 +61,7 @@ private:
 	std::string meshName;
 	std::vector<Material> materials;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

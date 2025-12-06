@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace szg {
+
 class DxPipelineState final {
 public:
 	DxPipelineState() noexcept = default;
@@ -29,3 +31,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> graphicsPipelineState;
 };
+
+}; // szg

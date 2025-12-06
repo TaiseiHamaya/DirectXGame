@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class NodeAnimationAsset;
 
 class NodeAnimationAssetBuilder final : public IAssetBuilder {
@@ -28,3 +30,5 @@ private:
 	std::vector<BuildData> nodeAnimationData;
 };
 
+
+}; // szg

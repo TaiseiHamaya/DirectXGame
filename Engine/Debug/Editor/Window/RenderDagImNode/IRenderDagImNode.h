@@ -4,6 +4,8 @@
 
 #include <ImNodeFlow/include/ImNodeFlow.h>
 
+namespace szg {
+
 class IRenderDagImNode : public ImFlow::BaseNode {
 public:
 	virtual ~IRenderDagImNode() override = default;
@@ -15,5 +17,7 @@ public:
 protected:
 	u64 nodeId;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

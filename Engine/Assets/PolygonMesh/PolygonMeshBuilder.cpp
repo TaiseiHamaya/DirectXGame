@@ -1,5 +1,7 @@
 #include "PolygonMeshBuilder.h"
 
+using namespace szg;
+
 #include <algorithm>
 #include <fstream>
 #include <sstream>

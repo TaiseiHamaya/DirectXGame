@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_set>
 
+namespace szg {
+
 class EditorSceneList {
 public:
 	void initialize();
@@ -21,5 +23,7 @@ private:
 private:
 	std::unordered_set<std::string> sceneList;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

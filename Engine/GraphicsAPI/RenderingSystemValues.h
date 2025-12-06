@@ -6,6 +6,8 @@
 
 #include "./DirectX/DxResource/TextureResource/DepthStencilTexture.h"
 
+namespace szg {
+
 class RenderingSystemValues {
 private:
 	inline static u32 nowBackbufferIndex{ 0 };
@@ -21,3 +23,5 @@ public:
 	static void Initialize();
 	static void Finalize();
 };
+
+}; // szg

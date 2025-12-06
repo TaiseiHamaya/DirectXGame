@@ -7,6 +7,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
 
+namespace szg {
+
 class RadialBlurPipeline : public IPostEffectPipeline {
 public:
 	struct Data {
@@ -61,3 +63,5 @@ private:
 
 	ConstantBuffer<Data> data;
 };
+
+}; // szg

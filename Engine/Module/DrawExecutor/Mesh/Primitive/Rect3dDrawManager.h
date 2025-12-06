@@ -5,13 +5,17 @@
 
 #include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
+namespace szg {
+
 class Rect3dDrawManager : public BaseDrawManager<Rect3dDrawExecutor, BlendMode> {
 public:
 	Rect3dDrawManager() = default;
 	virtual ~Rect3dDrawManager() = default;
 
-	__CLASS_NON_COPYABLE(Rect3dDrawManager)
+	SZG_CLASS_MOVE_ONLY(Rect3dDrawManager)
 
 public:
 	void make_instancing(u32 layer, const BlendMode& blendMode, u32 maxInstance) override;
 };
+
+}; // szg

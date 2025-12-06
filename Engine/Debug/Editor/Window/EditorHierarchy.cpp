@@ -2,6 +2,8 @@
 
 #include "EditorHierarchy.h"
 
+using namespace szg;
+
 #include <imgui.h>
 #include <imgui_stdlib.h>
 

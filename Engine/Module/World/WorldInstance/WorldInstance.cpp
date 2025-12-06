@@ -1,5 +1,7 @@
 #include "WorldInstance.h"
 
+using namespace szg;
+
 #include "../WorldManager.h"
 
 void WorldInstance::update_affine() {

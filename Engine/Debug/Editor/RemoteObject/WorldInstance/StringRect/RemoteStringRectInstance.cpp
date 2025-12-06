@@ -2,6 +2,8 @@
 
 #include "RemoteStringRectInstance.h"
 
+using namespace szg;
+
 #include "Engine/Assets/FontAtlasMSDF/FontAtlasMSDFLibrary.h"
 
 #include "../../../Window/EditorSceneView.h"

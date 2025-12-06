@@ -8,6 +8,8 @@
 
 #include <string>
 
+namespace szg {
+
 class StaticTextureImNode : public IRenderDagImNode {
 public:
 	StaticTextureImNode();
@@ -28,5 +30,7 @@ public:
 private:
 	Data data;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

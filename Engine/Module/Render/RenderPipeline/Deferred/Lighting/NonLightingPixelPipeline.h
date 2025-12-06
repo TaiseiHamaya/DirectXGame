@@ -4,6 +4,8 @@
 
 #include "../DeferredAdaptor.h"
 
+namespace szg {
+
 class NonLightingPixelPipeline final : public BaseRenderPipeline {
 public:
 	NonLightingPixelPipeline();
@@ -27,3 +29,5 @@ private:
 private:
 	Reference<RenderTexture> gBufferColorTexture;
 };
+
+}; // szg

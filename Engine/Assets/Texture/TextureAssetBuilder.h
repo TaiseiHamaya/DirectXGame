@@ -10,6 +10,8 @@
 #include <DirectXTex.h>
 #include <wrl/client.h>
 
+namespace szg {
+
 class TextureAsset;
 
 class TextureAssetBuilder final : public IAssetBuilder {
@@ -42,3 +44,5 @@ private:
 
 	bool isCubemap{ false };
 };
+
+}; // szg

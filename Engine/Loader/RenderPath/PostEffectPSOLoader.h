@@ -9,6 +9,8 @@
 
 #include "RenderNodeLoader.h"
 
+namespace szg {
+
 class RenderTargetCollection;
 class IPostEffectPipeline;
 
@@ -21,3 +23,5 @@ public:
 private:
 	Reference<std::vector<RenderNodeLoader::ImmidiateData>> immediateData;
 };
+
+}; // szg

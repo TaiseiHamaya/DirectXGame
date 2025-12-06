@@ -1,5 +1,7 @@
 #include "RenderDAG.h"
 
+using namespace szg;
+
 #include <format>
 
 #include "Engine/Assets/Json/JsonAsset.h"

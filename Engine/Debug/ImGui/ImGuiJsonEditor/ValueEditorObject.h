@@ -16,6 +16,8 @@ class Color4;
 #include <Library/Math/Quaternion.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 namespace ValueEditor {
 
 template<typename T>
@@ -29,7 +31,7 @@ struct show_object<bool> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<bool>)
+	SZG_CLASS_DEFAULT(show_object<bool>)
 
 public:
 	inline std::bitset<2> show_gui(bool& value) const {
@@ -63,7 +65,7 @@ struct show_object<r32> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<r32>)
+	SZG_CLASS_DEFAULT(show_object<r32>)
 
 public:
 	inline std::bitset<2> show_gui(r32& value) const {
@@ -97,7 +99,7 @@ struct show_object<i32> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<i32>)
+	SZG_CLASS_DEFAULT(show_object<i32>)
 
 public:
 	inline std::bitset<2> show_gui(i32& value) const {
@@ -133,7 +135,7 @@ struct show_object<u32> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<u32>)
+	SZG_CLASS_DEFAULT(show_object<u32>)
 
 public:
 	inline std::bitset<2> show_gui(u32& value) const {
@@ -169,7 +171,7 @@ struct show_object<Vector2> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<Vector2>)
+	SZG_CLASS_DEFAULT(show_object<Vector2>)
 
 public:
 	inline std::bitset<2> show_gui(Vector2& value) const {
@@ -203,7 +205,7 @@ struct show_object<Vector3> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<Vector3>)
+	SZG_CLASS_DEFAULT(show_object<Vector3>)
 
 public:
 	inline std::bitset<2> show_gui(Vector3& value) const {
@@ -237,7 +239,7 @@ struct show_object<Quaternion> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<Quaternion>)
+	SZG_CLASS_DEFAULT(show_object<Quaternion>)
 
 public:
 	inline std::bitset<2> show_gui(Quaternion& value) const {
@@ -292,7 +294,7 @@ struct show_object<std::string> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<std::string>)
+	SZG_CLASS_DEFAULT(show_object<std::string>)
 
 public:
 	inline std::bitset<2> show_gui(std::string& value) const {
@@ -325,7 +327,7 @@ struct show_object<Color3> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<Color3>)
+	SZG_CLASS_DEFAULT(show_object<Color3>)
 
 public:
 	inline std::bitset<2> show_gui(Color3& value) const {
@@ -358,7 +360,7 @@ struct show_object<Color4> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<Color4>)
+	SZG_CLASS_DEFAULT(show_object<Color4>)
 
 public:
 	inline std::bitset<2> show_gui(Color4& value) const {
@@ -398,7 +400,7 @@ struct show_object<T> {
 	};
 	~show_object() = default;
 
-	__CLASS_DEFAULT_ALL(show_object<T>)
+	SZG_CLASS_DEFAULT(show_object<T>)
 
 public:
 	inline std::bitset<2> show_gui(T& value) const {
@@ -414,5 +416,7 @@ private:
 };
 
 }
+
+}; // szg
 
 #endif // _DEBUG

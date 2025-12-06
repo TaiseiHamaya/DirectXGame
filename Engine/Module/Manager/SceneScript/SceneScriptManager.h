@@ -5,6 +5,8 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class ISceneScript;
 
 class SceneScriptManager final {
@@ -12,7 +14,7 @@ public:
 	SceneScriptManager();
 	~SceneScriptManager();
 
-	__CLASS_NON_COPYABLE(SceneScriptManager)
+	SZG_CLASS_MOVE_ONLY(SceneScriptManager)
 
 public:
 	void register_script(std::unique_ptr<ISceneScript> script);
@@ -25,3 +27,5 @@ public:
 private:
 	std::vector<std::unique_ptr<ISceneScript>> scripts;
 };
+
+}; // szg

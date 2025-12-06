@@ -1,5 +1,7 @@
 #include "LayerRenderSubtree.h"
 
+using namespace szg;
+
 #include "Engine/Module/Render/RenderPipeline/Deferred/Lighting/DirectionalLightingPipeline.h"
 #include "Engine/Module/Render/RenderPipeline/Deferred/Lighting/NonLightingPixelPipeline.h"
 #include "Engine/Module/Render/RenderPipeline/Deferred/Lighting/PointLightingPipeline.h"

@@ -8,6 +8,8 @@
 #include <Library/Externals/DirectXTex/DirectXTex.h>
 #include <Library/Externals/msdf-atlas-gen/msdf-atlas-gen/msdf-atlas-gen.h>
 
+namespace szg {
+
 class FontAtlasBuilder final {
 public:
 	void entry_point(const std::filesystem::path& path);
@@ -38,5 +40,7 @@ private:
 
 	DirectX::ScratchImage scratchImage;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

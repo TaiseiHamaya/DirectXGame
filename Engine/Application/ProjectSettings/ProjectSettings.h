@@ -10,8 +10,10 @@
 /// <summary>
 /// プロジェクト設定
 /// </summary>
+namespace szg {
+
 class ProjectSettings final : public SingletonInterface<ProjectSettings> {
-	__CLASS_SINGLETON_INTERFACE(ProjectSettings)
+	SZG_CLASS_SINGLETON(ProjectSettings)
 
 public:
 	/// <summary>
@@ -116,3 +118,5 @@ private:
 	Application applicationSettings;
 	Graphics graphicsSettings;
 };
+
+}; // szg

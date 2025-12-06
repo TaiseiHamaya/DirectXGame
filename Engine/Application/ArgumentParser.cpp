@@ -1,5 +1,7 @@
 #include "ArgumentParser.h"
 
+using namespace szg;
+
 #include <sstream>
 
 #include <windows.h>

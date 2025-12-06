@@ -2,6 +2,8 @@
 
 #include "EditorScreenResult.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"

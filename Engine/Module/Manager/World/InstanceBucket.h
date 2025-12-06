@@ -5,6 +5,8 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class Camera3D;
 class StaticMeshInstance;
 class SkinningMeshInstance;
@@ -20,7 +22,7 @@ public:
 	InstanceBucket() = default;
 	~InstanceBucket() = default;
 
-	__CLASS_NON_COPYABLE(InstanceBucket)
+	SZG_CLASS_MOVE_ONLY(InstanceBucket)
 
 public:
 	void reset();
@@ -62,3 +64,5 @@ void InstanceBucket::register_instance(Reference<T> instance) {
 		stringRect.emplace_back(instance);
 	}
 }
+
+}; // szg

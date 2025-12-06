@@ -1,5 +1,7 @@
 #include "NodeAnimationAssetBuilder.h"
 
+using namespace szg;
+
 #include <Library/Utility/Tools/SmartPointer.h>
 
 #include <assimp/Importer.hpp>

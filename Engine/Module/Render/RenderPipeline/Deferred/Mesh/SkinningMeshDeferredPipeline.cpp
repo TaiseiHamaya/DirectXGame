@@ -1,5 +1,7 @@
 #include "SkinningMeshDeferredPipeline.h"
 
+using namespace szg;
+
 #include "../DeferredAdaptor.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"

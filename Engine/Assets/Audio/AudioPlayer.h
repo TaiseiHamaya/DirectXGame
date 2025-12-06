@@ -8,12 +8,14 @@
 /// <summary>
 /// オーディオ再生
 /// </summary>
+namespace szg {
+
 class AudioPlayer {
 public:
 	AudioPlayer() = default;
 	~AudioPlayer();
 
-	__CLASS_NON_COPYABLE(AudioPlayer)
+	SZG_CLASS_MOVE_ONLY(AudioPlayer)
 
 public:
 	/// <summary>
@@ -61,3 +63,5 @@ private:
 	XAUDIO2_BUFFER buffer{};
 	IXAudio2SourceVoice* sourceVoice{ nullptr };
 };
+
+}; // szg

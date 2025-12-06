@@ -1,5 +1,7 @@
 #include "RenderPath.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 

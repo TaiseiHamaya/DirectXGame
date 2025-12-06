@@ -2,6 +2,8 @@
 
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
+namespace szg {
+
 class SkinningMeshForwardPipeline final : public BaseRenderPipeline {
 public:
 	SkinningMeshForwardPipeline();
@@ -25,3 +27,5 @@ private:
 
 };
 
+
+}; // szg

@@ -1,5 +1,7 @@
 #include "TempTexture.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"

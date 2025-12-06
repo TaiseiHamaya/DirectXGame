@@ -7,6 +7,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
+namespace szg {
+
 class SwapChainRenderTargetGroup final : public BaseRenderTargetGroup {
 public:
 	SwapChainRenderTargetGroup() = default;
@@ -40,3 +42,5 @@ private:
 	Color4 clearColor{ CColor4::BLACK };
 	std::vector<Reference<ScreenTexture>> textures;
 };
+
+}; // szg

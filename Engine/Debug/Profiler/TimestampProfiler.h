@@ -6,6 +6,8 @@
 #include <string>
 #include <optional>
 
+namespace szg {
+
 class TimestampProfiler {
 private:
 	using clock = std::chrono::high_resolution_clock;
@@ -26,5 +28,7 @@ public:
 private:
 	std::vector<Timestamp> timestamps;
 };
+
+}; // szg
 
 #endif // _DEBUG

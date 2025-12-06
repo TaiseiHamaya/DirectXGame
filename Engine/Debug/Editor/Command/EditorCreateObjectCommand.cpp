@@ -2,6 +2,8 @@
 
 #include "EditorCreateObjectCommand.h"
 
+using namespace szg;
+
 #include "../RemoteObject/EditorDeletedObjectPool.h"
 #include "../Window/EditorSceneView.h"
 

@@ -1,5 +1,7 @@
 #include "ShaderAssetBuilder.h"
 
+using namespace szg;
+
 #include "./ShaderAsset.h"
 #include "./ShaderLibrary.h"
 #include "Engine/Application/Logger.h"

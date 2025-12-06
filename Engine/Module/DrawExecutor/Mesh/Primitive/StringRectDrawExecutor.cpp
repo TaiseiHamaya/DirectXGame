@@ -1,5 +1,7 @@
 #include "StringRectDrawExecutor.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"

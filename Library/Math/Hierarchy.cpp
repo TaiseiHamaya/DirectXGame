@@ -1,5 +1,7 @@
 #include "Hierarchy.h"
 
+using namespace szg;
+
 #include "Affine.h"
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"

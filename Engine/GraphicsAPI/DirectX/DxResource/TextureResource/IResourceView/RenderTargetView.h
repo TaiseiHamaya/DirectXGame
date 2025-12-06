@@ -6,12 +6,14 @@
 
 #include <Library/Math/Color4.h>
 
+namespace szg {
+
 class RenderTargetView : public IResourceView<D3D12_CPU_DESCRIPTOR_HANDLE> {
 public:
 	RenderTargetView() = default;
 	~RenderTargetView() = default;
 
-	__CLASS_NON_COPYABLE(RenderTargetView)
+	SZG_CLASS_MOVE_ONLY(RenderTargetView)
 
 public:
 	void release() override;
@@ -23,3 +25,5 @@ public:
 private:
 
 };
+
+}; // szg

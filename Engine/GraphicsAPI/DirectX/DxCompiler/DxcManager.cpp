@@ -1,5 +1,7 @@
 #include "DxcManager.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 
 #pragma comment(lib, "dxcompiler.lib")

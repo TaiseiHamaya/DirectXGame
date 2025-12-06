@@ -2,6 +2,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DxDescriptorHeap.h"
 
+namespace szg {
+
 class RTVDescriptorHeap final : public DxDescriptorHeap {
 private:
 	RTVDescriptorHeap() noexcept = default;
@@ -28,3 +30,5 @@ private:
 
 	D3D12_GPU_DESCRIPTOR_HANDLE get_gpu_handle(u32 index) const noexcept = delete;
 };
+
+}; // szg

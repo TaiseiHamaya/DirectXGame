@@ -7,6 +7,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
 
+namespace szg {
+
 class GrayscalePipeline : public IPostEffectPipeline {
 public:
 	struct Data {
@@ -58,3 +60,5 @@ private:
 	Reference<RenderTexture> baseTexture;
 	ConstantBuffer<Data> isGray{};
 };
+
+}; // szg

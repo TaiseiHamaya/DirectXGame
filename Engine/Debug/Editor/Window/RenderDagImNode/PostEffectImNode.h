@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+namespace szg {
+
 class PostEffectImNode : public IRenderDagImNode {
 public:
 	PostEffectImNode();
@@ -55,5 +57,7 @@ private:
 		"ラジアルブラー",
 	};
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

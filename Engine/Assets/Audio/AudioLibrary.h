@@ -7,10 +7,12 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class AudioAsset;
 
 class AudioLibrary final : public SingletonInterface<AudioLibrary> {
-	__CLASS_SINGLETON_INTERFACE(AudioLibrary)
+	SZG_CLASS_SINGLETON(AudioLibrary)
 
 public:
 	/// <summary>
@@ -67,3 +69,5 @@ private:
 private:
 	std::unordered_map<std::string, std::unique_ptr<AudioAsset>> audioResources;
 };
+
+}; // szg

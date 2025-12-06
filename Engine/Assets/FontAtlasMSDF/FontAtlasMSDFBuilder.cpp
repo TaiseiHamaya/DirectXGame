@@ -1,5 +1,7 @@
 #include "FontAtlasMSDFBuilder.h"
 
+using namespace szg;
+
 #include <Library/Math/Vector2.h>
 #include <Library/Math/Transform2D.h>
 

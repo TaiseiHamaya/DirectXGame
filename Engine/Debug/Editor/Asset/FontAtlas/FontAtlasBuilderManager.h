@@ -9,8 +9,10 @@
 /// <summary>
 /// freetype/msdfgen/msdf-atlas-genのハンドラ管理クラス
 /// </summary>
+namespace szg {
+
 class FontAtlasBuilderManager final : public SingletonInterface<FontAtlasBuilderManager> {
-	__CLASS_SINGLETON_INTERFACE(FontAtlasBuilderManager)
+	SZG_CLASS_SINGLETON(FontAtlasBuilderManager)
 
 public:
 	static void Initialize();
@@ -24,5 +26,7 @@ private:
 	msdf_atlas::Charset charset;
 	msdfgen::FreetypeHandle* freetype;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

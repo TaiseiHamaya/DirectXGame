@@ -12,6 +12,8 @@
 #include <stdexcept>
 #endif // _DEBUG
 
+namespace szg {
+
 template<ConceptCPUBufferACE T>
 class MdStructuredBuffer : public  DxResource {
 public:
@@ -131,3 +133,5 @@ inline void MdStructuredBuffer<T>::unmap() {
 	}
 	data = nullptr;
 }
+
+}; // szg

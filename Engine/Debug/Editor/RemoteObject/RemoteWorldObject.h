@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace szg {
+
 class WorldManager;
 class FolderObject;
 class RemoteWorldInstance;
@@ -20,7 +22,7 @@ public:
 	RemoteWorldObject();
 	~RemoteWorldObject();
 
-	__CLASS_NON_COPYABLE(RemoteWorldObject)
+	SZG_CLASS_MOVE_ONLY(RemoteWorldObject)
 
 public:
 	void setup() override;
@@ -63,5 +65,7 @@ private:
 private:
 	inline static u32 nextUseId{ 0 };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

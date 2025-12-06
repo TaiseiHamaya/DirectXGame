@@ -7,13 +7,15 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class PolygonMesh;
 
 /// <summary>
 /// メッシュアセット保持クラス(スレッドセーフ)
 /// </summary>
 class PolygonMeshLibrary final : public SingletonInterface<PolygonMeshLibrary> {
-	__CLASS_SINGLETON_INTERFACE(PolygonMeshLibrary)
+	SZG_CLASS_SINGLETON(PolygonMeshLibrary)
 
 public:
 	/// <summary>
@@ -63,3 +65,5 @@ private:
 private:
 	std::unordered_map<std::string, std::shared_ptr<PolygonMesh>> meshInstanceList;
 };
+
+}; // szg

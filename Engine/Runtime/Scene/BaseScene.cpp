@@ -1,5 +1,7 @@
 #include "BaseScene.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 
 /////////////////////

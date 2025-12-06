@@ -1,5 +1,7 @@
 #pragma once
 
+namespace szg {
+
 class Framework {
 public:
 	Framework() = default;
@@ -10,3 +12,5 @@ public:
 
 	void run();
 };
+
+}; // szg

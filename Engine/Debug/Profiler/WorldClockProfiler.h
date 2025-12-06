@@ -5,6 +5,8 @@
 #include <list>
 #include <utility>
 
+namespace szg {
+
 class WorldClockProfiler {
 public:
 	void update();
@@ -16,5 +18,7 @@ private:
 	r32 averageFPS{ 0 };
 	std::list<std::pair<r32, u64>> frameTimeInformation;
 };
+
+}; // szg
 
 #endif // _DEBUG

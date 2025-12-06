@@ -2,6 +2,10 @@
 
 #include "EditorValueField.h"
 
+using namespace szg;
+
+namespace szg {
+
 void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform) {
 	const ValueEditor::show_object<Vector3> scaleObj{ "Scale" };
 	const ValueEditor::show_object<Quaternion> rotateObj{ "Rotate" };
@@ -191,5 +195,7 @@ void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform
 		ImGui::TreePop();
 	}
 }
+
+} // szg
 
 #endif // DEBUG_FEATURES_ENABLE

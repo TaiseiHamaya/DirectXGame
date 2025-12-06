@@ -6,6 +6,8 @@
 
 #include <filesystem>
 
+namespace szg {
+
 class TextureAssetBuilder;
 
 class FontAtlasMSDFBuilder final : public IAssetBuilder {
@@ -30,3 +32,5 @@ private:
 	std::shared_ptr<FontAtlasMSDFAsset> fontAtlas; // 実データ
 	std::unique_ptr<TextureAssetBuilder> textureBuilder; // SDFテクスチャ読み込み用
 };
+
+}; // szg

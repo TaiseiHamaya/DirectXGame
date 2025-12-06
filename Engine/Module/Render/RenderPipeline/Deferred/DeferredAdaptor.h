@@ -2,6 +2,8 @@
 
 #include "Engine/Module/Render/RenderTargetGroup/MultiRenderTarget.h"
 
+namespace szg {
+
 namespace DeferredAdaptor {
 
 /// <summary>
@@ -21,4 +23,7 @@ constexpr const std::array<DXGI_FORMAT, NUM_GBUFFER> DXGI_FORMAT_LIST = {
 	DXGI_FORMAT_R10G10B10A2_UNORM,
 	DXGI_FORMAT_R32_UINT,
 };
-};
+
+} // namespace DeferredAdaptor
+
+} // szg

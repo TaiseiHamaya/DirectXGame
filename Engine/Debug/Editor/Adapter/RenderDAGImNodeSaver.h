@@ -16,6 +16,8 @@
 /// <summary>
 /// RenderPath保存用関数オブジェクト
 /// </summary>
+namespace szg {
+
 class RenderDAGImNodeSaver {
 public:
 	void entry_point(const std::filesystem::path& filePath, const std::unordered_map<u64, EditorRenderDAG::DAGNodeType>& nodes);
@@ -28,5 +30,7 @@ public:
 
 	nlohmann::json operator()(const std::shared_ptr<ResultImNode>&);
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

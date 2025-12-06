@@ -2,6 +2,8 @@
 
 #include "./IPrimitiveInstance.h"
 
+namespace szg {
+
 struct RectData {
 	Vector2 size{ CVector2::BASIS };
 	Vector2 pivot{ CVector2::ZERO };
@@ -19,7 +21,7 @@ public:
 	Rect3d() noexcept;
 	virtual ~Rect3d() noexcept;
 
-	__CLASS_NON_COPYABLE(Rect3d)
+	SZG_CLASS_MOVE_ONLY(Rect3d)
 
 public:
 	void initialize(const Vector2& size_, const Vector2& pivot_ = CVector2::ZERO);
@@ -30,3 +32,5 @@ public:
 
 protected:
 };
+
+}; // szg

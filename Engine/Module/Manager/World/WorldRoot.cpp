@@ -1,5 +1,7 @@
 #include "WorldRoot.h"
 
+using namespace szg;
+
 WorldRoot::WorldRoot() = default;
 WorldRoot::~WorldRoot() = default;
 

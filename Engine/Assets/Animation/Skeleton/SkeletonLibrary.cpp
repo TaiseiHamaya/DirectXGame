@@ -1,5 +1,7 @@
 #include "SkeletonLibrary.h"
 
+using namespace szg;
+
 #include <mutex>
 
 #include "./SkeletonAsset.h"

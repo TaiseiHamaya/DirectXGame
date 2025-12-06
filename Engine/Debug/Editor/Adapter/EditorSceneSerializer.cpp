@@ -2,6 +2,8 @@
 
 #include "EditorSceneSerializer.h"
 
+using namespace szg;
+
 #include "../RemoteObject/FolderObject.h"
 #include "../RemoteObject/RemoteErrorObject.h"
 #include "../RemoteObject/RemoteSceneObject.h"

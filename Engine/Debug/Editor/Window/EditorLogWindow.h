@@ -14,8 +14,10 @@
 
 struct ImVec4;
 
+namespace szg {
+
 class EditorLogWindow : public IEditorWindow, SingletonInterface<EditorLogWindow> {
-	__CLASS_SINGLETON_INTERFACE(EditorLogWindow)
+	SZG_CLASS_SINGLETON(EditorLogWindow)
 
 private:
 	struct LogBody {
@@ -51,5 +53,7 @@ private:
 };
 
 
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

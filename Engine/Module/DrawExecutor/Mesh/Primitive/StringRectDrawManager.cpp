@@ -1,5 +1,7 @@
 #include "StringRectDrawManager.h"
 
+using namespace szg;
+
 void StringRectDrawManager::make_instancing(u32 layer, const BlendMode& blendMode, u32 maxRenderingChar) {
 	make_instancing(layer, blendMode, maxRenderingChar, maxRenderingChar * 128);
 }

@@ -1,5 +1,7 @@
 #include "StringRectInstance.h"
 
+using namespace szg;
+
 #include "Engine/Assets/FontAtlasMSDF/FontAtlasMSDFLibrary.h"
 
 StringRectInstance::StringRectInstance() noexcept = default;

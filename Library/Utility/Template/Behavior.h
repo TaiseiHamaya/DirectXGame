@@ -30,7 +30,7 @@ public:
 public:
 	const T& now() const;
 	std::function<void(const T&)> get_request_function();
-	void request(const T& request__) noexcept { request_ = request__; };
+	void request(const T& requestOpt_) noexcept { requestOpt = requestOpt_; };
 	void add_list(
 		const T& key,
 		std::function<void(void)> initializeFunction,
@@ -44,7 +44,7 @@ public:
 
 private:
 	T behavior;
-	std::optional<T> request_;
+	std::optional<T> requestOpt;
 	std::unordered_map<T, BehaviorFunctions> behaviorList;
 };
 
@@ -55,12 +55,12 @@ inline void Behavior<T>::initialize(const T& value) noexcept {
 
 template<Object T>
 inline void Behavior<T>::update() {
-	if (request_.has_value()) {
-		if (behaviorList.contains(request_.value())) {
-			behavior = request_.value();
+	if (requestOpt.has_value()) {
+		if (behaviorList.contains(requestOpt.value())) {
+			behavior = requestOpt.value();
 			behaviorList.at(behavior).initializeFunction();
 		}
-		request_ = std::nullopt;
+		requestOpt = std::nullopt;
 	}
 
 	if (behaviorList.contains(behavior)) {

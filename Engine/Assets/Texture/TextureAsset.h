@@ -2,12 +2,14 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/StaticTexture.h"
 
+namespace szg {
+
 class TextureAsset {
 public:
 	TextureAsset(Microsoft::WRL::ComPtr<ID3D12Resource> resource, bool isCubemap);
 	~TextureAsset() = default;
 
-	__CLASS_NON_COPYABLE(TextureAsset)
+	SZG_CLASS_MOVE_ONLY(TextureAsset)
 
 public:
 	u32 index() const;
@@ -27,3 +29,5 @@ private:
 	std::string name_;
 #endif // DEBUG_FEATURES_ENABLE
 };
+
+}; // szg

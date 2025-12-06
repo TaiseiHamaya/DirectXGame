@@ -2,6 +2,8 @@
 
 #include "FontAtlasBuilder.h"
 
+using namespace szg;
+
 #include <thread>
 
 #include <Library/Math/Vector2.h>

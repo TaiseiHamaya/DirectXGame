@@ -1,5 +1,7 @@
 #include "WinApp.h"
 
+using namespace szg;
+
 #include <dbghelp.h>
 #include <timeapi.h>
 

@@ -2,6 +2,8 @@
 
 #include "EditorGizmo.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
 #include "./EditorSelectObject.h"

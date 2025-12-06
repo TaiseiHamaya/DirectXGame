@@ -1,5 +1,7 @@
 #include "WorldClock.h"
 
+using namespace szg;
+
 #include <ratio>
 #include <thread>
 

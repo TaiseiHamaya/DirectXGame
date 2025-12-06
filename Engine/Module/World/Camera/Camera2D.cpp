@@ -1,5 +1,7 @@
 #include "Camera2D.h"
 
+using namespace szg;
+
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
 #undef near

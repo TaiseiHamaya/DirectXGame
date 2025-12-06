@@ -4,6 +4,8 @@
 
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
+namespace szg {
+
 class DebugValues {
 private:
 	DebugValues();
@@ -21,3 +23,5 @@ public:
 private:
 	std::unique_ptr<StaticMeshInstance> gridMesh = nullptr;
 };
+
+}; // szg

@@ -2,6 +2,8 @@
 
 #include "FontAtlasBuilderManager.h"
 
+using namespace szg;
+
 void FontAtlasBuilderManager::Initialize() {
 	auto& instance = GetInstance();
 	if (instance.freetype) {

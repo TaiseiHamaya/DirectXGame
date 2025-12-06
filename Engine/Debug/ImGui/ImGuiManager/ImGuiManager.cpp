@@ -2,6 +2,8 @@
 
 #include "ImGuiManager.h"
 
+using namespace szg;
+
 #include "./ImGuiIcons.h"
 #include "./ImGuiJapanese.h"
 #include "./ImGuiStyleSetter.h"

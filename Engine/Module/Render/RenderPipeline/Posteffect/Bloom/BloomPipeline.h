@@ -8,6 +8,8 @@
 /// <summary>
 /// Bloom
 /// </summary>
+namespace szg {
+
 class BloomPipeline : public IPostEffectPipeline {
 public:
 	struct Data {
@@ -52,3 +54,5 @@ private:
 
 	ConstantBuffer<Data> data;
 };
+
+}; // szg

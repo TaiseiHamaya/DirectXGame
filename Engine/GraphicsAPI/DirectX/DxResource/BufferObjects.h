@@ -26,6 +26,8 @@ enum class BlendMode : u32 {
 /// <summary>
 /// VertexBuffer
 /// </summary>
+namespace szg {
+
 struct VertexDataBuffer {
 	Vector3 position = CVector3::ZERO;
 	Vector2 texcoord = CVector2::ZERO;
@@ -71,3 +73,5 @@ struct SkeletonMatrixPaletteWellBuffer {
 	Matrix4x4 skeletonSpaceMatrix;
 	Basis skeletonSpaceIT;
 };
+
+}; // szg

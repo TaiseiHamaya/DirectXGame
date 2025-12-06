@@ -10,6 +10,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
+namespace szg {
+
 class TextureAsset;
 struct GlyphRenderingData;
 
@@ -38,7 +40,7 @@ public:
 	FontAtlasMSDFAsset(Data data, std::vector<std::pair<GlyphData, GlyphDataGpu>>&& glyphsData_, std::unordered_map<u32, u32>&& glyphMap_, std::shared_ptr<const TextureAsset> texture_);
 	~FontAtlasMSDFAsset();
 
-	__CLASS_NON_COPYABLE(FontAtlasMSDFAsset)
+	SZG_CLASS_MOVE_ONLY(FontAtlasMSDFAsset)
 
 public:
 	const std::optional<u32>& glyph_bindless_index() const;
@@ -74,3 +76,5 @@ private:
 
 	std::unordered_map<u32, u32> glyphMap;
 };
+
+}; // szg

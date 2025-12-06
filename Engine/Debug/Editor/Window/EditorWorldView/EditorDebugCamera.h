@@ -7,6 +7,8 @@
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 #include "Engine/Runtime/Input/InputHandler.h"
 
+namespace szg {
+
 class EditorSceneView;
 
 class EditorDebugCamera final : public Camera3D {
@@ -26,5 +28,7 @@ private:
 public:
 	static void Setup(Reference<EditorSceneView> sceneView_);
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

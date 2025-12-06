@@ -22,7 +22,7 @@ public:
 	string_hashed() = default;
 	~string_hashed() = default;
 
-	__CLASS_DEFAULT_ALL(string_hashed)
+	SZG_CLASS_DEFAULT(string_hashed)
 
 public:
 	string_hashed(std::string_view sv);
@@ -54,7 +54,7 @@ public:
 	constexpr string_hashed() = default;
 	constexpr ~string_hashed() = default;
 
-	__CLASS_DEFAULT_ALL(string_hashed)
+	SZG_CLASS_DEFAULT(string_hashed)
 
 public:
 	constexpr string_hashed(std::string_view sv);

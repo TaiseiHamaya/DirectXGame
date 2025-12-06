@@ -9,6 +9,8 @@
 
 #include "Engine/Runtime/Clock/WorldTimer.h"
 
+namespace szg {
+
 class Particle final : public WorldInstance {
 public:
 	enum class RotationType {
@@ -80,3 +82,5 @@ protected: // Member variable
 public:
 	inline static WorldInstance* lookAtDefault;
 };
+
+}; // szg

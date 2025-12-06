@@ -15,8 +15,10 @@
 #include "Engine/Runtime/Input/InputHandler.h"
 #include "RemoteObject/EditorDeletedObjectPool.h"
 
+namespace szg {
+
 class EditorMain final : public SingletonInterface<EditorMain> {
-	__CLASS_SINGLETON_INTERFACE(EditorMain)
+	SZG_CLASS_SINGLETON(EditorMain)
 
 public:
 	static void Initialize();
@@ -62,5 +64,7 @@ private:
 	EditorSceneList sceneList;
 	EditorRenderDAG renderDAG;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

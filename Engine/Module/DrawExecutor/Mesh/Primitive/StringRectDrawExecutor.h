@@ -9,6 +9,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
+namespace szg {
+
 class StringRectInstance;
 struct StringData;
 struct CharRectData;
@@ -35,7 +37,7 @@ public:
 	StringRectDrawExecutor() noexcept = default;
 	~StringRectDrawExecutor() noexcept = default;
 
-	__CLASS_NON_COPYABLE(StringRectDrawExecutor)
+	SZG_CLASS_MOVE_ONLY(StringRectDrawExecutor)
 
 public:
 	void reinitialize(BlendMode type_, u32 maxRenderingChar_, u32 maxInstance_);
@@ -54,3 +56,5 @@ private:
 
 	std::mutex writeBufferMutex;
 };
+
+}; // szg

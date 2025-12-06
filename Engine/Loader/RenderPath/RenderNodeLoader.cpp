@@ -1,5 +1,7 @@
 #include "RenderNodeLoader.h"
 
+using namespace szg;
+
 #include "./PostEffectPSOLoader.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"

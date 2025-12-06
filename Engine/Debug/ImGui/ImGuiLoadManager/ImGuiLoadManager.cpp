@@ -1,6 +1,8 @@
 #ifdef DEBUG_FEATURES_ENABLE
 #include "ImGuiLoadManager.h"
 
+using namespace szg;
+
 #include <format>
 #include <imgui.h>
 

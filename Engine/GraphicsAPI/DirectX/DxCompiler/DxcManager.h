@@ -8,8 +8,10 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class DxcManager final : public SingletonInterface<DxcManager> {
-	__CLASS_SINGLETON_INTERFACE(DxcManager)
+	SZG_CLASS_SINGLETON(DxcManager)
 
 public:
 	static void Initialize();
@@ -27,3 +29,5 @@ private:
 	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler;
 	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler;
 };
+
+}; // szg

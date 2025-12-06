@@ -4,12 +4,14 @@
 
 #include "./IResourceView/ShaderResourceView.h"
 
+namespace szg {
+
 class TempTexture final : public ITextureResource {
 public:
 	TempTexture() = default;
 	~TempTexture();
 
-	__CLASS_NON_COPYABLE(TempTexture)
+	SZG_CLASS_MOVE_ONLY(TempTexture)
 
 public:
 	void initialize();
@@ -25,3 +27,5 @@ private:
 private:
 	ShaderResourceView srv;
 };
+
+}; // szg

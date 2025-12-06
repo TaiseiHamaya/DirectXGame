@@ -6,6 +6,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 template<typename Container>
 	requires requires(Container c) { c.resize(size_t()); }
 class EditorCommandResizeContainer final : public IEditorCommand {
@@ -13,7 +15,7 @@ public:
 	EditorCommandResizeContainer(Reference<Container> container_, size_t next);
 	~EditorCommandResizeContainer() = default;
 
-	__CLASS_NON_COPYABLE(EditorCommandResizeContainer)
+	SZG_CLASS_MOVE_ONLY(EditorCommandResizeContainer)
 
 public:
 	void execute() override;
@@ -44,5 +46,7 @@ template<typename Container>
 inline void EditorCommandResizeContainer<Container>::undo() {
 	container->resize(prev);
 }
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

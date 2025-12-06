@@ -11,6 +11,8 @@
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
 #endif // _DEBUG
 
+namespace szg {
+
 class Camera3D : public WorldInstance {
 	friend class RemoteCamera3DInstance;
 
@@ -31,7 +33,7 @@ public:
 	Camera3D() = default;
 	virtual ~Camera3D() = default;
 
-	__CLASS_NON_COPYABLE(Camera3D)
+	SZG_CLASS_MOVE_ONLY(Camera3D)
 
 public:
 	virtual void initialize();
@@ -95,3 +97,5 @@ private:
 	InputHandler<MouseID> debugMouseInputHandler;
 #endif // _DEBUG
 };
+
+}; // szg

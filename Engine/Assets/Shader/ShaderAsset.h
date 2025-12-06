@@ -9,12 +9,14 @@
 /// <summary>
 /// シェーダーアセット
 /// </summary>
+namespace szg {
+
 class ShaderAsset final {
 public:
 	ShaderAsset(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;
 	~ShaderAsset() = default;
 
-	__CLASS_NON_COPYABLE(ShaderAsset)
+	SZG_CLASS_MOVE_ONLY(ShaderAsset)
 
 public:
 	D3D12_SHADER_BYTECODE blob_bytecode() const noexcept;
@@ -23,3 +25,5 @@ public:
 private:
 	Microsoft::WRL::ComPtr<IDxcBlob> blob;
 };
+
+}; // szg

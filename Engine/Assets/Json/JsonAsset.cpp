@@ -1,5 +1,7 @@
 #include "JsonAsset.h"
 
+using namespace szg;
+
 #include <fstream>
 
 #include "Engine/Application/Logger.h"

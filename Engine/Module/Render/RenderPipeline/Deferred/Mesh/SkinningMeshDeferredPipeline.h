@@ -2,6 +2,8 @@
 
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
+namespace szg {
+
 class SkinningMeshDeferredPipeline final : public BaseRenderPipeline {
 public:
 	SkinningMeshDeferredPipeline();
@@ -24,3 +26,5 @@ private:
 	void create_pipeline_state();
 };
 
+
+}; // szg

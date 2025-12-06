@@ -1,5 +1,7 @@
 #include "WorldCluster.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Json/JsonAsset.h"
 #include "Engine/Loader/WorldInstanceLoader.h"
 

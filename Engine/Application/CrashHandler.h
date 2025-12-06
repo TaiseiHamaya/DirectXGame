@@ -1,5 +1,7 @@
 #pragma once
 
+namespace szg {
+
 namespace CrashHandler {
 
 /// <summary>
@@ -7,4 +9,6 @@ namespace CrashHandler {
 /// </summary>
 void Initialize();
 
-}
+} // namespace CrashHandler
+
+} // namespace szg

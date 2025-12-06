@@ -6,6 +6,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class Camera2D final {
 private:// シングルトンなのでprivate
 	Camera2D() noexcept = default;
@@ -60,3 +62,5 @@ private:// メンバ変数
 	Vector3 ndcLeftBottomNear;
 	Vector3 ndcRightTopFar;
 };
+
+}; // szg

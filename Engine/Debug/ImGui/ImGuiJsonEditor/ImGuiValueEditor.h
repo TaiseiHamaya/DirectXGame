@@ -7,6 +7,8 @@
 
 #include "ValueEditorObject.h"
 
+namespace szg {
+
 class ImGuiValueEditor {
 private:
 	struct EditorFunctions {
@@ -35,5 +37,7 @@ public:
 private:
 	std::vector<EditorFunctions> functions;
 };
+
+}; // szg
 
 #endif // _DEBUG

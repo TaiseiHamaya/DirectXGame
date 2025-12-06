@@ -2,6 +2,8 @@
 
 #include "EditorSceneView.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
 #include "../Core/EditorGizmo.h"

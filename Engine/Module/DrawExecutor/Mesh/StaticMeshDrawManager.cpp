@@ -1,5 +1,7 @@
 #include "StaticMeshDrawManager.h"
 
+using namespace szg;
+
 #include <execution>
 
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"

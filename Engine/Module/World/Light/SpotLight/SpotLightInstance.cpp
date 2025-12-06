@@ -1,5 +1,7 @@
 #include "SpotLightInstance.h"
 
+using namespace szg;
+
 //void SpotLightInstance::transfer() {
 //	lightData.position = world_position();
 //}

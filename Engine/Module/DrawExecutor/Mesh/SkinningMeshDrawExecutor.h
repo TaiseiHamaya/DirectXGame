@@ -13,6 +13,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/MdStructuredBuffer.h"
 
+namespace szg {
+
 class SkinningMeshInstance;
 struct TransformMatrixDataBuffer;
 struct MaterialDataBuffer3;
@@ -25,7 +27,7 @@ public:
 
 	SkinningMeshDrawExecutor(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, u32 maxInstance);
 	
-	__CLASS_NON_COPYABLE(SkinningMeshDrawExecutor)
+	SZG_CLASS_MOVE_ONLY(SkinningMeshDrawExecutor)
 
 public:
 	void reinitialize(std::shared_ptr<const PolygonMesh> mesh, std::shared_ptr<const SkeletonAsset> skeleton, u32 maxInstance);
@@ -43,3 +45,5 @@ private:
 
 	std::mutex writeBufferMutex;
 };
+
+}; // szg

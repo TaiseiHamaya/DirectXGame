@@ -10,6 +10,8 @@
 #include <Library/Math/Affine.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 struct Joint {
 	std::string name; // BoneName(== NodeName)
 	Affine inverseBindPoseAffine;
@@ -36,7 +38,7 @@ public:
 	SkeletonAsset(Skeleton& skeleton_, std::unordered_map<std::string, VertexBuffer<VertexInfluenceData>>& influenceBuffers_);
 	~SkeletonAsset() = default;
 
-	__CLASS_NON_COPYMOVEABLE(SkeletonAsset)
+	SZG_CLASS_DELETED(SkeletonAsset)
 
 public:
 	const Skeleton& skeleton() const;
@@ -53,3 +55,5 @@ private:
 	/// </summary>
 	std::unordered_map<std::string, VertexBuffer<VertexInfluenceData>> influenceBuffers;
 };
+
+}; // szg

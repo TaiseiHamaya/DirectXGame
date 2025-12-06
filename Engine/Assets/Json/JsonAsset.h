@@ -11,6 +11,8 @@
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 #endif // _DEBUG
 
+namespace szg {
+
 template<typename T>
 concept UseabelJson = requires(nlohmann::json json, T t) {
 	{ json.get<T>() } -> std::same_as<T>;
@@ -84,4 +86,6 @@ inline void JsonAsset::register_value(const std::string& name, T& value, [[maybe
 #endif // _DEBUG
 }
 
-#define __JSON_RESOURCE_REGISTER(variable) std::string{ #variable }, variable
+#define SZG_JSON_ASSET_REGISTER(variable) std::string{ #variable }, variable
+
+}; // szg

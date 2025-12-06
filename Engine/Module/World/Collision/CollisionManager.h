@@ -10,12 +10,14 @@
 #include "Collider/BaseCollider.h"
 #include "CollisionCallbackManager.h"
 
-class SphereCollider;
-class AABBCollider;
-
 #ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Module/DrawExecutor/PrimitiveGeometryDrawExecutor/PrimitiveGeometryDrawExecutor.h"
 #endif // _DEBUG
+
+namespace szg {
+
+class SphereCollider;
+class AABBCollider;
 
 class CollisionManager {
 private:
@@ -28,7 +30,7 @@ public:
 	CollisionManager();
 	~CollisionManager() = default;
 
-	__CLASS_NON_COPYABLE(CollisionManager)
+	SZG_CLASS_MOVE_ONLY(CollisionManager)
 
 public:
 	void collision_entry_point();
@@ -86,3 +88,5 @@ inline void CollisionManager::register_collider(const std::string& groupName, Re
 	keyList.insert(groupName);
 #endif // _DEBUG
 }
+
+}; // szg

@@ -2,6 +2,8 @@
 
 #include "IRemoteObject.h"
 
+using namespace szg;
+
 void IRemoteObject::reparent(Reference<IRemoteObject> remoteObject) {
 	parent = remoteObject;
 }

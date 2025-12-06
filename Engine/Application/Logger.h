@@ -10,8 +10,10 @@
 #include <Library/Utility/Template/bitflag.h>
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class Logger : public SingletonInterface<Logger> {
-	__CLASS_SINGLETON_INTERFACE(Logger)
+	SZG_CLASS_SINGLETON(Logger)
 
 public:
 	/// <summary>
@@ -112,7 +114,7 @@ private:
 	std::wofstream logFile;
 };
 
-__USE_BITFLAG(Logger::OutputDestination)
+SZG_BITFLAG(Logger::OutputDestination)
 
 template<typename ...Args>
 inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Level level, std::format_string<Args...> msg, Args && ...args) {
@@ -126,16 +128,18 @@ inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Le
 	Logger::GetInstance().intermediate_w(sourceLocation, level, message);
 }
 
+}; // szg
+
 // Traceレベルのログ出力
-#define szgTrace(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Trace, msg, __VA_ARGS__)
+#define szgTrace(msg, ...) szg::Logger::LogEntryPoint(std::source_location::current(), szg::Logger::Level::Trace, msg, __VA_ARGS__)
 // Informationレベルのログ出力
-#define szgInformation(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Information, msg, __VA_ARGS__)
+#define szgInformation(msg, ...) szg::Logger::LogEntryPoint(std::source_location::current(), szg::Logger::Level::Information, msg, __VA_ARGS__)
 // Warningレベルのログ出力
-#define szgWarning(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Warning, msg, __VA_ARGS__)
+#define szgWarning(msg, ...) szg::Logger::LogEntryPoint(std::source_location::current(), szg::Logger::Level::Warning, msg, __VA_ARGS__)
 // Errorレベルのログ出力
-#define szgError(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Error, msg, __VA_ARGS__)
+#define szgError(msg, ...) szg::Logger::LogEntryPoint(std::source_location::current(), szg::Logger::Level::Error, msg, __VA_ARGS__)
 // Criticalレベルのログ出力
-#define szgCritical(msg, ...) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Critical, msg, __VA_ARGS__)
+#define szgCritical(msg, ...) szg::Logger::LogEntryPoint(std::source_location::current(), szg::Logger::Level::Critical, msg, __VA_ARGS__)
 
 // 条件付きWarningログ出力
 #define szgWarningIf(conditional, msg, ...) if((conditional)) szgWarning(msg, __VA_ARGS__)
@@ -145,4 +149,4 @@ inline void Logger::LogEntryPoint(const std::source_location& sourceLocation, Le
 #define szgCriticalIf(conditional, msg, ...) if((conditional)) szgCritical(msg, __VA_ARGS__)
 
 // Assert
-#define szgAssert(conditional) if (!(conditional)) Logger::LogEntryPoint(std::source_location::current(), Logger::Level::Assert, L"Assertion failed: {}", L#conditional)
+#define szgAssert(conditional) if (!(conditional)) szg::Logger::LogEntryPoint(std::source_location::current(), szg::Logger::Level::Assert, L"Assertion failed: {}", L#conditional)

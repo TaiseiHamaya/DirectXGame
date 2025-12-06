@@ -2,6 +2,8 @@
 
 #include "RemoteSkinningMeshInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h"

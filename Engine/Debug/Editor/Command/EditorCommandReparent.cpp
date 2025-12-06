@@ -2,6 +2,8 @@
 
 #include "EditorCommandReparent.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 
 EditorCommandReparent::EditorCommandReparent(Reference<IRemoteObject> target_, Reference<IRemoteObject> recent, Reference<IRemoteObject> next) {

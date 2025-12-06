@@ -1,5 +1,7 @@
 #include "NodeAnimationLibrary.h"
 
+using namespace szg;
+
 #include <mutex>
 
 #include <Library/Utility/Tools/SmartPointer.h>

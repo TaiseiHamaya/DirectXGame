@@ -1,5 +1,7 @@
 #include "Rect3dDrawExecutor.h"
 
+using namespace szg;
+
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"

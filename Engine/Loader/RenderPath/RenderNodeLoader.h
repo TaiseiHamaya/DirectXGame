@@ -7,6 +7,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class Scene;
 class RenderTargetCollection;
 class IRenderNode;
@@ -47,3 +49,5 @@ private:
 	std::vector<ImmidiateData> immidiateData;
 	i32 resultNodeIndex{ 0 };
 };
+
+}; // szg

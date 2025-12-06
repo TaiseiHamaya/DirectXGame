@@ -1,5 +1,7 @@
 #include "DxShaderReflection.h"
 
+using namespace szg;
+
 #pragma warning(push, 0)
 
 #include "./DxcManager.h"

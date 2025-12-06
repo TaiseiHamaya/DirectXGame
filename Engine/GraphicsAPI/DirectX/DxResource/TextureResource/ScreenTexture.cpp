@@ -1,5 +1,7 @@
 #include "ScreenTexture.h"
 
+using namespace szg;
+
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"

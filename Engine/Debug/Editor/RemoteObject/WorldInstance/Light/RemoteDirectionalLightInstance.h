@@ -7,6 +7,8 @@
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 #include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
+namespace szg {
+
 class RemoteDirectionalLightInstance final : public IRemoteInstance<DirectionalLightInstance, Rect3d> {
 public:
 	friend class EditorSceneSerializer;
@@ -15,7 +17,7 @@ public:
 	RemoteDirectionalLightInstance() = default;
 	~RemoteDirectionalLightInstance() = default;
 
-	__CLASS_DEFAULT_ALL(RemoteDirectionalLightInstance)
+	SZG_CLASS_DEFAULT(RemoteDirectionalLightInstance)
 
 public:
 	void setup() override;
@@ -41,5 +43,7 @@ private:
 
 	std::unique_ptr<DirectionalLightInstance> instance;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

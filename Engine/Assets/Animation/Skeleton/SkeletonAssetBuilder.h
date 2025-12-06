@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class SkeletonAsset;
 
 /// <summary>
@@ -24,3 +26,5 @@ public:
 private:
 	std::shared_ptr<SkeletonAsset> skeletonData;
 };
+
+}; // szg

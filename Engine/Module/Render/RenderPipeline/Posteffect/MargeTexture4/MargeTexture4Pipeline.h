@@ -9,6 +9,8 @@
 /// <summary>
 /// 4枚のテクスチャを合成するノード
 /// </summary>
+namespace szg {
+
 class MargeTexture4Pipeline : public IPostEffectPipeline {
 public:
 	void initialize() override;
@@ -25,3 +27,5 @@ private:
 private:
 	std::array<Reference<RenderTexture>, 4> baseTextures;
 };
+
+}; // szg

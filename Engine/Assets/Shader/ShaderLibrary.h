@@ -7,13 +7,15 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class ShaderAsset;
 
 /// <summary>
 /// シェーダーアセット保持クラス(スレッドセーフ)
 /// </summary>
 class ShaderLibrary final : public SingletonInterface<ShaderLibrary> {
-	__CLASS_SINGLETON_INTERFACE(ShaderLibrary)
+	SZG_CLASS_SINGLETON(ShaderLibrary)
 
 public:
 	/// <summary>
@@ -49,3 +51,5 @@ private:
 private:
 	std::unordered_map<std::string, std::shared_ptr<ShaderAsset>> assets;
 };
+
+}; // szg

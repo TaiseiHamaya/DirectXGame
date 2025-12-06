@@ -4,12 +4,14 @@
 
 #include "./IResourceView/RenderTargetView.h"
 
+namespace szg {
+
 class ScreenTexture final : public ITextureResource {
 public:
 	ScreenTexture() = default;
 	~ScreenTexture();
 
-	__CLASS_NON_COPYABLE(ScreenTexture)
+	SZG_CLASS_MOVE_ONLY(ScreenTexture)
 
 public:
 	void initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource_);
@@ -26,3 +28,5 @@ public:
 private:
 	RenderTargetView rtv;
 };
+
+}; // szg

@@ -1,5 +1,7 @@
 #include "DxCore.h"
 
+using namespace szg;
+
 #include <memory>
 
 #include <dxgidebug.h>

@@ -6,6 +6,8 @@
 
 #include <vector>
 
+namespace szg {
+
 class Scene;
 class RemoteWorldObject;
 class EditorRenderDAG;
@@ -18,7 +20,7 @@ public:
 	RemoteSceneObject();
 	~RemoteSceneObject();
 
-	__CLASS_DEFAULT_ALL(RemoteSceneObject)
+	SZG_CLASS_DEFAULT(RemoteSceneObject)
 
 public:
 	void setup() override;
@@ -61,5 +63,7 @@ private:
 
 	Reference<EditorRenderDAG> renderDAGEditor;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

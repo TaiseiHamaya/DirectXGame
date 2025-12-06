@@ -4,6 +4,8 @@
 
 #include <Library/Math/Color3.h>
 
+namespace szg {
+
 struct PointLightData {
 	Color3 color; // 色
 	r32 intensity{ 1 }; // 輝度
@@ -24,3 +26,5 @@ public:
 	PointLightInstance(PointLightInstance&&) = default;
 	PointLightInstance& operator=(PointLightInstance&&) = default;
 };
+
+}; // szg

@@ -10,6 +10,8 @@
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 
+namespace szg {
+
 class StaticMeshInstance;
 struct TransformMatrixDataBuffer;
 struct MaterialDataBuffer3;
@@ -21,7 +23,7 @@ public:
 
 	StaticMeshDrawExecutorForward(std::shared_ptr<const PolygonMesh> asset_, u32 maxInstance);
 
-	__CLASS_NON_COPYABLE(StaticMeshDrawExecutorForward)
+	SZG_CLASS_MOVE_ONLY(StaticMeshDrawExecutorForward)
 
 public:
 	void reinitialize(std::shared_ptr<const PolygonMesh> asset_, u32 maxInstance);
@@ -36,3 +38,5 @@ private:
 
 	std::mutex writeBufferMutex;
 };
+
+}; // szg

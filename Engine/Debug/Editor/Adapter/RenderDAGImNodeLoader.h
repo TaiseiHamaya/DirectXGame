@@ -11,6 +11,8 @@
 
 #include "Engine/Debug/Editor/Window/EditorRenderDAG.h"
 
+namespace szg {
+
 class WorldLayerRenderImNode;
 class PostEffectImNode;
 class StaticTextureImNode;
@@ -33,5 +35,7 @@ private:
 	u64 counter{ 1 };
 	Reference<ImFlow::ImNodeFlow> imNodeFlow;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -1,5 +1,7 @@
 #include "WorldTimer.h"
 
+using namespace szg;
+
 #include "./WorldClock.h"
 
 void WorldTimer::ahead(r32 scale) {

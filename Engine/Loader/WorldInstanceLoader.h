@@ -4,6 +4,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class WorldRoot;
 class WorldInstance;
 
@@ -34,3 +36,5 @@ private:
 private:
 	Reference<WorldRoot> worldRoot;
 };
+
+}; // szg

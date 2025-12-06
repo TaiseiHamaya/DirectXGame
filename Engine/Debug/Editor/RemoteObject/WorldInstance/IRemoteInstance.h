@@ -17,13 +17,15 @@
 #include "Engine/Debug/Editor/Command/EditorCommandInvoker.h"
 #include "Engine/Debug/Editor/Command/EditorSelectCommand.h"
 
+namespace szg {
+
 template<typename RuntimeType, typename DebugVisualType = void*>
 class IRemoteInstance : public IRemoteObject {
 public:
 	IRemoteInstance() = default;
 	virtual ~IRemoteInstance() = default;
 
-	__CLASS_DEFAULT_ALL(IRemoteInstance)
+	SZG_CLASS_DEFAULT(IRemoteInstance)
 
 public:
 	using RemoteInstanceType = IRemoteInstance<RuntimeType, DebugVisualType>;
@@ -155,5 +157,7 @@ void IRemoteInstance<RuntimeType, DebugVisualType>::on_destroy() {
 		}
 	}
 }
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

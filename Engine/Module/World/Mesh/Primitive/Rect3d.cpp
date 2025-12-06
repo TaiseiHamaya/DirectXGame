@@ -1,5 +1,7 @@
 #include "Rect3d.h"
 
+using namespace szg;
+
 #include <Library/Math/VectorConverter.h>
 
 Rect3d::Rect3d() noexcept :

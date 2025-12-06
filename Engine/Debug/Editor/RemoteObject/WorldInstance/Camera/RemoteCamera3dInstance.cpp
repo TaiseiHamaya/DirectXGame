@@ -2,6 +2,8 @@
 
 #include "RemoteCamera3dInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 
 void RemoteCamera3dInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {

@@ -1,5 +1,7 @@
 #include "FontAtlasMSDFLibrary.h"
 
+using namespace szg;
+
 #include <mutex>
 #include <ranges>
 

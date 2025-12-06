@@ -1,5 +1,7 @@
 #include "SceneAssetCollection.h"
 
+using namespace szg;
+
 #include <filesystem>
 #include <functional>
 

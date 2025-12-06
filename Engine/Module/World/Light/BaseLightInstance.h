@@ -2,6 +2,8 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
+namespace szg {
+
 template<class T>
 class BaseLightInstance : public WorldInstance {
 public:
@@ -34,3 +36,5 @@ protected:
 	T lightData;
 	u32 layerMask;
 };
+
+}; // szg

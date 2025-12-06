@@ -8,6 +8,8 @@
 
 #include "../RemoteObject/IRemoteObject.h"
 
+namespace szg {
+
 class EditorDeletedObjectPool;
 class EditorSceneView;
 
@@ -32,5 +34,7 @@ public:
 private:
 	static inline Reference<EditorDeletedObjectPool> deletedPool{};
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

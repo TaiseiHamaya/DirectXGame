@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 
+namespace szg {
+
 class BaseRenderPipeline;
 
 class RenderPath final {
@@ -56,3 +58,5 @@ private:
 	std::vector<std::shared_ptr<BaseRenderPipeline>>::iterator nowNode;
 	std::vector<std::shared_ptr<BaseRenderPipeline>> renderNodeList;
 };
+
+}; // szg

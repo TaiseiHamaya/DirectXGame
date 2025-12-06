@@ -9,6 +9,8 @@
 
 #include "Scene.h"
 
+namespace szg {
+
 class BaseSceneFactory;
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -16,7 +18,7 @@ class TimestampProfiler;
 #endif //DEBUG_FEATURES_ENABLE
 
 class SceneManager2 final : public SingletonInterface<SceneManager2> {
-	__CLASS_SINGLETON_INTERFACE(SceneManager2)
+	SZG_CLASS_SINGLETON(SceneManager2)
 
 public:
 	static void Initialize();
@@ -69,3 +71,5 @@ private:
 	Reference<TimestampProfiler> profiler;
 #endif // _DEBUG
 };
+
+}; // szg

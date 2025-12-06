@@ -11,6 +11,8 @@
 #include "Engine/Module/Render/RenderSubtree/LayerRenderSubtree.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
+namespace szg {
+
 class Camera3D;
 class WorldRenderCollection;
 
@@ -48,7 +50,7 @@ public:
 	WorldLayerRenderNode() = default;
 	~WorldLayerRenderNode() noexcept = default;
 
-	__CLASS_NON_COPYABLE(WorldLayerRenderNode)
+	SZG_CLASS_MOVE_ONLY(WorldLayerRenderNode)
 
 public:
 	void setup(Data&& data_);
@@ -63,3 +65,5 @@ private:
 
 	Data data;
 };
+
+}; // szg
