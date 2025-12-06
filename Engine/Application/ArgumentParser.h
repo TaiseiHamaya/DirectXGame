@@ -10,8 +10,10 @@
 /// <summary>
 /// コマンドライン引数管理/解析クラス
 /// </summary>
+namespace szg {
+
 class ArgumentParser final : public SingletonInterface<ArgumentParser> {
-	__CLASS_SINGLETON_INTERFACE(ArgumentParser)
+	SZG_CLASS_SINGLETON(ArgumentParser)
 
 public:
 	/// <summary>
@@ -54,3 +56,5 @@ private:
 	std::vector<std::string> arguments;
 	std::unordered_map<std::string, u64> argumentsInverseIndex;
 };
+
+}; // szg

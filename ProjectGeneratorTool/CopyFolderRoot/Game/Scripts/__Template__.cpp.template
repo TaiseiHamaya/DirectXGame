@@ -5,5 +5,5 @@
 #include "./Scene/Factory__Template__.h"
 
 void __Template__::initialize() {
-	SceneManager2::Setup(std::make_unique<Factory__Template__>());
+	szg::SceneManager2::Setup(std::make_unique<Factory__Template__>());
 }

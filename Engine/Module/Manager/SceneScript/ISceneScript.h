@@ -2,12 +2,14 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class ISceneScript {
 public:
 	ISceneScript() = default;
 	virtual ~ISceneScript() = default;
 
-	__CLASS_NON_COPYABLE(ISceneScript)
+	SZG_CLASS_MOVE_ONLY(ISceneScript)
 
 public:
 	virtual void finalize() {};
@@ -15,3 +17,5 @@ public:
 	virtual void prev_update() {};
 	virtual void post_update() {};
 };
+
+}; // szg

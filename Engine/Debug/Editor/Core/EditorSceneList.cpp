@@ -2,6 +2,8 @@
 
 #include "EditorSceneList.h"
 
+using namespace szg;
+
 #include <fstream>
 
 #include <imgui.h>
@@ -25,11 +27,13 @@ void EditorSceneList::finalize() {
 }
 
 bool EditorSceneList::scene_list_gui(std::string& current) {
-	for (const auto& scene : sceneList) {
-		if (ImGui::Selectable(scene.c_str(), current == scene)) {
+	for (i32 i = 0; const auto& scene : sceneList) {
+		std::string tag = std::format("{}##Scene{}", scene, i);
+		if (ImGui::Selectable(tag.c_str(), current == scene)) {
 			current = scene;
 			return true;
 		}
+		++i;
 	}
 	return false;
 }

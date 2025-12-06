@@ -2,6 +2,8 @@
 
 #include "EditorValueChangeCommandHandler.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 
 void EditorValueChangeCommandHandler::Start(std::function<void(void)> endCallFunc) {

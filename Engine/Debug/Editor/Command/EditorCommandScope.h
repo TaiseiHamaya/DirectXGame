@@ -4,6 +4,8 @@
 
 #include "IEditorCommand.h"
 
+namespace szg {
+
 class EditorCommandScopeBegin final : public IEditorCommand {
 public:
 	EditorCommandScopeBegin();
@@ -30,5 +32,7 @@ public:
 private:
 	const i32 level{ 0 };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

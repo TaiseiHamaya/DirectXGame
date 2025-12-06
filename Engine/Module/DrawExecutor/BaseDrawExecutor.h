@@ -3,6 +3,8 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 template<class T>
 class BaseDrawExecutor {
 public:
@@ -11,7 +13,7 @@ public:
 	BaseDrawExecutor() = default;
 	virtual ~BaseDrawExecutor() = default;
 
-	__CLASS_NON_COPYABLE(BaseDrawExecutor)
+	SZG_CLASS_MOVE_ONLY(BaseDrawExecutor)
 
 public:
 	void begin();
@@ -31,3 +33,5 @@ template<class InstanceType>
 inline void BaseDrawExecutor<InstanceType>::begin() {
 	instanceCounter = 0;
 }
+
+}; // szg

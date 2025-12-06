@@ -1,5 +1,7 @@
 #include "CollisionManager.h"
 
+using namespace szg;
+
 #include <ranges>
 
 #include <Library/Utility/Tools/SmartPointer.h>

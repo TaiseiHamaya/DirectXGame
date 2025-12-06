@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+using namespace szg;
+
 #include <algorithm>
 #include <ranges>
 

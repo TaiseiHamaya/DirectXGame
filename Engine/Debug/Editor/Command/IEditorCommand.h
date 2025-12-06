@@ -4,16 +4,20 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class IEditorCommand {
 public:
 	IEditorCommand() = default;
 	virtual ~IEditorCommand() = default;
 
-	__CLASS_NON_COPYABLE(IEditorCommand)
+	SZG_CLASS_MOVE_ONLY(IEditorCommand)
 
 public:
 	virtual void execute() = 0;
 	virtual void undo() = 0;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

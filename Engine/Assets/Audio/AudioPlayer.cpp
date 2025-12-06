@@ -1,5 +1,7 @@
 #include "AudioPlayer.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/Audio/AudioAsset.h"
 #include "Engine/Assets/Audio/AudioLibrary.h"

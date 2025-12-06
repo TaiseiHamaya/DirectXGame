@@ -11,8 +11,10 @@
 #include "EditorCommandInvoker.h"
 #include "EditorValueChangeCommand.h"
 
+namespace szg {
+
 class EditorValueChangeCommandHandler final : public SingletonInterface<EditorValueChangeCommandHandler> {
-	__CLASS_SINGLETON_INTERFACE(EditorValueChangeCommandHandler)
+	SZG_CLASS_SINGLETON(EditorValueChangeCommandHandler)
 
 private:
 	static void Start(std::function<void(void)> endCallFunc);
@@ -62,5 +64,7 @@ void EditorValueChangeCommandHandler::GenCommand(std::function<T& ()> function) 
 		);
 	});
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

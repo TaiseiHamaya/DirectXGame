@@ -1,5 +1,7 @@
 #include "SkinningMeshInstance.h"
 
+using namespace szg;
+
 #include <Library/Utility/Tools/SmartPointer.h>
 
 #include "Engine/Application/Logger.h"

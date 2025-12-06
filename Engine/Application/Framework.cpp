@@ -1,5 +1,7 @@
 #include "Framework.h"
 
+using namespace szg;
+
 #include "Engine/Application/WinApp.h"
 
 void Framework::run() {

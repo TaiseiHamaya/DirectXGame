@@ -11,6 +11,8 @@
 
 #include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
+namespace szg {
+
 class RemoteRect3dInstance final : public IRemoteInstance<Rect3d, Rect3d> {
 public:
 	friend class EditorSceneSerializer;
@@ -27,7 +29,7 @@ public:
 	RemoteRect3dInstance() = default;
 	~RemoteRect3dInstance() = default;
 
-	__CLASS_DEFAULT_ALL(RemoteRect3dInstance)
+	SZG_CLASS_DEFAULT(RemoteRect3dInstance)
 
 public:
 	void setup() override;
@@ -57,5 +59,7 @@ private:
 
 	Material material;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

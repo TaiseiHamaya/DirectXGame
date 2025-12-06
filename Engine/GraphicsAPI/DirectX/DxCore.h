@@ -1,5 +1,7 @@
 #pragma once
 
+namespace szg {
+
 class DxCore final {
 private:
 	DxCore();
@@ -39,3 +41,5 @@ private:
 	private:
 	};
 };
+
+}; // szg

@@ -7,6 +7,8 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
+namespace szg {
+
 class DepthStencilView;
 class DxShaderReflection;
 
@@ -84,3 +86,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 };
+
+}; // szg

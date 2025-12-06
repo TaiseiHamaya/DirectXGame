@@ -1,5 +1,7 @@
 #include "WorldManager.h"
 
+using namespace szg;
+
 #include <execution>
 
 WorldManager::WorldManager() {

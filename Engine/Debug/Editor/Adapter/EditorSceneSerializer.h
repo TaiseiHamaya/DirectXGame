@@ -12,12 +12,14 @@
 #include "../RemoteObject/RemoteSceneObject.h"
 #include "../RemoteObject/RemoteWorldObject.h"
 
+namespace szg {
+
 class EditorSceneSerializer final {
 public:
 	EditorSceneSerializer() = default;
 	~EditorSceneSerializer() = default;
 
-	__CLASS_NON_COPYABLE(EditorSceneSerializer)
+	SZG_CLASS_MOVE_ONLY(EditorSceneSerializer)
 
 public:
 	static std::unique_ptr<RemoteSceneObject> CreateRemoteScene(const std::string& sceneName);
@@ -42,5 +44,7 @@ private:
 	static std::unique_ptr<IRemoteObject> CreateRemoteDirectionalLightInstance(const nlohmann::json& json);
 	static std::unique_ptr<IRemoteObject> CreateRemotePointLightInstance(const nlohmann::json& json);
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

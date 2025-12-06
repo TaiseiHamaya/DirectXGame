@@ -9,6 +9,8 @@
 
 #include <Library/Math/Matrix4x4.h>
 
+namespace szg {
+
 class PrimitiveGeometryDrawExecutor final : public BaseDrawExecutor<Matrix4x4> {
 public:
 	PrimitiveGeometryDrawExecutor() = default;
@@ -16,7 +18,7 @@ public:
 
 	PrimitiveGeometryDrawExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance);
 
-	__CLASS_NON_COPYABLE(PrimitiveGeometryDrawExecutor)
+	SZG_CLASS_MOVE_ONLY(PrimitiveGeometryDrawExecutor)
 
 public:
 	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance);
@@ -27,5 +29,7 @@ private:
 	std::shared_ptr<const PrimitiveGeometryAsset> asset;
 	StructuredBuffer<Matrix4x4> matrices;
 };
+
+}; // szg
 
 #endif // _DEBUG

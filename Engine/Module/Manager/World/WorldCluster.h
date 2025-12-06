@@ -9,12 +9,14 @@
 #include "Engine/Module/Render/WorldRenderCollection.h"
 #include "Engine/Module/World/Collision/CollisionManager.h"
 
+namespace szg {
+
 class WorldCluster final {
 public:
 	WorldCluster() = default;
 	~WorldCluster() = default;
 
-	__CLASS_NON_COPYABLE(WorldCluster)
+	SZG_CLASS_MOVE_ONLY(WorldCluster)
 
 public:
 	void initialize();
@@ -40,3 +42,5 @@ private:
 	WorldRenderCollection worldRenderCollection;
 	CollisionManager collisionManager;
 };
+
+}; // szg

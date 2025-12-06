@@ -4,6 +4,8 @@
 
 #include <Library/Math/Color3.h>
 
+namespace szg {
+
 struct DirectionalLightData {
 	Color3 color; // 色
 	r32 intensity{ 1 }; // 輝度
@@ -25,3 +27,5 @@ public:
 
 public:
 };
+
+}; // szg

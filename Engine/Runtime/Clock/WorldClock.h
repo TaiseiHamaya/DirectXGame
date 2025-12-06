@@ -8,8 +8,10 @@
 #include "Engine/Debug/Profiler/WorldClockProfiler.h"
 #endif // _DEBUG
 
+namespace szg {
+
 class WorldClock final : public SingletonInterface<WorldClock> {
-	__CLASS_SINGLETON_INTERFACE(WorldClock)
+	SZG_CLASS_SINGLETON(WorldClock)
 
 public:
 	static void Initialize();
@@ -32,3 +34,5 @@ private:
 	WorldClockProfiler profiler;
 #endif // _DEBUG
 };
+
+}; // szg

@@ -1,5 +1,7 @@
 #include "DxDevice.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 
 DxDevice& DxDevice::GetInstance() noexcept {

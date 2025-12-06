@@ -17,6 +17,9 @@
 #include <Library/Math/Vector2.h>
 
 struct ImDrawList;
+
+namespace szg {
+
 class EditorGizmo;
 class EditorHierarchy;
 
@@ -31,7 +34,7 @@ public:
 	EditorSceneView() = default;
 	~EditorSceneView() = default;
 
-	__CLASS_NON_COPYABLE(EditorSceneView)
+	SZG_CLASS_MOVE_ONLY(EditorSceneView)
 
 public:
 	void initialize(bool isActive_);
@@ -98,5 +101,7 @@ private:
 
 	std::vector<std::vector<Reference<const DirectionalLightInstance>>> directionalLights;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

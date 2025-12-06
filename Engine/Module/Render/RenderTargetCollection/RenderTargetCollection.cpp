@@ -1,5 +1,7 @@
 #include "RenderTargetCollection.h"
 
+using namespace szg;
+
 #include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderTargetGroup/SingleRenderTarget.h"
 #include <Engine/Application/Logger.h>

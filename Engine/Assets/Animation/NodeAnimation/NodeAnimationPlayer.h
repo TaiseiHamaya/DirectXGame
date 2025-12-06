@@ -11,13 +11,15 @@
 
 #include "Engine/Runtime/Clock/WorldTimer.h"
 
+namespace szg {
+
 class NodeAnimationPlayer {
 public:
 	NodeAnimationPlayer() noexcept = default;
 	NodeAnimationPlayer(const std::string& fileName, const std::string& animationName, bool isLoop);
 	~NodeAnimationPlayer() = default;
 
-	__CLASS_NON_COPYABLE(NodeAnimationPlayer)
+	SZG_CLASS_MOVE_ONLY(NodeAnimationPlayer)
 
 public:
 	/// <summary>
@@ -62,3 +64,5 @@ private:
 	std::string animationName;
 #endif // _DEBUG
 };
+
+}; // szg

@@ -10,6 +10,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
+namespace szg {
+
 template<ConceptCPUBufferACE T>
 class ConstantBuffer : public DxResource {
 public:
@@ -89,3 +91,5 @@ template<ConceptCPUBufferACE T>
 inline void ConstantBuffer<T>::stack_command(u32 index) const {
 	DxCommand::GetCommandList()->SetGraphicsRootConstantBufferView(index, resource->GetGPUVirtualAddress());
 }
+
+}; // szg

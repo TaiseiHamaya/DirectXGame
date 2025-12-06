@@ -2,6 +2,8 @@
 
 #include "EditorMain.h"
 
+using namespace szg;
+
 #include <fstream>
 
 #include <imgui.h>
@@ -33,7 +35,7 @@ void EditorMain::Initialize() {
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 
 	FontAtlasBuilderManager::Initialize();
-	//FontAtlasBuilder{}.entry_point("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf");
+	//FontAtlasBuilder{}.entry_point("./SyzygyEngine/EngineResources/Misc/UDEVGothic35HS-Regular.ttf");
 }
 
 void EditorMain::Finalize() {
@@ -180,10 +182,16 @@ bool EditorMain::IsEndApplicationForce() {
 	return instance.isEndApplicationForce;
 }
 
-void EditorMain::SeveScene() {
+bool EditorMain::SeveScene() {
 	EditorMain& instance = GetInstance();
+	std::string sceneName = instance.hierarchy.current_scene_name();
 
-	std::filesystem::path sceneDirectory = std::format("./Game/Core/Scene/{}/", instance.hierarchy.current_scene_name());
+	if (sceneName.empty()) {
+		szgWarning("Scene name is empty. Save canceled.");
+		return false;
+	}
+
+	std::filesystem::path sceneDirectory = std::format("./Game/Core/Scene/{}/", sceneName);
 	instance.hierarchy.save(sceneDirectory);
 
 	instance.renderDAG.save(sceneDirectory);
@@ -192,7 +200,9 @@ void EditorMain::SeveScene() {
 	saver.setup(instance.renderDAG, instance.hierarchy.scene_imm());
 	saver.save(sceneDirectory);
 
-	szgInformation("Scene file saved. ({})", instance.hierarchy.current_scene_name());
+	szgInformation("Scene file saved. ({})", sceneName);
+
+	return true;
 }
 
 void EditorMain::SetHotReload() {
@@ -263,8 +273,9 @@ void EditorMain::set_imgui_command() {
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.235f, 0.471f, 0.847f, 0.5f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.067f, 0.333f, 0.8f, 0.5f });
 			if (ImGui::Button("保存して終了")) {
-				SeveScene();
-				isEndApplicationForce = true;
+				if (SeveScene()) {
+					isEndApplicationForce = true;
+				}
 			}
 			ImGui::PopStyleColor(2);
 			ImGui::SameLine();

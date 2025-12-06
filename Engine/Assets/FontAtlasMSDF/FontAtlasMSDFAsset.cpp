@@ -1,5 +1,7 @@
 #include "FontAtlasMSDFAsset.h"
 
+using namespace szg;
+
 #include <Library/Externals/msdf-atlas-gen/msdf-atlas-gen/msdf-atlas-gen.h>
 
 #include "Engine/Assets/Texture/TextureAsset.h"

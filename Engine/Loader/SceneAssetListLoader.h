@@ -6,12 +6,14 @@
 
 #include "Engine/Runtime/Scene/SceneAssetCollection.h"
 
+namespace szg {
+
 class SceneAssetListLoader {
 public:
 	SceneAssetListLoader() = default;
 	~SceneAssetListLoader() = default;
 
-	__CLASS_NON_COPYABLE(SceneAssetListLoader)
+	SZG_CLASS_MOVE_ONLY(SceneAssetListLoader)
 
 public:
 	SceneAssetCollection load(const std::string& sceneName);
@@ -33,3 +35,5 @@ public:
 		"MSDFFonts",
 	};
 };
+
+}; // szg

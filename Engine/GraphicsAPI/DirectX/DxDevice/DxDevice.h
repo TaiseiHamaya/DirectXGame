@@ -4,6 +4,8 @@
 #include <dxgi1_6.h>
 #include <wrl/client.h>
 
+namespace szg {
+
 class DxDevice final {
 private:
 	DxDevice() noexcept = default;
@@ -35,3 +37,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Device10> device;
 };
 
+
+}; // szg

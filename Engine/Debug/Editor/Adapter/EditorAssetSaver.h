@@ -9,6 +9,8 @@
 
 #include "Engine/Runtime/Scene/SceneAssetCollection.h"
 
+namespace szg {
+
 class RemoteSceneObject;
 class EditorRenderDAG;
 
@@ -17,7 +19,7 @@ public:
 	EditorAssetSaver() = default;
 	~EditorAssetSaver() = default;
 
-	__CLASS_NON_COPYABLE(EditorAssetSaver)
+	SZG_CLASS_MOVE_ONLY(EditorAssetSaver)
 
 public:
 	void setup(Reference<const EditorRenderDAG> dagEditor_, Reference<const RemoteSceneObject> scene_);
@@ -39,5 +41,7 @@ private:
 
 	SceneAssetCollection sceneAssetCollection;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

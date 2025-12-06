@@ -2,6 +2,8 @@
 
 #include "EditorHierarchyDandD.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
 #include "Engine/Application/Logger.h"

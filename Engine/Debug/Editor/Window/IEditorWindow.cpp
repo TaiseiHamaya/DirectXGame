@@ -2,6 +2,8 @@
 
 #include "IEditorWindow.h"
 
+using namespace szg;
+
 #include <string>
 
 #include <imgui.h>

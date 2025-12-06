@@ -5,6 +5,8 @@
 
 #include "Engine/Assets/FontAtlasMSDF/FontAtlasMSDFAsset.h"
 
+namespace szg {
+
 struct StringData {
 	r32 fontSize;
 	Vector2 pivot{ CVector2::ZERO };
@@ -27,7 +29,7 @@ public:
 	StringRectInstance() noexcept;
 	virtual ~StringRectInstance() noexcept;
 
-	__CLASS_NON_COPYABLE(StringRectInstance)
+	SZG_CLASS_MOVE_ONLY(StringRectInstance)
 
 public:
 	void initialize(const std::string& msdfFont, r32 fontSize_, const Vector2& pivot_ = CVector2::ZERO);
@@ -89,3 +91,5 @@ private:
 public:
 	void debug_gui();
 };
+
+}; // szg

@@ -4,6 +4,8 @@
 
 #include "../DeferredAdaptor.h"
 
+namespace szg {
+
 class RenderTexture;
 class DepthStencilTexture;
 
@@ -31,3 +33,5 @@ private:
 	std::array<Reference<RenderTexture>, DeferredAdaptor::NUM_GBUFFER> gBufferTextures;
 	Reference<DepthStencilTexture> depthTexture;
 };
+
+}; // szg

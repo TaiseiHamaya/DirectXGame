@@ -4,6 +4,8 @@
 
 #include "../DeferredAdaptor.h"
 
+namespace szg {
+
 class PointLightingPipeline final : public BaseRenderPipeline {
 public:
 	PointLightingPipeline();
@@ -29,3 +31,5 @@ private:
 	Reference<DepthStencilTexture> depthTexture;
 };
 
+
+}; // szg

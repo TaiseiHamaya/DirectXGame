@@ -1,5 +1,7 @@
 #include "Camera3D.h"
 
+using namespace szg;
+
 #include <cmath>
 
 #include <Library/Math/VectorConverter.h>

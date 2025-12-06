@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 
+namespace szg {
+
 class FolderObject final : public IRemoteObject {
 public:
 	friend class EditorSceneSerializer;
@@ -37,5 +39,7 @@ public:
 private:
 	std::vector<std::unique_ptr<IRemoteObject>> children;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

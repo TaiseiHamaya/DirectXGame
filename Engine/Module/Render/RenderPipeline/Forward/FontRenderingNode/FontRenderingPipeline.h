@@ -5,6 +5,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
+namespace szg {
+
 enum class PsoBlendMode : u32;
 
 class FontRenderingPipeline final : public BaseRenderPipeline {
@@ -12,7 +14,7 @@ public:
 	FontRenderingPipeline();
 	~FontRenderingPipeline() noexcept;
 
-	__CLASS_NON_COPYABLE(FontRenderingPipeline)
+	SZG_CLASS_MOVE_ONLY(FontRenderingPipeline)
 
 public:
 	static void BeginLoadShader();
@@ -31,3 +33,5 @@ private:
 
 private:
 };
+
+}; // szg

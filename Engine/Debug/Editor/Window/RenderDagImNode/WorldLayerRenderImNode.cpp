@@ -1,5 +1,7 @@
 #include "WorldLayerRenderImNode.h"
 
+using namespace szg;
+
 #ifdef DEBUG_FEATURES_ENABLE
 
 WorldLayerRenderImNode::WorldLayerRenderImNode() {

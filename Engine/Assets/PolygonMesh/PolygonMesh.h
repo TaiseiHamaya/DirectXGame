@@ -11,6 +11,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
+namespace szg {
+
 class IndexBuffer;
 
 class PolygonMesh final {
@@ -31,7 +33,7 @@ public:
 	PolygonMesh(std::vector<MeshData>& meshData_, std::unordered_map<std::string, MeshMaterialData>& materialData_) noexcept;
 	~PolygonMesh() noexcept;
 
-	__CLASS_NON_COPYABLE(PolygonMesh)
+	SZG_CLASS_MOVE_ONLY(PolygonMesh)
 
 public:
 	/// <summary>
@@ -70,3 +72,5 @@ private:
 	std::vector<MeshData> meshData;
 	std::unordered_map<std::string, MeshMaterialData> materialData;
 };
+
+}; // szg

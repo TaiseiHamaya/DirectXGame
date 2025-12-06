@@ -9,6 +9,8 @@
 #include <Library/Math/Color4.h>
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class SwapChainRenderTargetGroup;
 class PSOBuilder;
 class ScreenTexture;
@@ -51,3 +53,5 @@ private:
 	std::vector<std::unique_ptr<ScreenTexture>> textures;
 	std::unique_ptr<SwapChainRenderTargetGroup> renderTargetGroup;
 };
+
+}; // szg

@@ -2,6 +2,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class Scene;
 class BaseScene;
 
@@ -19,3 +21,5 @@ public:
 	virtual std::unique_ptr<Scene> create_scene2(i32 next) = 0;
 };
 
+
+}; // szg

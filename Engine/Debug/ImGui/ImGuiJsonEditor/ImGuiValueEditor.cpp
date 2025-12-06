@@ -2,6 +2,8 @@
 
 #include "ImGuiValueEditor.h"
 
+using namespace szg;
+
 void ImGuiValueEditor::show_imgui() {
 	for (auto& function : functions) {
 		function.imguiFunc();

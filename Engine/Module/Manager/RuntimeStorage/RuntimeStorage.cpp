@@ -1,5 +1,7 @@
 #include "RuntimeStorage.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 
 RuntimeStorage::ValueGroup& RuntimeStorage::GetValueList(const std::string& name) {

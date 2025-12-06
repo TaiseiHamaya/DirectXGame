@@ -1,5 +1,7 @@
 #include "PostEffectPSOLoader.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 #include "Engine/Loader/RenderPath/RenderNodeType.h"

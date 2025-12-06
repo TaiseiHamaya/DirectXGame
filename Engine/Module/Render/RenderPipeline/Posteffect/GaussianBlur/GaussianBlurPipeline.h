@@ -8,6 +8,8 @@
 /// <summary>
 /// GaussianBlur
 /// </summary>
+namespace szg {
+
 class GaussianBlurPipeline : public IPostEffectPipeline {
 public:
 	struct Data {
@@ -55,3 +57,5 @@ private:
 
 	ConstantBuffer<Data> data;
 };
+
+}; // szg

@@ -16,6 +16,8 @@
 /// マルチレンダーターゲット
 /// </summary>
 /// <typeparam name="NumRenderTarget">レンダーターゲット数</typeparam>
+namespace szg {
+
 template<u32 NumRenderTarget = 2>
 class MultiRenderTarget final : public BaseRenderTargetGroup {
 	static_assert(NumRenderTarget >= 2, "NumRenderTargetは2以上である必要があります");
@@ -23,7 +25,7 @@ public:
 	MultiRenderTarget() = default;
 	~MultiRenderTarget() noexcept = default;
 
-	__CLASS_NON_COPYABLE(MultiRenderTarget)
+	SZG_CLASS_MOVE_ONLY(MultiRenderTarget)
 
 public:
 	/// <summary>
@@ -72,3 +74,5 @@ inline void MultiRenderTarget<NumRenderTarget>::clear_render_target() {
 		renderTarget->get_as_rtv()->clear();
 	}
 }
+
+}; // szg

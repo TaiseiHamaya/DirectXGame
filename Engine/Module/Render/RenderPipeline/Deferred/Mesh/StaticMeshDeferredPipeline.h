@@ -2,6 +2,8 @@
 
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
+namespace szg {
+
 class StaticMeshDeferredPipeline final : public BaseRenderPipeline {
 public:
 	StaticMeshDeferredPipeline();
@@ -23,3 +25,5 @@ public:
 private:
 	void create_pipeline_state();
 };
+
+}; // szg

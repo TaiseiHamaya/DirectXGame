@@ -1,5 +1,7 @@
 #include "DxSwapChain.h"
 
+using namespace szg;
+
 #include <memory>
 
 #include "Engine/Application/ArgumentParser.h"

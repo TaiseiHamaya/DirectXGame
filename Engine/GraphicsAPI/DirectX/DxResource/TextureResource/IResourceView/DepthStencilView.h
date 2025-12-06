@@ -4,12 +4,14 @@
 
 #include <d3d12.h>
 
+namespace szg {
+
 class DepthStencilView : public IResourceView<D3D12_CPU_DESCRIPTOR_HANDLE> {
 public:
 	DepthStencilView() = default;
 	~DepthStencilView() = default;
 
-	__CLASS_NON_COPYABLE(DepthStencilView)
+	SZG_CLASS_MOVE_ONLY(DepthStencilView)
 
 public:
 	void release() override;
@@ -22,3 +24,5 @@ public:
 private:
 	DXGI_FORMAT format{};
 };
+
+}; // szg

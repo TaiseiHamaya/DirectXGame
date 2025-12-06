@@ -2,6 +2,8 @@
 
 #include "PrimitiveGeometryDrawExecutor.h"
 
+using namespace szg;
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 PrimitiveGeometryDrawExecutor::PrimitiveGeometryDrawExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance) {

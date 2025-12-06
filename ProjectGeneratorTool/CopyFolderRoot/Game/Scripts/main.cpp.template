@@ -5,7 +5,7 @@
 #include "Scripts/__Template__.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	std::unique_ptr<Framework> framework =
+	std::unique_ptr<szg::Framework> framework =
 		std::make_unique<__Template__>();
 
 	framework->run();

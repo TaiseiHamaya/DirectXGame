@@ -2,6 +2,8 @@
 
 #include "EditorSelectObject.h"
 
+using namespace szg;
+
 #include "../RemoteObject/IRemoteObject.h"
 
 void EditorSelectObject::set_item(Reference<IRemoteObject> object_, EditorSelectObjectBody::TransformData transform_) {

@@ -1,5 +1,7 @@
 #include "CollisionCallbackManager.h"
 
+using namespace szg;
+
 void CollisionCallbackManager::begin_callback() {
 	for (auto& [_, value] : collisionRecent) {
 		value <<= 1;

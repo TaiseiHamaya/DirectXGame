@@ -14,6 +14,8 @@
 #define COLOR3_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+namespace szg {
+
 class SkinningMeshInstance;
 class StaticMeshInstance;
 
@@ -66,5 +68,7 @@ private:
 
 	std::shared_ptr<const SkeletonAsset> skeleton;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

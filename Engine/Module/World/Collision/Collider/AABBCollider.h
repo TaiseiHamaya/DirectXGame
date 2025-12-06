@@ -2,6 +2,8 @@
 
 #include "BaseCollider.h"
 
+namespace szg {
+
 class AABBCollider : public BaseCollider {
 public:
 	AABBCollider() = default;
@@ -16,3 +18,5 @@ private:
 	Vector3 min{ CVector3::ZERO };
 	Vector3 max{ CVector3::BASIS };
 };
+
+}; // szg

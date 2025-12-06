@@ -1,5 +1,7 @@
 #include "TextureAssetBuilder.h"
 
+using namespace szg;
+
 #include <comdef.h>
 #include <d3dx12.h>
 

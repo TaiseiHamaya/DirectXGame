@@ -11,6 +11,8 @@
 
 #include <ImNodeFlow/include/ImNodeFlow.h>
 
+namespace szg {
+
 class WorldLayerRenderImNode;
 class PostEffectImNode;
 class StaticTextureImNode;
@@ -22,7 +24,7 @@ public:
 	EditorRenderDAG();
 	~EditorRenderDAG() override = default;
 
-	__CLASS_NON_COPYABLE(EditorRenderDAG)
+	SZG_CLASS_MOVE_ONLY(EditorRenderDAG)
 
 public:
 	using DAGNodeType =
@@ -60,5 +62,7 @@ private:
 	std::unique_ptr<ImFlow::ImNodeFlow> imNodeFlow{};
 	std::unordered_map<u64, DAGNodeType> nodes;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

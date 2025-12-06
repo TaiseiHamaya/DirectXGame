@@ -1,5 +1,7 @@
 #include "ParticleDrawSystemRect.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"

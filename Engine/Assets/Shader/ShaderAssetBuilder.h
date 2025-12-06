@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class ShaderAsset;
 
 class ShaderAssetBuilder final : public IAssetBuilder {
@@ -21,3 +23,5 @@ public:
 private:
 	std::shared_ptr<ShaderAsset> asset;
 };
+
+}; // szg

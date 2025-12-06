@@ -5,6 +5,8 @@
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
+namespace szg {
+
 enum class PsoBlendMode : u32;
 
 class Rect3dPipeline final : public BaseRenderPipeline {
@@ -12,7 +14,7 @@ public:
 	Rect3dPipeline();
 	~Rect3dPipeline() noexcept;
 
-	__CLASS_NON_COPYABLE(Rect3dPipeline)
+	SZG_CLASS_MOVE_ONLY(Rect3dPipeline)
 
 public:
 	/// <summary>
@@ -27,3 +29,5 @@ public:
 private:
 	void create_pipeline_state(PsoBlendMode blendMode);
 };
+
+}; // szg

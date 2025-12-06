@@ -8,6 +8,8 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class ITextureResource;
 
 template<typename Handle>
@@ -16,7 +18,7 @@ public:
 	IResourceView() = default;
 	~IResourceView() = default;
 
-	__CLASS_NON_COPYABLE(IResourceView)
+	SZG_CLASS_MOVE_ONLY(IResourceView)
 
 public:
 	virtual void release() = 0;
@@ -30,3 +32,5 @@ protected:
 	std::optional<u32> index{};
 	Handle _handle{};
 };
+
+}; // szg

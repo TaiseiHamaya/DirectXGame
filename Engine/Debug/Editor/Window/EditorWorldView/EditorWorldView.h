@@ -9,6 +9,8 @@
 
 #include "EditorDebugCamera.h"
 
+namespace szg {
+
 class RemoteWorldObject;
 class DirectionalLightInstance;
 class StaticMeshInstance;
@@ -20,7 +22,7 @@ public:
 	EditorWorldView() = default;
 	~EditorWorldView() = default;
 
-	__CLASS_NON_COPYABLE(EditorWorldView)
+	SZG_CLASS_MOVE_ONLY(EditorWorldView)
 
 public:
 	void initialize();
@@ -48,5 +50,7 @@ private:
 	std::unique_ptr<EditorDebugCamera> cameraInstance;
 	std::unordered_map<std::string, std::unique_ptr<PrimitiveGeometryDrawExecutor>> primitive;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -6,6 +6,8 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class NodeAnimationPlayer;
 class SkeletonAsset;
 
@@ -32,7 +34,7 @@ public:
 	explicit SkinningMeshInstance(const std::string& meshName, const std::string& animationName = "", bool isLoop = false);
 	virtual ~SkinningMeshInstance() noexcept;
 
-	__CLASS_NON_COPYABLE(SkinningMeshInstance)
+	SZG_CLASS_MOVE_ONLY(SkinningMeshInstance)
 
 public:
 	virtual void update() override;
@@ -65,3 +67,5 @@ private:
 	std::vector<StaticMeshInstance> boneMeshTest; // デバッグ用
 #endif // _DEBUG
 };
+
+}; // szg

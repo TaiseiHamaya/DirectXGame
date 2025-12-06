@@ -2,6 +2,8 @@
 
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
+namespace szg {
+
 class ParticleBillboardPipeline : public BaseRenderPipeline {
 public:
 	ParticleBillboardPipeline();
@@ -23,3 +25,5 @@ public:
 private:
 	void create_pipeline_state();
 };
+
+}; // szg

@@ -12,6 +12,8 @@
 #include "Engine/Module/Render/RenderPipeline/IPostEffectPipeline.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
+namespace szg {
+
 class PostEffectNode final : public IRenderNode {
 public:
 	struct Data {
@@ -27,7 +29,7 @@ public:
 	PostEffectNode() = default;
 	~PostEffectNode() noexcept = default;
 
-	__CLASS_NON_COPYABLE(PostEffectNode)
+	SZG_CLASS_MOVE_ONLY(PostEffectNode)
 
 public:
 	void stack_command() override;
@@ -39,3 +41,5 @@ public:
 private:
 	Data data;
 };
+
+}; // szg

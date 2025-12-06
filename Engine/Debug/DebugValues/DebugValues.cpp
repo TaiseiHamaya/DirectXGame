@@ -1,5 +1,7 @@
 #include "DebugValues.h"
 
+using namespace szg;
+
 DebugValues::DebugValues() {
 	gridMesh = std::make_unique<StaticMeshInstance>("Grid.obj");
 }

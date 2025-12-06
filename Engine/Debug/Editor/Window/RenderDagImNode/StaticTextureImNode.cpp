@@ -1,5 +1,7 @@
 #include "StaticTextureImNode.h"
 
+using namespace szg;
+
 #ifdef DEBUG_FEATURES_ENABLE
 
 StaticTextureImNode::StaticTextureImNode() {

@@ -1,5 +1,7 @@
 #include "InstanceBucket.h"
 
+using namespace szg;
+
 void InstanceBucket::reset() {
 	camera.clear();
 	staticMesh.clear();

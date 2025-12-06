@@ -8,10 +8,12 @@
 #include <optional>
 #include <memory>
 
+namespace szg {
+
 class IEditorCommand;
 
 class EditorCommandInvoker final : public SingletonInterface<EditorCommandInvoker> {
-	__CLASS_SINGLETON_INTERFACE(EditorCommandInvoker)
+	SZG_CLASS_SINGLETON(EditorCommandInvoker)
 
 public:
 	static void Execute(std::unique_ptr<IEditorCommand> command);
@@ -23,5 +25,7 @@ private:
 	std::optional<u64> recent;
 	std::deque<std::unique_ptr<IEditorCommand>> history;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

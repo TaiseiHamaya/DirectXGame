@@ -1,5 +1,7 @@
 #include "ProjectSettings.h"
 
+using namespace szg;
+
 #include <fstream>
 
 #include <json.hpp>

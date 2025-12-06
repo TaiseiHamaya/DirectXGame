@@ -1,5 +1,7 @@
 #include "IndexBuffer.h"
 
+using namespace szg;
+
 constexpr UINT INDEX_DATA_SIZE = sizeof(u32);
 
 IndexBuffer::IndexBuffer(u32 size_) noexcept(false) {

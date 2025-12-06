@@ -1,5 +1,7 @@
 #include "BaseRenderPipeline.h"
 
+using namespace szg;
+
 #include <d3d12.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"

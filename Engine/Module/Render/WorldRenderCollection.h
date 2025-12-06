@@ -14,6 +14,8 @@
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 #include "RenderNode/WorldLayerRenderNode.h"
 
+namespace szg {
+
 class WorldLayerRenderNode;
 class InstanceBucket;
 
@@ -24,7 +26,7 @@ public:
 	WorldRenderCollection() = default;
 	~WorldRenderCollection() = default;
 
-	__CLASS_NON_COPYABLE(WorldRenderCollection)
+	SZG_CLASS_MOVE_ONLY(WorldRenderCollection)
 
 public:
 	void initialize();
@@ -52,3 +54,5 @@ private:
 
 	std::vector<Reference<Camera3D>> cameras;
 };
+
+}; // szg

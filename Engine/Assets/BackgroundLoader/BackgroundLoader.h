@@ -11,8 +11,10 @@
 /// <summary>
 /// バックグラウンドロード用クラス(スレッドセーフ)
 /// </summary>
+namespace szg {
+
 class BackgroundLoader final : public SingletonInterface<BackgroundLoader> {
-	__CLASS_SINGLETON_INTERFACE(BackgroundLoader)
+	SZG_CLASS_SINGLETON(BackgroundLoader)
 
 public:
 	/// <summary>
@@ -97,3 +99,5 @@ private:
 	/// </summary>
 	bool isLoading{ false };
 };
+
+}; // szg

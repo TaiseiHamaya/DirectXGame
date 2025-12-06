@@ -1,5 +1,7 @@
 #include "SkeletonAssetBuilder.h"
 
+using namespace szg;
+
 #include "./SkeletonAsset.h"
 #include "./SkeletonLibrary.h"
 #include "Engine/Application/Logger.h"

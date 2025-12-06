@@ -2,6 +2,8 @@
 
 #include "RemoteWorldInstance.h"
 
+using namespace szg;
+
 #define TRANSFORM3D_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 

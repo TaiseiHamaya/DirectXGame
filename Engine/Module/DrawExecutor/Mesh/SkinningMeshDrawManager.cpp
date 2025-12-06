@@ -1,5 +1,7 @@
 #include "SkinningMeshDrawManager.h"
 
+using namespace szg;
+
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
 

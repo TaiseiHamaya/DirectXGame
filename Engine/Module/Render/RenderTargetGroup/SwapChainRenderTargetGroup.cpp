@@ -1,5 +1,7 @@
 #include "SwapChainRenderTargetGroup.h"
 
+using namespace szg;
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void SwapChainRenderTargetGroup::initialize() {

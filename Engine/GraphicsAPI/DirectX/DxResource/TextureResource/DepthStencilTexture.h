@@ -6,12 +6,14 @@
 #include "./IResourceView/ShaderResourceView.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
+namespace szg {
+
 class DepthStencilTexture final : protected ITextureResource {
 public:
 	DepthStencilTexture() = default;
 	~DepthStencilTexture();
 
-	__CLASS_NON_COPYABLE(DepthStencilTexture)
+	SZG_CLASS_MOVE_ONLY(DepthStencilTexture)
 
 public:
 	void initialize(DXGI_FORMAT format, u32 width_ = ProjectSettings::ClientWidth(), u32 height_ = ProjectSettings::ClientHeight());
@@ -28,3 +30,5 @@ private:
 	DepthStencilView dsv;
 	ShaderResourceView srv;
 };
+
+}; // szg

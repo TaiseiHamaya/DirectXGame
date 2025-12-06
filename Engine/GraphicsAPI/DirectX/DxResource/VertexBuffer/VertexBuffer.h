@@ -10,6 +10,8 @@
 #include "../ConceptCPUBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
+namespace szg {
+
 template<class Array, typename T>
 concept WriteableVertexBuffer =
 // 連続メモリ配置またはイニシャライザーリスト
@@ -103,3 +105,5 @@ inline void VertexBuffer<T>::unmap() {
 }
 
 using Object3DVertexBuffer = VertexBuffer<VertexDataBuffer>;
+
+}; // szg

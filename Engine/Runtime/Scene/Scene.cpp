@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+using namespace szg;
+
 #include <filesystem>
 
 #include "Engine/Loader/SceneAssetListLoader.h"

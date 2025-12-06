@@ -4,6 +4,8 @@
 
 #include "Engine/Module/Render/RenderPipeline/BaseRenderPipeline.h"
 
+namespace szg {
+
 class PrimitiveLinePipeline final : public BaseRenderPipeline {
 public:
 	PrimitiveLinePipeline();
@@ -25,5 +27,7 @@ public:
 private:
 	void create_pipeline_state();
 };
+
+}; // szg
 
 #endif // _DEBUG

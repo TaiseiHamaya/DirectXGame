@@ -8,6 +8,8 @@
 
 #include <Library/Math/Matrix4x4.h>
 
+namespace szg {
+
 class PointLightingExecutor final : public BaseDrawExecutor<PointLightInstance> {
 public:
 	PointLightingExecutor() = default;
@@ -15,7 +17,7 @@ public:
 
 	PointLightingExecutor(u32 maxInstance);
 	
-	__CLASS_NON_COPYABLE(PointLightingExecutor)
+	SZG_CLASS_MOVE_ONLY(PointLightingExecutor)
 
 public:
 	void reinitialize(u32 maxInstance);
@@ -28,3 +30,5 @@ private:
 	StructuredBuffer<Matrix4x4> matrices;
 	StructuredBuffer<PointLightData> lightData;
 };
+
+}; // szg

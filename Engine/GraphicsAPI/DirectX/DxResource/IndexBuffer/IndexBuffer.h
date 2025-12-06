@@ -7,6 +7,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
+namespace szg {
+
 template <class T>
 concept WriteableIndexBuffer =
 // 連続メモリ配置またはイニシャライザーリスト
@@ -69,3 +71,5 @@ inline void IndexBuffer::write(const T& indexes_array) {
 	std::memcpy(data.data(), std::to_address(indexes_array.begin()), memorySize);
 	unmap();
 }
+
+}; // szg

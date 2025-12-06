@@ -4,6 +4,8 @@
 
 #include <string>
 
+namespace szg {
+
 class TextureAsset;
 class PolygonMesh;
 
@@ -21,3 +23,5 @@ private:
 	std::shared_ptr<const PolygonMesh> mesh;
 	std::shared_ptr<const TextureAsset> texture;
 };
+
+}; // szg

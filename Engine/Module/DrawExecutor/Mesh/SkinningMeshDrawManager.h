@@ -6,12 +6,14 @@
 #include "./SkinningMeshDrawExecutor.h"
 #include "Engine/Module/World/Mesh/SkinningMeshInstance.h"
 
+namespace szg {
+
 class SkinningMeshDrawManager final : public BaseDrawManager<SkinningMeshDrawExecutor> {
 public:
 	SkinningMeshDrawManager() = default;
 	virtual ~SkinningMeshDrawManager() = default;
 
-	__CLASS_NON_COPYABLE(SkinningMeshDrawManager)
+	SZG_CLASS_MOVE_ONLY(SkinningMeshDrawManager)
 
 public:
 	void make_instancing(u32 layer, const std::string& meshName, u32 maxInstance);
@@ -21,3 +23,5 @@ public:
 	void debug_gui();
 #endif // _DEBUG
 };
+
+}; // szg

@@ -11,6 +11,8 @@
 
 #include <Library/Utility/Tools/Hash.h>
 
+namespace szg {
+
 template <class Executor, typename T>
 concept ConceptExecutor = std::derived_from<Executor, BaseDrawExecutor<T>>;
 
@@ -21,7 +23,7 @@ public:
 	BaseDrawManager() = default;
 	virtual ~BaseDrawManager() = default;
 
-	__CLASS_NON_COPYABLE(BaseDrawManager)
+	SZG_CLASS_MOVE_ONLY(BaseDrawManager)
 
 public:
 	void initialize(u32 numLayer);
@@ -113,3 +115,5 @@ inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 lay
 		executor->draw_command();
 	}
 }
+
+}; // szg

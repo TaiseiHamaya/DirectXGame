@@ -11,6 +11,8 @@
 
 #include "../RemoteObject/RemoteSceneObject.h"
 
+namespace szg {
+
 class IRemoteObject;
 class EditorSelectObject;
 class EditorSceneView;
@@ -44,5 +46,7 @@ private:
 
 	bool savedTrigger;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

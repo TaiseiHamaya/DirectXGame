@@ -1,5 +1,7 @@
 #include "PostEffectNode.h"
 
+using namespace szg;
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void PostEffectNode::stack_command() {

@@ -6,12 +6,14 @@
 
 #include "../Core/EditorSelectObject.h"
 
+namespace szg {
+
 class EditorSelectCommand final : public IEditorCommand {
 public:
 	EditorSelectCommand(Reference<IRemoteObject> object, EditorSelectObjectBody::TransformData transform_ = {});
 	~EditorSelectCommand() = default;
 
-	__CLASS_NON_COPYABLE(EditorSelectCommand)
+	SZG_CLASS_MOVE_ONLY(EditorSelectCommand)
 
 public:
 	void execute() override;
@@ -27,5 +29,7 @@ public:
 private:
 	static inline Reference<EditorSelectObject> selectObject{};
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

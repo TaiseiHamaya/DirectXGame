@@ -1,5 +1,7 @@
 #include "SceneAssetListLoader.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Json/JsonAsset.h"
 
 SceneAssetCollection SceneAssetListLoader::load(const std::string& sceneName) {
@@ -7,6 +9,10 @@ SceneAssetCollection SceneAssetListLoader::load(const std::string& sceneName) {
 	SceneAssetCollection::AssetListType lazyAssets{};
 
 	JsonAsset json{ std::format("./Game/Core/Scene/{}/Assets.json", sceneName) };
+
+	if (json.cget().is_null()) {
+		return {};
+	}
 
 	load_asset_list(assets, json.cget());
 	load_asset_list(lazyAssets, json.cget().value("LazyLoadAssets", nlohmann::json::object()));

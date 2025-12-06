@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class PolygonMesh;
 
 class PolygonMeshBuilder final : public IAssetBuilder {
@@ -22,3 +24,5 @@ private:
 	std::shared_ptr<PolygonMesh> meshResult;
 };
 
+
+}; // szg

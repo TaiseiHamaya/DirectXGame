@@ -1,5 +1,7 @@
 #include "BaseRenderTargetGroup.h"
 
+using namespace szg;
+
 BaseRenderTargetGroup::BaseRenderTargetGroup() = default;
 
 BaseRenderTargetGroup::~BaseRenderTargetGroup() noexcept = default;

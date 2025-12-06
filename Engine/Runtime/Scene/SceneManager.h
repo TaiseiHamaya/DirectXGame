@@ -1,13 +1,15 @@
 #pragma once
 
-class BaseScene;
-class BaseSceneFactory;
-
 #include <deque>
 #include <memory>
 
 #include <Library/Utility/Template/TimedCall.h>
 #include <Library/Utility/Template/Reference.h>
+
+namespace szg {
+
+class BaseScene;
+class BaseSceneFactory;
 
 #ifdef DEBUG_FEATURES_ENABLE
 class TimestampProfiler;
@@ -98,3 +100,5 @@ private:
 	Reference<TimestampProfiler> profiler;
 #endif // _DEBUG
 };
+
+}; // szg

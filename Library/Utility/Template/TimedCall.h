@@ -24,7 +24,7 @@ public:
 
 private:
 	std::function<Type> function;
-	WorldTimer timer;
+	szg::WorldTimer timer;
 	bool isFinished;
 };
 

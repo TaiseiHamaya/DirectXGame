@@ -7,6 +7,8 @@
 #include "../RenderPath/RenderPath.h"
 #include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 
+namespace szg {
+
 class RenderTexture;
 class NonLightingPixelPipeline;
 class DirectionalLightingPipeline;
@@ -28,3 +30,5 @@ private:
 	std::shared_ptr<DirectionalLightingPipeline> directionalLightingNode;
 	std::shared_ptr<PointLightingPipeline> pointLightingNode;
 };
+
+}; // szg

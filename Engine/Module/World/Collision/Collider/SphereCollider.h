@@ -2,6 +2,8 @@
 
 #include "BaseCollider.h"
 
+namespace szg {
+
 class SphereCollider : public BaseCollider {
 public:
 	SphereCollider() = default;
@@ -15,3 +17,5 @@ public:
 private:
 	r32 radius{ 1 };
 };
+
+}; // szg

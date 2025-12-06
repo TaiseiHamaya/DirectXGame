@@ -1,13 +1,13 @@
 #include "CrashHandler.h"
 
+using namespace szg;
+
 #include <Windows.h>
 #include <DbgHelp.h>
 #include <strsafe.h>
 
 #include "Engine/Application/EngineSettings.h"
 #include "Engine/Application/Logger.h"
-
-namespace {
 
 static LONG WINAPI ExportDump(EXCEPTION_POINTERS* exception) noexcept {
 	Logger::Finalize();
@@ -70,7 +70,7 @@ static LONG WINAPI ExportDump(EXCEPTION_POINTERS* exception) noexcept {
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
-} // namespace
+namespace szg {
 
 namespace CrashHandler {
 
@@ -79,3 +79,5 @@ void Initialize() {
 }
 
 } // namespace CrashHandler
+
+} // namespace szg

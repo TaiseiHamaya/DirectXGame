@@ -9,6 +9,8 @@
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
 
+namespace szg {
+
 class WorldLayerRenderImNode : public IRenderDagImNode {
 public:
 	WorldLayerRenderImNode();
@@ -49,5 +51,7 @@ public:
 private:
 	Data data;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

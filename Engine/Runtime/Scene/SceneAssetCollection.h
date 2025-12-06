@@ -6,6 +6,8 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class SceneAssetCollection {
 #ifdef DEBUG_FEATURES_ENABLE
 	friend class EditorAssetSaver;
@@ -33,7 +35,7 @@ public:
 	SceneAssetCollection() = default;
 	~SceneAssetCollection() = default;
 
-	__CLASS_NON_COPYABLE(SceneAssetCollection)
+	SZG_CLASS_MOVE_ONLY(SceneAssetCollection)
 
 	SceneAssetCollection(const AssetListType& assets, const AssetListType& lazyLoadAssets);
 
@@ -59,3 +61,5 @@ private:
 	AssetListType assets;
 	AssetListType lazyLoadAssets;
 };
+
+}; // szg

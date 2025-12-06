@@ -2,13 +2,15 @@
 
 #include "FontAtlasBuilderManager.h"
 
+using namespace szg;
+
 void FontAtlasBuilderManager::Initialize() {
 	auto& instance = GetInstance();
 	if (instance.freetype) {
 		return;
 	}
 	instance.freetype = msdfgen::initializeFreetype();
-	instance.charset.load("./DirectXGame/EditorResources/charset.txt");
+	instance.charset.load("./SyzygyEngine/EditorResources/charset.txt");
 }
 
 void FontAtlasBuilderManager::Finalize() {

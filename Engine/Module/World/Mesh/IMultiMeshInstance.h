@@ -11,6 +11,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
 
+namespace szg {
+
 class PolygonMesh;
 class TextureAsset;
 
@@ -28,7 +30,7 @@ public:
 	IMultiMeshInstance() noexcept;
 	virtual ~IMultiMeshInstance() noexcept;
 
-	__CLASS_NON_COPYABLE(IMultiMeshInstance)
+	SZG_CLASS_MOVE_ONLY(IMultiMeshInstance)
 
 public:
 	std::vector<Material>& get_materials();
@@ -40,3 +42,5 @@ protected:
 protected:
 	std::vector<Material> materials;
 };
+
+}; // szg

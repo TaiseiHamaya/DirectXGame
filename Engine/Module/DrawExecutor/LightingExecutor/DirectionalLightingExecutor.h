@@ -4,6 +4,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 #include "Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h"
 
+namespace szg {
+
 class DirectionalLightingExecutor final : public BaseDrawExecutor<DirectionalLightInstance> {
 public:
 	DirectionalLightingExecutor() = default;
@@ -11,7 +13,7 @@ public:
 
 	DirectionalLightingExecutor(u32 maxInstance);
 
-	__CLASS_NON_COPYABLE(DirectionalLightingExecutor)
+	SZG_CLASS_MOVE_ONLY(DirectionalLightingExecutor)
 
 public:
 	void reinitialize(u32 maxInstance);
@@ -22,3 +24,5 @@ public:
 private:
 	StructuredBuffer<DirectionalLightData> lightData;
 };
+
+}; // szg

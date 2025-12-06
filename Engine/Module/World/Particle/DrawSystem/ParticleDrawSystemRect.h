@@ -9,6 +9,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
+namespace szg {
+
 class Camera3D;
 class TextureAsset;
 
@@ -36,3 +38,5 @@ private:
 public:
 	VertexBuffer<BillboardBuffer> vertexBuffer;
 };
+
+}; // szg

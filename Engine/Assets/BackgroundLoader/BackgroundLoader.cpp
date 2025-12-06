@@ -1,5 +1,7 @@
 #include "BackgroundLoader.h"
 
+using namespace szg;
+
 #include <functional>
 #include <mutex>
 

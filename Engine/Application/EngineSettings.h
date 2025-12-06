@@ -8,8 +8,8 @@
 
 namespace EngineSettings {
 // UseRenderingEngine
-#define __USE_RENDERING_ENGINE_DIRECTX12
-//#define __USE_RENDERING_ENGINE_VULKAN
+#define SZG_RENDERING_ENGINE_DIRECTX12
+//#define SZG_RENDERING_ENGINE_VULKAN
 
 /// <summary>
 /// ログファイル名

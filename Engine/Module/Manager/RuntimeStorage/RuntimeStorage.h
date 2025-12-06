@@ -8,8 +8,10 @@
 #include <Library/Utility/Template/SingletonInterface.h>
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class RuntimeStorage : public SingletonInterface<RuntimeStorage> {
-	__CLASS_SINGLETON_INTERFACE(RuntimeStorage)
+	SZG_CLASS_SINGLETON(RuntimeStorage)
 
 public:
 	using ValueGroup = std::unordered_map<std::string, std::any>;
@@ -24,3 +26,5 @@ private:
 	std::unordered_map<std::string, ValueGroup> runtimeValues;
 };
 
+
+}; // szg

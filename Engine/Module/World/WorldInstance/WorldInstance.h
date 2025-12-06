@@ -6,6 +6,8 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class WorldRoot;
 
 class WorldInstance {
@@ -17,7 +19,7 @@ public:
 	WorldInstance() noexcept = default;
 	virtual ~WorldInstance() = default;
 
-	__CLASS_NON_COPYABLE(WorldInstance)
+	SZG_CLASS_MOVE_ONLY(WorldInstance)
 
 public:
 	/// <summary>
@@ -167,3 +169,5 @@ protected:
 	bool isDestroy{ false };
 };
 
+
+}; // szg

@@ -1,5 +1,7 @@
 #pragma once
 
+namespace szg {
+
 class WorldTimer final {
 public:
 	void ahead(r32 scale = 1.0f);
@@ -21,3 +23,5 @@ public:
 private:
 	r32 timer{ 0 };
 };
+
+}; // szg

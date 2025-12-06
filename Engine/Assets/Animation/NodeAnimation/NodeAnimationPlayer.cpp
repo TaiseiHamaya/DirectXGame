@@ -1,5 +1,7 @@
 #include "NodeAnimationPlayer.h"
 
+using namespace szg;
+
 #include <cmath>
 
 #include "NodeAnimationAsset.h"

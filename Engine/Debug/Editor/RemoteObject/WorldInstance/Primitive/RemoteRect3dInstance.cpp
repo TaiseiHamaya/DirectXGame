@@ -1,5 +1,7 @@
 #include "RemoteRect3dInstance.h"
 
+using namespace szg;
+
 #ifdef DEBUG_FEATURES_ENABLE
 
 #include "../../../Window/EditorSceneView.h"

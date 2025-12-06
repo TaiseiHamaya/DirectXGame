@@ -1,5 +1,7 @@
 #include "Logger.h"
 
+using namespace szg;
+
 #include <Windows.h>
 
 #include <dbghelp.h>

@@ -2,6 +2,8 @@
 
 #include "EditorLogWindow.h"
 
+using namespace szg;
+
 #include <imgui.h>
 #include <imgui_internal.h>
 

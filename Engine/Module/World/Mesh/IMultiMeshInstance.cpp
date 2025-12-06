@@ -1,5 +1,7 @@
 #include "IMultiMeshInstance.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 

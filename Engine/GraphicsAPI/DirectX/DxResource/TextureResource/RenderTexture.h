@@ -8,12 +8,14 @@
 #include "./IResourceView/ShaderResourceView.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 
+namespace szg {
+
 class RenderTexture final : public ITextureResource {
 public:
 	RenderTexture() = default;
 	~RenderTexture();
 
-	__CLASS_NON_COPYABLE(RenderTexture)
+	SZG_CLASS_MOVE_ONLY(RenderTexture)
 
 public:
 	void initialize(DXGI_FORMAT format, u32 width_ = ProjectSettings::ClientWidth(), u32 height_ = ProjectSettings::ClientHeight());
@@ -31,3 +33,5 @@ private:
 	RenderTargetView rtv;
 	ShaderResourceView srv;
 };
+
+}; // szg

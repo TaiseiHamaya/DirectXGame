@@ -1,5 +1,7 @@
 #include "SphereCollider.h"
 
+using namespace szg;
+
 SphereCollider::SphereCollider(r32 radius_) :
 	radius(radius_) {
 

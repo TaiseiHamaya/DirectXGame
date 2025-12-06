@@ -7,13 +7,15 @@
 #include <string>
 #include <unordered_map>
 
+namespace szg {
+
 class PrimitiveGeometryAsset;
 
 /// <summary>
 /// Primitiveアセット保持クラス(スレッドセーフ)
 /// </summary>
 class PrimitiveGeometryLibrary final : SingletonInterface<PrimitiveGeometryLibrary> {
-	__CLASS_SINGLETON_INTERFACE(PrimitiveGeometryLibrary)
+	SZG_CLASS_SINGLETON(PrimitiveGeometryLibrary)
 
 public:
 	/// <summary>
@@ -54,3 +56,5 @@ private:
 private:
 	std::unordered_map<std::string, std::shared_ptr<PrimitiveGeometryAsset>> primitiveGeometryList;
 };
+
+}; // szg

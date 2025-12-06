@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <vector>
 
+namespace szg {
+
 class ImGuiLoadManager final {
 private:
 	ImGuiLoadManager() noexcept(false);
@@ -34,4 +36,6 @@ private:
 	std::filesystem::path textureCurrentPath;
 	std::vector<std::string> textureFileList;
 };
+}; // szg
+
 #endif // _DEBUG

@@ -1,5 +1,7 @@
 #include "DxPipelineState.h"
 
+using namespace szg;
+
 #include <Library/Utility/Tools/ConvertString.h>
 
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"

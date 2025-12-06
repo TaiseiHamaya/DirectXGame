@@ -2,6 +2,8 @@
 
 #include "RemoteErrorObject.h"
 
+using namespace szg;
+
 #include <format>
 
 #include <imgui.h>

@@ -8,6 +8,8 @@
 /// <summary>
 /// シーンの基底クラス
 /// </summary>
+namespace szg {
+
 class BaseScene {
 public:
 	BaseScene() = default;
@@ -76,3 +78,5 @@ protected:
 	std::string sceneName;
 	std::vector<WorldManager> worlds;
 };
+
+}; // szg

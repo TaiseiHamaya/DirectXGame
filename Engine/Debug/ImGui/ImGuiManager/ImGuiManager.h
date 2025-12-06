@@ -2,6 +2,8 @@
 
 #ifdef DEBUG_FEATURES_ENABLE
 
+namespace szg {
+
 class ImGuiManager final {
 private:
 	ImGuiManager() noexcept = default;
@@ -24,5 +26,7 @@ public:
 
 private:
 };
+
+}; // szg
 
 #endif // _DEBUG

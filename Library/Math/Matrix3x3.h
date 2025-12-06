@@ -63,49 +63,49 @@ public: // メンバ関数
 	constexpr const Matrix3x3 transpose() const;
 
 private:// has継承
-	Matrix<3, 3> __matrix; // 実体
+	Matrix<3, 3> matrix; // 実体
 };
 
 constexpr Matrix3x3::Matrix3x3(const Matrix<3, 3>&& rhs) noexcept {
-	__matrix = rhs;
+	matrix = rhs;
 }
 
 constexpr Matrix3x3::Matrix3x3(const std::initializer_list<std::initializer_list<r32>>& init) {
 	for (i32 i = 0; i < 3; ++i) {
 		for (i32 j = 0; j < 3; ++j) {
-			__matrix[i][j] = *((init.begin() + i)->begin() + j);
+			matrix[i][j] = *((init.begin() + i)->begin() + j);
 		}
 	}
 }
 
 constexpr const std::array<r32, 3>& Matrix3x3::operator[](std::size_t index) const {
-	return __matrix[index];
+	return matrix[index];
 }
 
 constexpr std::array<r32, 3>& Matrix3x3::operator[](std::size_t index) {
-	return __matrix[index];
+	return matrix[index];
 }
 
 constexpr const Matrix3x3 Matrix3x3::operator+(const Matrix3x3& opr) const {
-	return (__matrix + opr.__matrix);
+	return (matrix + opr.matrix);
 }
 
 constexpr const Matrix3x3 Matrix3x3::operator*(const Matrix3x3& opr) const {
-	return (__matrix * opr.__matrix);
+	return (matrix * opr.matrix);
 }
 
 constexpr Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& opr) {
-	*this = (__matrix + opr.__matrix);
+	*this = (matrix + opr.matrix);
 	return *this;
 }
 
 constexpr Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& opr) {
-	*this = (__matrix * opr.__matrix);
+	*this = (matrix * opr.matrix);
 	return *this;
 }
 
 constexpr Matrix3x3 Matrix3x3::Multiply(const Matrix3x3& matrix, const r32& times) {
-	return Matrix<3, 3>::Multiply(matrix.__matrix, times);
+	return Matrix<3, 3>::Multiply(matrix.matrix, times);
 }
 
 
@@ -114,7 +114,7 @@ constexpr Matrix3x3 Matrix3x3::Transpose(const Matrix3x3& matrix) {
 }
 
 constexpr const Matrix3x3 Matrix3x3::transpose() const {
-	return __matrix.transpose();
+	return matrix.transpose();
 }
 
 namespace CMatrix3x3 {

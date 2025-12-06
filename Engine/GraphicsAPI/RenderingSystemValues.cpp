@@ -1,5 +1,7 @@
 #include "RenderingSystemValues.h"
 
+using namespace szg;
+
 Reference<DepthStencilTexture> RenderingSystemValues::GetDepthStencilTexture() {
 	return texture;
 }

@@ -6,6 +6,8 @@
 #include <d3d12shader.h>
 #include <wrl/client.h>
 
+namespace szg {
+
 class ShaderBuilder;
 class RootSignatureBuilder;
 
@@ -33,3 +35,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12ShaderReflection> psReflector;
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs;
 };
+
+}; // szg

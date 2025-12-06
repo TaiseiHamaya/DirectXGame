@@ -7,6 +7,8 @@
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 #include "Engine/Module/World/Mesh/Primitive/Rect3d.h"
 
+namespace szg {
+
 class RemotePointLightInstance final : public IRemoteInstance<PointLightInstance, Rect3d> {
 public:
 	friend class EditorSceneSerializer;
@@ -15,7 +17,7 @@ public:
 	RemotePointLightInstance() = default;
 	~RemotePointLightInstance() = default;
 
-	__CLASS_DEFAULT_ALL(RemotePointLightInstance)
+	SZG_CLASS_DEFAULT(RemotePointLightInstance)
 
 public:
 	void setup() override;
@@ -39,5 +41,7 @@ private:
 	EditorValueField<r32> decay{ "Decay", 0.0f };
 	EditorValueField<u32> influenceLayer{ "Influence Layer", 1u };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

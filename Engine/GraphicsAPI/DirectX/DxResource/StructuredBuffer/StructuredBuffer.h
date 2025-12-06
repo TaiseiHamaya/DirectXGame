@@ -12,6 +12,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
+namespace szg {
+
 template<ConceptCPUBufferACE T>
 class StructuredBuffer : public  DxResource {
 public:
@@ -124,3 +126,5 @@ inline void StructuredBuffer<T>::unmap() {
 		resource->Unmap(0, nullptr);
 	}
 }
+
+}; // szg

@@ -7,12 +7,14 @@
 /// <summary>
 /// アセットビルダーインターフェース
 /// </summary>
+namespace szg {
+
 class IAssetBuilder {
 public:
 	IAssetBuilder() = default;
 	virtual ~IAssetBuilder() = default;
 
-	__CLASS_NON_COPYMOVEABLE(IAssetBuilder)
+	SZG_CLASS_DELETED(IAssetBuilder)
 
 public:
 	/// <summary>
@@ -46,3 +48,5 @@ public:
 protected:
 	std::filesystem::path filePath;
 };
+
+}; // szg

@@ -3,20 +3,20 @@
 #include <concepts>
 #include <string>
 
-namespace __internal {
+namespace szg_internal {
 
 template<std::signed_integral T>
-constexpr T __gcd(T a, T b) {
+constexpr T gcd(T a, T b) {
 	if (a % b == 0)
 		return b;
-	return __gcd<T>(b, a % b);
+	return gcd<T>(b, a % b);
 }
 
 template<std::signed_integral T>
 constexpr T gcd(T a, T b) {
 	if (b == 0)
 		return (a >= 0 ? a : -a);
-	return __gcd<T>((a >= 0 ? a : -a), (b >= 0 ? b : -b));
+	return gcd<T>((a >= 0 ? a : -a), (b >= 0 ? b : -b));
 }
 
 template<std::signed_integral T>
@@ -126,7 +126,7 @@ template<std::signed_integral T>
 inline constexpr Fraction<T>::Fraction(value_type numer_, value_type denom_) noexcept :
 	numer(numer_),
 	denom(denom_) {
-	__internal::simplify(numer, denom);
+	szg_internal::simplify(numer, denom);
 }
 
 template<std::signed_integral T>
@@ -160,8 +160,8 @@ inline constexpr Fraction<T> operator-(const Fraction<T>& lhs, const Fraction<T>
 
 template<std::signed_integral T>
 inline constexpr Fraction<T> operator*(const Fraction<T>& lhs, const Fraction<T>& rhs) {
-	T gcdL = __internal::gcd(lhs.numer, rhs.denom);
-	T gcdR = __internal::gcd(rhs.numer, lhs.denom);
+	T gcdL = szg_internal::gcd(lhs.numer, rhs.denom);
+	T gcdR = szg_internal::gcd(rhs.numer, lhs.denom);
 	return Fraction<T>((lhs.numer / gcdL) * (rhs.numer / gcdR), (lhs.denom / gcdR) * (rhs.denom / gcdL));
 }
 
@@ -237,7 +237,7 @@ inline constexpr bool operator!=(const Fraction<T>& lhs, const Fraction<T>& rhs)
 
 template<std::signed_integral T>
 inline constexpr bool operator<(const Fraction<T>& lhs, const Fraction<T>& rhs) {
-	T vlcm = __internal::lcm<T>(lhs.denom, rhs.denom);
+	T vlcm = szg_internal::lcm<T>(lhs.denom, rhs.denom);
 	return vlcm * lhs.numer < vlcm * rhs.numer;
 }
 
@@ -271,7 +271,7 @@ std::istream& operator>>(std::istream& is, Fraction<T>& value) {
 			den_tmp = den_tmp * 10 + buf[i] - '0';
 	if (buf[0] == '-')
 		num_tmp *= -1;
-	__internal::simplify(num_tmp, den_tmp);
+	szg_internal::simplify(num_tmp, den_tmp);
 	value.numer = num_tmp, value.denom = den_tmp;
 	return is;
 }

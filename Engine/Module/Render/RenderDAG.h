@@ -9,6 +9,8 @@
 
 #include "Engine/Module/Render/RenderTargetCollection/RenderTargetCollection.h"
 
+namespace szg {
+
 class IRenderNode;
 class Scene;
 
@@ -17,7 +19,7 @@ public:
 	RenderDAG();
 	~RenderDAG() noexcept;
 
-	__CLASS_NON_COPYABLE(RenderDAG)
+	SZG_CLASS_MOVE_ONLY(RenderDAG)
 
 public:
 	void setup(std::string_view sceneName, Reference<Scene> scene);
@@ -28,3 +30,5 @@ private:
 	RenderTargetCollection renderTargetCollection;
 	std::vector<std::unique_ptr<IRenderNode>> renderGraph;
 };
+
+}; // szg

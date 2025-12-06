@@ -6,6 +6,8 @@
 
 #include "Engine/Debug/Profiler/TimestampProfiler.h"
 
+namespace szg {
+
 class WinApp final : public SingletonInterface<WinApp> {
 	friend class SingletonInterface<WinApp>;
 
@@ -96,3 +98,5 @@ private:
 #endif // _DEBUG
 };
 
+
+}; // szg

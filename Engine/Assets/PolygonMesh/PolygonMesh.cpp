@@ -1,5 +1,7 @@
 #include "PolygonMesh.h"
 
+using namespace szg;
+
 #include "Engine/GraphicsAPI/DirectX/DxResource/IndexBuffer/IndexBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 

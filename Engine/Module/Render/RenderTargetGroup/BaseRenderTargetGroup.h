@@ -3,6 +3,8 @@
 #include <Library/Math/Color4.h>
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class DepthStencilTexture;
 
 class BaseRenderTargetGroup {
@@ -33,3 +35,5 @@ protected:
 	virtual void clear_render_target() = 0;
 };
 
+
+}; // szg

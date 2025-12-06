@@ -8,10 +8,12 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class FontAtlasMSDFAsset;
 
 class FontAtlasMSDFLibrary final : public SingletonInterface<FontAtlasMSDFLibrary> {
-	__CLASS_SINGLETON_INTERFACE(FontAtlasMSDFLibrary)
+	SZG_CLASS_SINGLETON(FontAtlasMSDFLibrary)
 
 public:
 	static void Initialize();
@@ -67,3 +69,5 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<const FontAtlasMSDFAsset>> fontAtlases;
 	mutable std::mutex mutex;
 };
+
+}; // szg

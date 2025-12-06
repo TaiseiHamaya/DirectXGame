@@ -1,5 +1,7 @@
 #include "WorldRenderCollection.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Module/Manager/World/InstanceBucket.h"
 

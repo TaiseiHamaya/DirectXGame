@@ -2,6 +2,8 @@
 
 #include "RemoteSphereColliderInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 
 void RemoteSphereColliderInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {

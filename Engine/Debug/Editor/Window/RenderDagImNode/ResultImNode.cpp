@@ -1,5 +1,7 @@
 #include "ResultImNode.h"
 
+using namespace szg;
+
 #ifdef DEBUG_FEATURES_ENABLE
 
 ResultImNode::ResultImNode() {

@@ -2,6 +2,8 @@
 
 #include "EditorAssetSaver.h"
 
+using namespace szg;
+
 #include <memory>
 
 #include "../Window/RenderDagImNode/PostEffectImNode.h"

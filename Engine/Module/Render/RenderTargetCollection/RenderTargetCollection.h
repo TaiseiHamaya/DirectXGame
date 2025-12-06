@@ -12,12 +12,14 @@
 #include "Engine/Module/Render/RenderPipeline/Deferred/DeferredAdaptor.h"
 #include "Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
 
+namespace szg {
+
 class RenderTargetCollection {
 public:
 	RenderTargetCollection() = default;
 	~RenderTargetCollection() noexcept = default;
 
-	__CLASS_NON_COPYABLE(RenderTargetCollection)
+	SZG_CLASS_MOVE_ONLY(RenderTargetCollection)
 
 public:
 	std::pair<Reference<BaseRenderTargetGroup>, Reference<RenderTexture>> create_render_target_group(const nlohmann::json& json);
@@ -29,3 +31,5 @@ private:
 	std::vector<std::unique_ptr<BaseRenderTargetGroup>> renderTargets;
 	std::vector<std::unique_ptr<RenderTexture>> renderTextures;
 };
+
+}; // szg

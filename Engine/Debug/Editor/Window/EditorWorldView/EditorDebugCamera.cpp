@@ -2,6 +2,8 @@
 
 #include "EditorDebugCamera.h"
 
+using namespace szg;
+
 #include <Library/Math/VectorConverter.h>
 
 #include "../EditorSceneView.h"

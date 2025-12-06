@@ -11,6 +11,8 @@
 #include "Engine/Module/Manager/World/WorldCluster.h"
 #include "Engine/Module/Render/RenderDAG.h"
 
+namespace szg {
+
 class Scene {
 #ifdef DEBUG_FEATURES_ENABLE
 	friend class RemoteSceneObject;
@@ -21,7 +23,7 @@ public:
 	Scene() = default;
 	virtual ~Scene() = default;
 
-	__CLASS_NON_COPYABLE(Scene)
+	SZG_CLASS_MOVE_ONLY(Scene)
 
 public:
 	void load_assets();
@@ -61,3 +63,5 @@ private:
 	RenderDAG renderDAG;
 	SceneAssetCollection assetCollection;
 };
+
+}; // szg

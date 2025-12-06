@@ -1,5 +1,7 @@
 #include "ChromaticAberrationPipeline.h"
 
+using namespace szg;
+
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/DxPipelineState.h"

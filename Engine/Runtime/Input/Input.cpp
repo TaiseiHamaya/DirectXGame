@@ -1,5 +1,7 @@
 #include "Input.h"
 
+using namespace szg;
+
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment (lib, "xinput.lib")

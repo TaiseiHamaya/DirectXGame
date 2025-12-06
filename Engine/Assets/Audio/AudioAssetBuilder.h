@@ -4,6 +4,8 @@
 
 #include <memory>
 
+namespace szg {
+
 class AudioAsset;
 
 class AudioAssetBuilder final : public IAssetBuilder {
@@ -21,3 +23,5 @@ public:
 private:
 	std::unique_ptr<AudioAsset> audioData;
 };
+
+}; // szg

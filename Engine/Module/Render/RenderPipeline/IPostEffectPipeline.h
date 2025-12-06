@@ -7,12 +7,14 @@
 
 #include "./BaseRenderPipeline.h"
 
+namespace szg {
+
 class IPostEffectPipeline : public BaseRenderPipeline {
 public:
 	IPostEffectPipeline() = default;
 	virtual ~IPostEffectPipeline() = default;
 
-	__CLASS_NON_COPYABLE(IPostEffectPipeline)
+	SZG_CLASS_MOVE_ONLY(IPostEffectPipeline)
 
 public:
 	void setup(const std::optional<std::string>& groupName_);
@@ -22,3 +24,5 @@ public:
 protected:
 	std::optional<std::string> groupName;
 };
+
+}; // szg

@@ -6,6 +6,8 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class DxPipelineState;
 
 class BaseRenderPipeline {
@@ -13,7 +15,7 @@ public:
 	BaseRenderPipeline();
 	virtual ~BaseRenderPipeline() noexcept;
 
-	__CLASS_NON_COPYABLE(BaseRenderPipeline)
+	SZG_CLASS_MOVE_ONLY(BaseRenderPipeline)
 
 public:
 	/// <summary>
@@ -35,3 +37,5 @@ protected:
 	std::unique_ptr<DxPipelineState> pipelineState;
 	D3D_PRIMITIVE_TOPOLOGY primitiveTopology{};
 };
+
+}; // szg

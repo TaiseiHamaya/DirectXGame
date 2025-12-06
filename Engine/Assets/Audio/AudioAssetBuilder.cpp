@@ -1,5 +1,7 @@
 #include "AudioAssetBuilder.h"
 
+using namespace szg;
+
 #include <array>
 #include <cstring>
 #include <fstream>

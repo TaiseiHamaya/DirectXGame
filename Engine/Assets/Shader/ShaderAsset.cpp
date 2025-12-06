@@ -1,5 +1,7 @@
 #include "ShaderAsset.h"
 
+using namespace szg;
+
 ShaderAsset::ShaderAsset(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept :
 	blob(blob_) {
 }

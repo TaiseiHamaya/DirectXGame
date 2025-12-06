@@ -2,6 +2,8 @@
 
 #include "EditorCommandInvoker.h"
 
+using namespace szg;
+
 #include "IEditorCommand.h"
 #include "Engine/Application/Logger.h"
 

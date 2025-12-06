@@ -1,5 +1,7 @@
 #include "ParticleDrawSystemMesh.h"
 
+using namespace szg;
+
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureAsset.h"

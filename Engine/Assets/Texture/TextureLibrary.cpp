@@ -1,5 +1,7 @@
 #include "TextureLibrary.h"
 
+using namespace szg;
+
 #include <mutex>
 #include <ranges>
 

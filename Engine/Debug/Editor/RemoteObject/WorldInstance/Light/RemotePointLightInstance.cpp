@@ -2,6 +2,8 @@
 
 #include "RemotePointLightInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 
 #define COLOR3_SERIALIZER

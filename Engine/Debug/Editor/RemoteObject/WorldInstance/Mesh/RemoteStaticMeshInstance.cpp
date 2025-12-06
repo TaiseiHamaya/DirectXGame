@@ -2,6 +2,8 @@
 
 #include "RemoteStaticMeshInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"

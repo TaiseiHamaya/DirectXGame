@@ -11,6 +11,8 @@
 
 #include "Engine/Module/World/Mesh/Primitive/StringRectInstance.h"
 
+namespace szg {
+
 class RemoteStringRectInstance final : public IRemoteInstance<StringRectInstance, StringRectInstance> {
 public:
 	friend class EditorSceneSerializer;
@@ -19,7 +21,7 @@ public:
 	RemoteStringRectInstance() = default;
 	~RemoteStringRectInstance() = default;
 
-	__CLASS_DEFAULT_ALL(RemoteStringRectInstance)
+	SZG_CLASS_DEFAULT(RemoteStringRectInstance)
 
 public:
 	void setup() override;
@@ -48,5 +50,7 @@ private:
 
 	bool isChangedValue{ false };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

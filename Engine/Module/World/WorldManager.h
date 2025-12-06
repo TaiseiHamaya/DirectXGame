@@ -9,6 +9,8 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
+namespace szg {
+
 class WorldInstance;
 
 class WorldManager {
@@ -16,7 +18,7 @@ public:
 	WorldManager();
 	~WorldManager();
 
-	__CLASS_NON_COPYABLE(WorldManager)
+	SZG_CLASS_MOVE_ONLY(WorldManager)
 
 public:
 	void update_matrix();
@@ -43,3 +45,5 @@ inline std::unique_ptr<T> WorldManager::create(Reference<WorldInstance> parent, 
 	ref->reparent(parent, false);
 	return std::move(instance);
 }
+
+}; // szg

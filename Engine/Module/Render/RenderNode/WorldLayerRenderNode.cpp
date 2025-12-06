@@ -1,5 +1,7 @@
 #include "WorldLayerRenderNode.h"
 
+using namespace szg;
+
 #include "../WorldRenderCollection.h"
 #include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"

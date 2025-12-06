@@ -1,5 +1,7 @@
 #include "StaticMeshInstance.h"
 
+using namespace szg;
+
 #include "Engine/Application/Logger.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"

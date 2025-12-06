@@ -1,5 +1,7 @@
 #include "Particle.h"
 
+using namespace szg;
+
 #include "Engine/Runtime/Clock/WorldClock.h"
 
 #include <Library/Utility/Tools/RandomEngine.h>

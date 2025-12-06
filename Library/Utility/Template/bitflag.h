@@ -61,7 +61,7 @@ private: // member value
 // ---------- define macro ----------
 // ----------------------------------
 
-#define __USE_BITFLAG(EnumName) \
+#define SZG_BITFLAG(EnumName) \
 constexpr eps::bitflag<EnumName> operator|(const EnumName lhs, const EnumName rhs) {\
 	using U = typename std::underlying_type<EnumName>::type;\
 	return eps::bitflag<EnumName>(static_cast<U>(lhs) | static_cast<U>(rhs));\

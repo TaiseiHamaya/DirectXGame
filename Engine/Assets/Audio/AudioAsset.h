@@ -9,12 +9,14 @@
 /// <summary>
 /// 音声データアセット
 /// </summary>
+namespace szg {
+
 class AudioAsset {
 public:
 	AudioAsset(WAVEFORMATEXTENSIBLE format, std::vector<u8> buffer, u32 bufferSize);
 	~AudioAsset() = default;
 
-	__CLASS_NON_COPYABLE(AudioAsset)
+	SZG_CLASS_MOVE_ONLY(AudioAsset)
 
 public:
 	u32 buffer_size() const noexcept;
@@ -26,3 +28,5 @@ private:
 	std::vector<u8> buffer;
 	u32 bufferSize;
 };
+
+}; // szg

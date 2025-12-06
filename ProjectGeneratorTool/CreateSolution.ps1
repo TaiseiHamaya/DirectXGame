@@ -41,10 +41,10 @@ if ($LASTEXITCODE -ne 0) {
 # --- ステップ4: サブモジュールの追加 ---
 if ($BranchName) {
     Write-Host "ブランチ '$BranchName' を指定してサブモジュールを追加しています..."
-    git submodule add -b $BranchName https://github.com/TaiseiHamaya/DirectXGame.git
+    git submodule add -b $BranchName https://github.com/TaiseiHamaya/SyzygyEngine.git
 } else {
     Write-Host "デフォルトブランチでサブモジュールを追加しています..."
-    git submodule add https://github.com/TaiseiHamaya/DirectXGame.git
+    git submodule add https://github.com/TaiseiHamaya/SyzygyEngine.git
 }
 if ($LASTEXITCODE -ne 0) {
     Write-Host "サブモジュールの追加に失敗しました。"
@@ -54,7 +54,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # --- ステップ5: CopyFolderRootフォルダの内容をコピー ---
-$sourcePath = ".\DirectXGame\ProjectGeneratorTool\CopyFolderRoot\*"
+$sourcePath = ".\SyzygyEngine\ProjectGeneratorTool\CopyFolderRoot\*"
 $destinationPath = ".\"  # 現在の場所は project/
 try {
     Copy-Item -Path $sourcePath -Destination $destinationPath -Recurse -Force -ErrorAction Stop
@@ -125,8 +125,8 @@ if (Test-Path $gameDir) {
 }
 
 # DirectXGame.vcxproj.userのassume-unchanged
-cd DirectXGame
-git update-index --assume-unchanged DirectXGame.vcxproj.user
+cd SyzygyEngine
+git update-index --assume-unchanged SyzygyEngine.vcxproj.user
 
 Pop-Location
 Write-Host "完了しました。"

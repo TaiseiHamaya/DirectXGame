@@ -2,6 +2,8 @@
 
 #include "EditorSelectCommand.h"
 
+using namespace szg;
+
 EditorSelectCommand::EditorSelectCommand(Reference<IRemoteObject> object, EditorSelectObjectBody::TransformData transform) {
 	next.object = object;
 	next.transformData = transform;

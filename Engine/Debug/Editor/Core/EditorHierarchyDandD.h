@@ -9,10 +9,12 @@
 
 #include "../RemoteObject/IRemoteObject.h"
 
+namespace szg {
+
 class EditorCommandReparent;
 
 class EditorHierarchyDandD : public SingletonInterface<EditorHierarchyDandD> {
-	__CLASS_SINGLETON_INTERFACE(EditorHierarchyDandD)
+	SZG_CLASS_SINGLETON(EditorHierarchyDandD)
 
 public:
 	struct DragData {
@@ -31,5 +33,7 @@ private:
 	DragData dragData{};
 	std::unique_ptr<EditorCommandReparent> command{ nullptr };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -5,6 +5,8 @@
 
 #include <list>
 
+namespace szg {
+
 class DxDescriptorHeap {
 protected:
 	DxDescriptorHeap() noexcept = default;
@@ -38,3 +40,5 @@ protected: // Heap共有関数
 		bool shaderVisible
 	);
 };
+
+}; // szg

@@ -6,6 +6,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
 
+namespace szg {
+
 class EditorScreenResult final : public IEditorWindow {
 public:
 	void initialize(bool isActive_);
@@ -20,5 +22,7 @@ private:
 private:
 	TempTexture screenResultCpy;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

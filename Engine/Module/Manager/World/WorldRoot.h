@@ -11,12 +11,14 @@
 #include "Engine/Application/Logger.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
+namespace szg {
+
 class WorldRoot final {
 public:
 	WorldRoot();
 	~WorldRoot();
 
-	__CLASS_NON_COPYABLE(WorldRoot)
+	SZG_CLASS_MOVE_ONLY(WorldRoot)
 
 public:
 	void initialize();
@@ -28,7 +30,7 @@ public:
 
 	void post_update();
 
-	template<std::derived_from<WorldInstance> T, typename ...Args>
+	template<std::derived_from<szg::WorldInstance> T, typename ...Args>
 	Reference<T> instantiate(Reference<WorldInstance> parent = nullptr, Args&&... args);
 
 	void destroy(Reference<WorldInstance> instance);
@@ -44,8 +46,10 @@ private:
 	Reference<InstanceBucket> instanceBucket;
 };
 
-template<std::derived_from<WorldInstance> T, typename ...Args>
-inline Reference<T> WorldRoot::instantiate(Reference<WorldInstance> parent, Args&&... args) {
+}; // szg
+
+template<std::derived_from<szg::WorldInstance> T, typename ...Args>
+inline Reference<T> szg::WorldRoot::instantiate(Reference<szg::WorldInstance> parent, Args&&... args) {
 	std::unique_ptr<T> instance = std::make_unique<T>(std::forward<Args>(args)...);
 	Reference<T> result = instance;
 	auto [_, emplaced] = worldInstances.try_emplace(nextInstanceId, std::move(instance));

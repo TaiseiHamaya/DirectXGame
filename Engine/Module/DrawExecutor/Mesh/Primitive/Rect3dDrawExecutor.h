@@ -9,6 +9,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/StructuredBuffer/StructuredBuffer.h"
 #include "Engine/Module/World/Mesh/Primitive/IPrimitiveInstance.h"
 
+namespace szg {
+
 class Rect3d;
 struct RectData;
 
@@ -17,7 +19,7 @@ public:
 	Rect3dDrawExecutor() noexcept = default;
 	~Rect3dDrawExecutor() noexcept = default;
 
-	__CLASS_NON_COPYABLE(Rect3dDrawExecutor)
+	SZG_CLASS_MOVE_ONLY(Rect3dDrawExecutor)
 
 public:
 	void reinitialize(BlendMode type_, u32 maxInstance_);
@@ -33,3 +35,5 @@ private:
 
 	std::mutex writeBufferMutex;
 };
+
+}; // szg

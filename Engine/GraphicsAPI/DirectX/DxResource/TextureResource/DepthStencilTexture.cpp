@@ -1,5 +1,7 @@
 #include "DepthStencilTexture.h"
 
+using namespace szg;
+
 #include <format>
 
 #include "Engine/Application/Logger.h"

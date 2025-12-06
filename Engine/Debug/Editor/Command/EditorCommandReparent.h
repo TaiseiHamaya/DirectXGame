@@ -8,12 +8,14 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class EditorCommandReparent final : public IEditorCommand {
 	public:
 	EditorCommandReparent(Reference<IRemoteObject> target, Reference<IRemoteObject> recent, Reference<IRemoteObject> next);
 	~EditorCommandReparent() = default;
 
-	__CLASS_NON_COPYABLE(EditorCommandReparent)
+	SZG_CLASS_MOVE_ONLY(EditorCommandReparent)
 
 public:
 	void execute() override;
@@ -24,5 +26,7 @@ private:
 	Reference<IRemoteObject> recentParent;
 	Reference<IRemoteObject> nextParent;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE
