@@ -1,8 +1,8 @@
 #include "RenderDAGImNodeSaver.h"
 
-using namespace szg;
-
 #ifdef DEBUG_FEATURES_ENABLE
+
+using namespace szg;
 
 #include <unordered_set>
 
