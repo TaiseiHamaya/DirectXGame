@@ -1,3 +1,7 @@
+#ifndef POINT_LIGHTING_HLSLI
+#define POINT_LIGHTING_HLSLI
+
+#include "../Pixel.hlsli"
 #include "CalcLighting.hlsli"
 
 struct PointLightBuffer {
@@ -29,3 +33,5 @@ LightingData CalcLightingData(Pixel pixel, float3 camera, PointLightBuffer light
 	
 	return data;
 };
+
+#endif // !POINT_LIGHTING_HLSLI

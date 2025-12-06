@@ -50,7 +50,7 @@ float4 main(VertexShaderOutput input) : SV_Target0 {
 	else if (material.lightingType == 1) {
 		for (uint i = 0; i < numStructs; i++) {
 			DirectionalLightBuffer directionalLight = gDirectionalLight[i];
-		
+
 			LightingData lightingData = CalcLightingData(pixel, gCamera.position, directionalLight);
 			output.rgb += BlinnPhongSpecular(lightingData) + LambertDiffuse(lightingData);
 			output.a = alpha;
@@ -60,7 +60,7 @@ float4 main(VertexShaderOutput input) : SV_Target0 {
 	else if (material.lightingType == 2) {
 		for (uint i = 0; i < numStructs; i++) {
 			DirectionalLightBuffer directionalLight = gDirectionalLight[i];
-		
+
 			LightingData lightingData = CalcLightingData(pixel, gCamera.position, directionalLight);
 			output.rgb += BlinnPhongSpecular(lightingData) + HalfLambertDiffuse(lightingData);
 			output.a = alpha;
@@ -69,9 +69,7 @@ float4 main(VertexShaderOutput input) : SV_Target0 {
 	
 	// 透明の場合は出力せず終了
 	// サンプリングによっては0にならない場合があるためバッファを取る
-	if (output.a <= 0.05f) {
-		discard;
-	}
+	clip(alpha - 0.005f);
 	
 	return output;
 }
