@@ -12,6 +12,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
+namespace szg {
+
 template<ConceptCPUBufferACE T>
 class StructuredBuffer : public  DxResource {
 public:
@@ -32,6 +34,7 @@ public:
 	const T& operator[](u32 i) const;
 	const u32& size() const { return arraySize; }
 	const D3D12_GPU_DESCRIPTOR_HANDLE& get_handle_gpu() const { return gpuHandle; };
+	const std::optional<u32>& index() const { return heapIndex; }
 
 private:
 	void create_resource();
@@ -41,7 +44,6 @@ private:
 	void unmap();
 
 private:
-	T* data{ nullptr };
 	u32 arraySize{ 0 };
 	std::span<T> span;
 
@@ -112,15 +114,17 @@ inline void StructuredBuffer<T>::release_index() {
 
 template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::map() {
-	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
-	span = std::span<T>{ data, arraySize };
+	T* temp;
+	resource->Map(0, nullptr, reinterpret_cast<void**>(&temp));
+	span = std::span<T>{ temp, arraySize };
 }
 
 template<ConceptCPUBufferACE T>
 inline void StructuredBuffer<T>::unmap() {
 	span = std::span<T, 0>();
-	if (data) {
+	if (resource) {
 		resource->Unmap(0, nullptr);
 	}
-	data = nullptr;
 }
+
+}; // szg

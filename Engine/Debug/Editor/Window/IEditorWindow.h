@@ -4,12 +4,14 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class IEditorWindow {
 public:
 	IEditorWindow() = default;
 	virtual ~IEditorWindow() = default;
 
-	__CLASS_NON_COPYABLE(IEditorWindow)
+	SZG_CLASS_MOVE_ONLY(IEditorWindow)
 
 public:
 	virtual void draw() = 0;
@@ -17,9 +19,12 @@ public:
 	void draw_menu(string_literal name);
 
 	bool is_active() const;
+	void set_active(bool active);
 
 protected:
 	bool isActive{ false };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

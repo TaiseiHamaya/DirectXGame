@@ -1,31 +1,67 @@
 #pragma once
 
+#include <memory>
+#include <string>
 #include <vector>
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include "Engine/Module/World/WorldManager.h"
+#include "./SceneAssetCollection.h"
+#include "Engine/Module/Manager/SceneScript/SceneScriptManager.h"
+#include "Engine/Module/Manager/World/WorldCluster.h"
+#include "Engine/Module/Render/RenderDAG.h"
 
-#include "BaseScene.h"
+namespace szg {
 
-class Scene final : public BaseScene {
+class Scene {
+#ifdef DEBUG_FEATURES_ENABLE
+	friend class RemoteSceneObject;
+	friend class EditorMain;
+#endif // DEBUG_FEATURES_ENABLE
+
 public:
 	Scene() = default;
-	~Scene() = default;
+	virtual ~Scene() = default;
 
-	__CLASS_NON_COPYABLE(Scene)
+	SZG_CLASS_MOVE_ONLY(Scene)
 
 public:
-	//void load(std::filesystem::path assetCollection);
+	void load_assets();
+
+	virtual void custom_load_asset();
+
 	void initialize();
 
-	void begin();
+	void setup();
+
+	virtual void custom_setup() {};
+
+	void begin_frame();
+
 	void update();
-	void transfer();
-	void late_update();
+
+	void pre_draw();
 
 	void draw() const;
 
+	void end_frame();
+
+	void finalize();
+
+public:
+	Reference<WorldCluster> get_world(u32 index);
+
+	void set_name(const std::string& name);
+	std::string_view name() const noexcept;
+
+protected:
+	std::string sceneName;
+	SceneScriptManager sceneScriptManager;
+
 private:
-	//std::vector<WorldManager> worlds;
+	std::vector<std::unique_ptr<WorldCluster>> worlds;
+	RenderDAG renderDAG;
+	SceneAssetCollection assetCollection;
 };
+
+}; // szg

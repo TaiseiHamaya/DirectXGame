@@ -8,16 +8,14 @@
 #include "./StaticMeshDrawExecutor.h"
 #include "Engine/Module/World/Mesh/StaticMeshInstance.h"
 
-#ifdef DEBUG_FEATURES_ENABLE
-class Camera3D;
-#endif // _DEBUG
+namespace szg {
 
 class StaticMeshDrawManager final : public BaseDrawManager<StaticMeshDrawExecutor> {
 public:
 	StaticMeshDrawManager() = default;
 	virtual ~StaticMeshDrawManager() = default;
 
-	__CLASS_NON_COPYABLE(StaticMeshDrawManager)
+	SZG_CLASS_MOVE_ONLY(StaticMeshDrawManager)
 
 public:
 	void make_instancing(u32 layer, const std::string& meshName, u32 maxInstance);
@@ -27,3 +25,5 @@ public:
 	void debug_gui() override;
 #endif // _DEBUG
 };
+
+}; // szg

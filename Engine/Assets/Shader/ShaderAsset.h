@@ -6,19 +6,24 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+/// <summary>
+/// シェーダーアセット
+/// </summary>
+namespace szg {
+
 class ShaderAsset final {
 public:
-	ShaderAsset() = default;
+	ShaderAsset(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;
 	~ShaderAsset() = default;
 
-	__CLASS_NON_COPYABLE(ShaderAsset)
+	SZG_CLASS_MOVE_ONLY(ShaderAsset)
 
 public:
-	void initialize(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept;
-
 	D3D12_SHADER_BYTECODE blob_bytecode() const noexcept;
 	DxcBuffer blob_buffer() const noexcept;
 
 private:
 	Microsoft::WRL::ComPtr<IDxcBlob> blob;
 };
+
+}; // szg

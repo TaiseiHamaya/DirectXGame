@@ -14,12 +14,15 @@ namespace eps {
 
 #ifdef DEBUG_FEATURES_ENABLE
 
+/// <summary>
+/// ハッシュ化済み文字列
+/// </summary>
 class string_hashed {
 public:
 	string_hashed() = default;
 	~string_hashed() = default;
 
-	__CLASS_DEFAULT_ALL(string_hashed)
+	SZG_CLASS_DEFAULT(string_hashed)
 
 public:
 	string_hashed(std::string_view sv);
@@ -43,12 +46,15 @@ private:
 
 #else
 
+/// <summary>
+/// ハッシュ化済み文字列
+/// </summary>
 class string_hashed {
 public:
 	constexpr string_hashed() = default;
 	constexpr ~string_hashed() = default;
 
-	__CLASS_DEFAULT_ALL(string_hashed)
+	SZG_CLASS_DEFAULT(string_hashed)
 
 public:
 	constexpr string_hashed(std::string_view sv);
@@ -83,8 +89,13 @@ struct hash<eps::string_hashed> {
 
 };
 
-// string_hashedの文字列リテラル
-inline eps::string_hashed operator"" _sh(string_literal str, std::size_t len) {
+/// <summary>
+/// string_hashedの文字列リテラル
+/// </summary>
+/// <param name="str"></param>
+/// <param name="len"></param>
+/// <returns></returns>
+inline eps::string_hashed operator"" _sh(string_literal str, std::size_t) {
 	return str;
 }
 
@@ -132,7 +143,7 @@ struct hash<eps::string_hashed> {
 
 };
 
-constexpr eps::string_hashed operator""_sh(string_literal str, std::size_t len) {
+constexpr eps::string_hashed operator""_sh(string_literal str, std::size_t) {
 	return str;
 }
 

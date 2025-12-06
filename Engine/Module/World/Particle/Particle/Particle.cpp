@@ -1,5 +1,7 @@
 #include "Particle.h"
 
+using namespace szg;
+
 #include "Engine/Runtime/Clock/WorldClock.h"
 
 #include <Library/Utility/Tools/RandomEngine.h>
@@ -50,7 +52,6 @@ Particle::Particle(
 		r32 cos = -2.0f * RandomEngine::Random01MOD() + 1.0f;
 		r32 sin = std::sqrt(1.0f - cos * cos);
 		r32 phi = PI2 * RandomEngine::Random01MOD();
-		r32 radius = std::pow(RandomEngine::Random01MOD(), 1.0f / 3.0f);
 		Vector3 axis = { sin * std::cos(phi), sin * std::sin(phi), cos };
 		r32 angle = PI2 * RandomEngine::Random01MOD();
 		transform.set_quaternion(Quaternion::AngleAxis(axis, angle));
@@ -107,7 +108,7 @@ void Particle::update() {
 	}
 
 	if (timer >= lifetime) {
-		isDestroy = true;
+		isEnded = true;
 	}
 }
 

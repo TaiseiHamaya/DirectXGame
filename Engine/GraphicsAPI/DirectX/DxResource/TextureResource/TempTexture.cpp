@@ -1,6 +1,8 @@
 #include "TempTexture.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
@@ -46,7 +48,7 @@ void TempTexture::create_resource() {
 	HRESULT hr = DxDevice::GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &desc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, NULL, IID_PPV_ARGS(&resource));
 
-	ErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Format-\'{}\'",
+	szgErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Format-\'{}\'",
 		width, height, (i32)DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
 	state = D3D12_RESOURCE_STATE_GENERIC_READ;

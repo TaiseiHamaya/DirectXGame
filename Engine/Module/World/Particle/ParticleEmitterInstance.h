@@ -8,14 +8,16 @@
 
 #include "./DrawSystem/BaseParticleDrawSystem.h"
 #include "./Particle/Particle.h"
-#include "Engine/Runtime/Clock/WorldTimer.h"
 #include "Engine/Assets/Json/JsonAsset.h"
+#include "Engine/Runtime/Clock/WorldTimer.h"
 
 #define VECTOR3_SERIALIZER
 #define VECTOR2_SERIALIZER
 #define COLOR4_SERIALIZER
 #define QUATERNION_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
+
+namespace szg {
 
 class TextureAsset;
 
@@ -108,14 +110,14 @@ public:
 
 public: // Constructor/Destructor
 	ParticleEmitterInstance(std::filesystem::path jsonFile, u32 MaxParticle);
-	virtual ~ParticleEmitterInstance() = default;
+	virtual ~ParticleEmitterInstance();
 
 public: // Member function
 	virtual void update();
 	virtual void transfer();
 	void draw() const;
 
-	virtual void on_emit(Particle* const particle) {};
+	virtual void on_emit(Particle* const) {};
 	virtual void restart();
 
 	void emit();
@@ -123,6 +125,9 @@ public: // Member function
 
 protected:
 	void emit_once();
+
+protected:
+	void on_mark_destroy() override;
 
 public:
 	bool is_end_all() const;
@@ -133,10 +138,10 @@ private:
 
 public: // Getter/Setter
 
-//#ifdef DEBUG_FEATURES_ENABLE
-//public:
-//	void debug_gui();
-//#endif // _DEBUG
+	//#ifdef DEBUG_FEATURES_ENABLE
+	//public:
+	//	void debug_gui();
+	//#endif // _DEBUG
 
 protected: // Member variable
 	WorldTimer timer;
@@ -162,34 +167,36 @@ protected: // Member variable
 
 private:
 	u32 numMaxParticle{ 0 };
-	std::list<std::unique_ptr<Particle>> particles;
+	std::list<Reference<Particle>> particles;
 	std::unique_ptr<BaseParticleDrawSystem> drawSystem;
 };
+
+}; // szg
 
 namespace nlohmann {
 
 template<>
-struct adl_serializer<ParticleEmitterInstance::ParticleInit> {
-	static void to_json(json& j, const ParticleEmitterInstance::ParticleInit& rhs);
+struct adl_serializer<szg::ParticleEmitterInstance::ParticleInit> {
+	static void to_json(json& j, const szg::ParticleEmitterInstance::ParticleInit& rhs);
 
-	static void from_json(const json& j, ParticleEmitterInstance::ParticleInit& rhs);
+	static void from_json(const json& j, szg::ParticleEmitterInstance::ParticleInit& rhs);
 };
 
 template<>
-struct adl_serializer<ParticleEmitterInstance::ParticleFinal> {
-	static void to_json(json& j, const ParticleEmitterInstance::ParticleFinal& rhs);
+struct adl_serializer<szg::ParticleEmitterInstance::ParticleFinal> {
+	static void to_json(json& j, const szg::ParticleEmitterInstance::ParticleFinal& rhs);
 
-	static void from_json(const json& j, ParticleEmitterInstance::ParticleFinal& rhs);
+	static void from_json(const json& j, szg::ParticleEmitterInstance::ParticleFinal& rhs);
 };
 
 template<>
-struct adl_serializer<ParticleEmitterInstance::Emission> {
-	static void to_json(json& j, const ParticleEmitterInstance::Emission& rhs);
+struct adl_serializer<szg::ParticleEmitterInstance::Emission> {
+	static void to_json(json& j, const szg::ParticleEmitterInstance::Emission& rhs);
 
-	static void from_json(const json& j, ParticleEmitterInstance::Emission& rhs);
+	static void from_json(const json& j, szg::ParticleEmitterInstance::Emission& rhs);
 };
 
-inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::to_json(json& j, const ParticleEmitterInstance::ParticleInit& rhs) {
+inline void adl_serializer<szg::ParticleEmitterInstance::ParticleInit>::to_json(json& j, const szg::ParticleEmitterInstance::ParticleInit& rhs) {
 	j["Lifetime"] = nlohmann::json::object();
 	j["Lifetime"]["Min"] = rhs.lifetime.min;
 	j["Lifetime"]["Max"] = rhs.lifetime.max;
@@ -200,18 +207,18 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::to_json(json&
 	j["Direction"]["Mode"] = rhs.direction.mode;
 	j["Direction"]["Data"] = nlohmann::json::object();
 	switch (rhs.direction.mode) {
-	case ParticleEmitterInstance::ParticleInit::Direction::Mode::Constant:
+	case szg::ParticleEmitterInstance::ParticleInit::Direction::Mode::Constant:
 	{
-		const auto& data = std::get<ParticleEmitterInstance::ParticleInit::Direction::Constant>(rhs.direction.data);
+		const auto& data = std::get<szg::ParticleEmitterInstance::ParticleInit::Direction::Constant>(rhs.direction.data);
 		j["Direction"]["Data"]["Direction"] = data.direction;
 		break;
 	}
-	case ParticleEmitterInstance::ParticleInit::Direction::Mode::EmissionShape:
+	case szg::ParticleEmitterInstance::ParticleInit::Direction::Mode::EmissionShape:
 		// nothing
 		break;
-	case ParticleEmitterInstance::ParticleInit::Direction::Mode::AngleRange:
+	case szg::ParticleEmitterInstance::ParticleInit::Direction::Mode::AngleRange:
 	{
-		const auto& data = std::get<ParticleEmitterInstance::ParticleInit::Direction::AngleRange>(rhs.direction.data);
+		const auto& data = std::get<szg::ParticleEmitterInstance::ParticleInit::Direction::AngleRange>(rhs.direction.data);
 		j["Direction"]["Data"]["Direction"] = data.baseDirection;
 		j["Direction"]["Data"]["Angle"] = data.angle;
 		break;
@@ -228,27 +235,27 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::to_json(json&
 	j["Rotation"] = nlohmann::json::object();
 	j["Rotation"]["Mode"] = rhs.rotation.mode;
 	switch (rhs.rotation.mode) {
-	case Particle::RotationType::Constant:
+	case szg::Particle::RotationType::Constant:
 	{
-		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Constant>(rhs.rotation.data);
+		auto& data = std::get<szg::ParticleEmitterInstance::ParticleInit::Rotation::Constant>(rhs.rotation.data);
 		j["Rotation"]["Data"] = data.rotation;
 		break;
 	}
-	case Particle::RotationType::Velocity:
-	case Particle::RotationType::LookAt:
+	case szg::Particle::RotationType::Velocity:
+	case szg::Particle::RotationType::LookAt:
 		break;
-	case Particle::RotationType::LookAtAngle:
+	case szg::Particle::RotationType::LookAtAngle:
 	{
-		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle>(rhs.rotation.data);
+		auto& data = std::get<szg::ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle>(rhs.rotation.data);
 		j["Rotation"]["Data"] = nlohmann::json::object();
 		j["Rotation"]["Data"]["AngleParSec"]["Min"] = data.angleParSec.min;
 		j["Rotation"]["Data"]["AngleParSec"]["Max"] = data.angleParSec.max;
 		j["Rotation"]["Data"]["IsRandomDirection"] = data.isRandomDirection;
 		break;
 	}
-	case Particle::RotationType::Random:
+	case szg::Particle::RotationType::Random:
 	{
-		auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Random>(rhs.rotation.data);
+		auto& data = std::get<szg::ParticleEmitterInstance::ParticleInit::Rotation::Random>(rhs.rotation.data);
 		j["Rotation"]["Data"] = nlohmann::json::object();
 		j["Rotation"]["Data"]["Min"] = data.angularVelocity.min;
 		j["Rotation"]["Data"]["Max"] = data.angularVelocity.max;
@@ -263,7 +270,7 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::to_json(json&
 	j["Color"]["Max"] = rhs.color.max;
 }
 
-inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(const json& j, ParticleEmitterInstance::ParticleInit& rhs) {
+inline void adl_serializer<szg::ParticleEmitterInstance::ParticleInit>::from_json(const json& j, szg::ParticleEmitterInstance::ParticleInit& rhs) {
 	if (j.contains("Lifetime")) {
 		if (j["Lifetime"].contains("Min")) {
 			rhs.lifetime.min = j["Lifetime"]["Min"];
@@ -286,15 +293,15 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(con
 		}
 		if (j["Direction"].contains("Data")) {
 			switch (rhs.direction.mode) {
-			case ParticleEmitterInstance::ParticleInit::Direction::Mode::Constant:
-				rhs.direction.data = ParticleEmitterInstance::ParticleInit::Direction::Constant{ j["Direction"]["Data"]["Direction"] };
+			case szg::ParticleEmitterInstance::ParticleInit::Direction::Mode::Constant:
+				rhs.direction.data = szg::ParticleEmitterInstance::ParticleInit::Direction::Constant{ j["Direction"]["Data"]["Direction"] };
 				break;
-			case ParticleEmitterInstance::ParticleInit::Direction::Mode::EmissionShape:
+			case szg::ParticleEmitterInstance::ParticleInit::Direction::Mode::EmissionShape:
 				rhs.direction.data = std::monostate();
 				// nothing
 				break;
-			case ParticleEmitterInstance::ParticleInit::Direction::Mode::AngleRange:
-				rhs.direction.data = ParticleEmitterInstance::ParticleInit::Direction::AngleRange{
+			case szg::ParticleEmitterInstance::ParticleInit::Direction::Mode::AngleRange:
+				rhs.direction.data = szg::ParticleEmitterInstance::ParticleInit::Direction::AngleRange{
 					j["Direction"]["Data"]["Direction"],
 					j["Direction"]["Data"]["Angle"]
 				};
@@ -323,29 +330,29 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(con
 		if (j["Rotation"].contains("Mode")) {
 			rhs.rotation.mode = j["Rotation"]["Mode"];
 			switch (rhs.rotation.mode) {
-			case Particle::RotationType::Constant:
+			case szg::Particle::RotationType::Constant:
 			{
 				//auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Constant>(rhs.rotation.data);
-				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::Constant{ j["Rotation"]["Data"] };
+				rhs.rotation.data = szg::ParticleEmitterInstance::ParticleInit::Rotation::Constant{ j["Rotation"]["Data"] };
 				break;
 			}
-			case Particle::RotationType::Velocity:
-			case Particle::RotationType::LookAt:
+			case szg::Particle::RotationType::Velocity:
+			case szg::Particle::RotationType::LookAt:
 				rhs.rotation.data = std::monostate();
 				break;
-			case Particle::RotationType::LookAtAngle:
-				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle{
-					ParticleEmitterInstance::Randomize<r32>{
+			case szg::Particle::RotationType::LookAtAngle:
+				rhs.rotation.data = szg::ParticleEmitterInstance::ParticleInit::Rotation::LookAtAngle{
+					szg::ParticleEmitterInstance::Randomize<r32>{
 					j["Rotation"]["Data"]["AngleParSec"]["Min"],
 					j["Rotation"]["Data"]["AngleParSec"]["Max"]
 				},
 				j["Rotation"]["Data"]["IsRandomDirection"]
 				};
 				break;
-			case Particle::RotationType::Random:
+			case szg::Particle::RotationType::Random:
 			{
 				//auto& data = std::get<ParticleEmitterInstance::ParticleInit::Rotation::Random>(rhs.rotation.data);
-				rhs.rotation.data = ParticleEmitterInstance::ParticleInit::Rotation::Random{
+				rhs.rotation.data = szg::ParticleEmitterInstance::ParticleInit::Rotation::Random{
 					j["Rotation"]["Data"]["Min"],
 					j["Rotation"]["Data"]["Max"]
 				};
@@ -366,7 +373,7 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleInit>::from_json(con
 	}
 }
 
-inline void adl_serializer<ParticleEmitterInstance::ParticleFinal>::to_json(json& j, const ParticleEmitterInstance::ParticleFinal& rhs) {
+inline void adl_serializer<szg::ParticleEmitterInstance::ParticleFinal>::to_json(json& j, const szg::ParticleEmitterInstance::ParticleFinal& rhs) {
 	j["Color"] = nlohmann::json::object();
 	j["Color"]["Min"] = rhs.color.min;
 	j["Color"]["Max"] = rhs.color.max;
@@ -375,7 +382,7 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleFinal>::to_json(json
 	j["Size"]["Max"] = rhs.size.max;
 }
 
-inline void adl_serializer<ParticleEmitterInstance::ParticleFinal>::from_json(const json& j, ParticleEmitterInstance::ParticleFinal& rhs) {
+inline void adl_serializer<szg::ParticleEmitterInstance::ParticleFinal>::from_json(const json& j, szg::ParticleEmitterInstance::ParticleFinal& rhs) {
 	if (j.contains("Size")) {
 		if (j["Size"].contains("Min")) {
 			rhs.size.min = j["Size"]["Min"];
@@ -394,7 +401,7 @@ inline void adl_serializer<ParticleEmitterInstance::ParticleFinal>::from_json(co
 	}
 }
 
-inline void adl_serializer<ParticleEmitterInstance::Emission>::to_json(json& j, const ParticleEmitterInstance::Emission& rhs) {
+inline void adl_serializer<szg::ParticleEmitterInstance::Emission>::to_json(json& j, const szg::ParticleEmitterInstance::Emission& rhs) {
 	j["Delay"] = rhs.delay;
 	j["Count"] = rhs.count;
 	j["Cycles"] = rhs.cycles;
@@ -403,25 +410,25 @@ inline void adl_serializer<ParticleEmitterInstance::Emission>::to_json(json& j, 
 	j["Shape"]["Type"] = rhs.shape.shapeType;
 	j["Shape"]["Data"] = nlohmann::json::object();
 	switch (rhs.shape.shapeType) {
-	case ParticleEmitterInstance::Emission::Shape::ShapeType::Point:
+	case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Point:
 		break;
-	case ParticleEmitterInstance::Emission::Shape::ShapeType::Sphere:
+	case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Sphere:
 	{
-		const auto& data = std::get<ParticleEmitterInstance::Emission::Shape::Sphere>(rhs.shape.data);
+		const auto& data = std::get<szg::ParticleEmitterInstance::Emission::Shape::Sphere>(rhs.shape.data);
 		j["Shape"]["Data"]["Radius"] = data.radius;
 		break;
 	}
-	case ParticleEmitterInstance::Emission::Shape::ShapeType::Cone:
+	case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Cone:
 	{
-		const auto& data = std::get<ParticleEmitterInstance::Emission::Shape::Cone>(rhs.shape.data);
+		const auto& data = std::get<szg::ParticleEmitterInstance::Emission::Shape::Cone>(rhs.shape.data);
 		j["Shape"]["Data"]["Radius"] = data.radius;
 		j["Shape"]["Data"]["Direction"] = data.direction;
 		j["Shape"]["Data"]["Angle"] = data.angle;
 		break;
 	}
-	case ParticleEmitterInstance::Emission::Shape::ShapeType::Box:
+	case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Box:
 	{
-		const auto& data = std::get<ParticleEmitterInstance::Emission::Shape::Box>(rhs.shape.data);
+		const auto& data = std::get<szg::ParticleEmitterInstance::Emission::Shape::Box>(rhs.shape.data);
 		j["Shape"]["Data"]["Size"] = data.size;
 		j["Shape"]["Data"]["Offset"] = data.offset;
 		break;
@@ -431,7 +438,7 @@ inline void adl_serializer<ParticleEmitterInstance::Emission>::to_json(json& j, 
 	}
 }
 
-inline void adl_serializer<ParticleEmitterInstance::Emission>::from_json(const json& j, ParticleEmitterInstance::Emission& rhs) {
+inline void adl_serializer<szg::ParticleEmitterInstance::Emission>::from_json(const json& j, szg::ParticleEmitterInstance::Emission& rhs) {
 	if (j.contains("Delay")) {
 		rhs.delay = j["Delay"];
 	}
@@ -451,23 +458,23 @@ inline void adl_serializer<ParticleEmitterInstance::Emission>::from_json(const j
 		if (j["Shape"].contains("Data")) {
 			auto& json = j["Shape"]["Data"];
 			switch (rhs.shape.shapeType) {
-			case ParticleEmitterInstance::Emission::Shape::ShapeType::Point:
+			case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Point:
 				rhs.shape.data = std::monostate();
 				break;
-			case ParticleEmitterInstance::Emission::Shape::ShapeType::Sphere:
-				rhs.shape.data = ParticleEmitterInstance::Emission::Shape::Sphere{
+			case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Sphere:
+				rhs.shape.data = szg::ParticleEmitterInstance::Emission::Shape::Sphere{
 					json["Radius"],
 				};
 				break;
-			case ParticleEmitterInstance::Emission::Shape::ShapeType::Cone:
-				rhs.shape.data = ParticleEmitterInstance::Emission::Shape::Cone{
+			case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Cone:
+				rhs.shape.data = szg::ParticleEmitterInstance::Emission::Shape::Cone{
 					json["Radius"],
 					json["Direction"],
 					json["Angle"]
 				};
 				break;
-			case ParticleEmitterInstance::Emission::Shape::ShapeType::Box:
-				rhs.shape.data = ParticleEmitterInstance::Emission::Shape::Box{
+			case szg::ParticleEmitterInstance::Emission::Shape::ShapeType::Box:
+				rhs.shape.data = szg::ParticleEmitterInstance::Emission::Shape::Box{
 					json["Size"],
 					json["Offset"]
 				};

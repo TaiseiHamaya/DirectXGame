@@ -1,15 +1,17 @@
 #include "CrashHandler.h"
 
+using namespace szg;
+
+#include <Windows.h>
 #include <DbgHelp.h>
 #include <strsafe.h>
 
 #include "Engine/Application/EngineSettings.h"
+#include "Engine/Application/Logger.h"
 
-void CrashHandler::Initialize() {
-	SetUnhandledExceptionFilter(CrashHandler::ExportDump);
-}
+static LONG WINAPI ExportDump(EXCEPTION_POINTERS* exception) noexcept {
+	Logger::Finalize();
 
-LONG WINAPI CrashHandler::ExportDump(EXCEPTION_POINTERS* exception) noexcept {
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
@@ -67,3 +69,15 @@ LONG WINAPI CrashHandler::ExportDump(EXCEPTION_POINTERS* exception) noexcept {
 
 	return EXCEPTION_EXECUTE_HANDLER;
 }
+
+namespace szg {
+
+namespace CrashHandler {
+
+void Initialize() {
+	SetUnhandledExceptionFilter(ExportDump);
+}
+
+} // namespace CrashHandler
+
+} // namespace szg

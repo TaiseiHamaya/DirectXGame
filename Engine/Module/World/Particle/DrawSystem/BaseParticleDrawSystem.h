@@ -10,12 +10,14 @@ enum class ParticleDrawType {
 	Rect,
 };
 
+namespace szg {
+
 class BaseParticleDrawSystem {
 public:
 	BaseParticleDrawSystem() = default;
 	virtual ~BaseParticleDrawSystem() = default;
 
-	__CLASS_NON_COPYABLE(BaseParticleDrawSystem)
+	SZG_CLASS_MOVE_ONLY(BaseParticleDrawSystem)
 
 public:
 	virtual void draw_command(size_t InstanceCount) const = 0;
@@ -25,3 +27,5 @@ public:
 protected:
 	StructuredBuffer<ParticleBuffer> particleBuffer;
 };
+
+}; // szg

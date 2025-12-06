@@ -2,13 +2,13 @@
 
 #include "EditorValueChangeCommandHandler.h"
 
-#include <Engine/Application/Output.h>
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 
 void EditorValueChangeCommandHandler::Start(std::function<void(void)> endCallFunc) {
 	auto& instance = GetInstance();
 	if (instance.endCallFunc) {
-		Warning("Change command was called but the previous command has not yet finished.");
-
 		End();
 	}
 
@@ -18,7 +18,7 @@ void EditorValueChangeCommandHandler::Start(std::function<void(void)> endCallFun
 void EditorValueChangeCommandHandler::End() {
 	auto& instance = GetInstance();
 	if (!instance.endCallFunc) {
-		Warning("EditorValueChangeCommandHandler::End() was called but ValueChangeCommand has not yet generated.");
+		szgWarning("EditorValueChangeCommandHandler::End() was called but ValueChangeCommand has not yet generated.");
 		return;
 	}
 	instance.endCallFunc();

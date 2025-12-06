@@ -2,12 +2,14 @@
 
 #include "RemoteAABBColliderInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
 
 void RemoteAABBColliderInstance::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
 	IRemoteInstance<AABBCollider, void*>::update_preview(world, parentAffine);
 	Affine primitiveAffine = Affine::FromSRT(size.cget(), CQuaternion::IDENTITY, Vector3::Multiply(-offset.cget(), size.cget()) + worldAffine.get_origin());
-	sceneView->write_primitive(world, "AABBCollider", primitiveAffine);
+	sceneView->write_primitive(world, "Box", primitiveAffine);
 }
 
 void RemoteAABBColliderInstance::draw_inspector() {
@@ -30,7 +32,7 @@ nlohmann::json RemoteAABBColliderInstance::serialize() const {
 	result.update(hierarchyName);
 	result.update(size);
 	result.update(offset);
-	result["Type"] = 31;
+	result["Type"] = instance_type();
 	result["Children"] = nlohmann::json::array();
 	for (const auto& child : children) {
 		result["Children"].emplace_back(child->serialize());

@@ -1,6 +1,6 @@
 #include "Matrix4x4.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 const Matrix4x4 Matrix4x4::Inverse(const Matrix4x4& matrix) {
 	return matrix.inverse();
@@ -30,7 +30,7 @@ const Matrix4x4 Matrix4x4::inverse() const {
 				}
 			}
 
-			WarningIf(!found, "Matrix4x4::inverse was called. But determinant is 0.");
+			szgWarningIf(!found, "Matrix4x4::inverse was called. But determinant is 0.");
 		}
 
 		// 単位行列にするため[i][i]を取得

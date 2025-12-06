@@ -1,12 +1,14 @@
 #pragma once
 
-#include "../../BaseAssetBuilder.h"
+#include "../../IAssetBuilder.h"
 
 #include <memory>
 
+namespace szg {
+
 class NodeAnimationAsset;
 
-class NodeAnimationAssetBuilder final : public BaseAssetBuilder {
+class NodeAnimationAssetBuilder final : public IAssetBuilder {
 private:
 	struct BuildData {
 		std::string name;
@@ -18,8 +20,6 @@ public:
 	~NodeAnimationAssetBuilder() = default;
 
 public:
-	void preprocess() override;
-
 	bool run() override;
 
 	void postprocess() override;
@@ -30,3 +30,5 @@ private:
 	std::vector<BuildData> nodeAnimationData;
 };
 
+
+}; // szg

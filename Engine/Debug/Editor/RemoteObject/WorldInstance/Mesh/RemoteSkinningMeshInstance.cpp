@@ -2,8 +2,10 @@
 
 #include "RemoteSkinningMeshInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonAsset.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
@@ -34,6 +36,9 @@ void RemoteSkinningMeshInstance::update_preview(Reference<RemoteWorldObject> wor
 	debugVisual->localAffine = worldAffine;
 	debugVisual->isDraw = isDraw.cget();
 
+	if(debugVisual->keyID != meshName) {
+		return;
+	}
 	for (i32 i = 0; i < materials.size(); ++i) {
 		RemoteSkinningMeshInstance::Material& source = materials[i];
 		StaticMeshInstance::Material& write = debugVisual->materials[i];
@@ -192,7 +197,7 @@ nlohmann::json RemoteSkinningMeshInstance::serialize() const {
 
 	json.update(hierarchyName);
 	json.update(transform);
-	json["Type"] = 11;
+	json["Type"] = instance_type();
 	json.update(isDraw);
 	json.update(layer);
 	json["MeshName"] = meshName;
@@ -220,7 +225,7 @@ void RemoteSkinningMeshInstance::on_spawn() {
 }
 
 void RemoteSkinningMeshInstance::on_destroy() {
-	debugVisual->set_layer(-1);
+	debugVisual->set_layer(std::numeric_limits<u32>::max());
 }
 
 void RemoteSkinningMeshInstance::default_material() {
@@ -266,7 +271,7 @@ void RemoteSkinningMeshInstance::default_material() {
 			meshMaterial.uvTransform.set_translate(CVector2::ZERO);
 			EditorValueChangeCommandHandler::End();
 
-			Warning("Material data is not found.");
+			szgWarning("Material data is not found.");
 		}
 		{
 			EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });

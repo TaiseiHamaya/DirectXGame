@@ -2,6 +2,8 @@
 
 #include "EditorCommandScope.h"
 
+using namespace szg;
+
 #include "EditorCommandInvoker.h"
 
 static i32 indent{ 0 };

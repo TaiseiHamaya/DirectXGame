@@ -1,3 +1,6 @@
+#ifndef CALC_LIGHTING_HLSLI
+#define CALC_LIGHTING_HLSLI
+
 struct LightingData {
 	struct Surface {
 		float3 toCamera; // 視線方向
@@ -10,13 +13,6 @@ struct LightingData {
 		float3 direction; // 入射方向
 		float3 radiance;  // 到達光
 	} incoming;
-};
-
-struct Pixel {
-	float3 color;
-	float3 normal;
-	float shininess;
-	float3 world;
 };
 
 float3 BlinnPhongSpecular(LightingData data) {
@@ -44,3 +40,5 @@ float3 HalfLambertDiffuse(LightingData data) {
 	float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
 	return data.incoming.radiance * cos * data.surface.albedo;
 };
+
+#endif // CALC_LIGHTING_HLSLI

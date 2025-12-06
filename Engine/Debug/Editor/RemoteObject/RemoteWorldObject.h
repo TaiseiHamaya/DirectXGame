@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+namespace szg {
+
 class WorldManager;
 class FolderObject;
 class RemoteWorldInstance;
@@ -20,7 +22,7 @@ public:
 	RemoteWorldObject();
 	~RemoteWorldObject();
 
-	__CLASS_NON_COPYABLE(RemoteWorldObject)
+	SZG_CLASS_MOVE_ONLY(RemoteWorldObject)
 
 public:
 	void setup() override;
@@ -45,6 +47,8 @@ public:
 
 	void on_destroy() override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::DebugWorldRoot; }
+
 	const std::string& world_name() const;
 
 	u32 get_id() const;
@@ -56,8 +60,12 @@ private:
 
 	u32 id;
 
+	EditorValueField<u32> numLayer{ "NumLayer", 1 };
+
 private:
 	inline static u32 nextUseId{ 0 };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -22,6 +22,8 @@
 #define TRANSFORM2D_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+namespace szg {
+
 template<typename T>
 class EditorValueField {
 public:
@@ -30,10 +32,10 @@ public:
 	}
 	~EditorValueField() = default;
 
-	__CLASS_DEFAULT_ALL(EditorValueField<T>)
+	SZG_CLASS_DEFAULT(EditorValueField<T>)
 
 public:
-	void show_gui() {
+	std::bitset<2> show_gui() {
 		T temp = value;
 		std::bitset<2> result = showObject.show_gui(temp);
 		if (result == 0b01) {
@@ -43,9 +45,10 @@ public:
 		if (result == 0b10) {
 			EditorValueChangeCommandHandler::End();
 		}
+		return result;
 	}
 
-	friend struct nlohmann::adl_serializer<EditorValueField<T>>;
+	friend struct ::nlohmann::adl_serializer<EditorValueField<T>>;
 
 public:
 	void set_weak(const T& value_) {
@@ -63,28 +66,19 @@ public:
 		return showObject.get_name();
 	}
 
+	EditorValueField<T>& operator=(const T& rhs) {
+		set(rhs);
+		return *this;
+	}
+
+	operator const T&() const noexcept {
+		return value;
+	}
+
 private:
 	T value;
 	ValueEditor::show_object<T> showObject;
 };
-
-namespace nlohmann {
-
-template<typename T>
-	requires std::copyable<T>
-struct adl_serializer<EditorValueField<T>> {
-	static inline void to_json(nlohmann::json& j, const EditorValueField<T>& p) {
-		j[p.label()] = p.value;
-	}
-
-	static inline void from_json(const nlohmann::json& j, EditorValueField<T>& p) {
-		if (j.contains(p.label())) {
-			j[p.label()].get_to(p.value);
-		}
-	}
-};
-
-}
 
 void Transform3DShowGuiBody(const std::string& gui_label, Transform3D& transform);
 
@@ -96,7 +90,7 @@ public:
 	};
 	~EditorValueField() = default;
 
-	__CLASS_DEFAULT_ALL(EditorValueField<Transform3D>)
+	SZG_CLASS_DEFAULT(EditorValueField<Transform3D>)
 
 public:
 	void show_gui() {
@@ -135,30 +129,22 @@ public:
 		return gui_label;
 	}
 
-	friend struct nlohmann::adl_serializer<EditorValueField<Transform3D>>;
+	EditorValueField<Transform3D>& operator=(const Transform3D& rhs) {
+		set(rhs);
+		return *this;
+	}
+
+	operator const Transform3D&() const {
+		return value;
+	}
+
+	friend struct ::nlohmann::adl_serializer<EditorValueField<Transform3D>>;
 
 private:
 	std::string gui_label;
 
 	Transform3D value;
 };
-
-namespace nlohmann {
-
-template<>
-struct adl_serializer<EditorValueField<Transform3D>> {
-	static inline void to_json(nlohmann::json& j, const EditorValueField<Transform3D>& p) {
-		j[p.label()] = p.value;
-	}
-
-	static inline void from_json(const nlohmann::json& j, EditorValueField<Transform3D>& p) {
-		if (j.contains(p.label())) {
-			j[p.label()].get_to(p.value);
-		}
-	}
-};
-
-}
 
 void Transform2DShowGuiBody(const std::string& gui_label, Transform2D& transform);
 
@@ -170,7 +156,7 @@ public:
 	};
 	~EditorValueField() = default;
 
-	__CLASS_DEFAULT_ALL(EditorValueField<Transform2D>)
+	SZG_CLASS_DEFAULT(EditorValueField<Transform2D>)
 
 public:
 	void show_gui() {
@@ -209,7 +195,16 @@ public:
 		return gui_label;
 	}
 
-	friend struct nlohmann::adl_serializer<EditorValueField<Transform2D>>;
+	EditorValueField<Transform2D>& operator=(const Transform2D& rhs) {
+		set(rhs);
+		return *this;
+	}
+
+	operator const Transform2D& () const {
+		return value;
+	}
+
+	friend struct ::nlohmann::adl_serializer<EditorValueField<Transform2D>>;
 
 private:
 	std::string gui_label;
@@ -217,15 +212,44 @@ private:
 	Transform2D value;
 };
 
+} // namespace szg
+
 namespace nlohmann {
 
-template<>
-struct adl_serializer<EditorValueField<Transform2D>> {
-	static inline void to_json(nlohmann::json& j, const EditorValueField<Transform2D>& p) {
+template<typename T>
+	requires std::copyable<T>
+struct adl_serializer<szg::EditorValueField<T>> {
+	static inline void to_json(nlohmann::json& j, const szg::EditorValueField<T>& p) {
 		j[p.label()] = p.value;
 	}
 
-	static inline void from_json(const nlohmann::json& j, EditorValueField<Transform2D>& p) {
+	static inline void from_json(const nlohmann::json& j, szg::EditorValueField<T>& p) {
+		if (j.contains(p.label())) {
+			j[p.label()].get_to(p.value);
+		}
+	}
+};
+
+template<>
+struct adl_serializer<szg::EditorValueField<Transform3D>> {
+	static inline void to_json(nlohmann::json& j, const szg::EditorValueField<Transform3D>& p) {
+		j[p.label()] = p.value;
+	}
+
+	static inline void from_json(const nlohmann::json& j, szg::EditorValueField<Transform3D>& p) {
+		if (j.contains(p.label())) {
+			j[p.label()].get_to(p.value);
+		}
+	}
+};
+
+template<>
+struct adl_serializer<szg::EditorValueField<Transform2D>> {
+	static inline void to_json(nlohmann::json& j, const szg::EditorValueField<Transform2D>& p) {
+		j[p.label()] = p.value;
+	}
+
+	static inline void from_json(const nlohmann::json& j, szg::EditorValueField<Transform2D>& p) {
 		if (j.contains(p.label())) {
 			j[p.label()].get_to(p.value);
 		}

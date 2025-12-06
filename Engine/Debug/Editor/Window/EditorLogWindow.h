@@ -10,15 +10,18 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
-enum class LogType : u8;
+#include "Engine/Application/Logger.h"
+
 struct ImVec4;
 
+namespace szg {
+
 class EditorLogWindow : public IEditorWindow, SingletonInterface<EditorLogWindow> {
-	__CLASS_SINGLETON_INTERFACE(EditorLogWindow)
+	SZG_CLASS_SINGLETON(EditorLogWindow)
 
 private:
 	struct LogBody {
-		LogType type;
+		Logger::Level level;
 		std::string message;
 	};
 
@@ -38,10 +41,10 @@ public:
 
 	void draw() override;
 
-	static void AppendLogEntry(LogType type, const std::string& message);
+	static void AppendLogEntry(Logger::Level level, const std::string& message);
 
 private:
-	std::array<LogState, 4> logStates;
+	std::array<LogState, Logger::LevelCount> logStates;
 	bool isBottomScroll{ true };
 	std::list<LogBody> logs;
 
@@ -50,5 +53,7 @@ private:
 };
 
 
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -1,3 +1,6 @@
+#ifndef SPOT_LIGHTING_HLSLI
+#define SPOT_LIGHTING_HLSLI
+
 #include "CalcLighting.hlsli"
 
 struct SpotLight {
@@ -32,3 +35,5 @@ LightingData CalcLightingData(Pixel pixel, float3 camera, SpotLight light) {
 	
 	return data;
 };
+
+#endif // SPOT_LIGHTING_HLSLI

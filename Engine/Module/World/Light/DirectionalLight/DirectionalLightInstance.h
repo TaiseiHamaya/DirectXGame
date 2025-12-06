@@ -4,6 +4,8 @@
 
 #include <Library/Math/Color3.h>
 
+namespace szg {
+
 struct DirectionalLightData {
 	Color3 color; // 色
 	r32 intensity{ 1 }; // 輝度
@@ -11,6 +13,9 @@ struct DirectionalLightData {
 };
 
 class DirectionalLightInstance : public BaseLightInstance<DirectionalLightData> {
+#ifdef DEBUG_FEATURES_ENABLE
+	friend class RemoteDirectionalLightInstance;
+#endif // DEBUG_FEATURES_ENABLE
 public:
 	DirectionalLightInstance() = default;
 	virtual ~DirectionalLightInstance() = default;
@@ -21,5 +26,6 @@ public:
 	DirectionalLightInstance& operator=(DirectionalLightInstance&&) = default;
 
 public:
-	void transfer() override;
 };
+
+}; // szg

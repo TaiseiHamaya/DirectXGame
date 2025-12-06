@@ -2,17 +2,20 @@
 
 #include "RemoteSceneObject.h"
 
+using namespace szg;
+
 #include <format>
 
 #include <imgui.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
-#include "IRemoteObject.h"
-#include "RemoteWorldObject.h"
-#include "../Window/EditorSceneView.h"
+#include "../EditorMain.h"
+#include "../Window/EditorRenderDAG.h"
+#include "./IRemoteObject.h"
+#include "./RemoteWorldObject.h"
 
 RemoteSceneObject::RemoteSceneObject() = default;
 RemoteSceneObject::~RemoteSceneObject() = default;
@@ -24,7 +27,7 @@ void RemoteSceneObject::setup() {
 }
 
 void RemoteSceneObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
-	CriticalIf(world || parentAffine, "RemoteSceneObject::update_preview's argument named \'world\' and \'parentAffine\' must be nullptr.");
+	szgCriticalIf(world || parentAffine, "RemoteSceneObject::update_preview's argument named \'world\' and \'parentAffine\' must be nullptr.");
 	for (auto& child : remoteWorlds) {
 		child->update_preview(nullptr, nullptr);
 	}
@@ -35,7 +38,19 @@ void RemoteSceneObject::draw_inspector() {
 
 	ImGui::Separator();
 
-	numLayer.show_gui();
+	ImGui::Text("RenderDAG");
+	ImGui::SameLine();
+	if (ImGui::Button("Edit", ImVec2{ 80, 0 })) {
+		if (renderDAGEditor) {
+			renderDAGEditor->set_active(true);
+		}
+		ImGui::SetWindowFocus("Render DAG Editor");
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Hot Reload", ImVec2{ 80, 0 })) {
+		EditorMain::SetHotReload();
+	}
 }
 
 void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -43,9 +58,9 @@ void RemoteSceneObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
-		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+		ImGuiTreeNodeFlags_OpenOnArrow; // 矢印で開く
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}
@@ -81,17 +96,19 @@ std::unique_ptr<IRemoteObject> RemoteSceneObject::move_force(Reference<const IRe
 	return nullptr;
 }
 
-void RemoteSceneObject::reparent(Reference<IRemoteObject> remoteObject) {
-	Error("RemoteSceneObject is must be root object.");
+void RemoteSceneObject::reparent(Reference<IRemoteObject>) {
+	szgError("RemoteSceneObject is must be root object.");
 }
 
 void RemoteSceneObject::add_child(std::unique_ptr<IRemoteObject> child) {
-	auto tmp = dynamic_cast<RemoteWorldObject*>(child.release());
-	auto childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
-	if (!childPtr) {
-		Warning("RemoteSceneObject can only add RemoteWorldObject as child.");
+	IRemoteObject* ptr = child.release();
+	RemoteWorldObject* tmp = dynamic_cast<RemoteWorldObject*>(ptr);
+	if (!tmp) {
+		szgWarning("RemoteSceneObject can only add RemoteWorldObject as child.");
+		delete ptr;
 		return;
 	}
+	std::unique_ptr<RemoteWorldObject> childPtr = std::unique_ptr<RemoteWorldObject>(tmp);
 	childPtr->reparent(this);
 	remoteWorlds.emplace_back(std::move(childPtr));
 }
@@ -105,13 +122,11 @@ nlohmann::json RemoteSceneObject::serialize() const {
 		result["Worlds"].emplace_back(world->serialize());
 	}
 
-	result.update(numLayer);
-
 	return result;
 }
 
 Reference<const RemoteWorldObject> RemoteSceneObject::query_world() const {
-	Warning("IRemoteObject::query_world() was called in RemoteSceneObject.");
+	szgWarning("IRemoteObject::query_world() was called in RemoteSceneObject.");
 	return nullptr;
 }
 
@@ -141,6 +156,10 @@ std::string RemoteSceneObject::name() const {
 
 const std::vector<std::unique_ptr<RemoteWorldObject>>& RemoteSceneObject::get_remote_worlds() const {
 	return remoteWorlds;
+}
+
+void RemoteSceneObject::set_editor(Reference<EditorRenderDAG> renderDAGEditor_) {
+	renderDAGEditor = renderDAGEditor_;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

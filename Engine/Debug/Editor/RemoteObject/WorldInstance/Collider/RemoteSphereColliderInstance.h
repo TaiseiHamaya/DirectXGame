@@ -4,6 +4,8 @@
 
 #include "../IRemoteInstance.h"
 
+namespace szg {
+
 class SphereCollider;
 
 class RemoteSphereColliderInstance final : public IRemoteInstance<SphereCollider, void*> {
@@ -14,7 +16,7 @@ public:
 	RemoteSphereColliderInstance() = default;
 	~RemoteSphereColliderInstance() = default;
 
-	__CLASS_DEFAULT_ALL(RemoteSphereColliderInstance)
+	SZG_CLASS_DEFAULT(RemoteSphereColliderInstance)
 
 public:
 	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override;
@@ -23,8 +25,12 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::SphereColliderInstance; }
+
 private:
 	EditorValueField<r32> radius{ "Radius", 1.0f };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

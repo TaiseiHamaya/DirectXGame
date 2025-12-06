@@ -4,12 +4,14 @@
 
 #include "IEditorWindow.h"
 
-#include <filesystem>
 #include <memory>
+#include <string>
 
 #include <Library/Utility/Template/Reference.h>
 
 #include "../RemoteObject/RemoteSceneObject.h"
+
+namespace szg {
 
 class IRemoteObject;
 class EditorSelectObject;
@@ -23,14 +25,15 @@ public:
 
 	void update_preview();
 
-	void load(std::filesystem::path file);
-	nlohmann::json save() const;
+	void load(const std::string& sceneName);
+	void save(const std::filesystem::path& path) const;
 
 	void draw() override;
 
 public:
-	std::string current_scene_name();
+	std::string current_scene_name() const;
 	const std::vector<std::unique_ptr<RemoteWorldObject>>& world_list() const;
+	Reference<const RemoteSceneObject> scene_imm() const;
 
 private:
 	std::unique_ptr<RemoteSceneObject> scene;
@@ -43,5 +46,7 @@ private:
 
 	bool savedTrigger;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

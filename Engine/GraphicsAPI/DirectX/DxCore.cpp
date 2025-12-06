@@ -1,13 +1,16 @@
 #include "DxCore.h"
 
+using namespace szg;
+
 #include <memory>
 
 #include <dxgidebug.h>
+
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/RTVDescriptorHeap/RTVDescriptorHeap.h"
@@ -15,6 +18,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DSVDescroptorHeap/DSVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxcManager.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 DxCore::DxCore() = default;
 
@@ -43,7 +47,7 @@ void DxCore::Initialize() {
 	RenderingSystemValues::Initialize();
 
 	// オールコンプリート
-	Information("Complete create DirectXObjects");
+	szgInformation("Complete create DirectXObjects");
 }
 
 void DxCore::BeginFrame() {

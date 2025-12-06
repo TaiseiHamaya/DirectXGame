@@ -14,6 +14,8 @@
 #define COLOR3_SERIALIZER
 #include "Engine/Assets/Json/JsonSerializer.h"
 
+namespace szg {
+
 class SkinningMeshInstance;
 class StaticMeshInstance;
 
@@ -45,6 +47,8 @@ public:
 
 	nlohmann::json serialize() const override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::SkinningMeshInstance; }
+
 	void on_spawn() override;
 
 	void on_destroy() override;
@@ -64,5 +68,7 @@ private:
 
 	std::shared_ptr<const SkeletonAsset> skeleton;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

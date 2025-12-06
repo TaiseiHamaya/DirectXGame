@@ -1,5 +1,7 @@
 #include "AudioManager.h"
 
+using namespace szg;
+
 #pragma comment(lib, "xaudio2.lib")
 
 #include "./AudioLibrary.h" 

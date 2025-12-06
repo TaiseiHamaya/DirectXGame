@@ -45,6 +45,18 @@
     <ClInclude Include="ImGuizmo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="ImNodeFlow\include\ImNodeFlow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImNodeFlow\src\context_wrapper.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImNodeFlow\src\imgui_bezier_math.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImNodeFlow\src\imgui_extra_math.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp">
@@ -74,5 +86,19 @@
     <ClCompile Include="ImGuizmo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ImNodeFlow\src\ImNodeFlow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ImNodeFlow\src\imgui_bezier_math.inl">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="ImNodeFlow\src\imgui_extra_math.inl">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="ImNodeFlow\src\ImNodeFlow.inl">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

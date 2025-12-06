@@ -1,10 +1,10 @@
 #pragma once
 
-#ifdef DEBUG_FEATURES_ENABLE
-
 #include <memory>
 
-#include <Engine/Module/World/Mesh/StaticMeshInstance.h>
+#include "Engine/Module/World/Mesh/StaticMeshInstance.h"
+
+namespace szg {
 
 class DebugValues {
 private:
@@ -24,4 +24,4 @@ private:
 	std::unique_ptr<StaticMeshInstance> gridMesh = nullptr;
 };
 
-#endif // _DEBUG
+}; // szg

@@ -2,9 +2,11 @@
 
 #include "EditorHierarchyDandD.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Debug/Editor/Command/EditorCommandInvoker.h"
 #include "Engine/Debug/Editor/Command/EditorCommandReparent.h"
 
@@ -28,14 +30,14 @@ void EditorHierarchyDandD::BeginDrag(Reference<IRemoteObject> self, Reference<IR
 	instance.dragData.dragging = self;
 	if (ImGui::GetDragDropPayload() == nullptr) {
 		ImGui::SetDragDropPayload("EditorHierarchyDandD", &instance.dragData, sizeof(DragData), ImGuiCond_Once);
-		Information("Begin drag&drop.");
+		szgInformation("Begin drag&drop.");
 	}
 }
 
 void EditorHierarchyDandD::EndDrag(Reference<IRemoteObject> target) {
 	auto& instance = GetInstance();
 	if (!target) {
-		Error("Get ImGui drag&drop payload but target is nullptr.");
+		szgError("Get ImGui drag&drop payload but target is nullptr.");
 		return;
 	}
 	const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EditorHierarchyDandD");
@@ -43,13 +45,13 @@ void EditorHierarchyDandD::EndDrag(Reference<IRemoteObject> target) {
 		return;
 	}
 	if (payload->DataSize != sizeof(DragData)) {
-		Error("Get ImGui drag&drop payload but DragData size is mismatch.");
+		szgError("Get ImGui drag&drop payload but DragData size is mismatch.");
 		return;
 	}
 
 	if (instance.dragData.parent == target) {
 		// 同じ位置にドロップした場合は何もしない
-		Information("Drop to same parent.");
+		szgInformation("Drop to same parent.");
 		return;
 	}
 
@@ -57,7 +59,7 @@ void EditorHierarchyDandD::EndDrag(Reference<IRemoteObject> target) {
 	while (targetParent) {
 		if (targetParent == instance.dragData.dragging) {
 			// ドロップ先がターゲットの子孫である場合は何もしない
-			Warning("Can't drop to target parent.");
+			szgWarning("Can't drop to target parent.");
 			return;
 		}
 		targetParent = targetParent->get_parent();
@@ -65,7 +67,7 @@ void EditorHierarchyDandD::EndDrag(Reference<IRemoteObject> target) {
 
 	instance.command =
 		std::make_unique<EditorCommandReparent>(instance.dragData.dragging, instance.dragData.parent, target);
-	Information("Successed drag&drop.");
+	szgInformation("Successed drag&drop.");
 }
 
 void EditorHierarchyDandD::ExecuteReparent() {

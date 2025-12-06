@@ -8,17 +8,19 @@
 
 #include <Library/Math/Matrix4x4.h>
 
+namespace szg {
+
 class PointLightingExecutor final : public BaseDrawExecutor<PointLightInstance> {
 public:
 	PointLightingExecutor() = default;
 	~PointLightingExecutor() = default;
 
-	PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance);
+	PointLightingExecutor(u32 maxInstance);
 	
-	__CLASS_NON_COPYABLE(PointLightingExecutor)
+	SZG_CLASS_MOVE_ONLY(PointLightingExecutor)
 
 public:
-	void reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance);
+	void reinitialize(u32 maxInstance);
 	void draw_command() const override;
 	void write_to_buffer(Reference<const PointLightInstance> instance) override;
 
@@ -28,3 +30,5 @@ private:
 	StructuredBuffer<Matrix4x4> matrices;
 	StructuredBuffer<PointLightData> lightData;
 };
+
+}; // szg

@@ -17,13 +17,18 @@
 #include "Engine/Debug/Editor/Command/EditorCommandInvoker.h"
 #include "Engine/Debug/Editor/Command/EditorSelectCommand.h"
 
+namespace szg {
+
 template<typename RuntimeType, typename DebugVisualType = void*>
 class IRemoteInstance : public IRemoteObject {
 public:
 	IRemoteInstance() = default;
 	virtual ~IRemoteInstance() = default;
 
-	__CLASS_DEFAULT_ALL(IRemoteInstance)
+	SZG_CLASS_DEFAULT(IRemoteInstance)
+
+public:
+	using RemoteInstanceType = IRemoteInstance<RuntimeType, DebugVisualType>;
 
 public:
 	virtual void setup() override;
@@ -78,9 +83,9 @@ inline void IRemoteInstance<RuntimeType, DebugVisualType>::draw_hierarchy(Refere
 	bool isSelected = select->is_selected(this);
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
-		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+		ImGuiTreeNodeFlags_OpenOnArrow; // 矢印で開く
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}
@@ -152,5 +157,7 @@ void IRemoteInstance<RuntimeType, DebugVisualType>::on_destroy() {
 		}
 	}
 }
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

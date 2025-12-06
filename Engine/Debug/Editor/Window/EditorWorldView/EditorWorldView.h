@@ -9,6 +9,8 @@
 
 #include "EditorDebugCamera.h"
 
+namespace szg {
+
 class RemoteWorldObject;
 class DirectionalLightInstance;
 class StaticMeshInstance;
@@ -20,7 +22,7 @@ public:
 	EditorWorldView() = default;
 	~EditorWorldView() = default;
 
-	__CLASS_NON_COPYABLE(EditorWorldView)
+	SZG_CLASS_MOVE_ONLY(EditorWorldView)
 
 public:
 	void initialize();
@@ -30,12 +32,13 @@ public:
 	void register_primitive(const std::string& name, const Affine& affine);
 
 	void update();
-	void set_camera_command();
+	void register_world_projection(u32 index);
+	void register_world_lighting(u32 index);
 	void draw_lines();
 	std::tuple<bool, Vector2, Vector2> draw_editor(const TempTexture& texture);
 
 	void camera_gui();
-	Reference<const Camera3D> get_camera() const;
+	Reference<const EditorDebugCamera> get_camera() const;
 
 	bool is_select_tab() const;
 	Reference<RemoteWorldObject> remote_world() const;
@@ -47,5 +50,7 @@ private:
 	std::unique_ptr<EditorDebugCamera> cameraInstance;
 	std::unordered_map<std::string, std::unique_ptr<PrimitiveGeometryDrawExecutor>> primitive;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

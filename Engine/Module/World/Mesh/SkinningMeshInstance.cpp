@@ -1,8 +1,10 @@
 #include "SkinningMeshInstance.h"
 
+using namespace szg;
+
 #include <Library/Utility/Tools/SmartPointer.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Animation/NodeAnimation/NodeAnimationPlayer.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonAsset.h"
 #include "Engine/Assets/Animation/Skeleton/SkeletonLibrary.h"
@@ -24,17 +26,16 @@ SkinningMeshInstance::SkinningMeshInstance(const std::string& keyID, const std::
 
 SkinningMeshInstance::~SkinningMeshInstance() noexcept = default;
 
-void SkinningMeshInstance::begin() {
-	if (!isActive) {
-		return;
-	}
-	nodeAnimation->update();
+void SkinningMeshInstance::update() {
+	IMultiMeshInstance::update();
+	update_animation();
 }
 
 void SkinningMeshInstance::update_animation() {
 	if (!isActive || !skeletonResrouce) {
 		return;
 	}
+	nodeAnimation->update();
 
 	// Skeletonの行列計算
 	const Skeleton& skeleton = skeletonResrouce->skeleton();
@@ -103,7 +104,7 @@ void SkinningMeshInstance::default_material() {
 		else {
 			meshMaterial.texture = TextureLibrary::GetTexture("Error.png");
 			meshMaterial.uvTransform.copy(Transform2D{});
-			Warning("Material data is not found.");
+			szgWarning("Material data is not found.");
 		}
 		++i;
 	}

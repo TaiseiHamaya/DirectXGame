@@ -1,5 +1,9 @@
 #include "DxShaderReflection.h"
 
+using namespace szg;
+
+#pragma warning(push, 0)
+
 #include "./DxcManager.h"
 #include "Engine/GraphicsAPI/DirectX/DxPipelineState/PSOBuilder/PSOBuilder.h"
 
@@ -106,3 +110,5 @@ void DxShaderReflection::guess_bind(RootSignatureBuilder& rootSignatureBuilder, 
 		break;
 	}
 }
+
+#pragma warning(pop)

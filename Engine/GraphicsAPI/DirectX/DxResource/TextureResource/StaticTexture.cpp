@@ -1,5 +1,7 @@
 #include "StaticTexture.h"
 
+using namespace szg;
+
 #include <format>
 
 StaticTexture::~StaticTexture() {

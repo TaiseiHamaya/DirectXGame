@@ -4,12 +4,14 @@
 
 #include <d3d12.h>
 
+namespace szg {
+
 class ShaderResourceView : public IResourceView<D3D12_GPU_DESCRIPTOR_HANDLE> {
 public:
 	ShaderResourceView() = default;
 	~ShaderResourceView() = default;
 
-	__CLASS_NON_COPYABLE(ShaderResourceView)
+	SZG_CLASS_MOVE_ONLY(ShaderResourceView)
 
 public:
 	void release() override;
@@ -18,8 +20,10 @@ public:
 	D3D12_RESOURCE_STATES use_state() const  override { return D3D12_RESOURCE_STATE_GENERIC_READ; };
 
 public:
-	void use(u32 index) const;
+	void use(u32 paramIndex) const;
 
 private:
 
 };
+
+}; // szg

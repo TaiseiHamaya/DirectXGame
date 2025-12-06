@@ -5,8 +5,13 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+/// <summary>
+/// XAudio2管理クラス
+/// </summary>
+namespace szg {
+
 class AudioManager final : public SingletonInterface<AudioManager> {
-	__CLASS_SINGLETON_INTERFACE(AudioManager)
+	SZG_CLASS_SINGLETON(AudioManager)
 
 public:
 	/// <summary>
@@ -35,3 +40,5 @@ public:
 	static r32 GetMasterVolume();
 	static void SetMasterVolume(r32 volume);
 };
+
+}; // szg

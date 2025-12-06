@@ -1,19 +1,19 @@
 #pragma once
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
 
 #include <memory>
 
+namespace szg {
+
 class ShaderAsset;
 
-class ShaderAssetBuilder final : public BaseAssetBuilder {
+class ShaderAssetBuilder final : public IAssetBuilder {
 public:
 	ShaderAssetBuilder(const std::filesystem::path& filePath_);
 	~ShaderAssetBuilder() = default;
 
 public:
-	void preprocess() override;
-
 	bool run() override;
 
 	void postprocess() override;
@@ -23,3 +23,5 @@ public:
 private:
 	std::shared_ptr<ShaderAsset> asset;
 };
+
+}; // szg

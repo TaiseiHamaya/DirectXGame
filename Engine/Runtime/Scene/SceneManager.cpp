@@ -1,8 +1,11 @@
 #include "SceneManager.h"
 
-#include <algorithm>
+using namespace szg;
 
-#include "Engine/Application/Output.h"
+#include <algorithm>
+#include <ranges>
+
+#include "Engine/Application/Logger.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 #include "Engine/Runtime/Scene/BaseScene.h"
@@ -19,7 +22,7 @@ SceneManager& SceneManager::GetInstance() noexcept {
 
 void SceneManager::Initialize() {
 	SceneManager& instance = GetInstance();
-	CriticalIf(!instance.sceneQue.empty(), "Scene manager is already initialized.");
+	szgCriticalIf(!instance.sceneQue.empty(), "Scene manager is already initialized.");
 
 	// 最初にnullptrをemplace_backする
 	instance.sceneQue.emplace_back(nullptr);
@@ -33,19 +36,24 @@ void SceneManager::Setup(std::unique_ptr<BaseSceneFactory> factory_) {
 	SceneManager& instance = GetInstance();
 	instance.factory = std::move(factory_);
 	auto initScene = instance.factory->initialize_scene();
-	CriticalIf(!initScene, "The initial scene crated is nullptr.");
+	szgCriticalIf(!initScene, "The created initial scene was nullptr.");
 
 	initScene->load();
 	BackgroundLoader::WaitEndExecute();
 	initScene->initialize();
 
-	Information("Initialize SceneManager. Address-\'{}\'.", (void*)initScene.get());
+	szgInformation("Initialize SceneManager. Address-\'{}\'.", (void*)initScene.get());
 
 	instance.sceneQue.emplace_back(std::move(initScene));
 }
 
 void SceneManager::Finalize() noexcept {
 	SceneManager& instance = GetInstance();
+	for (auto& scene : instance.sceneQue | std::views::reverse) {
+		if (scene) {
+			scene->finalize();
+		}
+	}
 	instance.sceneQue.clear();
 }
 
@@ -98,7 +106,7 @@ void SceneManager::SetSceneChange(i32 next, r32 interval, bool isStackInitialSce
 		return;
 	}
 	auto nextScenePtr = instance.factory->create_scene(next);
-	Information("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},",
+	szgInformation("Set scene change. Internal scene address-\'{}\', Terminal scene address-\'{}\', Interval-{}, Stack-{:s}, Stop load-{:s},",
 		(void*)instance.sceneQue.back().get(),
 		(void*)nextScenePtr.get(),
 		interval,
@@ -136,7 +144,7 @@ void SceneManager::PopScene(r32 interval) {
 	// nullptrになった要素を削除
 	instance.sceneQue.pop_back();
 
-	Information("Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},",
+	szgInformation("Pop scene. Pop scene address-\'{}\', Next scene address-\'{}\', Interval-{},",
 		(void*)instance.sceneQue.back().get(),
 		(void*)instance.sceneChangeInfo.next.get(),
 		interval
@@ -191,6 +199,7 @@ void SceneManager::NextScene() {
 
 #include <imgui.h>
 #include <format>
+#include "SceneManager2.h"
 
 void SceneManager::SetProfiler(Reference<TimestampProfiler> profiler_) {
 	GetInstance().profiler = profiler_;

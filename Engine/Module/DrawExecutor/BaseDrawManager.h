@@ -11,6 +11,8 @@
 
 #include <Library/Utility/Tools/Hash.h>
 
+namespace szg {
+
 template <class Executor, typename T>
 concept ConceptExecutor = std::derived_from<Executor, BaseDrawExecutor<T>>;
 
@@ -21,15 +23,16 @@ public:
 	BaseDrawManager() = default;
 	virtual ~BaseDrawManager() = default;
 
-	__CLASS_NON_COPYABLE(BaseDrawManager)
+	SZG_CLASS_MOVE_ONLY(BaseDrawManager)
 
 public:
 	void initialize(u32 numLayer);
 	virtual void make_instancing(u32 layer, const KeyType& meshName, u32 maxInstance) = 0;
 	void register_instance(Reference<const InstanceType> instance);
 	void unregister_instance(Reference<const InstanceType> instance);
+	void remove_marked_destroy();
 	void transfer();
-	void draw_layer(u32 layer);
+	void draw_layer(u32 layer) const;
 
 #ifdef DEBUG_FEATURES_ENABLE
 public:
@@ -43,9 +46,9 @@ protected:
 	std::vector<std::vector<Reference<Executor>>> layerExecutors;
 
 #ifdef DEBUG_FEATURES_ENABLE
-	u32 layer{ 0 };
+	u32 d_layer{ 0 };
 	KeyType select;
-	u32 maxInstance{ 0 };
+	u32 d_maxInstance{ 0 };
 #endif // _DEBUG
 };
 
@@ -60,12 +63,21 @@ template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::register_instance(Reference<const InstanceType> instance) {
 	instances.emplace(instance);
+	make_instancing(instance->layer(), instance->key_id(), 1000);
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
 inline void BaseDrawManager<Executor, KeyType, InstanceType>::unregister_instance(Reference<const InstanceType> instance) {
-	instances.erase(instance);
+	instances.emplace(instance);
+}
+
+template<class Executor, typename KeyType, typename InstanceType>
+	requires ConceptExecutor<Executor, InstanceType>
+inline void BaseDrawManager<Executor, KeyType, InstanceType>::remove_marked_destroy() {
+	std::erase_if(instances, [](const Reference<const InstanceType>& instance) {
+		return instance->is_marked_destroy();
+	});
 }
 
 template<class Executor, typename KeyType, typename InstanceType>
@@ -93,7 +105,7 @@ inline void BaseDrawManager<Executor, KeyType, InstanceType>::transfer() {
 
 template<class Executor, typename KeyType, typename InstanceType>
 	requires ConceptExecutor<Executor, InstanceType>
-inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 layer) {
+inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 layer) const {
 	if (layer >= layerExecutors.size()) {
 		// Layer外をDrawCallしようとした
 		return;
@@ -103,3 +115,5 @@ inline void BaseDrawManager<Executor, KeyType, InstanceType>::draw_layer(u32 lay
 		executor->draw_command();
 	}
 }
+
+}; // szg

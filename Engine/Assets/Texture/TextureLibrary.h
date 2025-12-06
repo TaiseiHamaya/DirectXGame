@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 
+namespace szg {
+
 class TextureAsset;
 
 class TextureLibrary final {
@@ -86,3 +88,5 @@ private: // メンバ変数
 	std::unordered_map<std::string, std::shared_ptr<TextureAsset>> textureInstanceList; // テクスチャリスト
 };
 
+
+}; // szg

@@ -2,6 +2,8 @@
 
 #include "RemoteWorldObject.h"
 
+using namespace szg;
+
 #include <format>
 
 #include <imgui.h>
@@ -27,7 +29,7 @@ void RemoteWorldObject::setup() {
 	}
 }
 
-void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) {
+void RemoteWorldObject::update_preview(Reference<RemoteWorldObject>, Reference<Affine>) {
 	for(auto& child : children) {
 		if (child) {
 			child->update_preview(this, nullptr);
@@ -37,6 +39,10 @@ void RemoteWorldObject::update_preview(Reference<RemoteWorldObject> world, Refer
 
 void RemoteWorldObject::draw_inspector() {
 	hierarchyName.show_gui();
+
+	ImGui::Separator();
+
+	numLayer.show_gui();
 }
 
 void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
@@ -44,9 +50,9 @@ void RemoteWorldObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
-		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+		ImGuiTreeNodeFlags_OpenOnArrow; // 矢印で開く
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}
@@ -109,6 +115,8 @@ nlohmann::json RemoteWorldObject::serialize() const {
 			result["Instances"].emplace_back(child->serialize());
 		}
 	}
+
+	result.update(numLayer);
 
 	return result;
 }

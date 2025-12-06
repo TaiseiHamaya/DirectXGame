@@ -27,9 +27,29 @@ public:
 
 public:
 	constexpr Vector3 transform(const Vector3& v) const;
+
+	/// <summary>
+	/// 自身の逆行列に変換(高速版)
+	/// 正規直行の場合にのみ使用可能
+	/// </summary>
 	void invert_fast();
+
+	/// <summary>
+	/// 逆行列を返す(高速版)
+	/// 正規直行の場合にのみ使用可能
+	/// </summary>
+	/// <returns></returns>
 	Affine inverse_fast() const;
+
+	/// <summary>
+	/// 自身を逆行列に変換
+	/// </summary>
 	void invert();
+
+	/// <summary>
+	/// 逆行列を返す
+	/// </summary>
+	/// <returns></returns>
 	Affine inverse() const;
 
 public:

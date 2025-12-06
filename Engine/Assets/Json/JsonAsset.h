@@ -5,11 +5,13 @@
 
 #include <json.hpp>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include "Engine/Debug/ImGui/ImGuiJsonEditor/ImGuiValueEditor.h"
 #endif // _DEBUG
+
+namespace szg {
 
 template<typename T>
 concept UseabelJson = requires(nlohmann::json json, T t) {
@@ -78,10 +80,12 @@ inline void JsonAsset::register_value(const std::string& name, T& value, [[maybe
 	value = std::move(this->try_emplace<T>(name));
 #ifdef DEBUG_FEATURES_ENABLE
 	valueEditor.register_value(
-		[&, name]() { this->write(name, value); },
-		name, value, std::forward(args)...
+		[&, name, value = &value]() { this->write(name, *value); },
+		name, &value, std::forward(args)...
 	);
 #endif // _DEBUG
 }
 
-#define __JSON_RESOURCE_REGISTER(variable) std::string{ #variable }, variable
+#define SZG_JSON_ASSET_REGISTER(variable) std::string{ #variable }, variable
+
+}; // szg

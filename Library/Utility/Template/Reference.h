@@ -1,8 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <type_traits>
 
+/// <summary>
+/// 参照ラッパークラス
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template<typename T>
 class Reference {
 public:
@@ -64,19 +67,48 @@ public: // -------------------- 型変換付きキャスト --------------------
 public: // -------------------- その他関数 --------------------
 	operator bool() const noexcept { return reference; };
 	bool operator!() const noexcept { return !static_cast<bool>(*this); };
-	T* operator->() const noexcept { return reference; };
-	T* ptr() const noexcept { return reference; };
+	T* operator->() noexcept { return reference; };
+	const T* operator->() const noexcept { return reference; };
+	T* ptr() noexcept { return reference; };
+	const T* ptr() const noexcept { return reference; };
 	const T& operator*() const { return *reference; }
 	T& operator*() { return *reference; }
 
 	/// <summary>
 	/// 関連付けの削除
 	/// </summary>
-	void unref() noexcept { reference = nullptr; };
+	[[deprecated("Use new reset() function")]]
+	void unref() noexcept;
+
+	/// <summary>
+	/// 関連付けの削除
+	/// </summary>
+	void reset() noexcept;
+
+	/// <summary>
+	/// 値がnullptrかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool is_null() const noexcept;
 
 private:
 	T* reference{ nullptr };
 };
+
+template<typename T>
+inline void Reference<T>::unref() noexcept {
+	reference = nullptr;
+}
+
+template<typename T>
+inline void Reference<T>::reset() noexcept {
+	reference = nullptr;
+}
+
+template<typename T>
+inline bool Reference<T>::is_null() const noexcept {
+	return reference == nullptr;
+}
 
 // -------------------- 等価演算子 --------------------
 

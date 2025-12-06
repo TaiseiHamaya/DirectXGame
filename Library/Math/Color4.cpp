@@ -30,5 +30,4 @@ Color4 Color4::LerpElement(const Color4& color1, const Color4& color2, const Col
 		std::lerp(color1.blue, color2.blue, t.blue),
 		std::lerp(color1.alpha, color2.alpha, t.alpha)
 	};
-    return Color4();
 }

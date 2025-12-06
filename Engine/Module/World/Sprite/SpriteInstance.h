@@ -10,8 +10,11 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
-class TextureAsset;
 class Transform2D;
+
+namespace szg {
+
+class TextureAsset;
 class IndexBuffer;
 
 class SpriteInstance {
@@ -59,3 +62,5 @@ protected:
 	std::unique_ptr<Transform2D> transform;
 	std::unique_ptr<Transform2D> uvTransform;
 };
+
+}; // szg

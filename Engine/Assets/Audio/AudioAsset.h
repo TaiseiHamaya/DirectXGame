@@ -1,29 +1,32 @@
 #pragma once
 
-#include <filesystem>
+#include <vector>
 
 #include <xaudio2.h>
 
+#include <Library/Utility/Tools/ConstructorMacro.h>
+
+/// <summary>
+/// 音声データアセット
+/// </summary>
+namespace szg {
+
 class AudioAsset {
 public:
-	AudioAsset() = default;
+	AudioAsset(WAVEFORMATEXTENSIBLE format, std::vector<u8> buffer, u32 bufferSize);
 	~AudioAsset() = default;
 
-public:
-	AudioAsset(const AudioAsset&) = delete;
-	AudioAsset& operator=(const AudioAsset&) = delete;
-	AudioAsset(AudioAsset&&) = default;
-	AudioAsset& operator=(AudioAsset&&) = default;
+	SZG_CLASS_MOVE_ONLY(AudioAsset)
 
 public:
-	bool load(const std::filesystem::path& filePath);
-	u32 size() const noexcept;
-	const std::basic_string<BYTE>& buffer_data() const noexcept;
+	u32 buffer_size() const noexcept;
+	const std::vector<u8>& buffer_data() const noexcept;
 	const WAVEFORMATEX& format() const noexcept;
 
 private:
-	WAVEFORMATEXTENSIBLE format_;
-	std::basic_string<BYTE> buffer_;
-	u32 bufferSize_;
+	WAVEFORMATEXTENSIBLE waveFormat;
+	std::vector<u8> buffer;
+	u32 bufferSize;
 };
 
+}; // szg

@@ -1,5 +1,7 @@
 #include "NodeAnimationPlayer.h"
 
+using namespace szg;
+
 #include <cmath>
 
 #include "NodeAnimationAsset.h"
@@ -8,7 +10,7 @@
 template<typename T, T LerpFunction(const T&, const T&, r32) = std::lerp>
 T CalculateValue(const NodeAnimationAsset::AnimationCurve<T>& animationCurve, r32 time);
 
-NodeAnimationPlayer::NodeAnimationPlayer(const std::string& fileName, const std::string& animationName_, bool isLoop_) :
+NodeAnimationPlayer::NodeAnimationPlayer(const std::string&, const std::string& animationName_, bool isLoop_) :
 	isLoop(isLoop_) {
 	reset_animation(animationName_);
 }

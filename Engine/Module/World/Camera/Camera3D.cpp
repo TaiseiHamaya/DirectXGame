@@ -1,17 +1,19 @@
 #include "Camera3D.h"
 
+using namespace szg;
+
 #include <cmath>
 
 #include <Library/Math/VectorConverter.h>
 
-#include "../WorldManager.h"
 #include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/Module/Manager/World/WorldRoot.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
 #include <imgui.h>
-#include <Engine/Runtime/Input/Input.h>
-#include <Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h>
+#include "Engine/Runtime/Input/Input.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #endif // _DEBUG
 
 void Camera3D::initialize() {
@@ -24,10 +26,10 @@ void Camera3D::initialize() {
 #ifdef DEBUG_FEATURES_ENABLE
 	isValidDebugCamera = false;
 	useDebugCameraLighting = false;
-	debugCameraCenter = world_manager()->create<StaticMeshInstance>(nullptr, "CameraAxis.obj");
+	debugCameraCenter = world_root_mut()->instantiate<StaticMeshInstance>(nullptr, "CameraAxis.obj");
 	debugCameraCenter->get_materials()[0].lightingType = LighingType::None;
-	debugCamera = world_manager()->create<WorldInstance>(debugCameraCenter);
-	frustumExecutor = 
+	debugCamera = world_root_mut()->instantiate<WorldInstance>(debugCameraCenter);
+	frustumExecutor =
 		std::make_unique<PrimitiveGeometryDrawExecutor>(
 			PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 1
 		);
@@ -61,31 +63,31 @@ void Camera3D::transfer() {
 	}
 
 	if (isValidDebugCamera && useDebugCameraLighting) {
-		lightingBuffer.get_data()->viewInv = debugViewAffine.inverse_fast().to_matrix();
-		lightingBuffer.get_data()->position = debugCamera->world_position();
-		lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+		lightingBuffer.data_mut()->viewInv = debugViewAffine.inverse_fast().to_matrix();
+		lightingBuffer.data_mut()->position = debugCamera->world_position();
+		lightingBuffer.data_mut()->projInv = projectionMatrix.inverse();
 	}
 	else {
-		lightingBuffer.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
-		lightingBuffer.get_data()->position = world_position();
-		lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+		lightingBuffer.data_mut()->viewInv = viewAffine.inverse_fast().to_matrix();
+		lightingBuffer.data_mut()->position = world_position();
+		lightingBuffer.data_mut()->projInv = projectionMatrix.inverse();
 	}
 
 	if (isValidDebugCamera) {
-		vpBuffers.get_data()->view = debugViewAffine.to_matrix();
-		vpBuffers.get_data()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
+		vpBuffers.data_mut()->view = debugViewAffine.to_matrix();
+		vpBuffers.data_mut()->viewProjection = debugViewAffine.to_matrix() * projectionMatrix;
 	}
 	else {
-		vpBuffers.get_data()->view = viewAffine.to_matrix();
-		vpBuffers.get_data()->viewProjection = vpMatrix;
+		vpBuffers.data_mut()->view = viewAffine.to_matrix();
+		vpBuffers.data_mut()->viewProjection = vpMatrix;
 	}
 #else
 	// リリースビルド時は参照用と描画用が必ず同じになるのでこの実装
-	vpBuffers.get_data()->view = viewAffine.to_matrix();
-	vpBuffers.get_data()->viewProjection = viewAffine.to_matrix() * projectionMatrix;
-	lightingBuffer.get_data()->viewInv = viewAffine.inverse_fast().to_matrix();
-	lightingBuffer.get_data()->position = world_position();
-	lightingBuffer.get_data()->projInv = projectionMatrix.inverse();
+	vpBuffers.data_mut()->view = viewAffine.to_matrix();
+	vpBuffers.data_mut()->viewProjection = viewAffine.to_matrix() * projectionMatrix;
+	lightingBuffer.data_mut()->viewInv = viewAffine.inverse_fast().to_matrix();
+	lightingBuffer.data_mut()->position = world_position();
+	lightingBuffer.data_mut()->projInv = projectionMatrix.inverse();
 #endif // _DEBUG
 }
 
@@ -118,7 +120,7 @@ const Matrix4x4& Camera3D::vp_matrix() const {
 #ifdef DEBUG_FEATURES_ENABLE
 	return vpMatrix;
 #else
-	return vpBuffers.get_data()->viewProjection;
+	return vpBuffers.data_imm()->viewProjection;
 #endif // _DEBUG
 }
 
@@ -234,7 +236,7 @@ void Camera3D::debug_draw_frustum() const {
 }
 
 const Matrix4x4& Camera3D::vp_matrix_debug() const {
-	return vpBuffers.get_data()->viewProjection;
+	return vpBuffers.data_imm()->viewProjection;
 }
 
 const Affine& Camera3D::debug_view_affine() const {

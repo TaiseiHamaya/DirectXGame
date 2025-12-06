@@ -1,6 +1,8 @@
 #include "IMultiMeshInstance.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
 
 IMultiMeshInstance::IMultiMeshInstance() noexcept :
@@ -19,6 +21,6 @@ const std::vector<IMultiMeshInstance::Material>& IMultiMeshInstance::get_materia
 }
 
 void IMultiMeshInstance::set_texture(const std::string& name, i32 index) {
-	WarningIf(index >= materials.size(), "Index({}) is out of range for material.", index);
+	szgWarningIf(index >= materials.size(), "Index({}) is out of range for material.", index);
 	materials[index].texture = TextureLibrary::GetTexture(name);
 }

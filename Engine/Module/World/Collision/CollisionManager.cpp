@@ -1,5 +1,7 @@
 #include "CollisionManager.h"
 
+using namespace szg;
+
 #include <ranges>
 
 #include <Library/Utility/Tools/SmartPointer.h>
@@ -11,38 +13,21 @@ CollisionManager::CollisionManager() {
 #ifdef DEBUG_FEATURES_ENABLE
 
 	sphereDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Sphere"), 1024
 	);
 	aabbDebugDrawExecutor = eps::CreateUnique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("AABBCollider"), 1024
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Box"), 1024
 	);
 
 #endif // _DEBUG
 }
 
-void CollisionManager::begin() {
-	if (collisionCallbackManager) {
-		collisionCallbackManager->begin();
-	}
-}
+void CollisionManager::collision_entry_point() {
+	collisionCallbackManager->begin_callback();
 
-void CollisionManager::update() {
-	// 解放済み要素の削除
-	for (auto itr = colliderList.begin(); itr != colliderList.end();) {
-		bool isEraseList{ true };
-		// 削除処理
-		isEraseList = erase_expired(itr->second.sphereColliders) && isEraseList;
-		isEraseList = erase_expired(itr->second.aabbColliders) && isEraseList;
-		// 要素が空の場合リストから名前を削除
-		if (isEraseList) {
-#ifdef DEBUG_FEATURES_ENABLE
-			keyList.erase(itr->first);
-#endif // _DEBUG
-			itr = colliderList.erase(itr);
-		}
-		else {
-			++itr;
-		}
+#undef small
+	for (const auto& key : collisionLayerList) {
+		collision(key.big(), key.small());
 	}
 }
 
@@ -60,44 +45,51 @@ void CollisionManager::collision(const std::string& groupName1, const std::strin
 	test_colliders(group1.sphereColliders, group2.aabbColliders);
 }
 
-template<std::derived_from<BaseCollider> ColliderType>
-bool CollisionManager::erase_expired(std::list<std::weak_ptr<ColliderType>>& colliders) {
-	for (auto itr = colliders.begin(); itr != colliders.end();) {
-		if (itr->expired()) {
-			itr = colliders.erase(itr);
-		}
-		else {
-			++itr;
-		}
+void CollisionManager::remove_marked_destroy() {
+	auto checker = []<class T>(const Reference<T> collider) -> bool { return collider->is_marked_destroy(); };
+
+	// 中身の削除
+	for (auto& [_, colliders] : colliderList) {
+		std::erase_if(colliders.aabbColliders, checker);
+		std::erase_if(colliders.sphereColliders, checker);
 	}
 
-	if (colliders.empty()) {
-		return true;
-	}
-	return false;
+	// 要素0のレイヤーリストを削除
+	std::erase_if(colliderList, [&](const std::pair<std::string, Colliders>& list) {
+		auto& value = list.second;
+
+		if (value.aabbColliders.empty() && value.sphereColliders.empty()) {
+#ifdef DEBUG_FEATURES_ENABLE
+			keyList.erase(list.first);
+#endif // _DEBUG
+			return true;
+		}
+		return false;
+	});
+
+	// callback側の削除
+	collisionCallbackManager->remove_marked_destroy();
 }
 
 template<std::derived_from<BaseCollider> LColliderType, std::derived_from<BaseCollider> RColliderType>
-void CollisionManager::test_colliders(const std::list<std::weak_ptr<LColliderType>>& lhs, const std::list<std::weak_ptr<RColliderType>>& rhs) {
-	for (const std::weak_ptr<LColliderType>& colliderL : lhs) {
-		auto lLocked = colliderL.lock();
-		if (!lLocked->is_active()) {
+void CollisionManager::test_colliders(const std::list<Reference<LColliderType>>& lhs, const std::list<Reference<RColliderType>>& rhs) {
+	for (const Reference<LColliderType>& colliderL : lhs) {
+		if (!colliderL->is_active()) {
 			continue;
 		}
-		for (const std::weak_ptr<RColliderType>& colliderR : rhs) {
-			auto rLocked = colliderR.lock();
-			if (!rLocked->is_active()) {
+		for (const Reference<RColliderType>& colliderR : rhs) {
+			if (!colliderR->is_active()) {
 				continue;
 			}
 			if constexpr (std::is_same_v<LColliderType, RColliderType>) {
-				if (lLocked == rLocked) {
-					break;
+				if (colliderL == colliderR) {
+					continue;
 				}
 			}
-			bool result = Collision(*lLocked, *rLocked);
+			bool result = Collision(colliderL, colliderR);
 			collisionCallbackManager->callback(
-				lLocked.get(),
-				rLocked.get(),
+				colliderL,
+				colliderR,
 				result
 			);
 		}
@@ -134,12 +126,12 @@ void CollisionManager::debug_draw3d() {
 	aabbDebugDrawExecutor->begin();
 
 	for (const Colliders& colliders : colliderList | std::views::values) {
-		for (const std::weak_ptr<SphereCollider>& sphereCollider : colliders.sphereColliders) {
-			sphereDebugDrawExecutor->write_to_buffer(sphereCollider.lock()->debug_matrix());
+		for (const Reference<SphereCollider>& sphereCollider : colliders.sphereColliders) {
+			sphereDebugDrawExecutor->write_to_buffer(sphereCollider->debug_matrix());
 		}
 
-		for (const std::weak_ptr<AABBCollider>& aabbCollider : colliders.aabbColliders) {
-			aabbDebugDrawExecutor->write_to_buffer(aabbCollider.lock()->debug_matrix());
+		for (const Reference<AABBCollider>& aabbCollider : colliders.aabbColliders) {
+			aabbDebugDrawExecutor->write_to_buffer(aabbCollider->debug_matrix());
 		}
 	}
 

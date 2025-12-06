@@ -4,12 +4,14 @@
 
 #include "./IResourceView/ShaderResourceView.h"
 
+namespace szg {
+
 class StaticTexture final : protected ITextureResource {
 public:
 	StaticTexture() = default;
 	~StaticTexture();
 
-	__CLASS_NON_COPYABLE(StaticTexture)
+	SZG_CLASS_MOVE_ONLY(StaticTexture)
 
 public:
 	void initialize(Microsoft::WRL::ComPtr<ID3D12Resource> resource_, bool isCubemap = false);
@@ -21,3 +23,5 @@ public:
 private:
 	ShaderResourceView srv;
 };
+
+}; // szg

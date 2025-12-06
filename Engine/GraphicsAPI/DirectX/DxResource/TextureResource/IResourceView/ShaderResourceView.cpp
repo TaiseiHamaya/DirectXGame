@@ -1,6 +1,8 @@
 #include "ShaderResourceView.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
@@ -17,7 +19,7 @@ void ShaderResourceView::create(Reference<ITextureResource> resource, DXGI_FORMA
 	auto& gpuResource = resource->get_resource();
 	// 使用するディスクリプタヒープを取得
 	index = SRVDescriptorHeap::UseHeapIndex();
-	Information("SRV-{}", index.value());
+	szgInformation("SRV-{}", index.value());
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = SRVDescriptorHeap::GetCPUHandle(index.value());
 	_handle = SRVDescriptorHeap::GetGPUHandle(index.value());
 
@@ -36,7 +38,7 @@ void ShaderResourceView::create_dds(Reference<ITextureResource> resource, DXGI_F
 	auto& gpuResource = resource->get_resource();
 	// 使用するディスクリプタヒープを取得
 	index = SRVDescriptorHeap::UseHeapIndex();
-	Information("SRV-{}", index.value());
+	szgInformation("SRV-{}", index.value());
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = SRVDescriptorHeap::GetCPUHandle(index.value());
 	_handle = SRVDescriptorHeap::GetGPUHandle(index.value());
 
@@ -53,7 +55,7 @@ void ShaderResourceView::create_dds(Reference<ITextureResource> resource, DXGI_F
 	DxDevice::GetDevice()->CreateShaderResourceView(gpuResource.Get(), &srvDesc, handleCPU);
 }
 
-void ShaderResourceView::use(u32 index) const {
+void ShaderResourceView::use(u32 paramIndex) const {
 	auto&& commandList = DxCommand::GetCommandList();
-	commandList->SetGraphicsRootDescriptorTable(index, _handle);
+	commandList->SetGraphicsRootDescriptorTable(paramIndex, _handle);
 }

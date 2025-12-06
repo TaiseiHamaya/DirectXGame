@@ -1,6 +1,6 @@
 #include "RandomEngine.h"
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 RandomEngine& RandomEngine::GetInstance() {
 	static RandomEngine instance;
@@ -12,9 +12,9 @@ void RandomEngine::Initialize() {
 	std::random_device device{};
 	u32 seed = device();
 #ifdef DEBUG_FEATURES_ENABLE
-	Information("RandomEngine is initalized. Seed-\'{:#x}\'", seed);
+	szgInformation("RandomEngine is initialized. Seed-\'{:#x}\'", seed);
 #else
-	Information("RandomEngine is initalized. SeedHash-\'{:#x}\'", std::hash<u32>()(seed));
+	szgInformation("RandomEngine is initialized. SeedHash-\'{:#x}\'", std::hash<u32>()(seed));
 #endif // _DEBUG
 	instance.mersenneTwister.seed(seed);
 }

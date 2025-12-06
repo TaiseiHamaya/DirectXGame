@@ -2,6 +2,8 @@
 
 #include "EditorWorldView.h"
 
+using namespace szg;
+
 #include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/Debug/Editor/RemoteObject/RemoteWorldObject.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/TempTexture.h"
@@ -19,11 +21,14 @@ void EditorWorldView::initialize() {
 	primitive.emplace("Frustum", std::make_unique<PrimitiveGeometryDrawExecutor>(
 		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Frustum"), 16
 	));
-	primitive.emplace("AABBCollider", std::make_unique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("AABBCollider"), 1024
+	primitive.emplace("Box", std::make_unique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Box"), 1024
 	));
-	primitive.emplace("SphereCollider", std::make_unique<PrimitiveGeometryDrawExecutor>(
-		PrimitiveGeometryLibrary::GetPrimitiveGeometry("SphereCollider"), 1024
+	primitive.emplace("Sphere", std::make_unique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Sphere"), 1024
+	));
+	primitive.emplace("Line", std::make_unique<PrimitiveGeometryDrawExecutor>(
+		PrimitiveGeometryLibrary::GetPrimitiveGeometry("Line"), 1024
 	));
 }
 
@@ -31,9 +36,7 @@ void EditorWorldView::setup(Reference<RemoteWorldObject> remoteWorld_) {
 	remoteWorld = remoteWorld_;
 }
 
-void EditorWorldView::register_mesh(Reference<StaticMeshInstance> meshInstance) {
-	//staticMeshDrawManager.make_instancing(0, meshInstance->key_id(), 1024);
-	//staticMeshDrawManager.register_instance(meshInstance);
+void EditorWorldView::register_mesh(Reference<StaticMeshInstance>) {
 }
 
 void EditorWorldView::register_primitive(const std::string& name, const Affine& affine) {
@@ -55,9 +58,12 @@ void EditorWorldView::update() {
 	cameraInstance->transfer();
 }
 
-void EditorWorldView::set_camera_command() {
-	cameraInstance->register_world_projection(2);
-	cameraInstance->register_world_lighting(3);
+void EditorWorldView::register_world_projection(u32 index) {
+	cameraInstance->register_world_projection(index);
+}
+
+void EditorWorldView::register_world_lighting(u32 index) {
+	cameraInstance->register_world_lighting(index);
 }
 
 void EditorWorldView::draw_lines() {
@@ -109,7 +115,7 @@ void EditorWorldView::camera_gui() {
 	cameraInstance->debug_gui();
 }
 
-Reference<const Camera3D> EditorWorldView::get_camera() const {
+Reference<const EditorDebugCamera> EditorWorldView::get_camera() const {
 	return cameraInstance;
 }
 

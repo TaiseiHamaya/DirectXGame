@@ -7,8 +7,9 @@
 #include <wrl/client.h>
 
 #include <Library/Math/Color4.h>
+#include <Library/Utility/Template/Reference.h>
 
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
+namespace szg {
 
 class SwapChainRenderTargetGroup;
 class PSOBuilder;
@@ -52,3 +53,5 @@ private:
 	std::vector<std::unique_ptr<ScreenTexture>> textures;
 	std::unique_ptr<SwapChainRenderTargetGroup> renderTargetGroup;
 };
+
+}; // szg

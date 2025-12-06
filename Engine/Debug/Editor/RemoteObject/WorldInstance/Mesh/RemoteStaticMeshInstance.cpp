@@ -2,8 +2,10 @@
 
 #include "RemoteStaticMeshInstance.h"
 
+using namespace szg;
+
 #include "../../../Window/EditorSceneView.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
@@ -31,6 +33,9 @@ void RemoteStaticMeshInstance::update_preview(Reference<RemoteWorldObject> world
 	debugVisual->localAffine = worldAffine;
 	debugVisual->isDraw = isDraw.cget();
 
+	if (debugVisual->keyID != meshName) {
+		return;
+	}
 	for (i32 i = 0; i < materials.size(); ++i) {
 		RemoteStaticMeshInstance::Material& source = materials[i];
 		StaticMeshInstance::Material& write = debugVisual->materials[i];
@@ -165,7 +170,7 @@ nlohmann::json RemoteStaticMeshInstance::serialize() const {
 
 	json.update(hierarchyName);
 	json.update(transform);
-	json["Type"] = 10;
+	json["Type"] = instance_type();
 	json.update(isDraw);
 	json.update(layer);
 	json["MeshName"] = meshName;
@@ -192,7 +197,7 @@ void RemoteStaticMeshInstance::on_spawn() {
 }
 
 void RemoteStaticMeshInstance::on_destroy() {
-	debugVisual->set_layer(-1);
+	debugVisual->set_layer(std::numeric_limits<u32>::max());
 
 	IRemoteInstance<StaticMeshInstance, StaticMeshInstance>::on_destroy();
 }
@@ -240,7 +245,7 @@ void RemoteStaticMeshInstance::default_material() {
 			meshMaterial.uvTransform.set_translate(CVector2::ZERO);
 			EditorValueChangeCommandHandler::End();
 
-			Warning("Material data is not found.");
+			szgWarning("Material data is not found.");
 		}
 		{
 			EditorValueChangeCommandHandler::GenCommand<LighingType>([&, i = i]() -> LighingType& { return materials.at(i).lightingType; });

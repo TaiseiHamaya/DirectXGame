@@ -2,19 +2,21 @@
 
 #include "EditorCommandReparent.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 
 EditorCommandReparent::EditorCommandReparent(Reference<IRemoteObject> target_, Reference<IRemoteObject> recent, Reference<IRemoteObject> next) {
 	if(!target_) {
-		Warning("Target is nullptr.");
+		szgWarning("Target is nullptr.");
 		return;
 	}
 	if(!recent) {
-		Warning("Recent parent is nullptr.");
+		szgWarning("Recent parent is nullptr.");
 		return;
 	}
 	if(!next) {
-		Warning("Next parent is nullptr.");
+		szgWarning("Next parent is nullptr.");
 		return;
 	}
 	target = target_;
@@ -25,7 +27,7 @@ EditorCommandReparent::EditorCommandReparent(Reference<IRemoteObject> target_, R
 void EditorCommandReparent::execute() {
 	auto instance = recentParent->move_force(target);
 	if (!instance) {
-		Warning("Failed to move target to next parent.");
+		szgWarning("Failed to move target to next parent.");
 		return;
 	}
 
@@ -36,7 +38,7 @@ void EditorCommandReparent::execute() {
 void EditorCommandReparent::undo() {
 	auto instance = nextParent->move_force(target);
 	if (!instance) {
-		Warning("Failed to move target back to recent parent.");
+		szgWarning("Failed to move target back to recent parent.");
 		return;
 	}
 

@@ -1,7 +1,9 @@
 #include "ShaderAsset.h"
 
-void ShaderAsset::initialize(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept {
-	blob = blob_;
+using namespace szg;
+
+ShaderAsset::ShaderAsset(Microsoft::WRL::ComPtr<IDxcBlob> blob_) noexcept :
+	blob(blob_) {
 }
 
 D3D12_SHADER_BYTECODE ShaderAsset::blob_bytecode() const noexcept {

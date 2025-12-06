@@ -1,6 +1,5 @@
 #pragma once
 
-#include <filesystem>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -10,6 +9,8 @@
 
 #include <Library/Math/Affine.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
+
+namespace szg {
 
 struct Joint {
 	std::string name; // BoneName(== NodeName)
@@ -29,23 +30,17 @@ struct Skeleton {
 	std::unordered_map<std::string, std::vector<u32>> useJointIndexesByMeshName;
 };
 
+/// <summary>
+/// Skeletonアセット
+/// </summary>
 class SkeletonAsset {
 public:
-
-public:
-	SkeletonAsset() = default;
+	SkeletonAsset(Skeleton& skeleton_, std::unordered_map<std::string, VertexBuffer<VertexInfluenceData>>& influenceBuffers_);
 	~SkeletonAsset() = default;
 
-	__CLASS_NON_COPYMOVEABLE(SkeletonAsset)
+	SZG_CLASS_DELETED(SkeletonAsset)
 
 public:
-	/// <summary>
-	/// ロード関数
-	/// </summary>
-	/// <param name="filePath">ファイルパス</param>
-	/// <returns>成功値</returns>
-	bool load(const std::filesystem::path& filePath);
-
 	const Skeleton& skeleton() const;
 	const VertexBuffer<VertexInfluenceData>* weight_influence(const std::string& bindMeshName) const;
 	const std::vector<u32>* use_joint_indexes(const std::string& bindMeshName) const;
@@ -60,3 +55,5 @@ private:
 	/// </summary>
 	std::unordered_map<std::string, VertexBuffer<VertexInfluenceData>> influenceBuffers;
 };
+
+}; // szg

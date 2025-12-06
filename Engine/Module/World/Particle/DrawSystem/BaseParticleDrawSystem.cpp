@@ -1,5 +1,7 @@
 #include "BaseParticleDrawSystem.h"
 
+using namespace szg;
+
 void BaseParticleDrawSystem::create_buffers(u32 bufferSize) {
 	particleBuffer.initialize(bufferSize);
 }

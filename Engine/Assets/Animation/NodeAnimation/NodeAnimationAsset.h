@@ -11,6 +11,8 @@
 
 struct aiAnimation;
 
+namespace szg {
+
 class NodeAnimationAsset final {
 public:
 	template<typename T>
@@ -25,18 +27,10 @@ public:
 	};
 
 public:
-	NodeAnimationAsset() = default;
+	NodeAnimationAsset(r32 _duration, std::unordered_map<std::string, NodeAnimation>& _nodeAnimations);
 	~NodeAnimationAsset() = default;
 
-	__CLASS_NON_COPYABLE(NodeAnimationAsset)
-
-public:
-	/// <summary>
-	/// ロード関数
-	/// </summary>
-	/// <param name="filePath">ファイルパス</param>
-	/// <returns>成功値</returns>
-	void load(aiAnimation* aiPAnimation);
+	SZG_CLASS_MOVE_ONLY(NodeAnimationAsset)
 
 public:
 	const NodeAnimation& node(const std::string& nodeName) const;
@@ -47,3 +41,5 @@ private:
 	r32 duration_;
 	std::unordered_map<std::string, NodeAnimation> nodeAnimations;
 };
+
+}; // szg

@@ -1,12 +1,14 @@
 #include "ShaderLibrary.h"
 
+using namespace szg;
+
 #include <mutex>
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
 #include "./ShaderAsset.h"
 #include "./ShaderAssetBuilder.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
 std::mutex shaderLibraryMutex;
@@ -28,7 +30,7 @@ std::shared_ptr<const ShaderAsset> ShaderLibrary::GetShader(const std::string& n
 		return GetInstance().assets.at(name);
 	}
 	else {
-		Warning("Unknown shader. Name-\'{:}\'", name);
+		szgWarning("Unknown shader. Name-\'{:}\'", name);
 		return nullptr;
 	}
 }
@@ -40,7 +42,7 @@ bool ShaderLibrary::IsRegistered(const std::string& meshName) {
 
 void ShaderLibrary::Transfer(const std::string& name, std::shared_ptr<ShaderAsset>& data) {
 	std::lock_guard<std::mutex> lock{ shaderLibraryMutex };
-	Information("Transfer new shader. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	szgInformation("Transfer new shader. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().assets.emplace(name, data);
 }
 

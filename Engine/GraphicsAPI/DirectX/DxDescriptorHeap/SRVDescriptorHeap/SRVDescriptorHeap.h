@@ -2,6 +2,8 @@
 
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/DxDescriptorHeap.h"
 
+namespace szg {
+
 class SRVDescriptorHeap final : public DxDescriptorHeap {
 private:
 	SRVDescriptorHeap() noexcept = default;
@@ -32,3 +34,5 @@ private:
 	void create_descriptor_heap() override;
 	void initialize();
 };
+
+}; // szg

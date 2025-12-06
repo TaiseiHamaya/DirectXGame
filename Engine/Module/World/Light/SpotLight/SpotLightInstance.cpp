@@ -1,8 +1,10 @@
 #include "SpotLightInstance.h"
 
-void SpotLightInstance::transfer() {
-	lightData.position = world_position();
-}
+using namespace szg;
+
+//void SpotLightInstance::transfer() {
+//	lightData.position = world_position();
+//}
 
 //#ifdef DEBUG_FEATURES_ENABLE
 //#include <imgui.h>

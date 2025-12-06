@@ -4,6 +4,8 @@
 
 #include <Library/Math/Color3.h>
 
+namespace szg {
+
 struct PointLightData {
 	Color3 color; // 色
 	r32 intensity{ 1 }; // 輝度
@@ -23,11 +25,6 @@ public:
 	PointLightInstance& operator=(const PointLightInstance&&) = delete;
 	PointLightInstance(PointLightInstance&&) = default;
 	PointLightInstance& operator=(PointLightInstance&&) = default;
-
-public:
-	void update_affine() override;
-	void transfer() override;
-
-public:
-	Matrix4x4 transform_matrix() const;
 };
+
+}; // szg

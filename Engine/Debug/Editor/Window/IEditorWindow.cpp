@@ -2,6 +2,8 @@
 
 #include "IEditorWindow.h"
 
+using namespace szg;
+
 #include <string>
 
 #include <imgui.h>
@@ -18,6 +20,10 @@ void IEditorWindow::draw_menu(string_literal name) {
 
 bool IEditorWindow::is_active() const {
 	return isActive;
+}
+
+void IEditorWindow::set_active(bool active) {
+	isActive = active;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

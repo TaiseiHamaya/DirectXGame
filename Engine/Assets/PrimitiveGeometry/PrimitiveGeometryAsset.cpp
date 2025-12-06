@@ -1,5 +1,7 @@
 #include "PrimitiveGeometryAsset.h"
 
+using namespace szg;
+
 #define VECTOR3_SERIALIZER
 
 #include "Engine/Assets/Json/JsonSerializer.h"

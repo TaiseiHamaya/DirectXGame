@@ -147,22 +147,6 @@ u32 Transform3D::debug_gui(string_literal tag) {
 }
 #endif // _DEBUG
 
-// void Transform3D::debug_axis(const Matrix4x4& debug_matrix) const {
-// #ifdef DEBUG_FEATURES_ENABLE
-//	static constexpr r32 __axisLength = 50;
-//	Vector3 initial = Transform3D::Homogeneous(CVector3::kZero, debug_matrix);
-//	Vector3 terminalX = Transform3D::Homogeneous(CVector3::kBasisX * __axisLength, debug_matrix);
-//	Vector3 terminalY = Transform3D::Homogeneous(CVector3::kBasisY * __axisLength, debug_matrix);
-//	Vector3 terminalZ = Transform3D::Homogeneous(CVector3::kBasisZ * __axisLength, debug_matrix);
-//
-//	Renderer::DrawLine(initial, terminalX, BLUE);
-//	Renderer::DrawLine(initial, terminalY, GREEN);
-//	Renderer::DrawLine(initial, terminalZ, RED);
-// #else
-//	debug_matrix;
-// #endif // _DEBUG
-// }
-
 constexpr Matrix4x4 Transform3D::MakeIdentityMatrix() noexcept {
 	return CMatrix4x4::IDENTITY;
 }

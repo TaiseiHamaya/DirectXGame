@@ -1,15 +1,17 @@
-#include "Tools/Lighing/PointLighting.hlsli"
 #include "Misc/PrimitiveGeometry/PrimitiveGeometry.hlsli"
 
-#include "Tools/PackNormalV2.hlsli"
+#include "Tools/Lighing/PointLighting.hlsli"
 #include "Tools/PackA2.hlsli"
-#include "Tools/PackShininess.hlsli"
-#include "Tools/ToLinearZBuffer.hlsli"
 
 struct Camera {
 	float3 position;
 	float4x4 viewInv;
 	float4x4 projInv;
+};
+
+struct OutputTextureSize {
+	float2 size;
+	uint2 padding;
 };
 
 Texture2D<float4> gAlbedoShading : register(t0);
@@ -18,12 +20,13 @@ Texture2D<float> gDepth : register(t2);
 
 StructuredBuffer<PointLightBuffer> gPointLight : register(t3);
 ConstantBuffer<Camera> gCamera : register(b0);
+ConstantBuffer<OutputTextureSize> gOutputSize : register(b1);
 
 [earlydepthstencil]
 float4 main(VertexShaderOutput input) : SV_TARGET {
 	float4 output = float4(0, 0, 0, 0);
 	
-	const float2 texcoord = input.position.xy / float2(1280, 720);
+	const float2 texcoord = input.position.xy / gOutputSize.size;
 	
 	// sampling
 	float4 albedoShading = gAlbedoShading.Load(input.position.xyz);
@@ -31,22 +34,17 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	float ndcDepth = gDepth.Load(input.position.xyz);
 	
 	// unpack
-	Pixel pixel;
-	pixel.color = albedoShading.rgb;
 	uint shadingType = UnpackA2bit(albedoShading.a);
-	pixel.normal = mul(UnpackingNormaV2(normalViewShininess), (float3x3)gCamera.viewInv);
-	pixel.shininess = UnpackShininess(normalViewShininess);
-	//float3 normal = normalize(normalShininess.xyz);
-	float3 ndc = float3(texcoord.xy * 2 - 1, ndcDepth);
-	ndc.y *= -1;
-	float4 view = mul(float4(ndc, 1.0f), gCamera.projInv);
-	float4 worldH = mul(view, gCamera.viewInv);
-	pixel.world = worldH.xyz / worldH.w;
+	Pixel pixel = UnpackPixel(
+		albedoShading, normalViewShininess, ndcDepth,
+		texcoord, gCamera.viewInv, gCamera.projInv
+	);
 	
 	PointLightBuffer pointLight = gPointLight[input.instance];
 	
 	LightingData lightingData = CalcLightingData(pixel, gCamera.position, pointLight);	
 	
+	[branch]
 	// ライティングなし
 	if (shadingType == 0) {
 		discard;

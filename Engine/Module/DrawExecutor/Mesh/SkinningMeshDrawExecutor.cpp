@@ -1,5 +1,7 @@
 #include "SkinningMeshDrawExecutor.h"
 
+using namespace szg;
+
 #include "Engine/Assets/Texture/TextureAsset.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
@@ -36,7 +38,7 @@ void SkinningMeshDrawExecutor::reinitialize(std::shared_ptr<const PolygonMesh> m
 		}
 		// 各要素について初期化
 		matrixPalette.initialize(maxInstance, static_cast<u32>(useJointIndexes->size()));
-		*paletteSize[i].get_data() = static_cast<u32>(useJointIndexes->size());
+		paletteSize[i] = static_cast<u32>(useJointIndexes->size());
 		++i;
 	}
 }

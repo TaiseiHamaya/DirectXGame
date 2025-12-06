@@ -2,10 +2,12 @@
 
 #include "EditorSelectCommand.h"
 
+using namespace szg;
+
 EditorSelectCommand::EditorSelectCommand(Reference<IRemoteObject> object, EditorSelectObjectBody::TransformData transform) {
 	next.object = object;
 	next.transformData = transform;
-	prev = selectObject->get_item();
+	prev = selectObject->get_item_mut();
 }
 
 void EditorSelectCommand::execute() {

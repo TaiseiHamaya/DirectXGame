@@ -1,6 +1,6 @@
-#ifdef DEBUG_FEATURES_ENABLE
-
 #include "DebugValues.h"
+
+using namespace szg;
 
 DebugValues::DebugValues() {
 	gridMesh = std::make_unique<StaticMeshInstance>("Grid.obj");
@@ -15,4 +15,3 @@ Reference<const StaticMeshInstance> DebugValues::GetGridInstance() {
 	auto& instance = GetInstance();
 	return instance.gridMesh;
 }
-#endif // _DEBUG

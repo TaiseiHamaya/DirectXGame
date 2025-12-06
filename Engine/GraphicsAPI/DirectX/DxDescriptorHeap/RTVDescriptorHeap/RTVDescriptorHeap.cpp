@@ -1,8 +1,10 @@
 #include "RTVDescriptorHeap.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
 
 RTVDescriptorHeap& RTVDescriptorHeap::GetInstance() noexcept {
 	static RTVDescriptorHeap instance{};
@@ -16,7 +18,7 @@ void RTVDescriptorHeap::Initialize() {
 
 u32 RTVDescriptorHeap::UseHeapIndex() noexcept {
 	auto useIndex = GetInstance().use_heap_index();
-	Information("Use RTV index. Index-\'{}\'", useIndex);
+	szgInformation("Use RTV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
@@ -25,12 +27,17 @@ D3D12_CPU_DESCRIPTOR_HANDLE RTVDescriptorHeap::GetCPUHandle(u32 index) noexcept 
 }
 
 void RTVDescriptorHeap::ReleaseIndex(u32 index) {
-	Information("Release RTV index. Index-\'{}\'", index);
+	szgInformation("Release RTV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }
 
 void RTVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, DxSystemValues::HEAP_SIZE_RTV, false);
+	descriptorHeap =
+		DxDescriptorHeap::CreateDescriptorHeap(
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
+			ProjectSettings::GetGraphicsSettingsImm().rtvHeapSize,
+			false
+		);
 }
 
 void RTVDescriptorHeap::initialize() {

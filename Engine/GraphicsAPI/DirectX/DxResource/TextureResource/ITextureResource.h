@@ -6,12 +6,14 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class ITextureResource : public DxResource {
 public:
 	ITextureResource() = default;
 	virtual ~ITextureResource() = default;
 
-	__CLASS_NON_COPYABLE(ITextureResource)
+	SZG_CLASS_MOVE_ONLY(ITextureResource)
 
 protected:
 	void change_resource_state(D3D12_RESOURCE_STATES next);
@@ -27,3 +29,5 @@ protected:
 	u32 height{ 0 };
 	D3D12_RESOURCE_STATES state{};
 };
+
+}; // szg

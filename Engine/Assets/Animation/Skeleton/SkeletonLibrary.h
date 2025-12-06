@@ -7,10 +7,15 @@
 #include <string>
 #include <unordered_map>
 
+namespace szg {
+
 class SkeletonAsset;
 
+/// <summary>
+/// Skeletonアセット保持クラス(スレッドセーフ)
+/// </summary>
 class SkeletonLibrary final : SingletonInterface<SkeletonLibrary> {
-	__CLASS_SINGLETON_INTERFACE(SkeletonLibrary)
+	SZG_CLASS_SINGLETON(SkeletonLibrary)
 
 public:
 	/// <summary>
@@ -60,3 +65,5 @@ private:
 private:
 	std::unordered_map<std::string, std::shared_ptr<SkeletonAsset>> instanceList;
 };
+
+}; // szg

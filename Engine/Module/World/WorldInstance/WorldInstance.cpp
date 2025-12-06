@@ -1,5 +1,7 @@
 #include "WorldInstance.h"
 
+using namespace szg;
+
 #include "../WorldManager.h"
 
 void WorldInstance::update_affine() {
@@ -41,24 +43,37 @@ void WorldInstance::look_at(const Vector3& point, r32 angle, const Vector3& upwa
 	transform.set_quaternion(Quaternion::AngleAxis(localForward, angle) * Quaternion::LookForward(localForward, localUpward));
 }
 
-void WorldInstance::look_at_axis(Reference<const WorldInstance> target, const Vector3& axis, r32 angle) noexcept {
+void WorldInstance::look_at_axis(Reference<const WorldInstance> target, r32 angle, const Vector3& axis) noexcept {
 	if (!target) {
 		return;
 	}
-	look_at_axis(target->world_position(), axis, angle);
+	look_at_axis(target->world_position(), angle, axis);
 }
 
-void WorldInstance::look_at_axis(const Vector3& point, const Vector3& axis, r32 angle) noexcept {
+void WorldInstance::look_at_axis(const Vector3& point, r32 angle, const Vector3& axis) noexcept {
 	Vector3 toTarget = world_position() - point;
 	Vector3 lookPosition = point + Vector3::Projection(toTarget, axis);
 	look_at(lookPosition, angle, axis);
 }
 
-void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKeepPose) {
-	const Affine& worldAffine = this->world_affine();
+Reference<const WorldInstance> WorldInstance::parent_imm() const noexcept {
+	return hierarchy.parent_imm();
+}
+
+Reference<WorldInstance> WorldInstance::parent_mut() noexcept {
+	return hierarchy.parent_mut();
+}
+
+void WorldInstance::reparent(Reference<WorldInstance> parent, bool isKeepPose) {
+	// 古い親から削除
+	if (hierarchy.has_parent()) {
+		hierarchy.parent_mut()->detach_child(this);
+	}
+	// transformの計算
 	if (isKeepPose) {
-		if (instance) {
-			const Affine parentAffineInv = instance->world_affine().inverse();
+		const Affine& worldAffine = world_affine();
+		if (parent) {
+			const Affine parentAffineInv = parent->world_affine().inverse();
 			const Affine local = worldAffine * parentAffineInv;
 			const Basis& basis = local.get_basis();
 			transform.set_scale(basis.to_scale());
@@ -72,18 +87,58 @@ void WorldInstance::reparent(Reference<const WorldInstance> instance, bool isKee
 			transform.set_translate(worldAffine.get_origin());
 		}
 	}
-	hierarchy.set_parent(*instance.ptr());
-	if (instance) {
-		hierarchyDepth = instance->depth() + 1;
+	// 親の登録
+	hierarchy.set_parent(parent);
+	// 新親に登録
+	if (parent) {
+		parent->attach_child(this);
+	}
+	// 深度の再計算
+	recalculate_depth();
+}
+
+void WorldInstance::mark_destroy() {
+	isDestroy = true;
+	on_mark_destroy();
+	// 子も削除予定にする
+	for (auto& [_, child] : hierarchy.children_mut()) {
+		child->mark_destroy();
+	}
+}
+
+void WorldInstance::setup_id(u64 id) {
+	instanceId = id;
+}
+
+u64 WorldInstance::instance_id() const {
+	return instanceId;
+}
+
+void WorldInstance::setup_world_root(Reference<WorldRoot> worldRoot_) {
+	worldRoot = worldRoot_;
+}
+
+Reference<WorldRoot> WorldInstance::world_root_mut() const {
+	return worldRoot;
+}
+
+void WorldInstance::detach_child(Reference<WorldInstance> child) {
+	hierarchy.remove_child(child);
+}
+
+void WorldInstance::attach_child(Reference<WorldInstance> child) {
+	hierarchy.add_child(child);
+}
+
+void WorldInstance::recalculate_depth() {
+	if (hierarchy.has_parent()) {
+		hierarchyDepth = hierarchy.parent_imm()->depth() + 1;
 	}
 	else {
 		hierarchyDepth = 0;
 	}
-	if (worldManager) {
-		worldManager->reset_depth(this, hierarchyDepth);
+	// 子の深度も再計算
+	for (auto& [_, child] : hierarchy.children_mut()) {
+		child->recalculate_depth();
 	}
-}
-
-void WorldInstance::set_world_manager(Reference<WorldManager> worldManager_) {
-	worldManager = worldManager_;
 }

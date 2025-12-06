@@ -1,9 +1,11 @@
 #include "BackgroundLoader.h"
 
+using namespace szg;
+
 #include <functional>
 #include <mutex>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 std::mutex executeMutex;
@@ -11,13 +13,6 @@ std::mutex referenceMutex;
 std::condition_variable waitConditionVariable;
 std::condition_variable loadConditionVariable;
 
-BackgroundLoader::BackgroundLoader() noexcept = default;
-BackgroundLoader::~BackgroundLoader() noexcept = default;
-
-BackgroundLoader& BackgroundLoader::GetInstance() noexcept {
-	static BackgroundLoader instance{};
-	return instance;
-}
 
 void BackgroundLoader::Initialize() {
 	GetInstance().initialize();
@@ -32,13 +27,12 @@ void BackgroundLoader::Finalize() {
 	}
 }
 
-void BackgroundLoader::RegisterLoadQue(std::unique_ptr<BaseAssetBuilder> builder) noexcept(false) {
+void BackgroundLoader::RegisterLoadQue(std::unique_ptr<IAssetBuilder> builder) noexcept(false) {
 	// mutexのlock
 	std::lock_guard<std::mutex> lock{ referenceMutex };
 	auto& instance = GetInstance();
 	instance.isLoading = true;
 
-	builder->preprocess();
 	instance.loadEvents.emplace_back(std::move(builder));
 
 	// 条件変数通知
@@ -60,6 +54,7 @@ void BackgroundLoader::initialize() noexcept(false) {
 	isEndProgram = false;
 	// ロード用スレッド作成
 	loadFunc = std::thread{ std::bind(&BackgroundLoader::load_manager, this) };
+	SetThreadDescription(loadFunc.native_handle(), L"Load Thread");
 }
 
 void BackgroundLoader::load_manager() {
@@ -98,7 +93,7 @@ void BackgroundLoader::load_manager() {
 
 		// 空だったら自動execute
 		if (loadEvents.empty()) {
-			Information("Load events is empty. Start uploading texture.");
+			szgInformation("Load events is empty. Start uploading texture.");
 			// ----- GPUコマンドの実行 -----
 			// コマンド実行
 			DxCommand::ExecuteTextureCommand();
@@ -106,7 +101,7 @@ void BackgroundLoader::load_manager() {
 			DxCommand::WaitTextureCommand();
 			// リセット
 			DxCommand::ResetTextureCommand();
-			Information("Succeeded.");
+			szgInformation("Succeeded.");
 
 			// ----- 実行済みを転送 -----
 			// 直前にやる

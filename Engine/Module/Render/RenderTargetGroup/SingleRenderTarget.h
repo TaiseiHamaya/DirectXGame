@@ -4,6 +4,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 class RenderTexture;
 class RenderTargetView;
 class DepthStencilTexture;
@@ -20,10 +22,6 @@ public:
 	/// <param name="renderTexture"></param>
 	void initialize(Reference<RenderTexture> renderTexture);
 
-
-public:
-	void set_texture(Reference<RenderTexture> texture_);
-
 private:
 	void start_render_target(Reference<DepthStencilTexture> depthStencil) override;
 
@@ -36,3 +34,5 @@ private:
 	Reference<RenderTexture> texture;
 	Reference<const RenderTargetView> view;
 };
+
+}; // szg

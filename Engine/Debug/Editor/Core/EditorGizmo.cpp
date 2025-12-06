@@ -2,6 +2,8 @@
 
 #include "EditorGizmo.h"
 
+using namespace szg;
+
 #include <imgui.h>
 
 #include "./EditorSelectObject.h"
@@ -30,7 +32,7 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<con
 	}
 
 	// get select
-	auto& item = select->get_item();
+	auto& item = select->get_item_mut();
 
 	// null check
 	if (!item.object || !item.transformData.affine || !item.transformData.transform) {
@@ -56,7 +58,7 @@ void EditorGizmo::draw_gizmo(Reference<EditorSelectObject> select, Reference<con
 
 	// SetCamera
 	{
-		Reference<const Camera3D> camera = world->get_camera();
+		Reference<const EditorDebugCamera> camera = world->get_camera();
 		view = camera->view_affine().to_matrix();
 		proj = camera->proj_matrix();
 	}

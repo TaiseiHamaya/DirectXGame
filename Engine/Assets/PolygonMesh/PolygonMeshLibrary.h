@@ -5,22 +5,19 @@
 #include <string>
 #include <unordered_map>
 
+#include <Library/Utility/Template/SingletonInterface.h>
+
+namespace szg {
+
 class PolygonMesh;
 
-class PolygonMeshLibrary final {
-private:
-	PolygonMeshLibrary() noexcept;
+/// <summary>
+/// メッシュアセット保持クラス(スレッドセーフ)
+/// </summary>
+class PolygonMeshLibrary final : public SingletonInterface<PolygonMeshLibrary> {
+	SZG_CLASS_SINGLETON(PolygonMeshLibrary)
 
 public:
-	~PolygonMeshLibrary() noexcept;
-
-private:
-	PolygonMeshLibrary(const PolygonMeshLibrary&) = delete;
-	PolygonMeshLibrary& operator=(const PolygonMeshLibrary&) = delete;
-
-public:
-	static PolygonMeshLibrary& GetInstance() noexcept;
-	
 	/// <summary>
 	/// ロードキューに.objファイルを追加
 	/// </summary>
@@ -68,3 +65,5 @@ private:
 private:
 	std::unordered_map<std::string, std::shared_ptr<PolygonMesh>> meshInstanceList;
 };
+
+}; // szg

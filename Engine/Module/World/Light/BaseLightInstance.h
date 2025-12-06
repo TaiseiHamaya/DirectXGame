@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
-#include "Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/ConstantBuffer.h"
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
+
+namespace szg {
 
 template<class T>
 class BaseLightInstance : public WorldInstance {
@@ -16,11 +16,25 @@ public:
 	BaseLightInstance& operator=(BaseLightInstance&&) = default;
 
 public:
-	virtual void transfer() = 0;
+	/// <summary>
+	/// ライトデータの不変参照
+	/// </summary>
+	/// <returns></returns>
+	const T& light_data_imm() const { return lightData; };
 
-public:
-	const T& light_data() const { return lightData; };
+	/// <summary>
+	/// ライトデータの可変参照
+	/// </summary>
+	/// <returns></returns>
+	T& light_data_mut() { return lightData; };
+
+	void set_influence_layer(u32 layer) { layerMask = layer; }
+
+	u32 influence_layer() const { return layerMask; }
 
 protected:
 	T lightData;
+	u32 layerMask;
 };
+
+}; // szg

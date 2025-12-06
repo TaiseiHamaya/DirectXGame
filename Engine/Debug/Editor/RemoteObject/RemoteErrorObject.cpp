@@ -2,18 +2,20 @@
 
 #include "RemoteErrorObject.h"
 
+using namespace szg;
+
 #include <format>
 
 #include <imgui.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorSelectCommand.h"
 
 RemoteErrorObject::RemoteErrorObject(const std::string& msg) :
 	errorMessage(msg) {
-	Warning("RemoteErrorObject created. Error: %s", errorMessage.c_str());
+	szgWarning("RemoteErrorObject created. Error: %s", errorMessage.c_str());
 }
 
 void RemoteErrorObject::draw_inspector() {
@@ -28,6 +30,7 @@ void RemoteErrorObject::draw_hierarchy(Reference<const EditorSelectObject> selec
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
 		ImGuiTreeNodeFlags_Leaf;
 	if (isSelected) {
@@ -52,14 +55,14 @@ void RemoteErrorObject::reparent(Reference<IRemoteObject> remoteObject) {
 	parent = remoteObject;
 }
 
-void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject> child) {
-	Warning("RemoteErrorObject cannot have children.");
+void RemoteErrorObject::add_child(std::unique_ptr<IRemoteObject>) {
+	szgWarning("RemoteErrorObject cannot have children.");
 }
 
 nlohmann::json RemoteErrorObject::serialize() const {
 	nlohmann::json result;
 
-	result["Type"] = 99;
+	result["Type"] = instance_type();
 	result.update(hierarchyName);
 
 	return result;

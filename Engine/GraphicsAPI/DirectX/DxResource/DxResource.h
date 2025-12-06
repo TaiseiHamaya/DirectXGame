@@ -5,12 +5,14 @@
 
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class DxResource {
 public:
 	DxResource() noexcept = default;
 	virtual ~DxResource() noexcept = default;
 
-	__CLASS_NON_COPYABLE(DxResource)
+	SZG_CLASS_MOVE_ONLY(DxResource)
 
 public:
 	Microsoft::WRL::ComPtr<ID3D12Resource>& get_resource() noexcept;
@@ -22,3 +24,5 @@ protected:
 public:
 	[[nodiscard]] static Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(size_t sizeInByte);
 };
+
+}; // szg

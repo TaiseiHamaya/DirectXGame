@@ -1,6 +1,8 @@
 #include "StaticMeshInstance.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/PolygonMesh/PolygonMesh.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
 #include "Engine/Assets/Texture/TextureLibrary.h"
@@ -50,7 +52,7 @@ void StaticMeshInstance::default_material() {
 		else {
 			meshMaterial.texture = TextureLibrary::GetTexture("Error.png");
 			meshMaterial.uvTransform.copy(Transform2D{});
-			Warning("Material data is not found.");
+			szgWarning("Material data is not found.");
 		}
 		++i;
 	}

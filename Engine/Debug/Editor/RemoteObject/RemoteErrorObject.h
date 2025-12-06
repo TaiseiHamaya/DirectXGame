@@ -4,17 +4,19 @@
 
 #include "IRemoteObject.h"
 
+namespace szg {
+
 class RemoteErrorObject final : public IRemoteObject {
 public:
 	RemoteErrorObject(const std::string& msg);
 	~RemoteErrorObject() = default;
 
-	__CLASS_DEFAULT_ALL(RemoteErrorObject)
+	SZG_CLASS_DEFAULT(RemoteErrorObject)
 
 public:
 	void setup() override {};
 
-	void update_preview(Reference<RemoteWorldObject> world, Reference<Affine> parentAffine) override {};
+	void update_preview(Reference<RemoteWorldObject>, Reference<Affine>) override {};
 
 	void draw_inspector() override;
 
@@ -32,8 +34,12 @@ public:
 
 	void on_destroy() override {};
 
+	constexpr InstanceType instance_type() const { return InstanceType::ErrorInstance; }
+
 private:
 	std::string errorMessage;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -7,6 +7,10 @@ namespace eps {
 template<typename T>
 concept Enum = std::is_enum_v<T>;
 
+/// <summary>
+/// enum class用ビットフラグ型
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template<Enum T>
 class bitflag {
 public: // using
@@ -21,8 +25,7 @@ public: // using
 public: // constructor/destructor
 	constexpr bitflag();
 	constexpr bitflag(const value_type& base);
-	template<typename U>
-	constexpr bitflag(const U& base);
+	constexpr bitflag(const under_type& base);
 	constexpr ~bitflag() = default;
 
 	constexpr bitflag(const_reference_bitflag) = default;
@@ -48,7 +51,7 @@ private: // member function
 	/// </summary>
 	/// <param name="value"></param>
 	/// <returns></returns>
-	constexpr under_type to_under(const value_type& value);
+	static constexpr under_type ToUnder(const value_type& value);
 
 private: // member value
 	under_type value;
@@ -58,7 +61,7 @@ private: // member value
 // ---------- define macro ----------
 // ----------------------------------
 
-#define __USE_BITFLAG(EnumName) \
+#define SZG_BITFLAG(EnumName) \
 constexpr eps::bitflag<EnumName> operator|(const EnumName lhs, const EnumName rhs) {\
 	using U = typename std::underlying_type<EnumName>::type;\
 	return eps::bitflag<EnumName>(static_cast<U>(lhs) | static_cast<U>(rhs));\
@@ -98,12 +101,11 @@ inline constexpr bitflag<T>::bitflag() : value(0) {
 }
 
 template<Enum T>
-inline constexpr bitflag<T>::bitflag(const value_type& base) : value(to_under(base)) {
+inline constexpr bitflag<T>::bitflag(const value_type& base) : value(ToUnder(base)) {
 }
 
 template<Enum T>
-template<typename U>
-inline constexpr bitflag<T>::bitflag(const U& base) : value(base) {
+inline constexpr bitflag<T>::bitflag(const under_type& base) : value(base) {
 }
 
 // -------------------------------------
@@ -153,7 +155,7 @@ inline constexpr bitflag<T> bitflag<T>::operator~() const {
 // --------------------------------------
 
 template<Enum T>
-inline constexpr bitflag<T>::under_type bitflag<T>::to_under(const value_type& value) {
+inline constexpr bitflag<T>::under_type bitflag<T>::ToUnder(const value_type& value) {
 	return static_cast<bitflag<T>::under_type>(value);
 }
 

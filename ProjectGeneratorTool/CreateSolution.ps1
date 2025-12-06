@@ -1,9 +1,15 @@
-﻿# --- ステップ0: プロジェクト名を取得 ---
+# --- ステップ0: プロジェクト名を取得 ---
 $ProjectName
 if ($args.Count -ge 1 -and -not [string]::IsNullOrWhiteSpace($args[0])) {
     $ProjectName = $args[0]
 } else {
     $ProjectName = Read-Host "プロジェクト名を入力してください"
+}
+
+# --- ステップ0.5: ブランチ名を取得 ---
+$BranchName = $null
+if ($args.Count -ge 2 -and -not [string]::IsNullOrWhiteSpace($args[1])) {
+    $BranchName = $args[1]
 }
 
 # --- ステップ1: プロジェクト名のフォルダを作成 ---
@@ -33,7 +39,13 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # --- ステップ4: サブモジュールの追加 ---
-git submodule add https://github.com/TaiseiHamaya/DirectXGame.git
+if ($BranchName) {
+    Write-Host "ブランチ '$BranchName' を指定してサブモジュールを追加しています..."
+    git submodule add -b $BranchName https://github.com/TaiseiHamaya/SyzygyEngine.git
+} else {
+    Write-Host "デフォルトブランチでサブモジュールを追加しています..."
+    git submodule add https://github.com/TaiseiHamaya/SyzygyEngine.git
+}
 if ($LASTEXITCODE -ne 0) {
     Write-Host "サブモジュールの追加に失敗しました。"
     Pop-Location
@@ -42,7 +54,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # --- ステップ5: CopyFolderRootフォルダの内容をコピー ---
-$sourcePath = ".\DirectXGame\ProjectGeneratorTool\CopyFolderRoot\*"
+$sourcePath = ".\SyzygyEngine\ProjectGeneratorTool\CopyFolderRoot\*"
 $destinationPath = ".\"  # 現在の場所は project/
 try {
     Copy-Item -Path $sourcePath -Destination $destinationPath -Recurse -Force -ErrorAction Stop
@@ -113,8 +125,7 @@ if (Test-Path $gameDir) {
 }
 
 # DirectXGame.vcxproj.userのassume-unchanged
-cd DirectXGame
-git update-index --assume-unchanged DirectXGame.vcxproj.user
+cd SyzygyEngine
 
 Pop-Location
 Write-Host "完了しました。"

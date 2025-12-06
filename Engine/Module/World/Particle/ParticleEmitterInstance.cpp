@@ -1,9 +1,11 @@
 #include "ParticleEmitterInstance.h"
 
+using namespace szg;
+
 #include <Library/Math/Definition.h>
 #include <Library/Utility/Tools/RandomEngine.h>
 
-#include "../WorldManager.h"
+#include "Engine/Module/Manager/World/WorldRoot.h"
 #include "./DrawSystem/ParticleDrawSystemMesh.h"
 #include "./DrawSystem/ParticleDrawSystemRect.h"
 #include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
@@ -41,13 +43,18 @@ ParticleEmitterInstance::ParticleEmitterInstance(std::filesystem::path jsonFile,
 	default:
 		break;
 	}
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(isLoop));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(isParentEmitter));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(duration));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(emission));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(particleInit));
-	jsonResource.register_value(__JSON_RESOURCE_REGISTER(particleFinal));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(isLoop));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(isParentEmitter));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(duration));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(emission));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(particleInit));
+	jsonResource.register_value(SZG_JSON_ASSET_REGISTER(particleFinal));
 	create_draw_system();
+}
+
+ParticleEmitterInstance::~ParticleEmitterInstance() {
+	// 登録解除
+
 }
 
 void ParticleEmitterInstance::update() {
@@ -64,15 +71,17 @@ void ParticleEmitterInstance::update() {
 		restart();
 	}
 	// パティクルの更新
-	for (std::unique_ptr<Particle>& particle : particles) {
+	for (Reference<Particle>& particle : particles) {
 		if (particle->is_active()) {
 			particle->update();
 		}
 	}
 	// 削除
 	particles.remove_if(
-		[&](std::unique_ptr<Particle>& particle) {
-		if (particle->is_destroy()) {
+		[&](Reference<Particle>& particle) {
+		if (particle->is_ended()) {
+			Reference<WorldRoot> manager = world_root_mut();
+			manager->destroy(particle);
 			return true;
 		}
 		return false;
@@ -87,7 +96,7 @@ void ParticleEmitterInstance::transfer() {
 	if (!isActive || !drawSystem || is_end_all()) {
 		return;
 	}
-	for (u32 index = 0; std::unique_ptr<Particle>& particle : particles) {
+	for (u32 index = 0; Reference<Particle>& particle : particles) {
 		drawSystem->write_to_buffer(
 			index,
 			particle->world_affine().to_matrix(),
@@ -236,8 +245,8 @@ void ParticleEmitterInstance::emit_once() {
 	}
 
 	// 生成
-	auto& newParticle = particles.emplace_back(
-		world_manager()->create<Particle>(
+	particles.emplace_back(
+		world_root_mut()->instantiate<Particle>(
 			isParentEmitter ? this : nullptr,
 			isParentEmitter ? offset : world_position() + offset,
 			std::lerp(particleInit.lifetime.min, particleInit.lifetime.max, RandomEngine::Random01Closed()),
@@ -255,6 +264,12 @@ void ParticleEmitterInstance::emit_once() {
 			particleInit.rotation.mode, rotation
 		)
 	);
+}
+
+void ParticleEmitterInstance::on_mark_destroy() {
+	for (Reference<Particle>& particle : particles) {
+		world_root_mut()->destroy(particle);
+	}
 }
 
 bool ParticleEmitterInstance::is_end_all() const {

@@ -7,6 +7,8 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
+namespace szg {
+
 class IRemoteObject;
 
 struct EditorSelectObjectBody {
@@ -24,16 +26,18 @@ public:
 	EditorSelectObject() = default;
 	~EditorSelectObject() = default;
 
-	__CLASS_NON_COPYABLE(EditorSelectObject)
+	SZG_CLASS_MOVE_ONLY(EditorSelectObject)
 
 public:
 	void set_item(Reference<IRemoteObject> object_, EditorSelectObjectBody::TransformData transform_ = {});
-	const EditorSelectObjectBody& get_item();
+	EditorSelectObjectBody& get_item_mut();
 
 	bool is_selected(Reference<const IRemoteObject> rhs) const;
 
 private:
 	EditorSelectObjectBody select;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

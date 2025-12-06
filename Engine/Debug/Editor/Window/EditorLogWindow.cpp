@@ -2,20 +2,23 @@
 
 #include "EditorLogWindow.h"
 
+using namespace szg;
+
 #include <imgui.h>
 #include <imgui_internal.h>
 
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 
 using namespace std::string_literals;
 
 void EditorLogWindow::Allocate() {
 	auto& instance = GetInstance();
-	//instance.logStates[static_cast<u8>(LogType::Editor)] = { false, 0, "\ue3c9", { 0.2f, 0.2f, 0.2f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Information)] = { true, 0, "\ue88e", { 0.5f, 0.5f, 0.5f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Warning)] = { true, 0, "\ue002", { 0.8f, 0.8f, 0.1f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Error)] = { true, 0, "\ue99a",{ 0.8f, 0.1f, 0.1f, 1.0f } };
-	instance.logStates[static_cast<u8>(LogType::Critical)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Level::Trace)] = { false, 0, "\ue3c9", { 0.5f, 0.5f, 0.5f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Level::Information)] = { true, 0, "\ue88e", { 0.5f, 0.5f, 0.5f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Level::Warning)] = { true, 0, "\ue002", { 0.8f, 0.8f, 0.1f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Level::Error)] = { true, 0, "\ue99a",{ 0.8f, 0.1f, 0.1f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Level::Critical)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
+	instance.logStates[static_cast<u8>(Logger::Level::Assert)] = { true, 0, "\uf5cf",{ 1.0f, 0.5f, 0.5f, 1.0f } };
 }
 
 void EditorLogWindow::Initialize(bool isActive_) {
@@ -86,12 +89,12 @@ void EditorLogWindow::draw() {
 
 	// ---------- ログの表示 ----------
 	for (const LogBody& log : logs) {
-		auto& logState = logStates[static_cast<const u8>(log.type)];
+		auto& logState = logStates[static_cast<const u8>(log.level)];
 		if (!logState.isActive) {
 			continue;
 		}
 		ImGui::TextColored(
-			std::bit_cast<ImVec4, std::array<r32, 4>>(logState.color),
+			std::bit_cast<ImVec4>(logState.color),
 			std::format("{} {}", logState.icon, log.message).c_str()
 		);
 	}
@@ -118,13 +121,13 @@ void EditorLogWindow::draw() {
 	ImGui::End();
 }
 
-void EditorLogWindow::AppendLogEntry(LogType type, const std::string& message) {
+void EditorLogWindow::AppendLogEntry(Logger::Level level, const std::string& message) {
 	auto& instance = GetInstance();
-	++instance.logStates[static_cast<u8>(type)].numLogs;
-	instance.logs.emplace_back(type, message);
+	++instance.logStates[static_cast<u8>(level)].numLogs;
+	instance.logs.emplace_back(level, message);
 	if (instance.logs.size() >= MAX_LOG_SIZE) {
 		auto& tmp = instance.logs.front();
-		--instance.logStates[static_cast<u8>(tmp.type)].numLogs;
+		--instance.logStates[static_cast<u8>(tmp.level)].numLogs;
 		instance.logs.pop_front();
 	}
 }

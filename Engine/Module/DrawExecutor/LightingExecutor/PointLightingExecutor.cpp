@@ -1,21 +1,24 @@
 #include "PointLightingExecutor.h"
 
+using namespace szg;
+
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/Module/World/Light/PointLight/PointLightInstance.h"
 
-PointLightingExecutor::PointLightingExecutor(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance) {
-	reinitialize(asset_, maxInstance);
+PointLightingExecutor::PointLightingExecutor(u32 maxInstance) {
+	reinitialize(maxInstance);
 }
 
-void PointLightingExecutor::reinitialize(std::shared_ptr<const PrimitiveGeometryAsset> asset_, u32 maxInstance_) {
-	asset = asset_;
+void PointLightingExecutor::reinitialize(u32 maxInstance_) {
+	asset = PrimitiveGeometryLibrary::GetPrimitiveGeometry("Ico3");
 	maxInstance = maxInstance_;
 	matrices.initialize(maxInstance);
 	lightData.initialize(maxInstance);
 }
 
 void PointLightingExecutor::draw_command() const {
-	if (!asset) {
+	if (!asset || instanceCounter == 0) {
 		return;
 	}
 
@@ -35,7 +38,14 @@ void PointLightingExecutor::write_to_buffer(Reference<const PointLightInstance> 
 	if (instanceCounter >= maxInstance) {
 		return;
 	}
-	matrices[instanceCounter] = instance->transform_matrix();
-	lightData[instanceCounter] = instance->light_data();
+	r32 radius = instance->light_data_imm().radius + 0.1f;
+	Vector3 scale = { radius, radius, radius };
+	matrices[instanceCounter] = Affine::FromSRT(
+		scale, 
+		CQuaternion::IDENTITY,
+		instance->world_affine().get_origin()
+	).to_matrix();
+	lightData[instanceCounter] = instance->light_data_imm();
+	lightData[instanceCounter].position = instance->world_affine().get_origin();
 	++instanceCounter;
 }

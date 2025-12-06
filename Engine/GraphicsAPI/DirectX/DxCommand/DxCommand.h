@@ -5,6 +5,8 @@
 
 #include <vector>
 
+namespace szg {
+
 class DxCommand final {
 public:
 	DxCommand() noexcept = default;
@@ -57,3 +59,5 @@ private:
 	HANDLE textureFenceEvent;
 };
 
+
+}; // szg

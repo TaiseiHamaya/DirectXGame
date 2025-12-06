@@ -7,6 +7,8 @@
 
 #include "ValueEditorObject.h"
 
+namespace szg {
+
 class ImGuiValueEditor {
 private:
 	struct EditorFunctions {
@@ -20,11 +22,11 @@ public:
 
 public:
 	template<typename T, typename ...Args>
-	void register_value(std::function<void()> whiteFunction, const std::string& name, T& pValue, Args&& ...args) {
+	void register_value(std::function<void()> whiteFunction, const std::string& name, T* pValue, Args&& ...args) {
 		ValueEditor::show_object<T> showObj{ name };
 		functions.emplace_back(
 			whiteFunction,
-			std::bind(&ValueEditor::show_object<T>::show_gui, showObj, pValue)
+			[showObj, pValue, args...]() { showObj.show_gui(*pValue, args...); }
 		);
 	};
 
@@ -35,5 +37,7 @@ public:
 private:
 	std::vector<EditorFunctions> functions;
 };
+
+}; // szg
 
 #endif // _DEBUG

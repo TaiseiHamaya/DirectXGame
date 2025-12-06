@@ -1,15 +1,19 @@
 #include "SwapChainRenderTargetGroup.h"
 
-#include "Engine/Application/ProjectSettings/ProjectSettings.h"
+using namespace szg;
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void SwapChainRenderTargetGroup::initialize() {
-	textures.resize(RenderingSystemValues::NUM_BUFFERING);
-	create_view_port(ProjectSettings::ClientWidth(), ProjectSettings::ClientHeight());
+	textures.resize(ProjectSettings::GetGraphicsSettingsImm().numBuffering);
 }
 
 void SwapChainRenderTargetGroup::set_resource(Reference<ScreenTexture> texture, u32 index) {
 	textures[index] = texture;
+}
+
+void SwapChainRenderTargetGroup::set_clear_color(const Color4& color) noexcept {
+	clearColor = color;
 }
 
 void SwapChainRenderTargetGroup::start_render_target(Reference<DepthStencilTexture> depthStencil) {

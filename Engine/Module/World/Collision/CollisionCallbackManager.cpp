@@ -1,23 +1,22 @@
 #include "CollisionCallbackManager.h"
 
-void CollisionCallbackManager::begin() {
-	for (auto itr = collisionRecent.begin(); itr != collisionRecent.end();) {
-		auto& [key, value] = *itr;
-		// どちらかのcolliderが非アクティブ
-		// 2フレーム連続で衝突がない
-		if (!key.big()->is_active() || !key.small()->is_active() ||
-			value.none()) {
-			// 記録を削除
-			itr = collisionRecent.erase(itr);
-		}
-		else {
-			value <<= 1;
-			++itr;
-		}
+using namespace szg;
+
+void CollisionCallbackManager::begin_callback() {
+	for (auto& [_, value] : collisionRecent) {
+		value <<= 1;
 	}
 }
 
-void CollisionCallbackManager::callback(CallbackInfo lhs, CallbackInfo rhs, bool result) {
+void CollisionCallbackManager::remove_marked_destroy() {
+	std::erase_if(collisionRecent, [](const std::pair<const CollisionRecentKeyType&, const std::bitset<2>&> kv) {
+		const auto& key = kv.first;
+		const auto& value = kv.second;
+		return value.none() || key.big()->is_marked_destroy() || key.small()->is_marked_destroy();
+	});
+}
+
+void CollisionCallbackManager::callback(CallbackTarget lhs, CallbackTarget rhs, bool result) {
 	CallbackMapKey callbackKey = CallbackMapKey(lhs->group(), rhs->group());
 	if (!callbackFunctions.contains(callbackKey)) {
 		return;

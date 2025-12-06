@@ -1,10 +1,14 @@
 #pragma once
 
-#include <Windows.h>
+namespace szg {
 
-class CrashHandler {
-public:
-	static void Initialize();
+namespace CrashHandler {
 
-	static LONG __stdcall ExportDump(EXCEPTION_POINTERS* exception) noexcept;
-};
+/// <summary>
+/// クラッシュハンドラの初期化
+/// </summary>
+void Initialize();
+
+} // namespace CrashHandler
+
+} // namespace szg

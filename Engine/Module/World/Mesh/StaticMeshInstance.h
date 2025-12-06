@@ -4,6 +4,8 @@
 
 #include <string>
 
+namespace szg {
+
 class Material;
 class PolygonMesh;
 class Texture;
@@ -19,7 +21,7 @@ public:
 	explicit StaticMeshInstance(const std::string& meshName_) noexcept(false);
 	virtual ~StaticMeshInstance() noexcept;
 
-	__CLASS_NON_COPYABLE(StaticMeshInstance)
+	SZG_CLASS_MOVE_ONLY(StaticMeshInstance)
 
 public:
 	void reset_mesh(const std::string& meshName_);
@@ -29,3 +31,5 @@ public:
 	/// </summary>
 	void default_material();
 };
+
+}; // szg

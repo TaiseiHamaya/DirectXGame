@@ -6,9 +6,11 @@
 
 #include <vector>
 
-class BaseScene;
+namespace szg {
+
+class Scene;
 class RemoteWorldObject;
-class EditorSceneView;
+class EditorRenderDAG;
 
 class RemoteSceneObject final : public IRemoteObject {
 public:
@@ -18,7 +20,7 @@ public:
 	RemoteSceneObject();
 	~RemoteSceneObject();
 
-	__CLASS_DEFAULT_ALL(RemoteSceneObject)
+	SZG_CLASS_DEFAULT(RemoteSceneObject)
 
 public:
 	void setup() override;
@@ -43,6 +45,8 @@ public:
 
 	void on_destroy() override;
 
+	constexpr InstanceType instance_type() const { return InstanceType::DebugScene; }
+
 public:
 	size_t world_size() const;
 
@@ -50,12 +54,16 @@ public:
 
 	const std::vector<std::unique_ptr<RemoteWorldObject>>& get_remote_worlds() const;
 
+	void set_editor(Reference<EditorRenderDAG> renderDAGEditor_);
+
 private:
-	Reference<BaseScene> self;
+	Reference<Scene> self;
 
 	std::vector<std::unique_ptr<RemoteWorldObject>> remoteWorlds;
 
-	EditorValueField<u32> numLayer{ "NumLayer", 1 };
+	Reference<EditorRenderDAG> renderDAGEditor;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

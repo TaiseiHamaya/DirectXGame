@@ -2,6 +2,8 @@
 
 #include "EditorHierarchy.h"
 
+using namespace szg;
+
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
@@ -11,18 +13,18 @@
 #include "../Command/EditorCommandInvoker.h"
 #include "../Command/EditorCreateObjectCommand.h"
 #include "../Command/EditorDeleteObjectCommand.h"
-
 #include "../RemoteObject/FolderObject.h"
 #include "../RemoteObject/WorldInstance/Camera/RemoteCamera3dInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
-#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteAABBColliderInstance.h"
 #include "../RemoteObject/WorldInstance/Collider/RemoteSphereColliderInstance.h"
+#include "../RemoteObject/WorldInstance/Light/RemoteDirectionalLightInstance.h"
+#include "../RemoteObject/WorldInstance/Light/RemotePointLightInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteSkinningMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Mesh/RemoteStaticMeshInstance.h"
+#include "../RemoteObject/WorldInstance/Primitive/RemoteRect3dInstance.h"
 #include "../RemoteObject/WorldInstance/RemoteWorldInstance.h"
-
-#include "Engine/Runtime/Scene/SceneManager.h"
-
-#include <Engine/Assets/Json/JsonAsset.h>
+#include "../RemoteObject/WorldInstance/StringRect/RemoteStringRectInstance.h"
+#include "Engine/Assets/Json/JsonAsset.h"
 
 void EditorHierarchy::setup(Reference<EditorSelectObject> select_, Reference<EditorSceneView> sceneView_) {
 	select = select_;
@@ -37,20 +39,22 @@ void EditorHierarchy::update_preview() {
 	scene->update_preview(nullptr, nullptr);
 }
 
-void EditorHierarchy::load(std::filesystem::path file) {
+void EditorHierarchy::load(const std::string& sceneName) {
 	savedTrigger = false;
 	isActive = true;
 
-	JsonAsset json{ file };
-	scene = EditorSceneSerializer::CreateRemoteScene(json.try_emplace<nlohmann::json>("Scene"));
-
-	Reference<BaseScene> currentScene = SceneManager::GetCurrentScene();
+	scene = EditorSceneSerializer::CreateRemoteScene(sceneName);
 
 	scene->setup();
 }
 
-nlohmann::json EditorHierarchy::save() const {
-	return scene->serialize();
+void EditorHierarchy::save(const std::filesystem::path& path) const {
+	for (auto& world : scene->get_remote_worlds()) {
+		JsonAsset worldJson{ path / "Worlds" / (world->world_name() + ".json") };
+		worldJson.get().clear();
+		worldJson.get() = world->serialize();
+		worldJson.save();
+	}
 }
 
 void EditorHierarchy::draw() {
@@ -63,7 +67,6 @@ void EditorHierarchy::draw() {
 	savedTrigger = false;
 
 	// 検索ボックス
-	size_t beforSize = searchString.size();
 	ImGui::InputText("##HierarchySearch", &searchString); ImGui::SameLine();
 	if (ImGui::Button("\ue5cd")) {
 		searchString.clear();
@@ -93,61 +96,110 @@ void EditorHierarchy::draw() {
 			if (ImGui::Button("\ue5cd")) {
 				menuString.clear();
 			}
+			ImGui::SeparatorText("Instance");
 			if (ImGui::MenuItem("WorldInstance")) {
-				if (select->get_item().object) {
+				if (select->get_item_mut().object) {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
-							select->get_item().object,
+							select->get_item_mut().object,
 							std::make_unique<RemoteWorldInstance>()
 						)
 					);
 				}
 			}
+			ImGui::SeparatorText("Rendering");
 			if (ImGui::MenuItem("StaticMeshInstance")) {
-				if (select->get_item().object) {
+				if (select->get_item_mut().object) {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
-							select->get_item().object,
+							select->get_item_mut().object,
 							std::make_unique<RemoteStaticMeshInstance>()
 						)
 					);
 				}
 			}
 			if (ImGui::MenuItem("SkinningMeshInstance")) {
-				if (select->get_item().object) {
+				if (select->get_item_mut().object) {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
-							select->get_item().object,
+							select->get_item_mut().object,
 							std::make_unique<RemoteSkinningMeshInstance>()
 						)
 					);
 				}
 			}
-			if (ImGui::MenuItem("Camera3D")) {
-				if (select->get_item().object) {
+			if (ImGui::MenuItem("Rect3dInstance")) {
+				if (select->get_item_mut().object) {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
-							select->get_item().object,
+							select->get_item_mut().object,
+							std::make_unique<RemoteRect3dInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("StringRectInstance")) {
+				if (select->get_item_mut().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item_mut().object,
+							std::make_unique<RemoteStringRectInstance>()
+						)
+					);
+				}
+			}
+
+			ImGui::SeparatorText("Camera");
+			if (ImGui::MenuItem("Camera3D")) {
+				if (select->get_item_mut().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item_mut().object,
 							std::make_unique<RemoteCamera3dInstance>()
 						)
 					);
 				}
 			}
-			if (ImGui::MenuItem("AABBColliderInstance")) {
-				if (select->get_item().object) {
+
+			ImGui::SeparatorText("Light");
+			if (ImGui::MenuItem("DirectionalLightInstance")) {
+				if (select->get_item_mut().object) {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
-							select->get_item().object,
+							select->get_item_mut().object,
+							std::make_unique<RemoteDirectionalLightInstance>()
+						)
+					);
+				}
+			}
+			if (ImGui::MenuItem("PointLightInstance")) {
+				if (select->get_item_mut().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item_mut().object,
+							std::make_unique<RemotePointLightInstance>()
+						)
+					);
+				}
+			}
+
+
+			ImGui::SeparatorText("Collider");
+			if (ImGui::MenuItem("AABBColliderInstance")) {
+				if (select->get_item_mut().object) {
+					EditorCommandInvoker::Execute(
+						std::make_unique<EditorCreateObjectCommand>(
+							select->get_item_mut().object,
 							std::make_unique<RemoteAABBColliderInstance>()
 						)
 					);
 				}
 			}
 			if (ImGui::MenuItem("SphereColliderInstance")) {
-				if (select->get_item().object) {
+				if (select->get_item_mut().object) {
 					EditorCommandInvoker::Execute(
 						std::make_unique<EditorCreateObjectCommand>(
-							select->get_item().object,
+							select->get_item_mut().object,
 							std::make_unique<RemoteSphereColliderInstance>()
 						)
 					);
@@ -167,10 +219,10 @@ void EditorHierarchy::draw() {
 
 		// Folder作成
 		if (ImGui::MenuItem("CreateFolder")) {
-			if (select->get_item().object) {
+			if (select->get_item_mut().object) {
 				EditorCommandInvoker::Execute(
 					std::make_unique<EditorCreateObjectCommand>(
-						select->get_item().object,
+						select->get_item_mut().object,
 						std::make_unique<FolderObject>()
 					)
 				);
@@ -178,9 +230,9 @@ void EditorHierarchy::draw() {
 		}
 
 		if (ImGui::MenuItem("Delete")) {
-			if (select->get_item().object && select->get_item().object.ptr() != scene.get()) {
+			if (select->get_item_mut().object && select->get_item_mut().object.ptr() != scene.get()) {
 				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeBegin>());
-				EditorCommandInvoker::Execute(std::make_unique<EditorDeleteObjectCommand>(select->get_item().object));
+				EditorCommandInvoker::Execute(std::make_unique<EditorDeleteObjectCommand>(select->get_item_mut().object));
 				EditorCommandInvoker::Execute(std::make_unique<EditorSelectCommand>(nullptr));
 				EditorCommandInvoker::Execute(std::make_unique<EditorCommandScopeEnd>());
 			}
@@ -197,12 +249,16 @@ void EditorHierarchy::draw() {
 	ImGui::End();
 }
 
-std::string EditorHierarchy::current_scene_name() {
+std::string EditorHierarchy::current_scene_name() const {
 	return scene->name();
 }
 
 const std::vector<std::unique_ptr<RemoteWorldObject>>& EditorHierarchy::world_list() const {
 	return scene->get_remote_worlds();
+}
+
+Reference<const RemoteSceneObject> EditorHierarchy::scene_imm() const {
+	return scene;
 }
 
 #endif // DEBUG_FEATURES_ENABLE

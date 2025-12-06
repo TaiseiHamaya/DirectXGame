@@ -2,6 +2,8 @@
 
 #include "EditorDeleteObjectCommand.h"
 
+using namespace szg;
+
 #include "../RemoteObject/EditorDeletedObjectPool.h"
 
 EditorDeleteObjectCommand::EditorDeleteObjectCommand(Reference<IRemoteObject> object_) {

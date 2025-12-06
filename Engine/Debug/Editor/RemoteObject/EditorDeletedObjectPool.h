@@ -10,6 +10,8 @@
 
 #include "IRemoteObject.h"
 
+namespace szg {
+
 class EditorDeletedObjectPool {
 private:
 	struct SequenceObject {
@@ -26,5 +28,7 @@ private:
 	std::vector<SequenceObject> sequences;
 	std::unordered_map<Reference<IRemoteObject>, std::unique_ptr<IRemoteObject>> deletedInstances;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

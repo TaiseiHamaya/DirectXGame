@@ -4,8 +4,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include <Engine/Runtime/Input/Input.h>
-#include <Engine/Runtime/Clock/WorldTimer.h>
+#include "Engine/Runtime/Input/Input.h"
+#include "Engine/Runtime/Clock/WorldTimer.h"
+
+namespace szg {
 
 template<typename T>
 struct InputHandlerFunction;
@@ -153,3 +155,5 @@ inline r32 InputHandler<T, InputFunction>::idle_timer(T id) {
 	}
 	return 0;
 }
+
+}; // szg

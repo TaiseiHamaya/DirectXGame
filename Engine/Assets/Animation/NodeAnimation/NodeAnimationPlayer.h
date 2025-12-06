@@ -11,15 +11,20 @@
 
 #include "Engine/Runtime/Clock/WorldTimer.h"
 
+namespace szg {
+
 class NodeAnimationPlayer {
 public:
 	NodeAnimationPlayer() noexcept = default;
 	NodeAnimationPlayer(const std::string& fileName, const std::string& animationName, bool isLoop);
 	~NodeAnimationPlayer() = default;
 
-	__CLASS_NON_COPYABLE(NodeAnimationPlayer)
+	SZG_CLASS_MOVE_ONLY(NodeAnimationPlayer)
 
 public:
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void update() noexcept;
 
 	Vector3 calculate_scale(const std::string& nodeName) const;
@@ -32,11 +37,15 @@ public:
 	void stop() noexcept;
 	void pause() noexcept;
 	void restart() noexcept;
+
 	bool is_end() const noexcept;
+
 	r32 parametric() const noexcept;
 
 	void set_loop(bool isLoop) noexcept;
+	
 	void set_time_force(r32 timer) noexcept;
+	
 	void animation_speed(r32 speed = 1.0f) noexcept;
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -55,3 +64,5 @@ private:
 	std::string animationName;
 #endif // _DEBUG
 };
+
+}; // szg

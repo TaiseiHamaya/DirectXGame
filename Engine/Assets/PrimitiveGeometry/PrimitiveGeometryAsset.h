@@ -8,6 +8,11 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/IndexBuffer/IndexBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 
+/// <summary>
+/// PrimitiveGeometryアセット
+/// </summary>
+namespace szg {
+
 class PrimitiveGeometryAsset final {
 public:
 	PrimitiveGeometryAsset() = default;
@@ -43,3 +48,5 @@ private:
 	VertexBuffer<Vector3> vertexBuffer;
 	IndexBuffer indexBuffer;
 };
+
+}; // szg

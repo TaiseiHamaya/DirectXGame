@@ -7,28 +7,43 @@
 
 #include <Library/Utility/Template/SingletonInterface.h>
 
+namespace szg {
+
 class ShaderAsset;
 
+/// <summary>
+/// シェーダーアセット保持クラス(スレッドセーフ)
+/// </summary>
 class ShaderLibrary final : public SingletonInterface<ShaderLibrary> {
-	__CLASS_SINGLETON_INTERFACE(ShaderLibrary)
+	SZG_CLASS_SINGLETON(ShaderLibrary)
 
 public:
+	/// <summary>
+	/// ロードキューにhlslファイルを追加
+	/// </summary>
+	/// <param name="filePath">ファイルパス</param>
 	static void RegisterLoadQue(const std::filesystem::path& filePath);
 
+	/// <summary>
+	/// シェーダーの取得
+	/// </summary>
+	/// <param name="name">シェーダー名</param>
+	/// <returns></returns>
 	static std::shared_ptr<const ShaderAsset> GetShader(const std::string& name);
 
-	static bool IsRegistered(const std::string& meshName);
+	/// <summary>
+	/// シェーダーが登録されているか取得
+	/// </summary>
+	/// <param name="name">シェーダー名</param>
+	/// <returns></returns>
+	static bool IsRegistered(const std::string& name);
 
+	/// <summary>
+	/// 転送し登録
+	/// </summary>
+	/// <param name="name">シェーダー名</param>
+	/// <param name="data">ロード済みアセットデータ</param>
 	static void Transfer(const std::string& name, std::shared_ptr<ShaderAsset>& data);
-
-//#ifdef DEBUG_FEATURES_ENABLE
-//	/// <summary>
-//	/// メッシュ一覧をComboBoxで表示するImGui(Debugビルドのみ)
-//	/// </summary>
-//	/// <param name="current">現在選択中のメッシュ名</param>
-//	/// <returns>currentが変更されたかどうか</returns>
-//	static bool MeshListGui(std::string& current);
-//#endif // _DEBUG
 
 private:
 	static bool IsRegisteredNonlocking(const std::string& name);
@@ -36,3 +51,5 @@ private:
 private:
 	std::unordered_map<std::string, std::shared_ptr<ShaderAsset>> assets;
 };
+
+}; // szg

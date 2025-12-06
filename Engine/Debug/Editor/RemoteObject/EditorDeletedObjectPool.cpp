@@ -2,6 +2,8 @@
 
 #include "EditorDeletedObjectPool.h"
 
+using namespace szg;
+
 void EditorDeletedObjectPool::delete_sequence(Reference<IRemoteObject> parent, Reference<IRemoteObject> object) {
 	sequences.emplace_back(parent, object);
 }

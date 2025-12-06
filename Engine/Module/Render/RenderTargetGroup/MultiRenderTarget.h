@@ -6,6 +6,8 @@
 
 #include <d3d12.h>
 
+#include <Library/Utility/Tools/ConstructorMacro.h>
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/DepthStencilTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/RenderTexture.h"
@@ -14,12 +16,16 @@
 /// マルチレンダーターゲット
 /// </summary>
 /// <typeparam name="NumRenderTarget">レンダーターゲット数</typeparam>
+namespace szg {
+
 template<u32 NumRenderTarget = 2>
 class MultiRenderTarget final : public BaseRenderTargetGroup {
 	static_assert(NumRenderTarget >= 2, "NumRenderTargetは2以上である必要があります");
 public:
 	MultiRenderTarget() = default;
-	~MultiRenderTarget() noexcept = default;;
+	~MultiRenderTarget() noexcept = default;
+
+	SZG_CLASS_MOVE_ONLY(MultiRenderTarget)
 
 public:
 	/// <summary>
@@ -47,7 +53,6 @@ inline void MultiRenderTarget<NumRenderTarget>::initialize(std::array<Reference<
 	for (u32 i = 0; i < NumRenderTarget; ++i) {
 		renderTargetsHandles[i] = renderTextures[i]->get_as_rtv()->handle();
 	}
-	create_view_port(renderTextures[0]->get_width(), renderTextures[0]->get_height());
 }
 
 template<u32 NumRenderTarget>
@@ -66,73 +71,8 @@ inline void MultiRenderTarget<NumRenderTarget>::start_render_target(Reference<De
 template<u32 NumRenderTarget>
 inline void MultiRenderTarget<NumRenderTarget>::clear_render_target() {
 	for (Reference<RenderTexture>& renderTarget : renderTextures) {
-		renderTarget->get_as_rtv()->clear(clearColor);
+		renderTarget->get_as_rtv()->clear();
 	}
 }
 
-/// ----------------------------------
-/// ---------- 旧バージョン ----------
-/// ----------------------------------
-
-//#include "Engine/Render/RenderTargetGroup/BaseRenderTargetGroup.h"
-//
-//#include <vector>
-//
-//class OffscreenRender;
-//struct D3D12_CPU_DESCRIPTOR_HANDLE;
-//
-////template<u32 NumRenderTarget = 2>
-//class MultiRenderTarget final : public BaseRenderTargetGroup {
-//	//static_assert(NumRenderTarget >= 2, "NumRenderTargetは2以上である必要があります");
-//public:
-//	MultiRenderTarget();
-//	~MultiRenderTarget() noexcept;
-//
-//public:
-//	/// <summary>
-//	/// 初期化
-//	/// </summary>
-//	void initialize() override;
-//
-//	/// <summary>
-//	/// 終了処理
-//	/// </summary>
-//	void finalize() override;
-//
-//	/// <summary>
-//	/// サイズ指定付き初期化
-//	/// </summary>
-//	/// <param name="width">幅</param>
-//	/// <param name="hight">高さ</param>
-//	/// <param name="size">レンダーターゲット数</param>
-//	void initialize(u32 width, u32 hight, u32 size);
-//
-//	/// <summary>
-//	/// サイズ指定付き初期化
-//	/// </summary>
-//	/// <param name="size">レンダーターゲット数</param>
-//	void initialize(u32 size);
-//
-//	std::vector<OffscreenRender>& offscreen_render_list();
-//	const std::vector<OffscreenRender>& offscreen_render_list() const;
-//
-//private:
-//	/// <summary>
-//	/// レンダーターゲットの設定
-//	/// </summary>
-//	void set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) override;
-//
-//	/// <summary>
-//	/// レンダーターゲットのクリア
-//	/// </summary>
-//	void clear_render_target() override;
-//
-//	/// <summary>
-//	/// リソースバリアの状態を変更
-//	/// </summary>
-//	void change_render_target_state() override;
-//
-//private:
-//	std::vector<OffscreenRender> renderTargets;
-//	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> renderTargetsHandles;
-//};
+}; // szg

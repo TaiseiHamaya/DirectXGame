@@ -2,8 +2,12 @@
 
 #include "ImGuiManager.h"
 
+using namespace szg;
+
 #include "./ImGuiIcons.h"
 #include "./ImGuiJapanese.h"
+#include "./ImGuiStyleSetter.h"
+#include "Engine/Application/ProjectSettings/ProjectSettings.h"
 #include "Engine/Application/WinApp.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDescriptorHeap/SRVDescriptorHeap/SRVDescriptorHeap.h"
@@ -11,8 +15,7 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/DirectX/DxSwapChain/DxSwapChain.h"
 #include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
-#include "Engine/GraphicsAPI/RenderingSystemValues.h"
-#include "./ImGuiStyleSetter.h"
+#include "Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h"
 
 #include <imgui.h>
 #include <imgui_impl_dx12.h>
@@ -36,7 +39,7 @@ void ImGuiManager::Initialize() {
 	ImGui_ImplDX12_InitInfo initInfo{};
 	initInfo.Device = DxDevice::GetDevice().Get();
 	initInfo.CommandQueue = DxCommand::GetCommandQueue().Get();
-	initInfo.NumFramesInFlight = RenderingSystemValues::NUM_BUFFERING;
+	initInfo.NumFramesInFlight = ProjectSettings::GetGraphicsSettingsImm().numBuffering;
 	initInfo.RTVFormat = DxSystemValues::SCREEN_RTV_FORMAT;
 	initInfo.SrvDescriptorHeap = SRVDescriptorHeap::GetDescriptorHeap().Get();
 	initInfo.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* outHandleCpu, D3D12_GPU_DESCRIPTOR_HANDLE* outHandleGpu) {
@@ -55,8 +58,8 @@ void ImGuiManager::Initialize() {
 	config.GlyphOffset.y = 2.f;
 
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, glyphRangesJapanese);
-	io.Fonts->AddFontFromFileTTF("./DirectXGame/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 14.5f, &config, IconsGlyphRanges);
+	io.Fonts->AddFontFromFileTTF("./SyzygyEngine/EngineResources/Misc/UDEVGothic35HS-Regular.ttf", 13.f, nullptr, glyphRangesJapanese);
+	io.Fonts->AddFontFromFileTTF("./SyzygyEngine/EditorResources/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf", 14.5f, &config, IconsGlyphRanges);
 	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
 
 	SetImGuiStyle();
@@ -65,6 +68,8 @@ void ImGuiManager::Initialize() {
 }
 
 void ImGuiManager::Finalize() {
+	BeginFrame();
+	ImGui::EndFrame();
 	// ImGui終了処理
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
@@ -79,9 +84,8 @@ void ImGuiManager::BeginFrame() {
 }
 
 void ImGuiManager::EndFrame() {
-	Reference<ScreenTexture> screen = DxSwapChain::GetWriteBufferTexture();
-	screen->start_write();
-
+	DxSwapChain::GetRenderTarget()->begin_write(false, nullptr);
+	
 	ImGui::Render();
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DxCommand::GetCommandList().Get());
 }

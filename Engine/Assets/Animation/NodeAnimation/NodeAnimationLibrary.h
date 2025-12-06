@@ -7,10 +7,15 @@
 #include <string>
 #include <unordered_map>
 
+namespace szg {
+
 class NodeAnimationAsset;
 
+/// <summary>
+/// Animationアセット保持クラス(スレッドセーフ)
+/// </summary>
 class NodeAnimationLibrary final : SingletonInterface<NodeAnimationLibrary> {
-	__CLASS_SINGLETON_INTERFACE(NodeAnimationLibrary)
+	SZG_CLASS_SINGLETON(NodeAnimationLibrary)
 
 public:
 	/// <summary>
@@ -61,3 +66,5 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<NodeAnimationAsset>> instanceList;
 };
 
+
+}; // szg

@@ -1,5 +1,7 @@
 #include "ITextureResource.h"
 
+using namespace szg;
+
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 
 void ITextureResource::change_resource_state(D3D12_RESOURCE_STATES next) {

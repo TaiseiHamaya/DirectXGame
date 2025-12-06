@@ -2,6 +2,8 @@
 
 #include "FolderObject.h"
 
+using namespace szg;
+
 #include <format>
 
 #include <imgui.h>
@@ -31,10 +33,10 @@ void FolderObject::draw_hierarchy(Reference<const EditorSelectObject> select) {
 
 	int flags =
 		ImGuiTreeNodeFlags_DrawLinesToNodes |
+		ImGuiTreeNodeFlags_FramePadding |
 		ImGuiTreeNodeFlags_SpanAllColumns |
 		ImGuiTreeNodeFlags_NoTreePushOnOpen |
-		ImGuiTreeNodeFlags_OpenOnArrow | // 矢印で開く
-		ImGuiTreeNodeFlags_OpenOnDoubleClick; // ダブルクリックで開く
+		ImGuiTreeNodeFlags_OpenOnArrow; // 矢印で開く
 	if (isSelected) {
 		flags |= ImGuiTreeNodeFlags_Selected; // 選択時は選択状態にする
 	}
@@ -86,7 +88,7 @@ void FolderObject::add_child(std::unique_ptr<IRemoteObject> child) {
 nlohmann::json FolderObject::serialize() const {
 	nlohmann::json result;
 
-	result["Type"] = 90;
+	result["Type"] = instance_type();
 	result.update(hierarchyName);
 	result["Children"] = nlohmann::json::array();
 	for (const auto& child : children) {

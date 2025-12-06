@@ -4,13 +4,15 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
+namespace szg {
+
 template<typename KeyType>
 class IDrawInstance : public WorldInstance {
 public:
 	IDrawInstance() noexcept;
 	virtual ~IDrawInstance() noexcept;
 
-	__CLASS_NON_COPYABLE(IDrawInstance)
+	SZG_CLASS_MOVE_ONLY(IDrawInstance)
 
 public:
 	virtual void update_affine() override;
@@ -52,3 +54,5 @@ template<typename KeyType>
 bool IDrawInstance<KeyType>::is_draw() const {
 	return isDraw && isActive;
 }
+
+}; // szg

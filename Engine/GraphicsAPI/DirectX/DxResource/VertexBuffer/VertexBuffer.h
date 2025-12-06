@@ -5,8 +5,12 @@
 #include <concepts>
 #include <type_traits>
 
+#include <Library/Utility/Template/Reference.h>
+
 #include "../ConceptCPUBuffer.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/BufferObjects.h"
+
+namespace szg {
 
 template<class Array, typename T>
 concept WriteableVertexBuffer =
@@ -42,7 +46,6 @@ private:
 	void unmap();
 
 private:
-	T* data;
 	u32 size;
 	UINT memorySize;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
@@ -67,9 +70,10 @@ inline void VertexBuffer<T>::write(const Array& vertices_array) {
 		create_resource();
 	}
 	// Map
-	resource->Map(0, nullptr, reinterpret_cast<void**>(&data));
+	T* temp;
+	resource->Map(0, nullptr, reinterpret_cast<void**>(&temp));
 	// コピー
-	std::memcpy(data, std::to_address(vertices_array.begin()), memorySize);
+	std::memcpy(temp, std::to_address(vertices_array.begin()), memorySize);
 	unmap();
 }
 
@@ -95,10 +99,11 @@ inline void VertexBuffer<T>::create_resource() {
 
 template<ConceptCPUBufferAC T>
 inline void VertexBuffer<T>::unmap() {
-	if (data) {
+	if (resource) {
 		resource->Unmap(0, nullptr);
-		data = nullptr;
 	}
 }
 
 using Object3DVertexBuffer = VertexBuffer<VertexDataBuffer>;
+
+}; // szg

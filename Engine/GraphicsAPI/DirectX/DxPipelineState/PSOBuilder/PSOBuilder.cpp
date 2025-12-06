@@ -1,6 +1,8 @@
 #include "PSOBuilder.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/Shader/ShaderAsset.h"
 #include "Engine/Assets/Shader/ShaderLibrary.h"
 #include "Engine/GraphicsAPI/DirectX/DxCompiler/DxShaderReflection.h"
@@ -37,11 +39,11 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignatureBuilder::build() {
 
 	// バイナリに変換
 	hr = D3D12SerializeRootSignature(&descriptionRootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, signatureBlob.GetAddressOf(), errorBlob.GetAddressOf());
-	ErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<string_literal>(errorBlob->GetBufferPointer()));
+	szgErrorIf(FAILED(hr), "Failed to serialize root signature. Address-\'{}\'", reinterpret_cast<string_literal>(errorBlob->GetBufferPointer()));
 
 	// 変換したバイナリからRootSignatureを生成
 	hr = DxDevice::GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(rootSignature.GetAddressOf()));
-	ErrorIf(FAILED(hr), "Failed to create root signature.");
+	szgErrorIf(FAILED(hr), "Failed to create root signature.");
 	return rootSignature;
 }
 
@@ -84,6 +86,7 @@ void RootSignatureBuilder::sampler(D3D12_SHADER_VISIBILITY visibility, UINT shad
 	staticSampler.MaxLOD = D3D12_FLOAT32_MAX; // すべてのMipmapを使う
 	staticSampler.ShaderRegister = shaderRegister;
 	staticSampler.ShaderVisibility = visibility;
+	staticSampler.RegisterSpace = space;
 }
 
 Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
@@ -95,7 +98,7 @@ Microsoft::WRL::ComPtr<ID3D12PipelineState> PSOBuilder::build() {
 	HRESULT hr;
 	hr = DxDevice::GetDevice()
 		->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(graphicsPipelineState.GetAddressOf())); // PSOの生成
-	ErrorIf(FAILED(hr), "Failed to create PSO.");
+	szgErrorIf(FAILED(hr), "Failed to create PSO.");
 
 	return graphicsPipelineState;
 }
@@ -104,7 +107,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> PSOBuilder::get_rootsignature() {
 	return rootSignature;
 }
 
-void PSOBuilder::initialize_by_reflection(const DxShaderReflection& reflection) {
+void PSOBuilder::initialize_by_reflection([[maybe_unused]] const DxShaderReflection& reflection) {
 
 }
 
@@ -120,7 +123,7 @@ void PSOBuilder::inputlayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& layout
 void PSOBuilder::shaders(ShaderType type, const std::string& shaderFilename) {
 	auto shader = ShaderLibrary::GetShader(shaderFilename);
 	if (!shader) {
-		Error("Shader file is not loading. File-\'{}\'", shaderFilename);
+		szgError("Shader file is not loading. File-\'{}\'", shaderFilename);
 		return;
 	}
 	if (!shader) {
@@ -136,12 +139,12 @@ void PSOBuilder::shaders(ShaderType type, const std::string& shaderFilename) {
 	}
 }
 
-void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
+void PSOBuilder::blendstate(PsoBlendMode blendMode, u32 renderTarget) {
 	D3D12_RENDER_TARGET_BLEND_DESC desc{};
 	desc.BlendEnable = true;
 	desc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 	switch (blendMode) {
-	case BlendMode::None:
+	case PsoBlendMode::None:
 		desc.SrcBlend = D3D12_BLEND_ONE;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ZERO;
@@ -149,7 +152,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Alpha:
+	case PsoBlendMode::Alpha:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
@@ -157,7 +160,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Add:
+	case PsoBlendMode::Add:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ONE;
@@ -165,7 +168,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Subtract:
+	case PsoBlendMode::Subtract:
 		desc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 		desc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
 		desc.DestBlend = D3D12_BLEND_ONE;
@@ -173,7 +176,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Multily:
+	case PsoBlendMode::Multily:
 		desc.SrcBlend = D3D12_BLEND_ZERO;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_SRC_COLOR;
@@ -181,7 +184,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::Screen:
+	case PsoBlendMode::Screen:
 		desc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ZERO;
@@ -189,7 +192,7 @@ void PSOBuilder::blendstate(BlendMode blendMode, u32 renderTarget) {
 		desc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		desc.DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	case BlendMode::LightingPath:
+	case PsoBlendMode::LightingPath:
 		desc.SrcBlend = D3D12_BLEND_ONE;
 		desc.BlendOp = D3D12_BLEND_OP_ADD;
 		desc.DestBlend = D3D12_BLEND_ONE;

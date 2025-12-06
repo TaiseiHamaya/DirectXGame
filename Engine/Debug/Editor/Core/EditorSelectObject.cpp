@@ -2,6 +2,8 @@
 
 #include "EditorSelectObject.h"
 
+using namespace szg;
+
 #include "../RemoteObject/IRemoteObject.h"
 
 void EditorSelectObject::set_item(Reference<IRemoteObject> object_, EditorSelectObjectBody::TransformData transform_) {
@@ -9,7 +11,7 @@ void EditorSelectObject::set_item(Reference<IRemoteObject> object_, EditorSelect
 	select.transformData = transform_;
 }
 
-const EditorSelectObjectBody& EditorSelectObject::get_item() {
+EditorSelectObjectBody& EditorSelectObject::get_item_mut() {
 	return select;
 }
 

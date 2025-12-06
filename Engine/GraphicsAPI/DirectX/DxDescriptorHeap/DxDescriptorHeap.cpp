@@ -1,6 +1,8 @@
 #include "DxDescriptorHeap.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 
 const D3D12_CPU_DESCRIPTOR_HANDLE DxDescriptorHeap::get_cpu_handle(u32 index) const noexcept {
@@ -27,7 +29,7 @@ const u32 DxDescriptorHeap::use_heap_index() noexcept {
 }
 
 void DxDescriptorHeap::release_heap(u32 index) {
-	releasedHeap.emplace_front(index);
+	releasedHeap.emplace_back(index);
 }
 
 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT heapSize, bool shaderVisible) {
@@ -41,6 +43,6 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DxDescriptorHeap::CreateDescriptorH
 	HRESULT hr;
 	// ここで生成
 	hr = DxDevice::GetDevice()->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(descriptorHeap.GetAddressOf()));
-	ErrorIf(FAILED(hr), "Failed creating descriptor heap. Type-\'{}\' Size-\'{}\'", (i32)heapType, heapSize);
+	szgErrorIf(FAILED(hr), "Failed creating descriptor heap. Type-\'{}\' Size-\'{}\'", (i32)heapType, heapSize);
 	return descriptorHeap;
 }

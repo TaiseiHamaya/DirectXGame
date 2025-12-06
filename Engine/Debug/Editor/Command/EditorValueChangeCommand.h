@@ -6,6 +6,8 @@
 
 #include <Library/Utility/Template/Reference.h>
 
+namespace szg {
+
 template<typename T>
 class EditorValueChangeCommand final : public IEditorCommand {
 public:
@@ -81,5 +83,7 @@ template<typename T>
 void EditorValueChangeCommandLambda<T>::undo() {
 	valueFunc() = recent;
 }
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

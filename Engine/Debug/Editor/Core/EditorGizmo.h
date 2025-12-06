@@ -11,7 +11,9 @@
 #include <Library/Utility/Template/Reference.h>
 #include <Library/Utility/Tools/ConstructorMacro.h>
 
-#include <Engine/Runtime/Input/InputHandler.h>
+#include "Engine/Runtime/Input/InputHandler.h"
+
+namespace szg {
 
 class Camera3D;
 class EditorObjectMoveCommand;
@@ -23,7 +25,7 @@ public:
 	EditorGizmo();
 	~EditorGizmo();
 
-	__CLASS_NON_COPYABLE(EditorGizmo)
+	SZG_CLASS_MOVE_ONLY(EditorGizmo)
 
 public:
 	void begin_frame(const Vector2& origin, const Vector2& size);
@@ -41,5 +43,7 @@ private:
 
 	InputHandler<KeyID> gizmoKeyHandler;
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

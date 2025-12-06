@@ -1,5 +1,7 @@
 #include "IndexBuffer.h"
 
+using namespace szg;
+
 constexpr UINT INDEX_DATA_SIZE = sizeof(u32);
 
 IndexBuffer::IndexBuffer(u32 size_) noexcept(false) {
@@ -28,8 +30,8 @@ void IndexBuffer::create_resource() {
 }
 
 void IndexBuffer::unmap() {
-	if (data) {
+	if (resource) {
 		resource->Unmap(0, nullptr);
-		data = nullptr;
 	}
+	data = std::span<u32>();
 }

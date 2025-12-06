@@ -12,10 +12,15 @@
 
 #include "../Core/EditorSelectObject.h"
 #include "Engine/Debug/Editor/Adapter/EditorValueField.h"
+#include "Engine/Module/World/WorldInstanceType.h"
 
 class Affine;
+
+namespace szg {
+
 class EditorSceneView;
 class RemoteWorldObject;
+class EditorDebugCamera;
 
 class IRemoteObject {
 	friend class EditorSceneSerializer;
@@ -24,7 +29,7 @@ public:
 	IRemoteObject() = default;
 	virtual ~IRemoteObject() = default;
 
-	__CLASS_DEFAULT_ALL(IRemoteObject)
+	SZG_CLASS_DEFAULT(IRemoteObject)
 
 public:
 	virtual void setup() = 0;
@@ -49,6 +54,8 @@ public:
 
 	virtual void on_destroy() = 0;
 
+	virtual constexpr InstanceType instance_type() const = 0;
+
 public:
 	Reference<IRemoteObject> get_parent() const;
 
@@ -64,5 +71,7 @@ public:
 protected:
 	static inline Reference<EditorSceneView> sceneView{ nullptr };
 };
+
+}; // szg
 
 #endif // DEBUG_FEATURES_ENABLE

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../BaseAssetBuilder.h"
+#include "../IAssetBuilder.h"
 
 #include <filesystem>
 #include <memory>
@@ -10,21 +10,28 @@
 #include <DirectXTex.h>
 #include <wrl/client.h>
 
+namespace szg {
+
 class TextureAsset;
 
-class TextureAssetBuilder final : public BaseAssetBuilder {
+class TextureAssetBuilder final : public IAssetBuilder {
 public:
 	TextureAssetBuilder(const std::filesystem::path& filePath);
 	~TextureAssetBuilder() = default;
 
 public:
-	void preprocess() override;
-
 	bool run() override;
 
 	void postprocess() override;
 
 	void transfer() override;
+
+public:
+	/// <summary>
+	/// postprocess後のみ使用可能
+	/// </summary>
+	/// <returns></returns>
+	std::shared_ptr<const TextureAsset> texture_data() const;
 
 private:
 	[[nodiscard]] static std::variant<HRESULT, DirectX::ScratchImage> LoadTextureData(const std::filesystem::path& filePath);
@@ -37,3 +44,5 @@ private:
 
 	bool isCubemap{ false };
 };
+
+}; // szg

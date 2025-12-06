@@ -1,29 +1,27 @@
 #include "TextureAssetBuilder.h"
 
+using namespace szg;
+
 #include <comdef.h>
 #include <d3dx12.h>
 
 #include "./TextureAsset.h"
 #include "./TextureLibrary.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
 #include "Engine/GraphicsAPI/DirectX/DxResource/DxResource.h"
 
 TextureAssetBuilder::TextureAssetBuilder(const std::filesystem::path& filePath_) {
-	filePath = filePath_;
-}
-
-void TextureAssetBuilder::preprocess() {
-	textureData = std::make_unique<TextureAsset>();
+	filePath = IAssetBuilder::ResolveFilePath(filePath_, "Texture");
 }
 
 bool TextureAssetBuilder::run() {
-	Information("Start load texture. file-\'{}\'", filePath.string());
+	szgInformation("Start load texture. file-\'{}\'", filePath.string());
 	auto loadData = LoadTextureData(filePath); // ロード
 	// 失敗時
 	if (loadData.index() == 0) {
-		Error(L"Failed loading texture. File-'{}', Message-\'{}\'", filePath.wstring(), _com_error(std::get<0>(loadData)).ErrorMessage());
+		szgError(L"Failed loading texture. File-'{}', Message-\'{}\'", filePath.wstring(), _com_error(std::get<0>(loadData)).ErrorMessage());
 		return false;
 	}
 	DirectX::ScratchImage& mipImages = std::get<1>(loadData);
@@ -45,7 +43,7 @@ bool TextureAssetBuilder::run() {
 }
 
 void TextureAssetBuilder::postprocess() {
-	textureData->initialize(resource, isCubemap);
+	textureData = std::make_shared<TextureAsset>(resource, isCubemap);
 #ifdef DEBUG_FEATURES_ENABLE
 	textureData->set_name(filePath.filename().native());
 #endif // DEBUG_FEATURES_ENABLE
@@ -55,10 +53,14 @@ void TextureAssetBuilder::transfer() {
 	TextureLibrary::Transfer(filePath.filename().string(), textureData);
 }
 
+std::shared_ptr<const TextureAsset> TextureAssetBuilder::texture_data() const {
+	return textureData;
+}
+
 std::variant<HRESULT, DirectX::ScratchImage> TextureAssetBuilder::LoadTextureData(const std::filesystem::path& filePath) {
 	HRESULT hr;
 	DirectX::ScratchImage image{};
-	if (filePath.native().ends_with(L".dds")) {
+	if (filePath.extension() == L".dds") {
 		hr = DirectX::LoadFromDDSFile(filePath.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
 	}
 	else {
@@ -98,7 +100,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureAssetBuilder::CreateResource(const
 	resourceDesc.Format = metadata.format; // Textureのフォーマット
 
 	hr = DxDevice::GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr, IID_PPV_ARGS(resource.GetAddressOf()));
-	ErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Depth-\'{}\', MipLevel-\'{}\', Format-\'{}\'",
+	szgErrorIf(FAILED(hr), "Failed to allocate GPU memory. Width-\'{}\', Height-\'{}\', Depth-\'{}\', MipLevel-\'{}\', Format-\'{}\'",
 		metadata.width, metadata.height, metadata.arraySize, metadata.mipLevels, (i32)metadata.format);
 
 	return resource;

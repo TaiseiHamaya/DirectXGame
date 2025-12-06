@@ -1,12 +1,14 @@
 #include "PolygonMeshLibrary.h"
 
+using namespace szg;
+
 #include <mutex>
 
 #include <Library/Utility/Tools/SmartPointer.h>
 
 #include "./PolygonMesh.h"
 #include "./PolygonMeshBuilder.h"
-#include "Engine/Application/Output.h"
+#include "Engine/Application/Logger.h"
 #include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
 
 #ifdef DEBUG_FEATURES_ENABLE
@@ -14,15 +16,6 @@
 #endif // _DEBUG
 
 std::mutex meshMutex;
-
-PolygonMeshLibrary::PolygonMeshLibrary() noexcept = default;
-
-PolygonMeshLibrary::~PolygonMeshLibrary() noexcept = default;
-
-PolygonMeshLibrary& PolygonMeshLibrary::GetInstance() noexcept {
-	static PolygonMeshLibrary instance{};
-	return instance;
-}
 
 void PolygonMeshLibrary::RegisterLoadQue(const std::filesystem::path& filePath) {
 	// ロード済みの場合は何もしない
@@ -42,7 +35,7 @@ std::shared_ptr<const PolygonMesh> PolygonMeshLibrary::GetPolygonMesh(const std:
 	}
 	else {
 		// 存在しないメッシュを呼び出したらエラー用メッシュを使用する
-		Warning("Unknown polygon mesh. Name-\'{:}\'", meshName);
+		szgWarning("Unknown polygon mesh. Name-\'{:}\'", meshName);
 		return GetInstance().meshInstanceList.at("ErrorObject.obj");
 	}
 }
@@ -54,7 +47,7 @@ bool PolygonMeshLibrary::IsRegistered(const std::string& meshName) {
 
 void PolygonMeshLibrary::Transfer(const std::string& name, std::shared_ptr<PolygonMesh>& data) {
 	std::lock_guard<std::mutex> lock{ meshMutex };
-	Information("Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
+	szgInformation("Transfer new PolygonMesh. Name-\'{:}\', Address-\'{:016}\'", name, (void*)data.get());
 	GetInstance().meshInstanceList.emplace(name, data);
 }
 

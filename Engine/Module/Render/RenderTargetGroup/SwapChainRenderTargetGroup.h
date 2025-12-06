@@ -7,6 +7,8 @@
 #include "Engine/GraphicsAPI/DirectX/DxResource/TextureResource/ScreenTexture.h"
 #include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
+namespace szg {
+
 class SwapChainRenderTargetGroup final : public BaseRenderTargetGroup {
 public:
 	SwapChainRenderTargetGroup() = default;
@@ -25,6 +27,9 @@ public:
 	/// <param name="index">SwapChainIndex</param>
 	void set_resource(Reference<ScreenTexture>, u32 index);
 
+public:
+	void set_clear_color(const Color4& color) noexcept;
+
 private:
 	void start_render_target(Reference<DepthStencilTexture> depthStencil) override;
 
@@ -34,5 +39,8 @@ private:
 	void clear_render_target() override;
 
 private:
+	Color4 clearColor{ CColor4::BLACK };
 	std::vector<Reference<ScreenTexture>> textures;
 };
+
+}; // szg

@@ -1,9 +1,11 @@
 #include "SRVDescriptorHeap.h"
 
-#include "Engine/Application/Output.h"
+using namespace szg;
+
+#include "Engine/Application/Logger.h"
 #include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
 #include "Engine/GraphicsAPI/DirectX/DxDevice/DxDevice.h"
-#include "Engine/GraphicsAPI/DirectX/DxSystemValues.h"
+#include "Engine/GraphicsAPI/RenderingSystemValues.h"
 
 #include <mutex>
 
@@ -22,7 +24,7 @@ void SRVDescriptorHeap::Initialize() {
 const u32 SRVDescriptorHeap::UseHeapIndex() noexcept {
 	std::lock_guard<std::mutex> lock{ srvHeapMutex };
 	auto useIndex = GetInstance().use_heap_index();
-	Information("Use SRV index. Index-\'{}\'", useIndex);
+	szgInformation("Use SRV index. Index-\'{}\'", useIndex);
 	return useIndex;
 }
 
@@ -44,7 +46,7 @@ void SRVDescriptorHeap::SetDescriptorHeaps() {
 }
 
 void SRVDescriptorHeap::ReleaseHeapIndex(u32 index) {
-	Information("Release SRV index. Index-\'{}\'", index);
+	szgInformation("Release SRV index. Index-\'{}\'", index);
 	GetInstance().release_heap(index);
 }
 
@@ -55,7 +57,11 @@ void SRVDescriptorHeap::ReleaseHeapHandle(D3D12_GPU_DESCRIPTOR_HANDLE handle) {
 }
 
 void SRVDescriptorHeap::create_descriptor_heap() {
-	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, DxSystemValues::HEAP_SIZE_SRV, true);
+	descriptorHeap = DxDescriptorHeap::CreateDescriptorHeap(
+		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+		ProjectSettings::GetGraphicsSettingsImm().srvHeapSize,
+		true
+	);
 }
 
 void SRVDescriptorHeap::initialize() {

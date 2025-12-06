@@ -1,6 +1,8 @@
 #ifdef DEBUG_FEATURES_ENABLE
 #include "ImGuiLoadManager.h"
 
+using namespace szg;
+
 #include <format>
 #include <imgui.h>
 
@@ -10,8 +12,8 @@
 #include "Engine/Assets/Texture/TextureLibrary.h"
 
 ImGuiLoadManager::ImGuiLoadManager() {
-	meshCurrentPath = "./DirectXGame/EngineResources";
-	textureCurrentPath = "./DirectXGame/EngineResources";
+	meshCurrentPath = "./SyzygyEngine/EngineResources";
+	textureCurrentPath = "./SyzygyEngine/EngineResources";
 	get_file_list(meshFileList, meshCurrentPath, { ".obj", ".gltf" });
 	get_file_list(textureFileList, textureCurrentPath, { ".png" });
 };

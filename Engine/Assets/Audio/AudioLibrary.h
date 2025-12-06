@@ -5,21 +5,14 @@
 #include <string>
 #include <unordered_map>
 
+#include <Library/Utility/Template/SingletonInterface.h>
+
+namespace szg {
+
 class AudioAsset;
 
-class AudioLibrary final {
-private:
-	AudioLibrary() noexcept;
-
-public:
-	~AudioLibrary() noexcept;
-
-private:
-	AudioLibrary(const AudioLibrary&) = delete;
-	AudioLibrary& operator=(const AudioLibrary&) = delete;
-
-public:
-	static AudioLibrary& GetInstance() noexcept;
+class AudioLibrary final : public SingletonInterface<AudioLibrary> {
+	SZG_CLASS_SINGLETON(AudioLibrary)
 
 public:
 	/// <summary>
@@ -76,3 +69,5 @@ private:
 private:
 	std::unordered_map<std::string, std::unique_ptr<AudioAsset>> audioResources;
 };
+
+}; // szg
