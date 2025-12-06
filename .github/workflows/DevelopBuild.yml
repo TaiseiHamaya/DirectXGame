@@ -2,7 +2,7 @@ name: DevelopBuild
 
 env:
   CONFIGURATION: Develop
-  SOLUTION_FILE_PATH: BuildTest/project/SyzygyEngine.sln
+  SOLUTION_FILE_PATH: BuildTest/project/BuildTest.sln
   SOLUTION_NAME: BuildTest
   BATCH_FILE_URL1: https://raw.githubusercontent.com/TaiseiHamaya/SyzygyEngine/refs/heads/
   BATCH_FILE_URL2: /ProjectGeneratorTool/CreateSolution.ps1
