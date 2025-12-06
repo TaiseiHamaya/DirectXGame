@@ -10,7 +10,7 @@ void FontAtlasBuilderManager::Initialize() {
 		return;
 	}
 	instance.freetype = msdfgen::initializeFreetype();
-	instance.charset.load("./DirectXGame/EditorResources/charset.txt");
+	instance.charset.load("./SyzygyEngine/EditorResources/charset.txt");
 }
 
 void FontAtlasBuilderManager::Finalize() {

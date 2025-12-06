@@ -35,7 +35,7 @@ void EditorMain::Initialize() {
 	instance.input.initialize({ KeyID::F6, KeyID::LControl, KeyID::LShift, KeyID::Z, KeyID::S });
 
 	FontAtlasBuilderManager::Initialize();
-	//FontAtlasBuilder{}.entry_point("./DirectXGame/EngineResources/Misc/UDEVGothic35HS-Regular.ttf");
+	//FontAtlasBuilder{}.entry_point("./SyzygyEngine/EngineResources/Misc/UDEVGothic35HS-Regular.ttf");
 }
 
 void EditorMain::Finalize() {

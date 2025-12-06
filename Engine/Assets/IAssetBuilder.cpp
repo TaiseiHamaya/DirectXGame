@@ -9,7 +9,7 @@ std::filesystem::path IAssetBuilder::ResolveFilePath(const std::filesystem::path
 	}
 	else if (filePath.native().starts_with(L"[[szg]]") || filePath.native().starts_with(L"[[SZG]]")) {
 		// エンジンリソース
-		std::filesystem::path result{ "./DirectXGame/EngineResources/" };
+		std::filesystem::path result{ "./SyzygyEngine/EngineResources/" };
 		if (!subdirectory.empty()) {
 			result /= subdirectory;
 		}

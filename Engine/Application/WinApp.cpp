@@ -192,7 +192,7 @@ void WinApp::Initialize() {
 	);
 
 	// Texture
-	TextureLibrary::RegisterLoadQue("./DirectXGame/EditorResources/Texture/EngineIcon_DirectionalLight.png");
+	TextureLibrary::RegisterLoadQue("./SyzygyEngine/EditorResources/Texture/EngineIcon_DirectionalLight.png");
 #endif // _DEBUG
 
 	// 待機
