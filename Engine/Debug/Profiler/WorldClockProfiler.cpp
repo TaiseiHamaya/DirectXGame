@@ -1,8 +1,8 @@
 #include "WorldClockProfiler.h"
 
-using namespace szg;
-
 #ifdef DEBUG_FEATURES_ENABLE
+
+using namespace szg;
 
 #include "Engine/Runtime/Clock/WorldClock.h"
 

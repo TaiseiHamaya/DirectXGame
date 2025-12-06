@@ -1,8 +1,8 @@
 #include "PostEffectImNode.h"
 
-using namespace szg;
-
 #ifdef DEBUG_FEATURES_ENABLE
+
+using namespace szg;
 
 #include "Engine/Loader/RenderPath/RenderNodeType.h"
 
