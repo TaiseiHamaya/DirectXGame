@@ -16,6 +16,6 @@ std::unique_ptr<szg::Scene> Factory__Template__::initialize_scene2() {
 }
 
 std::unique_ptr<szg::Scene> Factory__Template__::create_scene2(i32) {
-	return nullptr;
+	return std::make_unique<szg::Scene>();
 }
 

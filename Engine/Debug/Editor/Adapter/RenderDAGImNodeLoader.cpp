@@ -85,11 +85,13 @@ u64 RenderDAGImNodeLoader::entry_point(const std::string& sceneName, Reference<I
 	// ResultNodeとの接続
 	const nlohmann::json& resultJson = input.cget()["ResultNode"];
 	std::shared_ptr<ResultImNode> resultNode = std::get<3>(nodes[0]);
-	EditorRenderDAG::DAGNodeType connectNode = nodes[resultJson["Connect"].get<u64>()];
-	ImFlow::Pin* outPin = std::visit([](std::shared_ptr<ImFlow::BaseNode> node) { return node->outPin("Output"); }, connectNode);
-	ImFlow::Pin* inPin = resultNode->inPin("DisplayOut");
-	if (outPin && inPin) {
-		outPin->createLink(inPin);
+	if (!resultJson["Connect"].is_null()) {
+		EditorRenderDAG::DAGNodeType connectNode = nodes[resultJson["Connect"].get<u64>()];
+		ImFlow::Pin* outPin = std::visit([](std::shared_ptr<ImFlow::BaseNode> node) { return node->outPin("Output"); }, connectNode);
+		ImFlow::Pin* inPin = resultNode->inPin("DisplayOut");
+		if (outPin && inPin) {
+			outPin->createLink(inPin);
+		}
 	}
 	resultNode->setPos({
 		resultJson.value("Debug", nlohmann::json::object()).value("Position", nlohmann::json::object()).value("X", 0.0f),

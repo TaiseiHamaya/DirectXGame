@@ -10,6 +10,10 @@ SceneAssetCollection SceneAssetListLoader::load(const std::string& sceneName) {
 
 	JsonAsset json{ std::format("./Game/Core/Scene/{}/Assets.json", sceneName) };
 
+	if (json.cget().is_null()) {
+		return {};
+	}
+
 	load_asset_list(assets, json.cget());
 	load_asset_list(lazyAssets, json.cget().value("LazyLoadAssets", nlohmann::json::object()));
 

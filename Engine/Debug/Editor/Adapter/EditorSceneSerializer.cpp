@@ -39,8 +39,13 @@ std::unique_ptr<RemoteSceneObject> EditorSceneSerializer::CreateRemoteScene(cons
 	}
 	scene->hierarchyName.set_weak(sceneName);
 
-	for (const std::filesystem::directory_entry& entry :
-		std::filesystem::directory_iterator(std::format("./Game/Core/Scene/{}/Worlds", sceneName))) {
+	std::filesystem::path worldsPath = std::format("./Game/Core/Scene/{}/Worlds", sceneName);
+	if (!std::filesystem::exists(worldsPath) || !std::filesystem::is_directory(worldsPath)) {
+		szgWarning("Worlds folder is not found. Path-\'{}\'", worldsPath.string());
+		return scene;
+	}
+
+	for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(worldsPath)) {
 		JsonAsset json{ entry };
 		scene->add_child(EditorSceneSerializer::CreateRemoteWorld(json.cget()));
 	}

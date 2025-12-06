@@ -35,7 +35,7 @@ public:
 
 	static bool IsEndApplicationForce();
 
-	static void SeveScene();
+	static bool SeveScene();
 
 	static void SetHotReload();
 
