@@ -126,7 +126,6 @@ if (Test-Path $gameDir) {
 
 # DirectXGame.vcxproj.userのassume-unchanged
 cd SyzygyEngine
-git update-index --assume-unchanged SyzygyEngine.vcxproj.user
 
 Pop-Location
 Write-Host "完了しました。"
