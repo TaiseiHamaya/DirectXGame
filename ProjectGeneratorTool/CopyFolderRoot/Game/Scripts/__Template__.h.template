@@ -2,7 +2,7 @@
 
 #include <Engine/Application/Framework.h>
 
-class __Template__ final : public Framework {
+class __Template__ final : public szg::Framework {
 public:
 	void initialize() override;
 };
