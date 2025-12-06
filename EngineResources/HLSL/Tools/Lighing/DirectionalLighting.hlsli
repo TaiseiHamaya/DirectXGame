@@ -1,3 +1,7 @@
+#ifndef DIRECTIONAL_LIGHTING_HLSLI
+#define DIRECTIONAL_LIGHTING_HLSLI
+
+#include "../Pixel.hlsli"
 #include "CalcLighting.hlsli"
 
 struct DirectionalLightBuffer {
@@ -17,3 +21,5 @@ LightingData CalcLightingData(Pixel pixel, float3 camera, DirectionalLightBuffer
 	
 	return data;
 };
+
+#endif // DIRECTIONAL_LIGHTING_HLSLI

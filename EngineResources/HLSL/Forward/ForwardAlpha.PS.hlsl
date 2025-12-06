@@ -69,9 +69,7 @@ float4 main(VertexShaderOutput input) : SV_Target0 {
 	
 	// 透明の場合は出力せず終了
 	// サンプリングによっては0にならない場合があるためバッファを取る
-	if (output.a <= 0.05f) {
-		discard;
-	}
+	clip(alpha - 0.005f);
 	
 	return output;
 }

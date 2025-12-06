@@ -1,11 +1,7 @@
-#include "Tools/Lighing/DirectionalLighting.hlsli"
-
 #include "FullscreenShader.hlsli"
 
-#include "Tools/PackNormalV2.hlsli"
+#include "Tools/Lighing/DirectionalLighting.hlsli"
 #include "Tools/PackA2.hlsli"
-#include "Tools/PackShininess.hlsli"
-#include "Tools/ToLinearZBuffer.hlsli"
 
 struct Camera {
 	float3 position;
@@ -29,22 +25,17 @@ float4 main(VertexShaderOutput input) : SV_TARGET {
 	uint normalViewShininess = gNormal.Load(input.position.xyz);
 	float ndcDepth = gDepth.Load(input.position.xyz);
 	
-	Pixel pixel;
-	// unpack
-	pixel.color = albedoShading.rgb;
 	uint shadingType = UnpackA2bit(albedoShading.a);
-	pixel.normal = mul(UnpackingNormaV2(normalViewShininess), (float3x3)gCamera.viewInv);
-	pixel.shininess = UnpackShininess(normalViewShininess);
-	float3 ndc = float3(input.texcoord.xy * 2 - 1, ndcDepth);
-	ndc.y *= -1;
-	float4 view = mul(float4(ndc, 1.0f), gCamera.projInv);
-	float4 worldH = mul(view, gCamera.viewInv);
-	pixel.world = worldH.xyz / worldH.w;
+	Pixel pixel = UnpackPixel(
+		albedoShading, normalViewShininess, ndcDepth,
+		input.texcoord.xy, gCamera.viewInv, gCamera.projInv
+	);
 	
 	DirectionalLightBuffer directionalLight = gDirectionalLight[input.instance];
 
 	LightingData lightingData = CalcLightingData(pixel, gCamera.position, directionalLight);
 	
+	[branch]
 	// ライティングなし
 	if (shadingType == 0) {
 		discard;

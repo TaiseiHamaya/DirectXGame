@@ -1,3 +1,6 @@
+#ifndef TOOLS_PACKNORMALV2_HLSLI
+#define TOOLS_PACKNORMALV2_HLSLI
+
 #define NORMAL_BITS 12
 #define NORMAL_BIT_MASK ((1u << NORMAL_BITS) - 1)
 
@@ -22,3 +25,5 @@ float3 UnpackingNormaV2(uint viewNormalPacked) {
 	float z = -sqrt(1.0f - saturate(dot(viewNormal, viewNormal)));
 	return normalize(float3(viewNormal, z));
 }
+
+#endif // TOOLS_PACKNORMALV2_HLSLI
